@@ -1,7 +1,7 @@
 {
   "name": "distilled-aws",
   "module": "index.ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -12,19 +12,19 @@
     "lib"
   ],
   "scripts": {
-    "setup": "bun run scripts/setup.ts",
-    "generate": "bun run scripts/generate-clients.ts",
-    "clean": "git clean -fqdx -e .env",
-    "clean:install": "bun run clean && bun install",
-    "clean:build": "bun run clean:install && bun run build",
+    "aws:clean": "bun run scripts/aws-clean.ts",
+    "build:clean": "bun run clean:install && bun run build",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
-    "test": "bun vitest run ./test",
-    "format": "bun oxfmt ./scripts ./src ./test",
-    "find:errors": "bun run scripts/find-errors.ts",
-    "symlink": "bun run scripts/symlink.ts",
     "bundle:report": "bun run scripts/bundle-size-report.ts",
+    "clean": "git clean -fqdx -e .env",
+    "find:errors": "bun run scripts/find-errors.ts",
+    "format": "bun oxfmt ./scripts ./src ./test",
+    "generate": "bun run scripts/generate-clients.ts",
+    "install:clean": "bun run clean && bun install",
     "localstack:clean": "bun run scripts/localstack-clean.ts",
-    "aws:clean": "bun run scripts/aws-clean.ts"
+    "setup": "bun run scripts/setup.ts",
+    "symlink": "bun run scripts/symlink.ts",
+    "test": "bun vitest run ./test"
   },
   "exports": {
     "./*": {
