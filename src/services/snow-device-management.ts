@@ -365,7 +365,9 @@ export const Reboot = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<Reboot>;
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
-export type Command = { unlock: Unlock } | { reboot: Reboot };
+export type Command =
+  | { unlock: Unlock; reboot?: never }
+  | { unlock?: never; reboot: Reboot };
 export const Command = S.Union(
   S.Struct({ unlock: Unlock }),
   S.Struct({ reboot: Reboot }),

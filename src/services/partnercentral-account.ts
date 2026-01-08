@@ -928,9 +928,17 @@ export const AccountSummary = S.suspend(() =>
   identifier: "AccountSummary",
 }) as any as S.Schema<AccountSummary>;
 export type Participant =
-  | { PartnerProfile: PartnerProfileSummary }
-  | { SellerProfile: SellerProfileSummary }
-  | { Account: AccountSummary };
+  | {
+      PartnerProfile: PartnerProfileSummary;
+      SellerProfile?: never;
+      Account?: never;
+    }
+  | {
+      PartnerProfile?: never;
+      SellerProfile: SellerProfileSummary;
+      Account?: never;
+    }
+  | { PartnerProfile?: never; SellerProfile?: never; Account: AccountSummary };
 export const Participant = S.Union(
   S.Struct({ PartnerProfile: PartnerProfileSummary }),
   S.Struct({ SellerProfile: SellerProfileSummary }),
@@ -1192,8 +1200,14 @@ export const BusinessVerificationDetails = S.suspend(() =>
   identifier: "BusinessVerificationDetails",
 }) as any as S.Schema<BusinessVerificationDetails>;
 export type VerificationDetails =
-  | { BusinessVerificationDetails: BusinessVerificationDetails }
-  | { RegistrantVerificationDetails: RegistrantVerificationDetails };
+  | {
+      BusinessVerificationDetails: BusinessVerificationDetails;
+      RegistrantVerificationDetails?: never;
+    }
+  | {
+      BusinessVerificationDetails?: never;
+      RegistrantVerificationDetails: RegistrantVerificationDetails;
+    };
 export const VerificationDetails = S.Union(
   S.Struct({ BusinessVerificationDetails: BusinessVerificationDetails }),
   S.Struct({ RegistrantVerificationDetails: RegistrantVerificationDetails }),
@@ -1494,8 +1508,14 @@ export const RegistrantVerificationResponse = S.suspend(() =>
   identifier: "RegistrantVerificationResponse",
 }) as any as S.Schema<RegistrantVerificationResponse>;
 export type VerificationResponseDetails =
-  | { BusinessVerificationResponse: BusinessVerificationResponse }
-  | { RegistrantVerificationResponse: RegistrantVerificationResponse };
+  | {
+      BusinessVerificationResponse: BusinessVerificationResponse;
+      RegistrantVerificationResponse?: never;
+    }
+  | {
+      BusinessVerificationResponse?: never;
+      RegistrantVerificationResponse: RegistrantVerificationResponse;
+    };
 export const VerificationResponseDetails = S.Union(
   S.Struct({ BusinessVerificationResponse: BusinessVerificationResponse }),
   S.Struct({ RegistrantVerificationResponse: RegistrantVerificationResponse }),
@@ -1724,8 +1744,14 @@ export const BusinessValidationError = S.suspend(() =>
   identifier: "BusinessValidationError",
 }) as any as S.Schema<BusinessValidationError>;
 export type ValidationError =
-  | { FieldValidationError: FieldValidationError }
-  | { BusinessValidationError: BusinessValidationError };
+  | {
+      FieldValidationError: FieldValidationError;
+      BusinessValidationError?: never;
+    }
+  | {
+      FieldValidationError?: never;
+      BusinessValidationError: BusinessValidationError;
+    };
 export const ValidationError = S.Union(
   S.Struct({ FieldValidationError: FieldValidationError }),
   S.Struct({ BusinessValidationError: BusinessValidationError }),

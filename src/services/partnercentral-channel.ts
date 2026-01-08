@@ -461,9 +461,21 @@ export const PartnerLedSupport = S.suspend(() =>
   identifier: "PartnerLedSupport",
 }) as any as S.Schema<PartnerLedSupport>;
 export type SupportPlan =
-  | { resoldBusiness: ResoldBusiness }
-  | { resoldEnterprise: ResoldEnterprise }
-  | { partnerLedSupport: PartnerLedSupport };
+  | {
+      resoldBusiness: ResoldBusiness;
+      resoldEnterprise?: never;
+      partnerLedSupport?: never;
+    }
+  | {
+      resoldBusiness?: never;
+      resoldEnterprise: ResoldEnterprise;
+      partnerLedSupport?: never;
+    }
+  | {
+      resoldBusiness?: never;
+      resoldEnterprise?: never;
+      partnerLedSupport: PartnerLedSupport;
+    };
 export const SupportPlan = S.Union(
   S.Struct({ resoldBusiness: ResoldBusiness }),
   S.Struct({ resoldEnterprise: ResoldEnterprise }),
@@ -754,16 +766,32 @@ export const ProgramManagementAccountTypeSort = S.suspend(() =>
   identifier: "ProgramManagementAccountTypeSort",
 }) as any as S.Schema<ProgramManagementAccountTypeSort>;
 export type ChannelHandshakePayload =
-  | { startServicePeriodPayload: StartServicePeriodPayload }
-  | { revokeServicePeriodPayload: RevokeServicePeriodPayload };
+  | {
+      startServicePeriodPayload: StartServicePeriodPayload;
+      revokeServicePeriodPayload?: never;
+    }
+  | {
+      startServicePeriodPayload?: never;
+      revokeServicePeriodPayload: RevokeServicePeriodPayload;
+    };
 export const ChannelHandshakePayload = S.Union(
   S.Struct({ startServicePeriodPayload: StartServicePeriodPayload }),
   S.Struct({ revokeServicePeriodPayload: RevokeServicePeriodPayload }),
 );
 export type ListChannelHandshakesTypeFilters =
-  | { startServicePeriodTypeFilters: StartServicePeriodTypeFilters }
-  | { revokeServicePeriodTypeFilters: RevokeServicePeriodTypeFilters }
   | {
+      startServicePeriodTypeFilters: StartServicePeriodTypeFilters;
+      revokeServicePeriodTypeFilters?: never;
+      programManagementAccountTypeFilters?: never;
+    }
+  | {
+      startServicePeriodTypeFilters?: never;
+      revokeServicePeriodTypeFilters: RevokeServicePeriodTypeFilters;
+      programManagementAccountTypeFilters?: never;
+    }
+  | {
+      startServicePeriodTypeFilters?: never;
+      revokeServicePeriodTypeFilters?: never;
       programManagementAccountTypeFilters: ProgramManagementAccountTypeFilters;
     };
 export const ListChannelHandshakesTypeFilters = S.Union(
@@ -774,9 +802,21 @@ export const ListChannelHandshakesTypeFilters = S.Union(
   }),
 );
 export type ListChannelHandshakesTypeSort =
-  | { startServicePeriodTypeSort: StartServicePeriodTypeSort }
-  | { revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort }
-  | { programManagementAccountTypeSort: ProgramManagementAccountTypeSort };
+  | {
+      startServicePeriodTypeSort: StartServicePeriodTypeSort;
+      revokeServicePeriodTypeSort?: never;
+      programManagementAccountTypeSort?: never;
+    }
+  | {
+      startServicePeriodTypeSort?: never;
+      revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort;
+      programManagementAccountTypeSort?: never;
+    }
+  | {
+      startServicePeriodTypeSort?: never;
+      revokeServicePeriodTypeSort?: never;
+      programManagementAccountTypeSort: ProgramManagementAccountTypeSort;
+    };
 export const ListChannelHandshakesTypeSort = S.Union(
   S.Struct({ startServicePeriodTypeSort: StartServicePeriodTypeSort }),
   S.Struct({ revokeServicePeriodTypeSort: RevokeServicePeriodTypeSort }),
@@ -1253,9 +1293,19 @@ export const ProgramManagementAccountHandshakeDetail = S.suspend(() =>
   identifier: "ProgramManagementAccountHandshakeDetail",
 }) as any as S.Schema<ProgramManagementAccountHandshakeDetail>;
 export type HandshakeDetail =
-  | { startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail }
-  | { revokeServicePeriodHandshakeDetail: RevokeServicePeriodHandshakeDetail }
   | {
+      startServicePeriodHandshakeDetail: StartServicePeriodHandshakeDetail;
+      revokeServicePeriodHandshakeDetail?: never;
+      programManagementAccountHandshakeDetail?: never;
+    }
+  | {
+      startServicePeriodHandshakeDetail?: never;
+      revokeServicePeriodHandshakeDetail: RevokeServicePeriodHandshakeDetail;
+      programManagementAccountHandshakeDetail?: never;
+    }
+  | {
+      startServicePeriodHandshakeDetail?: never;
+      revokeServicePeriodHandshakeDetail?: never;
       programManagementAccountHandshakeDetail: ProgramManagementAccountHandshakeDetail;
     };
 export const HandshakeDetail = S.Union(

@@ -772,8 +772,8 @@ export const EBSResultItem = S.suspend(() =>
   identifier: "EBSResultItem",
 }) as any as S.Schema<EBSResultItem>;
 export type ResultItem =
-  | { S3ResultItem: S3ResultItem }
-  | { EBSResultItem: EBSResultItem };
+  | { S3ResultItem: S3ResultItem; EBSResultItem?: never }
+  | { S3ResultItem?: never; EBSResultItem: EBSResultItem };
 export const ResultItem = S.Union(
   S.Struct({ S3ResultItem: S3ResultItem }),
   S.Struct({ EBSResultItem: EBSResultItem }),

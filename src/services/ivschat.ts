@@ -403,9 +403,17 @@ export const FirehoseDestinationConfiguration = S.suspend(() =>
   identifier: "FirehoseDestinationConfiguration",
 }) as any as S.Schema<FirehoseDestinationConfiguration>;
 export type DestinationConfiguration =
-  | { s3: S3DestinationConfiguration }
-  | { cloudWatchLogs: CloudWatchLogsDestinationConfiguration }
-  | { firehose: FirehoseDestinationConfiguration };
+  | { s3: S3DestinationConfiguration; cloudWatchLogs?: never; firehose?: never }
+  | {
+      s3?: never;
+      cloudWatchLogs: CloudWatchLogsDestinationConfiguration;
+      firehose?: never;
+    }
+  | {
+      s3?: never;
+      cloudWatchLogs?: never;
+      firehose: FirehoseDestinationConfiguration;
+    };
 export const DestinationConfiguration = S.Union(
   S.Struct({ s3: S3DestinationConfiguration }),
   S.Struct({ cloudWatchLogs: CloudWatchLogsDestinationConfiguration }),

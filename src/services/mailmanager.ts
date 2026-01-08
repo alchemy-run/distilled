@@ -413,8 +413,8 @@ export const ArchiveBooleanExpression = S.suspend(() =>
   identifier: "ArchiveBooleanExpression",
 }) as any as S.Schema<ArchiveBooleanExpression>;
 export type ArchiveFilterCondition =
-  | { StringExpression: ArchiveStringExpression }
-  | { BooleanExpression: ArchiveBooleanExpression };
+  | { StringExpression: ArchiveStringExpression; BooleanExpression?: never }
+  | { StringExpression?: never; BooleanExpression: ArchiveBooleanExpression };
 export const ArchiveFilterCondition = S.Union(
   S.Struct({ StringExpression: ArchiveStringExpression }),
   S.Struct({ BooleanExpression: ArchiveBooleanExpression }),
@@ -801,8 +801,8 @@ export const GetIngressPointRequest = S.suspend(() =>
   identifier: "GetIngressPointRequest",
 }) as any as S.Schema<GetIngressPointRequest>;
 export type IngressPointConfiguration =
-  | { SmtpPassword: string | redacted.Redacted<string> }
-  | { SecretArn: string };
+  | { SmtpPassword: string | redacted.Redacted<string>; SecretArn?: never }
+  | { SmtpPassword?: never; SecretArn: string };
 export const IngressPointConfiguration = S.Union(
   S.Struct({ SmtpPassword: SensitiveString }),
   S.Struct({ SecretArn: S.String }),
@@ -880,8 +880,8 @@ export const NoAuthentication = S.suspend(() => S.Struct({})).annotations({
   identifier: "NoAuthentication",
 }) as any as S.Schema<NoAuthentication>;
 export type RelayAuthentication =
-  | { SecretArn: string }
-  | { NoAuthentication: NoAuthentication };
+  | { SecretArn: string; NoAuthentication?: never }
+  | { SecretArn?: never; NoAuthentication: NoAuthentication };
 export const RelayAuthentication = S.Union(
   S.Struct({ SecretArn: S.String }),
   S.Struct({ NoAuthentication: NoAuthentication }),
@@ -994,9 +994,17 @@ export const RuleIsInAddressList = S.suspend(() =>
   identifier: "RuleIsInAddressList",
 }) as any as S.Schema<RuleIsInAddressList>;
 export type RuleBooleanToEvaluate =
-  | { Attribute: RuleBooleanEmailAttribute }
-  | { Analysis: Analysis }
-  | { IsInAddressList: RuleIsInAddressList };
+  | {
+      Attribute: RuleBooleanEmailAttribute;
+      Analysis?: never;
+      IsInAddressList?: never;
+    }
+  | { Attribute?: never; Analysis: Analysis; IsInAddressList?: never }
+  | {
+      Attribute?: never;
+      Analysis?: never;
+      IsInAddressList: RuleIsInAddressList;
+    };
 export const RuleBooleanToEvaluate = S.Union(
   S.Struct({ Attribute: RuleBooleanEmailAttribute }),
   S.Struct({ Analysis: Analysis }),
@@ -1033,9 +1041,13 @@ export const RuleStringEmailAttribute = S.Literal(
   "CC",
 );
 export type RuleStringToEvaluate =
-  | { Attribute: RuleStringEmailAttribute }
-  | { MimeHeaderAttribute: string }
-  | { Analysis: Analysis };
+  | {
+      Attribute: RuleStringEmailAttribute;
+      MimeHeaderAttribute?: never;
+      Analysis?: never;
+    }
+  | { Attribute?: never; MimeHeaderAttribute: string; Analysis?: never }
+  | { Attribute?: never; MimeHeaderAttribute?: never; Analysis: Analysis };
 export const RuleStringToEvaluate = S.Union(
   S.Struct({ Attribute: RuleStringEmailAttribute }),
   S.Struct({ MimeHeaderAttribute: S.String }),
@@ -1132,8 +1144,8 @@ export const RuleIpExpression = S.suspend(() =>
 export type RuleVerdictAttribute = "SPF" | "DKIM";
 export const RuleVerdictAttribute = S.Literal("SPF", "DKIM");
 export type RuleVerdictToEvaluate =
-  | { Attribute: RuleVerdictAttribute }
-  | { Analysis: Analysis };
+  | { Attribute: RuleVerdictAttribute; Analysis?: never }
+  | { Attribute?: never; Analysis: Analysis };
 export const RuleVerdictToEvaluate = S.Union(
   S.Struct({ Attribute: RuleVerdictAttribute }),
   S.Struct({ Analysis: Analysis }),
@@ -1179,12 +1191,54 @@ export const RuleDmarcExpression = S.suspend(() =>
   identifier: "RuleDmarcExpression",
 }) as any as S.Schema<RuleDmarcExpression>;
 export type RuleCondition =
-  | { BooleanExpression: RuleBooleanExpression }
-  | { StringExpression: RuleStringExpression }
-  | { NumberExpression: RuleNumberExpression }
-  | { IpExpression: RuleIpExpression }
-  | { VerdictExpression: RuleVerdictExpression }
-  | { DmarcExpression: RuleDmarcExpression };
+  | {
+      BooleanExpression: RuleBooleanExpression;
+      StringExpression?: never;
+      NumberExpression?: never;
+      IpExpression?: never;
+      VerdictExpression?: never;
+      DmarcExpression?: never;
+    }
+  | {
+      BooleanExpression?: never;
+      StringExpression: RuleStringExpression;
+      NumberExpression?: never;
+      IpExpression?: never;
+      VerdictExpression?: never;
+      DmarcExpression?: never;
+    }
+  | {
+      BooleanExpression?: never;
+      StringExpression?: never;
+      NumberExpression: RuleNumberExpression;
+      IpExpression?: never;
+      VerdictExpression?: never;
+      DmarcExpression?: never;
+    }
+  | {
+      BooleanExpression?: never;
+      StringExpression?: never;
+      NumberExpression?: never;
+      IpExpression: RuleIpExpression;
+      VerdictExpression?: never;
+      DmarcExpression?: never;
+    }
+  | {
+      BooleanExpression?: never;
+      StringExpression?: never;
+      NumberExpression?: never;
+      IpExpression?: never;
+      VerdictExpression: RuleVerdictExpression;
+      DmarcExpression?: never;
+    }
+  | {
+      BooleanExpression?: never;
+      StringExpression?: never;
+      NumberExpression?: never;
+      IpExpression?: never;
+      VerdictExpression?: never;
+      DmarcExpression: RuleDmarcExpression;
+    };
 export const RuleCondition = S.Union(
   S.Struct({ BooleanExpression: RuleBooleanExpression }),
   S.Struct({ StringExpression: RuleStringExpression }),
@@ -1323,16 +1377,126 @@ export const SnsAction = S.suspend(() =>
   }),
 ).annotations({ identifier: "SnsAction" }) as any as S.Schema<SnsAction>;
 export type RuleAction =
-  | { Drop: DropAction }
-  | { Relay: RelayAction }
-  | { Archive: ArchiveAction }
-  | { WriteToS3: S3Action }
-  | { Send: SendAction }
-  | { AddHeader: AddHeaderAction }
-  | { ReplaceRecipient: ReplaceRecipientAction }
-  | { DeliverToMailbox: DeliverToMailboxAction }
-  | { DeliverToQBusiness: DeliverToQBusinessAction }
-  | { PublishToSns: SnsAction };
+  | {
+      Drop: DropAction;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay: RelayAction;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive: ArchiveAction;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3: S3Action;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send: SendAction;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader: AddHeaderAction;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient: ReplaceRecipientAction;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox: DeliverToMailboxAction;
+      DeliverToQBusiness?: never;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness: DeliverToQBusinessAction;
+      PublishToSns?: never;
+    }
+  | {
+      Drop?: never;
+      Relay?: never;
+      Archive?: never;
+      WriteToS3?: never;
+      Send?: never;
+      AddHeader?: never;
+      ReplaceRecipient?: never;
+      DeliverToMailbox?: never;
+      DeliverToQBusiness?: never;
+      PublishToSns: SnsAction;
+    };
 export const RuleAction = S.Union(
   S.Struct({ Drop: DropAction }),
   S.Struct({ Relay: RelayAction }),
@@ -1433,8 +1597,8 @@ export const IngressAnalysis = S.suspend(() =>
   identifier: "IngressAnalysis",
 }) as any as S.Schema<IngressAnalysis>;
 export type IngressStringToEvaluate =
-  | { Attribute: IngressStringEmailAttribute }
-  | { Analysis: IngressAnalysis };
+  | { Attribute: IngressStringEmailAttribute; Analysis?: never }
+  | { Attribute?: never; Analysis: IngressAnalysis };
 export const IngressStringToEvaluate = S.Union(
   S.Struct({ Attribute: IngressStringEmailAttribute }),
   S.Struct({ Analysis: IngressAnalysis }),
@@ -1558,8 +1722,8 @@ export const IngressIsInAddressList = S.suspend(() =>
   identifier: "IngressIsInAddressList",
 }) as any as S.Schema<IngressIsInAddressList>;
 export type IngressBooleanToEvaluate =
-  | { Analysis: IngressAnalysis }
-  | { IsInAddressList: IngressIsInAddressList };
+  | { Analysis: IngressAnalysis; IsInAddressList?: never }
+  | { Analysis?: never; IsInAddressList: IngressIsInAddressList };
 export const IngressBooleanToEvaluate = S.Union(
   S.Struct({ Analysis: IngressAnalysis }),
   S.Struct({ IsInAddressList: IngressIsInAddressList }),
@@ -1579,11 +1743,41 @@ export const IngressBooleanExpression = S.suspend(() =>
   identifier: "IngressBooleanExpression",
 }) as any as S.Schema<IngressBooleanExpression>;
 export type PolicyCondition =
-  | { StringExpression: IngressStringExpression }
-  | { IpExpression: IngressIpv4Expression }
-  | { Ipv6Expression: IngressIpv6Expression }
-  | { TlsExpression: IngressTlsProtocolExpression }
-  | { BooleanExpression: IngressBooleanExpression };
+  | {
+      StringExpression: IngressStringExpression;
+      IpExpression?: never;
+      Ipv6Expression?: never;
+      TlsExpression?: never;
+      BooleanExpression?: never;
+    }
+  | {
+      StringExpression?: never;
+      IpExpression: IngressIpv4Expression;
+      Ipv6Expression?: never;
+      TlsExpression?: never;
+      BooleanExpression?: never;
+    }
+  | {
+      StringExpression?: never;
+      IpExpression?: never;
+      Ipv6Expression: IngressIpv6Expression;
+      TlsExpression?: never;
+      BooleanExpression?: never;
+    }
+  | {
+      StringExpression?: never;
+      IpExpression?: never;
+      Ipv6Expression?: never;
+      TlsExpression: IngressTlsProtocolExpression;
+      BooleanExpression?: never;
+    }
+  | {
+      StringExpression?: never;
+      IpExpression?: never;
+      Ipv6Expression?: never;
+      TlsExpression?: never;
+      BooleanExpression: IngressBooleanExpression;
+    };
 export const PolicyCondition = S.Union(
   S.Struct({ StringExpression: IngressStringExpression }),
   S.Struct({ IpExpression: IngressIpv4Expression }),
@@ -2386,8 +2580,14 @@ export const Archive = S.suspend(() =>
 export type ArchivesList = Archive[];
 export const ArchivesList = S.Array(Archive);
 export type NetworkConfiguration =
-  | { PublicNetworkConfiguration: PublicNetworkConfiguration }
-  | { PrivateNetworkConfiguration: PrivateNetworkConfiguration };
+  | {
+      PublicNetworkConfiguration: PublicNetworkConfiguration;
+      PrivateNetworkConfiguration?: never;
+    }
+  | {
+      PublicNetworkConfiguration?: never;
+      PrivateNetworkConfiguration: PrivateNetworkConfiguration;
+    };
 export const NetworkConfiguration = S.Union(
   S.Struct({ PublicNetworkConfiguration: PublicNetworkConfiguration }),
   S.Struct({ PrivateNetworkConfiguration: PrivateNetworkConfiguration }),

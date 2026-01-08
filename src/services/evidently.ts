@@ -647,10 +647,30 @@ export const GetFeatureRequest = S.suspend(() =>
   identifier: "GetFeatureRequest",
 }) as any as S.Schema<GetFeatureRequest>;
 export type VariableValue =
-  | { boolValue: boolean }
-  | { stringValue: string }
-  | { longValue: number }
-  | { doubleValue: number };
+  | {
+      boolValue: boolean;
+      stringValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+    }
+  | {
+      boolValue?: never;
+      stringValue: string;
+      longValue?: never;
+      doubleValue?: never;
+    }
+  | {
+      boolValue?: never;
+      stringValue?: never;
+      longValue: number;
+      doubleValue?: never;
+    }
+  | {
+      boolValue?: never;
+      stringValue?: never;
+      longValue?: never;
+      doubleValue: number;
+    };
 export const VariableValue = S.Union(
   S.Struct({ boolValue: S.Boolean }),
   S.Struct({ stringValue: S.String }),

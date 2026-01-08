@@ -213,11 +213,41 @@ export const EmptyFieldValue = S.suspend(() => S.Struct({})).annotations({
   identifier: "EmptyFieldValue",
 }) as any as S.Schema<EmptyFieldValue>;
 export type FieldValueUnion =
-  | { stringValue: string }
-  | { doubleValue: number }
-  | { booleanValue: boolean }
-  | { emptyValue: EmptyFieldValue }
-  | { userArnValue: string };
+  | {
+      stringValue: string;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue: number;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue: boolean;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue: EmptyFieldValue;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue: string;
+    };
 export const FieldValueUnion = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -235,8 +265,8 @@ export const FieldValue = S.suspend(() =>
 export type FieldValueList = FieldValue[];
 export const FieldValueList = S.Array(FieldValue);
 export type UserUnion =
-  | { userArn: string }
-  | { customEntity: string | redacted.Redacted<string> };
+  | { userArn: string; customEntity?: never }
+  | { userArn?: never; customEntity: string | redacted.Redacted<string> };
 export const UserUnion = S.Union(
   S.Struct({ userArn: S.String }),
   S.Struct({ customEntity: SensitiveString }),
@@ -390,10 +420,30 @@ export const EmptyOperandValue = S.suspend(() => S.Struct({})).annotations({
   identifier: "EmptyOperandValue",
 }) as any as S.Schema<EmptyOperandValue>;
 export type OperandTwo =
-  | { stringValue: string }
-  | { booleanValue: boolean }
-  | { doubleValue: number }
-  | { emptyValue: EmptyOperandValue };
+  | {
+      stringValue: string;
+      booleanValue?: never;
+      doubleValue?: never;
+      emptyValue?: never;
+    }
+  | {
+      stringValue?: never;
+      booleanValue: boolean;
+      doubleValue?: never;
+      emptyValue?: never;
+    }
+  | {
+      stringValue?: never;
+      booleanValue?: never;
+      doubleValue: number;
+      emptyValue?: never;
+    }
+  | {
+      stringValue?: never;
+      booleanValue?: never;
+      doubleValue?: never;
+      emptyValue: EmptyOperandValue;
+    };
 export const OperandTwo = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ booleanValue: S.Boolean }),
@@ -415,8 +465,8 @@ export const BooleanOperands = S.suspend(() =>
   identifier: "BooleanOperands",
 }) as any as S.Schema<BooleanOperands>;
 export type BooleanCondition =
-  | { equalTo: BooleanOperands }
-  | { notEqualTo: BooleanOperands };
+  | { equalTo: BooleanOperands; notEqualTo?: never }
+  | { equalTo?: never; notEqualTo: BooleanOperands };
 export const BooleanCondition = S.Union(
   S.Struct({ equalTo: BooleanOperands }),
   S.Struct({ notEqualTo: BooleanOperands }),
@@ -475,9 +525,9 @@ export const HiddenCaseRule = S.suspend(() =>
   identifier: "HiddenCaseRule",
 }) as any as S.Schema<HiddenCaseRule>;
 export type CaseRuleDetails =
-  | { required: RequiredCaseRule }
-  | { fieldOptions: FieldOptionsCaseRule }
-  | { hidden: HiddenCaseRule };
+  | { required: RequiredCaseRule; fieldOptions?: never; hidden?: never }
+  | { required?: never; fieldOptions: FieldOptionsCaseRule; hidden?: never }
+  | { required?: never; fieldOptions?: never; hidden: HiddenCaseRule };
 export const CaseRuleDetails = S.Union(
   S.Struct({ required: RequiredCaseRule }),
   S.Struct({ fieldOptions: FieldOptionsCaseRule }),
@@ -1342,12 +1392,54 @@ export const ConnectCaseFilter = S.suspend(() =>
   identifier: "ConnectCaseFilter",
 }) as any as S.Schema<ConnectCaseFilter>;
 export type FieldFilter =
-  | { equalTo: FieldValue }
-  | { contains: FieldValue }
-  | { greaterThan: FieldValue }
-  | { greaterThanOrEqualTo: FieldValue }
-  | { lessThan: FieldValue }
-  | { lessThanOrEqualTo: FieldValue };
+  | {
+      equalTo: FieldValue;
+      contains?: never;
+      greaterThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThan?: never;
+      lessThanOrEqualTo?: never;
+    }
+  | {
+      equalTo?: never;
+      contains: FieldValue;
+      greaterThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThan?: never;
+      lessThanOrEqualTo?: never;
+    }
+  | {
+      equalTo?: never;
+      contains?: never;
+      greaterThan: FieldValue;
+      greaterThanOrEqualTo?: never;
+      lessThan?: never;
+      lessThanOrEqualTo?: never;
+    }
+  | {
+      equalTo?: never;
+      contains?: never;
+      greaterThan?: never;
+      greaterThanOrEqualTo: FieldValue;
+      lessThan?: never;
+      lessThanOrEqualTo?: never;
+    }
+  | {
+      equalTo?: never;
+      contains?: never;
+      greaterThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThan: FieldValue;
+      lessThanOrEqualTo?: never;
+    }
+  | {
+      equalTo?: never;
+      contains?: never;
+      greaterThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThan?: never;
+      lessThanOrEqualTo: FieldValue;
+    };
 export const FieldFilter = S.Union(
   S.Struct({ equalTo: FieldValue }),
   S.Struct({ contains: FieldValue }),
@@ -1357,10 +1449,10 @@ export const FieldFilter = S.Union(
   S.Struct({ lessThanOrEqualTo: FieldValue }),
 );
 export type CustomFieldsFilter =
-  | { field: FieldFilter }
-  | { not: CustomFieldsFilter }
-  | { andAll: CustomFieldsFilter[] }
-  | { orAll: CustomFieldsFilter[] };
+  | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
+  | { field?: never; not: CustomFieldsFilter; andAll?: never; orAll?: never }
+  | { field?: never; not?: never; andAll: CustomFieldsFilter[]; orAll?: never }
+  | { field?: never; not?: never; andAll?: never; orAll: CustomFieldsFilter[] };
 export const CustomFieldsFilter = S.Union(
   S.Struct({ field: FieldFilter }),
   S.Struct({
@@ -1386,12 +1478,54 @@ export const CustomFilter = S.suspend(() =>
   S.Struct({ fields: S.optional(CustomFieldsFilter) }),
 ).annotations({ identifier: "CustomFilter" }) as any as S.Schema<CustomFilter>;
 export type RelatedItemTypeFilter =
-  | { contact: ContactFilter }
-  | { comment: CommentFilter }
-  | { file: FileFilter }
-  | { sla: SlaFilter }
-  | { connectCase: ConnectCaseFilter }
-  | { custom: CustomFilter };
+  | {
+      contact: ContactFilter;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment: CommentFilter;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file: FileFilter;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla: SlaFilter;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase: ConnectCaseFilter;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom: CustomFilter;
+    };
 export const RelatedItemTypeFilter = S.Union(
   S.Struct({ contact: ContactFilter }),
   S.Struct({ comment: CommentFilter }),
@@ -1618,10 +1752,10 @@ export const CaseSummary = S.suspend(() =>
 export type CaseSummaryList = CaseSummary[];
 export const CaseSummaryList = S.Array(CaseSummary);
 export type CaseFilter =
-  | { field: FieldFilter }
-  | { not: CaseFilter }
-  | { andAll: CaseFilter[] }
-  | { orAll: CaseFilter[] };
+  | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
+  | { field?: never; not: CaseFilter; andAll?: never; orAll?: never }
+  | { field?: never; not?: never; andAll: CaseFilter[]; orAll?: never }
+  | { field?: never; not?: never; andAll?: never; orAll: CaseFilter[] };
 export const CaseFilter = S.Union(
   S.Struct({ field: FieldFilter }),
   S.Struct({
@@ -1942,12 +2076,54 @@ export const SlaInputContent = S.Union(
   S.Struct({ slaInputConfiguration: SlaInputConfiguration }),
 );
 export type RelatedItemInputContent =
-  | { contact: Contact }
-  | { comment: CommentContent }
-  | { file: FileContent }
-  | { sla: SlaInputContent }
-  | { connectCase: ConnectCaseInputContent }
-  | { custom: CustomInputContent };
+  | {
+      contact: Contact;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment: CommentContent;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file: FileContent;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla: SlaInputContent;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase: ConnectCaseInputContent;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom: CustomInputContent;
+    };
 export const RelatedItemInputContent = S.Union(
   S.Struct({ contact: Contact }),
   S.Struct({ comment: CommentContent }),
@@ -2013,11 +2189,41 @@ export const FieldOptionError = S.suspend(() =>
 export type FieldOptionErrorList = FieldOptionError[];
 export const FieldOptionErrorList = S.Array(FieldOptionError);
 export type AuditEventFieldValueUnion =
-  | { stringValue: string }
-  | { doubleValue: number }
-  | { booleanValue: boolean }
-  | { emptyValue: EmptyFieldValue }
-  | { userArnValue: string };
+  | {
+      stringValue: string;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue: number;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue: boolean;
+      emptyValue?: never;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue: EmptyFieldValue;
+      userArnValue?: never;
+    }
+  | {
+      stringValue?: never;
+      doubleValue?: never;
+      booleanValue?: never;
+      emptyValue?: never;
+      userArnValue: string;
+    };
 export const AuditEventFieldValueUnion = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -2291,12 +2497,54 @@ export const SlaContent = S.suspend(() =>
   S.Struct({ slaConfiguration: SlaConfiguration }),
 ).annotations({ identifier: "SlaContent" }) as any as S.Schema<SlaContent>;
 export type RelatedItemContent =
-  | { contact: ContactContent }
-  | { comment: CommentContent }
-  | { file: FileContent }
-  | { sla: SlaContent }
-  | { connectCase: ConnectCaseContent }
-  | { custom: CustomContent };
+  | {
+      contact: ContactContent;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment: CommentContent;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file: FileContent;
+      sla?: never;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla: SlaContent;
+      connectCase?: never;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase: ConnectCaseContent;
+      custom?: never;
+    }
+  | {
+      contact?: never;
+      comment?: never;
+      file?: never;
+      sla?: never;
+      connectCase?: never;
+      custom: CustomContent;
+    };
 export const RelatedItemContent = S.Union(
   S.Struct({ contact: ContactContent }),
   S.Struct({ comment: CommentContent }),

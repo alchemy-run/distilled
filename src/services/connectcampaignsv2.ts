@@ -657,10 +657,30 @@ export const PreviewConfig = S.suspend(() =>
   identifier: "PreviewConfig",
 }) as any as S.Schema<PreviewConfig>;
 export type TelephonyOutboundMode =
-  | { progressive: ProgressiveConfig }
-  | { predictive: PredictiveConfig }
-  | { agentless: AgentlessConfig }
-  | { preview: PreviewConfig };
+  | {
+      progressive: ProgressiveConfig;
+      predictive?: never;
+      agentless?: never;
+      preview?: never;
+    }
+  | {
+      progressive?: never;
+      predictive: PredictiveConfig;
+      agentless?: never;
+      preview?: never;
+    }
+  | {
+      progressive?: never;
+      predictive?: never;
+      agentless: AgentlessConfig;
+      preview?: never;
+    }
+  | {
+      progressive?: never;
+      predictive?: never;
+      agentless?: never;
+      preview: PreviewConfig;
+    };
 export const TelephonyOutboundMode = S.Union(
   S.Struct({ progressive: ProgressiveConfig }),
   S.Struct({ predictive: PredictiveConfig }),
@@ -1109,8 +1129,8 @@ export const EventTrigger = S.suspend(() =>
   S.Struct({ customerProfilesDomainArn: S.optional(S.String) }),
 ).annotations({ identifier: "EventTrigger" }) as any as S.Schema<EventTrigger>;
 export type Source =
-  | { customerProfilesSegmentArn: string }
-  | { eventTrigger: EventTrigger };
+  | { customerProfilesSegmentArn: string; eventTrigger?: never }
+  | { customerProfilesSegmentArn?: never; eventTrigger: EventTrigger };
 export const Source = S.Union(
   S.Struct({ customerProfilesSegmentArn: S.String }),
   S.Struct({ eventTrigger: EventTrigger }),
@@ -1331,9 +1351,21 @@ export const LambdaIntegrationConfig = S.suspend(() =>
   identifier: "LambdaIntegrationConfig",
 }) as any as S.Schema<LambdaIntegrationConfig>;
 export type IntegrationIdentifier =
-  | { customerProfiles: CustomerProfilesIntegrationIdentifier }
-  | { qConnect: QConnectIntegrationIdentifier }
-  | { lambda: LambdaIntegrationIdentifier };
+  | {
+      customerProfiles: CustomerProfilesIntegrationIdentifier;
+      qConnect?: never;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect: QConnectIntegrationIdentifier;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect?: never;
+      lambda: LambdaIntegrationIdentifier;
+    };
 export const IntegrationIdentifier = S.Union(
   S.Struct({ customerProfiles: CustomerProfilesIntegrationIdentifier }),
   S.Struct({ qConnect: QConnectIntegrationIdentifier }),
@@ -1623,9 +1655,21 @@ export const CustomerProfilesIntegrationConfig = S.suspend(() =>
   identifier: "CustomerProfilesIntegrationConfig",
 }) as any as S.Schema<CustomerProfilesIntegrationConfig>;
 export type IntegrationSummary =
-  | { customerProfiles: CustomerProfilesIntegrationSummary }
-  | { qConnect: QConnectIntegrationSummary }
-  | { lambda: LambdaIntegrationSummary };
+  | {
+      customerProfiles: CustomerProfilesIntegrationSummary;
+      qConnect?: never;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect: QConnectIntegrationSummary;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect?: never;
+      lambda: LambdaIntegrationSummary;
+    };
 export const IntegrationSummary = S.Union(
   S.Struct({ customerProfiles: CustomerProfilesIntegrationSummary }),
   S.Struct({ qConnect: QConnectIntegrationSummary }),
@@ -1634,9 +1678,21 @@ export const IntegrationSummary = S.Union(
 export type IntegrationSummaryList = IntegrationSummary[];
 export const IntegrationSummaryList = S.Array(IntegrationSummary);
 export type IntegrationConfig =
-  | { customerProfiles: CustomerProfilesIntegrationConfig }
-  | { qConnect: QConnectIntegrationConfig }
-  | { lambda: LambdaIntegrationConfig };
+  | {
+      customerProfiles: CustomerProfilesIntegrationConfig;
+      qConnect?: never;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect: QConnectIntegrationConfig;
+      lambda?: never;
+    }
+  | {
+      customerProfiles?: never;
+      qConnect?: never;
+      lambda: LambdaIntegrationConfig;
+    };
 export const IntegrationConfig = S.Union(
   S.Struct({ customerProfiles: CustomerProfilesIntegrationConfig }),
   S.Struct({ qConnect: QConnectIntegrationConfig }),
@@ -1749,10 +1805,30 @@ export const PutProfileOutboundRequestBatchResponse = S.suspend(() =>
 export type ChannelSubtypeList = string[];
 export const ChannelSubtypeList = S.Array(S.String);
 export type ChannelSubtypeParameters =
-  | { telephony: TelephonyChannelSubtypeParameters }
-  | { sms: SmsChannelSubtypeParameters }
-  | { email: EmailChannelSubtypeParameters }
-  | { whatsApp: WhatsAppChannelSubtypeParameters };
+  | {
+      telephony: TelephonyChannelSubtypeParameters;
+      sms?: never;
+      email?: never;
+      whatsApp?: never;
+    }
+  | {
+      telephony?: never;
+      sms: SmsChannelSubtypeParameters;
+      email?: never;
+      whatsApp?: never;
+    }
+  | {
+      telephony?: never;
+      sms?: never;
+      email: EmailChannelSubtypeParameters;
+      whatsApp?: never;
+    }
+  | {
+      telephony?: never;
+      sms?: never;
+      email?: never;
+      whatsApp: WhatsAppChannelSubtypeParameters;
+    };
 export const ChannelSubtypeParameters = S.Union(
   S.Struct({ telephony: TelephonyChannelSubtypeParameters }),
   S.Struct({ sms: SmsChannelSubtypeParameters }),

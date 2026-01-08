@@ -964,7 +964,9 @@ export const DeleteWorkspaceResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteWorkspaceResponse",
 }) as any as S.Schema<DeleteWorkspaceResponse>;
-export type IdpMetadata = { url: string } | { xml: string };
+export type IdpMetadata =
+  | { url: string; xml?: never }
+  | { url?: never; xml: string };
 export const IdpMetadata = S.Union(
   S.Struct({ url: S.String }),
   S.Struct({ xml: S.String }),

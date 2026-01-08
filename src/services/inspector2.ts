@@ -2670,10 +2670,15 @@ export const MonthlySchedule = S.suspend(() =>
   identifier: "MonthlySchedule",
 }) as any as S.Schema<MonthlySchedule>;
 export type Schedule =
-  | { oneTime: OneTimeSchedule }
-  | { daily: DailySchedule }
-  | { weekly: WeeklySchedule }
-  | { monthly: MonthlySchedule };
+  | { oneTime: OneTimeSchedule; daily?: never; weekly?: never; monthly?: never }
+  | { oneTime?: never; daily: DailySchedule; weekly?: never; monthly?: never }
+  | { oneTime?: never; daily?: never; weekly: WeeklySchedule; monthly?: never }
+  | {
+      oneTime?: never;
+      daily?: never;
+      weekly?: never;
+      monthly: MonthlySchedule;
+    };
 export const Schedule = S.Union(
   S.Struct({ oneTime: OneTimeSchedule }),
   S.Struct({ daily: DailySchedule }),
@@ -3558,18 +3563,174 @@ export const Filter = S.suspend(() =>
 export type FilterList = Filter[];
 export const FilterList = S.Array(Filter);
 export type AggregationRequest =
-  | { accountAggregation: AccountAggregation }
-  | { amiAggregation: AmiAggregation }
-  | { awsEcrContainerAggregation: AwsEcrContainerAggregation }
-  | { ec2InstanceAggregation: Ec2InstanceAggregation }
-  | { findingTypeAggregation: FindingTypeAggregation }
-  | { imageLayerAggregation: ImageLayerAggregation }
-  | { packageAggregation: PackageAggregation }
-  | { repositoryAggregation: RepositoryAggregation }
-  | { titleAggregation: TitleAggregation }
-  | { lambdaLayerAggregation: LambdaLayerAggregation }
-  | { lambdaFunctionAggregation: LambdaFunctionAggregation }
-  | { codeRepositoryAggregation: CodeRepositoryAggregation };
+  | {
+      accountAggregation: AccountAggregation;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation: AmiAggregation;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation: AwsEcrContainerAggregation;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation: Ec2InstanceAggregation;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation: FindingTypeAggregation;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation: ImageLayerAggregation;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation: PackageAggregation;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation: RepositoryAggregation;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation: TitleAggregation;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation: LambdaLayerAggregation;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation: LambdaFunctionAggregation;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation: CodeRepositoryAggregation;
+    };
 export const AggregationRequest = S.Union(
   S.Struct({ accountAggregation: AccountAggregation }),
   S.Struct({ amiAggregation: AmiAggregation }),
@@ -3605,8 +3766,11 @@ export const StopCisSessionMessage = S.suspend(() =>
   identifier: "StopCisSessionMessage",
 }) as any as S.Schema<StopCisSessionMessage>;
 export type UpdateIntegrationDetails =
-  | { gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }
-  | { github: UpdateGitHubIntegrationDetail };
+  | {
+      gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail;
+      github?: never;
+    }
+  | { gitlabSelfManaged?: never; github: UpdateGitHubIntegrationDetail };
 export const UpdateIntegrationDetails = S.Union(
   S.Struct({ gitlabSelfManaged: UpdateGitLabSelfManagedIntegrationDetail }),
   S.Struct({ github: UpdateGitHubIntegrationDetail }),
@@ -5631,18 +5795,174 @@ export const AwsLambdaFunctionDetails = S.suspend(() =>
   identifier: "AwsLambdaFunctionDetails",
 }) as any as S.Schema<AwsLambdaFunctionDetails>;
 export type AggregationResponse =
-  | { accountAggregation: AccountAggregationResponse }
-  | { amiAggregation: AmiAggregationResponse }
-  | { awsEcrContainerAggregation: AwsEcrContainerAggregationResponse }
-  | { ec2InstanceAggregation: Ec2InstanceAggregationResponse }
-  | { findingTypeAggregation: FindingTypeAggregationResponse }
-  | { imageLayerAggregation: ImageLayerAggregationResponse }
-  | { packageAggregation: PackageAggregationResponse }
-  | { repositoryAggregation: RepositoryAggregationResponse }
-  | { titleAggregation: TitleAggregationResponse }
-  | { lambdaLayerAggregation: LambdaLayerAggregationResponse }
-  | { lambdaFunctionAggregation: LambdaFunctionAggregationResponse }
-  | { codeRepositoryAggregation: CodeRepositoryAggregationResponse };
+  | {
+      accountAggregation: AccountAggregationResponse;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation: AmiAggregationResponse;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation: AwsEcrContainerAggregationResponse;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation: Ec2InstanceAggregationResponse;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation: FindingTypeAggregationResponse;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation: ImageLayerAggregationResponse;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation: PackageAggregationResponse;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation: RepositoryAggregationResponse;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation: TitleAggregationResponse;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation: LambdaLayerAggregationResponse;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation: LambdaFunctionAggregationResponse;
+      codeRepositoryAggregation?: never;
+    }
+  | {
+      accountAggregation?: never;
+      amiAggregation?: never;
+      awsEcrContainerAggregation?: never;
+      ec2InstanceAggregation?: never;
+      findingTypeAggregation?: never;
+      imageLayerAggregation?: never;
+      packageAggregation?: never;
+      repositoryAggregation?: never;
+      titleAggregation?: never;
+      lambdaLayerAggregation?: never;
+      lambdaFunctionAggregation?: never;
+      codeRepositoryAggregation: CodeRepositoryAggregationResponse;
+    };
 export const AggregationResponse = S.Union(
   S.Struct({ accountAggregation: AccountAggregationResponse }),
   S.Struct({ amiAggregation: AmiAggregationResponse }),
@@ -5660,8 +5980,14 @@ export const AggregationResponse = S.Union(
 export type AggregationResponseList = AggregationResponse[];
 export const AggregationResponseList = S.Array(AggregationResponse);
 export type ClusterMetadata =
-  | { awsEcsMetadataDetails: AwsEcsMetadataDetails }
-  | { awsEksMetadataDetails: AwsEksMetadataDetails };
+  | {
+      awsEcsMetadataDetails: AwsEcsMetadataDetails;
+      awsEksMetadataDetails?: never;
+    }
+  | {
+      awsEcsMetadataDetails?: never;
+      awsEksMetadataDetails: AwsEksMetadataDetails;
+    };
 export const ClusterMetadata = S.Union(
   S.Struct({ awsEcsMetadataDetails: AwsEcsMetadataDetails }),
   S.Struct({ awsEksMetadataDetails: AwsEksMetadataDetails }),

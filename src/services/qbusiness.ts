@@ -1477,10 +1477,30 @@ export const GetDataAccessorRequest = S.suspend(() =>
 export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export type DocumentAttributeValue =
-  | { stringValue: string }
-  | { stringListValue: string[] }
-  | { longValue: number }
-  | { dateValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue: string[];
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue: number;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue: Date;
+    };
 export const DocumentAttributeValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ stringListValue: DocumentAttributeStringListValue }),
@@ -2100,8 +2120,8 @@ export const S3 = S.suspend(() =>
   S.Struct({ bucket: S.String, key: S.String }),
 ).annotations({ identifier: "S3" }) as any as S.Schema<S3>;
 export type APISchema =
-  | { payload: string | redacted.Redacted<string> }
-  | { s3: S3 };
+  | { payload: string | redacted.Redacted<string>; s3?: never }
+  | { payload?: never; s3: S3 };
 export const APISchema = S.Union(
   S.Struct({ payload: SensitiveString }),
   S.Struct({ s3: S3 }),
@@ -2159,10 +2179,30 @@ export const IdcAuthConfiguration = S.suspend(() =>
   identifier: "IdcAuthConfiguration",
 }) as any as S.Schema<IdcAuthConfiguration>;
 export type PluginAuthConfiguration =
-  | { basicAuthConfiguration: BasicAuthConfiguration }
-  | { oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration }
-  | { noAuthConfiguration: NoAuthConfiguration }
-  | { idcAuthConfiguration: IdcAuthConfiguration };
+  | {
+      basicAuthConfiguration: BasicAuthConfiguration;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration: OAuth2ClientCredentialConfiguration;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration: NoAuthConfiguration;
+      idcAuthConfiguration?: never;
+    }
+  | {
+      basicAuthConfiguration?: never;
+      oAuth2ClientCredentialConfiguration?: never;
+      noAuthConfiguration?: never;
+      idcAuthConfiguration: IdcAuthConfiguration;
+    };
 export const PluginAuthConfiguration = S.Union(
   S.Struct({ basicAuthConfiguration: BasicAuthConfiguration }),
   S.Struct({
@@ -2381,10 +2421,30 @@ export const StringListAttributeBoostingConfiguration = S.suspend(() =>
   identifier: "StringListAttributeBoostingConfiguration",
 }) as any as S.Schema<StringListAttributeBoostingConfiguration>;
 export type DocumentAttributeBoostingConfiguration =
-  | { numberConfiguration: NumberAttributeBoostingConfiguration }
-  | { stringConfiguration: StringAttributeBoostingConfiguration }
-  | { dateConfiguration: DateAttributeBoostingConfiguration }
-  | { stringListConfiguration: StringListAttributeBoostingConfiguration };
+  | {
+      numberConfiguration: NumberAttributeBoostingConfiguration;
+      stringConfiguration?: never;
+      dateConfiguration?: never;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration: StringAttributeBoostingConfiguration;
+      dateConfiguration?: never;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration?: never;
+      dateConfiguration: DateAttributeBoostingConfiguration;
+      stringListConfiguration?: never;
+    }
+  | {
+      numberConfiguration?: never;
+      stringConfiguration?: never;
+      dateConfiguration?: never;
+      stringListConfiguration: StringListAttributeBoostingConfiguration;
+    };
 export const DocumentAttributeBoostingConfiguration = S.Union(
   S.Struct({ numberConfiguration: NumberAttributeBoostingConfiguration }),
   S.Struct({ stringConfiguration: StringAttributeBoostingConfiguration }),
@@ -2423,8 +2483,14 @@ export const KendraIndexConfiguration = S.suspend(() =>
   identifier: "KendraIndexConfiguration",
 }) as any as S.Schema<KendraIndexConfiguration>;
 export type RetrieverConfiguration =
-  | { nativeIndexConfiguration: NativeIndexConfiguration }
-  | { kendraIndexConfiguration: KendraIndexConfiguration };
+  | {
+      nativeIndexConfiguration: NativeIndexConfiguration;
+      kendraIndexConfiguration?: never;
+    }
+  | {
+      nativeIndexConfiguration?: never;
+      kendraIndexConfiguration: KendraIndexConfiguration;
+    };
 export const RetrieverConfiguration = S.Union(
   S.Struct({ nativeIndexConfiguration: NativeIndexConfiguration }),
   S.Struct({ kendraIndexConfiguration: KendraIndexConfiguration }),
@@ -2726,7 +2792,9 @@ export const DeleteDocument = S.suspend(() =>
 }) as any as S.Schema<DeleteDocument>;
 export type DeleteDocuments = DeleteDocument[];
 export const DeleteDocuments = S.Array(DeleteDocument);
-export type SubscriptionPrincipal = { user: string } | { group: string };
+export type SubscriptionPrincipal =
+  | { user: string; group?: never }
+  | { user?: never; group: string };
 export const SubscriptionPrincipal = S.Union(
   S.Struct({ user: S.String }),
   S.Struct({ group: S.String }),
@@ -3598,8 +3666,14 @@ export const OpenIDConnectProviderConfiguration = S.suspend(() =>
   identifier: "OpenIDConnectProviderConfiguration",
 }) as any as S.Schema<OpenIDConnectProviderConfiguration>;
 export type IdentityProviderConfiguration =
-  | { samlConfiguration: SamlProviderConfiguration }
-  | { openIDConnectConfiguration: OpenIDConnectProviderConfiguration };
+  | {
+      samlConfiguration: SamlProviderConfiguration;
+      openIDConnectConfiguration?: never;
+    }
+  | {
+      samlConfiguration?: never;
+      openIDConnectConfiguration: OpenIDConnectProviderConfiguration;
+    };
 export const IdentityProviderConfiguration = S.Union(
   S.Struct({ samlConfiguration: SamlProviderConfiguration }),
   S.Struct({ openIDConnectConfiguration: OpenIDConnectProviderConfiguration }),
@@ -3670,7 +3744,9 @@ export const GetWebExperienceResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetWebExperienceResponse",
 }) as any as S.Schema<GetWebExperienceResponse>;
-export type DocumentContent = { blob: Uint8Array } | { s3: S3 };
+export type DocumentContent =
+  | { blob: Uint8Array; s3?: never }
+  | { blob?: never; s3: S3 };
 export const DocumentContent = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3: S3 }),
@@ -3864,12 +3940,54 @@ export const RetrieverContentSource = S.suspend(() =>
 export type UserIds = string[];
 export const UserIds = S.Array(S.String);
 export type ChatInputStream =
-  | { configurationEvent: ConfigurationEvent }
-  | { textEvent: TextInputEvent }
-  | { attachmentEvent: AttachmentInputEvent }
-  | { actionExecutionEvent: ActionExecutionEvent }
-  | { endOfInputEvent: EndOfInputEvent }
-  | { authChallengeResponseEvent: AuthChallengeResponseEvent };
+  | {
+      configurationEvent: ConfigurationEvent;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent: TextInputEvent;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent: AttachmentInputEvent;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent: ActionExecutionEvent;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent: EndOfInputEvent;
+      authChallengeResponseEvent?: never;
+    }
+  | {
+      configurationEvent?: never;
+      textEvent?: never;
+      attachmentEvent?: never;
+      actionExecutionEvent?: never;
+      endOfInputEvent?: never;
+      authChallengeResponseEvent: AuthChallengeResponseEvent;
+    };
 export const ChatInputStream = T.InputEventStream(
   S.Union(
     S.Struct({ configurationEvent: ConfigurationEvent }),
@@ -4372,8 +4490,8 @@ export const ContentRetrievalRule = S.suspend(() =>
   identifier: "ContentRetrievalRule",
 }) as any as S.Schema<ContentRetrievalRule>;
 export type RuleConfiguration =
-  | { contentBlockerRule: ContentBlockerRule }
-  | { contentRetrievalRule: ContentRetrievalRule };
+  | { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: never }
+  | { contentBlockerRule?: never; contentRetrievalRule: ContentRetrievalRule };
 export const RuleConfiguration = S.Union(
   S.Struct({ contentBlockerRule: ContentBlockerRule }),
   S.Struct({ contentRetrievalRule: ContentRetrievalRule }),
@@ -5294,7 +5412,9 @@ export const CreateWebExperienceResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateWebExperienceResponse",
 }) as any as S.Schema<CreateWebExperienceResponse>;
-export type Principal = { user: PrincipalUser } | { group: PrincipalGroup };
+export type Principal =
+  | { user: PrincipalUser; group?: never }
+  | { user?: never; group: PrincipalGroup };
 export const Principal = S.Union(
   S.Struct({ user: PrincipalUser }),
   S.Struct({ group: PrincipalGroup }),
@@ -5520,9 +5640,21 @@ export const TextOutputEvent = S.suspend(() =>
   identifier: "TextOutputEvent",
 }) as any as S.Schema<TextOutputEvent>;
 export type SourceDetails =
-  | { imageSourceDetails: ImageSourceDetails }
-  | { audioSourceDetails: AudioSourceDetails }
-  | { videoSourceDetails: VideoSourceDetails };
+  | {
+      imageSourceDetails: ImageSourceDetails;
+      audioSourceDetails?: never;
+      videoSourceDetails?: never;
+    }
+  | {
+      imageSourceDetails?: never;
+      audioSourceDetails: AudioSourceDetails;
+      videoSourceDetails?: never;
+    }
+  | {
+      imageSourceDetails?: never;
+      audioSourceDetails?: never;
+      videoSourceDetails: VideoSourceDetails;
+    };
 export const SourceDetails = S.Union(
   S.Struct({ imageSourceDetails: ImageSourceDetails }),
   S.Struct({ audioSourceDetails: AudioSourceDetails }),
@@ -5718,11 +5850,41 @@ export const Document = S.suspend(() =>
 export type Documents = Document[];
 export const Documents = S.Array(Document);
 export type ChatOutputStream =
-  | { textEvent: TextOutputEvent }
-  | { metadataEvent: MetadataEvent }
-  | { actionReviewEvent: ActionReviewEvent }
-  | { failedAttachmentEvent: FailedAttachmentEvent }
-  | { authChallengeRequestEvent: AuthChallengeRequestEvent };
+  | {
+      textEvent: TextOutputEvent;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent: MetadataEvent;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent: ActionReviewEvent;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent: FailedAttachmentEvent;
+      authChallengeRequestEvent?: never;
+    }
+  | {
+      textEvent?: never;
+      metadataEvent?: never;
+      actionReviewEvent?: never;
+      failedAttachmentEvent?: never;
+      authChallengeRequestEvent: AuthChallengeRequestEvent;
+    };
 export const ChatOutputStream = T.EventStream(
   S.Union(
     S.Struct({ textEvent: TextOutputEvent }),

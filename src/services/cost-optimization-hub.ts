@@ -1443,25 +1443,405 @@ export const ValidationExceptionDetail = S.suspend(() =>
 export type ValidationExceptionDetails = ValidationExceptionDetail[];
 export const ValidationExceptionDetails = S.Array(ValidationExceptionDetail);
 export type ResourceDetails =
-  | { lambdaFunction: LambdaFunction }
-  | { ecsService: EcsService }
-  | { ec2Instance: Ec2Instance }
-  | { ebsVolume: EbsVolume }
-  | { ec2AutoScalingGroup: Ec2AutoScalingGroup }
-  | { ec2ReservedInstances: Ec2ReservedInstances }
-  | { rdsReservedInstances: RdsReservedInstances }
-  | { elastiCacheReservedInstances: ElastiCacheReservedInstances }
-  | { openSearchReservedInstances: OpenSearchReservedInstances }
-  | { redshiftReservedInstances: RedshiftReservedInstances }
-  | { ec2InstanceSavingsPlans: Ec2InstanceSavingsPlans }
-  | { computeSavingsPlans: ComputeSavingsPlans }
-  | { sageMakerSavingsPlans: SageMakerSavingsPlans }
-  | { rdsDbInstance: RdsDbInstance }
-  | { rdsDbInstanceStorage: RdsDbInstanceStorage }
-  | { auroraDbClusterStorage: AuroraDbClusterStorage }
-  | { dynamoDbReservedCapacity: DynamoDbReservedCapacity }
-  | { memoryDbReservedInstances: MemoryDbReservedInstances }
-  | { natGateway: NatGateway };
+  | {
+      lambdaFunction: LambdaFunction;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService: EcsService;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance: Ec2Instance;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume: EbsVolume;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup: Ec2AutoScalingGroup;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances: Ec2ReservedInstances;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances: RdsReservedInstances;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances: ElastiCacheReservedInstances;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances: OpenSearchReservedInstances;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances: RedshiftReservedInstances;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans: Ec2InstanceSavingsPlans;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans: ComputeSavingsPlans;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans: SageMakerSavingsPlans;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance: RdsDbInstance;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage: RdsDbInstanceStorage;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage: AuroraDbClusterStorage;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity: DynamoDbReservedCapacity;
+      memoryDbReservedInstances?: never;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances: MemoryDbReservedInstances;
+      natGateway?: never;
+    }
+  | {
+      lambdaFunction?: never;
+      ecsService?: never;
+      ec2Instance?: never;
+      ebsVolume?: never;
+      ec2AutoScalingGroup?: never;
+      ec2ReservedInstances?: never;
+      rdsReservedInstances?: never;
+      elastiCacheReservedInstances?: never;
+      openSearchReservedInstances?: never;
+      redshiftReservedInstances?: never;
+      ec2InstanceSavingsPlans?: never;
+      computeSavingsPlans?: never;
+      sageMakerSavingsPlans?: never;
+      rdsDbInstance?: never;
+      rdsDbInstanceStorage?: never;
+      auroraDbClusterStorage?: never;
+      dynamoDbReservedCapacity?: never;
+      memoryDbReservedInstances?: never;
+      natGateway: NatGateway;
+    };
 export const ResourceDetails = S.Union(
   S.Struct({ lambdaFunction: LambdaFunction }),
   S.Struct({ ecsService: EcsService }),

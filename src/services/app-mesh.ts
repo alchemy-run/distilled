@@ -361,8 +361,8 @@ export const VirtualGatewayListenerTlsSdsCertificate = S.suspend(() =>
   identifier: "VirtualGatewayListenerTlsSdsCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
 export type VirtualGatewayClientTlsCertificate =
-  | { file: VirtualGatewayListenerTlsFileCertificate }
-  | { sds: VirtualGatewayListenerTlsSdsCertificate };
+  | { file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
+  | { file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
 export const VirtualGatewayClientTlsCertificate = S.Union(
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
   S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
@@ -396,9 +396,21 @@ export const VirtualGatewayTlsValidationContextSdsTrust = S.suspend(() =>
   identifier: "VirtualGatewayTlsValidationContextSdsTrust",
 }) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
 export type VirtualGatewayTlsValidationContextTrust =
-  | { acm: VirtualGatewayTlsValidationContextAcmTrust }
-  | { file: VirtualGatewayTlsValidationContextFileTrust }
-  | { sds: VirtualGatewayTlsValidationContextSdsTrust };
+  | {
+      acm: VirtualGatewayTlsValidationContextAcmTrust;
+      file?: never;
+      sds?: never;
+    }
+  | {
+      acm?: never;
+      file: VirtualGatewayTlsValidationContextFileTrust;
+      sds?: never;
+    }
+  | {
+      acm?: never;
+      file?: never;
+      sds: VirtualGatewayTlsValidationContextSdsTrust;
+    };
 export const VirtualGatewayTlsValidationContextTrust = S.Union(
   S.Struct({ acm: VirtualGatewayTlsValidationContextAcmTrust }),
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
@@ -498,8 +510,8 @@ export const VirtualGatewayPortMapping = S.suspend(() =>
   identifier: "VirtualGatewayPortMapping",
 }) as any as S.Schema<VirtualGatewayPortMapping>;
 export type VirtualGatewayListenerTlsValidationContextTrust =
-  | { file: VirtualGatewayTlsValidationContextFileTrust }
-  | { sds: VirtualGatewayTlsValidationContextSdsTrust };
+  | { file: VirtualGatewayTlsValidationContextFileTrust; sds?: never }
+  | { file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
 export const VirtualGatewayListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
   S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
@@ -525,9 +537,9 @@ export const VirtualGatewayListenerTlsAcmCertificate = S.suspend(() =>
   identifier: "VirtualGatewayListenerTlsAcmCertificate",
 }) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
 export type VirtualGatewayListenerTlsCertificate =
-  | { acm: VirtualGatewayListenerTlsAcmCertificate }
-  | { file: VirtualGatewayListenerTlsFileCertificate }
-  | { sds: VirtualGatewayListenerTlsSdsCertificate };
+  | { acm: VirtualGatewayListenerTlsAcmCertificate; file?: never; sds?: never }
+  | { acm?: never; file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
+  | { acm?: never; file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
 export const VirtualGatewayListenerTlsCertificate = S.Union(
   S.Struct({ acm: VirtualGatewayListenerTlsAcmCertificate }),
   S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
@@ -576,9 +588,9 @@ export const VirtualGatewayGrpcConnectionPool = S.suspend(() =>
   identifier: "VirtualGatewayGrpcConnectionPool",
 }) as any as S.Schema<VirtualGatewayGrpcConnectionPool>;
 export type VirtualGatewayConnectionPool =
-  | { http: VirtualGatewayHttpConnectionPool }
-  | { http2: VirtualGatewayHttp2ConnectionPool }
-  | { grpc: VirtualGatewayGrpcConnectionPool };
+  | { http: VirtualGatewayHttpConnectionPool; http2?: never; grpc?: never }
+  | { http?: never; http2: VirtualGatewayHttp2ConnectionPool; grpc?: never }
+  | { http?: never; http2?: never; grpc: VirtualGatewayGrpcConnectionPool };
 export const VirtualGatewayConnectionPool = S.Union(
   S.Struct({ http: VirtualGatewayHttpConnectionPool }),
   S.Struct({ http2: VirtualGatewayHttp2ConnectionPool }),
@@ -613,7 +625,9 @@ export const JsonFormatRef = S.suspend(() =>
 }) as any as S.Schema<JsonFormatRef>;
 export type JsonFormat = JsonFormatRef[];
 export const JsonFormat = S.Array(JsonFormatRef);
-export type LoggingFormat = { text: string } | { json: JsonFormatRef[] };
+export type LoggingFormat =
+  | { text: string; json?: never }
+  | { text?: never; json: JsonFormatRef[] };
 export const LoggingFormat = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: JsonFormat }),
@@ -810,11 +824,41 @@ export const MatchRange = S.suspend(() =>
   S.Struct({ start: S.Number, end: S.Number }),
 ).annotations({ identifier: "MatchRange" }) as any as S.Schema<MatchRange>;
 export type HeaderMatchMethod =
-  | { exact: string }
-  | { regex: string }
-  | { range: MatchRange }
-  | { prefix: string }
-  | { suffix: string };
+  | {
+      exact: string;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex: string;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range: MatchRange;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix: string;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix: string;
+    };
 export const HeaderMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -944,11 +988,41 @@ export const HttpGatewayRoute = S.suspend(() =>
   identifier: "HttpGatewayRoute",
 }) as any as S.Schema<HttpGatewayRoute>;
 export type GrpcMetadataMatchMethod =
-  | { exact: string }
-  | { regex: string }
-  | { range: MatchRange }
-  | { prefix: string }
-  | { suffix: string };
+  | {
+      exact: string;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex: string;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range: MatchRange;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix: string;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix: string;
+    };
 export const GrpcMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -1193,8 +1267,8 @@ export const AwsCloudMapServiceDiscovery = S.suspend(() =>
   identifier: "AwsCloudMapServiceDiscovery",
 }) as any as S.Schema<AwsCloudMapServiceDiscovery>;
 export type ServiceDiscovery =
-  | { dns: DnsServiceDiscovery }
-  | { awsCloudMap: AwsCloudMapServiceDiscovery };
+  | { dns: DnsServiceDiscovery; awsCloudMap?: never }
+  | { dns?: never; awsCloudMap: AwsCloudMapServiceDiscovery };
 export const ServiceDiscovery = S.Union(
   S.Struct({ dns: DnsServiceDiscovery }),
   S.Struct({ awsCloudMap: AwsCloudMapServiceDiscovery }),
@@ -1232,9 +1306,9 @@ export const ListenerTlsSdsCertificate = S.suspend(() =>
   identifier: "ListenerTlsSdsCertificate",
 }) as any as S.Schema<ListenerTlsSdsCertificate>;
 export type ListenerTlsCertificate =
-  | { acm: ListenerTlsAcmCertificate }
-  | { file: ListenerTlsFileCertificate }
-  | { sds: ListenerTlsSdsCertificate };
+  | { acm: ListenerTlsAcmCertificate; file?: never; sds?: never }
+  | { acm?: never; file: ListenerTlsFileCertificate; sds?: never }
+  | { acm?: never; file?: never; sds: ListenerTlsSdsCertificate };
 export const ListenerTlsCertificate = S.Union(
   S.Struct({ acm: ListenerTlsAcmCertificate }),
   S.Struct({ file: ListenerTlsFileCertificate }),
@@ -1257,8 +1331,8 @@ export const TlsValidationContextSdsTrust = S.suspend(() =>
   identifier: "TlsValidationContextSdsTrust",
 }) as any as S.Schema<TlsValidationContextSdsTrust>;
 export type ListenerTlsValidationContextTrust =
-  | { file: TlsValidationContextFileTrust }
-  | { sds: TlsValidationContextSdsTrust };
+  | { file: TlsValidationContextFileTrust; sds?: never }
+  | { file?: never; sds: TlsValidationContextSdsTrust };
 export const ListenerTlsValidationContextTrust = S.Union(
   S.Struct({ file: TlsValidationContextFileTrust }),
   S.Struct({ sds: TlsValidationContextSdsTrust }),
@@ -1337,10 +1411,10 @@ export const GrpcTimeout = S.suspend(() =>
   S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
 ).annotations({ identifier: "GrpcTimeout" }) as any as S.Schema<GrpcTimeout>;
 export type ListenerTimeout =
-  | { tcp: TcpTimeout }
-  | { http: HttpTimeout }
-  | { http2: HttpTimeout }
-  | { grpc: GrpcTimeout };
+  | { tcp: TcpTimeout; http?: never; http2?: never; grpc?: never }
+  | { tcp?: never; http: HttpTimeout; http2?: never; grpc?: never }
+  | { tcp?: never; http?: never; http2: HttpTimeout; grpc?: never }
+  | { tcp?: never; http?: never; http2?: never; grpc: GrpcTimeout };
 export const ListenerTimeout = S.Union(
   S.Struct({ tcp: TcpTimeout }),
   S.Struct({ http: HttpTimeout }),
@@ -1400,10 +1474,30 @@ export const VirtualNodeGrpcConnectionPool = S.suspend(() =>
   identifier: "VirtualNodeGrpcConnectionPool",
 }) as any as S.Schema<VirtualNodeGrpcConnectionPool>;
 export type VirtualNodeConnectionPool =
-  | { tcp: VirtualNodeTcpConnectionPool }
-  | { http: VirtualNodeHttpConnectionPool }
-  | { http2: VirtualNodeHttp2ConnectionPool }
-  | { grpc: VirtualNodeGrpcConnectionPool };
+  | {
+      tcp: VirtualNodeTcpConnectionPool;
+      http?: never;
+      http2?: never;
+      grpc?: never;
+    }
+  | {
+      tcp?: never;
+      http: VirtualNodeHttpConnectionPool;
+      http2?: never;
+      grpc?: never;
+    }
+  | {
+      tcp?: never;
+      http?: never;
+      http2: VirtualNodeHttp2ConnectionPool;
+      grpc?: never;
+    }
+  | {
+      tcp?: never;
+      http?: never;
+      http2?: never;
+      grpc: VirtualNodeGrpcConnectionPool;
+    };
 export const VirtualNodeConnectionPool = S.Union(
   S.Struct({ tcp: VirtualNodeTcpConnectionPool }),
   S.Struct({ http: VirtualNodeHttpConnectionPool }),
@@ -1431,8 +1525,8 @@ export const Listener = S.suspend(() =>
 export type Listeners = Listener[];
 export const Listeners = S.Array(Listener);
 export type ClientTlsCertificate =
-  | { file: ListenerTlsFileCertificate }
-  | { sds: ListenerTlsSdsCertificate };
+  | { file: ListenerTlsFileCertificate; sds?: never }
+  | { file?: never; sds: ListenerTlsSdsCertificate };
 export const ClientTlsCertificate = S.Union(
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
@@ -1448,9 +1542,9 @@ export const TlsValidationContextAcmTrust = S.suspend(() =>
   identifier: "TlsValidationContextAcmTrust",
 }) as any as S.Schema<TlsValidationContextAcmTrust>;
 export type TlsValidationContextTrust =
-  | { acm: TlsValidationContextAcmTrust }
-  | { file: TlsValidationContextFileTrust }
-  | { sds: TlsValidationContextSdsTrust };
+  | { acm: TlsValidationContextAcmTrust; file?: never; sds?: never }
+  | { acm?: never; file: TlsValidationContextFileTrust; sds?: never }
+  | { acm?: never; file?: never; sds: TlsValidationContextSdsTrust };
 export const TlsValidationContextTrust = S.Union(
   S.Struct({ acm: TlsValidationContextAcmTrust }),
   S.Struct({ file: TlsValidationContextFileTrust }),
@@ -1924,11 +2018,41 @@ export const GrpcRouteAction = S.suspend(() =>
   identifier: "GrpcRouteAction",
 }) as any as S.Schema<GrpcRouteAction>;
 export type GrpcRouteMetadataMatchMethod =
-  | { exact: string }
-  | { regex: string }
-  | { range: MatchRange }
-  | { prefix: string }
-  | { suffix: string };
+  | {
+      exact: string;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex: string;
+      range?: never;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range: MatchRange;
+      prefix?: never;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix: string;
+      suffix?: never;
+    }
+  | {
+      exact?: never;
+      regex?: never;
+      range?: never;
+      prefix?: never;
+      suffix: string;
+    };
 export const GrpcRouteMetadataMatchMethod = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
@@ -2151,8 +2275,8 @@ export const VirtualRouterServiceProvider = S.suspend(() =>
   identifier: "VirtualRouterServiceProvider",
 }) as any as S.Schema<VirtualRouterServiceProvider>;
 export type VirtualServiceProvider =
-  | { virtualNode: VirtualNodeServiceProvider }
-  | { virtualRouter: VirtualRouterServiceProvider };
+  | { virtualNode: VirtualNodeServiceProvider; virtualRouter?: never }
+  | { virtualNode?: never; virtualRouter: VirtualRouterServiceProvider };
 export const VirtualServiceProvider = S.Union(
   S.Struct({ virtualNode: VirtualNodeServiceProvider }),
   S.Struct({ virtualRouter: VirtualRouterServiceProvider }),

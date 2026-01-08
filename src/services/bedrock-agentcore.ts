@@ -772,8 +772,8 @@ export const NamespacesList = S.Array(S.String);
 export type ExtractionJobStatus = "FAILED";
 export const ExtractionJobStatus = S.Literal("FAILED");
 export type UserIdentifier =
-  | { userToken: string | redacted.Redacted<string> }
-  | { userId: string };
+  | { userToken: string | redacted.Redacted<string>; userId?: never }
+  | { userToken?: never; userId: string };
 export const UserIdentifier = S.Union(
   S.Struct({ userToken: SensitiveString }),
   S.Struct({ userId: S.String }),
@@ -794,7 +794,9 @@ export const ViewPort = S.suspend(() =>
 ).annotations({ identifier: "ViewPort" }) as any as S.Schema<ViewPort>;
 export type EvaluationInput = { sessionSpans: any[] };
 export const EvaluationInput = S.Union(S.Struct({ sessionSpans: Spans }));
-export type EvaluationTarget = { spanIds: string[] } | { traceIds: string[] };
+export type EvaluationTarget =
+  | { spanIds: string[]; traceIds?: never }
+  | { spanIds?: never; traceIds: string[] };
 export const EvaluationTarget = S.Union(
   S.Struct({ spanIds: SpanIds }),
   S.Struct({ traceIds: TraceIds }),
@@ -1421,7 +1423,9 @@ export const Conversational = S.suspend(() =>
 ).annotations({
   identifier: "Conversational",
 }) as any as S.Schema<Conversational>;
-export type PayloadType = { conversational: Conversational } | { blob: any };
+export type PayloadType =
+  | { conversational: Conversational; blob?: never }
+  | { conversational?: never; blob: any };
 export const PayloadType = S.Union(
   S.Struct({ conversational: Conversational }),
   S.Struct({ blob: S.Any }),
@@ -2257,14 +2261,86 @@ export const CodeInterpreterResult = S.suspend(() =>
   identifier: "CodeInterpreterResult",
 }) as any as S.Schema<CodeInterpreterResult>;
 export type CodeInterpreterStreamOutput =
-  | { result: CodeInterpreterResult }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictException: ConflictException }
-  | { internalServerException: InternalServerException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { serviceQuotaExceededException: ServiceQuotaExceededException }
-  | { throttlingException: ThrottlingException }
-  | { validationException: ValidationException };
+  | {
+      result: CodeInterpreterResult;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException: InternalServerException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      validationException?: never;
+    }
+  | {
+      result?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      internalServerException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      validationException: ValidationException;
+    };
 export const CodeInterpreterStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ result: CodeInterpreterResult }),

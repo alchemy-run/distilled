@@ -672,8 +672,8 @@ export const ApiKeyCredential = S.suspend(() =>
   identifier: "ApiKeyCredential",
 }) as any as S.Schema<ApiKeyCredential>;
 export type Credential =
-  | { oauth2Credential: Oauth2Credential }
-  | { apiKeyCredential: ApiKeyCredential };
+  | { oauth2Credential: Oauth2Credential; apiKeyCredential?: never }
+  | { oauth2Credential?: never; apiKeyCredential: ApiKeyCredential };
 export const Credential = S.Union(
   S.Struct({ oauth2Credential: Oauth2Credential }),
   S.Struct({ apiKeyCredential: ApiKeyCredential }),
@@ -731,8 +731,8 @@ export const FirehoseStream = S.suspend(() =>
   identifier: "FirehoseStream",
 }) as any as S.Schema<FirehoseStream>;
 export type Destination =
-  | { s3Bucket: S3Bucket }
-  | { firehoseStream: FirehoseStream };
+  | { s3Bucket: S3Bucket; firehoseStream?: never }
+  | { s3Bucket?: never; firehoseStream: FirehoseStream };
 export const Destination = S.Union(
   S.Struct({ s3Bucket: S3Bucket }),
   S.Struct({ firehoseStream: FirehoseStream }),

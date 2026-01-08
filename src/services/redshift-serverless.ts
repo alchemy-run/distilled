@@ -783,7 +783,9 @@ export type TargetAction = {
 export const TargetAction = S.Union(
   S.Struct({ createSnapshot: CreateSnapshotScheduleActionParameters }),
 );
-export type Schedule = { at: Date } | { cron: string };
+export type Schedule =
+  | { at: Date; cron?: never }
+  | { at?: never; cron: string };
 export const Schedule = S.Union(
   S.Struct({ at: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ cron: S.String }),

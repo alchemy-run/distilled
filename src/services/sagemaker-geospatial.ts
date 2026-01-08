@@ -524,8 +524,11 @@ export const MultiPolygonGeometryInput = S.suspend(() =>
   identifier: "MultiPolygonGeometryInput",
 }) as any as S.Schema<MultiPolygonGeometryInput>;
 export type AreaOfInterestGeometry =
-  | { PolygonGeometry: PolygonGeometryInput }
-  | { MultiPolygonGeometry: MultiPolygonGeometryInput };
+  | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: never }
+  | {
+      PolygonGeometry?: never;
+      MultiPolygonGeometry: MultiPolygonGeometryInput;
+    };
 export const AreaOfInterestGeometry = S.Union(
   S.Struct({ PolygonGeometry: PolygonGeometryInput }),
   S.Struct({ MultiPolygonGeometry: MultiPolygonGeometryInput }),
@@ -589,12 +592,54 @@ export const LandsatCloudCoverLandInput = S.suspend(() =>
   identifier: "LandsatCloudCoverLandInput",
 }) as any as S.Schema<LandsatCloudCoverLandInput>;
 export type Property =
-  | { EoCloudCover: EoCloudCoverInput }
-  | { ViewOffNadir: ViewOffNadirInput }
-  | { ViewSunAzimuth: ViewSunAzimuthInput }
-  | { ViewSunElevation: ViewSunElevationInput }
-  | { Platform: PlatformInput }
-  | { LandsatCloudCoverLand: LandsatCloudCoverLandInput };
+  | {
+      EoCloudCover: EoCloudCoverInput;
+      ViewOffNadir?: never;
+      ViewSunAzimuth?: never;
+      ViewSunElevation?: never;
+      Platform?: never;
+      LandsatCloudCoverLand?: never;
+    }
+  | {
+      EoCloudCover?: never;
+      ViewOffNadir: ViewOffNadirInput;
+      ViewSunAzimuth?: never;
+      ViewSunElevation?: never;
+      Platform?: never;
+      LandsatCloudCoverLand?: never;
+    }
+  | {
+      EoCloudCover?: never;
+      ViewOffNadir?: never;
+      ViewSunAzimuth: ViewSunAzimuthInput;
+      ViewSunElevation?: never;
+      Platform?: never;
+      LandsatCloudCoverLand?: never;
+    }
+  | {
+      EoCloudCover?: never;
+      ViewOffNadir?: never;
+      ViewSunAzimuth?: never;
+      ViewSunElevation: ViewSunElevationInput;
+      Platform?: never;
+      LandsatCloudCoverLand?: never;
+    }
+  | {
+      EoCloudCover?: never;
+      ViewOffNadir?: never;
+      ViewSunAzimuth?: never;
+      ViewSunElevation?: never;
+      Platform: PlatformInput;
+      LandsatCloudCoverLand?: never;
+    }
+  | {
+      EoCloudCover?: never;
+      ViewOffNadir?: never;
+      ViewSunAzimuth?: never;
+      ViewSunElevation?: never;
+      Platform?: never;
+      LandsatCloudCoverLand: LandsatCloudCoverLandInput;
+    };
 export const Property = S.Union(
   S.Struct({ EoCloudCover: EoCloudCoverInput }),
   S.Struct({ ViewOffNadir: ViewOffNadirInput }),
@@ -863,8 +908,11 @@ export const VectorEnrichmentJobInputConfig = S.suspend(() =>
   identifier: "VectorEnrichmentJobInputConfig",
 }) as any as S.Schema<VectorEnrichmentJobInputConfig>;
 export type VectorEnrichmentJobConfig =
-  | { ReverseGeocodingConfig: ReverseGeocodingConfig }
-  | { MapMatchingConfig: MapMatchingConfig };
+  | {
+      ReverseGeocodingConfig: ReverseGeocodingConfig;
+      MapMatchingConfig?: never;
+    }
+  | { ReverseGeocodingConfig?: never; MapMatchingConfig: MapMatchingConfig };
 export const VectorEnrichmentJobConfig = S.Union(
   S.Struct({ ReverseGeocodingConfig: ReverseGeocodingConfig }),
   S.Struct({ MapMatchingConfig: MapMatchingConfig }),
@@ -1310,15 +1358,105 @@ export const RasterDataCollectionQueryOutput = S.suspend(() =>
   identifier: "RasterDataCollectionQueryOutput",
 }) as any as S.Schema<RasterDataCollectionQueryOutput>;
 export type JobConfigInput =
-  | { BandMathConfig: BandMathConfigInput }
-  | { ResamplingConfig: ResamplingConfigInput }
-  | { TemporalStatisticsConfig: TemporalStatisticsConfigInput }
-  | { CloudRemovalConfig: CloudRemovalConfigInput }
-  | { ZonalStatisticsConfig: ZonalStatisticsConfigInput }
-  | { GeoMosaicConfig: GeoMosaicConfigInput }
-  | { StackConfig: StackConfigInput }
-  | { CloudMaskingConfig: CloudMaskingConfigInput }
-  | { LandCoverSegmentationConfig: LandCoverSegmentationConfigInput };
+  | {
+      BandMathConfig: BandMathConfigInput;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig: ResamplingConfigInput;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig: TemporalStatisticsConfigInput;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig: CloudRemovalConfigInput;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig: ZonalStatisticsConfigInput;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig: GeoMosaicConfigInput;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig: StackConfigInput;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig: CloudMaskingConfigInput;
+      LandCoverSegmentationConfig?: never;
+    }
+  | {
+      BandMathConfig?: never;
+      ResamplingConfig?: never;
+      TemporalStatisticsConfig?: never;
+      CloudRemovalConfig?: never;
+      ZonalStatisticsConfig?: never;
+      GeoMosaicConfig?: never;
+      StackConfig?: never;
+      CloudMaskingConfig?: never;
+      LandCoverSegmentationConfig: LandCoverSegmentationConfigInput;
+    };
 export const JobConfigInput = S.Union(
   S.Struct({ BandMathConfig: BandMathConfigInput }),
   S.Struct({ ResamplingConfig: ResamplingConfigInput }),

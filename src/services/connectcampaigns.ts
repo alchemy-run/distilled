@@ -478,9 +478,21 @@ export const AgentlessDialerConfig = S.suspend(() =>
   identifier: "AgentlessDialerConfig",
 }) as any as S.Schema<AgentlessDialerConfig>;
 export type DialerConfig =
-  | { progressiveDialerConfig: ProgressiveDialerConfig }
-  | { predictiveDialerConfig: PredictiveDialerConfig }
-  | { agentlessDialerConfig: AgentlessDialerConfig };
+  | {
+      progressiveDialerConfig: ProgressiveDialerConfig;
+      predictiveDialerConfig?: never;
+      agentlessDialerConfig?: never;
+    }
+  | {
+      progressiveDialerConfig?: never;
+      predictiveDialerConfig: PredictiveDialerConfig;
+      agentlessDialerConfig?: never;
+    }
+  | {
+      progressiveDialerConfig?: never;
+      predictiveDialerConfig?: never;
+      agentlessDialerConfig: AgentlessDialerConfig;
+    };
 export const DialerConfig = S.Union(
   S.Struct({ progressiveDialerConfig: ProgressiveDialerConfig }),
   S.Struct({ predictiveDialerConfig: PredictiveDialerConfig }),

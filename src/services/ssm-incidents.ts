@@ -475,16 +475,16 @@ export const StringList = S.Array(S.String);
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export type AttributeValueList =
-  | { stringValues: string[] }
-  | { integerValues: number[] };
+  | { stringValues: string[]; integerValues?: never }
+  | { stringValues?: never; integerValues: number[] };
 export const AttributeValueList = S.Union(
   S.Struct({ stringValues: StringList }),
   S.Struct({ integerValues: IntegerList }),
 );
 export type Condition =
-  | { before: Date }
-  | { after: Date }
-  | { equals: AttributeValueList };
+  | { before: Date; after?: never; equals?: never }
+  | { before?: never; after: Date; equals?: never }
+  | { before?: never; after?: never; equals: AttributeValueList };
 export const Condition = S.Union(
   S.Struct({ before: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ after: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
@@ -627,7 +627,9 @@ export const UpdateDeletionProtectionOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDeletionProtectionOutput",
 }) as any as S.Schema<UpdateDeletionProtectionOutput>;
-export type EventReference = { resource: string } | { relatedItemId: string };
+export type EventReference =
+  | { resource: string; relatedItemId?: never }
+  | { resource?: never; relatedItemId: string };
 export const EventReference = S.Union(
   S.Struct({ resource: S.String }),
   S.Struct({ relatedItemId: S.String }),
@@ -704,8 +706,8 @@ export const IncidentTemplate = S.suspend(() =>
   identifier: "IncidentTemplate",
 }) as any as S.Schema<IncidentTemplate>;
 export type ChatChannel =
-  | { empty: EmptyChatChannel }
-  | { chatbotSns: string[] };
+  | { empty: EmptyChatChannel; chatbotSns?: never }
+  | { empty?: never; chatbotSns: string[] };
 export const ChatChannel = S.Union(
   S.Struct({ empty: EmptyChatChannel }),
   S.Struct({ chatbotSns: ChatbotSnsConfigurationSet }),
@@ -743,10 +745,30 @@ export const PagerDutyIncidentDetail = S.suspend(() =>
   identifier: "PagerDutyIncidentDetail",
 }) as any as S.Schema<PagerDutyIncidentDetail>;
 export type ItemValue =
-  | { arn: string }
-  | { url: string }
-  | { metricDefinition: string }
-  | { pagerDutyIncidentDetail: PagerDutyIncidentDetail };
+  | {
+      arn: string;
+      url?: never;
+      metricDefinition?: never;
+      pagerDutyIncidentDetail?: never;
+    }
+  | {
+      arn?: never;
+      url: string;
+      metricDefinition?: never;
+      pagerDutyIncidentDetail?: never;
+    }
+  | {
+      arn?: never;
+      url?: never;
+      metricDefinition: string;
+      pagerDutyIncidentDetail?: never;
+    }
+  | {
+      arn?: never;
+      url?: never;
+      metricDefinition?: never;
+      pagerDutyIncidentDetail: PagerDutyIncidentDetail;
+    };
 export const ItemValue = S.Union(
   S.Struct({ arn: S.String }),
   S.Struct({ url: S.String }),
@@ -775,8 +797,8 @@ export const RelatedItem = S.suspend(() =>
   }),
 ).annotations({ identifier: "RelatedItem" }) as any as S.Schema<RelatedItem>;
 export type RelatedItemsUpdate =
-  | { itemToAdd: RelatedItem }
-  | { itemToRemove: ItemIdentifier };
+  | { itemToAdd: RelatedItem; itemToRemove?: never }
+  | { itemToAdd?: never; itemToRemove: ItemIdentifier };
 export const RelatedItemsUpdate = S.Union(
   S.Struct({ itemToAdd: RelatedItem }),
   S.Struct({ itemToRemove: ItemIdentifier }),
@@ -1193,8 +1215,8 @@ export const EventSummary = S.suspend(() =>
 export type EventSummaryList = EventSummary[];
 export const EventSummaryList = S.Array(EventSummary);
 export type UpdateReplicationSetAction =
-  | { addRegionAction: AddRegionAction }
-  | { deleteRegionAction: DeleteRegionAction };
+  | { addRegionAction: AddRegionAction; deleteRegionAction?: never }
+  | { addRegionAction?: never; deleteRegionAction: DeleteRegionAction };
 export const UpdateReplicationSetAction = S.Union(
   S.Struct({ addRegionAction: AddRegionAction }),
   S.Struct({ deleteRegionAction: DeleteRegionAction }),
@@ -1457,8 +1479,14 @@ export const ListIncidentRecordsInput = S.suspend(() =>
   identifier: "ListIncidentRecordsInput",
 }) as any as S.Schema<ListIncidentRecordsInput>;
 export type FindingDetails =
-  | { codeDeployDeployment: CodeDeployDeployment }
-  | { cloudFormationStackUpdate: CloudFormationStackUpdate };
+  | {
+      codeDeployDeployment: CodeDeployDeployment;
+      cloudFormationStackUpdate?: never;
+    }
+  | {
+      codeDeployDeployment?: never;
+      cloudFormationStackUpdate: CloudFormationStackUpdate;
+    };
 export const FindingDetails = S.Union(
   S.Struct({ codeDeployDeployment: CodeDeployDeployment }),
   S.Struct({ cloudFormationStackUpdate: CloudFormationStackUpdate }),

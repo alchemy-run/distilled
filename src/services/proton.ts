@@ -1791,10 +1791,30 @@ export const ComponentState = S.suspend(() =>
   identifier: "ComponentState",
 }) as any as S.Schema<ComponentState>;
 export type DeploymentState =
-  | { serviceInstance: ServiceInstanceState }
-  | { environment: EnvironmentState }
-  | { servicePipeline: ServicePipelineState }
-  | { component: ComponentState };
+  | {
+      serviceInstance: ServiceInstanceState;
+      environment?: never;
+      servicePipeline?: never;
+      component?: never;
+    }
+  | {
+      serviceInstance?: never;
+      environment: EnvironmentState;
+      servicePipeline?: never;
+      component?: never;
+    }
+  | {
+      serviceInstance?: never;
+      environment?: never;
+      servicePipeline: ServicePipelineState;
+      component?: never;
+    }
+  | {
+      serviceInstance?: never;
+      environment?: never;
+      servicePipeline?: never;
+      component: ComponentState;
+    };
 export const DeploymentState = S.Union(
   S.Struct({ serviceInstance: ServiceInstanceState }),
   S.Struct({ environment: EnvironmentState }),

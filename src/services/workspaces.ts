@@ -2408,9 +2408,21 @@ export const IosImportClientBrandingAttributes = S.suspend(() =>
   identifier: "IosImportClientBrandingAttributes",
 }) as any as S.Schema<IosImportClientBrandingAttributes>;
 export type ImageSourceIdentifier =
-  | { Ec2ImportTaskId: string }
-  | { ImageBuildVersionArn: string }
-  | { Ec2ImageId: string };
+  | {
+      Ec2ImportTaskId: string;
+      ImageBuildVersionArn?: never;
+      Ec2ImageId?: never;
+    }
+  | {
+      Ec2ImportTaskId?: never;
+      ImageBuildVersionArn: string;
+      Ec2ImageId?: never;
+    }
+  | {
+      Ec2ImportTaskId?: never;
+      ImageBuildVersionArn?: never;
+      Ec2ImageId: string;
+    };
 export const ImageSourceIdentifier = S.Union(
   S.Struct({ Ec2ImportTaskId: S.String }),
   S.Struct({ ImageBuildVersionArn: S.String }),

@@ -1631,9 +1631,9 @@ export const RegisterConnectorV2Request = S.suspend(() =>
   identifier: "RegisterConnectorV2Request",
 }) as any as S.Schema<RegisterConnectorV2Request>;
 export type Target =
-  | { AccountId: string }
-  | { OrganizationalUnitId: string }
-  | { RootId: string };
+  | { AccountId: string; OrganizationalUnitId?: never; RootId?: never }
+  | { AccountId?: never; OrganizationalUnitId: string; RootId?: never }
+  | { AccountId?: never; OrganizationalUnitId?: never; RootId: string };
 export const Target = S.Union(
   S.Struct({ AccountId: S.String }),
   S.Struct({ OrganizationalUnitId: S.String }),
@@ -1917,14 +1917,86 @@ export const ParameterValueType = S.Literal("DEFAULT", "CUSTOM");
 export type IntegerList = number[];
 export const IntegerList = S.Array(S.Number);
 export type ParameterValue =
-  | { Integer: number }
-  | { IntegerList: number[] }
-  | { Double: number }
-  | { String: string }
-  | { StringList: string[] }
-  | { Boolean: boolean }
-  | { Enum: string }
-  | { EnumList: string[] };
+  | {
+      Integer: number;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList: number[];
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double: number;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String: string;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList: string[];
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean: boolean;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum: string;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList: string[];
+    };
 export const ParameterValue = S.Union(
   S.Struct({ Integer: S.Number }),
   S.Struct({ IntegerList: IntegerList }),
@@ -3142,14 +3214,86 @@ export const EnumListConfigurationOptions = S.suspend(() =>
   identifier: "EnumListConfigurationOptions",
 }) as any as S.Schema<EnumListConfigurationOptions>;
 export type ConfigurationOptions =
-  | { Integer: IntegerConfigurationOptions }
-  | { IntegerList: IntegerListConfigurationOptions }
-  | { Double: DoubleConfigurationOptions }
-  | { String: StringConfigurationOptions }
-  | { StringList: StringListConfigurationOptions }
-  | { Boolean: BooleanConfigurationOptions }
-  | { Enum: EnumConfigurationOptions }
-  | { EnumList: EnumListConfigurationOptions };
+  | {
+      Integer: IntegerConfigurationOptions;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList: IntegerListConfigurationOptions;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double: DoubleConfigurationOptions;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String: StringConfigurationOptions;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList: StringListConfigurationOptions;
+      Boolean?: never;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean: BooleanConfigurationOptions;
+      Enum?: never;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum: EnumConfigurationOptions;
+      EnumList?: never;
+    }
+  | {
+      Integer?: never;
+      IntegerList?: never;
+      Double?: never;
+      String?: never;
+      StringList?: never;
+      Boolean?: never;
+      Enum?: never;
+      EnumList: EnumListConfigurationOptions;
+    };
 export const ConfigurationOptions = S.Union(
   S.Struct({ Integer: IntegerConfigurationOptions }),
   S.Struct({ IntegerList: IntegerListConfigurationOptions }),
@@ -4731,8 +4875,8 @@ export const UnprocessedSecurityControl = S.suspend(() =>
 export type UnprocessedSecurityControls = UnprocessedSecurityControl[];
 export const UnprocessedSecurityControls = S.Array(UnprocessedSecurityControl);
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration }
-  | { ServiceNow: ServiceNowProviderConfiguration };
+  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: never }
+  | { JiraCloud?: never; ServiceNow: ServiceNowProviderConfiguration };
 export const ProviderConfiguration = S.Union(
   S.Struct({ JiraCloud: JiraCloudProviderConfiguration }),
   S.Struct({ ServiceNow: ServiceNowProviderConfiguration }),
@@ -16208,8 +16352,8 @@ export const StandardsControlAssociationSummaries = S.Array(
   StandardsControlAssociationSummary,
 );
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration }
-  | { ServiceNow: ServiceNowUpdateConfiguration };
+  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: never }
+  | { JiraCloud?: never; ServiceNow: ServiceNowUpdateConfiguration };
 export const ProviderUpdateConfiguration = S.Union(
   S.Struct({ JiraCloud: JiraCloudUpdateConfiguration }),
   S.Struct({ ServiceNow: ServiceNowUpdateConfiguration }),
@@ -17305,8 +17449,8 @@ export const Standard = S.suspend(() =>
 export type Standards = Standard[];
 export const Standards = S.Array(Standard);
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail }
-  | { ServiceNow: ServiceNowDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: never }
+  | { JiraCloud?: never; ServiceNow: ServiceNowDetail };
 export const ProviderDetail = S.Union(
   S.Struct({ JiraCloud: JiraCloudDetail }),
   S.Struct({ ServiceNow: ServiceNowDetail }),

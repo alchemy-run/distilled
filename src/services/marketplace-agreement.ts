@@ -607,18 +607,174 @@ export const ConfigurableUpfrontPricingTerm = S.suspend(() =>
   identifier: "ConfigurableUpfrontPricingTerm",
 }) as any as S.Schema<ConfigurableUpfrontPricingTerm>;
 export type AcceptedTerm =
-  | { legalTerm: LegalTerm }
-  | { supportTerm: SupportTerm }
-  | { renewalTerm: RenewalTerm }
-  | { usageBasedPricingTerm: UsageBasedPricingTerm }
-  | { configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm }
-  | { byolPricingTerm: ByolPricingTerm }
-  | { recurringPaymentTerm: RecurringPaymentTerm }
-  | { validityTerm: ValidityTerm }
-  | { paymentScheduleTerm: PaymentScheduleTerm }
-  | { freeTrialPricingTerm: FreeTrialPricingTerm }
-  | { fixedUpfrontPricingTerm: FixedUpfrontPricingTerm }
-  | { variablePaymentTerm: VariablePaymentTerm };
+  | {
+      legalTerm: LegalTerm;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm: SupportTerm;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm: RenewalTerm;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm: UsageBasedPricingTerm;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm: ByolPricingTerm;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm: RecurringPaymentTerm;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm: ValidityTerm;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm: PaymentScheduleTerm;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm: FreeTrialPricingTerm;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm: FixedUpfrontPricingTerm;
+      variablePaymentTerm?: never;
+    }
+  | {
+      legalTerm?: never;
+      supportTerm?: never;
+      renewalTerm?: never;
+      usageBasedPricingTerm?: never;
+      configurableUpfrontPricingTerm?: never;
+      byolPricingTerm?: never;
+      recurringPaymentTerm?: never;
+      validityTerm?: never;
+      paymentScheduleTerm?: never;
+      freeTrialPricingTerm?: never;
+      fixedUpfrontPricingTerm?: never;
+      variablePaymentTerm: VariablePaymentTerm;
+    };
 export const AcceptedTerm = S.Union(
   S.Struct({ legalTerm: LegalTerm }),
   S.Struct({ supportTerm: SupportTerm }),

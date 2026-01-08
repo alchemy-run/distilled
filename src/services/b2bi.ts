@@ -1569,9 +1569,21 @@ export const X12ElementRequirementValidationRule = S.suspend(() =>
   identifier: "X12ElementRequirementValidationRule",
 }) as any as S.Schema<X12ElementRequirementValidationRule>;
 export type X12ValidationRule =
-  | { codeListValidationRule: X12CodeListValidationRule }
-  | { elementLengthValidationRule: X12ElementLengthValidationRule }
-  | { elementRequirementValidationRule: X12ElementRequirementValidationRule };
+  | {
+      codeListValidationRule: X12CodeListValidationRule;
+      elementLengthValidationRule?: never;
+      elementRequirementValidationRule?: never;
+    }
+  | {
+      codeListValidationRule?: never;
+      elementLengthValidationRule: X12ElementLengthValidationRule;
+      elementRequirementValidationRule?: never;
+    }
+  | {
+      codeListValidationRule?: never;
+      elementLengthValidationRule?: never;
+      elementRequirementValidationRule: X12ElementRequirementValidationRule;
+    };
 export const X12ValidationRule = S.Union(
   S.Struct({ codeListValidationRule: X12CodeListValidationRule }),
   S.Struct({ elementLengthValidationRule: X12ElementLengthValidationRule }),

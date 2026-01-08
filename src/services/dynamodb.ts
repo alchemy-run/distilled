@@ -911,16 +911,126 @@ export const NumberSetAttributeValue = S.Array(S.String);
 export type BinarySetAttributeValue = Uint8Array[];
 export const BinarySetAttributeValue = S.Array(T.Blob);
 export type AttributeValue =
-  | { S: string }
-  | { N: string }
-  | { B: Uint8Array }
-  | { SS: string[] }
-  | { NS: string[] }
-  | { BS: Uint8Array[] }
-  | { M: { [key: string]: AttributeValue } }
-  | { L: AttributeValue[] }
-  | { NULL: boolean }
-  | { BOOL: boolean };
+  | {
+      S: string;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N: string;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B: Uint8Array;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS: string[];
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS: string[];
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS: Uint8Array[];
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M: { [key: string]: AttributeValue };
+      L?: never;
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L: AttributeValue[];
+      NULL?: never;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL: boolean;
+      BOOL?: never;
+    }
+  | {
+      S?: never;
+      N?: never;
+      B?: never;
+      SS?: never;
+      NS?: never;
+      BS?: never;
+      M?: never;
+      L?: never;
+      NULL?: never;
+      BOOL: boolean;
+    };
 export const AttributeValue = S.Union(
   S.Struct({ S: S.String }),
   S.Struct({ N: S.String }),

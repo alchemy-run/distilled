@@ -774,10 +774,30 @@ export const CardOutputSource = S.Literal("approved-sources", "llm");
 export type DocumentAttributeStringListValue = string[];
 export const DocumentAttributeStringListValue = S.Array(S.String);
 export type DocumentAttributeValue =
-  | { stringValue: string }
-  | { stringListValue: string[] }
-  | { longValue: number }
-  | { dateValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue: string[];
+      longValue?: never;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue: number;
+      dateValue?: never;
+    }
+  | {
+      stringValue?: never;
+      stringListValue?: never;
+      longValue?: never;
+      dateValue: Date;
+    };
 export const DocumentAttributeValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ stringListValue: DocumentAttributeStringListValue }),
@@ -922,11 +942,41 @@ export const FormInputCardInput = S.suspend(() =>
   identifier: "FormInputCardInput",
 }) as any as S.Schema<FormInputCardInput>;
 export type CardInput =
-  | { textInput: TextInputCardInput }
-  | { qQuery: QQueryCardInput }
-  | { qPlugin: QPluginCardInput }
-  | { fileUpload: FileUploadCardInput }
-  | { formInput: FormInputCardInput };
+  | {
+      textInput: TextInputCardInput;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery: QQueryCardInput;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin: QPluginCardInput;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload: FileUploadCardInput;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput: FormInputCardInput;
+    };
 export const CardInput = S.Union(
   S.Struct({ textInput: TextInputCardInput }),
   S.Struct({ qQuery: QQueryCardInput }),
@@ -1482,8 +1532,8 @@ export const UserAppItem = S.suspend(() =>
 export type UserAppsList = UserAppItem[];
 export const UserAppsList = S.Array(UserAppItem);
 export type PredictQAppInputOptions =
-  | { conversation: ConversationMessage[] }
-  | { problemStatement: string };
+  | { conversation: ConversationMessage[]; problemStatement?: never }
+  | { conversation?: never; problemStatement: string };
 export const PredictQAppInputOptions = S.Union(
   S.Struct({ conversation: MessageList }),
   S.Struct({ problemStatement: S.String }),
@@ -1897,11 +1947,41 @@ export const StartQAppSessionOutput = S.suspend(() =>
   identifier: "StartQAppSessionOutput",
 }) as any as S.Schema<StartQAppSessionOutput>;
 export type Card =
-  | { textInput: TextInputCard }
-  | { qQuery: QQueryCard }
-  | { qPlugin: QPluginCard }
-  | { fileUpload: FileUploadCard }
-  | { formInput: FormInputCard };
+  | {
+      textInput: TextInputCard;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery: QQueryCard;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin: QPluginCard;
+      fileUpload?: never;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload: FileUploadCard;
+      formInput?: never;
+    }
+  | {
+      textInput?: never;
+      qQuery?: never;
+      qPlugin?: never;
+      fileUpload?: never;
+      formInput: FormInputCard;
+    };
 export const Card = S.Union(
   S.Struct({ textInput: TextInputCard }),
   S.Struct({ qQuery: QQueryCard }),

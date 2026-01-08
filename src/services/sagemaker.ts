@@ -4716,9 +4716,21 @@ export const S3FileSystemConfig = S.suspend(() =>
   identifier: "S3FileSystemConfig",
 }) as any as S.Schema<S3FileSystemConfig>;
 export type CustomFileSystemConfig =
-  | { EFSFileSystemConfig: EFSFileSystemConfig }
-  | { FSxLustreFileSystemConfig: FSxLustreFileSystemConfig }
-  | { S3FileSystemConfig: S3FileSystemConfig };
+  | {
+      EFSFileSystemConfig: EFSFileSystemConfig;
+      FSxLustreFileSystemConfig?: never;
+      S3FileSystemConfig?: never;
+    }
+  | {
+      EFSFileSystemConfig?: never;
+      FSxLustreFileSystemConfig: FSxLustreFileSystemConfig;
+      S3FileSystemConfig?: never;
+    }
+  | {
+      EFSFileSystemConfig?: never;
+      FSxLustreFileSystemConfig?: never;
+      S3FileSystemConfig: S3FileSystemConfig;
+    };
 export const CustomFileSystemConfig = S.Union(
   S.Struct({ EFSFileSystemConfig: EFSFileSystemConfig }),
   S.Struct({ FSxLustreFileSystemConfig: FSxLustreFileSystemConfig }),
@@ -14954,9 +14966,21 @@ export const S3FileSystem = S.suspend(() =>
   S.Struct({ S3Uri: S.optional(S.String) }),
 ).annotations({ identifier: "S3FileSystem" }) as any as S.Schema<S3FileSystem>;
 export type CustomFileSystem =
-  | { EFSFileSystem: EFSFileSystem }
-  | { FSxLustreFileSystem: FSxLustreFileSystem }
-  | { S3FileSystem: S3FileSystem };
+  | {
+      EFSFileSystem: EFSFileSystem;
+      FSxLustreFileSystem?: never;
+      S3FileSystem?: never;
+    }
+  | {
+      EFSFileSystem?: never;
+      FSxLustreFileSystem: FSxLustreFileSystem;
+      S3FileSystem?: never;
+    }
+  | {
+      EFSFileSystem?: never;
+      FSxLustreFileSystem?: never;
+      S3FileSystem: S3FileSystem;
+    };
 export const CustomFileSystem = S.Union(
   S.Struct({ EFSFileSystem: EFSFileSystem }),
   S.Struct({ FSxLustreFileSystem: FSxLustreFileSystem }),
@@ -15064,8 +15088,8 @@ export const TrialComponentStatus = S.suspend(() =>
   identifier: "TrialComponentStatus",
 }) as any as S.Schema<TrialComponentStatus>;
 export type TrialComponentParameterValue =
-  | { StringValue: string }
-  | { NumberValue: number };
+  | { StringValue: string; NumberValue?: never }
+  | { StringValue?: never; NumberValue: number };
 export const TrialComponentParameterValue = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ NumberValue: S.Number }),
@@ -27082,10 +27106,30 @@ export const ModelSpeculativeDecodingConfig = S.suspend(() =>
   identifier: "ModelSpeculativeDecodingConfig",
 }) as any as S.Schema<ModelSpeculativeDecodingConfig>;
 export type OptimizationConfig =
-  | { ModelQuantizationConfig: ModelQuantizationConfig }
-  | { ModelCompilationConfig: ModelCompilationConfig }
-  | { ModelShardingConfig: ModelShardingConfig }
-  | { ModelSpeculativeDecodingConfig: ModelSpeculativeDecodingConfig };
+  | {
+      ModelQuantizationConfig: ModelQuantizationConfig;
+      ModelCompilationConfig?: never;
+      ModelShardingConfig?: never;
+      ModelSpeculativeDecodingConfig?: never;
+    }
+  | {
+      ModelQuantizationConfig?: never;
+      ModelCompilationConfig: ModelCompilationConfig;
+      ModelShardingConfig?: never;
+      ModelSpeculativeDecodingConfig?: never;
+    }
+  | {
+      ModelQuantizationConfig?: never;
+      ModelCompilationConfig?: never;
+      ModelShardingConfig: ModelShardingConfig;
+      ModelSpeculativeDecodingConfig?: never;
+    }
+  | {
+      ModelQuantizationConfig?: never;
+      ModelCompilationConfig?: never;
+      ModelShardingConfig?: never;
+      ModelSpeculativeDecodingConfig: ModelSpeculativeDecodingConfig;
+    };
 export const OptimizationConfig = S.Union(
   S.Struct({ ModelQuantizationConfig: ModelQuantizationConfig }),
   S.Struct({ ModelCompilationConfig: ModelCompilationConfig }),
@@ -32874,8 +32918,14 @@ export const EndpointInputConfiguration = S.suspend(() =>
 export type EndpointInputConfigurations = EndpointInputConfiguration[];
 export const EndpointInputConfigurations = S.Array(EndpointInputConfiguration);
 export type AutoMLProblemTypeResolvedAttributes =
-  | { TabularResolvedAttributes: TabularResolvedAttributes }
-  | { TextGenerationResolvedAttributes: TextGenerationResolvedAttributes };
+  | {
+      TabularResolvedAttributes: TabularResolvedAttributes;
+      TextGenerationResolvedAttributes?: never;
+    }
+  | {
+      TabularResolvedAttributes?: never;
+      TextGenerationResolvedAttributes: TextGenerationResolvedAttributes;
+    };
 export const AutoMLProblemTypeResolvedAttributes = S.Union(
   S.Struct({ TabularResolvedAttributes: TabularResolvedAttributes }),
   S.Struct({
@@ -33831,11 +33881,41 @@ export const TimeSeriesForecastingJobConfig = S.suspend(() =>
   identifier: "TimeSeriesForecastingJobConfig",
 }) as any as S.Schema<TimeSeriesForecastingJobConfig>;
 export type AutoMLProblemTypeConfig =
-  | { ImageClassificationJobConfig: ImageClassificationJobConfig }
-  | { TextClassificationJobConfig: TextClassificationJobConfig }
-  | { TimeSeriesForecastingJobConfig: TimeSeriesForecastingJobConfig }
-  | { TabularJobConfig: TabularJobConfig }
-  | { TextGenerationJobConfig: TextGenerationJobConfig };
+  | {
+      ImageClassificationJobConfig: ImageClassificationJobConfig;
+      TextClassificationJobConfig?: never;
+      TimeSeriesForecastingJobConfig?: never;
+      TabularJobConfig?: never;
+      TextGenerationJobConfig?: never;
+    }
+  | {
+      ImageClassificationJobConfig?: never;
+      TextClassificationJobConfig: TextClassificationJobConfig;
+      TimeSeriesForecastingJobConfig?: never;
+      TabularJobConfig?: never;
+      TextGenerationJobConfig?: never;
+    }
+  | {
+      ImageClassificationJobConfig?: never;
+      TextClassificationJobConfig?: never;
+      TimeSeriesForecastingJobConfig: TimeSeriesForecastingJobConfig;
+      TabularJobConfig?: never;
+      TextGenerationJobConfig?: never;
+    }
+  | {
+      ImageClassificationJobConfig?: never;
+      TextClassificationJobConfig?: never;
+      TimeSeriesForecastingJobConfig?: never;
+      TabularJobConfig: TabularJobConfig;
+      TextGenerationJobConfig?: never;
+    }
+  | {
+      ImageClassificationJobConfig?: never;
+      TextClassificationJobConfig?: never;
+      TimeSeriesForecastingJobConfig?: never;
+      TabularJobConfig?: never;
+      TextGenerationJobConfig: TextGenerationJobConfig;
+    };
 export const AutoMLProblemTypeConfig = S.Union(
   S.Struct({ ImageClassificationJobConfig: ImageClassificationJobConfig }),
   S.Struct({ TextClassificationJobConfig: TextClassificationJobConfig }),
@@ -34977,10 +35057,30 @@ export const PipelineExecutionStep = S.suspend(() =>
 export type PipelineExecutionStepList = PipelineExecutionStep[];
 export const PipelineExecutionStepList = S.Array(PipelineExecutionStep);
 export type EventMetadata =
-  | { Cluster: ClusterMetadata }
-  | { InstanceGroup: InstanceGroupMetadata }
-  | { InstanceGroupScaling: InstanceGroupScalingMetadata }
-  | { Instance: InstanceMetadata };
+  | {
+      Cluster: ClusterMetadata;
+      InstanceGroup?: never;
+      InstanceGroupScaling?: never;
+      Instance?: never;
+    }
+  | {
+      Cluster?: never;
+      InstanceGroup: InstanceGroupMetadata;
+      InstanceGroupScaling?: never;
+      Instance?: never;
+    }
+  | {
+      Cluster?: never;
+      InstanceGroup?: never;
+      InstanceGroupScaling: InstanceGroupScalingMetadata;
+      Instance?: never;
+    }
+  | {
+      Cluster?: never;
+      InstanceGroup?: never;
+      InstanceGroupScaling?: never;
+      Instance: InstanceMetadata;
+    };
 export const EventMetadata = S.Union(
   S.Struct({ Cluster: ClusterMetadata }),
   S.Struct({ InstanceGroup: InstanceGroupMetadata }),
@@ -35486,8 +35586,8 @@ export const ModelDashboardModel = S.suspend(() =>
   identifier: "ModelDashboardModel",
 }) as any as S.Schema<ModelDashboardModel>;
 export type MetricSpecification =
-  | { Predefined: PredefinedMetricSpecification }
-  | { Customized: CustomizedMetricSpecification };
+  | { Predefined: PredefinedMetricSpecification; Customized?: never }
+  | { Predefined?: never; Customized: CustomizedMetricSpecification };
 export const MetricSpecification = S.Union(
   S.Struct({ Predefined: PredefinedMetricSpecification }),
   S.Struct({ Customized: CustomizedMetricSpecification }),

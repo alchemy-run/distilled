@@ -295,11 +295,41 @@ export const AttributeKey = S.suspend(() =>
   S.Struct({ SchemaArn: S.String, FacetName: S.String, Name: S.String }),
 ).annotations({ identifier: "AttributeKey" }) as any as S.Schema<AttributeKey>;
 export type TypedAttributeValue =
-  | { StringValue: string }
-  | { BinaryValue: Uint8Array }
-  | { BooleanValue: boolean }
-  | { NumberValue: string }
-  | { DatetimeValue: Date };
+  | {
+      StringValue: string;
+      BinaryValue?: never;
+      BooleanValue?: never;
+      NumberValue?: never;
+      DatetimeValue?: never;
+    }
+  | {
+      StringValue?: never;
+      BinaryValue: Uint8Array;
+      BooleanValue?: never;
+      NumberValue?: never;
+      DatetimeValue?: never;
+    }
+  | {
+      StringValue?: never;
+      BinaryValue?: never;
+      BooleanValue: boolean;
+      NumberValue?: never;
+      DatetimeValue?: never;
+    }
+  | {
+      StringValue?: never;
+      BinaryValue?: never;
+      BooleanValue?: never;
+      NumberValue: string;
+      DatetimeValue?: never;
+    }
+  | {
+      StringValue?: never;
+      BinaryValue?: never;
+      BooleanValue?: never;
+      NumberValue?: never;
+      DatetimeValue: Date;
+    };
 export const TypedAttributeValue = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ BinaryValue: T.Blob }),

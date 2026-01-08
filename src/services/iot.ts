@@ -6124,10 +6124,30 @@ export const IotEventsAction = S.suspend(() =>
   identifier: "IotEventsAction",
 }) as any as S.Schema<IotEventsAction>;
 export type AssetPropertyVariant =
-  | { stringValue: string }
-  | { integerValue: string }
-  | { doubleValue: string }
-  | { booleanValue: string };
+  | {
+      stringValue: string;
+      integerValue?: never;
+      doubleValue?: never;
+      booleanValue?: never;
+    }
+  | {
+      stringValue?: never;
+      integerValue: string;
+      doubleValue?: never;
+      booleanValue?: never;
+    }
+  | {
+      stringValue?: never;
+      integerValue?: never;
+      doubleValue: string;
+      booleanValue?: never;
+    }
+  | {
+      stringValue?: never;
+      integerValue?: never;
+      doubleValue?: never;
+      booleanValue: string;
+    };
 export const AssetPropertyVariant = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ integerValue: S.String }),

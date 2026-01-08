@@ -1367,10 +1367,30 @@ export const SentimentFilter = S.suspend(() =>
   identifier: "SentimentFilter",
 }) as any as S.Schema<SentimentFilter>;
 export type Rule =
-  | { NonTalkTimeFilter: NonTalkTimeFilter }
-  | { InterruptionFilter: InterruptionFilter }
-  | { TranscriptFilter: TranscriptFilter }
-  | { SentimentFilter: SentimentFilter };
+  | {
+      NonTalkTimeFilter: NonTalkTimeFilter;
+      InterruptionFilter?: never;
+      TranscriptFilter?: never;
+      SentimentFilter?: never;
+    }
+  | {
+      NonTalkTimeFilter?: never;
+      InterruptionFilter: InterruptionFilter;
+      TranscriptFilter?: never;
+      SentimentFilter?: never;
+    }
+  | {
+      NonTalkTimeFilter?: never;
+      InterruptionFilter?: never;
+      TranscriptFilter: TranscriptFilter;
+      SentimentFilter?: never;
+    }
+  | {
+      NonTalkTimeFilter?: never;
+      InterruptionFilter?: never;
+      TranscriptFilter?: never;
+      SentimentFilter: SentimentFilter;
+    };
 export const Rule = S.Union(
   S.Struct({ NonTalkTimeFilter: NonTalkTimeFilter }),
   S.Struct({ InterruptionFilter: InterruptionFilter }),

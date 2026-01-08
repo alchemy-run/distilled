@@ -1447,8 +1447,8 @@ export const DocumentDbUngraceful = S.suspend(() =>
   identifier: "DocumentDbUngraceful",
 }) as any as S.Schema<DocumentDbUngraceful>;
 export type ReportOutput =
-  | { s3ReportOutput: S3ReportOutput }
-  | { failedReportOutput: FailedReportOutput };
+  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: never }
+  | { s3ReportOutput?: never; failedReportOutput: FailedReportOutput };
 export const ReportOutput = S.Union(
   S.Struct({ s3ReportOutput: S3ReportOutput }),
   S.Struct({ failedReportOutput: FailedReportOutput }),
@@ -1720,17 +1720,149 @@ export const EksResourceScalingConfiguration = S.suspend(() =>
   identifier: "EksResourceScalingConfiguration",
 }) as any as S.Schema<EksResourceScalingConfiguration>;
 export type ExecutionBlockConfiguration =
-  | { customActionLambdaConfig: CustomActionLambdaConfiguration }
-  | { ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration }
-  | { executionApprovalConfig: ExecutionApprovalConfiguration }
-  | { arcRoutingControlConfig: ArcRoutingControlConfiguration }
-  | { globalAuroraConfig: GlobalAuroraConfiguration }
-  | { parallelConfig: ParallelExecutionBlockConfiguration }
-  | { regionSwitchPlanConfig: RegionSwitchPlanConfiguration }
-  | { ecsCapacityIncreaseConfig: EcsCapacityIncreaseConfiguration }
-  | { eksResourceScalingConfig: EksResourceScalingConfiguration }
-  | { route53HealthCheckConfig: Route53HealthCheckConfiguration }
-  | { documentDbConfig: DocumentDbConfiguration };
+  | {
+      customActionLambdaConfig: CustomActionLambdaConfiguration;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig: ExecutionApprovalConfiguration;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig: ArcRoutingControlConfiguration;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig: GlobalAuroraConfiguration;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig: ParallelExecutionBlockConfiguration;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig: RegionSwitchPlanConfiguration;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig: EcsCapacityIncreaseConfiguration;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig: EksResourceScalingConfiguration;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig: Route53HealthCheckConfiguration;
+      documentDbConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig: DocumentDbConfiguration;
+    };
 export const ExecutionBlockConfiguration = S.Union(
   S.Struct({ customActionLambdaConfig: CustomActionLambdaConfiguration }),
   S.Struct({

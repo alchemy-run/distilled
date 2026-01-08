@@ -6614,9 +6614,9 @@ export const AnalyticsAndOperator = S.suspend(() =>
   identifier: "AnalyticsAndOperator",
 }) as any as S.Schema<AnalyticsAndOperator>;
 export type AnalyticsFilter =
-  | { Prefix: string }
-  | { Tag: Tag }
-  | { And: AnalyticsAndOperator };
+  | { Prefix: string; Tag?: never; And?: never }
+  | { Prefix?: never; Tag: Tag; And?: never }
+  | { Prefix?: never; Tag?: never; And: AnalyticsAndOperator };
 export const AnalyticsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
@@ -6860,10 +6860,15 @@ export const MetricsAndOperator = S.suspend(() =>
   identifier: "MetricsAndOperator",
 }) as any as S.Schema<MetricsAndOperator>;
 export type MetricsFilter =
-  | { Prefix: string }
-  | { Tag: Tag }
-  | { AccessPointArn: string }
-  | { And: MetricsAndOperator };
+  | { Prefix: string; Tag?: never; AccessPointArn?: never; And?: never }
+  | { Prefix?: never; Tag: Tag; AccessPointArn?: never; And?: never }
+  | { Prefix?: never; Tag?: never; AccessPointArn: string; And?: never }
+  | {
+      Prefix?: never;
+      Tag?: never;
+      AccessPointArn?: never;
+      And: MetricsAndOperator;
+    };
 export const MetricsFilter = S.Union(
   S.Struct({ Prefix: S.String }),
   S.Struct({ Tag: Tag }),
@@ -11839,11 +11844,41 @@ export const ProgressEvent = S.suspend(() =>
   identifier: "ProgressEvent",
 }) as any as S.Schema<ProgressEvent>;
 export type SelectObjectContentEventStream =
-  | { Records: RecordsEvent }
-  | { Stats: StatsEvent }
-  | { Progress: ProgressEvent }
-  | { Cont: ContinuationEvent }
-  | { End: EndEvent };
+  | {
+      Records: RecordsEvent;
+      Stats?: never;
+      Progress?: never;
+      Cont?: never;
+      End?: never;
+    }
+  | {
+      Records?: never;
+      Stats: StatsEvent;
+      Progress?: never;
+      Cont?: never;
+      End?: never;
+    }
+  | {
+      Records?: never;
+      Stats?: never;
+      Progress: ProgressEvent;
+      Cont?: never;
+      End?: never;
+    }
+  | {
+      Records?: never;
+      Stats?: never;
+      Progress?: never;
+      Cont: ContinuationEvent;
+      End?: never;
+    }
+  | {
+      Records?: never;
+      Stats?: never;
+      Progress?: never;
+      Cont?: never;
+      End: EndEvent;
+    };
 export const SelectObjectContentEventStream = T.EventStream(
   S.Union(
     S.Struct({ Records: RecordsEvent }),

@@ -659,8 +659,8 @@ export const EksEndpointsConfiguration = S.suspend(() =>
   identifier: "EksEndpointsConfiguration",
 }) as any as S.Schema<EksEndpointsConfiguration>;
 export type ManagedEndpointConfiguration =
-  | { autoScalingGroups: AutoScalingGroupsConfiguration }
-  | { eksEndpoints: EksEndpointsConfiguration };
+  | { autoScalingGroups: AutoScalingGroupsConfiguration; eksEndpoints?: never }
+  | { autoScalingGroups?: never; eksEndpoints: EksEndpointsConfiguration };
 export const ManagedEndpointConfiguration = S.Union(
   S.Struct({ autoScalingGroups: AutoScalingGroupsConfiguration }),
   S.Struct({ eksEndpoints: EksEndpointsConfiguration }),
@@ -962,7 +962,9 @@ export const HeaderTagAction = S.suspend(() =>
 ).annotations({
   identifier: "HeaderTagAction",
 }) as any as S.Schema<HeaderTagAction>;
-export type Action = { noBid: NoBidAction } | { headerTag: HeaderTagAction };
+export type Action =
+  | { noBid: NoBidAction; headerTag?: never }
+  | { noBid?: never; headerTag: HeaderTagAction };
 export const Action = S.Union(
   S.Struct({ noBid: NoBidAction }),
   S.Struct({ headerTag: HeaderTagAction }),
@@ -992,9 +994,21 @@ export const RateLimiterModuleParameters = S.suspend(() =>
   identifier: "RateLimiterModuleParameters",
 }) as any as S.Schema<RateLimiterModuleParameters>;
 export type ModuleParameters =
-  | { noBid: NoBidModuleParameters }
-  | { openRtbAttribute: OpenRtbAttributeModuleParameters }
-  | { rateLimiter: RateLimiterModuleParameters };
+  | {
+      noBid: NoBidModuleParameters;
+      openRtbAttribute?: never;
+      rateLimiter?: never;
+    }
+  | {
+      noBid?: never;
+      openRtbAttribute: OpenRtbAttributeModuleParameters;
+      rateLimiter?: never;
+    }
+  | {
+      noBid?: never;
+      openRtbAttribute?: never;
+      rateLimiter: RateLimiterModuleParameters;
+    };
 export const ModuleParameters = S.Union(
   S.Struct({ noBid: NoBidModuleParameters }),
   S.Struct({ openRtbAttribute: OpenRtbAttributeModuleParameters }),

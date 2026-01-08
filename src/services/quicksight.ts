@@ -4982,12 +4982,54 @@ export const IAMConnectionMetadata = S.suspend(() =>
   identifier: "IAMConnectionMetadata",
 }) as any as S.Schema<IAMConnectionMetadata>;
 export type AuthenticationMetadata =
-  | { AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata }
-  | { ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata }
-  | { BasicAuthConnectionMetadata: BasicAuthConnectionMetadata }
-  | { ApiKeyConnectionMetadata: APIKeyConnectionMetadata }
-  | { NoneConnectionMetadata: NoneConnectionMetadata }
-  | { IamConnectionMetadata: IAMConnectionMetadata };
+  | {
+      AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata: BasicAuthConnectionMetadata;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata: APIKeyConnectionMetadata;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata: NoneConnectionMetadata;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata: IAMConnectionMetadata;
+    };
 export const AuthenticationMetadata = S.Union(
   S.Struct({ AuthorizationCodeGrantMetadata: AuthorizationCodeGrantMetadata }),
   S.Struct({ ClientCredentialsGrantMetadata: ClientCredentialsGrantMetadata }),
@@ -10145,8 +10187,8 @@ export const Coordinate = S.suspend(() =>
   S.Struct({ Latitude: S.Number, Longitude: S.Number }),
 ).annotations({ identifier: "Coordinate" }) as any as S.Schema<Coordinate>;
 export type GeocodePreferenceValue =
-  | { GeocoderHierarchy: GeocoderHierarchy }
-  | { Coordinate: Coordinate };
+  | { GeocoderHierarchy: GeocoderHierarchy; Coordinate?: never }
+  | { GeocoderHierarchy?: never; Coordinate: Coordinate };
 export const GeocodePreferenceValue = S.Union(
   S.Struct({ GeocoderHierarchy: GeocoderHierarchy }),
   S.Struct({ Coordinate: Coordinate }),
@@ -14366,7 +14408,9 @@ export const ApplicationTheme = S.suspend(() =>
 ).annotations({
   identifier: "ApplicationTheme",
 }) as any as S.Schema<ApplicationTheme>;
-export type ImageSource = { PublicUrl: string } | { S3Uri: string };
+export type ImageSource =
+  | { PublicUrl: string; S3Uri?: never }
+  | { PublicUrl?: never; S3Uri: string };
 export const ImageSource = S.Union(
   S.Struct({ PublicUrl: S.String }),
   S.Struct({ S3Uri: S.String }),
@@ -15090,10 +15134,30 @@ export const SaaSTable = S.suspend(() =>
   }),
 ).annotations({ identifier: "SaaSTable" }) as any as S.Schema<SaaSTable>;
 export type PhysicalTable =
-  | { RelationalTable: RelationalTable }
-  | { CustomSql: CustomSql }
-  | { S3Source: S3Source }
-  | { SaaSTable: SaaSTable };
+  | {
+      RelationalTable: RelationalTable;
+      CustomSql?: never;
+      S3Source?: never;
+      SaaSTable?: never;
+    }
+  | {
+      RelationalTable?: never;
+      CustomSql: CustomSql;
+      S3Source?: never;
+      SaaSTable?: never;
+    }
+  | {
+      RelationalTable?: never;
+      CustomSql?: never;
+      S3Source: S3Source;
+      SaaSTable?: never;
+    }
+  | {
+      RelationalTable?: never;
+      CustomSql?: never;
+      S3Source?: never;
+      SaaSTable: SaaSTable;
+    };
 export const PhysicalTable = S.Union(
   S.Struct({ RelationalTable: RelationalTable }),
   S.Struct({ CustomSql: CustomSql }),
@@ -15532,14 +15596,86 @@ export const OverrideDatasetParameterOperation = S.suspend(() =>
   identifier: "OverrideDatasetParameterOperation",
 }) as any as S.Schema<OverrideDatasetParameterOperation>;
 export type TransformOperation =
-  | { ProjectOperation: ProjectOperation }
-  | { FilterOperation: FilterOperation }
-  | { CreateColumnsOperation: CreateColumnsOperation }
-  | { RenameColumnOperation: RenameColumnOperation }
-  | { CastColumnTypeOperation: CastColumnTypeOperation }
-  | { TagColumnOperation: TagColumnOperation }
-  | { UntagColumnOperation: UntagColumnOperation }
-  | { OverrideDatasetParameterOperation: OverrideDatasetParameterOperation };
+  | {
+      ProjectOperation: ProjectOperation;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation: FilterOperation;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation: CreateColumnsOperation;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation: RenameColumnOperation;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation: CastColumnTypeOperation;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation: TagColumnOperation;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation: UntagColumnOperation;
+      OverrideDatasetParameterOperation?: never;
+    }
+  | {
+      ProjectOperation?: never;
+      FilterOperation?: never;
+      CreateColumnsOperation?: never;
+      RenameColumnOperation?: never;
+      CastColumnTypeOperation?: never;
+      TagColumnOperation?: never;
+      UntagColumnOperation?: never;
+      OverrideDatasetParameterOperation: OverrideDatasetParameterOperation;
+    };
 export const TransformOperation = S.Union(
   S.Struct({ ProjectOperation: ProjectOperation }),
   S.Struct({ FilterOperation: FilterOperation }),
@@ -16861,38 +16997,1094 @@ export const QBusinessParameters = S.suspend(() =>
   identifier: "QBusinessParameters",
 }) as any as S.Schema<QBusinessParameters>;
 export type DataSourceParameters =
-  | { AmazonElasticsearchParameters: AmazonElasticsearchParameters }
-  | { AthenaParameters: AthenaParameters }
-  | { AuroraParameters: AuroraParameters }
-  | { AuroraPostgreSqlParameters: AuroraPostgreSqlParameters }
-  | { AwsIotAnalyticsParameters: AwsIotAnalyticsParameters }
-  | { JiraParameters: JiraParameters }
-  | { MariaDbParameters: MariaDbParameters }
-  | { MySqlParameters: MySqlParameters }
-  | { OracleParameters: OracleParameters }
-  | { PostgreSqlParameters: PostgreSqlParameters }
-  | { PrestoParameters: PrestoParameters }
-  | { RdsParameters: RdsParameters }
-  | { RedshiftParameters: RedshiftParameters }
-  | { S3Parameters: S3Parameters }
-  | { S3KnowledgeBaseParameters: S3KnowledgeBaseParameters }
-  | { ServiceNowParameters: ServiceNowParameters }
-  | { SnowflakeParameters: SnowflakeParameters }
-  | { SparkParameters: SparkParameters }
-  | { SqlServerParameters: SqlServerParameters }
-  | { TeradataParameters: TeradataParameters }
-  | { TwitterParameters: TwitterParameters }
-  | { AmazonOpenSearchParameters: AmazonOpenSearchParameters }
-  | { ExasolParameters: ExasolParameters }
-  | { DatabricksParameters: DatabricksParameters }
-  | { StarburstParameters: StarburstParameters }
-  | { TrinoParameters: TrinoParameters }
-  | { BigQueryParameters: BigQueryParameters }
-  | { ImpalaParameters: ImpalaParameters }
-  | { CustomConnectionParameters: CustomConnectionParameters }
-  | { WebCrawlerParameters: WebCrawlerParameters }
-  | { ConfluenceParameters: ConfluenceParameters }
-  | { QBusinessParameters: QBusinessParameters };
+  | {
+      AmazonElasticsearchParameters: AmazonElasticsearchParameters;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters: AthenaParameters;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters: AuroraParameters;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters: AuroraPostgreSqlParameters;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters: AwsIotAnalyticsParameters;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters: JiraParameters;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters: MariaDbParameters;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters: MySqlParameters;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters: OracleParameters;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters: PostgreSqlParameters;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters: PrestoParameters;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters: RdsParameters;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters: RedshiftParameters;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters: S3Parameters;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters: S3KnowledgeBaseParameters;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters: ServiceNowParameters;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters: SnowflakeParameters;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters: SparkParameters;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters: SqlServerParameters;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters: TeradataParameters;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters: TwitterParameters;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters: AmazonOpenSearchParameters;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters: ExasolParameters;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters: DatabricksParameters;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters: StarburstParameters;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters: TrinoParameters;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters: BigQueryParameters;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters: ImpalaParameters;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters: CustomConnectionParameters;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters: WebCrawlerParameters;
+      ConfluenceParameters?: never;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters: ConfluenceParameters;
+      QBusinessParameters?: never;
+    }
+  | {
+      AmazonElasticsearchParameters?: never;
+      AthenaParameters?: never;
+      AuroraParameters?: never;
+      AuroraPostgreSqlParameters?: never;
+      AwsIotAnalyticsParameters?: never;
+      JiraParameters?: never;
+      MariaDbParameters?: never;
+      MySqlParameters?: never;
+      OracleParameters?: never;
+      PostgreSqlParameters?: never;
+      PrestoParameters?: never;
+      RdsParameters?: never;
+      RedshiftParameters?: never;
+      S3Parameters?: never;
+      S3KnowledgeBaseParameters?: never;
+      ServiceNowParameters?: never;
+      SnowflakeParameters?: never;
+      SparkParameters?: never;
+      SqlServerParameters?: never;
+      TeradataParameters?: never;
+      TwitterParameters?: never;
+      AmazonOpenSearchParameters?: never;
+      ExasolParameters?: never;
+      DatabricksParameters?: never;
+      StarburstParameters?: never;
+      TrinoParameters?: never;
+      BigQueryParameters?: never;
+      ImpalaParameters?: never;
+      CustomConnectionParameters?: never;
+      WebCrawlerParameters?: never;
+      ConfluenceParameters?: never;
+      QBusinessParameters: QBusinessParameters;
+    };
 export const DataSourceParameters = S.Union(
   S.Struct({ AmazonElasticsearchParameters: AmazonElasticsearchParameters }),
   S.Struct({ AthenaParameters: AthenaParameters }),
@@ -19218,9 +20410,17 @@ export const FlowPublishState = S.Literal(
 export type PermissionsList = Permission[];
 export const PermissionsList = S.Array(Permission);
 export type UserIdentifier =
-  | { UserName: string | redacted.Redacted<string> }
-  | { Email: string | redacted.Redacted<string> }
-  | { UserArn: string };
+  | {
+      UserName: string | redacted.Redacted<string>;
+      Email?: never;
+      UserArn?: never;
+    }
+  | {
+      UserName?: never;
+      Email: string | redacted.Redacted<string>;
+      UserArn?: never;
+    }
+  | { UserName?: never; Email?: never; UserArn: string };
 export const UserIdentifier = S.Union(
   S.Struct({ UserName: SensitiveString }),
   S.Struct({ Email: SensitiveString }),
@@ -27614,12 +28814,54 @@ export const SnapshotJobResult = S.suspend(() =>
   identifier: "SnapshotJobResult",
 }) as any as S.Schema<SnapshotJobResult>;
 export type ReadAuthenticationMetadata =
-  | { AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata }
-  | { ClientCredentialsGrantMetadata: ReadClientCredentialsGrantMetadata }
-  | { BasicAuthConnectionMetadata: ReadBasicAuthConnectionMetadata }
-  | { ApiKeyConnectionMetadata: ReadAPIKeyConnectionMetadata }
-  | { NoneConnectionMetadata: ReadNoneConnectionMetadata }
-  | { IamConnectionMetadata: ReadIamConnectionMetadata };
+  | {
+      AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata: ReadClientCredentialsGrantMetadata;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata: ReadBasicAuthConnectionMetadata;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata: ReadAPIKeyConnectionMetadata;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata: ReadNoneConnectionMetadata;
+      IamConnectionMetadata?: never;
+    }
+  | {
+      AuthorizationCodeGrantMetadata?: never;
+      ClientCredentialsGrantMetadata?: never;
+      BasicAuthConnectionMetadata?: never;
+      ApiKeyConnectionMetadata?: never;
+      NoneConnectionMetadata?: never;
+      IamConnectionMetadata: ReadIamConnectionMetadata;
+    };
 export const ReadAuthenticationMetadata = S.Union(
   S.Struct({
     AuthorizationCodeGrantMetadata: ReadAuthorizationCodeGrantMetadata,

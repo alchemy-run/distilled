@@ -170,8 +170,8 @@ export const ProfileDetails = S.Array(ProfileDetail);
 export type SpecifierList = string[];
 export const SpecifierList = S.Array(S.String);
 export type SourceData =
-  | { x509CertificateData: string }
-  | { acmPcaArn: string };
+  | { x509CertificateData: string; acmPcaArn?: never }
+  | { x509CertificateData?: never; acmPcaArn: string };
 export const SourceData = S.Union(
   S.Struct({ x509CertificateData: S.String }),
   S.Struct({ acmPcaArn: S.String }),

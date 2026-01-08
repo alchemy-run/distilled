@@ -512,9 +512,21 @@ export const NoManagementPreference = S.suspend(() =>
   identifier: "NoManagementPreference",
 }) as any as S.Schema<NoManagementPreference>;
 export type ManagementPreference =
-  | { awsManagedResources: AwsManagedResources }
-  | { selfManageResources: SelfManageResources }
-  | { noPreference: NoManagementPreference };
+  | {
+      awsManagedResources: AwsManagedResources;
+      selfManageResources?: never;
+      noPreference?: never;
+    }
+  | {
+      awsManagedResources?: never;
+      selfManageResources: SelfManageResources;
+      noPreference?: never;
+    }
+  | {
+      awsManagedResources?: never;
+      selfManageResources?: never;
+      noPreference: NoManagementPreference;
+    };
 export const ManagementPreference = S.Union(
   S.Struct({ awsManagedResources: AwsManagedResources }),
   S.Struct({ selfManageResources: SelfManageResources }),
@@ -559,9 +571,13 @@ export const NoDatabaseMigrationPreference = S.suspend(() =>
   identifier: "NoDatabaseMigrationPreference",
 }) as any as S.Schema<NoDatabaseMigrationPreference>;
 export type DatabaseMigrationPreference =
-  | { heterogeneous: Heterogeneous }
-  | { homogeneous: Homogeneous }
-  | { noPreference: NoDatabaseMigrationPreference };
+  | { heterogeneous: Heterogeneous; homogeneous?: never; noPreference?: never }
+  | { heterogeneous?: never; homogeneous: Homogeneous; noPreference?: never }
+  | {
+      heterogeneous?: never;
+      homogeneous?: never;
+      noPreference: NoDatabaseMigrationPreference;
+    };
 export const DatabaseMigrationPreference = S.Union(
   S.Struct({ heterogeneous: Heterogeneous }),
   S.Struct({ homogeneous: Homogeneous }),
@@ -1287,16 +1303,28 @@ export const AppUnitError = S.suspend(() =>
   S.Struct({ appUnitErrorCategory: S.optional(S.String) }),
 ).annotations({ identifier: "AppUnitError" }) as any as S.Schema<AppUnitError>;
 export type AnalysisStatusUnion =
-  | { runtimeAnalysisStatus: string }
-  | { srcCodeOrDbAnalysisStatus: string };
+  | { runtimeAnalysisStatus: string; srcCodeOrDbAnalysisStatus?: never }
+  | { runtimeAnalysisStatus?: never; srcCodeOrDbAnalysisStatus: string };
 export const AnalysisStatusUnion = S.Union(
   S.Struct({ runtimeAnalysisStatus: S.String }),
   S.Struct({ srcCodeOrDbAnalysisStatus: S.String }),
 );
 export type AnalyzerNameUnion =
-  | { binaryAnalyzerName: string }
-  | { runTimeAnalyzerName: string }
-  | { sourceCodeAnalyzerName: string };
+  | {
+      binaryAnalyzerName: string;
+      runTimeAnalyzerName?: never;
+      sourceCodeAnalyzerName?: never;
+    }
+  | {
+      binaryAnalyzerName?: never;
+      runTimeAnalyzerName: string;
+      sourceCodeAnalyzerName?: never;
+    }
+  | {
+      binaryAnalyzerName?: never;
+      runTimeAnalyzerName?: never;
+      sourceCodeAnalyzerName: string;
+    };
 export const AnalyzerNameUnion = S.Union(
   S.Struct({ binaryAnalyzerName: S.String }),
   S.Struct({ runTimeAnalyzerName: S.String }),

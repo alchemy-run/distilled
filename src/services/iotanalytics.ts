@@ -1272,9 +1272,21 @@ export const DatastoreIotSiteWiseMultiLayerStorage = S.suspend(() =>
   identifier: "DatastoreIotSiteWiseMultiLayerStorage",
 }) as any as S.Schema<DatastoreIotSiteWiseMultiLayerStorage>;
 export type DatastoreStorage =
-  | { serviceManagedS3: ServiceManagedDatastoreS3Storage }
-  | { customerManagedS3: CustomerManagedDatastoreS3Storage }
-  | { iotSiteWiseMultiLayerStorage: DatastoreIotSiteWiseMultiLayerStorage };
+  | {
+      serviceManagedS3: ServiceManagedDatastoreS3Storage;
+      customerManagedS3?: never;
+      iotSiteWiseMultiLayerStorage?: never;
+    }
+  | {
+      serviceManagedS3?: never;
+      customerManagedS3: CustomerManagedDatastoreS3Storage;
+      iotSiteWiseMultiLayerStorage?: never;
+    }
+  | {
+      serviceManagedS3?: never;
+      customerManagedS3?: never;
+      iotSiteWiseMultiLayerStorage: DatastoreIotSiteWiseMultiLayerStorage;
+    };
 export const DatastoreStorage = S.Union(
   S.Struct({ serviceManagedS3: ServiceManagedDatastoreS3Storage }),
   S.Struct({ customerManagedS3: CustomerManagedDatastoreS3Storage }),

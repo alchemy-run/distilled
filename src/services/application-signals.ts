@@ -638,8 +638,8 @@ export const ServiceLevelIndicatorConfig = S.suspend(() =>
   identifier: "ServiceLevelIndicatorConfig",
 }) as any as S.Schema<ServiceLevelIndicatorConfig>;
 export type MonitoredRequestCountMetricDataQueries =
-  | { GoodCountMetric: MetricDataQuery[] }
-  | { BadCountMetric: MetricDataQuery[] };
+  | { GoodCountMetric: MetricDataQuery[]; BadCountMetric?: never }
+  | { GoodCountMetric?: never; BadCountMetric: MetricDataQuery[] };
 export const MonitoredRequestCountMetricDataQueries = S.Union(
   S.Struct({ GoodCountMetric: MetricDataQueries }),
   S.Struct({ BadCountMetric: MetricDataQueries }),
@@ -706,8 +706,8 @@ export const CalendarInterval = S.suspend(() =>
   identifier: "CalendarInterval",
 }) as any as S.Schema<CalendarInterval>;
 export type Interval =
-  | { RollingInterval: RollingInterval }
-  | { CalendarInterval: CalendarInterval };
+  | { RollingInterval: RollingInterval; CalendarInterval?: never }
+  | { RollingInterval?: never; CalendarInterval: CalendarInterval };
 export const Interval = S.Union(
   S.Struct({ RollingInterval: RollingInterval }),
   S.Struct({ CalendarInterval: CalendarInterval }),
@@ -1372,10 +1372,30 @@ export const GetServiceLevelObjectiveOutput = S.suspend(() =>
   identifier: "GetServiceLevelObjectiveOutput",
 }) as any as S.Schema<GetServiceLevelObjectiveOutput>;
 export type AuditTargetEntity =
-  | { Service: ServiceEntity }
-  | { Slo: ServiceLevelObjectiveEntity }
-  | { ServiceOperation: ServiceOperationEntity }
-  | { Canary: CanaryEntity };
+  | {
+      Service: ServiceEntity;
+      Slo?: never;
+      ServiceOperation?: never;
+      Canary?: never;
+    }
+  | {
+      Service?: never;
+      Slo: ServiceLevelObjectiveEntity;
+      ServiceOperation?: never;
+      Canary?: never;
+    }
+  | {
+      Service?: never;
+      Slo?: never;
+      ServiceOperation: ServiceOperationEntity;
+      Canary?: never;
+    }
+  | {
+      Service?: never;
+      Slo?: never;
+      ServiceOperation?: never;
+      Canary: CanaryEntity;
+    };
 export const AuditTargetEntity = S.Union(
   S.Struct({ Service: ServiceEntity }),
   S.Struct({ Slo: ServiceLevelObjectiveEntity }),

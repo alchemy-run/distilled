@@ -1598,8 +1598,14 @@ export const IcebergSnapshotManagementSettings = S.suspend(() =>
   identifier: "IcebergSnapshotManagementSettings",
 }) as any as S.Schema<IcebergSnapshotManagementSettings>;
 export type TableMaintenanceSettings =
-  | { icebergCompaction: IcebergCompactionSettings }
-  | { icebergSnapshotManagement: IcebergSnapshotManagementSettings };
+  | {
+      icebergCompaction: IcebergCompactionSettings;
+      icebergSnapshotManagement?: never;
+    }
+  | {
+      icebergCompaction?: never;
+      icebergSnapshotManagement: IcebergSnapshotManagementSettings;
+    };
 export const TableMaintenanceSettings = S.Union(
   S.Struct({ icebergCompaction: IcebergCompactionSettings }),
   S.Struct({ icebergSnapshotManagement: IcebergSnapshotManagementSettings }),

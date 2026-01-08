@@ -697,8 +697,8 @@ export const FixedResponseAction = S.suspend(() =>
   identifier: "FixedResponseAction",
 }) as any as S.Schema<FixedResponseAction>;
 export type RuleAction =
-  | { forward: ForwardAction }
-  | { fixedResponse: FixedResponseAction };
+  | { forward: ForwardAction; fixedResponse?: never }
+  | { forward?: never; fixedResponse: FixedResponseAction };
 export const RuleAction = S.Union(
   S.Struct({ forward: ForwardAction }),
   S.Struct({ fixedResponse: FixedResponseAction }),
@@ -827,9 +827,9 @@ export const ArnResource = S.suspend(() =>
   S.Struct({ arn: S.optional(S.String) }),
 ).annotations({ identifier: "ArnResource" }) as any as S.Schema<ArnResource>;
 export type ResourceConfigurationDefinition =
-  | { dnsResource: DnsResource }
-  | { ipResource: IpResource }
-  | { arnResource: ArnResource };
+  | { dnsResource: DnsResource; ipResource?: never; arnResource?: never }
+  | { dnsResource?: never; ipResource: IpResource; arnResource?: never }
+  | { dnsResource?: never; ipResource?: never; arnResource: ArnResource };
 export const ResourceConfigurationDefinition = S.Union(
   S.Struct({ dnsResource: DnsResource }),
   S.Struct({ ipResource: IpResource }),
@@ -1143,7 +1143,9 @@ export const GetRuleRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRuleRequest",
 }) as any as S.Schema<GetRuleRequest>;
-export type PathMatchType = { exact: string } | { prefix: string };
+export type PathMatchType =
+  | { exact: string; prefix?: never }
+  | { exact?: never; prefix: string };
 export const PathMatchType = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ prefix: S.String }),
@@ -1156,9 +1158,9 @@ export const PathMatch = S.suspend(() =>
   S.Struct({ match: PathMatchType, caseSensitive: S.optional(S.Boolean) }),
 ).annotations({ identifier: "PathMatch" }) as any as S.Schema<PathMatch>;
 export type HeaderMatchType =
-  | { exact: string }
-  | { prefix: string }
-  | { contains: string };
+  | { exact: string; prefix?: never; contains?: never }
+  | { exact?: never; prefix: string; contains?: never }
+  | { exact?: never; prefix?: never; contains: string };
 export const HeaderMatchType = S.Union(
   S.Struct({ exact: S.String }),
   S.Struct({ prefix: S.String }),

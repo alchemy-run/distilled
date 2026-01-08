@@ -492,19 +492,201 @@ export const FilterAttribute = S.suspend(() =>
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
 export type RetrievalFilter =
-  | { equals: FilterAttribute }
-  | { notEquals: FilterAttribute }
-  | { greaterThan: FilterAttribute }
-  | { greaterThanOrEquals: FilterAttribute }
-  | { lessThan: FilterAttribute }
-  | { lessThanOrEquals: FilterAttribute }
-  | { in: FilterAttribute }
-  | { notIn: FilterAttribute }
-  | { startsWith: FilterAttribute }
-  | { listContains: FilterAttribute }
-  | { stringContains: FilterAttribute }
-  | { andAll: RetrievalFilter[] }
-  | { orAll: RetrievalFilter[] };
+  | {
+      equals: FilterAttribute;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals: FilterAttribute;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan: FilterAttribute;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals: FilterAttribute;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan: FilterAttribute;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals: FilterAttribute;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in: FilterAttribute;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn: FilterAttribute;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith: FilterAttribute;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains: FilterAttribute;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains: FilterAttribute;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll: RetrievalFilter[];
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll: RetrievalFilter[];
+    };
 export const RetrievalFilter = S.Union(
   S.Struct({ equals: FilterAttribute }),
   S.Struct({ notEquals: FilterAttribute }),
@@ -562,8 +744,8 @@ export const FieldForReranking = S.suspend(() =>
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[] }
-  | { fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
+  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
@@ -1387,8 +1569,8 @@ export const FunctionResult = S.suspend(() =>
   identifier: "FunctionResult",
 }) as any as S.Schema<FunctionResult>;
 export type InvocationResultMember =
-  | { apiResult: ApiResult }
-  | { functionResult: FunctionResult };
+  | { apiResult: ApiResult; functionResult?: never }
+  | { apiResult?: never; functionResult: FunctionResult };
 export const InvocationResultMember = S.Union(
   S.Struct({ apiResult: ApiResult }),
   S.Struct({ functionResult: FunctionResult }),
@@ -1482,8 +1664,8 @@ export const InlineSessionState = S.suspend(() =>
 export type CustomControlMethod = "RETURN_CONTROL";
 export const CustomControlMethod = S.Literal("RETURN_CONTROL");
 export type ActionGroupExecutor =
-  | { lambda: string }
-  | { customControl: CustomControlMethod };
+  | { lambda: string; customControl?: never }
+  | { lambda?: never; customControl: CustomControlMethod };
 export const ActionGroupExecutor = S.Union(
   S.Struct({ lambda: S.String }),
   S.Struct({ customControl: CustomControlMethod }),
@@ -1499,8 +1681,8 @@ export const S3Identifier = S.suspend(() =>
   }),
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
 export type APISchema =
-  | { s3: S3Identifier }
-  | { payload: string | redacted.Redacted<string> };
+  | { s3: S3Identifier; payload?: never }
+  | { s3?: never; payload: string | redacted.Redacted<string> };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
   S.Struct({ payload: SensitiveString }),
@@ -2019,7 +2201,9 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ uri: S.String }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export type ImageSource = { bytes: Uint8Array } | { s3Location: S3Location };
+export type ImageSource =
+  | { bytes: Uint8Array; s3Location?: never }
+  | { bytes?: never; s3Location: S3Location };
 export const ImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -2032,8 +2216,8 @@ export const ImageBlock = S.suspend(() =>
   S.Struct({ format: ImageFormat, source: ImageSource }),
 ).annotations({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
 export type BedrockSessionContentBlock =
-  | { text: string }
-  | { image: ImageBlock };
+  | { text: string; image?: never }
+  | { text?: never; image: ImageBlock };
 export const BedrockSessionContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
@@ -3319,8 +3503,8 @@ export const ReasoningTextBlock = S.suspend(() =>
   identifier: "ReasoningTextBlock",
 }) as any as S.Schema<ReasoningTextBlock>;
 export type ReasoningContentBlock =
-  | { reasoningText: ReasoningTextBlock }
-  | { redactedContent: Uint8Array };
+  | { reasoningText: ReasoningTextBlock; redactedContent?: never }
+  | { reasoningText?: never; redactedContent: Uint8Array };
 export const ReasoningContentBlock = S.Union(
   S.Struct({ reasoningText: ReasoningTextBlock }),
   S.Struct({ redactedContent: T.Blob }),
@@ -3344,8 +3528,14 @@ export const PreProcessingModelInvocationOutput = S.suspend(() =>
   identifier: "PreProcessingModelInvocationOutput",
 }) as any as S.Schema<PreProcessingModelInvocationOutput>;
 export type PreProcessingTrace =
-  | { modelInvocationInput: ModelInvocationInput }
-  | { modelInvocationOutput: PreProcessingModelInvocationOutput };
+  | {
+      modelInvocationInput: ModelInvocationInput;
+      modelInvocationOutput?: never;
+    }
+  | {
+      modelInvocationInput?: never;
+      modelInvocationOutput: PreProcessingModelInvocationOutput;
+    };
 export const PreProcessingTrace = S.Union(
   S.Struct({ modelInvocationInput: ModelInvocationInput }),
   S.Struct({ modelInvocationOutput: PreProcessingModelInvocationOutput }),
@@ -3642,8 +3832,11 @@ export const FunctionInvocationInput = S.suspend(() =>
   identifier: "FunctionInvocationInput",
 }) as any as S.Schema<FunctionInvocationInput>;
 export type InvocationInputMember =
-  | { apiInvocationInput: ApiInvocationInput }
-  | { functionInvocationInput: FunctionInvocationInput };
+  | { apiInvocationInput: ApiInvocationInput; functionInvocationInput?: never }
+  | {
+      apiInvocationInput?: never;
+      functionInvocationInput: FunctionInvocationInput;
+    };
 export const InvocationInputMember = S.Union(
   S.Struct({ apiInvocationInput: ApiInvocationInput }),
   S.Struct({ functionInvocationInput: FunctionInvocationInput }),
@@ -3788,11 +3981,41 @@ export const OrchestrationModelInvocationOutput = S.suspend(() =>
   identifier: "OrchestrationModelInvocationOutput",
 }) as any as S.Schema<OrchestrationModelInvocationOutput>;
 export type OrchestrationTrace =
-  | { rationale: Rationale }
-  | { invocationInput: InvocationInput }
-  | { observation: Observation }
-  | { modelInvocationInput: ModelInvocationInput }
-  | { modelInvocationOutput: OrchestrationModelInvocationOutput };
+  | {
+      rationale: Rationale;
+      invocationInput?: never;
+      observation?: never;
+      modelInvocationInput?: never;
+      modelInvocationOutput?: never;
+    }
+  | {
+      rationale?: never;
+      invocationInput: InvocationInput;
+      observation?: never;
+      modelInvocationInput?: never;
+      modelInvocationOutput?: never;
+    }
+  | {
+      rationale?: never;
+      invocationInput?: never;
+      observation: Observation;
+      modelInvocationInput?: never;
+      modelInvocationOutput?: never;
+    }
+  | {
+      rationale?: never;
+      invocationInput?: never;
+      observation?: never;
+      modelInvocationInput: ModelInvocationInput;
+      modelInvocationOutput?: never;
+    }
+  | {
+      rationale?: never;
+      invocationInput?: never;
+      observation?: never;
+      modelInvocationInput?: never;
+      modelInvocationOutput: OrchestrationModelInvocationOutput;
+    };
 export const OrchestrationTrace = S.Union(
   S.Struct({ rationale: Rationale }),
   S.Struct({ invocationInput: InvocationInput }),
@@ -3827,8 +4050,14 @@ export const PostProcessingModelInvocationOutput = S.suspend(() =>
   identifier: "PostProcessingModelInvocationOutput",
 }) as any as S.Schema<PostProcessingModelInvocationOutput>;
 export type PostProcessingTrace =
-  | { modelInvocationInput: ModelInvocationInput }
-  | { modelInvocationOutput: PostProcessingModelInvocationOutput };
+  | {
+      modelInvocationInput: ModelInvocationInput;
+      modelInvocationOutput?: never;
+    }
+  | {
+      modelInvocationInput?: never;
+      modelInvocationOutput: PostProcessingModelInvocationOutput;
+    };
 export const PostProcessingTrace = S.Union(
   S.Struct({ modelInvocationInput: ModelInvocationInput }),
   S.Struct({ modelInvocationOutput: PostProcessingModelInvocationOutput }),
@@ -3848,10 +4077,30 @@ export const RoutingClassifierModelInvocationOutput = S.suspend(() =>
   identifier: "RoutingClassifierModelInvocationOutput",
 }) as any as S.Schema<RoutingClassifierModelInvocationOutput>;
 export type RoutingClassifierTrace =
-  | { invocationInput: InvocationInput }
-  | { observation: Observation }
-  | { modelInvocationInput: ModelInvocationInput }
-  | { modelInvocationOutput: RoutingClassifierModelInvocationOutput };
+  | {
+      invocationInput: InvocationInput;
+      observation?: never;
+      modelInvocationInput?: never;
+      modelInvocationOutput?: never;
+    }
+  | {
+      invocationInput?: never;
+      observation: Observation;
+      modelInvocationInput?: never;
+      modelInvocationOutput?: never;
+    }
+  | {
+      invocationInput?: never;
+      observation?: never;
+      modelInvocationInput: ModelInvocationInput;
+      modelInvocationOutput?: never;
+    }
+  | {
+      invocationInput?: never;
+      observation?: never;
+      modelInvocationInput?: never;
+      modelInvocationOutput: RoutingClassifierModelInvocationOutput;
+    };
 export const RoutingClassifierTrace = S.Union(
   S.Struct({ invocationInput: InvocationInput }),
   S.Struct({ observation: Observation }),
@@ -3893,13 +4142,69 @@ export const CustomOrchestrationTrace = S.suspend(() =>
   identifier: "CustomOrchestrationTrace",
 }) as any as S.Schema<CustomOrchestrationTrace>;
 export type Trace =
-  | { guardrailTrace: GuardrailTrace }
-  | { preProcessingTrace: PreProcessingTrace }
-  | { orchestrationTrace: OrchestrationTrace }
-  | { postProcessingTrace: PostProcessingTrace }
-  | { routingClassifierTrace: RoutingClassifierTrace }
-  | { failureTrace: FailureTrace }
-  | { customOrchestrationTrace: CustomOrchestrationTrace };
+  | {
+      guardrailTrace: GuardrailTrace;
+      preProcessingTrace?: never;
+      orchestrationTrace?: never;
+      postProcessingTrace?: never;
+      routingClassifierTrace?: never;
+      failureTrace?: never;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace: PreProcessingTrace;
+      orchestrationTrace?: never;
+      postProcessingTrace?: never;
+      routingClassifierTrace?: never;
+      failureTrace?: never;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace?: never;
+      orchestrationTrace: OrchestrationTrace;
+      postProcessingTrace?: never;
+      routingClassifierTrace?: never;
+      failureTrace?: never;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace?: never;
+      orchestrationTrace?: never;
+      postProcessingTrace: PostProcessingTrace;
+      routingClassifierTrace?: never;
+      failureTrace?: never;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace?: never;
+      orchestrationTrace?: never;
+      postProcessingTrace?: never;
+      routingClassifierTrace: RoutingClassifierTrace;
+      failureTrace?: never;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace?: never;
+      orchestrationTrace?: never;
+      postProcessingTrace?: never;
+      routingClassifierTrace?: never;
+      failureTrace: FailureTrace;
+      customOrchestrationTrace?: never;
+    }
+  | {
+      guardrailTrace?: never;
+      preProcessingTrace?: never;
+      orchestrationTrace?: never;
+      postProcessingTrace?: never;
+      routingClassifierTrace?: never;
+      failureTrace?: never;
+      customOrchestrationTrace: CustomOrchestrationTrace;
+    };
 export const Trace = S.Union(
   S.Struct({ guardrailTrace: GuardrailTrace }),
   S.Struct({ preProcessingTrace: PreProcessingTrace }),
@@ -4320,14 +4625,86 @@ export const FlowTraceNodeOutputEvent = S.suspend(() =>
   identifier: "FlowTraceNodeOutputEvent",
 }) as any as S.Schema<FlowTraceNodeOutputEvent>;
 export type OptimizedPromptStream =
-  | { optimizedPromptEvent: OptimizedPromptEvent }
-  | { analyzePromptEvent: AnalyzePromptEvent }
-  | { internalServerException: InternalServerException }
-  | { throttlingException: ThrottlingException }
-  | { validationException: ValidationException }
-  | { dependencyFailedException: DependencyFailedException }
-  | { accessDeniedException: AccessDeniedException }
-  | { badGatewayException: BadGatewayException };
+  | {
+      optimizedPromptEvent: OptimizedPromptEvent;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent: AnalyzePromptEvent;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException: InternalServerException;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException: ThrottlingException;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException: ValidationException;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException: DependencyFailedException;
+      accessDeniedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException: AccessDeniedException;
+      badGatewayException?: never;
+    }
+  | {
+      optimizedPromptEvent?: never;
+      analyzePromptEvent?: never;
+      internalServerException?: never;
+      throttlingException?: never;
+      validationException?: never;
+      dependencyFailedException?: never;
+      accessDeniedException?: never;
+      badGatewayException: BadGatewayException;
+    };
 export const OptimizedPromptStream = T.EventStream(
   S.Union(
     S.Struct({ optimizedPromptEvent: OptimizedPromptEvent }),
@@ -4381,18 +4758,174 @@ export const RerankResultsList = S.Array(RerankResult);
 export type Citations = Citation[];
 export const Citations = S.Array(Citation);
 export type RetrieveAndGenerateStreamResponseOutput =
-  | { output: RetrieveAndGenerateOutputEvent }
-  | { citation: CitationEvent }
-  | { guardrail: GuardrailEvent }
-  | { internalServerException: InternalServerException }
-  | { validationException: ValidationException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { serviceQuotaExceededException: ServiceQuotaExceededException }
-  | { throttlingException: ThrottlingException }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictException: ConflictException }
-  | { dependencyFailedException: DependencyFailedException }
-  | { badGatewayException: BadGatewayException };
+  | {
+      output: RetrieveAndGenerateOutputEvent;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation: CitationEvent;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail: GuardrailEvent;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException: InternalServerException;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException: ValidationException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException: DependencyFailedException;
+      badGatewayException?: never;
+    }
+  | {
+      output?: never;
+      citation?: never;
+      guardrail?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException: BadGatewayException;
+    };
 export const RetrieveAndGenerateStreamResponseOutput = T.EventStream(
   S.Union(
     S.Struct({ output: RetrieveAndGenerateOutputEvent }),
@@ -4448,11 +4981,41 @@ export const RetrieveAndGenerateStreamResponseOutput = T.EventStream(
   stream.Stream<RetrieveAndGenerateStreamResponseOutput, Error, never>
 >;
 export type FlowTrace =
-  | { nodeInputTrace: FlowTraceNodeInputEvent }
-  | { nodeOutputTrace: FlowTraceNodeOutputEvent }
-  | { conditionNodeResultTrace: FlowTraceConditionNodeResultEvent }
-  | { nodeActionTrace: FlowTraceNodeActionEvent }
-  | { nodeDependencyTrace: FlowTraceDependencyEvent };
+  | {
+      nodeInputTrace: FlowTraceNodeInputEvent;
+      nodeOutputTrace?: never;
+      conditionNodeResultTrace?: never;
+      nodeActionTrace?: never;
+      nodeDependencyTrace?: never;
+    }
+  | {
+      nodeInputTrace?: never;
+      nodeOutputTrace: FlowTraceNodeOutputEvent;
+      conditionNodeResultTrace?: never;
+      nodeActionTrace?: never;
+      nodeDependencyTrace?: never;
+    }
+  | {
+      nodeInputTrace?: never;
+      nodeOutputTrace?: never;
+      conditionNodeResultTrace: FlowTraceConditionNodeResultEvent;
+      nodeActionTrace?: never;
+      nodeDependencyTrace?: never;
+    }
+  | {
+      nodeInputTrace?: never;
+      nodeOutputTrace?: never;
+      conditionNodeResultTrace?: never;
+      nodeActionTrace: FlowTraceNodeActionEvent;
+      nodeDependencyTrace?: never;
+    }
+  | {
+      nodeInputTrace?: never;
+      nodeOutputTrace?: never;
+      conditionNodeResultTrace?: never;
+      nodeActionTrace?: never;
+      nodeDependencyTrace: FlowTraceDependencyEvent;
+    };
 export const FlowTrace = S.Union(
   S.Struct({ nodeInputTrace: FlowTraceNodeInputEvent }),
   S.Struct({ nodeOutputTrace: FlowTraceNodeOutputEvent }),
@@ -4508,19 +5071,201 @@ export const FlowTraceEvent = S.suspend(() =>
   identifier: "FlowTraceEvent",
 }) as any as S.Schema<FlowTraceEvent>;
 export type FlowResponseStream =
-  | { flowOutputEvent: FlowOutputEvent }
-  | { flowCompletionEvent: FlowCompletionEvent }
-  | { flowTraceEvent: FlowTraceEvent }
-  | { internalServerException: InternalServerException }
-  | { validationException: ValidationException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { serviceQuotaExceededException: ServiceQuotaExceededException }
-  | { throttlingException: ThrottlingException }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictException: ConflictException }
-  | { dependencyFailedException: DependencyFailedException }
-  | { badGatewayException: BadGatewayException }
-  | { flowMultiTurnInputRequestEvent: FlowMultiTurnInputRequestEvent };
+  | {
+      flowOutputEvent: FlowOutputEvent;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent: FlowCompletionEvent;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent: FlowTraceEvent;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException: InternalServerException;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException: ValidationException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException: DependencyFailedException;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException: BadGatewayException;
+      flowMultiTurnInputRequestEvent?: never;
+    }
+  | {
+      flowOutputEvent?: never;
+      flowCompletionEvent?: never;
+      flowTraceEvent?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      flowMultiTurnInputRequestEvent: FlowMultiTurnInputRequestEvent;
+    };
 export const FlowResponseStream = T.EventStream(
   S.Union(
     S.Struct({ flowOutputEvent: FlowOutputEvent }),
@@ -4779,19 +5524,201 @@ export const InlineAgentFilePart = S.suspend(() =>
   identifier: "InlineAgentFilePart",
 }) as any as S.Schema<InlineAgentFilePart>;
 export type InlineAgentResponseStream =
-  | { chunk: InlineAgentPayloadPart }
-  | { trace: InlineAgentTracePart }
-  | { returnControl: InlineAgentReturnControlPayload }
-  | { internalServerException: InternalServerException }
-  | { validationException: ValidationException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { serviceQuotaExceededException: ServiceQuotaExceededException }
-  | { throttlingException: ThrottlingException }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictException: ConflictException }
-  | { dependencyFailedException: DependencyFailedException }
-  | { badGatewayException: BadGatewayException }
-  | { files: InlineAgentFilePart };
+  | {
+      chunk: InlineAgentPayloadPart;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace: InlineAgentTracePart;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl: InlineAgentReturnControlPayload;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException: InternalServerException;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException: ValidationException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException: DependencyFailedException;
+      badGatewayException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException: BadGatewayException;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      files: InlineAgentFilePart;
+    };
 export const InlineAgentResponseStream = T.EventStream(
   S.Union(
     S.Struct({ chunk: InlineAgentPayloadPart }),
@@ -4912,20 +5839,230 @@ export const FilePart = S.suspend(() =>
   S.Struct({ files: S.optional(OutputFiles) }),
 ).annotations({ identifier: "FilePart" }) as any as S.Schema<FilePart>;
 export type ResponseStream =
-  | { chunk: PayloadPart }
-  | { trace: TracePart }
-  | { returnControl: ReturnControlPayload }
-  | { internalServerException: InternalServerException }
-  | { validationException: ValidationException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { serviceQuotaExceededException: ServiceQuotaExceededException }
-  | { throttlingException: ThrottlingException }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictException: ConflictException }
-  | { dependencyFailedException: DependencyFailedException }
-  | { badGatewayException: BadGatewayException }
-  | { modelNotReadyException: ModelNotReadyException }
-  | { files: FilePart };
+  | {
+      chunk: PayloadPart;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace: TracePart;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl: ReturnControlPayload;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException: InternalServerException;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException: ValidationException;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException: ServiceQuotaExceededException;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException: ThrottlingException;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException: ConflictException;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException: DependencyFailedException;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException: BadGatewayException;
+      modelNotReadyException?: never;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException: ModelNotReadyException;
+      files?: never;
+    }
+  | {
+      chunk?: never;
+      trace?: never;
+      returnControl?: never;
+      internalServerException?: never;
+      validationException?: never;
+      resourceNotFoundException?: never;
+      serviceQuotaExceededException?: never;
+      throttlingException?: never;
+      accessDeniedException?: never;
+      conflictException?: never;
+      dependencyFailedException?: never;
+      badGatewayException?: never;
+      modelNotReadyException?: never;
+      files: FilePart;
+    };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ chunk: PayloadPart }),
@@ -5023,15 +6160,105 @@ export const NodeDependencyEvent = S.suspend(() =>
   identifier: "NodeDependencyEvent",
 }) as any as S.Schema<NodeDependencyEvent>;
 export type FlowExecutionEvent =
-  | { flowInputEvent: FlowExecutionInputEvent }
-  | { flowOutputEvent: FlowExecutionOutputEvent }
-  | { nodeInputEvent: NodeInputEvent }
-  | { nodeOutputEvent: NodeOutputEvent }
-  | { conditionResultEvent: ConditionResultEvent }
-  | { nodeFailureEvent: NodeFailureEvent }
-  | { flowFailureEvent: FlowFailureEvent }
-  | { nodeActionEvent: NodeActionEvent }
-  | { nodeDependencyEvent: NodeDependencyEvent };
+  | {
+      flowInputEvent: FlowExecutionInputEvent;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent: FlowExecutionOutputEvent;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent: NodeInputEvent;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent: NodeOutputEvent;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent: ConditionResultEvent;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent: NodeFailureEvent;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent: FlowFailureEvent;
+      nodeActionEvent?: never;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent: NodeActionEvent;
+      nodeDependencyEvent?: never;
+    }
+  | {
+      flowInputEvent?: never;
+      flowOutputEvent?: never;
+      nodeInputEvent?: never;
+      nodeOutputEvent?: never;
+      conditionResultEvent?: never;
+      nodeFailureEvent?: never;
+      flowFailureEvent?: never;
+      nodeActionEvent?: never;
+      nodeDependencyEvent: NodeDependencyEvent;
+    };
 export const FlowExecutionEvent = S.Union(
   S.Struct({ flowInputEvent: FlowExecutionInputEvent }),
   S.Struct({ flowOutputEvent: FlowExecutionOutputEvent }),

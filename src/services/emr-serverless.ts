@@ -1016,7 +1016,9 @@ export const ApplicationSummary = S.suspend(() =>
 }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationList = ApplicationSummary[];
 export const ApplicationList = S.Array(ApplicationSummary);
-export type JobDriver = { sparkSubmit: SparkSubmit } | { hive: Hive };
+export type JobDriver =
+  | { sparkSubmit: SparkSubmit; hive?: never }
+  | { sparkSubmit?: never; hive: Hive };
 export const JobDriver = S.Union(
   S.Struct({ sparkSubmit: SparkSubmit }),
   S.Struct({ hive: Hive }),

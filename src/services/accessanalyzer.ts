@@ -809,8 +809,8 @@ export const InternalAccessConfiguration = S.suspend(() =>
   identifier: "InternalAccessConfiguration",
 }) as any as S.Schema<InternalAccessConfiguration>;
 export type AnalyzerConfiguration =
-  | { unusedAccess: UnusedAccessConfiguration }
-  | { internalAccess: InternalAccessConfiguration };
+  | { unusedAccess: UnusedAccessConfiguration; internalAccess?: never }
+  | { unusedAccess?: never; internalAccess: InternalAccessConfiguration };
 export const AnalyzerConfiguration = S.Union(
   S.Struct({ unusedAccess: UnusedAccessConfiguration }),
   S.Struct({ internalAccess: InternalAccessConfiguration }),
@@ -1905,7 +1905,9 @@ export const RdsDbSnapshotConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RdsDbSnapshotConfiguration",
 }) as any as S.Schema<RdsDbSnapshotConfiguration>;
-export type AclGrantee = { id: string } | { uri: string };
+export type AclGrantee =
+  | { id: string; uri?: never }
+  | { id?: never; uri: string };
 export const AclGrantee = S.Union(
   S.Struct({ id: S.String }),
   S.Struct({ uri: S.String }),
@@ -1937,8 +1939,8 @@ export const InternetConfiguration = S.suspend(() => S.Struct({})).annotations({
   identifier: "InternetConfiguration",
 }) as any as S.Schema<InternetConfiguration>;
 export type NetworkOriginConfiguration =
-  | { vpcConfiguration: VpcConfiguration }
-  | { internetConfiguration: InternetConfiguration };
+  | { vpcConfiguration: VpcConfiguration; internetConfiguration?: never }
+  | { vpcConfiguration?: never; internetConfiguration: InternetConfiguration };
 export const NetworkOriginConfiguration = S.Union(
   S.Struct({ vpcConfiguration: VpcConfiguration }),
   S.Struct({ internetConfiguration: InternetConfiguration }),
@@ -2012,20 +2014,230 @@ export const S3ExpressDirectoryBucketConfiguration = S.suspend(() =>
   identifier: "S3ExpressDirectoryBucketConfiguration",
 }) as any as S.Schema<S3ExpressDirectoryBucketConfiguration>;
 export type Configuration =
-  | { ebsSnapshot: EbsSnapshotConfiguration }
-  | { ecrRepository: EcrRepositoryConfiguration }
-  | { iamRole: IamRoleConfiguration }
-  | { efsFileSystem: EfsFileSystemConfiguration }
-  | { kmsKey: KmsKeyConfiguration }
-  | { rdsDbClusterSnapshot: RdsDbClusterSnapshotConfiguration }
-  | { rdsDbSnapshot: RdsDbSnapshotConfiguration }
-  | { secretsManagerSecret: SecretsManagerSecretConfiguration }
-  | { s3Bucket: S3BucketConfiguration }
-  | { snsTopic: SnsTopicConfiguration }
-  | { sqsQueue: SqsQueueConfiguration }
-  | { s3ExpressDirectoryBucket: S3ExpressDirectoryBucketConfiguration }
-  | { dynamodbStream: DynamodbStreamConfiguration }
-  | { dynamodbTable: DynamodbTableConfiguration };
+  | {
+      ebsSnapshot: EbsSnapshotConfiguration;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository: EcrRepositoryConfiguration;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole: IamRoleConfiguration;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem: EfsFileSystemConfiguration;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey: KmsKeyConfiguration;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot: RdsDbClusterSnapshotConfiguration;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot: RdsDbSnapshotConfiguration;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret: SecretsManagerSecretConfiguration;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket: S3BucketConfiguration;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic: SnsTopicConfiguration;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue: SqsQueueConfiguration;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket: S3ExpressDirectoryBucketConfiguration;
+      dynamodbStream?: never;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream: DynamodbStreamConfiguration;
+      dynamodbTable?: never;
+    }
+  | {
+      ebsSnapshot?: never;
+      ecrRepository?: never;
+      iamRole?: never;
+      efsFileSystem?: never;
+      kmsKey?: never;
+      rdsDbClusterSnapshot?: never;
+      rdsDbSnapshot?: never;
+      secretsManagerSecret?: never;
+      s3Bucket?: never;
+      snsTopic?: never;
+      sqsQueue?: never;
+      s3ExpressDirectoryBucket?: never;
+      dynamodbStream?: never;
+      dynamodbTable: DynamodbTableConfiguration;
+    };
 export const Configuration = S.Union(
   S.Struct({ ebsSnapshot: EbsSnapshotConfiguration }),
   S.Struct({ ecrRepository: EcrRepositoryConfiguration }),
@@ -2333,12 +2545,54 @@ export const Finding = S.suspend(() =>
   }),
 ).annotations({ identifier: "Finding" }) as any as S.Schema<Finding>;
 export type FindingDetails =
-  | { internalAccessDetails: InternalAccessDetails }
-  | { externalAccessDetails: ExternalAccessDetails }
-  | { unusedPermissionDetails: UnusedPermissionDetails }
-  | { unusedIamUserAccessKeyDetails: UnusedIamUserAccessKeyDetails }
-  | { unusedIamRoleDetails: UnusedIamRoleDetails }
-  | { unusedIamUserPasswordDetails: UnusedIamUserPasswordDetails };
+  | {
+      internalAccessDetails: InternalAccessDetails;
+      externalAccessDetails?: never;
+      unusedPermissionDetails?: never;
+      unusedIamUserAccessKeyDetails?: never;
+      unusedIamRoleDetails?: never;
+      unusedIamUserPasswordDetails?: never;
+    }
+  | {
+      internalAccessDetails?: never;
+      externalAccessDetails: ExternalAccessDetails;
+      unusedPermissionDetails?: never;
+      unusedIamUserAccessKeyDetails?: never;
+      unusedIamRoleDetails?: never;
+      unusedIamUserPasswordDetails?: never;
+    }
+  | {
+      internalAccessDetails?: never;
+      externalAccessDetails?: never;
+      unusedPermissionDetails: UnusedPermissionDetails;
+      unusedIamUserAccessKeyDetails?: never;
+      unusedIamRoleDetails?: never;
+      unusedIamUserPasswordDetails?: never;
+    }
+  | {
+      internalAccessDetails?: never;
+      externalAccessDetails?: never;
+      unusedPermissionDetails?: never;
+      unusedIamUserAccessKeyDetails: UnusedIamUserAccessKeyDetails;
+      unusedIamRoleDetails?: never;
+      unusedIamUserPasswordDetails?: never;
+    }
+  | {
+      internalAccessDetails?: never;
+      externalAccessDetails?: never;
+      unusedPermissionDetails?: never;
+      unusedIamUserAccessKeyDetails?: never;
+      unusedIamRoleDetails: UnusedIamRoleDetails;
+      unusedIamUserPasswordDetails?: never;
+    }
+  | {
+      internalAccessDetails?: never;
+      externalAccessDetails?: never;
+      unusedPermissionDetails?: never;
+      unusedIamUserAccessKeyDetails?: never;
+      unusedIamRoleDetails?: never;
+      unusedIamUserPasswordDetails: UnusedIamUserPasswordDetails;
+    };
 export const FindingDetails = S.Union(
   S.Struct({ internalAccessDetails: InternalAccessDetails }),
   S.Struct({ externalAccessDetails: ExternalAccessDetails }),
@@ -2434,10 +2688,10 @@ export const CloudTrailProperties = S.suspend(() =>
   identifier: "CloudTrailProperties",
 }) as any as S.Schema<CloudTrailProperties>;
 export type PathElement =
-  | { index: number }
-  | { key: string }
-  | { substring: Substring }
-  | { value: string };
+  | { index: number; key?: never; substring?: never; value?: never }
+  | { index?: never; key: string; substring?: never; value?: never }
+  | { index?: never; key?: never; substring: Substring; value?: never }
+  | { index?: never; key?: never; substring?: never; value: string };
 export const PathElement = S.Union(
   S.Struct({ index: S.Number }),
   S.Struct({ key: S.String }),
@@ -2608,9 +2862,21 @@ export const Location = S.suspend(() =>
 export type LocationList = Location[];
 export const LocationList = S.Array(Location);
 export type FindingsStatistics =
-  | { externalAccessFindingsStatistics: ExternalAccessFindingsStatistics }
-  | { internalAccessFindingsStatistics: InternalAccessFindingsStatistics }
-  | { unusedAccessFindingsStatistics: UnusedAccessFindingsStatistics };
+  | {
+      externalAccessFindingsStatistics: ExternalAccessFindingsStatistics;
+      internalAccessFindingsStatistics?: never;
+      unusedAccessFindingsStatistics?: never;
+    }
+  | {
+      externalAccessFindingsStatistics?: never;
+      internalAccessFindingsStatistics: InternalAccessFindingsStatistics;
+      unusedAccessFindingsStatistics?: never;
+    }
+  | {
+      externalAccessFindingsStatistics?: never;
+      internalAccessFindingsStatistics?: never;
+      unusedAccessFindingsStatistics: UnusedAccessFindingsStatistics;
+    };
 export const FindingsStatistics = S.Union(
   S.Struct({
     externalAccessFindingsStatistics: ExternalAccessFindingsStatistics,

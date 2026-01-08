@@ -284,10 +284,30 @@ export const EmvEncryptionAttributes = S.suspend(() =>
   identifier: "EmvEncryptionAttributes",
 }) as any as S.Schema<EmvEncryptionAttributes>;
 export type EncryptionDecryptionAttributes =
-  | { Symmetric: SymmetricEncryptionAttributes }
-  | { Asymmetric: AsymmetricEncryptionAttributes }
-  | { Dukpt: DukptEncryptionAttributes }
-  | { Emv: EmvEncryptionAttributes };
+  | {
+      Symmetric: SymmetricEncryptionAttributes;
+      Asymmetric?: never;
+      Dukpt?: never;
+      Emv?: never;
+    }
+  | {
+      Symmetric?: never;
+      Asymmetric: AsymmetricEncryptionAttributes;
+      Dukpt?: never;
+      Emv?: never;
+    }
+  | {
+      Symmetric?: never;
+      Asymmetric?: never;
+      Dukpt: DukptEncryptionAttributes;
+      Emv?: never;
+    }
+  | {
+      Symmetric?: never;
+      Asymmetric?: never;
+      Dukpt?: never;
+      Emv: EmvEncryptionAttributes;
+    };
 export const EncryptionDecryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Asymmetric: AsymmetricEncryptionAttributes }),
@@ -344,8 +364,14 @@ export const EcdhDerivationAttributes = S.suspend(() =>
   identifier: "EcdhDerivationAttributes",
 }) as any as S.Schema<EcdhDerivationAttributes>;
 export type WrappedKeyMaterial =
-  | { Tr31KeyBlock: string | redacted.Redacted<string> }
-  | { DiffieHellmanSymmetricKey: EcdhDerivationAttributes };
+  | {
+      Tr31KeyBlock: string | redacted.Redacted<string>;
+      DiffieHellmanSymmetricKey?: never;
+    }
+  | {
+      Tr31KeyBlock?: never;
+      DiffieHellmanSymmetricKey: EcdhDerivationAttributes;
+    };
 export const WrappedKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: SensitiveString }),
   S.Struct({ DiffieHellmanSymmetricKey: EcdhDerivationAttributes }),
@@ -420,8 +446,11 @@ export const SessionKeyDerivationMode = S.Literal(
   "VISA",
 );
 export type SessionKeyDerivationValue =
-  | { ApplicationCryptogram: string | redacted.Redacted<string> }
-  | { ApplicationTransactionCounter: string };
+  | {
+      ApplicationCryptogram: string | redacted.Redacted<string>;
+      ApplicationTransactionCounter?: never;
+    }
+  | { ApplicationCryptogram?: never; ApplicationTransactionCounter: string };
 export const SessionKeyDerivationValue = S.Union(
   S.Struct({ ApplicationCryptogram: SensitiveString }),
   S.Struct({ ApplicationTransactionCounter: S.String }),
@@ -459,11 +488,41 @@ export const MacAlgorithmDukpt = S.suspend(() =>
   identifier: "MacAlgorithmDukpt",
 }) as any as S.Schema<MacAlgorithmDukpt>;
 export type MacAttributes =
-  | { Algorithm: MacAlgorithm }
-  | { EmvMac: MacAlgorithmEmv }
-  | { DukptIso9797Algorithm1: MacAlgorithmDukpt }
-  | { DukptIso9797Algorithm3: MacAlgorithmDukpt }
-  | { DukptCmac: MacAlgorithmDukpt };
+  | {
+      Algorithm: MacAlgorithm;
+      EmvMac?: never;
+      DukptIso9797Algorithm1?: never;
+      DukptIso9797Algorithm3?: never;
+      DukptCmac?: never;
+    }
+  | {
+      Algorithm?: never;
+      EmvMac: MacAlgorithmEmv;
+      DukptIso9797Algorithm1?: never;
+      DukptIso9797Algorithm3?: never;
+      DukptCmac?: never;
+    }
+  | {
+      Algorithm?: never;
+      EmvMac?: never;
+      DukptIso9797Algorithm1: MacAlgorithmDukpt;
+      DukptIso9797Algorithm3?: never;
+      DukptCmac?: never;
+    }
+  | {
+      Algorithm?: never;
+      EmvMac?: never;
+      DukptIso9797Algorithm1?: never;
+      DukptIso9797Algorithm3: MacAlgorithmDukpt;
+      DukptCmac?: never;
+    }
+  | {
+      Algorithm?: never;
+      EmvMac?: never;
+      DukptIso9797Algorithm1?: never;
+      DukptIso9797Algorithm3?: never;
+      DukptCmac: MacAlgorithmDukpt;
+    };
 export const MacAttributes = S.Union(
   S.Struct({ Algorithm: MacAlgorithm }),
   S.Struct({ EmvMac: MacAlgorithmEmv }),
@@ -505,8 +564,8 @@ export const TranslationPinDataIsoFormat1 = S.suspend(() =>
   identifier: "TranslationPinDataIsoFormat1",
 }) as any as S.Schema<TranslationPinDataIsoFormat1>;
 export type ReEncryptionAttributes =
-  | { Symmetric: SymmetricEncryptionAttributes }
-  | { Dukpt: DukptEncryptionAttributes };
+  | { Symmetric: SymmetricEncryptionAttributes; Dukpt?: never }
+  | { Symmetric?: never; Dukpt: DukptEncryptionAttributes };
 export const ReEncryptionAttributes = S.Union(
   S.Struct({ Symmetric: SymmetricEncryptionAttributes }),
   S.Struct({ Dukpt: DukptEncryptionAttributes }),
@@ -1022,20 +1081,82 @@ export const Ibm3624PinVerification = S.suspend(() =>
   identifier: "Ibm3624PinVerification",
 }) as any as S.Schema<Ibm3624PinVerification>;
 export type As2805KekValidationType =
-  | { KekValidationRequest: KekValidationRequest }
-  | { KekValidationResponse: KekValidationResponse };
+  | {
+      KekValidationRequest: KekValidationRequest;
+      KekValidationResponse?: never;
+    }
+  | {
+      KekValidationRequest?: never;
+      KekValidationResponse: KekValidationResponse;
+    };
 export const As2805KekValidationType = S.Union(
   S.Struct({ KekValidationRequest: KekValidationRequest }),
   S.Struct({ KekValidationResponse: KekValidationResponse }),
 );
 export type CardGenerationAttributes =
-  | { AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }
-  | { AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }
-  | { CardVerificationValue1: CardVerificationValue1 }
-  | { CardVerificationValue2: CardVerificationValue2 }
-  | { CardHolderVerificationValue: CardHolderVerificationValue }
-  | { DynamicCardVerificationCode: DynamicCardVerificationCode }
-  | { DynamicCardVerificationValue: DynamicCardVerificationValue };
+  | {
+      AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1: CardVerificationValue1;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2: CardVerificationValue2;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue: CardHolderVerificationValue;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode: DynamicCardVerificationCode;
+      DynamicCardVerificationValue?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue: DynamicCardVerificationValue;
+    };
 export const CardGenerationAttributes = S.Union(
   S.Struct({ AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }),
   S.Struct({ AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }),
@@ -1046,12 +1167,54 @@ export const CardGenerationAttributes = S.Union(
   S.Struct({ DynamicCardVerificationValue: DynamicCardVerificationValue }),
 );
 export type PinGenerationAttributes =
-  | { VisaPin: VisaPin }
-  | { VisaPinVerificationValue: VisaPinVerificationValue }
-  | { Ibm3624PinOffset: Ibm3624PinOffset }
-  | { Ibm3624NaturalPin: Ibm3624NaturalPin }
-  | { Ibm3624RandomPin: Ibm3624RandomPin }
-  | { Ibm3624PinFromOffset: Ibm3624PinFromOffset };
+  | {
+      VisaPin: VisaPin;
+      VisaPinVerificationValue?: never;
+      Ibm3624PinOffset?: never;
+      Ibm3624NaturalPin?: never;
+      Ibm3624RandomPin?: never;
+      Ibm3624PinFromOffset?: never;
+    }
+  | {
+      VisaPin?: never;
+      VisaPinVerificationValue: VisaPinVerificationValue;
+      Ibm3624PinOffset?: never;
+      Ibm3624NaturalPin?: never;
+      Ibm3624RandomPin?: never;
+      Ibm3624PinFromOffset?: never;
+    }
+  | {
+      VisaPin?: never;
+      VisaPinVerificationValue?: never;
+      Ibm3624PinOffset: Ibm3624PinOffset;
+      Ibm3624NaturalPin?: never;
+      Ibm3624RandomPin?: never;
+      Ibm3624PinFromOffset?: never;
+    }
+  | {
+      VisaPin?: never;
+      VisaPinVerificationValue?: never;
+      Ibm3624PinOffset?: never;
+      Ibm3624NaturalPin: Ibm3624NaturalPin;
+      Ibm3624RandomPin?: never;
+      Ibm3624PinFromOffset?: never;
+    }
+  | {
+      VisaPin?: never;
+      VisaPinVerificationValue?: never;
+      Ibm3624PinOffset?: never;
+      Ibm3624NaturalPin?: never;
+      Ibm3624RandomPin: Ibm3624RandomPin;
+      Ibm3624PinFromOffset?: never;
+    }
+  | {
+      VisaPin?: never;
+      VisaPinVerificationValue?: never;
+      Ibm3624PinOffset?: never;
+      Ibm3624NaturalPin?: never;
+      Ibm3624RandomPin?: never;
+      Ibm3624PinFromOffset: Ibm3624PinFromOffset;
+    };
 export const PinGenerationAttributes = S.Union(
   S.Struct({ VisaPin: VisaPin }),
   S.Struct({ VisaPinVerificationValue: VisaPinVerificationValue }),
@@ -1065,11 +1228,41 @@ export const OutgoingKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: OutgoingTr31KeyBlock }),
 );
 export type TranslationIsoFormats =
-  | { IsoFormat0: TranslationPinDataIsoFormat034 }
-  | { IsoFormat1: TranslationPinDataIsoFormat1 }
-  | { IsoFormat3: TranslationPinDataIsoFormat034 }
-  | { IsoFormat4: TranslationPinDataIsoFormat034 }
-  | { As2805Format0: TranslationPinDataAs2805Format0 };
+  | {
+      IsoFormat0: TranslationPinDataIsoFormat034;
+      IsoFormat1?: never;
+      IsoFormat3?: never;
+      IsoFormat4?: never;
+      As2805Format0?: never;
+    }
+  | {
+      IsoFormat0?: never;
+      IsoFormat1: TranslationPinDataIsoFormat1;
+      IsoFormat3?: never;
+      IsoFormat4?: never;
+      As2805Format0?: never;
+    }
+  | {
+      IsoFormat0?: never;
+      IsoFormat1?: never;
+      IsoFormat3: TranslationPinDataIsoFormat034;
+      IsoFormat4?: never;
+      As2805Format0?: never;
+    }
+  | {
+      IsoFormat0?: never;
+      IsoFormat1?: never;
+      IsoFormat3?: never;
+      IsoFormat4: TranslationPinDataIsoFormat034;
+      As2805Format0?: never;
+    }
+  | {
+      IsoFormat0?: never;
+      IsoFormat1?: never;
+      IsoFormat3?: never;
+      IsoFormat4?: never;
+      As2805Format0: TranslationPinDataAs2805Format0;
+    };
 export const TranslationIsoFormats = S.Union(
   S.Struct({ IsoFormat0: TranslationPinDataIsoFormat034 }),
   S.Struct({ IsoFormat1: TranslationPinDataIsoFormat1 }),
@@ -1078,11 +1271,41 @@ export const TranslationIsoFormats = S.Union(
   S.Struct({ As2805Format0: TranslationPinDataAs2805Format0 }),
 );
 export type SessionKeyDerivation =
-  | { EmvCommon: SessionKeyEmvCommon }
-  | { Mastercard: SessionKeyMastercard }
-  | { Emv2000: SessionKeyEmv2000 }
-  | { Amex: SessionKeyAmex }
-  | { Visa: SessionKeyVisa };
+  | {
+      EmvCommon: SessionKeyEmvCommon;
+      Mastercard?: never;
+      Emv2000?: never;
+      Amex?: never;
+      Visa?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Mastercard: SessionKeyMastercard;
+      Emv2000?: never;
+      Amex?: never;
+      Visa?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Mastercard?: never;
+      Emv2000: SessionKeyEmv2000;
+      Amex?: never;
+      Visa?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Mastercard?: never;
+      Emv2000?: never;
+      Amex: SessionKeyAmex;
+      Visa?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Mastercard?: never;
+      Emv2000?: never;
+      Amex?: never;
+      Visa: SessionKeyVisa;
+    };
 export const SessionKeyDerivation = S.Union(
   S.Struct({ EmvCommon: SessionKeyEmvCommon }),
   S.Struct({ Mastercard: SessionKeyMastercard }),
@@ -1091,21 +1314,91 @@ export const SessionKeyDerivation = S.Union(
   S.Struct({ Visa: SessionKeyVisa }),
 );
 export type CryptogramAuthResponse =
-  | { ArpcMethod1: CryptogramVerificationArpcMethod1 }
-  | { ArpcMethod2: CryptogramVerificationArpcMethod2 };
+  | { ArpcMethod1: CryptogramVerificationArpcMethod1; ArpcMethod2?: never }
+  | { ArpcMethod1?: never; ArpcMethod2: CryptogramVerificationArpcMethod2 };
 export const CryptogramAuthResponse = S.Union(
   S.Struct({ ArpcMethod1: CryptogramVerificationArpcMethod1 }),
   S.Struct({ ArpcMethod2: CryptogramVerificationArpcMethod2 }),
 );
 export type CardVerificationAttributes =
-  | { AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1 }
-  | { AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2 }
-  | { CardVerificationValue1: CardVerificationValue1 }
-  | { CardVerificationValue2: CardVerificationValue2 }
-  | { CardHolderVerificationValue: CardHolderVerificationValue }
-  | { DynamicCardVerificationCode: DynamicCardVerificationCode }
-  | { DynamicCardVerificationValue: DynamicCardVerificationValue }
   | {
+      AmexCardSecurityCodeVersion1: AmexCardSecurityCodeVersion1;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2: AmexCardSecurityCodeVersion2;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1: CardVerificationValue1;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2: CardVerificationValue2;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue: CardHolderVerificationValue;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode: DynamicCardVerificationCode;
+      DynamicCardVerificationValue?: never;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue: DynamicCardVerificationValue;
+      DiscoverDynamicCardVerificationCode?: never;
+    }
+  | {
+      AmexCardSecurityCodeVersion1?: never;
+      AmexCardSecurityCodeVersion2?: never;
+      CardVerificationValue1?: never;
+      CardVerificationValue2?: never;
+      CardHolderVerificationValue?: never;
+      DynamicCardVerificationCode?: never;
+      DynamicCardVerificationValue?: never;
       DiscoverDynamicCardVerificationCode: DiscoverDynamicCardVerificationCode;
     };
 export const CardVerificationAttributes = S.Union(
@@ -1121,8 +1414,8 @@ export const CardVerificationAttributes = S.Union(
   }),
 );
 export type PinVerificationAttributes =
-  | { VisaPin: VisaPinVerification }
-  | { Ibm3624Pin: Ibm3624PinVerification };
+  | { VisaPin: VisaPinVerification; Ibm3624Pin?: never }
+  | { VisaPin?: never; Ibm3624Pin: Ibm3624PinVerification };
 export const PinVerificationAttributes = S.Union(
   S.Struct({ VisaPin: VisaPinVerification }),
   S.Struct({ Ibm3624Pin: Ibm3624PinVerification }),
@@ -1395,11 +1688,41 @@ export const IncomingDiffieHellmanTr31KeyBlock = S.suspend(() =>
   identifier: "IncomingDiffieHellmanTr31KeyBlock",
 }) as any as S.Schema<IncomingDiffieHellmanTr31KeyBlock>;
 export type DerivationMethodAttributes =
-  | { EmvCommon: EmvCommonAttributes }
-  | { Amex: AmexAttributes }
-  | { Visa: VisaAttributes }
-  | { Emv2000: Emv2000Attributes }
-  | { Mastercard: MasterCardAttributes };
+  | {
+      EmvCommon: EmvCommonAttributes;
+      Amex?: never;
+      Visa?: never;
+      Emv2000?: never;
+      Mastercard?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Amex: AmexAttributes;
+      Visa?: never;
+      Emv2000?: never;
+      Mastercard?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Amex?: never;
+      Visa: VisaAttributes;
+      Emv2000?: never;
+      Mastercard?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Amex?: never;
+      Visa?: never;
+      Emv2000: Emv2000Attributes;
+      Mastercard?: never;
+    }
+  | {
+      EmvCommon?: never;
+      Amex?: never;
+      Visa?: never;
+      Emv2000?: never;
+      Mastercard: MasterCardAttributes;
+    };
 export const DerivationMethodAttributes = S.Union(
   S.Struct({ EmvCommon: EmvCommonAttributes }),
   S.Struct({ Amex: AmexAttributes }),
@@ -1601,8 +1924,11 @@ export const VerifyPinDataOutput = S.suspend(() =>
   identifier: "VerifyPinDataOutput",
 }) as any as S.Schema<VerifyPinDataOutput>;
 export type PinData =
-  | { PinOffset: string | redacted.Redacted<string> }
-  | { VerificationValue: string | redacted.Redacted<string> };
+  | { PinOffset: string | redacted.Redacted<string>; VerificationValue?: never }
+  | {
+      PinOffset?: never;
+      VerificationValue: string | redacted.Redacted<string>;
+    };
 export const PinData = S.Union(
   S.Struct({ PinOffset: SensitiveString }),
   S.Struct({ VerificationValue: SensitiveString }),

@@ -375,8 +375,8 @@ export const ActionGroupSignatureParams = S.Record({
 export type CustomControlMethod = "RETURN_CONTROL";
 export const CustomControlMethod = S.Literal("RETURN_CONTROL");
 export type ActionGroupExecutor =
-  | { lambda: string }
-  | { customControl: CustomControlMethod };
+  | { lambda: string; customControl?: never }
+  | { lambda?: never; customControl: CustomControlMethod };
 export const ActionGroupExecutor = S.Union(
   S.Struct({ lambda: S.String }),
   S.Struct({ customControl: CustomControlMethod }),
@@ -392,8 +392,8 @@ export const S3Identifier = S.suspend(() =>
   }),
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
 export type APISchema =
-  | { s3: S3Identifier }
-  | { payload: string | redacted.Redacted<string> };
+  | { s3: S3Identifier; payload?: never }
+  | { s3?: never; payload: string | redacted.Redacted<string> };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
   S.Struct({ payload: SensitiveString }),
@@ -1659,8 +1659,8 @@ export const FlowConditionalConnectionConfiguration = S.suspend(() =>
   identifier: "FlowConditionalConnectionConfiguration",
 }) as any as S.Schema<FlowConditionalConnectionConfiguration>;
 export type FlowConnectionConfiguration =
-  | { data: FlowDataConnectionConfiguration }
-  | { conditional: FlowConditionalConnectionConfiguration };
+  | { data: FlowDataConnectionConfiguration; conditional?: never }
+  | { data?: never; conditional: FlowConditionalConnectionConfiguration };
 export const FlowConnectionConfiguration = S.Union(
   S.Struct({ data: FlowDataConnectionConfiguration }),
   S.Struct({ conditional: FlowConditionalConnectionConfiguration }),
@@ -3153,7 +3153,9 @@ export const TextPromptTemplateConfiguration = S.suspend(() =>
 }) as any as S.Schema<TextPromptTemplateConfiguration>;
 export type ConversationRole = "user" | "assistant";
 export const ConversationRole = S.Literal("user", "assistant");
-export type ContentBlock = { text: string } | { cachePoint: CachePointBlock };
+export type ContentBlock =
+  | { text: string; cachePoint?: never }
+  | { text?: never; cachePoint: CachePointBlock };
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
@@ -3170,8 +3172,8 @@ export const Message = S.suspend(() =>
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export type SystemContentBlock =
-  | { text: string }
-  | { cachePoint: CachePointBlock };
+  | { text: string; cachePoint?: never }
+  | { text?: never; cachePoint: CachePointBlock };
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ cachePoint: CachePointBlock }),
@@ -3195,8 +3197,8 @@ export const ToolSpecification = S.suspend(() =>
   identifier: "ToolSpecification",
 }) as any as S.Schema<ToolSpecification>;
 export type Tool =
-  | { toolSpec: ToolSpecification }
-  | { cachePoint: CachePointBlock };
+  | { toolSpec: ToolSpecification; cachePoint?: never }
+  | { toolSpec?: never; cachePoint: CachePointBlock };
 export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ cachePoint: CachePointBlock }),
@@ -3220,9 +3222,9 @@ export const SpecificToolChoice = S.suspend(() =>
   identifier: "SpecificToolChoice",
 }) as any as S.Schema<SpecificToolChoice>;
 export type ToolChoice =
-  | { auto: AutoToolChoice }
-  | { any: AnyToolChoice }
-  | { tool: SpecificToolChoice };
+  | { auto: AutoToolChoice; any?: never; tool?: never }
+  | { auto?: never; any: AnyToolChoice; tool?: never }
+  | { auto?: never; any?: never; tool: SpecificToolChoice };
 export const ToolChoice = S.Union(
   S.Struct({ auto: AutoToolChoice }),
   S.Struct({ any: AnyToolChoice }),
@@ -3254,8 +3256,8 @@ export const ChatPromptTemplateConfiguration = S.suspend(() =>
   identifier: "ChatPromptTemplateConfiguration",
 }) as any as S.Schema<ChatPromptTemplateConfiguration>;
 export type PromptTemplateConfiguration =
-  | { text: TextPromptTemplateConfiguration }
-  | { chat: ChatPromptTemplateConfiguration };
+  | { text: TextPromptTemplateConfiguration; chat?: never }
+  | { text?: never; chat: ChatPromptTemplateConfiguration };
 export const PromptTemplateConfiguration = S.Union(
   S.Struct({ text: TextPromptTemplateConfiguration }),
   S.Struct({ chat: ChatPromptTemplateConfiguration }),
@@ -5983,63 +5985,1161 @@ export const TextContentDoc = S.suspend(() =>
 export type PerformanceConfigLatency = "standard" | "optimized";
 export const PerformanceConfigLatency = S.Literal("standard", "optimized");
 export type FlowValidationDetails =
-  | { cyclicConnection: CyclicConnectionFlowValidationDetails }
-  | { duplicateConnections: DuplicateConnectionsFlowValidationDetails }
   | {
+      cyclicConnection: CyclicConnectionFlowValidationDetails;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections: DuplicateConnectionsFlowValidationDetails;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
       duplicateConditionExpression: DuplicateConditionExpressionFlowValidationDetails;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { unreachableNode: UnreachableNodeFlowValidationDetails }
-  | { unknownConnectionSource: UnknownConnectionSourceFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode: UnreachableNodeFlowValidationDetails;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource: UnknownConnectionSourceFlowValidationDetails;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
       unknownConnectionSourceOutput: UnknownConnectionSourceOutputFlowValidationDetails;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { unknownConnectionTarget: UnknownConnectionTargetFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget: UnknownConnectionTargetFlowValidationDetails;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
       unknownConnectionTargetInput: UnknownConnectionTargetInputFlowValidationDetails;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
       unknownConnectionCondition: UnknownConnectionConditionFlowValidationDetails;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
       malformedConditionExpression: MalformedConditionExpressionFlowValidationDetails;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
       malformedNodeInputExpression: MalformedNodeInputExpressionFlowValidationDetails;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { mismatchedNodeInputType: MismatchedNodeInputTypeFlowValidationDetails }
-  | { mismatchedNodeOutputType: MismatchedNodeOutputTypeFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType: MismatchedNodeInputTypeFlowValidationDetails;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType: MismatchedNodeOutputTypeFlowValidationDetails;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
       incompatibleConnectionDataType: IncompatibleConnectionDataTypeFlowValidationDetails;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
       missingConnectionConfiguration: MissingConnectionConfigurationFlowValidationDetails;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { missingDefaultCondition: MissingDefaultConditionFlowValidationDetails }
-  | { missingEndingNodes: MissingEndingNodesFlowValidationDetails }
-  | { missingNodeConfiguration: MissingNodeConfigurationFlowValidationDetails }
-  | { missingNodeInput: MissingNodeInputFlowValidationDetails }
-  | { missingNodeOutput: MissingNodeOutputFlowValidationDetails }
-  | { missingStartingNodes: MissingStartingNodesFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition: MissingDefaultConditionFlowValidationDetails;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes: MissingEndingNodesFlowValidationDetails;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration: MissingNodeConfigurationFlowValidationDetails;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput: MissingNodeInputFlowValidationDetails;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput: MissingNodeOutputFlowValidationDetails;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes: MissingStartingNodesFlowValidationDetails;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
       multipleNodeInputConnections: MultipleNodeInputConnectionsFlowValidationDetails;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { unfulfilledNodeInput: UnfulfilledNodeInputFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput: UnfulfilledNodeInputFlowValidationDetails;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
       unsatisfiedConnectionConditions: UnsatisfiedConnectionConditionsFlowValidationDetails;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { unspecified: UnspecifiedFlowValidationDetails }
-  | { unknownNodeInput: UnknownNodeInputFlowValidationDetails }
-  | { unknownNodeOutput: UnknownNodeOutputFlowValidationDetails }
-  | { missingLoopInputNode: MissingLoopInputNodeFlowValidationDetails }
   | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified: UnspecifiedFlowValidationDetails;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput: UnknownNodeInputFlowValidationDetails;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput: UnknownNodeOutputFlowValidationDetails;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode: MissingLoopInputNodeFlowValidationDetails;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
       missingLoopControllerNode: MissingLoopControllerNodeFlowValidationDetails;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { multipleLoopInputNodes: MultipleLoopInputNodesFlowValidationDetails }
   | {
-      multipleLoopControllerNodes: MultipleLoopControllerNodesFlowValidationDetails;
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes: MultipleLoopInputNodesFlowValidationDetails;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
     }
-  | { loopIncompatibleNodeType: LoopIncompatibleNodeTypeFlowValidationDetails }
-  | { invalidLoopBoundary: InvalidLoopBoundaryFlowValidationDetails };
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes: MultipleLoopControllerNodesFlowValidationDetails;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType: LoopIncompatibleNodeTypeFlowValidationDetails;
+      invalidLoopBoundary?: never;
+    }
+  | {
+      cyclicConnection?: never;
+      duplicateConnections?: never;
+      duplicateConditionExpression?: never;
+      unreachableNode?: never;
+      unknownConnectionSource?: never;
+      unknownConnectionSourceOutput?: never;
+      unknownConnectionTarget?: never;
+      unknownConnectionTargetInput?: never;
+      unknownConnectionCondition?: never;
+      malformedConditionExpression?: never;
+      malformedNodeInputExpression?: never;
+      mismatchedNodeInputType?: never;
+      mismatchedNodeOutputType?: never;
+      incompatibleConnectionDataType?: never;
+      missingConnectionConfiguration?: never;
+      missingDefaultCondition?: never;
+      missingEndingNodes?: never;
+      missingNodeConfiguration?: never;
+      missingNodeInput?: never;
+      missingNodeOutput?: never;
+      missingStartingNodes?: never;
+      multipleNodeInputConnections?: never;
+      unfulfilledNodeInput?: never;
+      unsatisfiedConnectionConditions?: never;
+      unspecified?: never;
+      unknownNodeInput?: never;
+      unknownNodeOutput?: never;
+      missingLoopInputNode?: never;
+      missingLoopControllerNode?: never;
+      multipleLoopInputNodes?: never;
+      multipleLoopControllerNodes?: never;
+      loopIncompatibleNodeType?: never;
+      invalidLoopBoundary: InvalidLoopBoundaryFlowValidationDetails;
+    };
 export const FlowValidationDetails = S.Union(
   S.Struct({ cyclicConnection: CyclicConnectionFlowValidationDetails }),
   S.Struct({ duplicateConnections: DuplicateConnectionsFlowValidationDetails }),
@@ -6269,8 +7369,8 @@ export const KnowledgeBaseOrchestrationConfiguration = S.suspend(() =>
   identifier: "KnowledgeBaseOrchestrationConfiguration",
 }) as any as S.Schema<KnowledgeBaseOrchestrationConfiguration>;
 export type PromptFlowNodeSourceConfiguration =
-  | { resource: PromptFlowNodeResourceConfiguration }
-  | { inline: PromptFlowNodeInlineConfiguration };
+  | { resource: PromptFlowNodeResourceConfiguration; inline?: never }
+  | { resource?: never; inline: PromptFlowNodeInlineConfiguration };
 export const PromptFlowNodeSourceConfiguration = S.Union(
   S.Struct({ resource: PromptFlowNodeResourceConfiguration }),
   S.Struct({ inline: PromptFlowNodeInlineConfiguration }),
@@ -6495,8 +7595,8 @@ export const FieldForReranking = S.suspend(() =>
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[] }
-  | { fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
+  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
@@ -6686,22 +7786,294 @@ export const KnowledgeBaseFlowNodeConfiguration = S.suspend(() =>
   identifier: "KnowledgeBaseFlowNodeConfiguration",
 }) as any as S.Schema<KnowledgeBaseFlowNodeConfiguration>;
 export type FlowNodeConfiguration =
-  | { input: InputFlowNodeConfiguration }
-  | { output: OutputFlowNodeConfiguration }
-  | { knowledgeBase: KnowledgeBaseFlowNodeConfiguration }
-  | { condition: ConditionFlowNodeConfiguration }
-  | { lex: LexFlowNodeConfiguration }
-  | { prompt: PromptFlowNodeConfiguration }
-  | { lambdaFunction: LambdaFunctionFlowNodeConfiguration }
-  | { storage: StorageFlowNodeConfiguration }
-  | { agent: AgentFlowNodeConfiguration }
-  | { retrieval: RetrievalFlowNodeConfiguration }
-  | { iterator: IteratorFlowNodeConfiguration }
-  | { collector: CollectorFlowNodeConfiguration }
-  | { inlineCode: InlineCodeFlowNodeConfiguration }
-  | { loop: LoopFlowNodeConfiguration }
-  | { loopInput: LoopInputFlowNodeConfiguration }
-  | { loopController: LoopControllerFlowNodeConfiguration };
+  | {
+      input: InputFlowNodeConfiguration;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output: OutputFlowNodeConfiguration;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase: KnowledgeBaseFlowNodeConfiguration;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition: ConditionFlowNodeConfiguration;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex: LexFlowNodeConfiguration;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt: PromptFlowNodeConfiguration;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction: LambdaFunctionFlowNodeConfiguration;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage: StorageFlowNodeConfiguration;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent: AgentFlowNodeConfiguration;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval: RetrievalFlowNodeConfiguration;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator: IteratorFlowNodeConfiguration;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector: CollectorFlowNodeConfiguration;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode: InlineCodeFlowNodeConfiguration;
+      loop?: never;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop: LoopFlowNodeConfiguration;
+      loopInput?: never;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput: LoopInputFlowNodeConfiguration;
+      loopController?: never;
+    }
+  | {
+      input?: never;
+      output?: never;
+      knowledgeBase?: never;
+      condition?: never;
+      lex?: never;
+      prompt?: never;
+      lambdaFunction?: never;
+      storage?: never;
+      agent?: never;
+      retrieval?: never;
+      iterator?: never;
+      collector?: never;
+      inlineCode?: never;
+      loop?: never;
+      loopInput?: never;
+      loopController: LoopControllerFlowNodeConfiguration;
+    };
 export const FlowNodeConfiguration = S.Union(
   S.Struct({ input: InputFlowNodeConfiguration }),
   S.Struct({ output: OutputFlowNodeConfiguration }),

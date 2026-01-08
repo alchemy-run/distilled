@@ -368,6 +368,21 @@ function sanitizeErrorName(name: string): string {
   return name.replace(/\./g, "");
 }
 
+// Helper to generate discriminated union variant with never properties for easier narrowing
+// e.g., { S: string; N?: never; B?: never } instead of just { S: string }
+function generateUnionVariant(
+  allMemberNames: string[],
+  activeMemberName: string,
+  activeMemberType: string,
+): string {
+  const props = allMemberNames.map((name) =>
+    name === activeMemberName
+      ? `${name}: ${activeMemberType}`
+      : `${name}?: never`,
+  );
+  return `{ ${props.join("; ")} }`;
+}
+
 // Reserved names that should not be generated as newtypes
 // These either shadow built-in types or are trivial primitive aliases
 const reservedNewtypeNames = new Set([
@@ -2011,11 +2026,17 @@ const convertShapeToSchema: (
                       // Event stream unions use T.EventStream() or T.InputEventStream() based on direction
                       if (isEventStream) {
                         // Generate type alias for event streams too (needed for struct member types)
+                        // Each variant includes all other member keys as ?: never for easier narrowing
+                        const allMemberNames = members.map((m) => m.name);
                         const memberTsTypes = yield* Effect.all(
                           members.map((m) =>
                             shapeToTsType(m.target).pipe(
-                              Effect.map(
-                                (innerType) => `{ ${m.name}: ${innerType} }`,
+                              Effect.map((innerType) =>
+                                generateUnionVariant(
+                                  allMemberNames,
+                                  m.name,
+                                  innerType,
+                                ),
                               ),
                             ),
                           ),
@@ -2032,12 +2053,17 @@ const convertShapeToSchema: (
                       }
 
                       // Generate explicit type alias for unions (needed for pagination item types)
-                      // Each member is now a struct { memberName: type }, so the TS types need to reflect that
+                      // Each variant includes all other member keys as ?: never for easier narrowing
+                      const allMemberNames = members.map((m) => m.name);
                       const memberTsTypes = yield* Effect.all(
                         members.map((m) =>
                           shapeToTsType(m.target).pipe(
-                            Effect.map(
-                              (innerType) => `{ ${m.name}: ${innerType} }`,
+                            Effect.map((innerType) =>
+                              generateUnionVariant(
+                                allMemberNames,
+                                m.name,
+                                innerType,
+                              ),
                             ),
                           ),
                         ),

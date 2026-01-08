@@ -257,16 +257,126 @@ export const EntityIdentifier = S.suspend(() =>
   identifier: "EntityIdentifier",
 }) as any as S.Schema<EntityIdentifier>;
 export type AttributeValue =
-  | { boolean: boolean }
-  | { entityIdentifier: EntityIdentifier }
-  | { long: number }
-  | { string: string | redacted.Redacted<string> }
-  | { set: AttributeValue[] }
-  | { record: { [key: string]: AttributeValue } }
-  | { ipaddr: string | redacted.Redacted<string> }
-  | { decimal: string | redacted.Redacted<string> }
-  | { datetime: string | redacted.Redacted<string> }
-  | { duration: string | redacted.Redacted<string> };
+  | {
+      boolean: boolean;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier: EntityIdentifier;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long: number;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string: string | redacted.Redacted<string>;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set: AttributeValue[];
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record: { [key: string]: AttributeValue };
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr: string | redacted.Redacted<string>;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal: string | redacted.Redacted<string>;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime: string | redacted.Redacted<string>;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration: string | redacted.Redacted<string>;
+    };
 export const AttributeValue = S.Union(
   S.Struct({ boolean: S.Boolean }),
   S.Struct({ entityIdentifier: EntityIdentifier }),
@@ -295,8 +405,8 @@ export const ContextMap = S.Record({
   }),
 });
 export type ContextDefinition =
-  | { contextMap: { [key: string]: AttributeValue } }
-  | { cedarJson: string | redacted.Redacted<string> };
+  | { contextMap: { [key: string]: AttributeValue }; cedarJson?: never }
+  | { contextMap?: never; cedarJson: string | redacted.Redacted<string> };
 export const ContextDefinition = S.Union(
   S.Struct({ contextMap: ContextMap }),
   S.Struct({ cedarJson: SensitiveString }),
@@ -311,16 +421,126 @@ export const EntityAttributes = S.Record({
 export type ParentList = EntityIdentifier[];
 export const ParentList = S.Array(EntityIdentifier);
 export type CedarTagValue =
-  | { boolean: boolean }
-  | { entityIdentifier: EntityIdentifier }
-  | { long: number }
-  | { string: string | redacted.Redacted<string> }
-  | { set: CedarTagValue[] }
-  | { record: { [key: string]: CedarTagValue } }
-  | { ipaddr: string | redacted.Redacted<string> }
-  | { decimal: string | redacted.Redacted<string> }
-  | { datetime: string | redacted.Redacted<string> }
-  | { duration: string | redacted.Redacted<string> };
+  | {
+      boolean: boolean;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier: EntityIdentifier;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long: number;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string: string | redacted.Redacted<string>;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set: CedarTagValue[];
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record: { [key: string]: CedarTagValue };
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr: string | redacted.Redacted<string>;
+      decimal?: never;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal: string | redacted.Redacted<string>;
+      datetime?: never;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime: string | redacted.Redacted<string>;
+      duration?: never;
+    }
+  | {
+      boolean?: never;
+      entityIdentifier?: never;
+      long?: never;
+      string?: never;
+      set?: never;
+      record?: never;
+      ipaddr?: never;
+      decimal?: never;
+      datetime?: never;
+      duration: string | redacted.Redacted<string>;
+    };
 export const CedarTagValue = S.Union(
   S.Struct({ boolean: S.Boolean }),
   S.Struct({ entityIdentifier: EntityIdentifier }),
@@ -365,8 +585,8 @@ export const EntityItem = S.suspend(() =>
 export type EntityList = EntityItem[];
 export const EntityList = S.Array(EntityItem);
 export type EntitiesDefinition =
-  | { entityList: EntityItem[] }
-  | { cedarJson: string | redacted.Redacted<string> };
+  | { entityList: EntityItem[]; cedarJson?: never }
+  | { entityList?: never; cedarJson: string | redacted.Redacted<string> };
 export const EntitiesDefinition = S.Union(
   S.Struct({ entityList: EntityList }),
   S.Struct({ cedarJson: SensitiveString }),
@@ -877,8 +1097,8 @@ export const UpdateStaticPolicyDefinition = S.suspend(() =>
   identifier: "UpdateStaticPolicyDefinition",
 }) as any as S.Schema<UpdateStaticPolicyDefinition>;
 export type EntityReference =
-  | { unspecified: boolean }
-  | { identifier: EntityIdentifier };
+  | { unspecified: boolean; identifier?: never }
+  | { unspecified?: never; identifier: EntityIdentifier };
 export const EntityReference = S.Union(
   S.Struct({ unspecified: S.Boolean }),
   S.Struct({ identifier: EntityIdentifier }),
@@ -955,8 +1175,8 @@ export const ResourceConflict = S.suspend(() =>
 export type ResourceConflictList = ResourceConflict[];
 export const ResourceConflictList = S.Array(ResourceConflict);
 export type PolicyDefinition =
-  | { static: StaticPolicyDefinition }
-  | { templateLinked: TemplateLinkedPolicyDefinition };
+  | { static: StaticPolicyDefinition; templateLinked?: never }
+  | { static?: never; templateLinked: TemplateLinkedPolicyDefinition };
 export const PolicyDefinition = S.Union(
   S.Struct({ static: StaticPolicyDefinition }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinition }),
@@ -1296,8 +1516,8 @@ export const BatchIsAuthorizedWithTokenOutputList = S.Array(
   BatchIsAuthorizedWithTokenOutputItem,
 );
 export type PolicyDefinitionDetail =
-  | { static: StaticPolicyDefinitionDetail }
-  | { templateLinked: TemplateLinkedPolicyDefinitionDetail };
+  | { static: StaticPolicyDefinitionDetail; templateLinked?: never }
+  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionDetail };
 export const PolicyDefinitionDetail = S.Union(
   S.Struct({ static: StaticPolicyDefinitionDetail }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionDetail }),
@@ -1343,8 +1563,14 @@ export const BatchGetPolicyErrorItem = S.suspend(() =>
 export type BatchGetPolicyErrorList = BatchGetPolicyErrorItem[];
 export const BatchGetPolicyErrorList = S.Array(BatchGetPolicyErrorItem);
 export type OpenIdConnectTokenSelection =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration }
-  | { identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
+  | {
+      accessTokenOnly: OpenIdConnectAccessTokenConfiguration;
+      identityTokenOnly?: never;
+    }
+  | {
+      accessTokenOnly?: never;
+      identityTokenOnly: OpenIdConnectIdentityTokenConfiguration;
+    };
 export const OpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfiguration }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfiguration }),
@@ -1367,8 +1593,14 @@ export const OpenIdConnectGroupConfigurationDetail = S.suspend(() =>
   identifier: "OpenIdConnectGroupConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectGroupConfigurationDetail>;
 export type UpdateOpenIdConnectTokenSelection =
-  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration }
-  | { identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration };
+  | {
+      accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration;
+      identityTokenOnly?: never;
+    }
+  | {
+      accessTokenOnly?: never;
+      identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration;
+    };
 export const UpdateOpenIdConnectTokenSelection = S.Union(
   S.Struct({ accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration }),
   S.Struct({
@@ -1575,15 +1807,27 @@ export const OpenIdConnectIdentityTokenConfigurationDetail = S.suspend(() =>
   identifier: "OpenIdConnectIdentityTokenConfigurationDetail",
 }) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationDetail>;
 export type Configuration =
-  | { cognitoUserPoolConfiguration: CognitoUserPoolConfiguration }
-  | { openIdConnectConfiguration: OpenIdConnectConfiguration };
+  | {
+      cognitoUserPoolConfiguration: CognitoUserPoolConfiguration;
+      openIdConnectConfiguration?: never;
+    }
+  | {
+      cognitoUserPoolConfiguration?: never;
+      openIdConnectConfiguration: OpenIdConnectConfiguration;
+    };
 export const Configuration = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfiguration }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfiguration }),
 );
 export type UpdateConfiguration =
-  | { cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration }
-  | { openIdConnectConfiguration: UpdateOpenIdConnectConfiguration };
+  | {
+      cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration;
+      openIdConnectConfiguration?: never;
+    }
+  | {
+      cognitoUserPoolConfiguration?: never;
+      openIdConnectConfiguration: UpdateOpenIdConnectConfiguration;
+    };
 export const UpdateConfiguration = S.Union(
   S.Struct({
     cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration,
@@ -1591,8 +1835,14 @@ export const UpdateConfiguration = S.Union(
   S.Struct({ openIdConnectConfiguration: UpdateOpenIdConnectConfiguration }),
 );
 export type OpenIdConnectTokenSelectionDetail =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail }
-  | { identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail };
+  | {
+      accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail;
+      identityTokenOnly?: never;
+    }
+  | {
+      accessTokenOnly?: never;
+      identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail;
+    };
 export const OpenIdConnectTokenSelectionDetail = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail }),
   S.Struct({
@@ -1691,8 +1941,14 @@ export const OpenIdConnectGroupConfigurationItem = S.suspend(() =>
   identifier: "OpenIdConnectGroupConfigurationItem",
 }) as any as S.Schema<OpenIdConnectGroupConfigurationItem>;
 export type ConfigurationDetail =
-  | { cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail }
-  | { openIdConnectConfiguration: OpenIdConnectConfigurationDetail };
+  | {
+      cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail;
+      openIdConnectConfiguration?: never;
+    }
+  | {
+      cognitoUserPoolConfiguration?: never;
+      openIdConnectConfiguration: OpenIdConnectConfigurationDetail;
+    };
 export const ConfigurationDetail = S.Union(
   S.Struct({
     cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail,
@@ -1846,15 +2102,21 @@ export const OpenIdConnectIdentityTokenConfigurationItem = S.suspend(() =>
   identifier: "OpenIdConnectIdentityTokenConfigurationItem",
 }) as any as S.Schema<OpenIdConnectIdentityTokenConfigurationItem>;
 export type PolicyDefinitionItem =
-  | { static: StaticPolicyDefinitionItem }
-  | { templateLinked: TemplateLinkedPolicyDefinitionItem };
+  | { static: StaticPolicyDefinitionItem; templateLinked?: never }
+  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionItem };
 export const PolicyDefinitionItem = S.Union(
   S.Struct({ static: StaticPolicyDefinitionItem }),
   S.Struct({ templateLinked: TemplateLinkedPolicyDefinitionItem }),
 );
 export type OpenIdConnectTokenSelectionItem =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem }
-  | { identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
+  | {
+      accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem;
+      identityTokenOnly?: never;
+    }
+  | {
+      accessTokenOnly?: never;
+      identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem;
+    };
 export const OpenIdConnectTokenSelectionItem = S.Union(
   S.Struct({ accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem }),
   S.Struct({ identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem }),
@@ -1913,8 +2175,14 @@ export const ListPoliciesOutput = S.suspend(() =>
   identifier: "ListPoliciesOutput",
 }) as any as S.Schema<ListPoliciesOutput>;
 export type ConfigurationItem =
-  | { cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem }
-  | { openIdConnectConfiguration: OpenIdConnectConfigurationItem };
+  | {
+      cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem;
+      openIdConnectConfiguration?: never;
+    }
+  | {
+      cognitoUserPoolConfiguration?: never;
+      openIdConnectConfiguration: OpenIdConnectConfigurationItem;
+    };
 export const ConfigurationItem = S.Union(
   S.Struct({ cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem }),
   S.Struct({ openIdConnectConfiguration: OpenIdConnectConfigurationItem }),

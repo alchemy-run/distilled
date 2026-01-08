@@ -877,8 +877,8 @@ export const ApplicationPolicyType = S.Literal(
   "WINDOWS_UPDATE",
 );
 export type ApplicationPolicy =
-  | { PolicyType: ApplicationPolicyType }
-  | { PolicyObjectIdentifier: string };
+  | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: never }
+  | { PolicyType?: never; PolicyObjectIdentifier: string };
 export const ApplicationPolicy = S.Union(
   S.Struct({ PolicyType: ApplicationPolicyType }),
   S.Struct({ PolicyObjectIdentifier: S.String }),
@@ -946,8 +946,8 @@ export const KeyUsagePropertyFlags = S.suspend(() =>
   identifier: "KeyUsagePropertyFlags",
 }) as any as S.Schema<KeyUsagePropertyFlags>;
 export type KeyUsageProperty =
-  | { PropertyType: KeyUsagePropertyType }
-  | { PropertyFlags: KeyUsagePropertyFlags };
+  | { PropertyType: KeyUsagePropertyType; PropertyFlags?: never }
+  | { PropertyType?: never; PropertyFlags: KeyUsagePropertyFlags };
 export const KeyUsageProperty = S.Union(
   S.Struct({ PropertyType: KeyUsagePropertyType }),
   S.Struct({ PropertyFlags: KeyUsagePropertyFlags }),
@@ -1244,9 +1244,9 @@ export const TemplateV4 = S.suspend(() =>
   }),
 ).annotations({ identifier: "TemplateV4" }) as any as S.Schema<TemplateV4>;
 export type TemplateDefinition =
-  | { TemplateV2: TemplateV2 }
-  | { TemplateV3: TemplateV3 }
-  | { TemplateV4: TemplateV4 };
+  | { TemplateV2: TemplateV2; TemplateV3?: never; TemplateV4?: never }
+  | { TemplateV2?: never; TemplateV3: TemplateV3; TemplateV4?: never }
+  | { TemplateV2?: never; TemplateV3?: never; TemplateV4: TemplateV4 };
 export const TemplateDefinition = S.Union(
   S.Struct({ TemplateV2: TemplateV2 }),
   S.Struct({ TemplateV3: TemplateV3 }),

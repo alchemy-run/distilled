@@ -910,14 +910,86 @@ export const OfferSetAssociatedOfferIdsFilterValueList = S.Array(S.String);
 export type OfferSetSolutionIdFilterValueList = string[];
 export const OfferSetSolutionIdFilterValueList = S.Array(S.String);
 export type EntityTypeSort =
-  | { DataProductSort: DataProductSort }
-  | { SaaSProductSort: SaaSProductSort }
-  | { AmiProductSort: AmiProductSort }
-  | { OfferSort: OfferSort }
-  | { ContainerProductSort: ContainerProductSort }
-  | { ResaleAuthorizationSort: ResaleAuthorizationSort }
-  | { MachineLearningProductSort: MachineLearningProductSort }
-  | { OfferSetSort: OfferSetSort };
+  | {
+      DataProductSort: DataProductSort;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort: SaaSProductSort;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort: AmiProductSort;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort: OfferSort;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort: ContainerProductSort;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort: ResaleAuthorizationSort;
+      MachineLearningProductSort?: never;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort: MachineLearningProductSort;
+      OfferSetSort?: never;
+    }
+  | {
+      DataProductSort?: never;
+      SaaSProductSort?: never;
+      AmiProductSort?: never;
+      OfferSort?: never;
+      ContainerProductSort?: never;
+      ResaleAuthorizationSort?: never;
+      MachineLearningProductSort?: never;
+      OfferSetSort: OfferSetSort;
+    };
 export const EntityTypeSort = S.Union(
   S.Struct({ DataProductSort: DataProductSort }),
   S.Struct({ SaaSProductSort: SaaSProductSort }),
@@ -1964,14 +2036,86 @@ export const Errors = S.Record({
   value: BatchDescribeErrorDetail,
 });
 export type EntityTypeFilters =
-  | { DataProductFilters: DataProductFilters }
-  | { SaaSProductFilters: SaaSProductFilters }
-  | { AmiProductFilters: AmiProductFilters }
-  | { OfferFilters: OfferFilters }
-  | { ContainerProductFilters: ContainerProductFilters }
-  | { ResaleAuthorizationFilters: ResaleAuthorizationFilters }
-  | { MachineLearningProductFilters: MachineLearningProductFilters }
-  | { OfferSetFilters: OfferSetFilters };
+  | {
+      DataProductFilters: DataProductFilters;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters: SaaSProductFilters;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters: AmiProductFilters;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters: OfferFilters;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters: ContainerProductFilters;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters: ResaleAuthorizationFilters;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters: MachineLearningProductFilters;
+      OfferSetFilters?: never;
+    }
+  | {
+      DataProductFilters?: never;
+      SaaSProductFilters?: never;
+      AmiProductFilters?: never;
+      OfferFilters?: never;
+      ContainerProductFilters?: never;
+      ResaleAuthorizationFilters?: never;
+      MachineLearningProductFilters?: never;
+      OfferSetFilters: OfferSetFilters;
+    };
 export const EntityTypeFilters = S.Union(
   S.Struct({ DataProductFilters: DataProductFilters }),
   S.Struct({ SaaSProductFilters: SaaSProductFilters }),

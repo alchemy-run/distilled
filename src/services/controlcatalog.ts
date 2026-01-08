@@ -510,9 +510,21 @@ export const ListObjectivesResponse = S.suspend(() =>
   identifier: "ListObjectivesResponse",
 }) as any as S.Schema<ListObjectivesResponse>;
 export type Mapping =
-  | { Framework: FrameworkMappingDetails }
-  | { CommonControl: CommonControlMappingDetails }
-  | { RelatedControl: RelatedControlMappingDetails };
+  | {
+      Framework: FrameworkMappingDetails;
+      CommonControl?: never;
+      RelatedControl?: never;
+    }
+  | {
+      Framework?: never;
+      CommonControl: CommonControlMappingDetails;
+      RelatedControl?: never;
+    }
+  | {
+      Framework?: never;
+      CommonControl?: never;
+      RelatedControl: RelatedControlMappingDetails;
+    };
 export const Mapping = S.Union(
   S.Struct({ Framework: FrameworkMappingDetails }),
   S.Struct({ CommonControl: CommonControlMappingDetails }),

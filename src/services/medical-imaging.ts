@@ -769,8 +769,8 @@ export const ImageSetProperties = S.suspend(() =>
 export type ImageSetPropertiesList = ImageSetProperties[];
 export const ImageSetPropertiesList = S.Array(ImageSetProperties);
 export type MetadataUpdates =
-  | { DICOMUpdates: DICOMUpdates }
-  | { revertToVersionId: string };
+  | { DICOMUpdates: DICOMUpdates; revertToVersionId?: never }
+  | { DICOMUpdates?: never; revertToVersionId: string };
 export const MetadataUpdates = S.Union(
   S.Struct({ DICOMUpdates: DICOMUpdates }),
   S.Struct({ revertToVersionId: S.String }),
@@ -998,15 +998,105 @@ export const CopyImageSetInformation = S.suspend(() =>
   identifier: "CopyImageSetInformation",
 }) as any as S.Schema<CopyImageSetInformation>;
 export type SearchByAttributeValue =
-  | { DICOMPatientId: string | redacted.Redacted<string> }
-  | { DICOMAccessionNumber: string | redacted.Redacted<string> }
-  | { DICOMStudyId: string | redacted.Redacted<string> }
-  | { DICOMStudyInstanceUID: string | redacted.Redacted<string> }
-  | { DICOMSeriesInstanceUID: string | redacted.Redacted<string> }
-  | { createdAt: Date }
-  | { updatedAt: Date }
-  | { DICOMStudyDateAndTime: DICOMStudyDateAndTime }
-  | { isPrimary: boolean };
+  | {
+      DICOMPatientId: string | redacted.Redacted<string>;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber: string | redacted.Redacted<string>;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId: string | redacted.Redacted<string>;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID: string | redacted.Redacted<string>;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID: string | redacted.Redacted<string>;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt: Date;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt: Date;
+      DICOMStudyDateAndTime?: never;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime: DICOMStudyDateAndTime;
+      isPrimary?: never;
+    }
+  | {
+      DICOMPatientId?: never;
+      DICOMAccessionNumber?: never;
+      DICOMStudyId?: never;
+      DICOMStudyInstanceUID?: never;
+      DICOMSeriesInstanceUID?: never;
+      createdAt?: never;
+      updatedAt?: never;
+      DICOMStudyDateAndTime?: never;
+      isPrimary: boolean;
+    };
 export const SearchByAttributeValue = S.Union(
   S.Struct({ DICOMPatientId: SensitiveString }),
   S.Struct({ DICOMAccessionNumber: SensitiveString }),

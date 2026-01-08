@@ -415,9 +415,21 @@ export const ResponsePayloadPart = S.suspend(() =>
   identifier: "ResponsePayloadPart",
 }) as any as S.Schema<ResponsePayloadPart>;
 export type ResponseStreamEvent =
-  | { PayloadPart: ResponsePayloadPart }
-  | { ModelStreamError: ModelStreamError }
-  | { InternalStreamFailure: InternalStreamFailure };
+  | {
+      PayloadPart: ResponsePayloadPart;
+      ModelStreamError?: never;
+      InternalStreamFailure?: never;
+    }
+  | {
+      PayloadPart?: never;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: never;
+    }
+  | {
+      PayloadPart?: never;
+      ModelStreamError?: never;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export const ResponseStreamEvent = T.EventStream(
   S.Union(
     S.Struct({ PayloadPart: ResponsePayloadPart }),

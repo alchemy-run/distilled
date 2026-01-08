@@ -478,13 +478,69 @@ export const S3RecordingConfig = S.suspend(() =>
   identifier: "S3RecordingConfig",
 }) as any as S.Schema<S3RecordingConfig>;
 export type ConfigTypeData =
-  | { antennaDownlinkConfig: AntennaDownlinkConfig }
-  | { trackingConfig: TrackingConfig }
-  | { dataflowEndpointConfig: DataflowEndpointConfig }
-  | { antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig }
-  | { antennaUplinkConfig: AntennaUplinkConfig }
-  | { uplinkEchoConfig: UplinkEchoConfig }
-  | { s3RecordingConfig: S3RecordingConfig };
+  | {
+      antennaDownlinkConfig: AntennaDownlinkConfig;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig: TrackingConfig;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig: DataflowEndpointConfig;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig: AntennaUplinkConfig;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig: UplinkEchoConfig;
+      s3RecordingConfig?: never;
+    }
+  | {
+      antennaDownlinkConfig?: never;
+      trackingConfig?: never;
+      dataflowEndpointConfig?: never;
+      antennaDownlinkDemodDecodeConfig?: never;
+      antennaUplinkConfig?: never;
+      uplinkEchoConfig?: never;
+      s3RecordingConfig: S3RecordingConfig;
+    };
 export const ConfigTypeData = S.Union(
   S.Struct({ antennaDownlinkConfig: AntennaDownlinkConfig }),
   S.Struct({ trackingConfig: TrackingConfig }),
@@ -799,9 +855,9 @@ export const GetMissionProfileRequest = S.suspend(() =>
   identifier: "GetMissionProfileRequest",
 }) as any as S.Schema<GetMissionProfileRequest>;
 export type KmsKey =
-  | { kmsKeyArn: string }
-  | { kmsAliasArn: string }
-  | { kmsAliasName: string };
+  | { kmsKeyArn: string; kmsAliasArn?: never; kmsAliasName?: never }
+  | { kmsKeyArn?: never; kmsAliasArn: string; kmsAliasName?: never }
+  | { kmsKeyArn?: never; kmsAliasArn?: never; kmsAliasName: string };
 export const KmsKey = S.Union(
   S.Struct({ kmsKeyArn: S.String }),
   S.Struct({ kmsAliasArn: S.String }),
@@ -1657,8 +1713,12 @@ export const DataflowEndpointListItem = S.suspend(() =>
 export type DataflowEndpointGroupList = DataflowEndpointListItem[];
 export const DataflowEndpointGroupList = S.Array(DataflowEndpointListItem);
 export type CreateEndpointDetails =
-  | { uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint }
   | {
+      uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint;
+      downlinkAwsGroundStationAgentEndpoint?: never;
+    }
+  | {
+      uplinkAwsGroundStationAgentEndpoint?: never;
       downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpoint;
     };
 export const CreateEndpointDetails = S.Union(
@@ -2010,9 +2070,21 @@ export const S3RecordingDetails = S.suspend(() =>
   identifier: "S3RecordingDetails",
 }) as any as S.Schema<S3RecordingDetails>;
 export type ConfigDetails =
-  | { endpointDetails: EndpointDetails }
-  | { antennaDemodDecodeDetails: AntennaDemodDecodeDetails }
-  | { s3RecordingDetails: S3RecordingDetails };
+  | {
+      endpointDetails: EndpointDetails;
+      antennaDemodDecodeDetails?: never;
+      s3RecordingDetails?: never;
+    }
+  | {
+      endpointDetails?: never;
+      antennaDemodDecodeDetails: AntennaDemodDecodeDetails;
+      s3RecordingDetails?: never;
+    }
+  | {
+      endpointDetails?: never;
+      antennaDemodDecodeDetails?: never;
+      s3RecordingDetails: S3RecordingDetails;
+    };
 export const ConfigDetails = S.Union(
   S.Struct({ endpointDetails: EndpointDetails }),
   S.Struct({ antennaDemodDecodeDetails: AntennaDemodDecodeDetails }),
@@ -2063,9 +2135,9 @@ export const TrackingOverrides = S.suspend(() =>
   identifier: "TrackingOverrides",
 }) as any as S.Schema<TrackingOverrides>;
 export type EphemerisTypeDescription =
-  | { tle: EphemerisDescription }
-  | { oem: EphemerisDescription }
-  | { azEl: EphemerisDescription };
+  | { tle: EphemerisDescription; oem?: never; azEl?: never }
+  | { tle?: never; oem: EphemerisDescription; azEl?: never }
+  | { tle?: never; oem?: never; azEl: EphemerisDescription };
 export const EphemerisTypeDescription = S.Union(
   S.Struct({ tle: EphemerisDescription }),
   S.Struct({ oem: EphemerisDescription }),
@@ -2337,8 +2409,8 @@ export const DataflowDetail = S.suspend(() =>
 export type DataflowList = DataflowDetail[];
 export const DataflowList = S.Array(DataflowDetail);
 export type AzElSegmentsData =
-  | { s3Object: S3Object }
-  | { azElData: AzElSegments };
+  | { s3Object: S3Object; azElData?: never }
+  | { s3Object?: never; azElData: AzElSegments };
 export const AzElSegmentsData = S.Union(
   S.Struct({ s3Object: S3Object }),
   S.Struct({ azElData: AzElSegments }),
@@ -2430,9 +2502,9 @@ export const AzElEphemeris = S.suspend(() =>
   identifier: "AzElEphemeris",
 }) as any as S.Schema<AzElEphemeris>;
 export type EphemerisData =
-  | { tle: TLEEphemeris }
-  | { oem: OEMEphemeris }
-  | { azEl: AzElEphemeris };
+  | { tle: TLEEphemeris; oem?: never; azEl?: never }
+  | { tle?: never; oem: OEMEphemeris; azEl?: never }
+  | { tle?: never; oem?: never; azEl: AzElEphemeris };
 export const EphemerisData = S.Union(
   S.Struct({ tle: TLEEphemeris }),
   S.Struct({ oem: OEMEphemeris }),

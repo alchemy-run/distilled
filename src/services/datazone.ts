@@ -1146,7 +1146,9 @@ export interface DeleteProjectOutput {}
 export const DeleteProjectOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteProjectOutput",
 }) as any as S.Schema<DeleteProjectOutput>;
-export type Member = { userIdentifier: string } | { groupIdentifier: string };
+export type Member =
+  | { userIdentifier: string; groupIdentifier?: never }
+  | { userIdentifier?: never; groupIdentifier: string };
 export const Member = S.Union(
   S.Struct({ userIdentifier: S.String }),
   S.Struct({ groupIdentifier: S.String }),
@@ -2928,8 +2930,8 @@ export const OwnerGroupProperties = S.suspend(() =>
   identifier: "OwnerGroupProperties",
 }) as any as S.Schema<OwnerGroupProperties>;
 export type OwnerProperties =
-  | { user: OwnerUserProperties }
-  | { group: OwnerGroupProperties };
+  | { user: OwnerUserProperties; group?: never }
+  | { user?: never; group: OwnerGroupProperties };
 export const OwnerProperties = S.Union(
   S.Struct({ user: OwnerUserProperties }),
   S.Struct({ group: OwnerGroupProperties }),
@@ -2975,8 +2977,8 @@ export const AllUsersGrantFilter = S.suspend(() => S.Struct({})).annotations({
   identifier: "AllUsersGrantFilter",
 }) as any as S.Schema<AllUsersGrantFilter>;
 export type UserPolicyGrantPrincipal =
-  | { userIdentifier: string }
-  | { allUsersGrantFilter: AllUsersGrantFilter };
+  | { userIdentifier: string; allUsersGrantFilter?: never }
+  | { userIdentifier?: never; allUsersGrantFilter: AllUsersGrantFilter };
 export const UserPolicyGrantPrincipal = S.Union(
   S.Struct({ userIdentifier: S.String }),
   S.Struct({ allUsersGrantFilter: AllUsersGrantFilter }),
@@ -3055,10 +3057,30 @@ export const DomainUnitPolicyGrantPrincipal = S.suspend(() =>
   identifier: "DomainUnitPolicyGrantPrincipal",
 }) as any as S.Schema<DomainUnitPolicyGrantPrincipal>;
 export type PolicyGrantPrincipal =
-  | { user: UserPolicyGrantPrincipal }
-  | { group: GroupPolicyGrantPrincipal }
-  | { project: ProjectPolicyGrantPrincipal }
-  | { domainUnit: DomainUnitPolicyGrantPrincipal };
+  | {
+      user: UserPolicyGrantPrincipal;
+      group?: never;
+      project?: never;
+      domainUnit?: never;
+    }
+  | {
+      user?: never;
+      group: GroupPolicyGrantPrincipal;
+      project?: never;
+      domainUnit?: never;
+    }
+  | {
+      user?: never;
+      group?: never;
+      project: ProjectPolicyGrantPrincipal;
+      domainUnit?: never;
+    }
+  | {
+      user?: never;
+      group?: never;
+      project?: never;
+      domainUnit: DomainUnitPolicyGrantPrincipal;
+    };
 export const PolicyGrantPrincipal = S.Union(
   S.Struct({ user: UserPolicyGrantPrincipal }),
   S.Struct({ group: GroupPolicyGrantPrincipal }),
@@ -3177,9 +3199,9 @@ export const Filter = S.suspend(() =>
   S.Struct({ attribute: S.String, value: S.String }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterClause =
-  | { filter: Filter }
-  | { and: FilterClause[] }
-  | { or: FilterClause[] };
+  | { filter: Filter; and?: never; or?: never }
+  | { filter?: never; and: FilterClause[]; or?: never }
+  | { filter?: never; and?: never; or: FilterClause[] };
 export const FilterClause = S.Union(
   S.Struct({ filter: Filter }),
   S.Struct({
@@ -3345,8 +3367,8 @@ export const CustomAccountPoolHandler = S.suspend(() =>
   identifier: "CustomAccountPoolHandler",
 }) as any as S.Schema<CustomAccountPoolHandler>;
 export type AccountSource =
-  | { accounts: AccountInfo[] }
-  | { customAccountPoolHandler: CustomAccountPoolHandler };
+  | { accounts: AccountInfo[]; customAccountPoolHandler?: never }
+  | { accounts?: never; customAccountPoolHandler: CustomAccountPoolHandler };
 export const AccountSource = S.Union(
   S.Struct({ accounts: AccountInfoList }),
   S.Struct({ customAccountPoolHandler: CustomAccountPoolHandler }),
@@ -3500,18 +3522,174 @@ export const NotLikeExpression = S.suspend(() =>
   identifier: "NotLikeExpression",
 }) as any as S.Schema<NotLikeExpression>;
 export type RowFilterExpression =
-  | { equalTo: EqualToExpression }
-  | { notEqualTo: NotEqualToExpression }
-  | { greaterThan: GreaterThanExpression }
-  | { lessThan: LessThanExpression }
-  | { greaterThanOrEqualTo: GreaterThanOrEqualToExpression }
-  | { lessThanOrEqualTo: LessThanOrEqualToExpression }
-  | { isNull: IsNullExpression }
-  | { isNotNull: IsNotNullExpression }
-  | { in: InExpression }
-  | { notIn: NotInExpression }
-  | { like: LikeExpression }
-  | { notLike: NotLikeExpression };
+  | {
+      equalTo: EqualToExpression;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo: NotEqualToExpression;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan: GreaterThanExpression;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan: LessThanExpression;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo: GreaterThanOrEqualToExpression;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo: LessThanOrEqualToExpression;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull: IsNullExpression;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull: IsNotNullExpression;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in: InExpression;
+      notIn?: never;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn: NotInExpression;
+      like?: never;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like: LikeExpression;
+      notLike?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      greaterThan?: never;
+      lessThan?: never;
+      greaterThanOrEqualTo?: never;
+      lessThanOrEqualTo?: never;
+      isNull?: never;
+      isNotNull?: never;
+      in?: never;
+      notIn?: never;
+      like?: never;
+      notLike: NotLikeExpression;
+    };
 export const RowFilterExpression = S.Union(
   S.Struct({ equalTo: EqualToExpression }),
   S.Struct({ notEqualTo: NotEqualToExpression }),
@@ -3527,9 +3705,9 @@ export const RowFilterExpression = S.Union(
   S.Struct({ notLike: NotLikeExpression }),
 );
 export type RowFilter =
-  | { expression: RowFilterExpression }
-  | { and: RowFilter[] }
-  | { or: RowFilter[] };
+  | { expression: RowFilterExpression; and?: never; or?: never }
+  | { expression?: never; and: RowFilter[]; or?: never }
+  | { expression?: never; and?: never; or: RowFilter[] };
 export const RowFilter = S.Union(
   S.Struct({ expression: RowFilterExpression }),
   S.Struct({
@@ -3553,8 +3731,8 @@ export const RowFilterConfiguration = S.suspend(() =>
   identifier: "RowFilterConfiguration",
 }) as any as S.Schema<RowFilterConfiguration>;
 export type AssetFilterConfiguration =
-  | { columnConfiguration: ColumnFilterConfiguration }
-  | { rowConfiguration: RowFilterConfiguration };
+  | { columnConfiguration: ColumnFilterConfiguration; rowConfiguration?: never }
+  | { columnConfiguration?: never; rowConfiguration: RowFilterConfiguration };
 export const AssetFilterConfiguration = S.Union(
   S.Struct({ columnConfiguration: ColumnFilterConfiguration }),
   S.Struct({ rowConfiguration: RowFilterConfiguration }),
@@ -3845,15 +4023,17 @@ export const EnvironmentConfigurationParametersDetails = S.suspend(() =>
   identifier: "EnvironmentConfigurationParametersDetails",
 }) as any as S.Schema<EnvironmentConfigurationParametersDetails>;
 export type AwsAccount =
-  | { awsAccountId: string }
-  | { awsAccountIdPath: string };
+  | { awsAccountId: string; awsAccountIdPath?: never }
+  | { awsAccountId?: never; awsAccountIdPath: string };
 export const AwsAccount = S.Union(
   S.Struct({ awsAccountId: S.String }),
   S.Struct({ awsAccountIdPath: S.String }),
 );
 export type AccountPoolList = string[];
 export const AccountPoolList = S.Array(S.String);
-export type Region = { regionName: string } | { regionNamePath: string };
+export type Region =
+  | { regionName: string; regionNamePath?: never }
+  | { regionName?: never; regionNamePath: string };
 export const Region = S.Union(
   S.Struct({ regionName: S.String }),
   S.Struct({ regionNamePath: S.String }),
@@ -4581,8 +4761,14 @@ export const RedshiftServerlessStorage = S.suspend(() =>
   identifier: "RedshiftServerlessStorage",
 }) as any as S.Schema<RedshiftServerlessStorage>;
 export type RedshiftStorage =
-  | { redshiftClusterSource: RedshiftClusterStorage }
-  | { redshiftServerlessSource: RedshiftServerlessStorage };
+  | {
+      redshiftClusterSource: RedshiftClusterStorage;
+      redshiftServerlessSource?: never;
+    }
+  | {
+      redshiftClusterSource?: never;
+      redshiftServerlessSource: RedshiftServerlessStorage;
+    };
 export const RedshiftStorage = S.Union(
   S.Struct({ redshiftClusterSource: RedshiftClusterStorage }),
   S.Struct({ redshiftServerlessSource: RedshiftServerlessStorage }),
@@ -4621,9 +4807,21 @@ export const SageMakerRunConfigurationInput = S.suspend(() =>
   identifier: "SageMakerRunConfigurationInput",
 }) as any as S.Schema<SageMakerRunConfigurationInput>;
 export type DataSourceConfigurationInput =
-  | { glueRunConfiguration: GlueRunConfigurationInput }
-  | { redshiftRunConfiguration: RedshiftRunConfigurationInput }
-  | { sageMakerRunConfiguration: SageMakerRunConfigurationInput };
+  | {
+      glueRunConfiguration: GlueRunConfigurationInput;
+      redshiftRunConfiguration?: never;
+      sageMakerRunConfiguration?: never;
+    }
+  | {
+      glueRunConfiguration?: never;
+      redshiftRunConfiguration: RedshiftRunConfigurationInput;
+      sageMakerRunConfiguration?: never;
+    }
+  | {
+      glueRunConfiguration?: never;
+      redshiftRunConfiguration?: never;
+      sageMakerRunConfiguration: SageMakerRunConfigurationInput;
+    };
 export const DataSourceConfigurationInput = S.Union(
   S.Struct({ glueRunConfiguration: GlueRunConfigurationInput }),
   S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationInput }),
@@ -5690,8 +5888,14 @@ export const GlossaryTermEnforcementDetail = S.suspend(() =>
   identifier: "GlossaryTermEnforcementDetail",
 }) as any as S.Schema<GlossaryTermEnforcementDetail>;
 export type RuleDetail =
-  | { metadataFormEnforcementDetail: MetadataFormEnforcementDetail }
-  | { glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail };
+  | {
+      metadataFormEnforcementDetail: MetadataFormEnforcementDetail;
+      glossaryTermEnforcementDetail?: never;
+    }
+  | {
+      metadataFormEnforcementDetail?: never;
+      glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail;
+    };
 export const RuleDetail = S.Union(
   S.Struct({ metadataFormEnforcementDetail: MetadataFormEnforcementDetail }),
   S.Struct({ glossaryTermEnforcementDetail: GlossaryTermEnforcementDetail }),
@@ -5989,8 +6193,8 @@ export const SsoUserProfileDetails = S.suspend(() =>
   identifier: "SsoUserProfileDetails",
 }) as any as S.Schema<SsoUserProfileDetails>;
 export type UserProfileDetails =
-  | { iam: IamUserProfileDetails }
-  | { sso: SsoUserProfileDetails };
+  | { iam: IamUserProfileDetails; sso?: never }
+  | { iam?: never; sso: SsoUserProfileDetails };
 export const UserProfileDetails = S.Union(
   S.Struct({ iam: IamUserProfileDetails }),
   S.Struct({ sso: SsoUserProfileDetails }),
@@ -6017,9 +6221,9 @@ export const SubscribedGroup = S.suspend(() =>
   identifier: "SubscribedGroup",
 }) as any as S.Schema<SubscribedGroup>;
 export type SubscribedPrincipal =
-  | { project: SubscribedProject }
-  | { user: SubscribedUser }
-  | { group: SubscribedGroup };
+  | { project: SubscribedProject; user?: never; group?: never }
+  | { project?: never; user: SubscribedUser; group?: never }
+  | { project?: never; user?: never; group: SubscribedGroup };
 export const SubscribedPrincipal = S.Union(
   S.Struct({ project: SubscribedProject }),
   S.Struct({ user: SubscribedUser }),
@@ -6122,8 +6326,8 @@ export const SubscribedProductListing = S.suspend(() =>
   identifier: "SubscribedProductListing",
 }) as any as S.Schema<SubscribedProductListing>;
 export type SubscribedListingItem =
-  | { assetListing: SubscribedAssetListing }
-  | { productListing: SubscribedProductListing };
+  | { assetListing: SubscribedAssetListing; productListing?: never }
+  | { assetListing?: never; productListing: SubscribedProductListing };
 export const SubscribedListingItem = S.Union(
   S.Struct({ assetListing: SubscribedAssetListing }),
   S.Struct({ productListing: SubscribedProductListing }),
@@ -7936,9 +8140,21 @@ export const SageMakerRunConfigurationOutput = S.suspend(() =>
   identifier: "SageMakerRunConfigurationOutput",
 }) as any as S.Schema<SageMakerRunConfigurationOutput>;
 export type DataSourceConfigurationOutput =
-  | { glueRunConfiguration: GlueRunConfigurationOutput }
-  | { redshiftRunConfiguration: RedshiftRunConfigurationOutput }
-  | { sageMakerRunConfiguration: SageMakerRunConfigurationOutput };
+  | {
+      glueRunConfiguration: GlueRunConfigurationOutput;
+      redshiftRunConfiguration?: never;
+      sageMakerRunConfiguration?: never;
+    }
+  | {
+      glueRunConfiguration?: never;
+      redshiftRunConfiguration: RedshiftRunConfigurationOutput;
+      sageMakerRunConfiguration?: never;
+    }
+  | {
+      glueRunConfiguration?: never;
+      redshiftRunConfiguration?: never;
+      sageMakerRunConfiguration: SageMakerRunConfigurationOutput;
+    };
 export const DataSourceConfigurationOutput = S.Union(
   S.Struct({ glueRunConfiguration: GlueRunConfigurationOutput }),
   S.Struct({ redshiftRunConfiguration: RedshiftRunConfigurationOutput }),
@@ -8025,8 +8241,14 @@ export const RedshiftSelfGrantStatusOutput = S.suspend(() =>
   identifier: "RedshiftSelfGrantStatusOutput",
 }) as any as S.Schema<RedshiftSelfGrantStatusOutput>;
 export type SelfGrantStatusOutput =
-  | { glueSelfGrantStatus: GlueSelfGrantStatusOutput }
-  | { redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput };
+  | {
+      glueSelfGrantStatus: GlueSelfGrantStatusOutput;
+      redshiftSelfGrantStatus?: never;
+    }
+  | {
+      glueSelfGrantStatus?: never;
+      redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput;
+    };
 export const SelfGrantStatusOutput = S.Union(
   S.Struct({ glueSelfGrantStatus: GlueSelfGrantStatusOutput }),
   S.Struct({ redshiftSelfGrantStatus: RedshiftSelfGrantStatusOutput }),
@@ -8259,8 +8481,8 @@ export const DomainUnitGroupProperties = S.suspend(() =>
   identifier: "DomainUnitGroupProperties",
 }) as any as S.Schema<DomainUnitGroupProperties>;
 export type DomainUnitOwnerProperties =
-  | { user: DomainUnitUserProperties }
-  | { group: DomainUnitGroupProperties };
+  | { user: DomainUnitUserProperties; group?: never }
+  | { user?: never; group: DomainUnitGroupProperties };
 export const DomainUnitOwnerProperties = S.Union(
   S.Struct({ user: DomainUnitUserProperties }),
   S.Struct({ group: DomainUnitGroupProperties }),
@@ -8952,8 +9174,8 @@ export const IamPropertiesPatch = S.suspend(() =>
   identifier: "IamPropertiesPatch",
 }) as any as S.Schema<IamPropertiesPatch>;
 export type RedshiftStorageProperties =
-  | { clusterName: string }
-  | { workgroupName: string };
+  | { clusterName: string; workgroupName?: never }
+  | { clusterName?: never; workgroupName: string };
 export const RedshiftStorageProperties = S.Union(
   S.Struct({ clusterName: S.String }),
   S.Struct({ workgroupName: S.String }),
@@ -8968,8 +9190,8 @@ export const UsernamePassword = S.suspend(() =>
   identifier: "UsernamePassword",
 }) as any as S.Schema<UsernamePassword>;
 export type RedshiftCredentials =
-  | { secretArn: string }
-  | { usernamePassword: UsernamePassword };
+  | { secretArn: string; usernamePassword?: never }
+  | { secretArn?: never; usernamePassword: UsernamePassword };
 export const RedshiftCredentials = S.Union(
   S.Struct({ secretArn: S.String }),
   S.Struct({ usernamePassword: UsernamePassword }),
@@ -9143,22 +9365,230 @@ export const AssetPermission = S.suspend(() =>
 export type AssetPermissions = AssetPermission[];
 export const AssetPermissions = S.Array(AssetPermission);
 export type PolicyGrantDetail =
-  | { createDomainUnit: CreateDomainUnitPolicyGrantDetail }
-  | { overrideDomainUnitOwners: OverrideDomainUnitOwnersPolicyGrantDetail }
-  | { addToProjectMemberPool: AddToProjectMemberPoolPolicyGrantDetail }
-  | { overrideProjectOwners: OverrideProjectOwnersPolicyGrantDetail }
-  | { createGlossary: CreateGlossaryPolicyGrantDetail }
-  | { createFormType: CreateFormTypePolicyGrantDetail }
-  | { createAssetType: CreateAssetTypePolicyGrantDetail }
-  | { createProject: CreateProjectPolicyGrantDetail }
-  | { createEnvironmentProfile: CreateEnvironmentProfilePolicyGrantDetail }
-  | { delegateCreateEnvironmentProfile: Unit }
-  | { createEnvironment: Unit }
-  | { createEnvironmentFromBlueprint: Unit }
   | {
-      createProjectFromProjectProfile: CreateProjectFromProjectProfilePolicyGrantDetail;
+      createDomainUnit: CreateDomainUnitPolicyGrantDetail;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
     }
-  | { useAssetType: UseAssetTypePolicyGrantDetail };
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners: OverrideDomainUnitOwnersPolicyGrantDetail;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool: AddToProjectMemberPoolPolicyGrantDetail;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners: OverrideProjectOwnersPolicyGrantDetail;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary: CreateGlossaryPolicyGrantDetail;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType: CreateFormTypePolicyGrantDetail;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType: CreateAssetTypePolicyGrantDetail;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject: CreateProjectPolicyGrantDetail;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile: CreateEnvironmentProfilePolicyGrantDetail;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile: Unit;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment: Unit;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint: Unit;
+      createProjectFromProjectProfile?: never;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile: CreateProjectFromProjectProfilePolicyGrantDetail;
+      useAssetType?: never;
+    }
+  | {
+      createDomainUnit?: never;
+      overrideDomainUnitOwners?: never;
+      addToProjectMemberPool?: never;
+      overrideProjectOwners?: never;
+      createGlossary?: never;
+      createFormType?: never;
+      createAssetType?: never;
+      createProject?: never;
+      createEnvironmentProfile?: never;
+      delegateCreateEnvironmentProfile?: never;
+      createEnvironment?: never;
+      createEnvironmentFromBlueprint?: never;
+      createProjectFromProjectProfile?: never;
+      useAssetType: UseAssetTypePolicyGrantDetail;
+    };
 export const PolicyGrantDetail = S.Union(
   S.Struct({ createDomainUnit: CreateDomainUnitPolicyGrantDetail }),
   S.Struct({
@@ -9238,9 +9668,9 @@ export const GrantedEntityInput = S.Union(
   S.Struct({ listing: ListingRevisionInput }),
 );
 export type SubscribedPrincipalInput =
-  | { project: SubscribedProjectInput }
-  | { user: SubscribedUserInput }
-  | { group: SubscribedGroupInput };
+  | { project: SubscribedProjectInput; user?: never; group?: never }
+  | { project?: never; user: SubscribedUserInput; group?: never }
+  | { project?: never; user?: never; group: SubscribedGroupInput };
 export const SubscribedPrincipalInput = S.Union(
   S.Struct({ project: SubscribedProjectInput }),
   S.Struct({ user: SubscribedUserInput }),
@@ -9819,16 +10249,126 @@ export const MlflowPropertiesOutput = S.suspend(() =>
   identifier: "MlflowPropertiesOutput",
 }) as any as S.Schema<MlflowPropertiesOutput>;
 export type ConnectionPropertiesOutput =
-  | { athenaProperties: AthenaPropertiesOutput }
-  | { glueProperties: GluePropertiesOutput }
-  | { hyperPodProperties: HyperPodPropertiesOutput }
-  | { iamProperties: IamPropertiesOutput }
-  | { redshiftProperties: RedshiftPropertiesOutput }
-  | { sparkEmrProperties: SparkEmrPropertiesOutput }
-  | { sparkGlueProperties: SparkGluePropertiesOutput }
-  | { s3Properties: S3PropertiesOutput }
-  | { amazonQProperties: AmazonQPropertiesOutput }
-  | { mlflowProperties: MlflowPropertiesOutput };
+  | {
+      athenaProperties: AthenaPropertiesOutput;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties: GluePropertiesOutput;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties: HyperPodPropertiesOutput;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties: IamPropertiesOutput;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties: RedshiftPropertiesOutput;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties: SparkEmrPropertiesOutput;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties: SparkGluePropertiesOutput;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties: S3PropertiesOutput;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties: AmazonQPropertiesOutput;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties: MlflowPropertiesOutput;
+    };
 export const ConnectionPropertiesOutput = S.Union(
   S.Struct({ athenaProperties: AthenaPropertiesOutput }),
   S.Struct({ glueProperties: GluePropertiesOutput }),
@@ -12140,8 +12680,8 @@ export const DataSourceRunActivity = S.suspend(() =>
 export type DataSourceRunActivities = DataSourceRunActivity[];
 export const DataSourceRunActivities = S.Array(DataSourceRunActivity);
 export type OwnerPropertiesOutput =
-  | { user: OwnerUserPropertiesOutput }
-  | { group: OwnerGroupPropertiesOutput };
+  | { user: OwnerUserPropertiesOutput; group?: never }
+  | { user?: never; group: OwnerGroupPropertiesOutput };
 export const OwnerPropertiesOutput = S.Union(
   S.Struct({ user: OwnerUserPropertiesOutput }),
   S.Struct({ group: OwnerGroupPropertiesOutput }),
@@ -12187,9 +12727,21 @@ export const SubscriptionRequestSummary = S.suspend(() =>
 export type SubscriptionRequests = SubscriptionRequestSummary[];
 export const SubscriptionRequests = S.Array(SubscriptionRequestSummary);
 export type SearchTypesResultItem =
-  | { assetTypeItem: AssetTypeItem }
-  | { formTypeItem: FormTypeData }
-  | { lineageNodeTypeItem: LineageNodeTypeItem };
+  | {
+      assetTypeItem: AssetTypeItem;
+      formTypeItem?: never;
+      lineageNodeTypeItem?: never;
+    }
+  | {
+      assetTypeItem?: never;
+      formTypeItem: FormTypeData;
+      lineageNodeTypeItem?: never;
+    }
+  | {
+      assetTypeItem?: never;
+      formTypeItem?: never;
+      lineageNodeTypeItem: LineageNodeTypeItem;
+    };
 export const SearchTypesResultItem = S.Union(
   S.Struct({ assetTypeItem: AssetTypeItem }),
   S.Struct({ formTypeItem: FormTypeData }),
@@ -12969,7 +13521,9 @@ export const Topic = S.suspend(() =>
     role: NotificationRole,
   }),
 ).annotations({ identifier: "Topic" }) as any as S.Schema<Topic>;
-export type MemberDetails = { user: UserDetails } | { group: GroupDetails };
+export type MemberDetails =
+  | { user: UserDetails; group?: never }
+  | { user?: never; group: GroupDetails };
 export const MemberDetails = S.Union(
   S.Struct({ user: UserDetails }),
   S.Struct({ group: GroupDetails }),
@@ -13110,14 +13664,86 @@ export const AggregationOutput = S.suspend(() =>
 export type AggregationOutputList = AggregationOutput[];
 export const AggregationOutputList = S.Array(AggregationOutput);
 export type ConnectionPropertiesPatch =
-  | { athenaProperties: AthenaPropertiesPatch }
-  | { glueProperties: GluePropertiesPatch }
-  | { iamProperties: IamPropertiesPatch }
-  | { redshiftProperties: RedshiftPropertiesPatch }
-  | { sparkEmrProperties: SparkEmrPropertiesPatch }
-  | { s3Properties: S3PropertiesPatch }
-  | { amazonQProperties: AmazonQPropertiesPatch }
-  | { mlflowProperties: MlflowPropertiesPatch };
+  | {
+      athenaProperties: AthenaPropertiesPatch;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties: GluePropertiesPatch;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties: IamPropertiesPatch;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties: RedshiftPropertiesPatch;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties: SparkEmrPropertiesPatch;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties: S3PropertiesPatch;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties: AmazonQPropertiesPatch;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties: MlflowPropertiesPatch;
+    };
 export const ConnectionPropertiesPatch = S.Union(
   S.Struct({ athenaProperties: AthenaPropertiesPatch }),
   S.Struct({ glueProperties: GluePropertiesPatch }),
@@ -13129,8 +13755,8 @@ export const ConnectionPropertiesPatch = S.Union(
   S.Struct({ mlflowProperties: MlflowPropertiesPatch }),
 );
 export type ListingItem =
-  | { assetListing: AssetListing }
-  | { dataProductListing: DataProductListing };
+  | { assetListing: AssetListing; dataProductListing?: never }
+  | { assetListing?: never; dataProductListing: DataProductListing };
 export const ListingItem = S.Union(
   S.Struct({ assetListing: AssetListing }),
   S.Struct({ dataProductListing: DataProductListing }),
@@ -14067,16 +14693,126 @@ export const DataProductResultItem = S.suspend(() =>
   identifier: "DataProductResultItem",
 }) as any as S.Schema<DataProductResultItem>;
 export type ConnectionPropertiesInput =
-  | { athenaProperties: AthenaPropertiesInput }
-  | { glueProperties: GluePropertiesInput }
-  | { hyperPodProperties: HyperPodPropertiesInput }
-  | { iamProperties: IamPropertiesInput }
-  | { redshiftProperties: RedshiftPropertiesInput }
-  | { sparkEmrProperties: SparkEmrPropertiesInput }
-  | { sparkGlueProperties: SparkGluePropertiesInput }
-  | { s3Properties: S3PropertiesInput }
-  | { amazonQProperties: AmazonQPropertiesInput }
-  | { mlflowProperties: MlflowPropertiesInput };
+  | {
+      athenaProperties: AthenaPropertiesInput;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties: GluePropertiesInput;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties: HyperPodPropertiesInput;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties: IamPropertiesInput;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties: RedshiftPropertiesInput;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties: SparkEmrPropertiesInput;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties: SparkGluePropertiesInput;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties: S3PropertiesInput;
+      amazonQProperties?: never;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties: AmazonQPropertiesInput;
+      mlflowProperties?: never;
+    }
+  | {
+      athenaProperties?: never;
+      glueProperties?: never;
+      hyperPodProperties?: never;
+      iamProperties?: never;
+      redshiftProperties?: never;
+      sparkEmrProperties?: never;
+      sparkGlueProperties?: never;
+      s3Properties?: never;
+      amazonQProperties?: never;
+      mlflowProperties: MlflowPropertiesInput;
+    };
 export const ConnectionPropertiesInput = S.Union(
   S.Struct({ athenaProperties: AthenaPropertiesInput }),
   S.Struct({ glueProperties: GluePropertiesInput }),
@@ -14090,10 +14826,30 @@ export const ConnectionPropertiesInput = S.Union(
   S.Struct({ mlflowProperties: MlflowPropertiesInput }),
 );
 export type SearchInventoryResultItem =
-  | { glossaryItem: GlossaryItem }
-  | { glossaryTermItem: GlossaryTermItem }
-  | { assetItem: AssetItem }
-  | { dataProductItem: DataProductResultItem };
+  | {
+      glossaryItem: GlossaryItem;
+      glossaryTermItem?: never;
+      assetItem?: never;
+      dataProductItem?: never;
+    }
+  | {
+      glossaryItem?: never;
+      glossaryTermItem: GlossaryTermItem;
+      assetItem?: never;
+      dataProductItem?: never;
+    }
+  | {
+      glossaryItem?: never;
+      glossaryTermItem?: never;
+      assetItem: AssetItem;
+      dataProductItem?: never;
+    }
+  | {
+      glossaryItem?: never;
+      glossaryTermItem?: never;
+      assetItem?: never;
+      dataProductItem: DataProductResultItem;
+    };
 export const SearchInventoryResultItem = S.Union(
   S.Struct({ glossaryItem: GlossaryItem }),
   S.Struct({ glossaryTermItem: GlossaryTermItem }),
@@ -14265,8 +15021,8 @@ export const AssetListingItem = S.suspend(() =>
   identifier: "AssetListingItem",
 }) as any as S.Schema<AssetListingItem>;
 export type SearchResultItem =
-  | { assetListing: AssetListingItem }
-  | { dataProductListing: DataProductListingItem };
+  | { assetListing: AssetListingItem; dataProductListing?: never }
+  | { assetListing?: never; dataProductListing: DataProductListingItem };
 export const SearchResultItem = S.Union(
   S.Struct({ assetListing: AssetListingItem }),
   S.Struct({ dataProductListing: DataProductListingItem }),

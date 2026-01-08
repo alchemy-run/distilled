@@ -622,8 +622,11 @@ export const CodeConfiguration = S.suspend(() =>
   identifier: "CodeConfiguration",
 }) as any as S.Schema<CodeConfiguration>;
 export type AgentRuntimeArtifact =
-  | { containerConfiguration: ContainerConfiguration }
-  | { codeConfiguration: CodeConfiguration };
+  | {
+      containerConfiguration: ContainerConfiguration;
+      codeConfiguration?: never;
+    }
+  | { containerConfiguration?: never; codeConfiguration: CodeConfiguration };
 export const AgentRuntimeArtifact = S.Union(
   S.Struct({ containerConfiguration: ContainerConfiguration }),
   S.Struct({ codeConfiguration: CodeConfiguration }),
@@ -664,8 +667,8 @@ export const InboundTokenClaimValueType = S.Literal("STRING", "STRING_ARRAY");
 export type MatchValueStringList = string[];
 export const MatchValueStringList = S.Array(S.String);
 export type ClaimMatchValueType =
-  | { matchValueString: string }
-  | { matchValueStringList: string[] };
+  | { matchValueString: string; matchValueStringList?: never }
+  | { matchValueString?: never; matchValueStringList: string[] };
 export const ClaimMatchValueType = S.Union(
   S.Struct({ matchValueString: S.String }),
   S.Struct({ matchValueStringList: MatchValueStringList }),
@@ -1159,8 +1162,8 @@ export const CategoricalScaleDefinition = S.suspend(() =>
 export type CategoricalScaleDefinitions = CategoricalScaleDefinition[];
 export const CategoricalScaleDefinitions = S.Array(CategoricalScaleDefinition);
 export type RatingScale =
-  | { numerical: NumericalScaleDefinition[] }
-  | { categorical: CategoricalScaleDefinition[] };
+  | { numerical: NumericalScaleDefinition[]; categorical?: never }
+  | { numerical?: never; categorical: CategoricalScaleDefinition[] };
 export const RatingScale = S.Union(
   S.Struct({ numerical: NumericalScaleDefinitions }),
   S.Struct({ categorical: CategoricalScaleDefinitions }),
@@ -1572,8 +1575,8 @@ export const S3Configuration = S.suspend(() =>
   identifier: "S3Configuration",
 }) as any as S.Schema<S3Configuration>;
 export type ApiSchemaConfiguration =
-  | { s3: S3Configuration }
-  | { inlinePayload: string | redacted.Redacted<string> };
+  | { s3: S3Configuration; inlinePayload?: never }
+  | { s3?: never; inlinePayload: string | redacted.Redacted<string> };
 export const ApiSchemaConfiguration = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: SensitiveString }),
@@ -1640,8 +1643,8 @@ export const ToolDefinition = S.suspend(() =>
 export type ToolDefinitions = ToolDefinition[];
 export const ToolDefinitions = S.Array(ToolDefinition);
 export type ToolSchema =
-  | { s3: S3Configuration }
-  | { inlinePayload: ToolDefinition[] };
+  | { s3: S3Configuration; inlinePayload?: never }
+  | { s3?: never; inlinePayload: ToolDefinition[] };
 export const ToolSchema = S.Union(
   S.Struct({ s3: S3Configuration }),
   S.Struct({ inlinePayload: ToolDefinitions }),
@@ -1738,11 +1741,41 @@ export const ApiGatewayTargetConfiguration = S.suspend(() =>
   identifier: "ApiGatewayTargetConfiguration",
 }) as any as S.Schema<ApiGatewayTargetConfiguration>;
 export type McpTargetConfiguration =
-  | { openApiSchema: ApiSchemaConfiguration }
-  | { smithyModel: ApiSchemaConfiguration }
-  | { lambda: McpLambdaTargetConfiguration }
-  | { mcpServer: McpServerTargetConfiguration }
-  | { apiGateway: ApiGatewayTargetConfiguration };
+  | {
+      openApiSchema: ApiSchemaConfiguration;
+      smithyModel?: never;
+      lambda?: never;
+      mcpServer?: never;
+      apiGateway?: never;
+    }
+  | {
+      openApiSchema?: never;
+      smithyModel: ApiSchemaConfiguration;
+      lambda?: never;
+      mcpServer?: never;
+      apiGateway?: never;
+    }
+  | {
+      openApiSchema?: never;
+      smithyModel?: never;
+      lambda: McpLambdaTargetConfiguration;
+      mcpServer?: never;
+      apiGateway?: never;
+    }
+  | {
+      openApiSchema?: never;
+      smithyModel?: never;
+      lambda?: never;
+      mcpServer: McpServerTargetConfiguration;
+      apiGateway?: never;
+    }
+  | {
+      openApiSchema?: never;
+      smithyModel?: never;
+      lambda?: never;
+      mcpServer?: never;
+      apiGateway: ApiGatewayTargetConfiguration;
+    };
 export const McpTargetConfiguration = S.Union(
   S.Struct({ openApiSchema: ApiSchemaConfiguration }),
   S.Struct({ smithyModel: ApiSchemaConfiguration }),
@@ -1811,8 +1844,14 @@ export const GatewayApiKeyCredentialProvider = S.suspend(() =>
   identifier: "GatewayApiKeyCredentialProvider",
 }) as any as S.Schema<GatewayApiKeyCredentialProvider>;
 export type CredentialProvider =
-  | { oauthCredentialProvider: OAuthCredentialProvider }
-  | { apiKeyCredentialProvider: GatewayApiKeyCredentialProvider };
+  | {
+      oauthCredentialProvider: OAuthCredentialProvider;
+      apiKeyCredentialProvider?: never;
+    }
+  | {
+      oauthCredentialProvider?: never;
+      apiKeyCredentialProvider: GatewayApiKeyCredentialProvider;
+    };
 export const CredentialProvider = S.Union(
   S.Struct({ oauthCredentialProvider: OAuthCredentialProvider }),
   S.Struct({ apiKeyCredentialProvider: GatewayApiKeyCredentialProvider }),
@@ -1995,8 +2034,11 @@ export const Oauth2AuthorizationServerMetadata = S.suspend(() =>
   identifier: "Oauth2AuthorizationServerMetadata",
 }) as any as S.Schema<Oauth2AuthorizationServerMetadata>;
 export type Oauth2Discovery =
-  | { discoveryUrl: string }
-  | { authorizationServerMetadata: Oauth2AuthorizationServerMetadata };
+  | { discoveryUrl: string; authorizationServerMetadata?: never }
+  | {
+      discoveryUrl?: never;
+      authorizationServerMetadata: Oauth2AuthorizationServerMetadata;
+    };
 export const Oauth2Discovery = S.Union(
   S.Struct({ discoveryUrl: S.String }),
   S.Struct({ authorizationServerMetadata: Oauth2AuthorizationServerMetadata }),
@@ -2102,15 +2144,105 @@ export const IncludedOauth2ProviderConfigInput = S.suspend(() =>
   identifier: "IncludedOauth2ProviderConfigInput",
 }) as any as S.Schema<IncludedOauth2ProviderConfigInput>;
 export type Oauth2ProviderConfigInput =
-  | { customOauth2ProviderConfig: CustomOauth2ProviderConfigInput }
-  | { googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput }
-  | { githubOauth2ProviderConfig: GithubOauth2ProviderConfigInput }
-  | { slackOauth2ProviderConfig: SlackOauth2ProviderConfigInput }
-  | { salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigInput }
-  | { microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigInput }
-  | { atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigInput }
-  | { linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigInput }
-  | { includedOauth2ProviderConfig: IncludedOauth2ProviderConfigInput };
+  | {
+      customOauth2ProviderConfig: CustomOauth2ProviderConfigInput;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig: GithubOauth2ProviderConfigInput;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig: SlackOauth2ProviderConfigInput;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigInput;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigInput;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigInput;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigInput;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig: IncludedOauth2ProviderConfigInput;
+    };
 export const Oauth2ProviderConfigInput = S.Union(
   S.Struct({ customOauth2ProviderConfig: CustomOauth2ProviderConfigInput }),
   S.Struct({ googleOauth2ProviderConfig: GoogleOauth2ProviderConfigInput }),
@@ -2256,9 +2388,9 @@ export const FilterOperator = S.Literal(
   "NotContains",
 );
 export type FilterValue =
-  | { stringValue: string }
-  | { doubleValue: number }
-  | { booleanValue: boolean };
+  | { stringValue: string; doubleValue?: never; booleanValue?: never }
+  | { stringValue?: never; doubleValue: number; booleanValue?: never }
+  | { stringValue?: never; doubleValue?: never; booleanValue: boolean };
 export const FilterValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ doubleValue: S.Number }),
@@ -3747,15 +3879,105 @@ export const IncludedOauth2ProviderConfigOutput = S.suspend(() =>
   identifier: "IncludedOauth2ProviderConfigOutput",
 }) as any as S.Schema<IncludedOauth2ProviderConfigOutput>;
 export type Oauth2ProviderConfigOutput =
-  | { customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput }
-  | { googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput }
-  | { githubOauth2ProviderConfig: GithubOauth2ProviderConfigOutput }
-  | { slackOauth2ProviderConfig: SlackOauth2ProviderConfigOutput }
-  | { salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigOutput }
-  | { microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigOutput }
-  | { atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigOutput }
-  | { linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigOutput }
-  | { includedOauth2ProviderConfig: IncludedOauth2ProviderConfigOutput };
+  | {
+      customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig: GithubOauth2ProviderConfigOutput;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig: SlackOauth2ProviderConfigOutput;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig: SalesforceOauth2ProviderConfigOutput;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig: MicrosoftOauth2ProviderConfigOutput;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig: AtlassianOauth2ProviderConfigOutput;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig: LinkedinOauth2ProviderConfigOutput;
+      includedOauth2ProviderConfig?: never;
+    }
+  | {
+      customOauth2ProviderConfig?: never;
+      googleOauth2ProviderConfig?: never;
+      githubOauth2ProviderConfig?: never;
+      slackOauth2ProviderConfig?: never;
+      salesforceOauth2ProviderConfig?: never;
+      microsoftOauth2ProviderConfig?: never;
+      atlassianOauth2ProviderConfig?: never;
+      linkedinOauth2ProviderConfig?: never;
+      includedOauth2ProviderConfig: IncludedOauth2ProviderConfigOutput;
+    };
 export const Oauth2ProviderConfigOutput = S.Union(
   S.Struct({ customOauth2ProviderConfig: CustomOauth2ProviderConfigOutput }),
   S.Struct({ googleOauth2ProviderConfig: GoogleOauth2ProviderConfigOutput }),
@@ -5225,11 +5447,19 @@ export const InvocationConfigurationInput = S.suspend(() =>
   identifier: "InvocationConfigurationInput",
 }) as any as S.Schema<InvocationConfigurationInput>;
 export type CustomExtractionConfigurationInput =
-  | { semanticExtractionOverride: SemanticOverrideExtractionConfigurationInput }
   | {
-      userPreferenceExtractionOverride: UserPreferenceOverrideExtractionConfigurationInput;
+      semanticExtractionOverride: SemanticOverrideExtractionConfigurationInput;
+      userPreferenceExtractionOverride?: never;
+      episodicExtractionOverride?: never;
     }
   | {
+      semanticExtractionOverride?: never;
+      userPreferenceExtractionOverride: UserPreferenceOverrideExtractionConfigurationInput;
+      episodicExtractionOverride?: never;
+    }
+  | {
+      semanticExtractionOverride?: never;
+      userPreferenceExtractionOverride?: never;
       episodicExtractionOverride: EpisodicOverrideExtractionConfigurationInput;
     };
 export const CustomExtractionConfigurationInput = S.Union(
@@ -5247,14 +5477,26 @@ export const CustomExtractionConfigurationInput = S.Union(
 export type CustomConsolidationConfigurationInput =
   | {
       semanticConsolidationOverride: SemanticOverrideConsolidationConfigurationInput;
+      summaryConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: never;
+      episodicConsolidationOverride?: never;
     }
   | {
+      semanticConsolidationOverride?: never;
       summaryConsolidationOverride: SummaryOverrideConsolidationConfigurationInput;
+      userPreferenceConsolidationOverride?: never;
+      episodicConsolidationOverride?: never;
     }
   | {
+      semanticConsolidationOverride?: never;
+      summaryConsolidationOverride?: never;
       userPreferenceConsolidationOverride: UserPreferenceOverrideConsolidationConfigurationInput;
+      episodicConsolidationOverride?: never;
     }
   | {
+      semanticConsolidationOverride?: never;
+      summaryConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: never;
       episodicConsolidationOverride: EpisodicOverrideConsolidationConfigurationInput;
     };
 export const CustomConsolidationConfigurationInput = S.Union(
@@ -5495,8 +5737,14 @@ export const ModifyConsolidationConfiguration = S.Union(
   }),
 );
 export type ModifyReflectionConfiguration =
-  | { episodicReflectionConfiguration: EpisodicReflectionConfigurationInput }
-  | { customReflectionConfiguration: CustomReflectionConfigurationInput };
+  | {
+      episodicReflectionConfiguration: EpisodicReflectionConfigurationInput;
+      customReflectionConfiguration?: never;
+    }
+  | {
+      episodicReflectionConfiguration?: never;
+      customReflectionConfiguration: CustomReflectionConfigurationInput;
+    };
 export const ModifyReflectionConfiguration = S.Union(
   S.Struct({
     episodicReflectionConfiguration: EpisodicReflectionConfigurationInput,
@@ -5530,9 +5778,21 @@ export const TimeBasedTriggerInput = S.suspend(() =>
   identifier: "TimeBasedTriggerInput",
 }) as any as S.Schema<TimeBasedTriggerInput>;
 export type TriggerConditionInput =
-  | { messageBasedTrigger: MessageBasedTriggerInput }
-  | { tokenBasedTrigger: TokenBasedTriggerInput }
-  | { timeBasedTrigger: TimeBasedTriggerInput };
+  | {
+      messageBasedTrigger: MessageBasedTriggerInput;
+      tokenBasedTrigger?: never;
+      timeBasedTrigger?: never;
+    }
+  | {
+      messageBasedTrigger?: never;
+      tokenBasedTrigger: TokenBasedTriggerInput;
+      timeBasedTrigger?: never;
+    }
+  | {
+      messageBasedTrigger?: never;
+      tokenBasedTrigger?: never;
+      timeBasedTrigger: TimeBasedTriggerInput;
+    };
 export const TriggerConditionInput = S.Union(
   S.Struct({ messageBasedTrigger: MessageBasedTriggerInput }),
   S.Struct({ tokenBasedTrigger: TokenBasedTriggerInput }),
@@ -5848,11 +6108,41 @@ export const TimeBasedTrigger = S.suspend(() =>
   identifier: "TimeBasedTrigger",
 }) as any as S.Schema<TimeBasedTrigger>;
 export type CustomConfigurationInput =
-  | { semanticOverride: SemanticOverrideConfigurationInput }
-  | { summaryOverride: SummaryOverrideConfigurationInput }
-  | { userPreferenceOverride: UserPreferenceOverrideConfigurationInput }
-  | { episodicOverride: EpisodicOverrideConfigurationInput }
-  | { selfManagedConfiguration: SelfManagedConfigurationInput };
+  | {
+      semanticOverride: SemanticOverrideConfigurationInput;
+      summaryOverride?: never;
+      userPreferenceOverride?: never;
+      episodicOverride?: never;
+      selfManagedConfiguration?: never;
+    }
+  | {
+      semanticOverride?: never;
+      summaryOverride: SummaryOverrideConfigurationInput;
+      userPreferenceOverride?: never;
+      episodicOverride?: never;
+      selfManagedConfiguration?: never;
+    }
+  | {
+      semanticOverride?: never;
+      summaryOverride?: never;
+      userPreferenceOverride: UserPreferenceOverrideConfigurationInput;
+      episodicOverride?: never;
+      selfManagedConfiguration?: never;
+    }
+  | {
+      semanticOverride?: never;
+      summaryOverride?: never;
+      userPreferenceOverride?: never;
+      episodicOverride: EpisodicOverrideConfigurationInput;
+      selfManagedConfiguration?: never;
+    }
+  | {
+      semanticOverride?: never;
+      summaryOverride?: never;
+      userPreferenceOverride?: never;
+      episodicOverride?: never;
+      selfManagedConfiguration: SelfManagedConfigurationInput;
+    };
 export const CustomConfigurationInput = S.Union(
   S.Struct({ semanticOverride: SemanticOverrideConfigurationInput }),
   S.Struct({ summaryOverride: SummaryOverrideConfigurationInput }),
@@ -5879,11 +6169,41 @@ export const CustomMemoryStrategyInput = S.suspend(() =>
   identifier: "CustomMemoryStrategyInput",
 }) as any as S.Schema<CustomMemoryStrategyInput>;
 export type MemoryStrategyInput =
-  | { semanticMemoryStrategy: SemanticMemoryStrategyInput }
-  | { summaryMemoryStrategy: SummaryMemoryStrategyInput }
-  | { userPreferenceMemoryStrategy: UserPreferenceMemoryStrategyInput }
-  | { customMemoryStrategy: CustomMemoryStrategyInput }
-  | { episodicMemoryStrategy: EpisodicMemoryStrategyInput };
+  | {
+      semanticMemoryStrategy: SemanticMemoryStrategyInput;
+      summaryMemoryStrategy?: never;
+      userPreferenceMemoryStrategy?: never;
+      customMemoryStrategy?: never;
+      episodicMemoryStrategy?: never;
+    }
+  | {
+      semanticMemoryStrategy?: never;
+      summaryMemoryStrategy: SummaryMemoryStrategyInput;
+      userPreferenceMemoryStrategy?: never;
+      customMemoryStrategy?: never;
+      episodicMemoryStrategy?: never;
+    }
+  | {
+      semanticMemoryStrategy?: never;
+      summaryMemoryStrategy?: never;
+      userPreferenceMemoryStrategy: UserPreferenceMemoryStrategyInput;
+      customMemoryStrategy?: never;
+      episodicMemoryStrategy?: never;
+    }
+  | {
+      semanticMemoryStrategy?: never;
+      summaryMemoryStrategy?: never;
+      userPreferenceMemoryStrategy?: never;
+      customMemoryStrategy: CustomMemoryStrategyInput;
+      episodicMemoryStrategy?: never;
+    }
+  | {
+      semanticMemoryStrategy?: never;
+      summaryMemoryStrategy?: never;
+      userPreferenceMemoryStrategy?: never;
+      customMemoryStrategy?: never;
+      episodicMemoryStrategy: EpisodicMemoryStrategyInput;
+    };
 export const MemoryStrategyInput = S.Union(
   S.Struct({ semanticMemoryStrategy: SemanticMemoryStrategyInput }),
   S.Struct({ summaryMemoryStrategy: SummaryMemoryStrategyInput }),
@@ -5976,9 +6296,21 @@ export const CreateEvaluatorRequest = S.suspend(() =>
   identifier: "CreateEvaluatorRequest",
 }) as any as S.Schema<CreateEvaluatorRequest>;
 export type CustomExtractionConfiguration =
-  | { semanticExtractionOverride: SemanticExtractionOverride }
-  | { userPreferenceExtractionOverride: UserPreferenceExtractionOverride }
-  | { episodicExtractionOverride: EpisodicExtractionOverride };
+  | {
+      semanticExtractionOverride: SemanticExtractionOverride;
+      userPreferenceExtractionOverride?: never;
+      episodicExtractionOverride?: never;
+    }
+  | {
+      semanticExtractionOverride?: never;
+      userPreferenceExtractionOverride: UserPreferenceExtractionOverride;
+      episodicExtractionOverride?: never;
+    }
+  | {
+      semanticExtractionOverride?: never;
+      userPreferenceExtractionOverride?: never;
+      episodicExtractionOverride: EpisodicExtractionOverride;
+    };
 export const CustomExtractionConfiguration = S.Union(
   S.Struct({ semanticExtractionOverride: SemanticExtractionOverride }),
   S.Struct({
@@ -5987,10 +6319,30 @@ export const CustomExtractionConfiguration = S.Union(
   S.Struct({ episodicExtractionOverride: EpisodicExtractionOverride }),
 );
 export type CustomConsolidationConfiguration =
-  | { semanticConsolidationOverride: SemanticConsolidationOverride }
-  | { summaryConsolidationOverride: SummaryConsolidationOverride }
-  | { userPreferenceConsolidationOverride: UserPreferenceConsolidationOverride }
-  | { episodicConsolidationOverride: EpisodicConsolidationOverride };
+  | {
+      semanticConsolidationOverride: SemanticConsolidationOverride;
+      summaryConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: never;
+      episodicConsolidationOverride?: never;
+    }
+  | {
+      semanticConsolidationOverride?: never;
+      summaryConsolidationOverride: SummaryConsolidationOverride;
+      userPreferenceConsolidationOverride?: never;
+      episodicConsolidationOverride?: never;
+    }
+  | {
+      semanticConsolidationOverride?: never;
+      summaryConsolidationOverride?: never;
+      userPreferenceConsolidationOverride: UserPreferenceConsolidationOverride;
+      episodicConsolidationOverride?: never;
+    }
+  | {
+      semanticConsolidationOverride?: never;
+      summaryConsolidationOverride?: never;
+      userPreferenceConsolidationOverride?: never;
+      episodicConsolidationOverride: EpisodicConsolidationOverride;
+    };
 export const CustomConsolidationConfiguration = S.Union(
   S.Struct({ semanticConsolidationOverride: SemanticConsolidationOverride }),
   S.Struct({ summaryConsolidationOverride: SummaryConsolidationOverride }),
@@ -6006,9 +6358,21 @@ export const CustomReflectionConfiguration = S.Union(
   S.Struct({ episodicReflectionOverride: EpisodicReflectionOverride }),
 );
 export type TriggerCondition =
-  | { messageBasedTrigger: MessageBasedTrigger }
-  | { tokenBasedTrigger: TokenBasedTrigger }
-  | { timeBasedTrigger: TimeBasedTrigger };
+  | {
+      messageBasedTrigger: MessageBasedTrigger;
+      tokenBasedTrigger?: never;
+      timeBasedTrigger?: never;
+    }
+  | {
+      messageBasedTrigger?: never;
+      tokenBasedTrigger: TokenBasedTrigger;
+      timeBasedTrigger?: never;
+    }
+  | {
+      messageBasedTrigger?: never;
+      tokenBasedTrigger?: never;
+      timeBasedTrigger: TimeBasedTrigger;
+    };
 export const TriggerCondition = S.Union(
   S.Struct({ messageBasedTrigger: MessageBasedTrigger }),
   S.Struct({ tokenBasedTrigger: TokenBasedTrigger }),
@@ -6078,8 +6442,14 @@ export const ConsolidationConfiguration = S.Union(
   }),
 );
 export type ReflectionConfiguration =
-  | { customReflectionConfiguration: CustomReflectionConfiguration }
-  | { episodicReflectionConfiguration: EpisodicReflectionConfiguration };
+  | {
+      customReflectionConfiguration: CustomReflectionConfiguration;
+      episodicReflectionConfiguration?: never;
+    }
+  | {
+      customReflectionConfiguration?: never;
+      episodicReflectionConfiguration: EpisodicReflectionConfiguration;
+    };
 export const ReflectionConfiguration = S.Union(
   S.Struct({ customReflectionConfiguration: CustomReflectionConfiguration }),
   S.Struct({

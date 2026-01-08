@@ -2189,16 +2189,126 @@ export const StreamDescription = S.suspend(() =>
   identifier: "StreamDescription",
 }) as any as S.Schema<StreamDescription>;
 export type SubscribeToShardEventStream =
-  | { SubscribeToShardEvent: SubscribeToShardEvent }
-  | { ResourceNotFoundException: ResourceNotFoundException }
-  | { ResourceInUseException: ResourceInUseException }
-  | { KMSDisabledException: KMSDisabledException }
-  | { KMSInvalidStateException: KMSInvalidStateException }
-  | { KMSAccessDeniedException: KMSAccessDeniedException }
-  | { KMSNotFoundException: KMSNotFoundException }
-  | { KMSOptInRequired: KMSOptInRequired }
-  | { KMSThrottlingException: KMSThrottlingException }
-  | { InternalFailureException: InternalFailureException };
+  | {
+      SubscribeToShardEvent: SubscribeToShardEvent;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException: ResourceNotFoundException;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException: ResourceInUseException;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException: KMSDisabledException;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException: KMSInvalidStateException;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException: KMSAccessDeniedException;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException: KMSNotFoundException;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired: KMSOptInRequired;
+      KMSThrottlingException?: never;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException: KMSThrottlingException;
+      InternalFailureException?: never;
+    }
+  | {
+      SubscribeToShardEvent?: never;
+      ResourceNotFoundException?: never;
+      ResourceInUseException?: never;
+      KMSDisabledException?: never;
+      KMSInvalidStateException?: never;
+      KMSAccessDeniedException?: never;
+      KMSNotFoundException?: never;
+      KMSOptInRequired?: never;
+      KMSThrottlingException?: never;
+      InternalFailureException: InternalFailureException;
+    };
 export const SubscribeToShardEventStream = T.EventStream(
   S.Union(
     S.Struct({ SubscribeToShardEvent: SubscribeToShardEvent }),

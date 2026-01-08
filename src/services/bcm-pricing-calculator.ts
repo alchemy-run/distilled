@@ -1427,10 +1427,30 @@ export const NegateSavingsPlanAction = S.suspend(() =>
   identifier: "NegateSavingsPlanAction",
 }) as any as S.Schema<NegateSavingsPlanAction>;
 export type BillScenarioCommitmentModificationAction =
-  | { addReservedInstanceAction: AddReservedInstanceAction }
-  | { addSavingsPlanAction: AddSavingsPlanAction }
-  | { negateReservedInstanceAction: NegateReservedInstanceAction }
-  | { negateSavingsPlanAction: NegateSavingsPlanAction };
+  | {
+      addReservedInstanceAction: AddReservedInstanceAction;
+      addSavingsPlanAction?: never;
+      negateReservedInstanceAction?: never;
+      negateSavingsPlanAction?: never;
+    }
+  | {
+      addReservedInstanceAction?: never;
+      addSavingsPlanAction: AddSavingsPlanAction;
+      negateReservedInstanceAction?: never;
+      negateSavingsPlanAction?: never;
+    }
+  | {
+      addReservedInstanceAction?: never;
+      addSavingsPlanAction?: never;
+      negateReservedInstanceAction: NegateReservedInstanceAction;
+      negateSavingsPlanAction?: never;
+    }
+  | {
+      addReservedInstanceAction?: never;
+      addSavingsPlanAction?: never;
+      negateReservedInstanceAction?: never;
+      negateSavingsPlanAction: NegateSavingsPlanAction;
+    };
 export const BillScenarioCommitmentModificationAction = S.Union(
   S.Struct({ addReservedInstanceAction: AddReservedInstanceAction }),
   S.Struct({ addSavingsPlanAction: AddSavingsPlanAction }),

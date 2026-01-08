@@ -327,9 +327,21 @@ export const PayloadPart = S.suspend(() =>
   S.Struct({ Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export type ResponseStream =
-  | { PayloadPart: PayloadPart }
-  | { ModelStreamError: ModelStreamError }
-  | { InternalStreamFailure: InternalStreamFailure };
+  | {
+      PayloadPart: PayloadPart;
+      ModelStreamError?: never;
+      InternalStreamFailure?: never;
+    }
+  | {
+      PayloadPart?: never;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: never;
+    }
+  | {
+      PayloadPart?: never;
+      ModelStreamError?: never;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ PayloadPart: PayloadPart }),

@@ -656,9 +656,19 @@ export const PrimitiveMessageDefinition = S.Union(
   S.Struct({ ros2PrimitiveMessageDefinition: ROS2PrimitiveMessageDefinition }),
 );
 export type StructuredMessage =
-  | { primitiveMessageDefinition: PrimitiveMessageDefinition }
-  | { structuredMessageListDefinition: StructuredMessageListDefinition }
   | {
+      primitiveMessageDefinition: PrimitiveMessageDefinition;
+      structuredMessageListDefinition?: never;
+      structuredMessageDefinition?: never;
+    }
+  | {
+      primitiveMessageDefinition?: never;
+      structuredMessageListDefinition: StructuredMessageListDefinition;
+      structuredMessageDefinition?: never;
+    }
+  | {
+      primitiveMessageDefinition?: never;
+      structuredMessageListDefinition?: never;
       structuredMessageDefinition: StructuredMessageFieldNameAndDataTypePair[];
     };
 export const StructuredMessage = S.Union(
@@ -1422,12 +1432,54 @@ export const CustomProperty = S.suspend(() =>
   identifier: "CustomProperty",
 }) as any as S.Schema<CustomProperty>;
 export type Node =
-  | { branch: Branch }
-  | { sensor: Sensor }
-  | { actuator: Actuator }
-  | { attribute: Attribute }
-  | { struct: CustomStruct }
-  | { property: CustomProperty };
+  | {
+      branch: Branch;
+      sensor?: never;
+      actuator?: never;
+      attribute?: never;
+      struct?: never;
+      property?: never;
+    }
+  | {
+      branch?: never;
+      sensor: Sensor;
+      actuator?: never;
+      attribute?: never;
+      struct?: never;
+      property?: never;
+    }
+  | {
+      branch?: never;
+      sensor?: never;
+      actuator: Actuator;
+      attribute?: never;
+      struct?: never;
+      property?: never;
+    }
+  | {
+      branch?: never;
+      sensor?: never;
+      actuator?: never;
+      attribute: Attribute;
+      struct?: never;
+      property?: never;
+    }
+  | {
+      branch?: never;
+      sensor?: never;
+      actuator?: never;
+      attribute?: never;
+      struct: CustomStruct;
+      property?: never;
+    }
+  | {
+      branch?: never;
+      sensor?: never;
+      actuator?: never;
+      attribute?: never;
+      struct?: never;
+      property: CustomProperty;
+    };
 export const Node = S.Union(
   S.Struct({ branch: Branch }),
   S.Struct({ sensor: Sensor }),
@@ -1700,8 +1752,8 @@ export const OnChangeStateTemplateUpdateStrategy = S.suspend(() =>
   identifier: "OnChangeStateTemplateUpdateStrategy",
 }) as any as S.Schema<OnChangeStateTemplateUpdateStrategy>;
 export type StateTemplateUpdateStrategy =
-  | { periodic: PeriodicStateTemplateUpdateStrategy }
-  | { onChange: OnChangeStateTemplateUpdateStrategy };
+  | { periodic: PeriodicStateTemplateUpdateStrategy; onChange?: never }
+  | { periodic?: never; onChange: OnChangeStateTemplateUpdateStrategy };
 export const StateTemplateUpdateStrategy = S.Union(
   S.Struct({ periodic: PeriodicStateTemplateUpdateStrategy }),
   S.Struct({ onChange: OnChangeStateTemplateUpdateStrategy }),
@@ -2183,8 +2235,14 @@ export const ConditionBasedCollectionScheme = S.suspend(() =>
   identifier: "ConditionBasedCollectionScheme",
 }) as any as S.Schema<ConditionBasedCollectionScheme>;
 export type CollectionScheme =
-  | { timeBasedCollectionScheme: TimeBasedCollectionScheme }
-  | { conditionBasedCollectionScheme: ConditionBasedCollectionScheme };
+  | {
+      timeBasedCollectionScheme: TimeBasedCollectionScheme;
+      conditionBasedCollectionScheme?: never;
+    }
+  | {
+      timeBasedCollectionScheme?: never;
+      conditionBasedCollectionScheme: ConditionBasedCollectionScheme;
+    };
 export const CollectionScheme = S.Union(
   S.Struct({ timeBasedCollectionScheme: TimeBasedCollectionScheme }),
   S.Struct({ conditionBasedCollectionScheme: ConditionBasedCollectionScheme }),
@@ -2222,9 +2280,17 @@ export const MqttTopicConfig = S.suspend(() =>
   identifier: "MqttTopicConfig",
 }) as any as S.Schema<MqttTopicConfig>;
 export type DataDestinationConfig =
-  | { s3Config: S3Config }
-  | { timestreamConfig: TimestreamConfig }
-  | { mqttTopicConfig: MqttTopicConfig };
+  | { s3Config: S3Config; timestreamConfig?: never; mqttTopicConfig?: never }
+  | {
+      s3Config?: never;
+      timestreamConfig: TimestreamConfig;
+      mqttTopicConfig?: never;
+    }
+  | {
+      s3Config?: never;
+      timestreamConfig?: never;
+      mqttTopicConfig: MqttTopicConfig;
+    };
 export const DataDestinationConfig = S.Union(
   S.Struct({ s3Config: S3Config }),
   S.Struct({ timestreamConfig: TimestreamConfig }),
@@ -2314,8 +2380,8 @@ export const ConditionBasedSignalFetchConfig = S.suspend(() =>
   identifier: "ConditionBasedSignalFetchConfig",
 }) as any as S.Schema<ConditionBasedSignalFetchConfig>;
 export type SignalFetchConfig =
-  | { timeBased: TimeBasedSignalFetchConfig }
-  | { conditionBased: ConditionBasedSignalFetchConfig };
+  | { timeBased: TimeBasedSignalFetchConfig; conditionBased?: never }
+  | { timeBased?: never; conditionBased: ConditionBasedSignalFetchConfig };
 export const SignalFetchConfig = S.Union(
   S.Struct({ timeBased: TimeBasedSignalFetchConfig }),
   S.Struct({ conditionBased: ConditionBasedSignalFetchConfig }),

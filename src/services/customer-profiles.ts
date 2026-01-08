@@ -3041,8 +3041,11 @@ export const CalculatedCustomAttributes = S.Record({
   value: CalculatedAttributeDimension,
 });
 export type Dimension =
-  | { ProfileAttributes: ProfileAttributes }
-  | { CalculatedAttributes: { [key: string]: CalculatedAttributeDimension } };
+  | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: never }
+  | {
+      ProfileAttributes?: never;
+      CalculatedAttributes: { [key: string]: CalculatedAttributeDimension };
+    };
 export const Dimension = S.Union(
   S.Struct({
     ProfileAttributes: ProfileAttributes.pipe(

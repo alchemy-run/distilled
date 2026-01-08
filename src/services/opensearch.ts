@@ -2160,8 +2160,8 @@ export const SecurityLakeDirectQueryDataSource = S.suspend(() =>
   identifier: "SecurityLakeDirectQueryDataSource",
 }) as any as S.Schema<SecurityLakeDirectQueryDataSource>;
 export type DirectQueryDataSourceType =
-  | { CloudWatchLog: CloudWatchDirectQueryDataSource }
-  | { SecurityLake: SecurityLakeDirectQueryDataSource };
+  | { CloudWatchLog: CloudWatchDirectQueryDataSource; SecurityLake?: never }
+  | { CloudWatchLog?: never; SecurityLake: SecurityLakeDirectQueryDataSource };
 export const DirectQueryDataSourceType = S.Union(
   S.Struct({ CloudWatchLog: CloudWatchDirectQueryDataSource }),
   S.Struct({ SecurityLake: SecurityLakeDirectQueryDataSource }),

@@ -611,12 +611,54 @@ export const RecognizedBotMember = S.suspend(() =>
   identifier: "RecognizedBotMember",
 }) as any as S.Schema<RecognizedBotMember>;
 export type StartConversationRequestEventStream =
-  | { ConfigurationEvent: ConfigurationEvent }
-  | { AudioInputEvent: AudioInputEvent }
-  | { DTMFInputEvent: DTMFInputEvent }
-  | { TextInputEvent: TextInputEvent }
-  | { PlaybackCompletionEvent: PlaybackCompletionEvent }
-  | { DisconnectionEvent: DisconnectionEvent };
+  | {
+      ConfigurationEvent: ConfigurationEvent;
+      AudioInputEvent?: never;
+      DTMFInputEvent?: never;
+      TextInputEvent?: never;
+      PlaybackCompletionEvent?: never;
+      DisconnectionEvent?: never;
+    }
+  | {
+      ConfigurationEvent?: never;
+      AudioInputEvent: AudioInputEvent;
+      DTMFInputEvent?: never;
+      TextInputEvent?: never;
+      PlaybackCompletionEvent?: never;
+      DisconnectionEvent?: never;
+    }
+  | {
+      ConfigurationEvent?: never;
+      AudioInputEvent?: never;
+      DTMFInputEvent: DTMFInputEvent;
+      TextInputEvent?: never;
+      PlaybackCompletionEvent?: never;
+      DisconnectionEvent?: never;
+    }
+  | {
+      ConfigurationEvent?: never;
+      AudioInputEvent?: never;
+      DTMFInputEvent?: never;
+      TextInputEvent: TextInputEvent;
+      PlaybackCompletionEvent?: never;
+      DisconnectionEvent?: never;
+    }
+  | {
+      ConfigurationEvent?: never;
+      AudioInputEvent?: never;
+      DTMFInputEvent?: never;
+      TextInputEvent?: never;
+      PlaybackCompletionEvent: PlaybackCompletionEvent;
+      DisconnectionEvent?: never;
+    }
+  | {
+      ConfigurationEvent?: never;
+      AudioInputEvent?: never;
+      DTMFInputEvent?: never;
+      TextInputEvent?: never;
+      PlaybackCompletionEvent?: never;
+      DisconnectionEvent: DisconnectionEvent;
+    };
 export const StartConversationRequestEventStream = T.InputEventStream(
   S.Union(
     S.Struct({ ConfigurationEvent: ConfigurationEvent }),
@@ -920,20 +962,230 @@ export const HeartbeatEvent = S.suspend(() =>
   identifier: "HeartbeatEvent",
 }) as any as S.Schema<HeartbeatEvent>;
 export type StartConversationResponseEventStream =
-  | { PlaybackInterruptionEvent: PlaybackInterruptionEvent }
-  | { TranscriptEvent: TranscriptEvent }
-  | { IntentResultEvent: IntentResultEvent }
-  | { TextResponseEvent: TextResponseEvent }
-  | { AudioResponseEvent: AudioResponseEvent }
-  | { HeartbeatEvent: HeartbeatEvent }
-  | { AccessDeniedException: AccessDeniedException }
-  | { ResourceNotFoundException: ResourceNotFoundException }
-  | { ValidationException: ValidationException }
-  | { ThrottlingException: ThrottlingException }
-  | { InternalServerException: InternalServerException }
-  | { ConflictException: ConflictException }
-  | { DependencyFailedException: DependencyFailedException }
-  | { BadGatewayException: BadGatewayException };
+  | {
+      PlaybackInterruptionEvent: PlaybackInterruptionEvent;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent: TranscriptEvent;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent: IntentResultEvent;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent: TextResponseEvent;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent: AudioResponseEvent;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent: HeartbeatEvent;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException: AccessDeniedException;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException: ResourceNotFoundException;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException: ValidationException;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException: ThrottlingException;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException: InternalServerException;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException: ConflictException;
+      DependencyFailedException?: never;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException: DependencyFailedException;
+      BadGatewayException?: never;
+    }
+  | {
+      PlaybackInterruptionEvent?: never;
+      TranscriptEvent?: never;
+      IntentResultEvent?: never;
+      TextResponseEvent?: never;
+      AudioResponseEvent?: never;
+      HeartbeatEvent?: never;
+      AccessDeniedException?: never;
+      ResourceNotFoundException?: never;
+      ValidationException?: never;
+      ThrottlingException?: never;
+      InternalServerException?: never;
+      ConflictException?: never;
+      DependencyFailedException?: never;
+      BadGatewayException: BadGatewayException;
+    };
 export const StartConversationResponseEventStream = T.EventStream(
   S.Union(
     S.Struct({ PlaybackInterruptionEvent: PlaybackInterruptionEvent }),

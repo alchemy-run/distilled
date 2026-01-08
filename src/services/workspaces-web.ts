@@ -1583,7 +1583,9 @@ export const Event = S.Literal(
 );
 export type Events = Event[];
 export const Events = S.Array(Event);
-export type EventFilter = { all: Record<string, never> } | { include: Event[] };
+export type EventFilter =
+  | { all: Record<string, never>; include?: never }
+  | { all?: never; include: Event[] };
 export const EventFilter = S.Union(
   S.Struct({ all: S.Struct({}) }),
   S.Struct({ include: Events }),
@@ -2059,12 +2061,16 @@ export const ToolbarConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ToolbarConfiguration",
 }) as any as S.Schema<ToolbarConfiguration>;
-export type IconImageInput = { blob: Uint8Array } | { s3Uri: string };
+export type IconImageInput =
+  | { blob: Uint8Array; s3Uri?: never }
+  | { blob?: never; s3Uri: string };
 export const IconImageInput = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),
 );
-export type WallpaperImageInput = { blob: Uint8Array } | { s3Uri: string };
+export type WallpaperImageInput =
+  | { blob: Uint8Array; s3Uri?: never }
+  | { blob?: never; s3Uri: string };
 export const WallpaperImageInput = S.Union(
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),

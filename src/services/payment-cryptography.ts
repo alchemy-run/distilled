@@ -966,13 +966,69 @@ export const ExportAttributes = S.suspend(() =>
   identifier: "ExportAttributes",
 }) as any as S.Schema<ExportAttributes>;
 export type ImportKeyMaterial =
-  | { RootCertificatePublicKey: RootCertificatePublicKey }
-  | { TrustedCertificatePublicKey: TrustedCertificatePublicKey }
-  | { Tr31KeyBlock: ImportTr31KeyBlock }
-  | { Tr34KeyBlock: ImportTr34KeyBlock }
-  | { KeyCryptogram: ImportKeyCryptogram }
-  | { DiffieHellmanTr31KeyBlock: ImportDiffieHellmanTr31KeyBlock }
-  | { As2805KeyCryptogram: ImportAs2805KeyCryptogram };
+  | {
+      RootCertificatePublicKey: RootCertificatePublicKey;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey: TrustedCertificatePublicKey;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock: ImportTr31KeyBlock;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock: ImportTr34KeyBlock;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram: ImportKeyCryptogram;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock: ImportDiffieHellmanTr31KeyBlock;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      RootCertificatePublicKey?: never;
+      TrustedCertificatePublicKey?: never;
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram: ImportAs2805KeyCryptogram;
+    };
 export const ImportKeyMaterial = S.Union(
   S.Struct({ RootCertificatePublicKey: RootCertificatePublicKey }),
   S.Struct({ TrustedCertificatePublicKey: TrustedCertificatePublicKey }),
@@ -1128,11 +1184,41 @@ export const ExportTr31KeyBlock = S.suspend(() =>
   identifier: "ExportTr31KeyBlock",
 }) as any as S.Schema<ExportTr31KeyBlock>;
 export type ExportKeyMaterial =
-  | { Tr31KeyBlock: ExportTr31KeyBlock }
-  | { Tr34KeyBlock: ExportTr34KeyBlock }
-  | { KeyCryptogram: ExportKeyCryptogram }
-  | { DiffieHellmanTr31KeyBlock: ExportDiffieHellmanTr31KeyBlock }
-  | { As2805KeyCryptogram: ExportAs2805KeyCryptogram };
+  | {
+      Tr31KeyBlock: ExportTr31KeyBlock;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock: ExportTr34KeyBlock;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram: ExportKeyCryptogram;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock: ExportDiffieHellmanTr31KeyBlock;
+      As2805KeyCryptogram?: never;
+    }
+  | {
+      Tr31KeyBlock?: never;
+      Tr34KeyBlock?: never;
+      KeyCryptogram?: never;
+      DiffieHellmanTr31KeyBlock?: never;
+      As2805KeyCryptogram: ExportAs2805KeyCryptogram;
+    };
 export const ExportKeyMaterial = S.Union(
   S.Struct({ Tr31KeyBlock: ExportTr31KeyBlock }),
   S.Struct({ Tr34KeyBlock: ExportTr34KeyBlock }),

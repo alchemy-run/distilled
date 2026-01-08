@@ -128,8 +128,8 @@ export const UniqueAttribute = S.suspend(() =>
   identifier: "UniqueAttribute",
 }) as any as S.Schema<UniqueAttribute>;
 export type AlternateIdentifier =
-  | { ExternalId: ExternalId }
-  | { UniqueAttribute: UniqueAttribute };
+  | { ExternalId: ExternalId; UniqueAttribute?: never }
+  | { ExternalId?: never; UniqueAttribute: UniqueAttribute };
 export const AlternateIdentifier = S.Union(
   S.Struct({ ExternalId: ExternalId }),
   S.Struct({ UniqueAttribute: UniqueAttribute }),

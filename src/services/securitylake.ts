@@ -726,8 +726,8 @@ export const CustomLogSourceResource = S.suspend(() =>
   identifier: "CustomLogSourceResource",
 }) as any as S.Schema<CustomLogSourceResource>;
 export type LogSourceResource =
-  | { awsLogSource: AwsLogSourceResource }
-  | { customLogSource: CustomLogSourceResource };
+  | { awsLogSource: AwsLogSourceResource; customLogSource?: never }
+  | { awsLogSource?: never; customLogSource: CustomLogSourceResource };
 export const LogSourceResource = S.Union(
   S.Struct({ awsLogSource: AwsLogSourceResource }),
   S.Struct({ customLogSource: CustomLogSourceResource }),
@@ -858,8 +858,14 @@ export const HttpsNotificationConfiguration = S.suspend(() =>
   identifier: "HttpsNotificationConfiguration",
 }) as any as S.Schema<HttpsNotificationConfiguration>;
 export type NotificationConfiguration =
-  | { sqsNotificationConfiguration: SqsNotificationConfiguration }
-  | { httpsNotificationConfiguration: HttpsNotificationConfiguration };
+  | {
+      sqsNotificationConfiguration: SqsNotificationConfiguration;
+      httpsNotificationConfiguration?: never;
+    }
+  | {
+      sqsNotificationConfiguration?: never;
+      httpsNotificationConfiguration: HttpsNotificationConfiguration;
+    };
 export const NotificationConfiguration = S.Union(
   S.Struct({ sqsNotificationConfiguration: SqsNotificationConfiguration }),
   S.Struct({ httpsNotificationConfiguration: HttpsNotificationConfiguration }),

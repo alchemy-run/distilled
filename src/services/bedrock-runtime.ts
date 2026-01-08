@@ -466,7 +466,9 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ uri: S.String, bucketOwner: S.optional(S.String) }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export type ImageSource = { bytes: Uint8Array } | { s3Location: S3Location };
+export type ImageSource =
+  | { bytes: Uint8Array; s3Location?: never }
+  | { bytes?: never; s3Location: S3Location };
 export const ImageSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -515,10 +517,15 @@ export const DocumentContentBlock = S.Union(S.Struct({ text: S.String }));
 export type DocumentContentBlocks = DocumentContentBlock[];
 export const DocumentContentBlocks = S.Array(DocumentContentBlock);
 export type DocumentSource =
-  | { bytes: Uint8Array }
-  | { s3Location: S3Location }
-  | { text: string }
-  | { content: DocumentContentBlock[] };
+  | { bytes: Uint8Array; s3Location?: never; text?: never; content?: never }
+  | { bytes?: never; s3Location: S3Location; text?: never; content?: never }
+  | { bytes?: never; s3Location?: never; text: string; content?: never }
+  | {
+      bytes?: never;
+      s3Location?: never;
+      text?: never;
+      content: DocumentContentBlock[];
+    };
 export const DocumentSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -572,7 +579,9 @@ export const VideoFormat = S.Literal(
   "wmv",
   "three_gp",
 );
-export type VideoSource = { bytes: Uint8Array } | { s3Location: S3Location };
+export type VideoSource =
+  | { bytes: Uint8Array; s3Location?: never }
+  | { bytes?: never; s3Location: S3Location };
 export const VideoSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -617,7 +626,9 @@ export const AudioFormat = S.Literal(
   "pcm",
   "webm",
 );
-export type AudioSource = { bytes: Uint8Array } | { s3Location: S3Location };
+export type AudioSource =
+  | { bytes: Uint8Array; s3Location?: never }
+  | { bytes?: never; s3Location: S3Location };
 export const AudioSource = S.Union(
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -677,12 +688,54 @@ export const SearchResultBlock = S.suspend(() =>
   identifier: "SearchResultBlock",
 }) as any as S.Schema<SearchResultBlock>;
 export type ToolResultContentBlock =
-  | { json: any }
-  | { text: string }
-  | { image: ImageBlock }
-  | { document: DocumentBlock }
-  | { video: VideoBlock }
-  | { searchResult: SearchResultBlock };
+  | {
+      json: any;
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      searchResult?: never;
+    }
+  | {
+      json?: never;
+      text: string;
+      image?: never;
+      document?: never;
+      video?: never;
+      searchResult?: never;
+    }
+  | {
+      json?: never;
+      text?: never;
+      image: ImageBlock;
+      document?: never;
+      video?: never;
+      searchResult?: never;
+    }
+  | {
+      json?: never;
+      text?: never;
+      image?: never;
+      document: DocumentBlock;
+      video?: never;
+      searchResult?: never;
+    }
+  | {
+      json?: never;
+      text?: never;
+      image?: never;
+      document?: never;
+      video: VideoBlock;
+      searchResult?: never;
+    }
+  | {
+      json?: never;
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      searchResult: SearchResultBlock;
+    };
 export const ToolResultContentBlock = S.Union(
   S.Struct({ json: S.Any }),
   S.Struct({ text: S.String }),
@@ -756,8 +809,8 @@ export const GuardrailConverseImageBlock = S.suspend(() =>
   identifier: "GuardrailConverseImageBlock",
 }) as any as S.Schema<GuardrailConverseImageBlock>;
 export type GuardrailConverseContentBlock =
-  | { text: GuardrailConverseTextBlock }
-  | { image: GuardrailConverseImageBlock };
+  | { text: GuardrailConverseTextBlock; image?: never }
+  | { text?: never; image: GuardrailConverseImageBlock };
 export const GuardrailConverseContentBlock = S.Union(
   S.Struct({ text: GuardrailConverseTextBlock }),
   S.Struct({ image: GuardrailConverseImageBlock }),
@@ -780,8 +833,8 @@ export const ReasoningTextBlock = S.suspend(() =>
   identifier: "ReasoningTextBlock",
 }) as any as S.Schema<ReasoningTextBlock>;
 export type ReasoningContentBlock =
-  | { reasoningText: ReasoningTextBlock }
-  | { redactedContent: Uint8Array };
+  | { reasoningText: ReasoningTextBlock; redactedContent?: never }
+  | { reasoningText?: never; redactedContent: Uint8Array };
 export const ReasoningContentBlock = S.Union(
   S.Struct({ reasoningText: ReasoningTextBlock }),
   S.Struct({ redactedContent: T.Blob }),
@@ -858,11 +911,41 @@ export const SearchResultLocation = S.suspend(() =>
   identifier: "SearchResultLocation",
 }) as any as S.Schema<SearchResultLocation>;
 export type CitationLocation =
-  | { web: WebLocation }
-  | { documentChar: DocumentCharLocation }
-  | { documentPage: DocumentPageLocation }
-  | { documentChunk: DocumentChunkLocation }
-  | { searchResultLocation: SearchResultLocation };
+  | {
+      web: WebLocation;
+      documentChar?: never;
+      documentPage?: never;
+      documentChunk?: never;
+      searchResultLocation?: never;
+    }
+  | {
+      web?: never;
+      documentChar: DocumentCharLocation;
+      documentPage?: never;
+      documentChunk?: never;
+      searchResultLocation?: never;
+    }
+  | {
+      web?: never;
+      documentChar?: never;
+      documentPage: DocumentPageLocation;
+      documentChunk?: never;
+      searchResultLocation?: never;
+    }
+  | {
+      web?: never;
+      documentChar?: never;
+      documentPage?: never;
+      documentChunk: DocumentChunkLocation;
+      searchResultLocation?: never;
+    }
+  | {
+      web?: never;
+      documentChar?: never;
+      documentPage?: never;
+      documentChunk?: never;
+      searchResultLocation: SearchResultLocation;
+    };
 export const CitationLocation = S.Union(
   S.Struct({ web: WebLocation }),
   S.Struct({ documentChar: DocumentCharLocation }),
@@ -899,18 +982,174 @@ export const CitationsContentBlock = S.suspend(() =>
   identifier: "CitationsContentBlock",
 }) as any as S.Schema<CitationsContentBlock>;
 export type ContentBlock =
-  | { text: string }
-  | { image: ImageBlock }
-  | { document: DocumentBlock }
-  | { video: VideoBlock }
-  | { audio: AudioBlock }
-  | { toolUse: ToolUseBlock }
-  | { toolResult: ToolResultBlock }
-  | { guardContent: GuardrailConverseContentBlock }
-  | { cachePoint: CachePointBlock }
-  | { reasoningContent: ReasoningContentBlock }
-  | { citationsContent: CitationsContentBlock }
-  | { searchResult: SearchResultBlock };
+  | {
+      text: string;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image: ImageBlock;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document: DocumentBlock;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video: VideoBlock;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio: AudioBlock;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse: ToolUseBlock;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult: ToolResultBlock;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent: GuardrailConverseContentBlock;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint: CachePointBlock;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent: ReasoningContentBlock;
+      citationsContent?: never;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent: CitationsContentBlock;
+      searchResult?: never;
+    }
+  | {
+      text?: never;
+      image?: never;
+      document?: never;
+      video?: never;
+      audio?: never;
+      toolUse?: never;
+      toolResult?: never;
+      guardContent?: never;
+      cachePoint?: never;
+      reasoningContent?: never;
+      citationsContent?: never;
+      searchResult: SearchResultBlock;
+    };
 export const ContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
@@ -937,9 +1176,13 @@ export const Message = S.suspend(() =>
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export type SystemContentBlock =
-  | { text: string }
-  | { guardContent: GuardrailConverseContentBlock }
-  | { cachePoint: CachePointBlock };
+  | { text: string; guardContent?: never; cachePoint?: never }
+  | {
+      text?: never;
+      guardContent: GuardrailConverseContentBlock;
+      cachePoint?: never;
+    }
+  | { text?: never; guardContent?: never; cachePoint: CachePointBlock };
 export const SystemContentBlock = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ guardContent: GuardrailConverseContentBlock }),
@@ -970,9 +1213,9 @@ export const SystemTool = S.suspend(() =>
   S.Struct({ name: S.String }),
 ).annotations({ identifier: "SystemTool" }) as any as S.Schema<SystemTool>;
 export type Tool =
-  | { toolSpec: ToolSpecification }
-  | { systemTool: SystemTool }
-  | { cachePoint: CachePointBlock };
+  | { toolSpec: ToolSpecification; systemTool?: never; cachePoint?: never }
+  | { toolSpec?: never; systemTool: SystemTool; cachePoint?: never }
+  | { toolSpec?: never; systemTool?: never; cachePoint: CachePointBlock };
 export const Tool = S.Union(
   S.Struct({ toolSpec: ToolSpecification }),
   S.Struct({ systemTool: SystemTool }),
@@ -989,9 +1232,9 @@ export const SpecificToolChoice = S.suspend(() =>
   identifier: "SpecificToolChoice",
 }) as any as S.Schema<SpecificToolChoice>;
 export type ToolChoice =
-  | { auto: AutoToolChoice }
-  | { any: AnyToolChoice }
-  | { tool: SpecificToolChoice };
+  | { auto: AutoToolChoice; any?: never; tool?: never }
+  | { auto?: never; any: AnyToolChoice; tool?: never }
+  | { auto?: never; any?: never; tool: SpecificToolChoice };
 export const ToolChoice = S.Union(
   S.Struct({ auto: AutoToolChoice }),
   S.Struct({ any: AnyToolChoice }),
@@ -1157,8 +1400,8 @@ export const InvokeModelWithBidirectionalStreamInput = T.InputEventStream(
   stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>
 >;
 export type CountTokensInput =
-  | { invokeModel: InvokeModelTokensRequest }
-  | { converse: ConverseTokensRequest };
+  | { invokeModel: InvokeModelTokensRequest; converse?: never }
+  | { invokeModel?: never; converse: ConverseTokensRequest };
 export const CountTokensInput = S.Union(
   S.Struct({ invokeModel: InvokeModelTokensRequest }),
   S.Struct({ converse: ConverseTokensRequest }),
@@ -1265,8 +1508,8 @@ export const PayloadPart = S.suspend(() =>
   S.Struct({ bytes: S.optional(SensitiveBlob) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export type GuardrailContentBlock =
-  | { text: GuardrailTextBlock }
-  | { image: GuardrailImageBlock };
+  | { text: GuardrailTextBlock; image?: never }
+  | { text?: never; image: GuardrailImageBlock };
 export const GuardrailContentBlock = S.Union(
   S.Struct({ text: GuardrailTextBlock }),
   S.Struct({ image: GuardrailImageBlock }),
@@ -1274,13 +1517,69 @@ export const GuardrailContentBlock = S.Union(
 export type GuardrailContentBlockList = GuardrailContentBlock[];
 export const GuardrailContentBlockList = S.Array(GuardrailContentBlock);
 export type ResponseStream =
-  | { chunk: PayloadPart }
-  | { internalServerException: InternalServerException }
-  | { modelStreamErrorException: ModelStreamErrorException }
-  | { validationException: ValidationException }
-  | { throttlingException: ThrottlingException }
-  | { modelTimeoutException: ModelTimeoutException }
-  | { serviceUnavailableException: ServiceUnavailableException };
+  | {
+      chunk: PayloadPart;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException: InternalServerException;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException: ModelStreamErrorException;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException: ValidationException;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException: ThrottlingException;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException: ModelTimeoutException;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException: ServiceUnavailableException;
+    };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ chunk: PayloadPart }),
@@ -1511,7 +1810,9 @@ export const ToolUseBlockDelta = S.suspend(() =>
 ).annotations({
   identifier: "ToolUseBlockDelta",
 }) as any as S.Schema<ToolUseBlockDelta>;
-export type ToolResultBlockDelta = { text: string } | { json: any };
+export type ToolResultBlockDelta =
+  | { text: string; json?: never }
+  | { text?: never; json: any };
 export const ToolResultBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ json: S.Any }),
@@ -1519,9 +1820,9 @@ export const ToolResultBlockDelta = S.Union(
 export type ToolResultBlocksDelta = ToolResultBlockDelta[];
 export const ToolResultBlocksDelta = S.Array(ToolResultBlockDelta);
 export type ReasoningContentBlockDelta =
-  | { text: string }
-  | { redactedContent: Uint8Array }
-  | { signature: string };
+  | { text: string; redactedContent?: never; signature?: never }
+  | { text?: never; redactedContent: Uint8Array; signature?: never }
+  | { text?: never; redactedContent?: never; signature: string };
 export const ReasoningContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ redactedContent: T.Blob }),
@@ -1581,13 +1882,69 @@ export const GuardrailOutputContent = S.suspend(() =>
 export type GuardrailOutputContentList = GuardrailOutputContent[];
 export const GuardrailOutputContentList = S.Array(GuardrailOutputContent);
 export type InvokeModelWithBidirectionalStreamOutput =
-  | { chunk: BidirectionalOutputPayloadPart }
-  | { internalServerException: InternalServerException }
-  | { modelStreamErrorException: ModelStreamErrorException }
-  | { validationException: ValidationException }
-  | { throttlingException: ThrottlingException }
-  | { modelTimeoutException: ModelTimeoutException }
-  | { serviceUnavailableException: ServiceUnavailableException };
+  | {
+      chunk: BidirectionalOutputPayloadPart;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException: InternalServerException;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException: ModelStreamErrorException;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException: ValidationException;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException: ThrottlingException;
+      modelTimeoutException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException: ModelTimeoutException;
+      serviceUnavailableException?: never;
+    }
+  | {
+      chunk?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      modelTimeoutException?: never;
+      serviceUnavailableException: ServiceUnavailableException;
+    };
 export const InvokeModelWithBidirectionalStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ chunk: BidirectionalOutputPayloadPart }),
@@ -1639,9 +1996,9 @@ export const GuardrailOriginList = S.Array(GuardrailOrigin);
 export type GuardrailOwnership = "SELF" | "CROSS_ACCOUNT";
 export const GuardrailOwnership = S.Literal("SELF", "CROSS_ACCOUNT");
 export type ContentBlockStart =
-  | { toolUse: ToolUseBlockStart }
-  | { toolResult: ToolResultBlockStart }
-  | { image: ImageBlockStart };
+  | { toolUse: ToolUseBlockStart; toolResult?: never; image?: never }
+  | { toolUse?: never; toolResult: ToolResultBlockStart; image?: never }
+  | { toolUse?: never; toolResult?: never; image: ImageBlockStart };
 export const ContentBlockStart = S.Union(
   S.Struct({ toolUse: ToolUseBlockStart }),
   S.Struct({ toolResult: ToolResultBlockStart }),
@@ -2180,15 +2537,69 @@ export const GuardrailAutomatedReasoningNoTranslationsFinding = S.suspend(() =>
   identifier: "GuardrailAutomatedReasoningNoTranslationsFinding",
 }) as any as S.Schema<GuardrailAutomatedReasoningNoTranslationsFinding>;
 export type GuardrailAutomatedReasoningFinding =
-  | { valid: GuardrailAutomatedReasoningValidFinding }
-  | { invalid: GuardrailAutomatedReasoningInvalidFinding }
-  | { satisfiable: GuardrailAutomatedReasoningSatisfiableFinding }
-  | { impossible: GuardrailAutomatedReasoningImpossibleFinding }
   | {
-      translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding;
+      valid: GuardrailAutomatedReasoningValidFinding;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
     }
-  | { tooComplex: GuardrailAutomatedReasoningTooComplexFinding }
-  | { noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding };
+  | {
+      valid?: never;
+      invalid: GuardrailAutomatedReasoningInvalidFinding;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable: GuardrailAutomatedReasoningSatisfiableFinding;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible: GuardrailAutomatedReasoningImpossibleFinding;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex: GuardrailAutomatedReasoningTooComplexFinding;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding;
+    };
 export const GuardrailAutomatedReasoningFinding = S.Union(
   S.Struct({ valid: GuardrailAutomatedReasoningValidFinding }),
   S.Struct({ invalid: GuardrailAutomatedReasoningInvalidFinding }),
@@ -2374,12 +2785,54 @@ export const GuardrailTraceAssessment = S.suspend(() =>
   identifier: "GuardrailTraceAssessment",
 }) as any as S.Schema<GuardrailTraceAssessment>;
 export type ContentBlockDelta =
-  | { text: string }
-  | { toolUse: ToolUseBlockDelta }
-  | { toolResult: ToolResultBlockDelta[] }
-  | { reasoningContent: ReasoningContentBlockDelta }
-  | { citation: CitationsDelta }
-  | { image: ImageBlockDelta };
+  | {
+      text: string;
+      toolUse?: never;
+      toolResult?: never;
+      reasoningContent?: never;
+      citation?: never;
+      image?: never;
+    }
+  | {
+      text?: never;
+      toolUse: ToolUseBlockDelta;
+      toolResult?: never;
+      reasoningContent?: never;
+      citation?: never;
+      image?: never;
+    }
+  | {
+      text?: never;
+      toolUse?: never;
+      toolResult: ToolResultBlockDelta[];
+      reasoningContent?: never;
+      citation?: never;
+      image?: never;
+    }
+  | {
+      text?: never;
+      toolUse?: never;
+      toolResult?: never;
+      reasoningContent: ReasoningContentBlockDelta;
+      citation?: never;
+      image?: never;
+    }
+  | {
+      text?: never;
+      toolUse?: never;
+      toolResult?: never;
+      reasoningContent?: never;
+      citation: CitationsDelta;
+      image?: never;
+    }
+  | {
+      text?: never;
+      toolUse?: never;
+      toolResult?: never;
+      reasoningContent?: never;
+      citation?: never;
+      image: ImageBlockDelta;
+    };
 export const ContentBlockDelta = S.Union(
   S.Struct({ text: S.String }),
   S.Struct({ toolUse: ToolUseBlockDelta }),
@@ -2471,17 +2924,149 @@ export const ConverseStreamMetadataEvent = S.suspend(() =>
   identifier: "ConverseStreamMetadataEvent",
 }) as any as S.Schema<ConverseStreamMetadataEvent>;
 export type ConverseStreamOutput =
-  | { messageStart: MessageStartEvent }
-  | { contentBlockStart: ContentBlockStartEvent }
-  | { contentBlockDelta: ContentBlockDeltaEvent }
-  | { contentBlockStop: ContentBlockStopEvent }
-  | { messageStop: MessageStopEvent }
-  | { metadata: ConverseStreamMetadataEvent }
-  | { internalServerException: InternalServerException }
-  | { modelStreamErrorException: ModelStreamErrorException }
-  | { validationException: ValidationException }
-  | { throttlingException: ThrottlingException }
-  | { serviceUnavailableException: ServiceUnavailableException };
+  | {
+      messageStart: MessageStartEvent;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart: ContentBlockStartEvent;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta: ContentBlockDeltaEvent;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop: ContentBlockStopEvent;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop: MessageStopEvent;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata: ConverseStreamMetadataEvent;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException: InternalServerException;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException: ModelStreamErrorException;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException: ValidationException;
+      throttlingException?: never;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException: ThrottlingException;
+      serviceUnavailableException?: never;
+    }
+  | {
+      messageStart?: never;
+      contentBlockStart?: never;
+      contentBlockDelta?: never;
+      contentBlockStop?: never;
+      messageStop?: never;
+      metadata?: never;
+      internalServerException?: never;
+      modelStreamErrorException?: never;
+      validationException?: never;
+      throttlingException?: never;
+      serviceUnavailableException: ServiceUnavailableException;
+    };
 export const ConverseStreamOutput = T.EventStream(
   S.Union(
     S.Struct({ messageStart: MessageStartEvent }),

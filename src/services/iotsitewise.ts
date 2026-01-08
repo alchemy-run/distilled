@@ -6823,15 +6823,105 @@ export const InvocationOutput = S.suspend(() =>
   identifier: "InvocationOutput",
 }) as any as S.Schema<InvocationOutput>;
 export type ResponseStream =
-  | { trace: Trace }
-  | { output: InvocationOutput }
-  | { accessDeniedException: AccessDeniedException }
-  | { conflictingOperationException: ConflictingOperationException }
-  | { internalFailureException: InternalFailureException }
-  | { invalidRequestException: InvalidRequestException }
-  | { limitExceededException: LimitExceededException }
-  | { resourceNotFoundException: ResourceNotFoundException }
-  | { throttlingException: ThrottlingException };
+  | {
+      trace: Trace;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output: InvocationOutput;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException: AccessDeniedException;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException: ConflictingOperationException;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException: InternalFailureException;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException: InvalidRequestException;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException: LimitExceededException;
+      resourceNotFoundException?: never;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException: ResourceNotFoundException;
+      throttlingException?: never;
+    }
+  | {
+      trace?: never;
+      output?: never;
+      accessDeniedException?: never;
+      conflictingOperationException?: never;
+      internalFailureException?: never;
+      invalidRequestException?: never;
+      limitExceededException?: never;
+      resourceNotFoundException?: never;
+      throttlingException: ThrottlingException;
+    };
 export const ResponseStream = T.EventStream(
   S.Union(
     S.Struct({ trace: Trace }),

@@ -480,8 +480,8 @@ export const TagCondition = S.suspend(() =>
 export type AndConditions = TagCondition[];
 export const AndConditions = S.Array(TagCondition);
 export type OrCondition =
-  | { andConditions: TagCondition[] }
-  | { tagCondition: TagCondition };
+  | { andConditions: TagCondition[]; tagCondition?: never }
+  | { andConditions?: never; tagCondition: TagCondition };
 export const OrCondition = S.Union(
   S.Struct({ andConditions: AndConditions }),
   S.Struct({ tagCondition: TagCondition }),
@@ -489,9 +489,17 @@ export const OrCondition = S.Union(
 export type OrConditions = OrCondition[];
 export const OrConditions = S.Array(OrCondition);
 export type TagFilter =
-  | { tagCondition: TagCondition }
-  | { andConditions: TagCondition[] }
-  | { orConditions: OrCondition[] };
+  | { tagCondition: TagCondition; andConditions?: never; orConditions?: never }
+  | {
+      tagCondition?: never;
+      andConditions: TagCondition[];
+      orConditions?: never;
+    }
+  | {
+      tagCondition?: never;
+      andConditions?: never;
+      orConditions: OrCondition[];
+    };
 export const TagFilter = S.Union(
   S.Struct({ tagCondition: TagCondition }),
   S.Struct({ andConditions: AndConditions }),
@@ -801,19 +809,103 @@ export const CaseSummarizationAIAgentConfiguration = S.suspend(() =>
   identifier: "CaseSummarizationAIAgentConfiguration",
 }) as any as S.Schema<CaseSummarizationAIAgentConfiguration>;
 export type AIAgentConfiguration =
-  | { manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration }
   | {
+      manualSearchAIAgentConfiguration: ManualSearchAIAgentConfiguration;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
       answerRecommendationAIAgentConfiguration: AnswerRecommendationAIAgentConfiguration;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
     }
-  | { selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration }
-  | { emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration }
-  | { emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration }
   | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration: SelfServiceAIAgentConfiguration;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration: EmailResponseAIAgentConfiguration;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration: EmailOverviewAIAgentConfiguration;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
       emailGenerativeAnswerAIAgentConfiguration: EmailGenerativeAnswerAIAgentConfiguration;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
     }
-  | { orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration }
-  | { noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration }
   | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration: OrchestrationAIAgentConfiguration;
+      noteTakingAIAgentConfiguration?: never;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration: NoteTakingAIAgentConfiguration;
+      caseSummarizationAIAgentConfiguration?: never;
+    }
+  | {
+      manualSearchAIAgentConfiguration?: never;
+      answerRecommendationAIAgentConfiguration?: never;
+      selfServiceAIAgentConfiguration?: never;
+      emailResponseAIAgentConfiguration?: never;
+      emailOverviewAIAgentConfiguration?: never;
+      emailGenerativeAnswerAIAgentConfiguration?: never;
+      orchestrationAIAgentConfiguration?: never;
+      noteTakingAIAgentConfiguration?: never;
       caseSummarizationAIAgentConfiguration: CaseSummarizationAIAgentConfiguration;
     };
 export const AIAgentConfiguration = S.Union(
@@ -2619,10 +2711,30 @@ export const PushMessageTemplateContent = S.suspend(() =>
   identifier: "PushMessageTemplateContent",
 }) as any as S.Schema<PushMessageTemplateContent>;
 export type MessageTemplateContentProvider =
-  | { email: EmailMessageTemplateContent }
-  | { sms: SMSMessageTemplateContent }
-  | { whatsApp: WhatsAppMessageTemplateContent }
-  | { push: PushMessageTemplateContent };
+  | {
+      email: EmailMessageTemplateContent;
+      sms?: never;
+      whatsApp?: never;
+      push?: never;
+    }
+  | {
+      email?: never;
+      sms: SMSMessageTemplateContent;
+      whatsApp?: never;
+      push?: never;
+    }
+  | {
+      email?: never;
+      sms?: never;
+      whatsApp: WhatsAppMessageTemplateContent;
+      push?: never;
+    }
+  | {
+      email?: never;
+      sms?: never;
+      whatsApp?: never;
+      push: PushMessageTemplateContent;
+    };
 export const MessageTemplateContentProvider = S.Union(
   S.Struct({ email: EmailMessageTemplateContent }),
   S.Struct({ sms: SMSMessageTemplateContent }),
@@ -3369,8 +3481,8 @@ export const ToolUseResultData = S.suspend(() =>
   identifier: "ToolUseResultData",
 }) as any as S.Schema<ToolUseResultData>;
 export type MessageData =
-  | { text: TextMessage }
-  | { toolUseResult: ToolUseResultData };
+  | { text: TextMessage; toolUseResult?: never }
+  | { text?: never; toolUseResult: ToolUseResultData };
 export const MessageData = S.Union(
   S.Struct({ text: TextMessage }),
   S.Struct({ toolUseResult: ToolUseResultData }),
@@ -3952,8 +4064,14 @@ export const ManagedSourceConfiguration = S.Union(
   S.Struct({ webCrawlerConfiguration: WebCrawlerConfiguration }),
 );
 export type SourceConfiguration =
-  | { appIntegrations: AppIntegrationsConfiguration }
-  | { managedSourceConfiguration: ManagedSourceConfiguration };
+  | {
+      appIntegrations: AppIntegrationsConfiguration;
+      managedSourceConfiguration?: never;
+    }
+  | {
+      appIntegrations?: never;
+      managedSourceConfiguration: ManagedSourceConfiguration;
+    };
 export const SourceConfiguration = S.Union(
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
   S.Struct({ managedSourceConfiguration: ManagedSourceConfiguration }),
@@ -4666,9 +4784,21 @@ export const QueryCondition = S.Union(S.Struct({ single: QueryConditionItem }));
 export type QueryConditionExpression = QueryCondition[];
 export const QueryConditionExpression = S.Array(QueryCondition);
 export type QueryInputData =
-  | { queryTextInputData: QueryTextInputData }
-  | { intentInputData: IntentInputData }
-  | { caseSummarizationInputData: CaseSummarizationInputData };
+  | {
+      queryTextInputData: QueryTextInputData;
+      intentInputData?: never;
+      caseSummarizationInputData?: never;
+    }
+  | {
+      queryTextInputData?: never;
+      intentInputData: IntentInputData;
+      caseSummarizationInputData?: never;
+    }
+  | {
+      queryTextInputData?: never;
+      intentInputData?: never;
+      caseSummarizationInputData: CaseSummarizationInputData;
+    };
 export const QueryInputData = S.Union(
   S.Struct({ queryTextInputData: QueryTextInputData }),
   S.Struct({ intentInputData: IntentInputData }),
@@ -4825,8 +4955,11 @@ export const AIPromptVersionSummary = S.suspend(() =>
 export type AIPromptVersionSummariesList = AIPromptVersionSummary[];
 export const AIPromptVersionSummariesList = S.Array(AIPromptVersionSummary);
 export type AssistantAssociationInputData =
-  | { knowledgeBaseId: string }
-  | { externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig };
+  | { knowledgeBaseId: string; externalBedrockKnowledgeBaseConfig?: never }
+  | {
+      knowledgeBaseId?: never;
+      externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
+    };
 export const AssistantAssociationInputData = S.Union(
   S.Struct({ knowledgeBaseId: S.String }),
   S.Struct({
@@ -4846,8 +4979,14 @@ export const KnowledgeBaseAssociationData = S.suspend(() =>
   identifier: "KnowledgeBaseAssociationData",
 }) as any as S.Schema<KnowledgeBaseAssociationData>;
 export type AssistantAssociationOutputData =
-  | { knowledgeBaseAssociation: KnowledgeBaseAssociationData }
-  | { externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig };
+  | {
+      knowledgeBaseAssociation: KnowledgeBaseAssociationData;
+      externalBedrockKnowledgeBaseConfig?: never;
+    }
+  | {
+      knowledgeBaseAssociation?: never;
+      externalBedrockKnowledgeBaseConfig: ExternalBedrockKnowledgeBaseConfig;
+    };
 export const AssistantAssociationOutputData = S.Union(
   S.Struct({ knowledgeBaseAssociation: KnowledgeBaseAssociationData }),
   S.Struct({
@@ -5975,19 +6114,201 @@ export const ListQuickResponsesResponse = S.suspend(() =>
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
 export type RetrievalFilterConfiguration =
-  | { andAll: RetrievalFilterConfiguration[] }
-  | { equals: FilterAttribute }
-  | { greaterThan: FilterAttribute }
-  | { greaterThanOrEquals: FilterAttribute }
-  | { in: FilterAttribute }
-  | { lessThan: FilterAttribute }
-  | { lessThanOrEquals: FilterAttribute }
-  | { listContains: FilterAttribute }
-  | { notEquals: FilterAttribute }
-  | { notIn: FilterAttribute }
-  | { orAll: RetrievalFilterConfiguration[] }
-  | { startsWith: FilterAttribute }
-  | { stringContains: FilterAttribute };
+  | {
+      andAll: RetrievalFilterConfiguration[];
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals: FilterAttribute;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan: FilterAttribute;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals: FilterAttribute;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in: FilterAttribute;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan: FilterAttribute;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals: FilterAttribute;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains: FilterAttribute;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals: FilterAttribute;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn: FilterAttribute;
+      orAll?: never;
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll: RetrievalFilterConfiguration[];
+      startsWith?: never;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith: FilterAttribute;
+      stringContains?: never;
+    }
+  | {
+      andAll?: never;
+      equals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      in?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      listContains?: never;
+      notEquals?: never;
+      notIn?: never;
+      orAll?: never;
+      startsWith?: never;
+      stringContains: FilterAttribute;
+    };
 export const RetrievalFilterConfiguration = S.Union(
   S.Struct({
     andAll: S.suspend(() => RetrievalFilterList).annotations({
@@ -6546,9 +6867,21 @@ export const Document = S.suspend(() =>
   }),
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export type DataReference =
-  | { contentReference: ContentReference }
-  | { generativeReference: GenerativeReference }
-  | { suggestedMessageReference: SuggestedMessageReference };
+  | {
+      contentReference: ContentReference;
+      generativeReference?: never;
+      suggestedMessageReference?: never;
+    }
+  | {
+      contentReference?: never;
+      generativeReference: GenerativeReference;
+      suggestedMessageReference?: never;
+    }
+  | {
+      contentReference?: never;
+      generativeReference?: never;
+      suggestedMessageReference: SuggestedMessageReference;
+    };
 export const DataReference = S.Union(
   S.Struct({ contentReference: ContentReference }),
   S.Struct({ generativeReference: GenerativeReference }),
@@ -6878,18 +7211,174 @@ export const MessageInput = S.suspend(() =>
   S.Struct({ value: MessageData }),
 ).annotations({ identifier: "MessageInput" }) as any as S.Schema<MessageInput>;
 export type DataDetails =
-  | { contentData: ContentDataDetails }
-  | { generativeData: GenerativeDataDetails }
-  | { intentDetectedData: IntentDetectedDataDetails }
-  | { sourceContentData: SourceContentDataDetails }
-  | { generativeChunkData: GenerativeChunkDataDetails }
-  | { emailResponseChunkData: EmailResponseChunkDataDetails }
-  | { emailOverviewChunkData: EmailOverviewChunkDataDetails }
-  | { emailGenerativeAnswerChunkData: EmailGenerativeAnswerChunkDataDetails }
-  | { caseSummarizationChunkData: CaseSummarizationChunkDataDetails }
-  | { suggestedMessageData: SuggestedMessageDataDetails }
-  | { notesData: NotesDataDetails }
-  | { notesChunkData: NotesChunkDataDetails };
+  | {
+      contentData: ContentDataDetails;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData: GenerativeDataDetails;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData: IntentDetectedDataDetails;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData: SourceContentDataDetails;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData: GenerativeChunkDataDetails;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData: EmailResponseChunkDataDetails;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData: EmailOverviewChunkDataDetails;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData: EmailGenerativeAnswerChunkDataDetails;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData: CaseSummarizationChunkDataDetails;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData: SuggestedMessageDataDetails;
+      notesData?: never;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData: NotesDataDetails;
+      notesChunkData?: never;
+    }
+  | {
+      contentData?: never;
+      generativeData?: never;
+      intentDetectedData?: never;
+      sourceContentData?: never;
+      generativeChunkData?: never;
+      emailResponseChunkData?: never;
+      emailOverviewChunkData?: never;
+      emailGenerativeAnswerChunkData?: never;
+      caseSummarizationChunkData?: never;
+      suggestedMessageData?: never;
+      notesData?: never;
+      notesChunkData: NotesChunkDataDetails;
+    };
 export const DataDetails = S.Union(
   S.Struct({ contentData: ContentDataDetails }),
   S.Struct({
@@ -6919,9 +7408,9 @@ export const DataDetails = S.Union(
   S.Struct({ notesChunkData: NotesChunkDataDetails }),
 ) as any as S.Schema<DataDetails>;
 export type SpanMessageValue =
-  | { text: SpanTextValue }
-  | { toolUse: SpanToolUseValue }
-  | { toolResult: SpanToolResultValue };
+  | { text: SpanTextValue; toolUse?: never; toolResult?: never }
+  | { text?: never; toolUse: SpanToolUseValue; toolResult?: never }
+  | { text?: never; toolUse?: never; toolResult: SpanToolResultValue };
 export const SpanMessageValue = S.Union(
   S.Struct({ text: SpanTextValue }),
   S.Struct({ toolUse: SpanToolUseValue }),

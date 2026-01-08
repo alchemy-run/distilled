@@ -2325,17 +2325,149 @@ export const MongoDbDataProviderSettings = S.suspend(() =>
   identifier: "MongoDbDataProviderSettings",
 }) as any as S.Schema<MongoDbDataProviderSettings>;
 export type DataProviderSettings =
-  | { RedshiftSettings: RedshiftDataProviderSettings }
-  | { PostgreSqlSettings: PostgreSqlDataProviderSettings }
-  | { MySqlSettings: MySqlDataProviderSettings }
-  | { OracleSettings: OracleDataProviderSettings }
-  | { SybaseAseSettings: SybaseAseDataProviderSettings }
-  | { MicrosoftSqlServerSettings: MicrosoftSqlServerDataProviderSettings }
-  | { DocDbSettings: DocDbDataProviderSettings }
-  | { MariaDbSettings: MariaDbDataProviderSettings }
-  | { IbmDb2LuwSettings: IbmDb2LuwDataProviderSettings }
-  | { IbmDb2zOsSettings: IbmDb2zOsDataProviderSettings }
-  | { MongoDbSettings: MongoDbDataProviderSettings };
+  | {
+      RedshiftSettings: RedshiftDataProviderSettings;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings: PostgreSqlDataProviderSettings;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings: MySqlDataProviderSettings;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings: OracleDataProviderSettings;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings: SybaseAseDataProviderSettings;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings: MicrosoftSqlServerDataProviderSettings;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings: DocDbDataProviderSettings;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings: MariaDbDataProviderSettings;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings: IbmDb2LuwDataProviderSettings;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings: IbmDb2zOsDataProviderSettings;
+      MongoDbSettings?: never;
+    }
+  | {
+      RedshiftSettings?: never;
+      PostgreSqlSettings?: never;
+      MySqlSettings?: never;
+      OracleSettings?: never;
+      SybaseAseSettings?: never;
+      MicrosoftSqlServerSettings?: never;
+      DocDbSettings?: never;
+      MariaDbSettings?: never;
+      IbmDb2LuwSettings?: never;
+      IbmDb2zOsSettings?: never;
+      MongoDbSettings: MongoDbDataProviderSettings;
+    };
 export const DataProviderSettings = S.Union(
   S.Struct({ RedshiftSettings: RedshiftDataProviderSettings }),
   S.Struct({ PostgreSqlSettings: PostgreSqlDataProviderSettings }),

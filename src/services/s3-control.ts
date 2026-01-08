@@ -6957,11 +6957,41 @@ export const GeneratedManifestEncryption = S.suspend(() =>
   identifier: "GeneratedManifestEncryption",
 }) as any as S.Schema<GeneratedManifestEncryption>;
 export type ObjectEncryptionFilter =
-  | { SSES3: SSES3Filter }
-  | { SSEKMS: SSEKMSFilter }
-  | { DSSEKMS: DSSEKMSFilter }
-  | { SSEC: SSECFilter }
-  | { NOTSSE: NotSSEFilter };
+  | {
+      SSES3: SSES3Filter;
+      SSEKMS?: never;
+      DSSEKMS?: never;
+      SSEC?: never;
+      NOTSSE?: never;
+    }
+  | {
+      SSES3?: never;
+      SSEKMS: SSEKMSFilter;
+      DSSEKMS?: never;
+      SSEC?: never;
+      NOTSSE?: never;
+    }
+  | {
+      SSES3?: never;
+      SSEKMS?: never;
+      DSSEKMS: DSSEKMSFilter;
+      SSEC?: never;
+      NOTSSE?: never;
+    }
+  | {
+      SSES3?: never;
+      SSEKMS?: never;
+      DSSEKMS?: never;
+      SSEC: SSECFilter;
+      NOTSSE?: never;
+    }
+  | {
+      SSES3?: never;
+      SSEKMS?: never;
+      DSSEKMS?: never;
+      SSEC?: never;
+      NOTSSE: NotSSEFilter;
+    };
 export const ObjectEncryptionFilter = S.Union(
   S.Struct({
     SSES3: SSES3Filter.pipe(T.XmlName("SSE-S3")).annotations({

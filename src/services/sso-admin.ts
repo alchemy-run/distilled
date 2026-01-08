@@ -1941,10 +1941,30 @@ export const JwtBearerGrant = S.suspend(() =>
   identifier: "JwtBearerGrant",
 }) as any as S.Schema<JwtBearerGrant>;
 export type Grant =
-  | { AuthorizationCode: AuthorizationCodeGrant }
-  | { JwtBearer: JwtBearerGrant }
-  | { RefreshToken: RefreshTokenGrant }
-  | { TokenExchange: TokenExchangeGrant };
+  | {
+      AuthorizationCode: AuthorizationCodeGrant;
+      JwtBearer?: never;
+      RefreshToken?: never;
+      TokenExchange?: never;
+    }
+  | {
+      AuthorizationCode?: never;
+      JwtBearer: JwtBearerGrant;
+      RefreshToken?: never;
+      TokenExchange?: never;
+    }
+  | {
+      AuthorizationCode?: never;
+      JwtBearer?: never;
+      RefreshToken: RefreshTokenGrant;
+      TokenExchange?: never;
+    }
+  | {
+      AuthorizationCode?: never;
+      JwtBearer?: never;
+      RefreshToken?: never;
+      TokenExchange: TokenExchangeGrant;
+    };
 export const Grant = S.Union(
   S.Struct({ AuthorizationCode: AuthorizationCodeGrant }),
   S.Struct({ JwtBearer: JwtBearerGrant }),

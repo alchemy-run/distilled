@@ -961,7 +961,9 @@ export const InfluxDBv2Parameters = S.suspend(() =>
 ).annotations({
   identifier: "InfluxDBv2Parameters",
 }) as any as S.Schema<InfluxDBv2Parameters>;
-export type PercentOrAbsoluteLong = { percent: string } | { absolute: number };
+export type PercentOrAbsoluteLong =
+  | { percent: string; absolute?: never }
+  | { percent?: never; absolute: number };
 export const PercentOrAbsoluteLong = S.Union(
   S.Struct({ percent: S.String }),
   S.Struct({ absolute: S.Number }),
@@ -1165,9 +1167,21 @@ export const InfluxDBv3EnterpriseParameters = S.suspend(() =>
   identifier: "InfluxDBv3EnterpriseParameters",
 }) as any as S.Schema<InfluxDBv3EnterpriseParameters>;
 export type Parameters =
-  | { InfluxDBv2: InfluxDBv2Parameters }
-  | { InfluxDBv3Core: InfluxDBv3CoreParameters }
-  | { InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters };
+  | {
+      InfluxDBv2: InfluxDBv2Parameters;
+      InfluxDBv3Core?: never;
+      InfluxDBv3Enterprise?: never;
+    }
+  | {
+      InfluxDBv2?: never;
+      InfluxDBv3Core: InfluxDBv3CoreParameters;
+      InfluxDBv3Enterprise?: never;
+    }
+  | {
+      InfluxDBv2?: never;
+      InfluxDBv3Core?: never;
+      InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters;
+    };
 export const Parameters = S.Union(
   S.Struct({ InfluxDBv2: InfluxDBv2Parameters }),
   S.Struct({ InfluxDBv3Core: InfluxDBv3CoreParameters }),

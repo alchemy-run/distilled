@@ -5316,8 +5316,11 @@ export const Operation = S.suspend(() =>
 export type Operations = Operation[];
 export const Operations = S.Array(Operation);
 export type InvokeWithResponseStreamResponseEvent =
-  | { PayloadChunk: InvokeResponseStreamUpdate }
-  | { InvokeComplete: InvokeWithResponseStreamCompleteEvent };
+  | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: never }
+  | {
+      PayloadChunk?: never;
+      InvokeComplete: InvokeWithResponseStreamCompleteEvent;
+    };
 export const InvokeWithResponseStreamResponseEvent = T.EventStream(
   S.Union(
     S.Struct({ PayloadChunk: InvokeResponseStreamUpdate }),

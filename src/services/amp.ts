@@ -583,13 +583,15 @@ export const DeleteAlertManagerDefinitionResponse = S.suspend(() =>
   identifier: "DeleteAlertManagerDefinitionResponse",
 }) as any as S.Schema<DeleteAlertManagerDefinitionResponse>;
 export type AnomalyDetectorMissingDataAction =
-  | { markAsAnomaly: boolean }
-  | { skip: boolean };
+  | { markAsAnomaly: boolean; skip?: never }
+  | { markAsAnomaly?: never; skip: boolean };
 export const AnomalyDetectorMissingDataAction = S.Union(
   S.Struct({ markAsAnomaly: S.Boolean }),
   S.Struct({ skip: S.Boolean }),
 );
-export type IgnoreNearExpected = { amount: number } | { ratio: number };
+export type IgnoreNearExpected =
+  | { amount: number; ratio?: never }
+  | { amount?: never; ratio: number };
 export const IgnoreNearExpected = S.Union(
   S.Struct({ amount: S.Number }),
   S.Struct({ ratio: S.Number }),
@@ -1390,8 +1392,8 @@ export const LimitsPerLabelSetEntry = S.suspend(() =>
 export type LabelSet = { [key: string]: string };
 export const LabelSet = S.Record({ key: S.String, value: S.String });
 export type Source =
-  | { eksConfiguration: EksConfiguration }
-  | { vpcConfiguration: VpcConfiguration };
+  | { eksConfiguration: EksConfiguration; vpcConfiguration?: never }
+  | { eksConfiguration?: never; vpcConfiguration: VpcConfiguration };
 export const Source = S.Union(
   S.Struct({ eksConfiguration: EksConfiguration }),
   S.Struct({ vpcConfiguration: VpcConfiguration }),

@@ -166,10 +166,20 @@ export const AddGroupMemberResult = S.suspend(() =>
 export type StringSetAttributeValue = string | redacted.Redacted<string>[];
 export const StringSetAttributeValue = S.Array(SensitiveString);
 export type AttributeValue =
-  | { S: string | redacted.Redacted<string> }
-  | { N: number }
-  | { BOOL: boolean }
-  | { SS: string | redacted.Redacted<string>[] };
+  | {
+      S: string | redacted.Redacted<string>;
+      N?: never;
+      BOOL?: never;
+      SS?: never;
+    }
+  | { S?: never; N: number; BOOL?: never; SS?: never }
+  | { S?: never; N?: never; BOOL: boolean; SS?: never }
+  | {
+      S?: never;
+      N?: never;
+      BOOL?: never;
+      SS: string | redacted.Redacted<string>[];
+    };
 export const AttributeValue = S.Union(
   S.Struct({ S: SensitiveString }),
   S.Struct({ N: S.Number }),

@@ -229,7 +229,9 @@ export const GetApplicationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetApplicationRequest",
 }) as any as S.Schema<GetApplicationRequest>;
-export type Definition = { s3Location: string } | { content: string };
+export type Definition =
+  | { s3Location: string; content?: never }
+  | { s3Location?: never; content: string };
 export const Definition = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ content: S.String }),
@@ -1275,7 +1277,9 @@ export const DataSetImportSummary = S.suspend(() =>
 ).annotations({
   identifier: "DataSetImportSummary",
 }) as any as S.Schema<DataSetImportSummary>;
-export type JobIdentifier = { fileName: string } | { scriptName: string };
+export type JobIdentifier =
+  | { fileName: string; scriptName?: never }
+  | { fileName?: never; scriptName: string };
 export const JobIdentifier = S.Union(
   S.Struct({ fileName: S.String }),
   S.Struct({ scriptName: S.String }),
@@ -1295,10 +1299,30 @@ export const S3BatchJobIdentifier = S.suspend(() =>
   identifier: "S3BatchJobIdentifier",
 }) as any as S.Schema<S3BatchJobIdentifier>;
 export type BatchJobIdentifier =
-  | { fileBatchJobIdentifier: FileBatchJobIdentifier }
-  | { scriptBatchJobIdentifier: ScriptBatchJobIdentifier }
-  | { s3BatchJobIdentifier: S3BatchJobIdentifier }
-  | { restartBatchJobIdentifier: RestartBatchJobIdentifier };
+  | {
+      fileBatchJobIdentifier: FileBatchJobIdentifier;
+      scriptBatchJobIdentifier?: never;
+      s3BatchJobIdentifier?: never;
+      restartBatchJobIdentifier?: never;
+    }
+  | {
+      fileBatchJobIdentifier?: never;
+      scriptBatchJobIdentifier: ScriptBatchJobIdentifier;
+      s3BatchJobIdentifier?: never;
+      restartBatchJobIdentifier?: never;
+    }
+  | {
+      fileBatchJobIdentifier?: never;
+      scriptBatchJobIdentifier?: never;
+      s3BatchJobIdentifier: S3BatchJobIdentifier;
+      restartBatchJobIdentifier?: never;
+    }
+  | {
+      fileBatchJobIdentifier?: never;
+      scriptBatchJobIdentifier?: never;
+      s3BatchJobIdentifier?: never;
+      restartBatchJobIdentifier: RestartBatchJobIdentifier;
+    };
 export const BatchJobIdentifier = S.Union(
   S.Struct({ fileBatchJobIdentifier: FileBatchJobIdentifier }),
   S.Struct({ scriptBatchJobIdentifier: ScriptBatchJobIdentifier }),
@@ -1450,8 +1474,8 @@ export const DeploymentSummary = S.suspend(() =>
 export type DeploymentList = DeploymentSummary[];
 export const DeploymentList = S.Array(DeploymentSummary);
 export type StorageConfiguration =
-  | { efs: EfsStorageConfiguration }
-  | { fsx: FsxStorageConfiguration };
+  | { efs: EfsStorageConfiguration; fsx?: never }
+  | { efs?: never; fsx: FsxStorageConfiguration };
 export const StorageConfiguration = S.Union(
   S.Struct({ efs: EfsStorageConfiguration }),
   S.Struct({ fsx: FsxStorageConfiguration }),
@@ -1839,8 +1863,8 @@ export const RecordLength = S.suspend(() =>
   S.Struct({ min: S.Number, max: S.Number }),
 ).annotations({ identifier: "RecordLength" }) as any as S.Schema<RecordLength>;
 export type DataSetExportConfig =
-  | { s3Location: string }
-  | { dataSets: DataSetExportItem[] };
+  | { s3Location: string; dataSets?: never }
+  | { s3Location?: never; dataSets: DataSetExportItem[] };
 export const DataSetExportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetExportList }),
@@ -1848,8 +1872,14 @@ export const DataSetExportConfig = S.Union(
 export type String20List = string[];
 export const String20List = S.Array(S.String);
 export type BatchJobDefinition =
-  | { fileBatchJobDefinition: FileBatchJobDefinition }
-  | { scriptBatchJobDefinition: ScriptBatchJobDefinition };
+  | {
+      fileBatchJobDefinition: FileBatchJobDefinition;
+      scriptBatchJobDefinition?: never;
+    }
+  | {
+      fileBatchJobDefinition?: never;
+      scriptBatchJobDefinition: ScriptBatchJobDefinition;
+    };
 export const BatchJobDefinition = S.Union(
   S.Struct({ fileBatchJobDefinition: FileBatchJobDefinition }),
   S.Struct({ scriptBatchJobDefinition: ScriptBatchJobDefinition }),
@@ -2092,10 +2122,10 @@ export const VsamDetailAttributes = S.suspend(() =>
   identifier: "VsamDetailAttributes",
 }) as any as S.Schema<VsamDetailAttributes>;
 export type DatasetOrgAttributes =
-  | { vsam: VsamAttributes }
-  | { gdg: GdgAttributes }
-  | { po: PoAttributes }
-  | { ps: PsAttributes };
+  | { vsam: VsamAttributes; gdg?: never; po?: never; ps?: never }
+  | { vsam?: never; gdg: GdgAttributes; po?: never; ps?: never }
+  | { vsam?: never; gdg?: never; po: PoAttributes; ps?: never }
+  | { vsam?: never; gdg?: never; po?: never; ps: PsAttributes };
 export const DatasetOrgAttributes = S.Union(
   S.Struct({ vsam: VsamAttributes }),
   S.Struct({ gdg: GdgAttributes }),
@@ -2103,10 +2133,10 @@ export const DatasetOrgAttributes = S.Union(
   S.Struct({ ps: PsAttributes }),
 );
 export type DatasetDetailOrgAttributes =
-  | { vsam: VsamDetailAttributes }
-  | { gdg: GdgDetailAttributes }
-  | { po: PoDetailAttributes }
-  | { ps: PsDetailAttributes };
+  | { vsam: VsamDetailAttributes; gdg?: never; po?: never; ps?: never }
+  | { vsam?: never; gdg: GdgDetailAttributes; po?: never; ps?: never }
+  | { vsam?: never; gdg?: never; po: PoDetailAttributes; ps?: never }
+  | { vsam?: never; gdg?: never; po?: never; ps: PsDetailAttributes };
 export const DatasetDetailOrgAttributes = S.Union(
   S.Struct({ vsam: VsamDetailAttributes }),
   S.Struct({ gdg: GdgDetailAttributes }),
@@ -2198,8 +2228,8 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export type DataSetImportConfig =
-  | { s3Location: string }
-  | { dataSets: DataSetImportItem[] };
+  | { s3Location: string; dataSets?: never }
+  | { s3Location?: never; dataSets: DataSetImportItem[] };
 export const DataSetImportConfig = S.Union(
   S.Struct({ s3Location: S.String }),
   S.Struct({ dataSets: DataSetImportList }),

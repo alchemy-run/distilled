@@ -505,12 +505,54 @@ export const SubStatementList = S.Array(SubStatementData);
 export type ColumnList = ColumnMetadata[];
 export const ColumnList = S.Array(ColumnMetadata);
 export type Field =
-  | { isNull: boolean }
-  | { booleanValue: boolean }
-  | { longValue: number }
-  | { doubleValue: number }
-  | { stringValue: string }
-  | { blobValue: Uint8Array };
+  | {
+      isNull: boolean;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue: boolean;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue: number;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue: number;
+      stringValue?: never;
+      blobValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue: string;
+      blobValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue: Uint8Array;
+    };
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),

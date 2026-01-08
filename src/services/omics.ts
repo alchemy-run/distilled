@@ -4189,8 +4189,8 @@ export const TsvOptions = S.suspend(() =>
   S.Struct({ readOptions: S.optional(ReadOptions) }),
 ).annotations({ identifier: "TsvOptions" }) as any as S.Schema<TsvOptions>;
 export type FormatOptions =
-  | { tsvOptions: TsvOptions }
-  | { vcfOptions: VcfOptions };
+  | { tsvOptions: TsvOptions; vcfOptions?: never }
+  | { tsvOptions?: never; vcfOptions: VcfOptions };
 export const FormatOptions = S.Union(
   S.Struct({ tsvOptions: TsvOptions }),
   S.Struct({ vcfOptions: VcfOptions }),

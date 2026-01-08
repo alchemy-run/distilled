@@ -963,9 +963,9 @@ export const FormDataTypeConfig = S.suspend(() =>
 export type FixedPosition = "first";
 export const FixedPosition = S.Literal("first");
 export type FieldPosition =
-  | { fixed: FixedPosition }
-  | { rightOf: string }
-  | { below: string };
+  | { fixed: FixedPosition; rightOf?: never; below?: never }
+  | { fixed?: never; rightOf: string; below?: never }
+  | { fixed?: never; rightOf?: never; below: string };
 export const FieldPosition = S.Union(
   S.Struct({ fixed: FixedPosition }),
   S.Struct({ rightOf: S.String }),
@@ -1151,7 +1151,9 @@ export const FieldConfig = S.suspend(() =>
 ).annotations({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
 export type FieldsMap = { [key: string]: FieldConfig };
 export const FieldsMap = S.Record({ key: S.String, value: FieldConfig });
-export type FormStyleConfig = { tokenReference: string } | { value: string };
+export type FormStyleConfig =
+  | { tokenReference: string; value?: never }
+  | { tokenReference?: never; value: string };
 export const FormStyleConfig = S.Union(
   S.Struct({ tokenReference: S.String }),
   S.Struct({ value: S.String }),
@@ -1976,9 +1978,21 @@ export const GraphQLRenderConfig = S.suspend(() =>
   identifier: "GraphQLRenderConfig",
 }) as any as S.Schema<GraphQLRenderConfig>;
 export type ApiConfiguration =
-  | { graphQLConfig: GraphQLRenderConfig }
-  | { dataStoreConfig: DataStoreRenderConfig }
-  | { noApiConfig: NoApiRenderConfig };
+  | {
+      graphQLConfig: GraphQLRenderConfig;
+      dataStoreConfig?: never;
+      noApiConfig?: never;
+    }
+  | {
+      graphQLConfig?: never;
+      dataStoreConfig: DataStoreRenderConfig;
+      noApiConfig?: never;
+    }
+  | {
+      graphQLConfig?: never;
+      dataStoreConfig?: never;
+      noApiConfig: NoApiRenderConfig;
+    };
 export const ApiConfiguration = S.Union(
   S.Struct({ graphQLConfig: GraphQLRenderConfig }),
   S.Struct({ dataStoreConfig: DataStoreRenderConfig }),

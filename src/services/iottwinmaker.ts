@@ -1052,9 +1052,9 @@ export const InterpolationParameters = S.suspend(() =>
 export type LinkedServices = string[];
 export const LinkedServices = S.Array(S.String);
 export type ListComponentTypesFilter =
-  | { extendsFrom: string }
-  | { namespace: string }
-  | { isAbstract: boolean };
+  | { extendsFrom: string; namespace?: never; isAbstract?: never }
+  | { extendsFrom?: never; namespace: string; isAbstract?: never }
+  | { extendsFrom?: never; namespace?: never; isAbstract: boolean };
 export const ListComponentTypesFilter = S.Union(
   S.Struct({ extendsFrom: S.String }),
   S.Struct({ namespace: S.String }),
@@ -1063,9 +1063,9 @@ export const ListComponentTypesFilter = S.Union(
 export type ListComponentTypesFilters = ListComponentTypesFilter[];
 export const ListComponentTypesFilters = S.Array(ListComponentTypesFilter);
 export type ListEntitiesFilter =
-  | { parentEntityId: string }
-  | { componentTypeId: string }
-  | { externalId: string };
+  | { parentEntityId: string; componentTypeId?: never; externalId?: never }
+  | { parentEntityId?: never; componentTypeId: string; externalId?: never }
+  | { parentEntityId?: never; componentTypeId?: never; externalId: string };
 export const ListEntitiesFilter = S.Union(
   S.Struct({ parentEntityId: S.String }),
   S.Struct({ componentTypeId: S.String }),
@@ -1074,8 +1074,8 @@ export const ListEntitiesFilter = S.Union(
 export type ListEntitiesFilters = ListEntitiesFilter[];
 export const ListEntitiesFilters = S.Array(ListEntitiesFilter);
 export type ListMetadataTransferJobsFilter =
-  | { workspaceId: string }
-  | { state: string };
+  | { workspaceId: string; state?: never }
+  | { workspaceId?: never; state: string };
 export const ListMetadataTransferJobsFilter = S.Union(
   S.Struct({ workspaceId: S.String }),
   S.Struct({ state: S.String }),
@@ -1085,10 +1085,30 @@ export const ListMetadataTransferJobsFilters = S.Array(
   ListMetadataTransferJobsFilter,
 );
 export type SyncResourceFilter =
-  | { state: string }
-  | { resourceType: string }
-  | { resourceId: string }
-  | { externalId: string };
+  | {
+      state: string;
+      resourceType?: never;
+      resourceId?: never;
+      externalId?: never;
+    }
+  | {
+      state?: never;
+      resourceType: string;
+      resourceId?: never;
+      externalId?: never;
+    }
+  | {
+      state?: never;
+      resourceType?: never;
+      resourceId: string;
+      externalId?: never;
+    }
+  | {
+      state?: never;
+      resourceType?: never;
+      resourceId?: never;
+      externalId: string;
+    };
 export const SyncResourceFilter = S.Union(
   S.Struct({ state: S.String }),
   S.Struct({ resourceType: S.String }),
@@ -1242,8 +1262,8 @@ export const FilterByAsset = S.suspend(() =>
   identifier: "FilterByAsset",
 }) as any as S.Schema<FilterByAsset>;
 export type IotSiteWiseSourceConfigurationFilter =
-  | { filterByAssetModel: FilterByAssetModel }
-  | { filterByAsset: FilterByAsset };
+  | { filterByAssetModel: FilterByAssetModel; filterByAsset?: never }
+  | { filterByAssetModel?: never; filterByAsset: FilterByAsset };
 export const IotSiteWiseSourceConfigurationFilter = S.Union(
   S.Struct({ filterByAssetModel: FilterByAssetModel }),
   S.Struct({ filterByAsset: FilterByAsset }),
@@ -1278,8 +1298,8 @@ export const FilterByEntity = S.suspend(() =>
   identifier: "FilterByEntity",
 }) as any as S.Schema<FilterByEntity>;
 export type IotTwinMakerSourceConfigurationFilter =
-  | { filterByComponentType: FilterByComponentType }
-  | { filterByEntity: FilterByEntity };
+  | { filterByComponentType: FilterByComponentType; filterByEntity?: never }
+  | { filterByComponentType?: never; filterByEntity: FilterByEntity };
 export const IotTwinMakerSourceConfigurationFilter = S.Union(
   S.Struct({ filterByComponentType: FilterByComponentType }),
   S.Struct({ filterByEntity: FilterByEntity }),

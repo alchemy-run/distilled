@@ -2249,9 +2249,9 @@ export const GetServiceGraphResult = S.suspend(() =>
   identifier: "GetServiceGraphResult",
 }) as any as S.Schema<GetServiceGraphResult>;
 export type AnnotationValue =
-  | { NumberValue: number }
-  | { BooleanValue: boolean }
-  | { StringValue: string };
+  | { NumberValue: number; BooleanValue?: never; StringValue?: never }
+  | { NumberValue?: never; BooleanValue: boolean; StringValue?: never }
+  | { NumberValue?: never; BooleanValue?: never; StringValue: string };
 export const AnnotationValue = S.Union(
   S.Struct({ NumberValue: S.Number }),
   S.Struct({ BooleanValue: S.Boolean }),

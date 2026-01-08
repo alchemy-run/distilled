@@ -1578,9 +1578,21 @@ export const ConfiguredTableAssociationAnalysisRuleCustom = S.suspend(() =>
   identifier: "ConfiguredTableAssociationAnalysisRuleCustom",
 }) as any as S.Schema<ConfiguredTableAssociationAnalysisRuleCustom>;
 export type ConfiguredTableAssociationAnalysisRulePolicyV1 =
-  | { list: ConfiguredTableAssociationAnalysisRuleList }
-  | { aggregation: ConfiguredTableAssociationAnalysisRuleAggregation }
-  | { custom: ConfiguredTableAssociationAnalysisRuleCustom };
+  | {
+      list: ConfiguredTableAssociationAnalysisRuleList;
+      aggregation?: never;
+      custom?: never;
+    }
+  | {
+      list?: never;
+      aggregation: ConfiguredTableAssociationAnalysisRuleAggregation;
+      custom?: never;
+    }
+  | {
+      list?: never;
+      aggregation?: never;
+      custom: ConfiguredTableAssociationAnalysisRuleCustom;
+    };
 export const ConfiguredTableAssociationAnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: ConfiguredTableAssociationAnalysisRuleList }),
   S.Struct({ aggregation: ConfiguredTableAssociationAnalysisRuleAggregation }),
@@ -1785,9 +1797,9 @@ export const AthenaTableReference = S.suspend(() =>
   identifier: "AthenaTableReference",
 }) as any as S.Schema<AthenaTableReference>;
 export type TableReference =
-  | { glue: GlueTableReference }
-  | { snowflake: SnowflakeTableReference }
-  | { athena: AthenaTableReference };
+  | { glue: GlueTableReference; snowflake?: never; athena?: never }
+  | { glue?: never; snowflake: SnowflakeTableReference; athena?: never }
+  | { glue?: never; snowflake?: never; athena: AthenaTableReference };
 export const TableReference = S.Union(
   S.Struct({ glue: GlueTableReference }),
   S.Struct({ snowflake: SnowflakeTableReference }),
@@ -2060,9 +2072,9 @@ export const AnalysisRuleCustom = S.suspend(() =>
   identifier: "AnalysisRuleCustom",
 }) as any as S.Schema<AnalysisRuleCustom>;
 export type ConfiguredTableAnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList }
-  | { aggregation: AnalysisRuleAggregation }
-  | { custom: AnalysisRuleCustom };
+  | { list: AnalysisRuleList; aggregation?: never; custom?: never }
+  | { list?: never; aggregation: AnalysisRuleAggregation; custom?: never }
+  | { list?: never; aggregation?: never; custom: AnalysisRuleCustom };
 export const ConfiguredTableAnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: AnalysisRuleList }),
   S.Struct({ aggregation: AnalysisRuleAggregation }),
@@ -3131,8 +3143,8 @@ export const AnalysisTemplateArtifacts = S.suspend(() =>
   identifier: "AnalysisTemplateArtifacts",
 }) as any as S.Schema<AnalysisTemplateArtifacts>;
 export type AnalysisSource =
-  | { text: string | redacted.Redacted<string> }
-  | { artifacts: AnalysisTemplateArtifacts };
+  | { text: string | redacted.Redacted<string>; artifacts?: never }
+  | { text?: never; artifacts: AnalysisTemplateArtifacts };
 export const AnalysisSource = S.Union(
   S.Struct({ text: SensitiveString }),
   S.Struct({ artifacts: AnalysisTemplateArtifacts }),
@@ -3603,8 +3615,8 @@ export const CollaborationChangeSpecification = S.suspend(() =>
   identifier: "CollaborationChangeSpecification",
 }) as any as S.Schema<CollaborationChangeSpecification>;
 export type ChangeSpecification =
-  | { member: MemberChangeSpecification }
-  | { collaboration: CollaborationChangeSpecification };
+  | { member: MemberChangeSpecification; collaboration?: never }
+  | { member?: never; collaboration: CollaborationChangeSpecification };
 export const ChangeSpecification = S.Union(
   S.Struct({ member: MemberChangeSpecification }),
   S.Struct({ collaboration: CollaborationChangeSpecification }),
@@ -4211,8 +4223,8 @@ export const ProtectedJobMemberOutputConfigurationOutput = S.suspend(() =>
   identifier: "ProtectedJobMemberOutputConfigurationOutput",
 }) as any as S.Schema<ProtectedJobMemberOutputConfigurationOutput>;
 export type ProtectedJobOutputConfigurationOutput =
-  | { s3: ProtectedJobS3OutputConfigurationOutput }
-  | { member: ProtectedJobMemberOutputConfigurationOutput };
+  | { s3: ProtectedJobS3OutputConfigurationOutput; member?: never }
+  | { s3?: never; member: ProtectedJobMemberOutputConfigurationOutput };
 export const ProtectedJobOutputConfigurationOutput = S.Union(
   S.Struct({ s3: ProtectedJobS3OutputConfigurationOutput }),
   S.Struct({ member: ProtectedJobMemberOutputConfigurationOutput }),
@@ -4266,8 +4278,8 @@ export const ProtectedJobMemberOutputList = S.Array(
   ProtectedJobSingleMemberOutput,
 );
 export type ProtectedJobOutput =
-  | { s3: ProtectedJobS3Output }
-  | { memberList: ProtectedJobSingleMemberOutput[] };
+  | { s3: ProtectedJobS3Output; memberList?: never }
+  | { s3?: never; memberList: ProtectedJobSingleMemberOutput[] };
 export const ProtectedJobOutput = S.Union(
   S.Struct({ s3: ProtectedJobS3Output }),
   S.Struct({ memberList: ProtectedJobMemberOutputList }),
@@ -4365,8 +4377,8 @@ export const ProtectedQueryMemberOutputConfiguration = S.suspend(() =>
   identifier: "ProtectedQueryMemberOutputConfiguration",
 }) as any as S.Schema<ProtectedQueryMemberOutputConfiguration>;
 export type ProtectedQueryDistributeOutputConfigurationLocation =
-  | { s3: ProtectedQueryS3OutputConfiguration }
-  | { member: ProtectedQueryMemberOutputConfiguration };
+  | { s3: ProtectedQueryS3OutputConfiguration; member?: never }
+  | { s3?: never; member: ProtectedQueryMemberOutputConfiguration };
 export const ProtectedQueryDistributeOutputConfigurationLocation = S.Union(
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
   S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
@@ -4385,9 +4397,21 @@ export const ProtectedQueryDistributeOutputConfiguration = S.suspend(() =>
   identifier: "ProtectedQueryDistributeOutputConfiguration",
 }) as any as S.Schema<ProtectedQueryDistributeOutputConfiguration>;
 export type ProtectedQueryOutputConfiguration =
-  | { s3: ProtectedQueryS3OutputConfiguration }
-  | { member: ProtectedQueryMemberOutputConfiguration }
-  | { distribute: ProtectedQueryDistributeOutputConfiguration };
+  | {
+      s3: ProtectedQueryS3OutputConfiguration;
+      member?: never;
+      distribute?: never;
+    }
+  | {
+      s3?: never;
+      member: ProtectedQueryMemberOutputConfiguration;
+      distribute?: never;
+    }
+  | {
+      s3?: never;
+      member?: never;
+      distribute: ProtectedQueryDistributeOutputConfiguration;
+    };
 export const ProtectedQueryOutputConfiguration = S.Union(
   S.Struct({ s3: ProtectedQueryS3OutputConfiguration }),
   S.Struct({ member: ProtectedQueryMemberOutputConfiguration }),
@@ -4454,9 +4478,17 @@ export const ProtectedQueryDistributeOutput = S.suspend(() =>
   identifier: "ProtectedQueryDistributeOutput",
 }) as any as S.Schema<ProtectedQueryDistributeOutput>;
 export type ProtectedQueryOutput =
-  | { s3: ProtectedQueryS3Output }
-  | { memberList: ProtectedQuerySingleMemberOutput[] }
-  | { distribute: ProtectedQueryDistributeOutput };
+  | { s3: ProtectedQueryS3Output; memberList?: never; distribute?: never }
+  | {
+      s3?: never;
+      memberList: ProtectedQuerySingleMemberOutput[];
+      distribute?: never;
+    }
+  | {
+      s3?: never;
+      memberList?: never;
+      distribute: ProtectedQueryDistributeOutput;
+    };
 export const ProtectedQueryOutput = S.Union(
   S.Struct({ s3: ProtectedQueryS3Output }),
   S.Struct({ memberList: ProtectedQueryMemberOutputList }),
@@ -4782,10 +4814,30 @@ export const AnalysisRuleIdMappingTable = S.suspend(() =>
   identifier: "AnalysisRuleIdMappingTable",
 }) as any as S.Schema<AnalysisRuleIdMappingTable>;
 export type AnalysisRulePolicyV1 =
-  | { list: AnalysisRuleList }
-  | { aggregation: AnalysisRuleAggregation }
-  | { custom: AnalysisRuleCustom }
-  | { idMappingTable: AnalysisRuleIdMappingTable };
+  | {
+      list: AnalysisRuleList;
+      aggregation?: never;
+      custom?: never;
+      idMappingTable?: never;
+    }
+  | {
+      list?: never;
+      aggregation: AnalysisRuleAggregation;
+      custom?: never;
+      idMappingTable?: never;
+    }
+  | {
+      list?: never;
+      aggregation?: never;
+      custom: AnalysisRuleCustom;
+      idMappingTable?: never;
+    }
+  | {
+      list?: never;
+      aggregation?: never;
+      custom?: never;
+      idMappingTable: AnalysisRuleIdMappingTable;
+    };
 export const AnalysisRulePolicyV1 = S.Union(
   S.Struct({ list: AnalysisRuleList }),
   S.Struct({ aggregation: AnalysisRuleAggregation }),
@@ -4867,9 +4919,9 @@ export const ConsolidatedPolicyCustom = S.suspend(() =>
   identifier: "ConsolidatedPolicyCustom",
 }) as any as S.Schema<ConsolidatedPolicyCustom>;
 export type ConsolidatedPolicyV1 =
-  | { list: ConsolidatedPolicyList }
-  | { aggregation: ConsolidatedPolicyAggregation }
-  | { custom: ConsolidatedPolicyCustom };
+  | { list: ConsolidatedPolicyList; aggregation?: never; custom?: never }
+  | { list?: never; aggregation: ConsolidatedPolicyAggregation; custom?: never }
+  | { list?: never; aggregation?: never; custom: ConsolidatedPolicyCustom };
 export const ConsolidatedPolicyV1 = S.Union(
   S.Struct({ list: ConsolidatedPolicyList }),
   S.Struct({ aggregation: ConsolidatedPolicyAggregation }),
@@ -5390,8 +5442,11 @@ export const AccessBudget = S.suspend(() =>
   }),
 ).annotations({ identifier: "AccessBudget" }) as any as S.Schema<AccessBudget>;
 export type PrivacyBudget =
-  | { differentialPrivacy: DifferentialPrivacyPrivacyBudget }
-  | { accessBudget: AccessBudget };
+  | {
+      differentialPrivacy: DifferentialPrivacyPrivacyBudget;
+      accessBudget?: never;
+    }
+  | { differentialPrivacy?: never; accessBudget: AccessBudget };
 export const PrivacyBudget = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyPrivacyBudget }),
   S.Struct({ accessBudget: AccessBudget }),
@@ -5453,8 +5508,14 @@ export const AccessBudgetsPrivacyTemplateParametersOutput = S.suspend(() =>
   identifier: "AccessBudgetsPrivacyTemplateParametersOutput",
 }) as any as S.Schema<AccessBudgetsPrivacyTemplateParametersOutput>;
 export type PrivacyBudgetTemplateParametersOutput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersOutput }
-  | { accessBudget: AccessBudgetsPrivacyTemplateParametersOutput };
+  | {
+      differentialPrivacy: DifferentialPrivacyTemplateParametersOutput;
+      accessBudget?: never;
+    }
+  | {
+      differentialPrivacy?: never;
+      accessBudget: AccessBudgetsPrivacyTemplateParametersOutput;
+    };
 export const PrivacyBudgetTemplateParametersOutput = S.Union(
   S.Struct({
     differentialPrivacy: DifferentialPrivacyTemplateParametersOutput,
@@ -5492,8 +5553,14 @@ export const PrivacyBudgetTemplate = S.suspend(() =>
   identifier: "PrivacyBudgetTemplate",
 }) as any as S.Schema<PrivacyBudgetTemplate>;
 export type PrivacyBudgetTemplateUpdateParameters =
-  | { differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters }
-  | { accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters };
+  | {
+      differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters;
+      accessBudget?: never;
+    }
+  | {
+      differentialPrivacy?: never;
+      accessBudget: AccessBudgetsPrivacyTemplateUpdateParameters;
+    };
 export const PrivacyBudgetTemplateUpdateParameters = S.Union(
   S.Struct({
     differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters,
@@ -6041,8 +6108,14 @@ export const ProtectedJobResultConfigurationInput = S.suspend(() =>
   identifier: "ProtectedJobResultConfigurationInput",
 }) as any as S.Schema<ProtectedJobResultConfigurationInput>;
 export type PrivacyBudgetTemplateParametersInput =
-  | { differentialPrivacy: DifferentialPrivacyTemplateParametersInput }
-  | { accessBudget: AccessBudgetsPrivacyTemplateParametersInput };
+  | {
+      differentialPrivacy: DifferentialPrivacyTemplateParametersInput;
+      accessBudget?: never;
+    }
+  | {
+      differentialPrivacy?: never;
+      accessBudget: AccessBudgetsPrivacyTemplateParametersInput;
+    };
 export const PrivacyBudgetTemplateParametersInput = S.Union(
   S.Struct({ differentialPrivacy: DifferentialPrivacyTemplateParametersInput }),
   S.Struct({ accessBudget: AccessBudgetsPrivacyTemplateParametersInput }),

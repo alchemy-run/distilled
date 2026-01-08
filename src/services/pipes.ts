@@ -750,8 +750,8 @@ export const UpdatePipeSourceRabbitMQBrokerParameters = S.suspend(() =>
   identifier: "UpdatePipeSourceRabbitMQBrokerParameters",
 }) as any as S.Schema<UpdatePipeSourceRabbitMQBrokerParameters>;
 export type MSKAccessCredentials =
-  | { SaslScram512Auth: string }
-  | { ClientCertificateTlsAuth: string };
+  | { SaslScram512Auth: string; ClientCertificateTlsAuth?: never }
+  | { SaslScram512Auth?: never; ClientCertificateTlsAuth: string };
 export const MSKAccessCredentials = S.Union(
   S.Struct({ SaslScram512Auth: S.String }),
   S.Struct({ ClientCertificateTlsAuth: S.String }),
@@ -771,10 +771,30 @@ export const UpdatePipeSourceManagedStreamingKafkaParameters = S.suspend(() =>
   identifier: "UpdatePipeSourceManagedStreamingKafkaParameters",
 }) as any as S.Schema<UpdatePipeSourceManagedStreamingKafkaParameters>;
 export type SelfManagedKafkaAccessConfigurationCredentials =
-  | { BasicAuth: string }
-  | { SaslScram512Auth: string }
-  | { SaslScram256Auth: string }
-  | { ClientCertificateTlsAuth: string };
+  | {
+      BasicAuth: string;
+      SaslScram512Auth?: never;
+      SaslScram256Auth?: never;
+      ClientCertificateTlsAuth?: never;
+    }
+  | {
+      BasicAuth?: never;
+      SaslScram512Auth: string;
+      SaslScram256Auth?: never;
+      ClientCertificateTlsAuth?: never;
+    }
+  | {
+      BasicAuth?: never;
+      SaslScram512Auth?: never;
+      SaslScram256Auth: string;
+      ClientCertificateTlsAuth?: never;
+    }
+  | {
+      BasicAuth?: never;
+      SaslScram512Auth?: never;
+      SaslScram256Auth?: never;
+      ClientCertificateTlsAuth: string;
+    };
 export const SelfManagedKafkaAccessConfigurationCredentials = S.Union(
   S.Struct({ BasicAuth: S.String }),
   S.Struct({ SaslScram512Auth: S.String }),

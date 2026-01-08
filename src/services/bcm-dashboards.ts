@@ -468,11 +468,41 @@ export const ReservationUtilizationQuery = S.suspend(() =>
   identifier: "ReservationUtilizationQuery",
 }) as any as S.Schema<ReservationUtilizationQuery>;
 export type QueryParameters =
-  | { costAndUsage: CostAndUsageQuery }
-  | { savingsPlansCoverage: SavingsPlansCoverageQuery }
-  | { savingsPlansUtilization: SavingsPlansUtilizationQuery }
-  | { reservationCoverage: ReservationCoverageQuery }
-  | { reservationUtilization: ReservationUtilizationQuery };
+  | {
+      costAndUsage: CostAndUsageQuery;
+      savingsPlansCoverage?: never;
+      savingsPlansUtilization?: never;
+      reservationCoverage?: never;
+      reservationUtilization?: never;
+    }
+  | {
+      costAndUsage?: never;
+      savingsPlansCoverage: SavingsPlansCoverageQuery;
+      savingsPlansUtilization?: never;
+      reservationCoverage?: never;
+      reservationUtilization?: never;
+    }
+  | {
+      costAndUsage?: never;
+      savingsPlansCoverage?: never;
+      savingsPlansUtilization: SavingsPlansUtilizationQuery;
+      reservationCoverage?: never;
+      reservationUtilization?: never;
+    }
+  | {
+      costAndUsage?: never;
+      savingsPlansCoverage?: never;
+      savingsPlansUtilization?: never;
+      reservationCoverage: ReservationCoverageQuery;
+      reservationUtilization?: never;
+    }
+  | {
+      costAndUsage?: never;
+      savingsPlansCoverage?: never;
+      savingsPlansUtilization?: never;
+      reservationCoverage?: never;
+      reservationUtilization: ReservationUtilizationQuery;
+    };
 export const QueryParameters = S.Union(
   S.Struct({ costAndUsage: CostAndUsageQuery }),
   S.Struct({ savingsPlansCoverage: SavingsPlansCoverageQuery }),
@@ -502,8 +532,8 @@ export const TableDisplayConfigStruct = S.suspend(() =>
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
-  | { graph: { [key: string]: GraphDisplayConfig } }
-  | { table: TableDisplayConfigStruct };
+  | { graph: { [key: string]: GraphDisplayConfig }; table?: never }
+  | { graph?: never; table: TableDisplayConfigStruct };
 export const DisplayConfig = S.Union(
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),

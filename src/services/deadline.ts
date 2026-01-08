@@ -710,9 +710,17 @@ export const ParameterSortExpression = S.suspend(() =>
   identifier: "ParameterSortExpression",
 }) as any as S.Schema<ParameterSortExpression>;
 export type SearchSortExpression =
-  | { userJobsFirst: UserJobsFirst }
-  | { fieldSort: FieldSortExpression }
-  | { parameterSort: ParameterSortExpression };
+  | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
+  | {
+      userJobsFirst?: never;
+      fieldSort: FieldSortExpression;
+      parameterSort?: never;
+    }
+  | {
+      userJobsFirst?: never;
+      fieldSort?: never;
+      parameterSort: ParameterSortExpression;
+    };
 export const SearchSortExpression = S.Union(
   S.Struct({ userJobsFirst: UserJobsFirst }),
   S.Struct({ fieldSort: FieldSortExpression }),
@@ -1744,8 +1752,14 @@ export const ServiceManagedEc2FleetConfiguration = S.suspend(() =>
   identifier: "ServiceManagedEc2FleetConfiguration",
 }) as any as S.Schema<ServiceManagedEc2FleetConfiguration>;
 export type FleetConfiguration =
-  | { customerManaged: CustomerManagedFleetConfiguration }
-  | { serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
+  | {
+      customerManaged: CustomerManagedFleetConfiguration;
+      serviceManagedEc2?: never;
+    }
+  | {
+      customerManaged?: never;
+      serviceManagedEc2: ServiceManagedEc2FleetConfiguration;
+    };
 export const FleetConfiguration = S.Union(
   S.Struct({ customerManaged: CustomerManagedFleetConfiguration }),
   S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
@@ -3708,8 +3722,8 @@ export const SessionsStatisticsAggregationStatus = S.Literal(
   "COMPLETED",
 );
 export type SessionsStatisticsResources =
-  | { queueIds: string[] }
-  | { fleetIds: string[] };
+  | { queueIds: string[]; fleetIds?: never }
+  | { queueIds?: never; fleetIds: string[] };
 export const SessionsStatisticsResources = S.Union(
   S.Struct({ queueIds: QueueIds }),
   S.Struct({ fleetIds: FleetIds }),
@@ -4654,10 +4668,10 @@ export const EnvironmentDetailsIdentifiers = S.suspend(() =>
   identifier: "EnvironmentDetailsIdentifiers",
 }) as any as S.Schema<EnvironmentDetailsIdentifiers>;
 export type JobParameter =
-  | { int: string }
-  | { float: string }
-  | { string: string }
-  | { path: string };
+  | { int: string; float?: never; string?: never; path?: never }
+  | { int?: never; float: string; string?: never; path?: never }
+  | { int?: never; float?: never; string: string; path?: never }
+  | { int?: never; float?: never; string?: never; path: string };
 export const JobParameter = S.Union(
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
@@ -4847,11 +4861,41 @@ export const StepSearchSummary = S.suspend(() =>
 export type StepSearchSummaries = StepSearchSummary[];
 export const StepSearchSummaries = S.Array(StepSearchSummary);
 export type TaskParameterValue =
-  | { int: string }
-  | { float: string }
-  | { string: string }
-  | { path: string }
-  | { chunkInt: string };
+  | {
+      int: string;
+      float?: never;
+      string?: never;
+      path?: never;
+      chunkInt?: never;
+    }
+  | {
+      int?: never;
+      float: string;
+      string?: never;
+      path?: never;
+      chunkInt?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string: string;
+      path?: never;
+      chunkInt?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path: string;
+      chunkInt?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      chunkInt: string;
+    };
 export const TaskParameterValue = S.Union(
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
@@ -5161,10 +5205,30 @@ export const WorkerSummary = S.suspend(() =>
 export type WorkerSummaries = WorkerSummary[];
 export const WorkerSummaries = S.Array(WorkerSummary);
 export type JobEntityIdentifiersUnion =
-  | { jobDetails: JobDetailsIdentifiers }
-  | { jobAttachmentDetails: JobAttachmentDetailsIdentifiers }
-  | { stepDetails: StepDetailsIdentifiers }
-  | { environmentDetails: EnvironmentDetailsIdentifiers };
+  | {
+      jobDetails: JobDetailsIdentifiers;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails: JobAttachmentDetailsIdentifiers;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails: StepDetailsIdentifiers;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails: EnvironmentDetailsIdentifiers;
+    };
 export const JobEntityIdentifiersUnion = S.Union(
   S.Struct({ jobDetails: JobDetailsIdentifiers }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsIdentifiers }),
@@ -6258,11 +6322,41 @@ export const Stats = S.suspend(() =>
   }),
 ).annotations({ identifier: "Stats" }) as any as S.Schema<Stats>;
 export type SearchFilterExpression =
-  | { dateTimeFilter: DateTimeFilterExpression }
-  | { parameterFilter: ParameterFilterExpression }
-  | { searchTermFilter: SearchTermFilterExpression }
-  | { stringFilter: StringFilterExpression }
-  | { groupFilter: SearchGroupedFilterExpressions };
+  | {
+      dateTimeFilter: DateTimeFilterExpression;
+      parameterFilter?: never;
+      searchTermFilter?: never;
+      stringFilter?: never;
+      groupFilter?: never;
+    }
+  | {
+      dateTimeFilter?: never;
+      parameterFilter: ParameterFilterExpression;
+      searchTermFilter?: never;
+      stringFilter?: never;
+      groupFilter?: never;
+    }
+  | {
+      dateTimeFilter?: never;
+      parameterFilter?: never;
+      searchTermFilter: SearchTermFilterExpression;
+      stringFilter?: never;
+      groupFilter?: never;
+    }
+  | {
+      dateTimeFilter?: never;
+      parameterFilter?: never;
+      searchTermFilter?: never;
+      stringFilter: StringFilterExpression;
+      groupFilter?: never;
+    }
+  | {
+      dateTimeFilter?: never;
+      parameterFilter?: never;
+      searchTermFilter?: never;
+      stringFilter?: never;
+      groupFilter: SearchGroupedFilterExpressions;
+    };
 export const SearchFilterExpression = S.Union(
   S.Struct({ dateTimeFilter: DateTimeFilterExpression }),
   S.Struct({ parameterFilter: ParameterFilterExpression }),
@@ -6435,10 +6529,30 @@ export const UpdatedSessionActions = S.Record({
   value: UpdatedSessionActionInfo,
 });
 export type SessionActionDefinition =
-  | { envEnter: EnvironmentEnterSessionActionDefinition }
-  | { envExit: EnvironmentExitSessionActionDefinition }
-  | { taskRun: TaskRunSessionActionDefinition }
-  | { syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition };
+  | {
+      envEnter: EnvironmentEnterSessionActionDefinition;
+      envExit?: never;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit: EnvironmentExitSessionActionDefinition;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun: TaskRunSessionActionDefinition;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun?: never;
+      syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition;
+    };
 export const SessionActionDefinition = S.Union(
   S.Struct({ envEnter: EnvironmentEnterSessionActionDefinition }),
   S.Struct({ envExit: EnvironmentExitSessionActionDefinition }),
@@ -6810,10 +6924,28 @@ export const GetTaskResponse = S.suspend(() =>
   identifier: "GetTaskResponse",
 }) as any as S.Schema<GetTaskResponse>;
 export type SessionActionDefinitionSummary =
-  | { envEnter: EnvironmentEnterSessionActionDefinitionSummary }
-  | { envExit: EnvironmentExitSessionActionDefinitionSummary }
-  | { taskRun: TaskRunSessionActionDefinitionSummary }
   | {
+      envEnter: EnvironmentEnterSessionActionDefinitionSummary;
+      envExit?: never;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit: EnvironmentExitSessionActionDefinitionSummary;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun: TaskRunSessionActionDefinitionSummary;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun?: never;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
     };
 export const SessionActionDefinitionSummary = S.Union(
@@ -7041,10 +7173,30 @@ export const JobSearchSummary = S.suspend(() =>
 export type JobSearchSummaries = JobSearchSummary[];
 export const JobSearchSummaries = S.Array(JobSearchSummary);
 export type GetJobEntityError =
-  | { jobDetails: JobDetailsError }
-  | { jobAttachmentDetails: JobAttachmentDetailsError }
-  | { stepDetails: StepDetailsError }
-  | { environmentDetails: EnvironmentDetailsError };
+  | {
+      jobDetails: JobDetailsError;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails: JobAttachmentDetailsError;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails: StepDetailsError;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails: EnvironmentDetailsError;
+    };
 export const GetJobEntityError = S.Union(
   S.Struct({ jobDetails: JobDetailsError }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsError }),
@@ -7164,10 +7316,30 @@ export const JobDetailsEntity = S.suspend(() =>
   identifier: "JobDetailsEntity",
 }) as any as S.Schema<JobDetailsEntity>;
 export type JobEntity =
-  | { jobDetails: JobDetailsEntity }
-  | { jobAttachmentDetails: JobAttachmentDetailsEntity }
-  | { stepDetails: StepDetailsEntity }
-  | { environmentDetails: EnvironmentDetailsEntity };
+  | {
+      jobDetails: JobDetailsEntity;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails: JobAttachmentDetailsEntity;
+      stepDetails?: never;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails: StepDetailsEntity;
+      environmentDetails?: never;
+    }
+  | {
+      jobDetails?: never;
+      jobAttachmentDetails?: never;
+      stepDetails?: never;
+      environmentDetails: EnvironmentDetailsEntity;
+    };
 export const JobEntity = S.Union(
   S.Struct({ jobDetails: JobDetailsEntity }),
   S.Struct({ jobAttachmentDetails: JobAttachmentDetailsEntity }),
@@ -7246,10 +7418,28 @@ export const AssignedSyncInputJobAttachmentsSessionActionDefinition = S.suspend(
   identifier: "AssignedSyncInputJobAttachmentsSessionActionDefinition",
 }) as any as S.Schema<AssignedSyncInputJobAttachmentsSessionActionDefinition>;
 export type AssignedSessionActionDefinition =
-  | { envEnter: AssignedEnvironmentEnterSessionActionDefinition }
-  | { envExit: AssignedEnvironmentExitSessionActionDefinition }
-  | { taskRun: AssignedTaskRunSessionActionDefinition }
   | {
+      envEnter: AssignedEnvironmentEnterSessionActionDefinition;
+      envExit?: never;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit: AssignedEnvironmentExitSessionActionDefinition;
+      taskRun?: never;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun: AssignedTaskRunSessionActionDefinition;
+      syncInputJobAttachments?: never;
+    }
+  | {
+      envEnter?: never;
+      envExit?: never;
+      taskRun?: never;
       syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
     };
 export const AssignedSessionActionDefinition = S.Union(

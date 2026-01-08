@@ -1202,10 +1202,30 @@ export const CreditDetails = S.suspend(() =>
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export type FulfillmentDetails =
-  | { DisbursementDetails: DisbursementDetails }
-  | { ConsumableDetails: ConsumableDetails }
-  | { CreditDetails: CreditDetails }
-  | { AccessDetails: AccessDetails };
+  | {
+      DisbursementDetails: DisbursementDetails;
+      ConsumableDetails?: never;
+      CreditDetails?: never;
+      AccessDetails?: never;
+    }
+  | {
+      DisbursementDetails?: never;
+      ConsumableDetails: ConsumableDetails;
+      CreditDetails?: never;
+      AccessDetails?: never;
+    }
+  | {
+      DisbursementDetails?: never;
+      ConsumableDetails?: never;
+      CreditDetails: CreditDetails;
+      AccessDetails?: never;
+    }
+  | {
+      DisbursementDetails?: never;
+      ConsumableDetails?: never;
+      CreditDetails?: never;
+      AccessDetails: AccessDetails;
+    };
 export const FulfillmentDetails = S.Union(
   S.Struct({ DisbursementDetails: DisbursementDetails }),
   S.Struct({ ConsumableDetails: ConsumableDetails }),

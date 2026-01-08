@@ -5363,8 +5363,8 @@ export const LogFieldsList = S.Array(
   ).annotations({ identifier: "LogFieldsListItem" }),
 ) as any as S.Schema<LogFieldsList>;
 export type GetLogObjectResponseStream =
-  | { fields: FieldsData }
-  | { InternalStreamingException: InternalStreamingException };
+  | { fields: FieldsData; InternalStreamingException?: never }
+  | { fields?: never; InternalStreamingException: InternalStreamingException };
 export const GetLogObjectResponseStream = T.EventStream(
   S.Union(
     S.Struct({ fields: FieldsData }),
@@ -5802,10 +5802,30 @@ export const RejectedEntityInfo = S.suspend(() =>
   identifier: "RejectedEntityInfo",
 }) as any as S.Schema<RejectedEntityInfo>;
 export type StartLiveTailResponseStream =
-  | { sessionStart: LiveTailSessionStart }
-  | { sessionUpdate: LiveTailSessionUpdate }
-  | { SessionTimeoutException: SessionTimeoutException }
-  | { SessionStreamingException: SessionStreamingException };
+  | {
+      sessionStart: LiveTailSessionStart;
+      sessionUpdate?: never;
+      SessionTimeoutException?: never;
+      SessionStreamingException?: never;
+    }
+  | {
+      sessionStart?: never;
+      sessionUpdate: LiveTailSessionUpdate;
+      SessionTimeoutException?: never;
+      SessionStreamingException?: never;
+    }
+  | {
+      sessionStart?: never;
+      sessionUpdate?: never;
+      SessionTimeoutException: SessionTimeoutException;
+      SessionStreamingException?: never;
+    }
+  | {
+      sessionStart?: never;
+      sessionUpdate?: never;
+      SessionTimeoutException?: never;
+      SessionStreamingException: SessionStreamingException;
+    };
 export const StartLiveTailResponseStream = T.EventStream(
   S.Union(
     S.Struct({ sessionStart: LiveTailSessionStart }),

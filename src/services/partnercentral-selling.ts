@@ -2438,8 +2438,8 @@ export const LeadContext = S.suspend(() =>
   }),
 ).annotations({ identifier: "LeadContext" }) as any as S.Schema<LeadContext>;
 export type EngagementContextPayload =
-  | { CustomerProject: CustomerProjectsContext }
-  | { Lead: LeadContext };
+  | { CustomerProject: CustomerProjectsContext; Lead?: never }
+  | { CustomerProject?: never; Lead: LeadContext };
 export const EngagementContextPayload = S.Union(
   S.Struct({ CustomerProject: CustomerProjectsContext }),
   S.Struct({ Lead: LeadContext }),
@@ -3307,8 +3307,8 @@ export const ReceiverResponsibility = S.Literal(
 export type ReceiverResponsibilityList = ReceiverResponsibility[];
 export const ReceiverResponsibilityList = S.Array(ReceiverResponsibility);
 export type UpdateEngagementContextPayload =
-  | { Lead: UpdateLeadContext }
-  | { CustomerProject: CustomerProjectsContext };
+  | { Lead: UpdateLeadContext; CustomerProject?: never }
+  | { Lead?: never; CustomerProject: CustomerProjectsContext };
 export const UpdateEngagementContextPayload = S.Union(
   S.Struct({ Lead: UpdateLeadContext }),
   S.Struct({ CustomerProject: CustomerProjectsContext }),
@@ -3732,8 +3732,11 @@ export const LeadInvitationPayload = S.suspend(() =>
   identifier: "LeadInvitationPayload",
 }) as any as S.Schema<LeadInvitationPayload>;
 export type Payload =
-  | { OpportunityInvitation: OpportunityInvitationPayload }
-  | { LeadInvitation: LeadInvitationPayload };
+  | {
+      OpportunityInvitation: OpportunityInvitationPayload;
+      LeadInvitation?: never;
+    }
+  | { OpportunityInvitation?: never; LeadInvitation: LeadInvitationPayload };
 export const Payload = S.Union(
   S.Struct({ OpportunityInvitation: OpportunityInvitationPayload }),
   S.Struct({ LeadInvitation: LeadInvitationPayload }),

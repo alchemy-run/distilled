@@ -3560,13 +3560,69 @@ export const AutomatedReasoningCheckNoTranslationsFinding = S.suspend(() =>
   identifier: "AutomatedReasoningCheckNoTranslationsFinding",
 }) as any as S.Schema<AutomatedReasoningCheckNoTranslationsFinding>;
 export type AutomatedReasoningCheckFinding =
-  | { valid: AutomatedReasoningCheckValidFinding }
-  | { invalid: AutomatedReasoningCheckInvalidFinding }
-  | { satisfiable: AutomatedReasoningCheckSatisfiableFinding }
-  | { impossible: AutomatedReasoningCheckImpossibleFinding }
-  | { translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding }
-  | { tooComplex: AutomatedReasoningCheckTooComplexFinding }
-  | { noTranslations: AutomatedReasoningCheckNoTranslationsFinding };
+  | {
+      valid: AutomatedReasoningCheckValidFinding;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid: AutomatedReasoningCheckInvalidFinding;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable: AutomatedReasoningCheckSatisfiableFinding;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible: AutomatedReasoningCheckImpossibleFinding;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous: AutomatedReasoningCheckTranslationAmbiguousFinding;
+      tooComplex?: never;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex: AutomatedReasoningCheckTooComplexFinding;
+      noTranslations?: never;
+    }
+  | {
+      valid?: never;
+      invalid?: never;
+      satisfiable?: never;
+      impossible?: never;
+      translationAmbiguous?: never;
+      tooComplex?: never;
+      noTranslations: AutomatedReasoningCheckNoTranslationsFinding;
+    };
 export const AutomatedReasoningCheckFinding = S.Union(
   S.Struct({ valid: AutomatedReasoningCheckValidFinding }),
   S.Struct({ invalid: AutomatedReasoningCheckInvalidFinding }),
@@ -3854,9 +3910,21 @@ export const AutomatedReasoningPolicyDeleteTypeValue = S.suspend(() =>
   identifier: "AutomatedReasoningPolicyDeleteTypeValue",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteTypeValue>;
 export type AutomatedReasoningPolicyTypeValueAnnotation =
-  | { addTypeValue: AutomatedReasoningPolicyAddTypeValue }
-  | { updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue }
-  | { deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue };
+  | {
+      addTypeValue: AutomatedReasoningPolicyAddTypeValue;
+      updateTypeValue?: never;
+      deleteTypeValue?: never;
+    }
+  | {
+      addTypeValue?: never;
+      updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue;
+      deleteTypeValue?: never;
+    }
+  | {
+      addTypeValue?: never;
+      updateTypeValue?: never;
+      deleteTypeValue: AutomatedReasoningPolicyDeleteTypeValue;
+    };
 export const AutomatedReasoningPolicyTypeValueAnnotation = S.Union(
   S.Struct({ addTypeValue: AutomatedReasoningPolicyAddTypeValue }),
   S.Struct({ updateTypeValue: AutomatedReasoningPolicyUpdateTypeValue }),
@@ -3996,25 +4064,201 @@ export const AutomatedReasoningPolicyIngestContentAnnotation = S.suspend(() =>
   identifier: "AutomatedReasoningPolicyIngestContentAnnotation",
 }) as any as S.Schema<AutomatedReasoningPolicyIngestContentAnnotation>;
 export type AutomatedReasoningPolicyAnnotation =
-  | { addType: AutomatedReasoningPolicyAddTypeAnnotation }
-  | { updateType: AutomatedReasoningPolicyUpdateTypeAnnotation }
-  | { deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation }
-  | { addVariable: AutomatedReasoningPolicyAddVariableAnnotation }
-  | { updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation }
-  | { deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation }
-  | { addRule: AutomatedReasoningPolicyAddRuleAnnotation }
-  | { updateRule: AutomatedReasoningPolicyUpdateRuleAnnotation }
-  | { deleteRule: AutomatedReasoningPolicyDeleteRuleAnnotation }
   | {
+      addType: AutomatedReasoningPolicyAddTypeAnnotation;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType: AutomatedReasoningPolicyUpdateTypeAnnotation;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType: AutomatedReasoningPolicyDeleteTypeAnnotation;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable: AutomatedReasoningPolicyAddVariableAnnotation;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable: AutomatedReasoningPolicyUpdateVariableAnnotation;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable: AutomatedReasoningPolicyDeleteVariableAnnotation;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule: AutomatedReasoningPolicyAddRuleAnnotation;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule: AutomatedReasoningPolicyUpdateRuleAnnotation;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule: AutomatedReasoningPolicyDeleteRuleAnnotation;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
       addRuleFromNaturalLanguage: AutomatedReasoningPolicyAddRuleFromNaturalLanguageAnnotation;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
     }
   | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
       updateFromRulesFeedback: AutomatedReasoningPolicyUpdateFromRuleFeedbackAnnotation;
+      updateFromScenarioFeedback?: never;
+      ingestContent?: never;
     }
   | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
       updateFromScenarioFeedback: AutomatedReasoningPolicyUpdateFromScenarioFeedbackAnnotation;
+      ingestContent?: never;
     }
-  | { ingestContent: AutomatedReasoningPolicyIngestContentAnnotation };
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+      addRuleFromNaturalLanguage?: never;
+      updateFromRulesFeedback?: never;
+      updateFromScenarioFeedback?: never;
+      ingestContent: AutomatedReasoningPolicyIngestContentAnnotation;
+    };
 export const AutomatedReasoningPolicyAnnotation = S.Union(
   S.Struct({ addType: AutomatedReasoningPolicyAddTypeAnnotation }),
   S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeAnnotation }),
@@ -4283,8 +4527,8 @@ export const EvaluatorModelConfig = S.Union(
   S.Struct({ bedrockEvaluatorModels: BedrockEvaluatorModels }),
 );
 export type RatingScaleItemValue =
-  | { stringValue: string }
-  | { floatValue: number };
+  | { stringValue: string; floatValue?: never }
+  | { stringValue?: never; floatValue: number };
 export const RatingScaleItemValue = S.Union(
   S.Struct({ stringValue: S.String }),
   S.Struct({ floatValue: S.Number }),
@@ -4417,8 +4661,8 @@ export const HumanEvaluationConfig = S.suspend(() =>
   identifier: "HumanEvaluationConfig",
 }) as any as S.Schema<HumanEvaluationConfig>;
 export type EvaluationConfig =
-  | { automated: AutomatedEvaluationConfig }
-  | { human: HumanEvaluationConfig };
+  | { automated: AutomatedEvaluationConfig; human?: never }
+  | { automated?: never; human: HumanEvaluationConfig };
 export const EvaluationConfig = S.Union(
   S.Struct({ automated: AutomatedEvaluationConfig }),
   S.Struct({ human: HumanEvaluationConfig }),
@@ -4456,8 +4700,11 @@ export const EvaluationPrecomputedInferenceSource = S.suspend(() =>
   identifier: "EvaluationPrecomputedInferenceSource",
 }) as any as S.Schema<EvaluationPrecomputedInferenceSource>;
 export type EvaluationModelConfig =
-  | { bedrockModel: EvaluationBedrockModel }
-  | { precomputedInferenceSource: EvaluationPrecomputedInferenceSource };
+  | { bedrockModel: EvaluationBedrockModel; precomputedInferenceSource?: never }
+  | {
+      bedrockModel?: never;
+      precomputedInferenceSource: EvaluationPrecomputedInferenceSource;
+    };
 export const EvaluationModelConfig = S.Union(
   S.Struct({ bedrockModel: EvaluationBedrockModel }),
   S.Struct({
@@ -4478,19 +4725,201 @@ export const FilterAttribute = S.suspend(() =>
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
 export type RetrievalFilter =
-  | { equals: FilterAttribute }
-  | { notEquals: FilterAttribute }
-  | { greaterThan: FilterAttribute }
-  | { greaterThanOrEquals: FilterAttribute }
-  | { lessThan: FilterAttribute }
-  | { lessThanOrEquals: FilterAttribute }
-  | { in: FilterAttribute }
-  | { notIn: FilterAttribute }
-  | { startsWith: FilterAttribute }
-  | { listContains: FilterAttribute }
-  | { stringContains: FilterAttribute }
-  | { andAll: RetrievalFilter[] }
-  | { orAll: RetrievalFilter[] };
+  | {
+      equals: FilterAttribute;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals: FilterAttribute;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan: FilterAttribute;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals: FilterAttribute;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan: FilterAttribute;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals: FilterAttribute;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in: FilterAttribute;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn: FilterAttribute;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith: FilterAttribute;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains: FilterAttribute;
+      stringContains?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains: FilterAttribute;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll: RetrievalFilter[];
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      greaterThan?: never;
+      greaterThanOrEquals?: never;
+      lessThan?: never;
+      lessThanOrEquals?: never;
+      in?: never;
+      notIn?: never;
+      startsWith?: never;
+      listContains?: never;
+      stringContains?: never;
+      andAll?: never;
+      orAll: RetrievalFilter[];
+    };
 export const RetrievalFilter = S.Union(
   S.Struct({ equals: FilterAttribute }),
   S.Struct({ notEquals: FilterAttribute }),
@@ -4579,8 +5008,8 @@ export const FieldForReranking = S.suspend(() =>
 export type FieldsForReranking = FieldForReranking[];
 export const FieldsForReranking = S.Array(FieldForReranking);
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[] }
-  | { fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
+  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
 export const RerankingMetadataSelectiveModeConfiguration = S.Union(
   S.Struct({ fieldsToInclude: FieldsForReranking }),
   S.Struct({ fieldsToExclude: FieldsForReranking }),
@@ -4856,8 +5285,11 @@ export const RetrieveAndGenerateConfiguration = S.suspend(() =>
   identifier: "RetrieveAndGenerateConfiguration",
 }) as any as S.Schema<RetrieveAndGenerateConfiguration>;
 export type KnowledgeBaseConfig =
-  | { retrieveConfig: RetrieveConfig }
-  | { retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration };
+  | { retrieveConfig: RetrieveConfig; retrieveAndGenerateConfig?: never }
+  | {
+      retrieveConfig?: never;
+      retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration;
+    };
 export const KnowledgeBaseConfig = S.Union(
   S.Struct({ retrieveConfig: RetrieveConfig }),
   S.Struct({ retrieveAndGenerateConfig: RetrieveAndGenerateConfiguration }),
@@ -4879,8 +5311,12 @@ export const EvaluationPrecomputedRetrieveAndGenerateSourceConfig = S.suspend(
   identifier: "EvaluationPrecomputedRetrieveAndGenerateSourceConfig",
 }) as any as S.Schema<EvaluationPrecomputedRetrieveAndGenerateSourceConfig>;
 export type EvaluationPrecomputedRagSourceConfig =
-  | { retrieveSourceConfig: EvaluationPrecomputedRetrieveSourceConfig }
   | {
+      retrieveSourceConfig: EvaluationPrecomputedRetrieveSourceConfig;
+      retrieveAndGenerateSourceConfig?: never;
+    }
+  | {
+      retrieveSourceConfig?: never;
       retrieveAndGenerateSourceConfig: EvaluationPrecomputedRetrieveAndGenerateSourceConfig;
     };
 export const EvaluationPrecomputedRagSourceConfig = S.Union(
@@ -4891,8 +5327,14 @@ export const EvaluationPrecomputedRagSourceConfig = S.Union(
   }),
 );
 export type RAGConfig =
-  | { knowledgeBaseConfig: KnowledgeBaseConfig }
-  | { precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig };
+  | {
+      knowledgeBaseConfig: KnowledgeBaseConfig;
+      precomputedRagSourceConfig?: never;
+    }
+  | {
+      knowledgeBaseConfig?: never;
+      precomputedRagSourceConfig: EvaluationPrecomputedRagSourceConfig;
+    };
 export const RAGConfig = S.Union(
   S.Struct({ knowledgeBaseConfig: KnowledgeBaseConfig }),
   S.Struct({
@@ -4902,8 +5344,8 @@ export const RAGConfig = S.Union(
 export type RagConfigs = RAGConfig[];
 export const RagConfigs = S.Array(RAGConfig);
 export type EvaluationInferenceConfig =
-  | { models: EvaluationModelConfig[] }
-  | { ragConfigs: RAGConfig[] };
+  | { models: EvaluationModelConfig[]; ragConfigs?: never }
+  | { models?: never; ragConfigs: RAGConfig[] };
 export const EvaluationInferenceConfig = S.Union(
   S.Struct({ models: EvaluationModelConfigs }),
   S.Struct({ ragConfigs: RagConfigs }),
@@ -6309,10 +6751,30 @@ export const RequestMetadataBaseFilters = S.suspend(() =>
 export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
 export const RequestMetadataFiltersList = S.Array(RequestMetadataBaseFilters);
 export type RequestMetadataFilters =
-  | { equals: { [key: string]: string } }
-  | { notEquals: { [key: string]: string } }
-  | { andAll: RequestMetadataBaseFilters[] }
-  | { orAll: RequestMetadataBaseFilters[] };
+  | {
+      equals: { [key: string]: string };
+      notEquals?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals: { [key: string]: string };
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      andAll: RequestMetadataBaseFilters[];
+      orAll?: never;
+    }
+  | {
+      equals?: never;
+      notEquals?: never;
+      andAll?: never;
+      orAll: RequestMetadataBaseFilters[];
+    };
 export const RequestMetadataFilters = S.Union(
   S.Struct({ equals: RequestMetadataMap }),
   S.Struct({ notEquals: RequestMetadataMap }),
@@ -6376,8 +6838,8 @@ export const RFTConfig = S.suspend(() =>
   }),
 ).annotations({ identifier: "RFTConfig" }) as any as S.Schema<RFTConfig>;
 export type CustomizationConfig =
-  | { distillationConfig: DistillationConfig }
-  | { rftConfig: RFTConfig };
+  | { distillationConfig: DistillationConfig; rftConfig?: never }
+  | { distillationConfig?: never; rftConfig: RFTConfig };
 export const CustomizationConfig = S.Union(
   S.Struct({ distillationConfig: DistillationConfig }),
   S.Struct({ rftConfig: RFTConfig }),
@@ -6797,8 +7259,14 @@ export const AutomatedReasoningPolicyScenarios = S.suspend(() =>
   identifier: "AutomatedReasoningPolicyScenarios",
 }) as any as S.Schema<AutomatedReasoningPolicyScenarios>;
 export type AutomatedReasoningPolicyWorkflowTypeContent =
-  | { documents: AutomatedReasoningPolicyBuildWorkflowDocument[] }
-  | { policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent };
+  | {
+      documents: AutomatedReasoningPolicyBuildWorkflowDocument[];
+      policyRepairAssets?: never;
+    }
+  | {
+      documents?: never;
+      policyRepairAssets: AutomatedReasoningPolicyBuildWorkflowRepairContent;
+    };
 export const AutomatedReasoningPolicyWorkflowTypeContent = S.Union(
   S.Struct({ documents: AutomatedReasoningPolicyBuildWorkflowDocumentList }),
   S.Struct({
@@ -7554,9 +8022,21 @@ export const CreateAutomatedReasoningPolicyResponse = S.suspend(() =>
   identifier: "CreateAutomatedReasoningPolicyResponse",
 }) as any as S.Schema<CreateAutomatedReasoningPolicyResponse>;
 export type AutomatedReasoningPolicyDefinitionElement =
-  | { policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable }
-  | { policyDefinitionType: AutomatedReasoningPolicyDefinitionType }
-  | { policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule };
+  | {
+      policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable;
+      policyDefinitionType?: never;
+      policyDefinitionRule?: never;
+    }
+  | {
+      policyDefinitionVariable?: never;
+      policyDefinitionType: AutomatedReasoningPolicyDefinitionType;
+      policyDefinitionRule?: never;
+    }
+  | {
+      policyDefinitionVariable?: never;
+      policyDefinitionType?: never;
+      policyDefinitionRule: AutomatedReasoningPolicyDefinitionRule;
+    };
 export const AutomatedReasoningPolicyDefinitionElement = S.Union(
   S.Struct({
     policyDefinitionVariable: AutomatedReasoningPolicyDefinitionVariable,
@@ -7811,15 +8291,105 @@ export const AutomatedReasoningPolicyDeleteRuleMutation = S.suspend(() =>
   identifier: "AutomatedReasoningPolicyDeleteRuleMutation",
 }) as any as S.Schema<AutomatedReasoningPolicyDeleteRuleMutation>;
 export type AutomatedReasoningPolicyMutation =
-  | { addType: AutomatedReasoningPolicyAddTypeMutation }
-  | { updateType: AutomatedReasoningPolicyUpdateTypeMutation }
-  | { deleteType: AutomatedReasoningPolicyDeleteTypeMutation }
-  | { addVariable: AutomatedReasoningPolicyAddVariableMutation }
-  | { updateVariable: AutomatedReasoningPolicyUpdateVariableMutation }
-  | { deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation }
-  | { addRule: AutomatedReasoningPolicyAddRuleMutation }
-  | { updateRule: AutomatedReasoningPolicyUpdateRuleMutation }
-  | { deleteRule: AutomatedReasoningPolicyDeleteRuleMutation };
+  | {
+      addType: AutomatedReasoningPolicyAddTypeMutation;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType: AutomatedReasoningPolicyUpdateTypeMutation;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType: AutomatedReasoningPolicyDeleteTypeMutation;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable: AutomatedReasoningPolicyAddVariableMutation;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable: AutomatedReasoningPolicyUpdateVariableMutation;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable: AutomatedReasoningPolicyDeleteVariableMutation;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule: AutomatedReasoningPolicyAddRuleMutation;
+      updateRule?: never;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule: AutomatedReasoningPolicyUpdateRuleMutation;
+      deleteRule?: never;
+    }
+  | {
+      addType?: never;
+      updateType?: never;
+      deleteType?: never;
+      addVariable?: never;
+      updateVariable?: never;
+      deleteVariable?: never;
+      addRule?: never;
+      updateRule?: never;
+      deleteRule: AutomatedReasoningPolicyDeleteRuleMutation;
+    };
 export const AutomatedReasoningPolicyMutation = S.Union(
   S.Struct({ addType: AutomatedReasoningPolicyAddTypeMutation }),
   S.Struct({ updateType: AutomatedReasoningPolicyUpdateTypeMutation }),
@@ -7832,8 +8402,8 @@ export const AutomatedReasoningPolicyMutation = S.Union(
   S.Struct({ deleteRule: AutomatedReasoningPolicyDeleteRuleMutation }),
 );
 export type AutomatedReasoningPolicyBuildStepContext =
-  | { planning: AutomatedReasoningPolicyPlanning }
-  | { mutation: AutomatedReasoningPolicyMutation };
+  | { planning: AutomatedReasoningPolicyPlanning; mutation?: never }
+  | { planning?: never; mutation: AutomatedReasoningPolicyMutation };
 export const AutomatedReasoningPolicyBuildStepContext = S.Union(
   S.Struct({ planning: AutomatedReasoningPolicyPlanning }),
   S.Struct({ mutation: AutomatedReasoningPolicyMutation }),
@@ -7893,11 +8463,41 @@ export const AutomatedReasoningPolicyBuildLog = S.suspend(() =>
   identifier: "AutomatedReasoningPolicyBuildLog",
 }) as any as S.Schema<AutomatedReasoningPolicyBuildLog>;
 export type AutomatedReasoningPolicyBuildResultAssets =
-  | { policyDefinition: AutomatedReasoningPolicyDefinition }
-  | { qualityReport: AutomatedReasoningPolicyDefinitionQualityReport }
-  | { buildLog: AutomatedReasoningPolicyBuildLog }
-  | { generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases }
-  | { policyScenarios: AutomatedReasoningPolicyScenarios };
+  | {
+      policyDefinition: AutomatedReasoningPolicyDefinition;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport: AutomatedReasoningPolicyDefinitionQualityReport;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog: AutomatedReasoningPolicyBuildLog;
+      generatedTestCases?: never;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases: AutomatedReasoningPolicyGeneratedTestCases;
+      policyScenarios?: never;
+    }
+  | {
+      policyDefinition?: never;
+      qualityReport?: never;
+      buildLog?: never;
+      generatedTestCases?: never;
+      policyScenarios: AutomatedReasoningPolicyScenarios;
+    };
 export const AutomatedReasoningPolicyBuildResultAssets = S.Union(
   S.Struct({ policyDefinition: AutomatedReasoningPolicyDefinition }),
   S.Struct({ qualityReport: AutomatedReasoningPolicyDefinitionQualityReport }),

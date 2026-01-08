@@ -436,8 +436,8 @@ export const ConfigurationEvent = S.suspend(() =>
   identifier: "ConfigurationEvent",
 }) as any as S.Schema<ConfigurationEvent>;
 export type AudioStream =
-  | { AudioEvent: AudioEvent }
-  | { ConfigurationEvent: ConfigurationEvent };
+  | { AudioEvent: AudioEvent; ConfigurationEvent?: never }
+  | { AudioEvent?: never; ConfigurationEvent: ConfigurationEvent };
 export const AudioStream = T.InputEventStream(
   S.Union(
     S.Struct({ AudioEvent: AudioEvent }),
@@ -932,9 +932,21 @@ export const MedicalScribeStreamDetails = S.suspend(() =>
   identifier: "MedicalScribeStreamDetails",
 }) as any as S.Schema<MedicalScribeStreamDetails>;
 export type MedicalScribeInputStream =
-  | { AudioEvent: MedicalScribeAudioEvent }
-  | { SessionControlEvent: MedicalScribeSessionControlEvent }
-  | { ConfigurationEvent: MedicalScribeConfigurationEvent };
+  | {
+      AudioEvent: MedicalScribeAudioEvent;
+      SessionControlEvent?: never;
+      ConfigurationEvent?: never;
+    }
+  | {
+      AudioEvent?: never;
+      SessionControlEvent: MedicalScribeSessionControlEvent;
+      ConfigurationEvent?: never;
+    }
+  | {
+      AudioEvent?: never;
+      SessionControlEvent?: never;
+      ConfigurationEvent: MedicalScribeConfigurationEvent;
+    };
 export const MedicalScribeInputStream = T.InputEventStream(
   S.Union(
     S.Struct({ AudioEvent: MedicalScribeAudioEvent }),
@@ -1270,12 +1282,54 @@ export const CharacterOffsets = S.suspend(() =>
   identifier: "CharacterOffsets",
 }) as any as S.Schema<CharacterOffsets>;
 export type MedicalTranscriptResultStream =
-  | { TranscriptEvent: MedicalTranscriptEvent }
-  | { BadRequestException: BadRequestException }
-  | { LimitExceededException: LimitExceededException }
-  | { InternalFailureException: InternalFailureException }
-  | { ConflictException: ConflictException }
-  | { ServiceUnavailableException: ServiceUnavailableException };
+  | {
+      TranscriptEvent: MedicalTranscriptEvent;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException: BadRequestException;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException: LimitExceededException;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException: InternalFailureException;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException: ConflictException;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException: ServiceUnavailableException;
+    };
 export const MedicalTranscriptResultStream = T.EventStream(
   S.Union(
     S.Struct({ TranscriptEvent: MedicalTranscriptEvent }),
@@ -1309,12 +1363,54 @@ export const MedicalTranscriptResultStream = T.EventStream(
   stream.Stream<MedicalTranscriptResultStream, Error, never>
 >;
 export type TranscriptResultStream =
-  | { TranscriptEvent: TranscriptEvent }
-  | { BadRequestException: BadRequestException }
-  | { LimitExceededException: LimitExceededException }
-  | { InternalFailureException: InternalFailureException }
-  | { ConflictException: ConflictException }
-  | { ServiceUnavailableException: ServiceUnavailableException };
+  | {
+      TranscriptEvent: TranscriptEvent;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException: BadRequestException;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException: LimitExceededException;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException: InternalFailureException;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException: ConflictException;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException: ServiceUnavailableException;
+    };
 export const TranscriptResultStream = T.EventStream(
   S.Union(
     S.Struct({ TranscriptEvent: TranscriptEvent }),
@@ -1648,13 +1744,69 @@ export const MedicalScribeTranscriptEvent = S.suspend(() =>
   identifier: "MedicalScribeTranscriptEvent",
 }) as any as S.Schema<MedicalScribeTranscriptEvent>;
 export type CallAnalyticsTranscriptResultStream =
-  | { UtteranceEvent: UtteranceEvent }
-  | { CategoryEvent: CategoryEvent }
-  | { BadRequestException: BadRequestException }
-  | { LimitExceededException: LimitExceededException }
-  | { InternalFailureException: InternalFailureException }
-  | { ConflictException: ConflictException }
-  | { ServiceUnavailableException: ServiceUnavailableException };
+  | {
+      UtteranceEvent: UtteranceEvent;
+      CategoryEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent: CategoryEvent;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent?: never;
+      BadRequestException: BadRequestException;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException: LimitExceededException;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException: InternalFailureException;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException: ConflictException;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      UtteranceEvent?: never;
+      CategoryEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException: ServiceUnavailableException;
+    };
 export const CallAnalyticsTranscriptResultStream = T.EventStream(
   S.Union(
     S.Struct({ UtteranceEvent: UtteranceEvent }),
@@ -1689,12 +1841,54 @@ export const CallAnalyticsTranscriptResultStream = T.EventStream(
   stream.Stream<CallAnalyticsTranscriptResultStream, Error, never>
 >;
 export type MedicalScribeResultStream =
-  | { TranscriptEvent: MedicalScribeTranscriptEvent }
-  | { BadRequestException: BadRequestException }
-  | { LimitExceededException: LimitExceededException }
-  | { InternalFailureException: InternalFailureException }
-  | { ConflictException: ConflictException }
-  | { ServiceUnavailableException: ServiceUnavailableException };
+  | {
+      TranscriptEvent: MedicalScribeTranscriptEvent;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException: BadRequestException;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException: LimitExceededException;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException: InternalFailureException;
+      ConflictException?: never;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException: ConflictException;
+      ServiceUnavailableException?: never;
+    }
+  | {
+      TranscriptEvent?: never;
+      BadRequestException?: never;
+      LimitExceededException?: never;
+      InternalFailureException?: never;
+      ConflictException?: never;
+      ServiceUnavailableException: ServiceUnavailableException;
+    };
 export const MedicalScribeResultStream = T.EventStream(
   S.Union(
     S.Struct({ TranscriptEvent: MedicalScribeTranscriptEvent }),

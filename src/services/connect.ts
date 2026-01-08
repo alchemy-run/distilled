@@ -7567,11 +7567,41 @@ export const UpdateContactAttributesResponse = S.suspend(() =>
 export type EvaluationAnswerDataStringValueList = string[];
 export const EvaluationAnswerDataStringValueList = S.Array(S.String);
 export type EvaluationAnswerData =
-  | { StringValue: string }
-  | { NumericValue: number }
-  | { StringValues: string[] }
-  | { DateTimeValue: string }
-  | { NotApplicable: boolean };
+  | {
+      StringValue: string;
+      NumericValue?: never;
+      StringValues?: never;
+      DateTimeValue?: never;
+      NotApplicable?: never;
+    }
+  | {
+      StringValue?: never;
+      NumericValue: number;
+      StringValues?: never;
+      DateTimeValue?: never;
+      NotApplicable?: never;
+    }
+  | {
+      StringValue?: never;
+      NumericValue?: never;
+      StringValues: string[];
+      DateTimeValue?: never;
+      NotApplicable?: never;
+    }
+  | {
+      StringValue?: never;
+      NumericValue?: never;
+      StringValues?: never;
+      DateTimeValue: string;
+      NotApplicable?: never;
+    }
+  | {
+      StringValue?: never;
+      NumericValue?: never;
+      StringValues?: never;
+      DateTimeValue?: never;
+      NotApplicable: boolean;
+    };
 export const EvaluationAnswerData = S.Union(
   S.Struct({ StringValue: S.String }),
   S.Struct({ NumericValue: S.Number }),
@@ -11723,8 +11753,8 @@ export const SourceCampaign = S.suspend(() =>
   identifier: "SourceCampaign",
 }) as any as S.Schema<SourceCampaign>;
 export type CreatedByInfo =
-  | { ConnectUserArn: string }
-  | { AWSIdentityArn: string };
+  | { ConnectUserArn: string; AWSIdentityArn?: never }
+  | { ConnectUserArn?: never; AWSIdentityArn: string };
 export const CreatedByInfo = S.Union(
   S.Struct({ ConnectUserArn: S.String }),
   S.Struct({ AWSIdentityArn: S.String }),
@@ -18900,8 +18930,14 @@ export const SearchContactsTimestampCondition = S.suspend(() =>
   identifier: "SearchContactsTimestampCondition",
 }) as any as S.Schema<SearchContactsTimestampCondition>;
 export type ParticipantTimerValue =
-  | { ParticipantTimerAction: ParticipantTimerAction }
-  | { ParticipantTimerDurationInMinutes: number };
+  | {
+      ParticipantTimerAction: ParticipantTimerAction;
+      ParticipantTimerDurationInMinutes?: never;
+    }
+  | {
+      ParticipantTimerAction?: never;
+      ParticipantTimerDurationInMinutes: number;
+    };
 export const ParticipantTimerValue = S.Union(
   S.Struct({ ParticipantTimerAction: ParticipantTimerAction }),
   S.Struct({ ParticipantTimerDurationInMinutes: S.Number }),
@@ -19218,14 +19254,86 @@ export const EvaluationSummary = S.suspend(() =>
 export type EvaluationSummaryList = EvaluationSummary[];
 export const EvaluationSummaryList = S.Array(EvaluationSummary);
 export type ReferenceSummary =
-  | { Url: UrlReference }
-  | { Attachment: AttachmentReference }
-  | { EmailMessage: EmailMessageReference }
-  | { EmailMessagePlainText: EmailMessageReference }
-  | { String: StringReference }
-  | { Number: NumberReference }
-  | { Date: DateReference }
-  | { Email: EmailReference };
+  | {
+      Url: UrlReference;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number?: never;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment: AttachmentReference;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number?: never;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage: EmailMessageReference;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number?: never;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText: EmailMessageReference;
+      String?: never;
+      Number?: never;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String: StringReference;
+      Number?: never;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number: NumberReference;
+      Date?: never;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number?: never;
+      Date: DateReference;
+      Email?: never;
+    }
+  | {
+      Url?: never;
+      Attachment?: never;
+      EmailMessage?: never;
+      EmailMessagePlainText?: never;
+      String?: never;
+      Number?: never;
+      Date?: never;
+      Email: EmailReference;
+    };
 export const ReferenceSummary = S.Union(
   S.Struct({ Url: UrlReference }),
   S.Struct({ Attachment: AttachmentReference }),
@@ -21186,8 +21294,14 @@ export const EvaluationFormNumericQuestionOptionList = S.Array(
   EvaluationFormNumericQuestionOption,
 );
 export type EvaluationFormNumericQuestionAutomation =
-  | { PropertyValue: NumericQuestionPropertyValueAutomation }
-  | { AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
+  | {
+      PropertyValue: NumericQuestionPropertyValueAutomation;
+      AnswerSource?: never;
+    }
+  | {
+      PropertyValue?: never;
+      AnswerSource: EvaluationFormQuestionAutomationAnswerSource;
+    };
 export const EvaluationFormNumericQuestionAutomation = S.Union(
   S.Struct({ PropertyValue: NumericQuestionPropertyValueAutomation }),
   S.Struct({ AnswerSource: EvaluationFormQuestionAutomationAnswerSource }),
@@ -22139,8 +22253,8 @@ export const EvaluationFormMultiSelectQuestionAutomation = S.suspend(() =>
   identifier: "EvaluationFormMultiSelectQuestionAutomation",
 }) as any as S.Schema<EvaluationFormMultiSelectQuestionAutomation>;
 export type EvaluationFormItemEnablementConditionOperand =
-  | { Expression: EvaluationFormItemEnablementExpression }
-  | { Condition: EvaluationFormItemEnablementCondition };
+  | { Expression: EvaluationFormItemEnablementExpression; Condition?: never }
+  | { Expression?: never; Condition: EvaluationFormItemEnablementCondition };
 export const EvaluationFormItemEnablementConditionOperand = S.Union(
   S.Struct({ Expression: EvaluationFormItemEnablementExpression }),
   S.Struct({
@@ -22557,10 +22671,30 @@ export const RoutingCriteriaInput = S.suspend(() =>
   identifier: "RoutingCriteriaInput",
 }) as any as S.Schema<RoutingCriteriaInput>;
 export type EvaluationFormQuestionTypeProperties =
-  | { Numeric: EvaluationFormNumericQuestionProperties }
-  | { SingleSelect: EvaluationFormSingleSelectQuestionProperties }
-  | { Text: EvaluationFormTextQuestionProperties }
-  | { MultiSelect: EvaluationFormMultiSelectQuestionProperties };
+  | {
+      Numeric: EvaluationFormNumericQuestionProperties;
+      SingleSelect?: never;
+      Text?: never;
+      MultiSelect?: never;
+    }
+  | {
+      Numeric?: never;
+      SingleSelect: EvaluationFormSingleSelectQuestionProperties;
+      Text?: never;
+      MultiSelect?: never;
+    }
+  | {
+      Numeric?: never;
+      SingleSelect?: never;
+      Text: EvaluationFormTextQuestionProperties;
+      MultiSelect?: never;
+    }
+  | {
+      Numeric?: never;
+      SingleSelect?: never;
+      Text?: never;
+      MultiSelect: EvaluationFormMultiSelectQuestionProperties;
+    };
 export const EvaluationFormQuestionTypeProperties = S.Union(
   S.Struct({ Numeric: EvaluationFormNumericQuestionProperties }),
   S.Struct({ SingleSelect: EvaluationFormSingleSelectQuestionProperties }),
@@ -22737,8 +22871,8 @@ export const ContactSearchSummaryAgentInfo = S.suspend(() =>
   identifier: "ContactSearchSummaryAgentInfo",
 }) as any as S.Schema<ContactSearchSummaryAgentInfo>;
 export type EvaluationFormItem =
-  | { Section: EvaluationFormSection }
-  | { Question: EvaluationFormQuestion };
+  | { Section: EvaluationFormSection; Question?: never }
+  | { Section?: never; Question: EvaluationFormQuestion };
 export const EvaluationFormItem = S.Union(
   S.Struct({
     Section: S.suspend(
@@ -22760,12 +22894,54 @@ export const EvaluationGenAIAnswerAnalysisDetails = S.suspend(() =>
   identifier: "EvaluationGenAIAnswerAnalysisDetails",
 }) as any as S.Schema<EvaluationGenAIAnswerAnalysisDetails>;
 export type RealtimeContactAnalysisSegment =
-  | { Transcript: RealTimeContactAnalysisSegmentTranscript }
-  | { Categories: RealTimeContactAnalysisSegmentCategories }
-  | { Issues: RealTimeContactAnalysisSegmentIssues }
-  | { Event: RealTimeContactAnalysisSegmentEvent }
-  | { Attachments: RealTimeContactAnalysisSegmentAttachments }
-  | { PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary };
+  | {
+      Transcript: RealTimeContactAnalysisSegmentTranscript;
+      Categories?: never;
+      Issues?: never;
+      Event?: never;
+      Attachments?: never;
+      PostContactSummary?: never;
+    }
+  | {
+      Transcript?: never;
+      Categories: RealTimeContactAnalysisSegmentCategories;
+      Issues?: never;
+      Event?: never;
+      Attachments?: never;
+      PostContactSummary?: never;
+    }
+  | {
+      Transcript?: never;
+      Categories?: never;
+      Issues: RealTimeContactAnalysisSegmentIssues;
+      Event?: never;
+      Attachments?: never;
+      PostContactSummary?: never;
+    }
+  | {
+      Transcript?: never;
+      Categories?: never;
+      Issues?: never;
+      Event: RealTimeContactAnalysisSegmentEvent;
+      Attachments?: never;
+      PostContactSummary?: never;
+    }
+  | {
+      Transcript?: never;
+      Categories?: never;
+      Issues?: never;
+      Event?: never;
+      Attachments: RealTimeContactAnalysisSegmentAttachments;
+      PostContactSummary?: never;
+    }
+  | {
+      Transcript?: never;
+      Categories?: never;
+      Issues?: never;
+      Event?: never;
+      Attachments?: never;
+      PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary;
+    };
 export const RealtimeContactAnalysisSegment = S.Union(
   S.Struct({ Transcript: RealTimeContactAnalysisSegmentTranscript }),
   S.Struct({ Categories: RealTimeContactAnalysisSegmentCategories }),
@@ -22834,8 +23010,8 @@ export const CreateEvaluationFormRequest = S.suspend(() =>
   identifier: "CreateEvaluationFormRequest",
 }) as any as S.Schema<CreateEvaluationFormRequest>;
 export type EvaluationQuestionAnswerAnalysisDetails =
-  | { GenAI: EvaluationGenAIAnswerAnalysisDetails }
-  | { ContactLens: EvaluationContactLensAnswerAnalysisDetails };
+  | { GenAI: EvaluationGenAIAnswerAnalysisDetails; ContactLens?: never }
+  | { GenAI?: never; ContactLens: EvaluationContactLensAnswerAnalysisDetails };
 export const EvaluationQuestionAnswerAnalysisDetails = S.Union(
   S.Struct({ GenAI: EvaluationGenAIAnswerAnalysisDetails }),
   S.Struct({ ContactLens: EvaluationContactLensAnswerAnalysisDetails }),

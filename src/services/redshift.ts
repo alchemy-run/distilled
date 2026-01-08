@@ -3131,9 +3131,21 @@ export const RedshiftScopeUnion = S.Union(S.Struct({ Connect: Connect }));
 export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export const RedshiftServiceIntegrations = S.Array(RedshiftScopeUnion);
 export type ServiceIntegrationsUnion =
-  | { LakeFormation: LakeFormationScopeUnion[] }
-  | { S3AccessGrants: S3AccessGrantsScopeUnion[] }
-  | { Redshift: RedshiftScopeUnion[] };
+  | {
+      LakeFormation: LakeFormationScopeUnion[];
+      S3AccessGrants?: never;
+      Redshift?: never;
+    }
+  | {
+      LakeFormation?: never;
+      S3AccessGrants: S3AccessGrantsScopeUnion[];
+      Redshift?: never;
+    }
+  | {
+      LakeFormation?: never;
+      S3AccessGrants?: never;
+      Redshift: RedshiftScopeUnion[];
+    };
 export const ServiceIntegrationsUnion = S.Union(
   S.Struct({ LakeFormation: LakeFormationServiceIntegrations }),
   S.Struct({ S3AccessGrants: S3AccessGrantsServiceIntegrations }),
@@ -3440,8 +3452,14 @@ export const ProvisionedIdentifier = S.suspend(() =>
   identifier: "ProvisionedIdentifier",
 }) as any as S.Schema<ProvisionedIdentifier>;
 export type NamespaceIdentifierUnion =
-  | { ServerlessIdentifier: ServerlessIdentifier }
-  | { ProvisionedIdentifier: ProvisionedIdentifier };
+  | {
+      ServerlessIdentifier: ServerlessIdentifier;
+      ProvisionedIdentifier?: never;
+    }
+  | {
+      ServerlessIdentifier?: never;
+      ProvisionedIdentifier: ProvisionedIdentifier;
+    };
 export const NamespaceIdentifierUnion = S.Union(
   S.Struct({ ServerlessIdentifier: ServerlessIdentifier }),
   S.Struct({ ProvisionedIdentifier: ProvisionedIdentifier }),

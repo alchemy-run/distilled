@@ -196,10 +196,30 @@ export const GetMigrationWorkflowRequest = S.suspend(() =>
 export type StringMap = { [key: string]: string };
 export const StringMap = S.Record({ key: S.String, value: S.String });
 export type StepInput =
-  | { integerValue: number }
-  | { stringValue: string }
-  | { listOfStringsValue: string[] }
-  | { mapOfStringValue: { [key: string]: string } };
+  | {
+      integerValue: number;
+      stringValue?: never;
+      listOfStringsValue?: never;
+      mapOfStringValue?: never;
+    }
+  | {
+      integerValue?: never;
+      stringValue: string;
+      listOfStringsValue?: never;
+      mapOfStringValue?: never;
+    }
+  | {
+      integerValue?: never;
+      stringValue?: never;
+      listOfStringsValue: string[];
+      mapOfStringValue?: never;
+    }
+  | {
+      integerValue?: never;
+      stringValue?: never;
+      listOfStringsValue?: never;
+      mapOfStringValue: { [key: string]: string };
+    };
 export const StepInput = S.Union(
   S.Struct({ integerValue: S.Number }),
   S.Struct({ stringValue: S.String }),
@@ -581,9 +601,9 @@ export const WorkflowStepAutomationConfiguration = S.suspend(() =>
 export type MaxStringList = string[];
 export const MaxStringList = S.Array(S.String);
 export type WorkflowStepOutputUnion =
-  | { integerValue: number }
-  | { stringValue: string }
-  | { listOfStringValue: string[] };
+  | { integerValue: number; stringValue?: never; listOfStringValue?: never }
+  | { integerValue?: never; stringValue: string; listOfStringValue?: never }
+  | { integerValue?: never; stringValue?: never; listOfStringValue: string[] };
 export const WorkflowStepOutputUnion = S.Union(
   S.Struct({ integerValue: S.Number }),
   S.Struct({ stringValue: S.String }),

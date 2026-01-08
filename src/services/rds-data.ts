@@ -242,11 +242,41 @@ export const DoubleArray = S.Array(S.Number);
 export type StringArray = string[];
 export const StringArray = S.Array(S.String);
 export type ArrayValue =
-  | { booleanValues: boolean[] }
-  | { longValues: number[] }
-  | { doubleValues: number[] }
-  | { stringValues: string[] }
-  | { arrayValues: ArrayValue[] };
+  | {
+      booleanValues: boolean[];
+      longValues?: never;
+      doubleValues?: never;
+      stringValues?: never;
+      arrayValues?: never;
+    }
+  | {
+      booleanValues?: never;
+      longValues: number[];
+      doubleValues?: never;
+      stringValues?: never;
+      arrayValues?: never;
+    }
+  | {
+      booleanValues?: never;
+      longValues?: never;
+      doubleValues: number[];
+      stringValues?: never;
+      arrayValues?: never;
+    }
+  | {
+      booleanValues?: never;
+      longValues?: never;
+      doubleValues?: never;
+      stringValues: string[];
+      arrayValues?: never;
+    }
+  | {
+      booleanValues?: never;
+      longValues?: never;
+      doubleValues?: never;
+      stringValues?: never;
+      arrayValues: ArrayValue[];
+    };
 export const ArrayValue = S.Union(
   S.Struct({ booleanValues: BooleanArray }),
   S.Struct({ longValues: LongArray }),
@@ -259,13 +289,69 @@ export const ArrayValue = S.Union(
   }),
 ) as any as S.Schema<ArrayValue>;
 export type Field =
-  | { isNull: boolean }
-  | { booleanValue: boolean }
-  | { longValue: number }
-  | { doubleValue: number }
-  | { stringValue: string }
-  | { blobValue: Uint8Array }
-  | { arrayValue: ArrayValue };
+  | {
+      isNull: boolean;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue: boolean;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue: number;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue: number;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue: string;
+      blobValue?: never;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue: Uint8Array;
+      arrayValue?: never;
+    }
+  | {
+      isNull?: never;
+      booleanValue?: never;
+      longValue?: never;
+      doubleValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValue: ArrayValue;
+    };
 export const Field = S.Union(
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),
@@ -462,16 +548,126 @@ export const StructValue = S.suspend(() =>
   }),
 ).annotations({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
 export type Value =
-  | { isNull: boolean }
-  | { bitValue: boolean }
-  | { bigIntValue: number }
-  | { intValue: number }
-  | { doubleValue: number }
-  | { realValue: number }
-  | { stringValue: string }
-  | { blobValue: Uint8Array }
-  | { arrayValues: Value[] }
-  | { structValue: StructValue };
+  | {
+      isNull: boolean;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue: boolean;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue: number;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue: number;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue: number;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue: number;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue: string;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue: Uint8Array;
+      arrayValues?: never;
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues: Value[];
+      structValue?: never;
+    }
+  | {
+      isNull?: never;
+      bitValue?: never;
+      bigIntValue?: never;
+      intValue?: never;
+      doubleValue?: never;
+      realValue?: never;
+      stringValue?: never;
+      blobValue?: never;
+      arrayValues?: never;
+      structValue: StructValue;
+    };
 export const Value = S.Union(
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ bitValue: S.Boolean }),
