@@ -1,7 +1,7 @@
 {
   "name": "distilled-aws",
   "module": "index.ts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -14,6 +14,7 @@
   "scripts": {
     "aws:clean": "bun run scripts/aws-clean.ts",
     "build:clean": "bun run install:clean && bun run build",
+    "bump": "bun run ./scripts/bump.ts",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
     "bundle:report": "bun run scripts/bundle-size-report.ts",
     "clean": "git clean -fqdx -e .env",
