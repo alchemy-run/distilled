@@ -11,14 +11,16 @@
     "deleteBucket": {
       "errors": [
         "BucketNotEmpty",
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketLifecycleConfiguration": {
       "errors": [
         "InvalidRequest",
         "MalformedXML",
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketReplication": {
@@ -30,7 +32,8 @@
     "putObjectLockConfiguration": {
       "errors": [
         "InvalidBucketState",
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketPolicy": {
@@ -54,18 +57,21 @@
       "errors": [
         "NoSuchBucket",
         "NoSuchBucketPolicy",
+        "PermanentRedirect",
         "SignatureDoesNotMatch"
       ]
     },
     "getBucketTagging": {
       "errors": [
         "NoSuchBucket",
-        "NoSuchTagSet"
+        "NoSuchTagSet",
+        "PermanentRedirect"
       ]
     },
     "putBucketTagging": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "deleteBucketTagging": {
@@ -76,23 +82,27 @@
     "getBucketLifecycleConfiguration": {
       "errors": [
         "NoSuchBucket",
-        "NoSuchLifecycleConfiguration"
+        "NoSuchLifecycleConfiguration",
+        "PermanentRedirect"
       ]
     },
     "putBucketVersioning": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketCors": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketCors": {
       "errors": [
         "NoSuchBucket",
-        "NoSuchCORSConfiguration"
+        "NoSuchCORSConfiguration",
+        "PermanentRedirect"
       ]
     },
     "deleteBucketCors": {
@@ -102,22 +112,26 @@
     },
     "putBucketEncryption": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketAcl": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "deleteObject": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putObject": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "deleteBucketEncryption": {
@@ -128,17 +142,20 @@
     "getBucketEncryption": {
       "errors": [
         "NoSuchBucket",
-        "ParseError"
+        "ParseError",
+        "PermanentRedirect"
       ]
     },
     "getBucketAcl": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketVersioning": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketLocation": {
@@ -148,42 +165,50 @@
     },
     "getBucketLogging": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketAccelerateConfiguration": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketRequestPayment": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketLogging": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketAccelerateConfiguration": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putBucketRequestPayment": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getPublicAccessBlock": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "putPublicAccessBlock": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "deletePublicAccessBlock": {
@@ -282,13 +307,15 @@
     },
     "putBucketWebsite": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getBucketWebsite": {
       "errors": [
         "NoSuchBucket",
-        "NoSuchWebsiteConfiguration"
+        "NoSuchWebsiteConfiguration",
+        "PermanentRedirect"
       ]
     },
     "deleteBucketOwnershipControls": {
@@ -304,7 +331,8 @@
     "getObjectLockConfiguration": {
       "errors": [
         "NoSuchBucket",
-        "ObjectLockConfigurationNotFoundError"
+        "ObjectLockConfigurationNotFoundError",
+        "PermanentRedirect"
       ]
     },
     "putBucketIntelligentTieringConfiguration": {
@@ -331,12 +359,14 @@
     "deleteBucketPolicy": {
       "errors": [
         "NoSuchBucket",
+        "PermanentRedirect",
         "SignatureDoesNotMatch"
       ]
     },
     "getObject": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "headObject": {
@@ -346,23 +376,27 @@
     },
     "getObjectAcl": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "getObjectTagging": {
       "errors": [
         "NoSuchBucket",
-        "NoSuchKey"
+        "NoSuchKey",
+        "PermanentRedirect"
       ]
     },
     "deleteObjectTagging": {
       "errors": [
-        "NoSuchKey"
+        "NoSuchKey",
+        "PermanentRedirect"
       ]
     },
     "putObjectTagging": {
       "errors": [
-        "NoSuchKey"
+        "NoSuchKey",
+        "PermanentRedirect"
       ]
     },
     "getObjectRetention": {
@@ -387,27 +421,32 @@
     },
     "listMultipartUploads": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "listObjectVersions": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "createMultipartUpload": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "copyObject": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "uploadPart": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "listParts": {
@@ -422,12 +461,14 @@
     },
     "deleteObjects": {
       "errors": [
-        "NoSuchBucket"
+        "NoSuchBucket",
+        "PermanentRedirect"
       ]
     },
     "restoreObject": {
       "errors": [
-        "NoSuchKey"
+        "NoSuchKey",
+        "PermanentRedirect"
       ]
     },
     "uploadPartCopy": {
@@ -444,6 +485,26 @@
     "listBuckets": {
       "errors": [
         "RequestError"
+      ]
+    },
+    "listObjectsV2": {
+      "errors": [
+        "PermanentRedirect"
+      ]
+    },
+    "listObjects": {
+      "errors": [
+        "PermanentRedirect"
+      ]
+    },
+    "putObjectAcl": {
+      "errors": [
+        "PermanentRedirect"
+      ]
+    },
+    "selectObjectContent": {
+      "errors": [
+        "PermanentRedirect"
       ]
     }
   }
