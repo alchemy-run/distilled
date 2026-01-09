@@ -1207,7 +1207,9 @@ const deleteVpcWithDependencies = (vpcId: string, nameTag: string) =>
       Stream.flatMap((page) =>
         Stream.fromIterable(page.EgressOnlyInternetGateways ?? []),
       ),
-      Stream.filter((eigw) => eigw.Attachments?.some((a) => a.VpcId === vpcId)),
+      Stream.filter(
+        (eigw) => eigw.Attachments?.some((a) => a.VpcId === vpcId) ?? false,
+      ),
       Stream.runCollect,
       Effect.map(Chunk.toArray),
     );

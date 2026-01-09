@@ -17,6 +17,7 @@
     },
     "createSubnet": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVpcID.NotFound",
         "ParseError"
       ]
@@ -50,7 +51,9 @@
     "detachInternetGateway": {
       "errors": [
         "Gateway.NotAttached",
-        "InvalidInternetGatewayID.NotFound"
+        "InvalidInternetGatewayID.NotFound",
+        "InvalidInternetGatewayId.Malformed",
+        "InvalidVpcId.Malformed"
       ]
     },
     "createRouteTable": {
@@ -114,9 +117,11 @@
     "deleteSecurityGroup": {
       "errors": [
         "CannotDelete",
+        "DependencyViolation",
         "InvalidGroup.NotFound",
         "InvalidGroupId.Malformed",
-        "MissingParameter"
+        "MissingParameter",
+        "VPCIdNotSpecified"
       ]
     },
     "createNetworkAcl": {
@@ -148,6 +153,7 @@
     "deleteDhcpOptions": {
       "errors": [
         "InvalidDhcpOptionID.NotFound",
+        "InvalidDhcpOptionsID.NotFound",
         "InvalidDhcpOptionsId.Malformed"
       ]
     },
@@ -387,7 +393,8 @@
       "errors": [
         "InvalidGroup.NotFound",
         "InvalidGroupId.Malformed",
-        "ParseError"
+        "ParseError",
+        "VPCIdNotSpecified"
       ]
     },
     "describeNetworkAcls": {
@@ -471,7 +478,8 @@
     "modifyNetworkInterfaceAttribute": {
       "errors": [
         "InvalidNetworkInterfaceID.NotFound",
-        "InvalidNetworkInterfaceId.Malformed"
+        "InvalidNetworkInterfaceId.Malformed",
+        "InvalidParameterCombination"
       ]
     },
     "describeNetworkInterfaces": {
@@ -549,27 +557,32 @@
     "describeNetworkInterfaceAttribute": {
       "errors": [
         "InvalidNetworkInterfaceID.NotFound",
+        "InvalidNetworkInterfaceId.Malformed",
         "InvalidParameterCombination"
       ]
     },
     "attachNetworkInterface": {
       "errors": [
+        "InvalidInstanceID.NotFound",
         "InvalidNetworkInterfaceID.NotFound"
       ]
     },
     "detachNetworkInterface": {
       "errors": [
-        "InvalidAttachmentID.NotFound"
+        "InvalidAttachmentID.NotFound",
+        "InvalidNetworkInterfaceAttachmentId.Malformed"
       ]
     },
     "assignPrivateIpAddresses": {
       "errors": [
-        "InvalidNetworkInterfaceID.NotFound"
+        "InvalidNetworkInterfaceID.NotFound",
+        "InvalidNetworkInterfaceId.Malformed"
       ]
     },
     "unassignPrivateIpAddresses": {
       "errors": [
-        "InvalidNetworkInterfaceID.NotFound"
+        "InvalidNetworkInterfaceID.NotFound",
+        "InvalidNetworkInterfaceId.Malformed"
       ]
     },
     "assignIpv6Addresses": {
@@ -663,6 +676,7 @@
     },
     "associateAddress": {
       "errors": [
+        "AuthFailure",
         "InvalidAllocationID.NotFound",
         "InvalidInstanceID.NotFound"
       ]
@@ -700,22 +714,26 @@
     },
     "deleteTags": {
       "errors": [
-        "InvalidID"
+        "InvalidID",
+        "MissingParameter"
       ]
     },
     "createTags": {
       "errors": [
-        "InvalidID"
+        "InvalidID",
+        "MissingParameter"
       ]
     },
     "describeInstanceAttribute": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterValue"
       ]
     },
     "modifyInstanceAttribute": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterValue"
       ]
     },
     "describeSnapshots": {
@@ -725,69 +743,86 @@
     },
     "describeVolumes": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVolume.NotFound",
         "ParseError"
       ]
     },
     "deleteSnapshot": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidSnapshot.NotFound"
       ]
     },
     "deleteVolume": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
     },
     "runInstances": {
       "errors": [
+        "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "attachVolume": {
       "errors": [
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
     },
     "terminateInstances": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.Malformed",
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "describeInstances": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "ParseError"
       ]
     },
     "detachVolume": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
     },
     "createSnapshot": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
     },
     "startInstances": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "stopInstances": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.Malformed",
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "rebootInstances": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "MissingParameter"
       ]
     },
     "modifyVolume": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
     },
@@ -798,6 +833,7 @@
     },
     "deregisterImage": {
       "errors": [
+        "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound"
       ]
     },
@@ -808,16 +844,19 @@
     },
     "copySnapshot": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidSnapshot.NotFound"
       ]
     },
     "describeSnapshotAttribute": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidSnapshot.NotFound"
       ]
     },
     "modifyImageAttribute": {
       "errors": [
+        "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound"
       ]
     },
@@ -849,22 +888,27 @@
     },
     "getConsoleOutput": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound"
       ]
     },
     "getPasswordData": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound"
       ]
     },
     "createImage": {
       "errors": [
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "InvalidParameterValue"
       ]
     },
     "copyImage": {
       "errors": [
-        "InvalidAMIID.NotFound"
+        "InvalidAMIID.Malformed",
+        "InvalidAMIID.NotFound",
+        "InvalidRequest"
       ]
     },
     "describeSpotInstanceRequests": {
@@ -874,6 +918,7 @@
     },
     "describeSpotFleetRequests": {
       "errors": [
+        "InvalidParameterValue",
         "ParseError"
       ]
     },
@@ -884,6 +929,7 @@
     },
     "describeAvailabilityZones": {
       "errors": [
+        "InvalidParameterValue",
         "ParseError"
       ]
     },
@@ -906,6 +952,7 @@
     },
     "modifySnapshotAttribute": {
       "errors": [
+        "InvalidParameterCombination",
         "InvalidSnapshot.NotFound"
       ]
     },
@@ -1173,6 +1220,151 @@
     "allocateAddress": {
       "errors": [
         "AddressLimitExceeded"
+      ]
+    },
+    "deleteKeyPair": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createVolume": {
+      "errors": [
+        "InvalidZone.NotFound"
+      ]
+    },
+    "createPlacementGroup": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describePlacementGroups": {
+      "errors": [
+        "InvalidPlacementGroup.Unknown"
+      ]
+    },
+    "releaseHosts": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "allocateHosts": {
+      "errors": [
+        "InvalidHostConfiguration",
+        "InvalidRequest"
+      ]
+    },
+    "describeHosts": {
+      "errors": [
+        "InvalidHostID.Malformed"
+      ]
+    },
+    "cancelSpotFleetRequests": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "cancelSpotInstanceRequests": {
+      "errors": [
+        "InvalidParameterCombination",
+        "InvalidSpotInstanceRequestID.Malformed"
+      ]
+    },
+    "requestSpotInstances": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createSpotDatafeedSubscription": {
+      "errors": [
+        "InaccessibleStorageLocation"
+      ]
+    },
+    "describeSpotDatafeedSubscription": {
+      "errors": [
+        "InvalidSpotDatafeed.NotFound"
+      ]
+    },
+    "bundleInstance": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "cancelBundleTask": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "describeBundleTasks": {
+      "errors": [
+        "InvalidBundleID.NotFound",
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "getConsoleScreenshot": {
+      "errors": [
+        "InvalidInstanceID.Malformed",
+        "InvalidInstanceID.NotFound"
+      ]
+    },
+    "reportInstanceStatus": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "monitorInstances": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "unmonitorInstances": {
+      "errors": [
+        "InvalidInstanceID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "confirmProductInstance": {
+      "errors": [
+        "AuthFailure"
+      ]
+    },
+    "createNetworkInterfacePermission": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyVolumeAttribute": {
+      "errors": [
+        "InvalidVolume.NotFound"
+      ]
+    },
+    "describeVolumeAttribute": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidVolume.NotFound"
+      ]
+    },
+    "resetSnapshotAttribute": {
+      "errors": [
+        "InvalidSnapshot.NotFound",
+        "InvalidSnapshotID.Malformed"
+      ]
+    },
+    "resetImageAttribute": {
+      "errors": [
+        "InvalidAMIID.Malformed",
+        "InvalidAMIID.NotFound"
+      ]
+    },
+    "describeImageAttribute": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "describeRegions": {
+      "errors": [
+        "InvalidParameterValue"
       ]
     }
   },

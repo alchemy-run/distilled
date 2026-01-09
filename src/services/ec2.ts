@@ -69541,6 +69541,10 @@ export class InvalidDhcpOptionIDNotFound extends S.TaggedError<InvalidDhcpOption
   "InvalidDhcpOptionID.NotFound",
   {},
 ) {}
+export class InvalidDhcpOptionsIDNotFound extends S.TaggedError<InvalidDhcpOptionsIDNotFound>()(
+  "InvalidDhcpOptionsID.NotFound",
+  {},
+) {}
 export class DependencyViolation extends S.TaggedError<DependencyViolation>()(
   "DependencyViolation",
   {},
@@ -69638,6 +69642,10 @@ export class InvalidAttachmentIDNotFound extends S.TaggedError<InvalidAttachment
   "InvalidAttachmentID.NotFound",
   {},
 ) {}
+export class InvalidNetworkInterfaceAttachmentIdMalformed extends S.TaggedError<InvalidNetworkInterfaceAttachmentIdMalformed>()(
+  "InvalidNetworkInterfaceAttachmentId.Malformed",
+  {},
+) {}
 export class InvalidAssociationIDNotFound extends S.TaggedError<InvalidAssociationIDNotFound>()(
   "InvalidAssociationID.NotFound",
   {},
@@ -69662,12 +69670,28 @@ export class InvalidIPAddressInUse extends S.TaggedError<InvalidIPAddressInUse>(
   "InvalidIPAddress.InUse",
   {},
 ) {}
-export class AddressLimitExceeded extends S.TaggedError<AddressLimitExceeded>()(
-  "AddressLimitExceeded",
+export class InvalidAMIIDMalformed extends S.TaggedError<InvalidAMIIDMalformed>()(
+  "InvalidAMIID.Malformed",
   {},
 ) {}
 export class InvalidAMIIDNotFound extends S.TaggedError<InvalidAMIIDNotFound>()(
   "InvalidAMIID.NotFound",
+  {},
+) {}
+export class InvalidSnapshotIDMalformed extends S.TaggedError<InvalidSnapshotIDMalformed>()(
+  "InvalidSnapshotID.Malformed",
+  {},
+) {}
+export class AddressLimitExceeded extends S.TaggedError<AddressLimitExceeded>()(
+  "AddressLimitExceeded",
+  {},
+) {}
+export class InvalidHostConfiguration extends S.TaggedError<InvalidHostConfiguration>()(
+  "InvalidHostConfiguration",
+  {},
+) {}
+export class InvalidRequest extends S.TaggedError<InvalidRequest>()(
+  "InvalidRequest",
   {},
 ) {}
 export class InvalidKeyPairDuplicate extends S.TaggedError<InvalidKeyPairDuplicate>()(
@@ -69791,12 +69815,20 @@ export class InvalidVpcPeeringConnectionIdNotFound extends S.TaggedError<Invalid
   "InvalidVpcPeeringConnectionId.NotFound",
   {},
 ) {}
+export class InvalidBundleIDNotFound extends S.TaggedError<InvalidBundleIDNotFound>()(
+  "InvalidBundleID.NotFound",
+  {},
+) {}
 export class InvalidEgressOnlyInternetGatewayIdMalformed extends S.TaggedError<InvalidEgressOnlyInternetGatewayIdMalformed>()(
   "InvalidEgressOnlyInternetGatewayId.Malformed",
   {},
 ) {}
 export class InvalidSecurityGroupRuleIdNotFound extends S.TaggedError<InvalidSecurityGroupRuleIdNotFound>()(
   "InvalidSecurityGroupRuleId.NotFound",
+  {},
+) {}
+export class InvalidSpotDatafeedNotFound extends S.TaggedError<InvalidSpotDatafeedNotFound>()(
+  "InvalidSpotDatafeed.NotFound",
   {},
 ) {}
 export class InvalidVpcEndpointServiceIdNotFound extends S.TaggedError<InvalidVpcEndpointServiceIdNotFound>()(
@@ -69829,6 +69861,10 @@ export class InvalidPublicIpv4PoolIDMalformed extends S.TaggedError<InvalidPubli
 ) {}
 export class InvalidPublicIpv4PoolIDNotFound extends S.TaggedError<InvalidPublicIpv4PoolIDNotFound>()(
   "InvalidPublicIpv4PoolID.NotFound",
+  {},
+) {}
+export class InvalidSpotInstanceRequestIDMalformed extends S.TaggedError<InvalidSpotInstanceRequestIDMalformed>()(
+  "InvalidSpotInstanceRequestID.Malformed",
   {},
 ) {}
 export class InvalidLocalGatewayRouteTableIDMalformed extends S.TaggedError<InvalidLocalGatewayRouteTableIDMalformed>()(
@@ -69865,6 +69901,10 @@ export class InvalidTransitGatewayIDMalformed extends S.TaggedError<InvalidTrans
 ) {}
 export class InvalidTransitGatewayIDNotFound extends S.TaggedError<InvalidTransitGatewayIDNotFound>()(
   "InvalidTransitGatewayID.NotFound",
+  {},
+) {}
+export class InvalidZoneNotFound extends S.TaggedError<InvalidZoneNotFound>()(
+  "InvalidZone.NotFound",
   {},
 ) {}
 export class VpcLimitExceeded extends S.TaggedError<VpcLimitExceeded>()(
@@ -69911,6 +69951,10 @@ export class InvalidLocalGatewayIDMalformed extends S.TaggedError<InvalidLocalGa
   "InvalidLocalGatewayID.Malformed",
   {},
 ) {}
+export class InaccessibleStorageLocation extends S.TaggedError<InaccessibleStorageLocation>()(
+  "InaccessibleStorageLocation",
+  {},
+) {}
 export class InvalidIpamPoolIdNotFound extends S.TaggedError<InvalidIpamPoolIdNotFound>()(
   "InvalidIpamPoolId.NotFound",
   {},
@@ -69921,6 +69965,10 @@ export class FilterLimitExceeded extends S.TaggedError<FilterLimitExceeded>()(
 ) {}
 export class InvalidVerifiedAccessEndpointIdNotFound extends S.TaggedError<InvalidVerifiedAccessEndpointIdNotFound>()(
   "InvalidVerifiedAccessEndpointId.NotFound",
+  {},
+) {}
+export class InvalidHostIDMalformed extends S.TaggedError<InvalidHostIDMalformed>()(
+  "InvalidHostID.Malformed",
   {},
 ) {}
 
@@ -70049,12 +70097,19 @@ export const deleteDhcpOptions: (
   input: DeleteDhcpOptionsRequest,
 ) => effect.Effect<
   DeleteDhcpOptionsResponse,
-  InvalidDhcpOptionIDNotFound | InvalidDhcpOptionsIdMalformed | CommonErrors,
+  | InvalidDhcpOptionIDNotFound
+  | InvalidDhcpOptionsIDNotFound
+  | InvalidDhcpOptionsIdMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDhcpOptionsRequest,
   output: DeleteDhcpOptionsResponse,
-  errors: [InvalidDhcpOptionIDNotFound, InvalidDhcpOptionsIdMalformed],
+  errors: [
+    InvalidDhcpOptionIDNotFound,
+    InvalidDhcpOptionsIDNotFound,
+    InvalidDhcpOptionsIdMalformed,
+  ],
 }));
 /**
  * Deletes the specified internet gateway. You must detach the internet gateway from the
@@ -70225,12 +70280,12 @@ export const deleteSnapshot: (
   input: DeleteSnapshotRequest,
 ) => effect.Effect<
   DeleteSnapshotResponse,
-  InvalidSnapshotNotFound | CommonErrors,
+  InvalidParameterValue | InvalidSnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSnapshotRequest,
   output: DeleteSnapshotResponse,
-  errors: [InvalidSnapshotNotFound],
+  errors: [InvalidParameterValue, InvalidSnapshotNotFound],
 }));
 /**
  * Deletes the data feed for Spot Instances.
@@ -70279,12 +70334,12 @@ export const deleteTags: (
   input: DeleteTagsRequest,
 ) => effect.Effect<
   DeleteTagsResponse,
-  InvalidID | CommonErrors,
+  InvalidID | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagsRequest,
   output: DeleteTagsResponse,
-  errors: [InvalidID],
+  errors: [InvalidID, MissingParameter],
 }));
 /**
  * Deletes the specified EBS volume. The volume must be in the `available` state
@@ -70299,12 +70354,12 @@ export const deleteVolume: (
   input: DeleteVolumeRequest,
 ) => effect.Effect<
   DeleteVolumeResponse,
-  InvalidVolumeNotFound | CommonErrors,
+  InvalidParameterValue | InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: DeleteVolumeResponse,
-  errors: [InvalidVolumeNotFound],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound],
 }));
 /**
  * Deletes the specified VPC. You must detach or delete all gateways and resources that are associated
@@ -70405,12 +70460,21 @@ export const detachInternetGateway: (
   input: DetachInternetGatewayRequest,
 ) => effect.Effect<
   DetachInternetGatewayResponse,
-  GatewayNotAttached | InvalidInternetGatewayIDNotFound | CommonErrors,
+  | GatewayNotAttached
+  | InvalidInternetGatewayIDNotFound
+  | InvalidInternetGatewayIdMalformed
+  | InvalidVpcIdMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachInternetGatewayRequest,
   output: DetachInternetGatewayResponse,
-  errors: [GatewayNotAttached, InvalidInternetGatewayIDNotFound],
+  errors: [
+    GatewayNotAttached,
+    InvalidInternetGatewayIDNotFound,
+    InvalidInternetGatewayIdMalformed,
+    InvalidVpcIdMalformed,
+  ],
 }));
 /**
  * Detaches a network interface from an instance.
@@ -70419,12 +70483,17 @@ export const detachNetworkInterface: (
   input: DetachNetworkInterfaceRequest,
 ) => effect.Effect<
   DetachNetworkInterfaceResponse,
-  InvalidAttachmentIDNotFound | CommonErrors,
+  | InvalidAttachmentIDNotFound
+  | InvalidNetworkInterfaceAttachmentIdMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachNetworkInterfaceRequest,
   output: DetachNetworkInterfaceResponse,
-  errors: [InvalidAttachmentIDNotFound],
+  errors: [
+    InvalidAttachmentIDNotFound,
+    InvalidNetworkInterfaceAttachmentIdMalformed,
+  ],
 }));
 /**
  * Detaches an EBS volume from an instance. Make sure to unmount any file systems on the
@@ -70449,12 +70518,12 @@ export const detachVolume: (
   input: DetachVolumeRequest,
 ) => effect.Effect<
   VolumeAttachment,
-  InvalidVolumeNotFound | CommonErrors,
+  InvalidParameterValue | InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetachVolumeRequest,
   output: VolumeAttachment,
-  errors: [InvalidVolumeNotFound],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound],
 }));
 /**
  * Detaches a virtual private gateway from a VPC. You do this if you're planning to turn
@@ -70692,12 +70761,12 @@ export const modifyVolumeAttribute: (
   input: ModifyVolumeAttributeRequest,
 ) => effect.Effect<
   ModifyVolumeAttributeResponse,
-  CommonErrors,
+  InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVolumeAttributeRequest,
   output: ModifyVolumeAttributeResponse,
-  errors: [],
+  errors: [InvalidVolumeNotFound],
 }));
 /**
  * Modifies the specified attribute of the specified VPC.
@@ -70729,12 +70798,12 @@ export const rebootInstances: (
   input: RebootInstancesRequest,
 ) => effect.Effect<
   RebootInstancesResponse,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RebootInstancesRequest,
   output: RebootInstancesResponse,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, MissingParameter],
 }));
 /**
  * Releases the specified Elastic IP address.
@@ -70830,12 +70899,12 @@ export const reportInstanceStatus: (
   input: ReportInstanceStatusRequest,
 ) => effect.Effect<
   ReportInstanceStatusResponse,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportInstanceStatusRequest,
   output: ReportInstanceStatusResponse,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Resets an attribute of an AMI to its default value.
@@ -70844,12 +70913,12 @@ export const resetImageAttribute: (
   input: ResetImageAttributeRequest,
 ) => effect.Effect<
   ResetImageAttributeResponse,
-  CommonErrors,
+  InvalidAMIIDMalformed | InvalidAMIIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetImageAttributeRequest,
   output: ResetImageAttributeResponse,
-  errors: [],
+  errors: [InvalidAMIIDMalformed, InvalidAMIIDNotFound],
 }));
 /**
  * Resets an attribute of an instance to its default value. To reset the
@@ -70899,12 +70968,12 @@ export const resetSnapshotAttribute: (
   input: ResetSnapshotAttributeRequest,
 ) => effect.Effect<
   ResetSnapshotAttributeResponse,
-  CommonErrors,
+  InvalidSnapshotNotFound | InvalidSnapshotIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetSnapshotAttributeRequest,
   output: ResetSnapshotAttributeResponse,
-  errors: [],
+  errors: [InvalidSnapshotNotFound, InvalidSnapshotIDMalformed],
 }));
 /**
  * Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a
@@ -70944,12 +71013,17 @@ export const unassignPrivateIpAddresses: (
   input: UnassignPrivateIpAddressesRequest,
 ) => effect.Effect<
   UnassignPrivateIpAddressesResponse,
-  InvalidNetworkInterfaceIDNotFound | CommonErrors,
+  | InvalidNetworkInterfaceIDNotFound
+  | InvalidNetworkInterfaceIdMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnassignPrivateIpAddressesRequest,
   output: UnassignPrivateIpAddressesResponse,
-  errors: [InvalidNetworkInterfaceIDNotFound],
+  errors: [
+    InvalidNetworkInterfaceIDNotFound,
+    InvalidNetworkInterfaceIdMalformed,
+  ],
 }));
 /**
  * Accepts a request to assign billing of the available capacity of a shared Capacity
@@ -71014,12 +71088,12 @@ export const allocateHosts: (
   input: AllocateHostsRequest,
 ) => effect.Effect<
   AllocateHostsResult,
-  CommonErrors,
+  InvalidHostConfiguration | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateHostsRequest,
   output: AllocateHostsResult,
-  errors: [],
+  errors: [InvalidHostConfiguration, InvalidRequest],
 }));
 /**
  * Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing
@@ -71087,12 +71161,15 @@ export const associateAddress: (
   input: AssociateAddressRequest,
 ) => effect.Effect<
   AssociateAddressResult,
-  InvalidAllocationIDNotFound | InvalidInstanceIDNotFound | CommonErrors,
+  | AuthFailure
+  | InvalidAllocationIDNotFound
+  | InvalidInstanceIDNotFound
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAddressRequest,
   output: AssociateAddressResult,
-  errors: [InvalidAllocationIDNotFound, InvalidInstanceIDNotFound],
+  errors: [AuthFailure, InvalidAllocationIDNotFound, InvalidInstanceIDNotFound],
 }));
 /**
  * Initiates a request to assign billing of the unused capacity of a shared Capacity
@@ -71261,12 +71338,19 @@ export const attachVolume: (
   input: AttachVolumeRequest,
 ) => effect.Effect<
   VolumeAttachment,
-  InvalidVolumeNotFound | CommonErrors,
+  | InvalidInstanceIDNotFound
+  | InvalidParameterValue
+  | InvalidVolumeNotFound
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachVolumeRequest,
   output: VolumeAttachment,
-  errors: [InvalidVolumeNotFound],
+  errors: [
+    InvalidInstanceIDNotFound,
+    InvalidParameterValue,
+    InvalidVolumeNotFound,
+  ],
 }));
 /**
  * Cancels the specified Capacity Reservation, releases the reserved capacity, and
@@ -71363,12 +71447,12 @@ export const confirmProductInstance: (
   input: ConfirmProductInstanceRequest,
 ) => effect.Effect<
   ConfirmProductInstanceResult,
-  CommonErrors,
+  AuthFailure | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConfirmProductInstanceRequest,
   output: ConfirmProductInstanceResult,
-  errors: [],
+  errors: [AuthFailure],
 }));
 /**
  * Copies the specified Amazon FPGA Image (AFI) to the current Region.
@@ -71452,12 +71536,12 @@ export const copyImage: (
   input: CopyImageRequest,
 ) => effect.Effect<
   CopyImageResult,
-  InvalidAMIIDNotFound | CommonErrors,
+  InvalidAMIIDMalformed | InvalidAMIIDNotFound | InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyImageRequest,
   output: CopyImageResult,
-  errors: [InvalidAMIIDNotFound],
+  errors: [InvalidAMIIDMalformed, InvalidAMIIDNotFound, InvalidRequest],
 }));
 /**
  * Creates an exact copy of an Amazon EBS snapshot.
@@ -71494,12 +71578,12 @@ export const copySnapshot: (
   input: CopySnapshotRequest,
 ) => effect.Effect<
   CopySnapshotResult,
-  InvalidSnapshotNotFound | CommonErrors,
+  InvalidParameterValue | InvalidSnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopySnapshotRequest,
   output: CopySnapshotResult,
-  errors: [InvalidSnapshotNotFound],
+  errors: [InvalidParameterValue, InvalidSnapshotNotFound],
 }));
 /**
  * Creates a crash-consistent, point-in-time copy of an existing Amazon EBS volume within the same
@@ -71787,12 +71871,12 @@ export const createSnapshot: (
   input: CreateSnapshotRequest,
 ) => effect.Effect<
   Snapshot,
-  InvalidVolumeNotFound | CommonErrors,
+  InvalidParameterValue | InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: Snapshot,
-  errors: [InvalidVolumeNotFound],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound],
 }));
 /**
  * Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block.
@@ -71823,12 +71907,12 @@ export const createSubnet: (
   input: CreateSubnetRequest,
 ) => effect.Effect<
   CreateSubnetResult,
-  InvalidVpcIDNotFound | ParseError | CommonErrors,
+  InvalidParameterValue | InvalidVpcIDNotFound | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubnetRequest,
   output: CreateSubnetResult,
-  errors: [InvalidVpcIDNotFound, ParseError],
+  errors: [InvalidParameterValue, InvalidVpcIDNotFound, ParseError],
 }));
 /**
  * Adds or overwrites only the specified tags for the specified Amazon EC2 resource or
@@ -71846,12 +71930,12 @@ export const createTags: (
   input: CreateTagsRequest,
 ) => effect.Effect<
   CreateTagsResponse,
-  InvalidID | CommonErrors,
+  InvalidID | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagsRequest,
   output: CreateTagsResponse,
-  errors: [InvalidID],
+  errors: [InvalidID, MissingParameter],
 }));
 /**
  * An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants
@@ -72125,12 +72209,12 @@ export const deleteKeyPair: (
   input: DeleteKeyPairRequest,
 ) => effect.Effect<
   DeleteKeyPairResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteKeyPairRequest,
   output: DeleteKeyPairResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Deletes the specified route from the specified local gateway route table.
@@ -72385,9 +72469,11 @@ export const deleteSecurityGroup: (
 ) => effect.Effect<
   DeleteSecurityGroupResult,
   | CannotDelete
+  | DependencyViolation
   | InvalidGroupNotFound
   | InvalidGroupIdMalformed
   | MissingParameter
+  | VPCIdNotSpecified
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -72395,9 +72481,11 @@ export const deleteSecurityGroup: (
   output: DeleteSecurityGroupResult,
   errors: [
     CannotDelete,
+    DependencyViolation,
     InvalidGroupNotFound,
     InvalidGroupIdMalformed,
     MissingParameter,
+    VPCIdNotSpecified,
   ],
 }));
 /**
@@ -72809,12 +72897,12 @@ export const describeBundleTasks: (
   input: DescribeBundleTasksRequest,
 ) => effect.Effect<
   DescribeBundleTasksResult,
-  CommonErrors,
+  InvalidBundleIDNotFound | InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeBundleTasksRequest,
   output: DescribeBundleTasksResult,
-  errors: [],
+  errors: [InvalidBundleIDNotFound, InvalidInstanceIDMalformed],
 }));
 /**
  * Describes the IP address ranges that were provisioned for use with Amazon Web Services resources
@@ -73912,12 +74000,12 @@ export const describePlacementGroups: (
   input: DescribePlacementGroupsRequest,
 ) => effect.Effect<
   DescribePlacementGroupsResult,
-  CommonErrors,
+  InvalidPlacementGroupUnknown | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribePlacementGroupsRequest,
   output: DescribePlacementGroupsResult,
-  errors: [],
+  errors: [InvalidPlacementGroupUnknown],
 }));
 /**
  * Describes a root volume replacement task. For more information, see
@@ -74218,12 +74306,12 @@ export const describeSnapshotAttribute: (
   input: DescribeSnapshotAttributeRequest,
 ) => effect.Effect<
   DescribeSnapshotAttributeResult,
-  InvalidSnapshotNotFound | CommonErrors,
+  InvalidParameterValue | InvalidSnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSnapshotAttributeRequest,
   output: DescribeSnapshotAttributeResult,
-  errors: [InvalidSnapshotNotFound],
+  errors: [InvalidParameterValue, InvalidSnapshotNotFound],
 }));
 /**
  * Describes the specified EBS snapshots available to you or all of the EBS snapshots
@@ -74313,12 +74401,12 @@ export const describeSpotDatafeedSubscription: (
   input: DescribeSpotDatafeedSubscriptionRequest,
 ) => effect.Effect<
   DescribeSpotDatafeedSubscriptionResult,
-  CommonErrors,
+  InvalidSpotDatafeedNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpotDatafeedSubscriptionRequest,
   output: DescribeSpotDatafeedSubscriptionResult,
-  errors: [],
+  errors: [InvalidSpotDatafeedNotFound],
 }));
 /**
  * Describes the running instances for the specified Spot Fleet.
@@ -75014,12 +75102,12 @@ export const describeVolumeAttribute: (
   input: DescribeVolumeAttributeRequest,
 ) => effect.Effect<
   DescribeVolumeAttributeResult,
-  CommonErrors,
+  InvalidParameterValue | InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeVolumeAttributeRequest,
   output: DescribeVolumeAttributeResult,
-  errors: [],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound],
 }));
 /**
  * Describes the specified EBS volumes or all of your EBS volumes.
@@ -75041,27 +75129,27 @@ export const describeVolumes: {
     input: DescribeVolumesRequest,
   ): effect.Effect<
     DescribeVolumesResult,
-    InvalidVolumeNotFound | ParseError | CommonErrors,
+    InvalidParameterValue | InvalidVolumeNotFound | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
     DescribeVolumesResult,
-    InvalidVolumeNotFound | ParseError | CommonErrors,
+    InvalidParameterValue | InvalidVolumeNotFound | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeVolumesRequest,
   ) => stream.Stream<
     Volume,
-    InvalidVolumeNotFound | ParseError | CommonErrors,
+    InvalidParameterValue | InvalidVolumeNotFound | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeVolumesRequest,
   output: DescribeVolumesResult,
-  errors: [InvalidVolumeNotFound, ParseError],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound, ParseError],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -76363,12 +76451,12 @@ export const getConsoleOutput: (
   input: GetConsoleOutputRequest,
 ) => effect.Effect<
   GetConsoleOutputResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDMalformed | InvalidInstanceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConsoleOutputRequest,
   output: GetConsoleOutputResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDMalformed, InvalidInstanceIDNotFound],
 }));
 /**
  * Retrieve a JPG-format screenshot of a running instance to help with
@@ -76382,12 +76470,12 @@ export const getConsoleScreenshot: (
   input: GetConsoleScreenshotRequest,
 ) => effect.Effect<
   GetConsoleScreenshotResult,
-  CommonErrors,
+  InvalidInstanceIDMalformed | InvalidInstanceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConsoleScreenshotRequest,
   output: GetConsoleScreenshotResult,
-  errors: [],
+  errors: [InvalidInstanceIDMalformed, InvalidInstanceIDNotFound],
 }));
 /**
  * Describes the default KMS key for EBS encryption by default for your account in this Region.
@@ -76596,12 +76684,12 @@ export const getPasswordData: (
   input: GetPasswordDataRequest,
 ) => effect.Effect<
   GetPasswordDataResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDMalformed | InvalidInstanceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPasswordDataRequest,
   output: GetPasswordDataResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDMalformed, InvalidInstanceIDNotFound],
 }));
 /**
  * Gets information about the associations for the specified route server.
@@ -77364,6 +77452,7 @@ export const modifyNetworkInterfaceAttribute: (
   ModifyNetworkInterfaceAttributeResponse,
   | InvalidNetworkInterfaceIDNotFound
   | InvalidNetworkInterfaceIdMalformed
+  | InvalidParameterCombination
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -77372,6 +77461,7 @@ export const modifyNetworkInterfaceAttribute: (
   errors: [
     InvalidNetworkInterfaceIDNotFound,
     InvalidNetworkInterfaceIdMalformed,
+    InvalidParameterCombination,
   ],
 }));
 /**
@@ -77590,12 +77680,12 @@ export const modifyVolume: (
   input: ModifyVolumeRequest,
 ) => effect.Effect<
   ModifyVolumeResult,
-  InvalidVolumeNotFound | CommonErrors,
+  InvalidParameterValue | InvalidVolumeNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyVolumeRequest,
   output: ModifyVolumeResult,
-  errors: [InvalidVolumeNotFound],
+  errors: [InvalidParameterValue, InvalidVolumeNotFound],
 }));
 /**
  * Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
@@ -78094,12 +78184,12 @@ export const releaseHosts: (
   input: ReleaseHostsRequest,
 ) => effect.Effect<
   ReleaseHostsResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseHostsRequest,
   output: ReleaseHostsResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Release an allocation within an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. You can only use this action to release manual allocations. To remove an allocation for a resource without deleting the resource, set its monitored state to false using ModifyIpamResourceCidr. For more information, see Release an allocation in the *Amazon VPC IPAM User Guide*.
@@ -78601,12 +78691,19 @@ export const stopInstances: (
   input: StopInstancesRequest,
 ) => effect.Effect<
   StopInstancesResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  | InvalidInstanceIDMalformed
+  | InvalidInstanceIDNotFound
+  | InvalidParameterCombination
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopInstancesRequest,
   output: StopInstancesResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [
+    InvalidInstanceIDMalformed,
+    InvalidInstanceIDNotFound,
+    InvalidParameterCombination,
+  ],
 }));
 /**
  * Terminates (deletes) the specified instances. This operation is idempotent; if you
@@ -78687,12 +78784,19 @@ export const terminateInstances: (
   input: TerminateInstancesRequest,
 ) => effect.Effect<
   TerminateInstancesResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  | InvalidInstanceIDMalformed
+  | InvalidInstanceIDNotFound
+  | InvalidParameterCombination
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TerminateInstancesRequest,
   output: TerminateInstancesResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [
+    InvalidInstanceIDMalformed,
+    InvalidInstanceIDNotFound,
+    InvalidParameterCombination,
+  ],
 }));
 /**
  * Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network
@@ -78758,12 +78862,12 @@ export const unmonitorInstances: (
   input: UnmonitorInstancesRequest,
 ) => effect.Effect<
   UnmonitorInstancesResult,
-  CommonErrors,
+  InvalidInstanceIDMalformed | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnmonitorInstancesRequest,
   output: UnmonitorInstancesResult,
-  errors: [],
+  errors: [InvalidInstanceIDMalformed, MissingParameter],
 }));
 /**
  * Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate
@@ -78933,12 +79037,17 @@ export const assignPrivateIpAddresses: (
   input: AssignPrivateIpAddressesRequest,
 ) => effect.Effect<
   AssignPrivateIpAddressesResult,
-  InvalidNetworkInterfaceIDNotFound | CommonErrors,
+  | InvalidNetworkInterfaceIDNotFound
+  | InvalidNetworkInterfaceIdMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssignPrivateIpAddressesRequest,
   output: AssignPrivateIpAddressesResult,
-  errors: [InvalidNetworkInterfaceIDNotFound],
+  errors: [
+    InvalidNetworkInterfaceIDNotFound,
+    InvalidNetworkInterfaceIdMalformed,
+  ],
 }));
 /**
  * Assigns private IPv4 addresses to a private NAT gateway. For more information, see
@@ -79182,12 +79291,14 @@ export const cancelSpotInstanceRequests: (
   input: CancelSpotInstanceRequestsRequest,
 ) => effect.Effect<
   CancelSpotInstanceRequestsResult,
-  CommonErrors,
+  | InvalidParameterCombination
+  | InvalidSpotInstanceRequestIDMalformed
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSpotInstanceRequestsRequest,
   output: CancelSpotInstanceRequestsResult,
-  errors: [],
+  errors: [InvalidParameterCombination, InvalidSpotInstanceRequestIDMalformed],
 }));
 /**
  * Creates a Capacity Reservation Fleet. For more information, see Create a
@@ -79807,12 +79918,12 @@ export const createPlacementGroup: (
   input: CreatePlacementGroupRequest,
 ) => effect.Effect<
   CreatePlacementGroupResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlacementGroupRequest,
   output: CreatePlacementGroupResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Replaces the EBS-backed root volume for a `running` instance with a new
@@ -80288,12 +80399,12 @@ export const createVolume: (
   input: CreateVolumeRequest,
 ) => effect.Effect<
   Volume,
-  CommonErrors,
+  InvalidZoneNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
   output: Volume,
-  errors: [],
+  errors: [InvalidZoneNotFound],
 }));
 /**
  * Creates a VPC with the specified CIDR blocks.
@@ -80555,12 +80666,12 @@ export const deregisterImage: (
   input: DeregisterImageRequest,
 ) => effect.Effect<
   DeregisterImageResult,
-  InvalidAMIIDNotFound | CommonErrors,
+  InvalidAMIIDMalformed | InvalidAMIIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeregisterImageRequest,
   output: DeregisterImageResult,
-  errors: [InvalidAMIIDNotFound],
+  errors: [InvalidAMIIDMalformed, InvalidAMIIDNotFound],
 }));
 /**
  * Deregisters tag keys to prevent tags that have the specified tag keys from being
@@ -81297,12 +81408,12 @@ export const describeImageAttribute: (
   input: DescribeImageAttributeRequest,
 ) => effect.Effect<
   ImageAttribute,
-  CommonErrors,
+  InvalidAMIIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeImageAttributeRequest,
   output: ImageAttribute,
-  errors: [],
+  errors: [InvalidAMIIDMalformed],
 }));
 /**
  * Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the
@@ -81966,12 +82077,12 @@ export const describeRegions: (
   input: DescribeRegionsRequest,
 ) => effect.Effect<
   DescribeRegionsResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeRegionsRequest,
   output: DescribeRegionsResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
@@ -81995,27 +82106,44 @@ export const describeSecurityGroups: {
     input: DescribeSecurityGroupsRequest,
   ): effect.Effect<
     DescribeSecurityGroupsResult,
-    InvalidGroupNotFound | InvalidGroupIdMalformed | ParseError | CommonErrors,
+    | InvalidGroupNotFound
+    | InvalidGroupIdMalformed
+    | ParseError
+    | VPCIdNotSpecified
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSecurityGroupsRequest,
   ) => stream.Stream<
     DescribeSecurityGroupsResult,
-    InvalidGroupNotFound | InvalidGroupIdMalformed | ParseError | CommonErrors,
+    | InvalidGroupNotFound
+    | InvalidGroupIdMalformed
+    | ParseError
+    | VPCIdNotSpecified
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSecurityGroupsRequest,
   ) => stream.Stream<
     SecurityGroup,
-    InvalidGroupNotFound | InvalidGroupIdMalformed | ParseError | CommonErrors,
+    | InvalidGroupNotFound
+    | InvalidGroupIdMalformed
+    | ParseError
+    | VPCIdNotSpecified
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeSecurityGroupsRequest,
   output: DescribeSecurityGroupsResult,
-  errors: [InvalidGroupNotFound, InvalidGroupIdMalformed, ParseError],
+  errors: [
+    InvalidGroupNotFound,
+    InvalidGroupIdMalformed,
+    ParseError,
+    VPCIdNotSpecified,
+  ],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -82142,27 +82270,27 @@ export const describeSpotFleetRequests: {
     input: DescribeSpotFleetRequestsRequest,
   ): effect.Effect<
     DescribeSpotFleetRequestsResponse,
-    ParseError | CommonErrors,
+    InvalidParameterValue | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeSpotFleetRequestsRequest,
   ) => stream.Stream<
     DescribeSpotFleetRequestsResponse,
-    ParseError | CommonErrors,
+    InvalidParameterValue | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeSpotFleetRequestsRequest,
   ) => stream.Stream<
     SpotFleetRequestConfig,
-    ParseError | CommonErrors,
+    InvalidParameterValue | ParseError | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeSpotFleetRequestsRequest,
   output: DescribeSpotFleetRequestsResponse,
-  errors: [ParseError],
+  errors: [InvalidParameterValue, ParseError],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -83624,12 +83752,12 @@ export const modifyImageAttribute: (
   input: ModifyImageAttributeRequest,
 ) => effect.Effect<
   ModifyImageAttributeResponse,
-  InvalidAMIIDNotFound | CommonErrors,
+  InvalidAMIIDMalformed | InvalidAMIIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyImageAttributeRequest,
   output: ModifyImageAttributeResponse,
-  errors: [InvalidAMIIDNotFound],
+  errors: [InvalidAMIIDMalformed, InvalidAMIIDNotFound],
 }));
 /**
  * Modifies the specified attribute of the specified instance. You can specify only one
@@ -83649,12 +83777,12 @@ export const modifyInstanceAttribute: (
   input: ModifyInstanceAttributeRequest,
 ) => effect.Effect<
   ModifyInstanceAttributeResponse,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceAttributeRequest,
   output: ModifyInstanceAttributeResponse,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, InvalidParameterValue],
 }));
 /**
  * Modifies the start time for a scheduled Amazon EC2 instance event.
@@ -83791,12 +83919,12 @@ export const modifySnapshotAttribute: (
   input: ModifySnapshotAttributeRequest,
 ) => effect.Effect<
   ModifySnapshotAttributeResponse,
-  InvalidSnapshotNotFound | CommonErrors,
+  InvalidParameterCombination | InvalidSnapshotNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifySnapshotAttributeRequest,
   output: ModifySnapshotAttributeResponse,
-  errors: [InvalidSnapshotNotFound],
+  errors: [InvalidParameterCombination, InvalidSnapshotNotFound],
 }));
 /**
  * Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
@@ -84163,12 +84291,12 @@ export const startInstances: (
   input: StartInstancesRequest,
 ) => effect.Effect<
   StartInstancesResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | InvalidParameterCombination | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartInstancesRequest,
   output: StartInstancesResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, InvalidParameterCombination],
 }));
 /**
  * Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
@@ -84307,12 +84435,12 @@ export const attachNetworkInterface: (
   input: AttachNetworkInterfaceRequest,
 ) => effect.Effect<
   AttachNetworkInterfaceResult,
-  InvalidNetworkInterfaceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | InvalidNetworkInterfaceIDNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachNetworkInterfaceRequest,
   output: AttachNetworkInterfaceResult,
-  errors: [InvalidNetworkInterfaceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, InvalidNetworkInterfaceIDNotFound],
 }));
 /**
  * Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
@@ -84406,12 +84534,12 @@ export const bundleInstance: (
   input: BundleInstanceRequest,
 ) => effect.Effect<
   BundleInstanceResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BundleInstanceRequest,
   output: BundleInstanceResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Cancels a bundling operation for an instance store-backed Windows instance.
@@ -84420,12 +84548,12 @@ export const cancelBundleTask: (
   input: CancelBundleTaskRequest,
 ) => effect.Effect<
   CancelBundleTaskResult,
-  CommonErrors,
+  InvalidInstanceIDMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelBundleTaskRequest,
   output: CancelBundleTaskResult,
-  errors: [],
+  errors: [InvalidInstanceIDMalformed],
 }));
 /**
  * Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity
@@ -84500,12 +84628,12 @@ export const cancelSpotFleetRequests: (
   input: CancelSpotFleetRequestsRequest,
 ) => effect.Effect<
   CancelSpotFleetRequestsResponse,
-  CommonErrors,
+  InvalidParameterValue | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSpotFleetRequestsRequest,
   output: CancelSpotFleetRequestsResponse,
-  errors: [],
+  errors: [InvalidParameterValue, MissingParameter],
 }));
 /**
  * Creates a new Capacity Reservation with the specified attributes. Capacity
@@ -84634,12 +84762,12 @@ export const createImage: (
   input: CreateImageRequest,
 ) => effect.Effect<
   CreateImageResult,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateImageRequest,
   output: CreateImageResult,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, InvalidParameterValue],
 }));
 /**
  * Creates a report that shows how your image is used across other Amazon Web Services accounts. The report
@@ -84779,12 +84907,12 @@ export const createNetworkInterfacePermission: (
   input: CreateNetworkInterfacePermissionRequest,
 ) => effect.Effect<
   CreateNetworkInterfacePermissionResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNetworkInterfacePermissionRequest,
   output: CreateNetworkInterfacePermissionResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet.
@@ -84842,12 +84970,12 @@ export const createSpotDatafeedSubscription: (
   input: CreateSpotDatafeedSubscriptionRequest,
 ) => effect.Effect<
   CreateSpotDatafeedSubscriptionResult,
-  CommonErrors,
+  InaccessibleStorageLocation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpotDatafeedSubscriptionRequest,
   output: CreateSpotDatafeedSubscriptionResult,
-  errors: [],
+  errors: [InaccessibleStorageLocation],
 }));
 /**
  * Creates an entry in a transit gateway metering policy to define traffic measurement rules.
@@ -85263,12 +85391,12 @@ export const describeAvailabilityZones: (
   input: DescribeAvailabilityZonesRequest,
 ) => effect.Effect<
   DescribeAvailabilityZonesResult,
-  ParseError | CommonErrors,
+  InvalidParameterValue | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeAvailabilityZonesRequest,
   output: DescribeAvailabilityZonesResult,
-  errors: [ParseError],
+  errors: [InvalidParameterValue, ParseError],
 }));
 /**
  * Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
@@ -85726,12 +85854,12 @@ export const describeInstanceAttribute: (
   input: DescribeInstanceAttributeRequest,
 ) => effect.Effect<
   InstanceAttribute,
-  InvalidInstanceIDNotFound | CommonErrors,
+  InvalidInstanceIDNotFound | InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeInstanceAttributeRequest,
   output: InstanceAttribute,
-  errors: [InvalidInstanceIDNotFound],
+  errors: [InvalidInstanceIDNotFound, InvalidParameterValue],
 }));
 /**
  * Describes the specified event windows or all event windows.
@@ -86793,12 +86921,12 @@ export const monitorInstances: (
   input: MonitorInstancesRequest,
 ) => effect.Effect<
   MonitorInstancesResult,
-  CommonErrors,
+  InvalidParameterValue | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MonitorInstancesRequest,
   output: MonitorInstancesResult,
-  errors: [],
+  errors: [InvalidParameterValue, MissingParameter],
 }));
 /**
  * Sets or replaces the criteria for Allowed AMIs.
@@ -86838,12 +86966,12 @@ export const requestSpotInstances: (
   input: RequestSpotInstancesRequest,
 ) => effect.Effect<
   RequestSpotInstancesResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestSpotInstancesRequest,
   output: RequestSpotInstancesResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Launches the specified number of instances using an AMI for which you have
@@ -86901,12 +87029,21 @@ export const runInstances: (
   input: RunInstancesRequest,
 ) => effect.Effect<
   Reservation,
-  InvalidAMIIDNotFound | ParseError | CommonErrors,
+  | InvalidAMIIDMalformed
+  | InvalidAMIIDNotFound
+  | MissingParameter
+  | ParseError
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunInstancesRequest,
   output: Reservation,
-  errors: [InvalidAMIIDNotFound, ParseError],
+  errors: [
+    InvalidAMIIDMalformed,
+    InvalidAMIIDNotFound,
+    MissingParameter,
+    ParseError,
+  ],
 }));
 /**
  * Accept a VPC peering connection request. To accept a request, the VPC peering connection must
@@ -87118,27 +87255,27 @@ export const describeHosts: {
     input: DescribeHostsRequest,
   ): effect.Effect<
     DescribeHostsResult,
-    CommonErrors,
+    InvalidHostIDMalformed | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeHostsRequest,
   ) => stream.Stream<
     DescribeHostsResult,
-    CommonErrors,
+    InvalidHostIDMalformed | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeHostsRequest,
   ) => stream.Stream<
     Host,
-    CommonErrors,
+    InvalidHostIDMalformed | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeHostsRequest,
   output: DescribeHostsResult,
-  errors: [],
+  errors: [InvalidHostIDMalformed],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -87374,13 +87511,18 @@ export const describeNetworkInterfaceAttribute: (
 ) => effect.Effect<
   DescribeNetworkInterfaceAttributeResult,
   | InvalidNetworkInterfaceIDNotFound
+  | InvalidNetworkInterfaceIdMalformed
   | InvalidParameterCombination
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeNetworkInterfaceAttributeRequest,
   output: DescribeNetworkInterfaceAttributeResult,
-  errors: [InvalidNetworkInterfaceIDNotFound, InvalidParameterCombination],
+  errors: [
+    InvalidNetworkInterfaceIDNotFound,
+    InvalidNetworkInterfaceIdMalformed,
+    InvalidParameterCombination,
+  ],
 }));
 /**
  * Finds available schedules that meet the specified criteria.
@@ -88049,27 +88191,36 @@ export const describeInstances: {
     input: DescribeInstancesRequest,
   ): effect.Effect<
     DescribeInstancesResult,
-    InvalidInstanceIDNotFound | ParseError | CommonErrors,
+    | InvalidInstanceIDMalformed
+    | InvalidInstanceIDNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeInstancesRequest,
   ) => stream.Stream<
     DescribeInstancesResult,
-    InvalidInstanceIDNotFound | ParseError | CommonErrors,
+    | InvalidInstanceIDMalformed
+    | InvalidInstanceIDNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeInstancesRequest,
   ) => stream.Stream<
     Reservation,
-    InvalidInstanceIDNotFound | ParseError | CommonErrors,
+    | InvalidInstanceIDMalformed
+    | InvalidInstanceIDNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeInstancesRequest,
   output: DescribeInstancesResult,
-  errors: [InvalidInstanceIDNotFound, ParseError],
+  errors: [InvalidInstanceIDMalformed, InvalidInstanceIDNotFound, ParseError],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
