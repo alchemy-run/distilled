@@ -7,9 +7,11 @@ import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
 
+import { recordMissingError } from "../debug/error-recorder.ts";
 import { makeDefault, Retry } from "../retry.ts";
 import { makeEndpointResolver } from "../rules-engine/endpoint-resolver.ts";
-import { getAwsAuthSigv4, getPath } from "../traits.ts";
+import { getAwsApiService, getAwsAuthSigv4, getPath } from "../traits.ts";
+import { getIdentifier } from "../util/ast.ts";
 import type { Operation } from "./operation.ts";
 import { makeRequestBuilder } from "./request-builder.ts";
 import {
@@ -40,11 +42,20 @@ export const make = <Op extends Operation>(
     // Create rules resolver (if rule set available)
     const resolveEndpoint = makeEndpointResolver(op);
 
+    // Extract metadata for error recording (DISTILLED_AWS_DEBUG)
+    const serviceSdkId = getAwsApiService(inputAst)?.sdkId;
+    const operationName = getIdentifier(inputAst)?.replace(
+      /(?:Request|Input)$/,
+      "",
+    );
+
     return {
       buildRequest,
       parseResponse,
       sigv4,
       resolveEndpoint,
+      serviceSdkId,
+      operationName,
     };
   };
 
@@ -54,6 +65,8 @@ export const make = <Op extends Operation>(
       parseResponse,
       sigv4,
       resolveEndpoint: rulesResolver,
+      serviceSdkId,
+      operationName,
     } = (_init ??= init()) as ReturnType<typeof init>;
     yield* Effect.logDebug("Payload", payload);
 
@@ -223,7 +236,14 @@ export const make = <Op extends Operation>(
       statusText: "OK",
       headers: responseHeaders,
       body: responseBody,
-    });
+    }).pipe(
+      // Auto-record unknown errors when DISTILLED_AWS_DEBUG=1
+      Effect.tapError((error: { _tag?: string; errorTag?: string }) =>
+        error._tag === "UnknownAwsError" && serviceSdkId && operationName
+          ? recordMissingError(serviceSdkId, operationName, error.errorTag!)
+          : Effect.void,
+      ),
+    );
 
     yield* Effect.logDebug("Parsed Response", parsed);
 

@@ -11842,6 +11842,10 @@ export class NoSuchLifecycleConfiguration extends S.TaggedError<NoSuchLifecycleC
   "NoSuchLifecycleConfiguration",
   {},
 ) {}
+export class OwnershipControlsNotFoundError extends S.TaggedError<OwnershipControlsNotFoundError>()(
+  "OwnershipControlsNotFoundError",
+  {},
+) {}
 export class NoSuchBucketPolicy extends S.TaggedError<NoSuchBucketPolicy>()(
   "NoSuchBucketPolicy",
   {},
@@ -11860,6 +11864,10 @@ export class NoSuchWebsiteConfiguration extends S.TaggedError<NoSuchWebsiteConfi
 ) {}
 export class ObjectLockConfigurationNotFoundError extends S.TaggedError<ObjectLockConfigurationNotFoundError>()(
   "ObjectLockConfigurationNotFoundError",
+  {},
+) {}
+export class NoSuchPublicAccessBlockConfiguration extends S.TaggedError<NoSuchPublicAccessBlockConfiguration>()(
+  "NoSuchPublicAccessBlockConfiguration",
   {},
 ) {}
 export class NotFound extends S.TaggedError<NotFound>()("NotFound", {}) {}
@@ -13675,12 +13683,12 @@ export const getBucketOwnershipControls: (
   input: GetBucketOwnershipControlsRequest,
 ) => effect.Effect<
   GetBucketOwnershipControlsOutput,
-  NoSuchBucket | CommonErrors,
+  NoSuchBucket | OwnershipControlsNotFoundError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketOwnershipControlsRequest,
   output: GetBucketOwnershipControlsOutput,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, OwnershipControlsNotFoundError],
 }));
 /**
  * Returns the policy of a specified bucket.
@@ -14142,12 +14150,19 @@ export const getPublicAccessBlock: (
   input: GetPublicAccessBlockRequest,
 ) => effect.Effect<
   GetPublicAccessBlockOutput,
-  NoSuchBucket | PermanentRedirect | CommonErrors,
+  | NoSuchBucket
+  | NoSuchPublicAccessBlockConfiguration
+  | PermanentRedirect
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicAccessBlockRequest,
   output: GetPublicAccessBlockOutput,
-  errors: [NoSuchBucket, PermanentRedirect],
+  errors: [
+    NoSuchBucket,
+    NoSuchPublicAccessBlockConfiguration,
+    PermanentRedirect,
+  ],
 }));
 /**
  * You can use this operation to determine if a bucket exists and if you have permission to access it.

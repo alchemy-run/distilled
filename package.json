@@ -12,7 +12,7 @@
     "lib"
   ],
   "scripts": {
-    "aws:clean": "bun run scripts/aws-clean.ts",
+    "aws:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/aws-clean.ts",
     "build:clean": "bun run install:clean && bun run build",
     "bump": "bun run ./scripts/bump.ts",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
@@ -22,7 +22,7 @@
     "format": "bun oxfmt ./scripts ./src ./test",
     "generate": "bun run scripts/generate-clients.ts",
     "install:clean": "bun run clean && bun install",
-    "localstack:clean": "bun run scripts/localstack-clean.ts",
+    "localstack:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/localstack-clean.ts",
     "setup": "bun run scripts/setup.ts",
     "symlink": "bun run scripts/symlink.ts",
     "test": "bun vitest run ./test"

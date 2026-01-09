@@ -21,5 +21,9 @@ export default defineConfig({
     },
     // Use forks pool for better isolation with concurrent tests
     pool: "threads",
+    // Enable auto-recording of unknown AWS errors to spec files
+    env: {
+      DISTILLED_AWS_DEBUG: "1",
+    },
   },
 });
