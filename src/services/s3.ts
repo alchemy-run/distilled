@@ -3407,8 +3407,11 @@ export const AbortMultipartUploadRequest = S.suspend(() =>
 ).annotations({
   identifier: "AbortMultipartUploadRequest",
 }) as any as S.Schema<AbortMultipartUploadRequest>;
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateMultipartUploadRequest {
   ACL?: ObjectCannedACL;
   Bucket: string;
@@ -3423,7 +3426,7 @@ export interface CreateMultipartUploadRequest {
   GrantReadACP?: string;
   GrantWriteACP?: string;
   Key: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   ServerSideEncryption?: ServerSideEncryption;
   StorageClass?: StorageClass;
   WebsiteRedirectLocation?: string;
@@ -5708,7 +5711,7 @@ export interface PutObjectRequest {
   GrantWriteACP?: string;
   Key: string;
   WriteOffsetBytes?: number;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   ServerSideEncryption?: ServerSideEncryption;
   StorageClass?: StorageClass;
   WebsiteRedirectLocation?: string;
@@ -6291,7 +6294,7 @@ export interface WriteGetObjectResponseRequest {
   Expiration?: string;
   LastModified?: Date;
   MissingMeta?: number;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   ObjectLockMode?: ObjectLockMode;
   ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
   ObjectLockRetainUntilDate?: Date;
@@ -7099,7 +7102,7 @@ export interface CopyObjectRequest {
   IfMatch?: string;
   IfNoneMatch?: string;
   Key: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   MetadataDirective?: MetadataDirective;
   TaggingDirective?: TaggingDirective;
   ServerSideEncryption?: ServerSideEncryption;
@@ -8157,7 +8160,7 @@ export interface GetObjectOutput {
   Expires?: string;
   WebsiteRedirectLocation?: string;
   ServerSideEncryption?: ServerSideEncryption;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
   SSEKMSKeyId?: string | redacted.Redacted<string>;
@@ -8437,7 +8440,7 @@ export interface HeadObjectOutput {
   Expires?: string;
   WebsiteRedirectLocation?: string;
   ServerSideEncryption?: ServerSideEncryption;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
   SSEKMSKeyId?: string | redacted.Redacted<string>;

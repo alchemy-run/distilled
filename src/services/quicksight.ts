@@ -15164,10 +15164,10 @@ export const PhysicalTable = S.Union(
   S.Struct({ S3Source: S3Source }),
   S.Struct({ SaaSTable: SaaSTable }),
 );
-export type PhysicalTableMap = { [key: string]: PhysicalTable };
+export type PhysicalTableMap = { [key: string]: PhysicalTable | undefined };
 export const PhysicalTableMap = S.Record({
   key: S.String,
-  value: PhysicalTable,
+  value: S.UndefinedOr(PhysicalTable),
 });
 export interface DataSetColumnIdMapping {
   SourceColumnId: string;
@@ -15746,8 +15746,11 @@ export const LogicalTable = S.suspend(() =>
     Source: LogicalTableSource,
   }),
 ).annotations({ identifier: "LogicalTable" }) as any as S.Schema<LogicalTable>;
-export type LogicalTableMap = { [key: string]: LogicalTable };
-export const LogicalTableMap = S.Record({ key: S.String, value: LogicalTable });
+export type LogicalTableMap = { [key: string]: LogicalTable | undefined };
+export const LogicalTableMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(LogicalTable),
+});
 export type GeoSpatialCountryCode = "US";
 export const GeoSpatialCountryCode = S.Literal("US");
 export type ColumnList = string[];
@@ -15786,8 +15789,11 @@ export const FieldFolder = S.suspend(() =>
     columns: S.optional(FolderColumnList),
   }),
 ).annotations({ identifier: "FieldFolder" }) as any as S.Schema<FieldFolder>;
-export type FieldFolderMap = { [key: string]: FieldFolder };
-export const FieldFolderMap = S.Record({ key: S.String, value: FieldFolder });
+export type FieldFolderMap = { [key: string]: FieldFolder | undefined };
+export const FieldFolderMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FieldFolder),
+});
 export type RowLevelPermissionPolicy = "GRANT_ACCESS" | "DENY_ACCESS";
 export const RowLevelPermissionPolicy = S.Literal(
   "GRANT_ACCESS",
@@ -16046,8 +16052,11 @@ export const SourceTable = S.suspend(() =>
     DataSet: S.optional(ParentDataSet),
   }),
 ).annotations({ identifier: "SourceTable" }) as any as S.Schema<SourceTable>;
-export type SourceTableMap = { [key: string]: SourceTable };
-export const SourceTableMap = S.Record({ key: S.String, value: SourceTable });
+export type SourceTableMap = { [key: string]: SourceTable | undefined };
+export const SourceTableMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SourceTable),
+});
 export interface ImportTableOperationSource {
   SourceTableId: string;
   ColumnIdMappings?: DataSetColumnIdMapping[];
@@ -16395,10 +16404,10 @@ export const TransformStep = S.suspend(() =>
 ).annotations({
   identifier: "TransformStep",
 }) as any as S.Schema<TransformStep>;
-export type TransformStepMap = { [key: string]: TransformStep };
+export type TransformStepMap = { [key: string]: TransformStep | undefined };
 export const TransformStepMap = S.Record({
   key: S.String,
-  value: TransformStep,
+  value: S.UndefinedOr(TransformStep),
 });
 export interface DestinationTableSource {
   TransformOperationId: string;
@@ -16417,15 +16426,17 @@ export const DestinationTable = S.suspend(() =>
 ).annotations({
   identifier: "DestinationTable",
 }) as any as S.Schema<DestinationTable>;
-export type DestinationTableMap = { [key: string]: DestinationTable };
+export type DestinationTableMap = {
+  [key: string]: DestinationTable | undefined;
+};
 export const DestinationTableMap = S.Record({
   key: S.String,
-  value: DestinationTable,
+  value: S.UndefinedOr(DestinationTable),
 });
 export interface DataPrepConfiguration {
-  SourceTableMap: { [key: string]: SourceTable };
-  TransformStepMap: { [key: string]: TransformStep };
-  DestinationTableMap: { [key: string]: DestinationTable };
+  SourceTableMap: { [key: string]: SourceTable | undefined };
+  TransformStepMap: { [key: string]: TransformStep | undefined };
+  DestinationTableMap: { [key: string]: DestinationTable | undefined };
 }
 export const DataPrepConfiguration = S.suspend(() =>
   S.Struct({
@@ -16464,13 +16475,13 @@ export const SemanticTable = S.suspend(() =>
 ).annotations({
   identifier: "SemanticTable",
 }) as any as S.Schema<SemanticTable>;
-export type SemanticTableMap = { [key: string]: SemanticTable };
+export type SemanticTableMap = { [key: string]: SemanticTable | undefined };
 export const SemanticTableMap = S.Record({
   key: S.String,
-  value: SemanticTable,
+  value: S.UndefinedOr(SemanticTable),
 });
 export interface SemanticModelConfiguration {
-  TableMap?: { [key: string]: SemanticTable };
+  TableMap?: { [key: string]: SemanticTable | undefined };
 }
 export const SemanticModelConfiguration = S.suspend(() =>
   S.Struct({ TableMap: S.optional(SemanticTableMap) }),
@@ -16481,11 +16492,11 @@ export interface UpdateDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
   Name: string;
-  PhysicalTableMap: { [key: string]: PhysicalTable };
-  LogicalTableMap?: { [key: string]: LogicalTable };
+  PhysicalTableMap: { [key: string]: PhysicalTable | undefined };
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
   ImportMode: DataSetImportMode;
   ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder };
+  FieldFolders?: { [key: string]: FieldFolder | undefined };
   RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
   RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;
   ColumnLevelPermissionRules?: ColumnLevelPermissionRule[];
@@ -18356,15 +18367,18 @@ export const UpdateGroupRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateGroupRequest>;
 export type IdentityNameList = string[];
 export const IdentityNameList = S.Array(S.String);
-export type IdentityMap = { [key: string]: string[] };
-export const IdentityMap = S.Record({ key: S.String, value: IdentityNameList });
+export type IdentityMap = { [key: string]: string[] | undefined };
+export const IdentityMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(IdentityNameList),
+});
 export interface UpdateIAMPolicyAssignmentRequest {
   AwsAccountId: string;
   AssignmentName: string;
   Namespace: string;
   AssignmentStatus?: AssignmentStatus;
   PolicyArn?: string;
-  Identities?: { [key: string]: string[] };
+  Identities?: { [key: string]: string[] | undefined };
 }
 export const UpdateIAMPolicyAssignmentRequest = S.suspend(() =>
   S.Struct({
@@ -19544,12 +19558,15 @@ export const ComparativeOrder = S.suspend(() =>
 ).annotations({
   identifier: "ComparativeOrder",
 }) as any as S.Schema<ComparativeOrder>;
-export type TypeParameters = { [key: string]: string };
-export const TypeParameters = S.Record({ key: S.String, value: S.String });
+export type TypeParameters = { [key: string]: string | undefined };
+export const TypeParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SemanticType {
   TypeName?: string;
   SubTypeName?: string;
-  TypeParameters?: { [key: string]: string };
+  TypeParameters?: { [key: string]: string | undefined };
   TruthyCellValue?: string | redacted.Redacted<string>;
   TruthyCellValueSynonyms?: string | redacted.Redacted<string>[];
   FalseyCellValue?: string | redacted.Redacted<string>;
@@ -19768,7 +19785,7 @@ export const TopicCalculatedFields = S.Array(TopicCalculatedField);
 export interface SemanticEntityType {
   TypeName?: string;
   SubTypeName?: string;
-  TypeParameters?: { [key: string]: string };
+  TypeParameters?: { [key: string]: string | undefined };
 }
 export const SemanticEntityType = S.suspend(() =>
   S.Struct({
@@ -19812,14 +19829,16 @@ export const NamedEntityAggType = S.Literal(
   "MEDIAN",
   "CUSTOM",
 );
-export type AggregationFunctionParameters = { [key: string]: string };
+export type AggregationFunctionParameters = {
+  [key: string]: string | undefined;
+};
 export const AggregationFunctionParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface NamedEntityDefinitionMetric {
   Aggregation?: NamedEntityAggType;
-  AggregationFunctionParameters?: { [key: string]: string };
+  AggregationFunctionParameters?: { [key: string]: string | undefined };
 }
 export const NamedEntityDefinitionMetric = S.suspend(() =>
   S.Struct({
@@ -21060,20 +21079,22 @@ export const AssetBundleImportJobOverrideValidationStrategy = S.suspend(() =>
 export type UpdateFlowPermissionsInputGrantPermissionsList = Permission[];
 export const UpdateFlowPermissionsInputGrantPermissionsList =
   S.Array(Permission);
-export type IpRestrictionRuleMap = { [key: string]: string };
+export type IpRestrictionRuleMap = { [key: string]: string | undefined };
 export const IpRestrictionRuleMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type VpcIdRestrictionRuleMap = { [key: string]: string };
+export type VpcIdRestrictionRuleMap = { [key: string]: string | undefined };
 export const VpcIdRestrictionRuleMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type VpcEndpointIdRestrictionRuleMap = { [key: string]: string };
+export type VpcEndpointIdRestrictionRuleMap = {
+  [key: string]: string | undefined;
+};
 export const VpcEndpointIdRestrictionRuleMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RegisteredCustomerManagedKey {
   KeyArn?: string;
@@ -21328,7 +21349,7 @@ export interface CreateIAMPolicyAssignmentRequest {
   AssignmentName: string;
   AssignmentStatus: AssignmentStatus;
   PolicyArn?: string;
-  Identities?: { [key: string]: string[] };
+  Identities?: { [key: string]: string[] | undefined };
   Namespace: string;
 }
 export const CreateIAMPolicyAssignmentRequest = S.suspend(() =>
@@ -22317,9 +22338,9 @@ export const DescribeGroupMembershipResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeGroupMembershipResponse>;
 export interface DescribeIpRestrictionResponse {
   AwsAccountId?: string;
-  IpRestrictionRuleMap?: { [key: string]: string };
-  VpcIdRestrictionRuleMap?: { [key: string]: string };
-  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string };
+  IpRestrictionRuleMap?: { [key: string]: string | undefined };
+  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined };
+  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined };
   Enabled?: boolean;
   RequestId?: string;
   Status?: number;
@@ -23609,7 +23630,7 @@ export interface UpdateIAMPolicyAssignmentResponse {
   AssignmentName?: string;
   AssignmentId?: string;
   PolicyArn?: string;
-  Identities?: { [key: string]: string[] };
+  Identities?: { [key: string]: string[] | undefined };
   AssignmentStatus?: AssignmentStatus;
   RequestId?: string;
   Status?: number;
@@ -23641,9 +23662,9 @@ export const UpdateIdentityPropagationConfigResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateIdentityPropagationConfigResponse>;
 export interface UpdateIpRestrictionRequest {
   AwsAccountId: string;
-  IpRestrictionRuleMap?: { [key: string]: string };
-  VpcIdRestrictionRuleMap?: { [key: string]: string };
-  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string };
+  IpRestrictionRuleMap?: { [key: string]: string | undefined };
+  VpcIdRestrictionRuleMap?: { [key: string]: string | undefined };
+  VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined };
   Enabled?: boolean;
 }
 export const UpdateIpRestrictionRequest = S.suspend(() =>
@@ -24090,11 +24111,14 @@ export const AggType = S.Literal(
   "COLUMN",
   "CUSTOM",
 );
-export type AggFunctionParamMap = { [key: string]: string };
-export const AggFunctionParamMap = S.Record({ key: S.String, value: S.String });
+export type AggFunctionParamMap = { [key: string]: string | undefined };
+export const AggFunctionParamMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AggFunction {
   Aggregation?: AggType;
-  AggregationFunctionParameters?: { [key: string]: string };
+  AggregationFunctionParameters?: { [key: string]: string | undefined };
   Period?: TopicTimeGranularity;
   PeriodField?: string;
 }
@@ -24354,7 +24378,7 @@ export interface TopicIRFilterOption {
   Inverse?: boolean;
   NullFilter?: NullFilterOption;
   Aggregation?: AggType;
-  AggregationFunctionParameters?: { [key: string]: string };
+  AggregationFunctionParameters?: { [key: string]: string | undefined };
   AggregationPartitionBy?: AggregationPartitionBy[];
   Range?: TopicConstantValue;
   Inclusive?: boolean;
@@ -25304,7 +25328,7 @@ export interface IAMPolicyAssignment {
   AssignmentId?: string;
   AssignmentName?: string;
   PolicyArn?: string;
-  Identities?: { [key: string]: string[] };
+  Identities?: { [key: string]: string[] | undefined };
   AssignmentStatus?: AssignmentStatus;
 }
 export const IAMPolicyAssignment = S.suspend(() =>
@@ -26113,7 +26137,7 @@ export interface CreateIAMPolicyAssignmentResponse {
   AssignmentId?: string;
   AssignmentStatus?: AssignmentStatus;
   PolicyArn?: string;
-  Identities?: { [key: string]: string[] };
+  Identities?: { [key: string]: string[] | undefined };
   RequestId?: string;
   Status?: number;
 }
@@ -27007,11 +27031,11 @@ export const SearchDashboardsResponse = S.suspend(() =>
   identifier: "SearchDashboardsResponse",
 }) as any as S.Schema<SearchDashboardsResponse>;
 export type RowLevelPermissionDataSetMap = {
-  [key: string]: RowLevelPermissionDataSet;
+  [key: string]: RowLevelPermissionDataSet | undefined;
 };
 export const RowLevelPermissionDataSetMap = S.Record({
   key: S.String,
-  value: RowLevelPermissionDataSet,
+  value: S.UndefinedOr(RowLevelPermissionDataSet),
 });
 export interface DataSetSummary {
   Arn?: string;
@@ -27021,7 +27045,9 @@ export interface DataSetSummary {
   LastUpdatedTime?: Date;
   ImportMode?: DataSetImportMode;
   RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
-  RowLevelPermissionDataSetMap?: { [key: string]: RowLevelPermissionDataSet };
+  RowLevelPermissionDataSetMap?: {
+    [key: string]: RowLevelPermissionDataSet | undefined;
+  };
   RowLevelPermissionTagConfigurationApplied?: boolean;
   ColumnLevelPermissionRulesApplied?: boolean;
   UseAs?: DataSetUseAs;
@@ -27538,13 +27564,13 @@ export interface DataSet {
   Name?: string;
   CreatedTime?: Date;
   LastUpdatedTime?: Date;
-  PhysicalTableMap?: { [key: string]: PhysicalTable };
-  LogicalTableMap?: { [key: string]: LogicalTable };
+  PhysicalTableMap?: { [key: string]: PhysicalTable | undefined };
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
   OutputColumns?: OutputColumn[];
   ImportMode?: DataSetImportMode;
   ConsumedSpiceCapacityInBytes?: number;
   ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder };
+  FieldFolders?: { [key: string]: FieldFolder | undefined };
   RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
   RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;
   ColumnLevelPermissionRules?: ColumnLevelPermissionRule[];
@@ -29085,11 +29111,11 @@ export interface CreateDataSetRequest {
   AwsAccountId: string;
   DataSetId: string;
   Name: string;
-  PhysicalTableMap: { [key: string]: PhysicalTable };
-  LogicalTableMap?: { [key: string]: LogicalTable };
+  PhysicalTableMap: { [key: string]: PhysicalTable | undefined };
+  LogicalTableMap?: { [key: string]: LogicalTable | undefined };
   ImportMode: DataSetImportMode;
   ColumnGroups?: ColumnGroup[];
-  FieldFolders?: { [key: string]: FieldFolder };
+  FieldFolders?: { [key: string]: FieldFolder | undefined };
   Permissions?: ResourcePermission[];
   RowLevelPermissionDataSet?: RowLevelPermissionDataSet;
   RowLevelPermissionTagConfiguration?: RowLevelPermissionTagConfiguration;

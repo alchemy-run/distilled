@@ -254,10 +254,10 @@ export const GetDataAutomationStatusResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetDataAutomationStatusResponse",
 }) as any as S.Schema<GetDataAutomationStatusResponse>;
-export type EncryptionContextMap = { [key: string]: string };
+export type EncryptionContextMap = { [key: string]: string | undefined };
 export const EncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
@@ -269,7 +269,7 @@ export const EventBridgeConfiguration = S.suspend(() =>
 }) as any as S.Schema<EventBridgeConfiguration>;
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string };
+  kmsEncryptionContext?: { [key: string]: string | undefined };
 }
 export const EncryptionConfiguration = S.suspend(() =>
   S.Struct({

@@ -701,8 +701,11 @@ export const StopDbNodeInput = S.suspend(() =>
 ).annotations({
   identifier: "StopDbNodeInput",
 }) as any as S.Schema<StopDbNodeInput>;
-export type RequestTagMap = { [key: string]: string };
-export const RequestTagMap = S.Record({ key: S.String, value: S.String });
+export type RequestTagMap = { [key: string]: string | undefined };
+export const RequestTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateOdbNetworkInput {
   displayName: string;
   availabilityZone?: string;
@@ -720,7 +723,7 @@ export interface CreateOdbNetworkInput {
   stsPolicyDocument?: string;
   kmsPolicyDocument?: string;
   crossRegionS3RestoreSourcesToEnable?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateOdbNetworkInput = S.suspend(() =>
   S.Struct({
@@ -831,7 +834,7 @@ export interface CreateOdbPeeringConnectionInput {
   displayName?: string;
   peerNetworkCidrsToBeAdded?: string[];
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateOdbPeeringConnectionInput = S.suspend(() =>
   S.Struct({
@@ -1017,7 +1020,7 @@ export const GetOciOnboardingStatusOutput = S.suspend(() =>
 }) as any as S.Schema<GetOciOnboardingStatusOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -1035,7 +1038,7 @@ export interface CreateCloudExadataInfrastructureInput {
   shape: string;
   availabilityZone?: string;
   availabilityZoneId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   computeCount: number;
   customerContactsToSendToOCI?: CustomerContact[];
   maintenanceWindow?: MaintenanceWindow;
@@ -1093,7 +1096,7 @@ export interface CreateCloudVmClusterInput {
   dataStorageSizeInTBs?: number;
   dbNodeStorageSizeInGBs?: number;
   dbServers?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   isLocalBackupEnabled?: boolean;
   isSparseDiskgroupEnabled?: boolean;
   licenseModel?: LicenseModel;
@@ -1337,8 +1340,11 @@ export const SystemVersionSummary = S.suspend(() =>
 }) as any as S.Schema<SystemVersionSummary>;
 export type SystemVersionList = SystemVersionSummary[];
 export const SystemVersionList = S.Array(SystemVersionSummary);
-export type ResponseTagMap = { [key: string]: string };
-export const ResponseTagMap = S.Record({ key: S.String, value: S.String });
+export type ResponseTagMap = { [key: string]: string | undefined };
+export const ResponseTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CloudAutonomousVmCluster {
   cloudAutonomousVmClusterId: string;
   cloudAutonomousVmClusterArn?: string;
@@ -2470,7 +2476,7 @@ export const ListSystemVersionsOutput = S.suspend(() =>
   identifier: "ListSystemVersionsOutput",
 }) as any as S.Schema<ListSystemVersionsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -2492,7 +2498,7 @@ export interface CreateCloudAutonomousVmClusterInput {
   memoryPerOracleComputeUnitInGBs: number;
   scanListenerPortNonTls?: number;
   scanListenerPortTls?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   timeZone?: string;
   totalContainerDatabases: number;
 }

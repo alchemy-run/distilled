@@ -1085,8 +1085,11 @@ export const SuggesterStatus = S.suspend(() =>
 }) as any as S.Schema<SuggesterStatus>;
 export type SuggesterStatusList = SuggesterStatus[];
 export const SuggesterStatusList = S.Array(SuggesterStatus);
-export type DomainNameMap = { [key: string]: string };
-export const DomainNameMap = S.Record({ key: S.String, value: S.String });
+export type DomainNameMap = { [key: string]: string | undefined };
+export const DomainNameMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DomainEndpointOptions {
   EnforceHTTPS?: boolean;
   TLSSecurityPolicy?: TLSSecurityPolicy;
@@ -1197,7 +1200,7 @@ export const IndexDocumentsResponse = S.suspend(() =>
   identifier: "IndexDocumentsResponse",
 }) as any as S.Schema<IndexDocumentsResponse>;
 export interface ListDomainNamesResponse {
-  DomainNames?: { [key: string]: string };
+  DomainNames?: { [key: string]: string | undefined };
 }
 export const ListDomainNamesResponse = S.suspend(() =>
   S.Struct({ DomainNames: S.optional(DomainNameMap) }).pipe(ns),

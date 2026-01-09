@@ -2082,8 +2082,11 @@ export const InAppMessageContent = S.suspend(() =>
 }) as any as S.Schema<InAppMessageContent>;
 export type ListOfInAppMessageContent = InAppMessageContent[];
 export const ListOfInAppMessageContent = S.Array(InAppMessageContent);
-export type MapOf__string = { [key: string]: string };
-export const MapOf__string = S.Record({ key: S.String, value: S.String });
+export type MapOf__string = { [key: string]: string | undefined };
+export const MapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Layout =
   | "BOTTOM_BANNER"
   | "TOP_BANNER"
@@ -2102,7 +2105,7 @@ export const Layout = S.Literal(
 export interface CampaignInAppMessage {
   Body?: string;
   Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string };
+  CustomConfig?: { [key: string]: string | undefined };
   Layout?: Layout;
 }
 export const CampaignInAppMessage = S.suspend(() =>
@@ -2170,10 +2173,12 @@ export const AttributeDimension = S.suspend(() =>
 ).annotations({
   identifier: "AttributeDimension",
 }) as any as S.Schema<AttributeDimension>;
-export type MapOfAttributeDimension = { [key: string]: AttributeDimension };
+export type MapOfAttributeDimension = {
+  [key: string]: AttributeDimension | undefined;
+};
 export const MapOfAttributeDimension = S.Record({
   key: S.String,
-  value: AttributeDimension,
+  value: S.UndefinedOr(AttributeDimension),
 });
 export type DimensionType = "INCLUSIVE" | "EXCLUSIVE";
 export const DimensionType = S.Literal("INCLUSIVE", "EXCLUSIVE");
@@ -2199,15 +2204,17 @@ export const MetricDimension = S.suspend(() =>
 ).annotations({
   identifier: "MetricDimension",
 }) as any as S.Schema<MetricDimension>;
-export type MapOfMetricDimension = { [key: string]: MetricDimension };
+export type MapOfMetricDimension = {
+  [key: string]: MetricDimension | undefined;
+};
 export const MapOfMetricDimension = S.Record({
   key: S.String,
-  value: MetricDimension,
+  value: S.UndefinedOr(MetricDimension),
 });
 export interface EventDimensions {
-  Attributes?: { [key: string]: AttributeDimension };
+  Attributes?: { [key: string]: AttributeDimension | undefined };
   EventType?: SetDimension;
-  Metrics?: { [key: string]: MetricDimension };
+  Metrics?: { [key: string]: MetricDimension | undefined };
 }
 export const EventDimensions = S.suspend(() =>
   S.Struct({
@@ -2370,7 +2377,7 @@ export interface WriteCampaignRequest {
   Schedule?: Schedule;
   SegmentId?: string;
   SegmentVersion?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
   TreatmentName?: string;
@@ -2433,7 +2440,7 @@ export interface EmailTemplateRequest {
   RecommenderId?: string;
   Subject?: string;
   Headers?: MessageHeader[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TextPart?: string;
 }
@@ -2482,9 +2489,9 @@ export const UpdateEmailTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateEmailTemplateRequest>;
 export interface InAppTemplateRequest {
   Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string };
+  CustomConfig?: { [key: string]: string | undefined };
   Layout?: Layout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
 }
 export const InAppTemplateRequest = S.suspend(() =>
@@ -2653,12 +2660,12 @@ export const SegmentLocation = S.suspend(() =>
   identifier: "SegmentLocation",
 }) as any as S.Schema<SegmentLocation>;
 export interface SegmentDimensions {
-  Attributes?: { [key: string]: AttributeDimension };
+  Attributes?: { [key: string]: AttributeDimension | undefined };
   Behavior?: SegmentBehaviors;
   Demographic?: SegmentDemographics;
   Location?: SegmentLocation;
-  Metrics?: { [key: string]: MetricDimension };
-  UserAttributes?: { [key: string]: AttributeDimension };
+  Metrics?: { [key: string]: MetricDimension | undefined };
+  UserAttributes?: { [key: string]: AttributeDimension | undefined };
 }
 export const SegmentDimensions = S.suspend(() =>
   S.Struct({
@@ -2915,8 +2922,11 @@ export const Activity = S.suspend(() =>
     ContactCenter: S.optional(ContactCenterActivity),
   }),
 ).annotations({ identifier: "Activity" }) as any as S.Schema<Activity>;
-export type MapOfActivity = { [key: string]: Activity };
-export const MapOfActivity = S.Record({ key: S.String, value: Activity });
+export type MapOfActivity = { [key: string]: Activity | undefined };
+export const MapOfActivity = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Activity),
+});
 export interface JourneyTimeframeCap {
   Cap?: number;
   Days?: number;
@@ -3055,14 +3065,14 @@ export type MapOfListOfOpenHoursRules = {
   [key in DayOfWeek]?: OpenHoursRule[];
 };
 export const MapOfListOfOpenHoursRules = S.partial(
-  S.Record({ key: DayOfWeek, value: ListOfOpenHoursRules }),
+  S.Record({ key: DayOfWeek, value: S.UndefinedOr(ListOfOpenHoursRules) }),
 );
 export interface OpenHours {
-  EMAIL?: { [key: string]: OpenHoursRule[] };
-  SMS?: { [key: string]: OpenHoursRule[] };
-  PUSH?: { [key: string]: OpenHoursRule[] };
-  VOICE?: { [key: string]: OpenHoursRule[] };
-  CUSTOM?: { [key: string]: OpenHoursRule[] };
+  EMAIL?: { [key: string]: OpenHoursRule[] | undefined };
+  SMS?: { [key: string]: OpenHoursRule[] | undefined };
+  PUSH?: { [key: string]: OpenHoursRule[] | undefined };
+  VOICE?: { [key: string]: OpenHoursRule[] | undefined };
+  CUSTOM?: { [key: string]: OpenHoursRule[] | undefined };
 }
 export const OpenHours = S.suspend(() =>
   S.Struct({
@@ -3116,7 +3126,7 @@ export const ListOf__TimezoneEstimationMethodsElement = S.Array(
   __TimezoneEstimationMethodsElement,
 );
 export interface WriteJourneyRequest {
-  Activities?: { [key: string]: Activity };
+  Activities?: { [key: string]: Activity | undefined };
   CreationDate?: string;
   LastModifiedDate?: string;
   Limits?: JourneyLimits;
@@ -3265,7 +3275,7 @@ export interface PushNotificationTemplateRequest {
   DefaultSubstitutions?: string;
   GCM?: AndroidPushNotificationTemplate;
   RecommenderId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
 }
 export const PushNotificationTemplateRequest = S.suspend(() =>
@@ -3363,7 +3373,7 @@ export interface WriteSegmentRequest {
   Dimensions?: SegmentDimensions;
   Name?: string;
   SegmentGroups?: SegmentGroupList;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const WriteSegmentRequest = S.suspend(() =>
   S.Struct({
@@ -3407,7 +3417,7 @@ export interface SMSTemplateRequest {
   Body?: string;
   DefaultSubstitutions?: string;
   RecommenderId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
 }
 export const SMSTemplateRequest = S.suspend(() =>
@@ -3454,7 +3464,7 @@ export interface VoiceTemplateRequest {
   Body?: string;
   DefaultSubstitutions?: string;
   LanguageCode?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   VoiceId?: string;
 }
@@ -3571,7 +3581,7 @@ export const ImportJobRequest = S.suspend(() =>
   identifier: "ImportJobRequest",
 }) as any as S.Schema<ImportJobRequest>;
 export interface CreateRecommenderConfigurationShape {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Description?: string;
   Name?: string;
   RecommendationProviderIdType?: string;
@@ -3658,16 +3668,16 @@ export const SendOTPMessageRequestParameters = S.suspend(() =>
 ).annotations({
   identifier: "SendOTPMessageRequestParameters",
 }) as any as S.Schema<SendOTPMessageRequestParameters>;
-export type MapOfListOf__string = { [key: string]: string[] };
+export type MapOfListOf__string = { [key: string]: string[] | undefined };
 export const MapOfListOf__string = S.Record({
   key: S.String,
-  value: ListOf__string,
+  value: S.UndefinedOr(ListOf__string),
 });
 export interface ADMMessage {
   Action?: Action;
   Body?: string;
   ConsolidationKey?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   ExpiresAfter?: string;
   IconReference?: string;
   ImageIconUrl?: string;
@@ -3677,7 +3687,7 @@ export interface ADMMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   Title?: string;
   Url?: string;
 }
@@ -3708,14 +3718,14 @@ export interface APNSMessage {
   Body?: string;
   Category?: string;
   CollapseId?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   MediaUrl?: string;
   PreferredAuthenticationMethod?: string;
   Priority?: string;
   RawContent?: string;
   SilentPush?: boolean;
   Sound?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   ThreadId?: string;
   TimeToLive?: number;
   Title?: string;
@@ -3746,7 +3756,7 @@ export const APNSMessage = S.suspend(() =>
 export interface BaiduMessage {
   Action?: Action;
   Body?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   IconReference?: string;
   ImageIconUrl?: string;
   ImageUrl?: string;
@@ -3754,7 +3764,7 @@ export interface BaiduMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   TimeToLive?: number;
   Title?: string;
   Url?: string;
@@ -3779,7 +3789,7 @@ export const BaiduMessage = S.suspend(() =>
 ).annotations({ identifier: "BaiduMessage" }) as any as S.Schema<BaiduMessage>;
 export interface DefaultMessage {
   Body?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
 }
 export const DefaultMessage = S.suspend(() =>
   S.Struct({
@@ -3792,9 +3802,9 @@ export const DefaultMessage = S.suspend(() =>
 export interface DefaultPushNotificationMessage {
   Action?: Action;
   Body?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   SilentPush?: boolean;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   Title?: string;
   Url?: string;
 }
@@ -3847,7 +3857,7 @@ export interface EmailMessage {
   RawEmail?: RawEmail;
   ReplyToAddresses?: string[];
   SimpleEmail?: SimpleEmail;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
 }
 export const EmailMessage = S.suspend(() =>
   S.Struct({
@@ -3864,7 +3874,7 @@ export interface GCMMessage {
   Action?: Action;
   Body?: string;
   CollapseKey?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   IconReference?: string;
   ImageIconUrl?: string;
   ImageUrl?: string;
@@ -3875,7 +3885,7 @@ export interface GCMMessage {
   SilentPush?: boolean;
   SmallImageIconUrl?: string;
   Sound?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   TimeToLive?: number;
   Title?: string;
   Url?: string;
@@ -3909,7 +3919,7 @@ export interface SMSMessage {
   MessageType?: MessageType;
   OriginationNumber?: string;
   SenderId?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   EntityId?: string;
   TemplateId?: string;
 }
@@ -3930,7 +3940,7 @@ export interface VoiceMessage {
   Body?: string;
   LanguageCode?: string;
   OriginationNumber?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   VoiceId?: string;
 }
 export const VoiceMessage = S.suspend(() =>
@@ -3970,9 +3980,9 @@ export const DirectMessageConfiguration = S.suspend(() =>
 }) as any as S.Schema<DirectMessageConfiguration>;
 export interface EndpointSendConfiguration {
   BodyOverride?: string;
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   RawContent?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   TitleOverride?: string;
 }
 export const EndpointSendConfiguration = S.suspend(() =>
@@ -3987,18 +3997,18 @@ export const EndpointSendConfiguration = S.suspend(() =>
   identifier: "EndpointSendConfiguration",
 }) as any as S.Schema<EndpointSendConfiguration>;
 export type MapOfEndpointSendConfiguration = {
-  [key: string]: EndpointSendConfiguration;
+  [key: string]: EndpointSendConfiguration | undefined;
 };
 export const MapOfEndpointSendConfiguration = S.Record({
   key: S.String,
-  value: EndpointSendConfiguration,
+  value: S.UndefinedOr(EndpointSendConfiguration),
 });
 export interface SendUsersMessageRequest {
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   MessageConfiguration?: DirectMessageConfiguration;
   TemplateConfiguration?: TemplateConfiguration;
   TraceId?: string;
-  Users?: { [key: string]: EndpointSendConfiguration };
+  Users?: { [key: string]: EndpointSendConfiguration | undefined };
 }
 export const SendUsersMessageRequest = S.suspend(() =>
   S.Struct({
@@ -4012,7 +4022,7 @@ export const SendUsersMessageRequest = S.suspend(() =>
   identifier: "SendUsersMessageRequest",
 }) as any as S.Schema<SendUsersMessageRequest>;
 export interface TagsModel {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagsModel = S.suspend(() =>
   S.Struct({ tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
@@ -4186,7 +4196,7 @@ export const JourneyStateRequest = S.suspend(() =>
   identifier: "JourneyStateRequest",
 }) as any as S.Schema<JourneyStateRequest>;
 export interface UpdateRecommenderConfigurationShape {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Description?: string;
   Name?: string;
   RecommendationProviderIdType?: string;
@@ -4647,7 +4657,7 @@ export interface ApplicationResponse {
   Arn?: string;
   Id?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   CreationDate?: string;
 }
 export const ApplicationResponse = S.suspend(() =>
@@ -4795,7 +4805,7 @@ export interface CampaignResponse {
   SegmentId?: string;
   SegmentVersion?: number;
   State?: CampaignState;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateConfiguration?: TemplateConfiguration;
   TreatmentDescription?: string;
   TreatmentName?: string;
@@ -4891,14 +4901,18 @@ export interface GetCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -4951,14 +4965,18 @@ export interface GetCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
         };
         FilterType: FilterType;
@@ -5033,14 +5051,18 @@ export interface GetCampaignVersionResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -5093,14 +5115,18 @@ export interface GetCampaignVersionResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
         };
         FilterType: FilterType;
@@ -5198,14 +5224,18 @@ export interface GetCampaignVersionsResponse {
           EventFilter: CampaignEventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]: AttributeDimension & { Values: ListOf__string };
+                [key: string]:
+                  | (AttributeDimension & { Values: ListOf__string })
+                  | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
-                [key: string]: MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                };
+                [key: string]:
+                  | (MetricDimension & {
+                      ComparisonOperator: string;
+                      Value: number;
+                    })
+                  | undefined;
               };
             };
             FilterType: FilterType;
@@ -5258,14 +5288,18 @@ export interface GetCampaignVersionsResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -5379,10 +5413,13 @@ export const EndpointLocation = S.suspend(() =>
 ).annotations({
   identifier: "EndpointLocation",
 }) as any as S.Schema<EndpointLocation>;
-export type MapOf__double = { [key: string]: number };
-export const MapOf__double = S.Record({ key: S.String, value: S.Number });
+export type MapOf__double = { [key: string]: number | undefined };
+export const MapOf__double = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface EndpointUser {
-  UserAttributes?: { [key: string]: string[] };
+  UserAttributes?: { [key: string]: string[] | undefined };
   UserId?: string;
 }
 export const EndpointUser = S.suspend(() =>
@@ -5394,7 +5431,7 @@ export const EndpointUser = S.suspend(() =>
 export interface EndpointResponse {
   Address?: string;
   ApplicationId?: string;
-  Attributes?: { [key: string]: string[] };
+  Attributes?: { [key: string]: string[] | undefined };
   ChannelType?: ChannelType;
   CohortId?: string;
   CreationDate?: string;
@@ -5403,7 +5440,7 @@ export interface EndpointResponse {
   EndpointStatus?: string;
   Id?: string;
   Location?: EndpointLocation;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -5522,7 +5559,7 @@ export const GetGcmChannelResponse = S.suspend(() =>
   identifier: "GetGcmChannelResponse",
 }) as any as S.Schema<GetGcmChannelResponse>;
 export interface JourneyResponse {
-  Activities?: { [key: string]: Activity };
+  Activities?: { [key: string]: Activity | undefined };
   ApplicationId?: string;
   CreationDate?: string;
   Id?: string;
@@ -5536,7 +5573,7 @@ export interface JourneyResponse {
   StartActivity?: string;
   StartCondition?: StartCondition;
   State?: State;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   WaitForQuietTime?: boolean;
   RefreshOnSegmentUpdate?: boolean;
   JourneyChannelSettings?: JourneyChannelSettings;
@@ -5581,151 +5618,165 @@ export interface GetJourneyResponse {
     Id: string;
     Name: string;
     Activities: {
-      [key: string]: Activity & {
-        ConditionalSplit: ConditionalSplitActivity & {
-          Condition: Condition & {
-            Conditions: (SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
+      [key: string]:
+        | (Activity & {
+            ConditionalSplit: ConditionalSplitActivity & {
+              Condition: Condition & {
+                Conditions: (SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
                     };
                   };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
                     };
                   };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-              };
-            })[];
-          };
-        };
-        Holdout: HoldoutActivity & { Percentage: number };
-        MultiCondition: MultiConditionalSplitActivity & {
-          Branches: (MultiConditionalBranch & {
-            Condition: SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
+                })[];
               };
             };
-          })[];
-        };
-      };
+            Holdout: HoldoutActivity & { Percentage: number };
+            MultiCondition: MultiConditionalSplitActivity & {
+              Branches: (MultiConditionalBranch & {
+                Condition: SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                    };
+                  };
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                  };
+                };
+              })[];
+            };
+          })
+        | undefined;
     };
     StartCondition: StartCondition & {
       EventStartCondition: EventStartCondition & {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -5745,7 +5796,7 @@ export const GetJourneyResponse = S.suspend(() =>
   identifier: "GetJourneyResponse",
 }) as any as S.Schema<GetJourneyResponse>;
 export interface RecommenderConfigurationResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   CreationDate?: string;
   Description?: string;
   Id?: string;
@@ -5796,10 +5847,13 @@ export const GetRecommenderConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetRecommenderConfigurationResponse",
 }) as any as S.Schema<GetRecommenderConfigurationResponse>;
-export type MapOf__integer = { [key: string]: number };
-export const MapOf__integer = S.Record({ key: S.String, value: S.Number });
+export type MapOf__integer = { [key: string]: number | undefined };
+export const MapOf__integer = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface SegmentImportResource {
-  ChannelCounts?: { [key: string]: number };
+  ChannelCounts?: { [key: string]: number | undefined };
   ExternalId?: string;
   Format?: Format;
   RoleArn?: string;
@@ -5831,7 +5885,7 @@ export interface SegmentResponse {
   Name?: string;
   SegmentGroups?: SegmentGroupList;
   SegmentType?: SegmentType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   Version?: number;
 }
 export const SegmentResponse = S.suspend(() =>
@@ -5861,7 +5915,9 @@ export interface GetSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -5884,13 +5940,14 @@ export interface GetSegmentResponse {
         };
       };
       Metrics: {
-        [key: string]: MetricDimension & {
-          ComparisonOperator: string;
-          Value: number;
-        };
+        [key: string]:
+          | (MetricDimension & { ComparisonOperator: string; Value: number })
+          | undefined;
       };
       UserAttributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -5904,7 +5961,9 @@ export interface GetSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -5930,13 +5989,17 @@ export interface GetSegmentResponse {
             };
           };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
           UserAttributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -6165,7 +6228,9 @@ export interface GetSegmentVersionResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -6188,13 +6253,14 @@ export interface GetSegmentVersionResponse {
         };
       };
       Metrics: {
-        [key: string]: MetricDimension & {
-          ComparisonOperator: string;
-          Value: number;
-        };
+        [key: string]:
+          | (MetricDimension & { ComparisonOperator: string; Value: number })
+          | undefined;
       };
       UserAttributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -6208,7 +6274,9 @@ export interface GetSegmentVersionResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -6234,13 +6302,17 @@ export interface GetSegmentVersionResponse {
             };
           };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
           UserAttributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -6281,7 +6353,9 @@ export interface GetSegmentVersionsResponse {
       SegmentType: SegmentType;
       Dimensions: SegmentDimensions & {
         Attributes: {
-          [key: string]: AttributeDimension & { Values: ListOf__string };
+          [key: string]:
+            | (AttributeDimension & { Values: ListOf__string })
+            | undefined;
         };
         Behavior: SegmentBehaviors & {
           Recency: RecencyDimension & {
@@ -6307,13 +6381,14 @@ export interface GetSegmentVersionsResponse {
           };
         };
         Metrics: {
-          [key: string]: MetricDimension & {
-            ComparisonOperator: string;
-            Value: number;
-          };
+          [key: string]:
+            | (MetricDimension & { ComparisonOperator: string; Value: number })
+            | undefined;
         };
         UserAttributes: {
-          [key: string]: AttributeDimension & { Values: ListOf__string };
+          [key: string]:
+            | (AttributeDimension & { Values: ListOf__string })
+            | undefined;
         };
       };
       ImportDefinition: SegmentImportResource & {
@@ -6327,7 +6402,9 @@ export interface GetSegmentVersionsResponse {
         Groups: (SegmentGroup & {
           Dimensions: (SegmentDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             Behavior: SegmentBehaviors & {
               Recency: RecencyDimension & {
@@ -6353,13 +6430,17 @@ export interface GetSegmentVersionsResponse {
               };
             };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
             UserAttributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
           })[];
           SourceSegments: (SegmentReference & { Id: string })[];
@@ -6852,14 +6933,18 @@ export interface UpdateCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -6912,14 +6997,18 @@ export interface UpdateCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
         };
         FilterType: FilterType;
@@ -7012,151 +7101,165 @@ export interface UpdateJourneyResponse {
     Id: string;
     Name: string;
     Activities: {
-      [key: string]: Activity & {
-        ConditionalSplit: ConditionalSplitActivity & {
-          Condition: Condition & {
-            Conditions: (SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
+      [key: string]:
+        | (Activity & {
+            ConditionalSplit: ConditionalSplitActivity & {
+              Condition: Condition & {
+                Conditions: (SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
                     };
                   };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
                     };
                   };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-              };
-            })[];
-          };
-        };
-        Holdout: HoldoutActivity & { Percentage: number };
-        MultiCondition: MultiConditionalSplitActivity & {
-          Branches: (MultiConditionalBranch & {
-            Condition: SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
+                })[];
               };
             };
-          })[];
-        };
-      };
+            Holdout: HoldoutActivity & { Percentage: number };
+            MultiCondition: MultiConditionalSplitActivity & {
+              Branches: (MultiConditionalBranch & {
+                Condition: SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                    };
+                  };
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                  };
+                };
+              })[];
+            };
+          })
+        | undefined;
     };
     StartCondition: StartCondition & {
       EventStartCondition: EventStartCondition & {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -7249,7 +7352,9 @@ export interface UpdateSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -7272,13 +7377,14 @@ export interface UpdateSegmentResponse {
         };
       };
       Metrics: {
-        [key: string]: MetricDimension & {
-          ComparisonOperator: string;
-          Value: number;
-        };
+        [key: string]:
+          | (MetricDimension & { ComparisonOperator: string; Value: number })
+          | undefined;
       };
       UserAttributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -7292,7 +7398,9 @@ export interface UpdateSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -7318,13 +7426,17 @@ export interface UpdateSegmentResponse {
             };
           };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
           UserAttributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -7491,14 +7603,14 @@ export const ApplicationSettingsJourneyLimits = S.suspend(() =>
 }) as any as S.Schema<ApplicationSettingsJourneyLimits>;
 export interface EndpointBatchItem {
   Address?: string;
-  Attributes?: { [key: string]: string[] };
+  Attributes?: { [key: string]: string[] | undefined };
   ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Id?: string;
   Location?: EndpointLocation;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -7525,7 +7637,7 @@ export type ListOfEndpointBatchItem = EndpointBatchItem[];
 export const ListOfEndpointBatchItem = S.Array(EndpointBatchItem);
 export interface CreateApplicationRequest {
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -7634,7 +7746,7 @@ export interface EmailTemplateResponse {
   RecommenderId?: string;
   Subject?: string;
   Headers?: MessageHeader[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -7665,10 +7777,10 @@ export interface InAppTemplateResponse {
   Arn?: string;
   Content?: InAppMessageContent[];
   CreationDate?: string;
-  CustomConfig?: { [key: string]: string };
+  CustomConfig?: { [key: string]: string | undefined };
   LastModifiedDate?: string;
   Layout?: Layout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -7719,7 +7831,7 @@ export interface JourneyExecutionActivityMetricsResponse {
   JourneyActivityId?: string;
   JourneyId?: string;
   LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string };
+  Metrics?: { [key: string]: string | undefined };
 }
 export const JourneyExecutionActivityMetricsResponse = S.suspend(() =>
   S.Struct({
@@ -7737,7 +7849,7 @@ export interface JourneyExecutionMetricsResponse {
   ApplicationId?: string;
   JourneyId?: string;
   LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string };
+  Metrics?: { [key: string]: string | undefined };
 }
 export const JourneyExecutionMetricsResponse = S.suspend(() =>
   S.Struct({
@@ -7755,7 +7867,7 @@ export interface JourneyRunExecutionActivityMetricsResponse {
   JourneyActivityId?: string;
   JourneyId?: string;
   LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string };
+  Metrics?: { [key: string]: string | undefined };
   RunId?: string;
 }
 export const JourneyRunExecutionActivityMetricsResponse = S.suspend(() =>
@@ -7775,7 +7887,7 @@ export interface JourneyRunExecutionMetricsResponse {
   ApplicationId?: string;
   JourneyId?: string;
   LastEvaluatedTime?: string;
-  Metrics?: { [key: string]: string };
+  Metrics?: { [key: string]: string | undefined };
   RunId?: string;
 }
 export const JourneyRunExecutionMetricsResponse = S.suspend(() =>
@@ -7800,7 +7912,7 @@ export interface PushNotificationTemplateResponse {
   GCM?: AndroidPushNotificationTemplate;
   LastModifiedDate?: string;
   RecommenderId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -7846,7 +7958,7 @@ export interface SMSTemplateResponse {
   DefaultSubstitutions?: string;
   LastModifiedDate?: string;
   RecommenderId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -7876,7 +7988,7 @@ export interface VoiceTemplateResponse {
   DefaultSubstitutions?: string;
   LanguageCode?: string;
   LastModifiedDate?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -7935,13 +8047,13 @@ export const WriteApplicationSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<WriteApplicationSettingsRequest>;
 export interface EndpointRequest {
   Address?: string;
-  Attributes?: { [key: string]: string[] };
+  Attributes?: { [key: string]: string[] | undefined };
   ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Location?: EndpointLocation;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -7985,9 +8097,9 @@ export const JourneyRunStatus = S.Literal(
 export interface AddressConfiguration {
   BodyOverride?: string;
   ChannelType?: ChannelType;
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   RawContent?: string;
-  Substitutions?: { [key: string]: string[] };
+  Substitutions?: { [key: string]: string[] | undefined };
   TitleOverride?: string;
 }
 export const AddressConfiguration = S.suspend(() =>
@@ -8320,151 +8432,165 @@ export interface DeleteJourneyResponse {
     Id: string;
     Name: string;
     Activities: {
-      [key: string]: Activity & {
-        ConditionalSplit: ConditionalSplitActivity & {
-          Condition: Condition & {
-            Conditions: (SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
+      [key: string]:
+        | (Activity & {
+            ConditionalSplit: ConditionalSplitActivity & {
+              Condition: Condition & {
+                Conditions: (SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
                     };
                   };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
                     };
                   };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-              };
-            })[];
-          };
-        };
-        Holdout: HoldoutActivity & { Percentage: number };
-        MultiCondition: MultiConditionalSplitActivity & {
-          Branches: (MultiConditionalBranch & {
-            Condition: SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
+                })[];
               };
             };
-          })[];
-        };
-      };
+            Holdout: HoldoutActivity & { Percentage: number };
+            MultiCondition: MultiConditionalSplitActivity & {
+              Branches: (MultiConditionalBranch & {
+                Condition: SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                    };
+                  };
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                  };
+                };
+              })[];
+            };
+          })
+        | undefined;
     };
     StartCondition: StartCondition & {
       EventStartCondition: EventStartCondition & {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -8666,14 +8792,18 @@ export interface GetCampaignsResponse {
           EventFilter: CampaignEventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]: AttributeDimension & { Values: ListOf__string };
+                [key: string]:
+                  | (AttributeDimension & { Values: ListOf__string })
+                  | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
-                [key: string]: MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                };
+                [key: string]:
+                  | (MetricDimension & {
+                      ComparisonOperator: string;
+                      Value: number;
+                    })
+                  | undefined;
               };
             };
             FilterType: FilterType;
@@ -8726,14 +8856,18 @@ export interface GetCampaignsResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -9026,7 +9160,9 @@ export interface GetSegmentsResponse {
       SegmentType: SegmentType;
       Dimensions: SegmentDimensions & {
         Attributes: {
-          [key: string]: AttributeDimension & { Values: ListOf__string };
+          [key: string]:
+            | (AttributeDimension & { Values: ListOf__string })
+            | undefined;
         };
         Behavior: SegmentBehaviors & {
           Recency: RecencyDimension & {
@@ -9052,13 +9188,14 @@ export interface GetSegmentsResponse {
           };
         };
         Metrics: {
-          [key: string]: MetricDimension & {
-            ComparisonOperator: string;
-            Value: number;
-          };
+          [key: string]:
+            | (MetricDimension & { ComparisonOperator: string; Value: number })
+            | undefined;
         };
         UserAttributes: {
-          [key: string]: AttributeDimension & { Values: ListOf__string };
+          [key: string]:
+            | (AttributeDimension & { Values: ListOf__string })
+            | undefined;
         };
       };
       ImportDefinition: SegmentImportResource & {
@@ -9072,7 +9209,9 @@ export interface GetSegmentsResponse {
         Groups: (SegmentGroup & {
           Dimensions: (SegmentDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             Behavior: SegmentBehaviors & {
               Recency: RecencyDimension & {
@@ -9098,13 +9237,17 @@ export interface GetSegmentsResponse {
               };
             };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
             UserAttributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
           })[];
           SourceSegments: (SegmentReference & { Id: string })[];
@@ -9163,151 +9306,165 @@ export interface ListJourneysResponse {
       Id: string;
       Name: string;
       Activities: {
-        [key: string]: Activity & {
-          ConditionalSplit: ConditionalSplitActivity & {
-            Condition: Condition & {
-              Conditions: (SimpleCondition & {
-                EventCondition: EventCondition & {
-                  Dimensions: EventDimensions & {
-                    Attributes: {
-                      [key: string]: AttributeDimension & {
-                        Values: ListOf__string;
+        [key: string]:
+          | (Activity & {
+              ConditionalSplit: ConditionalSplitActivity & {
+                Condition: Condition & {
+                  Conditions: (SimpleCondition & {
+                    EventCondition: EventCondition & {
+                      Dimensions: EventDimensions & {
+                        Attributes: {
+                          [key: string]:
+                            | (AttributeDimension & { Values: ListOf__string })
+                            | undefined;
+                        };
+                        EventType: SetDimension & { Values: ListOf__string };
+                        Metrics: {
+                          [key: string]:
+                            | (MetricDimension & {
+                                ComparisonOperator: string;
+                                Value: number;
+                              })
+                            | undefined;
+                        };
                       };
                     };
-                    EventType: SetDimension & { Values: ListOf__string };
-                    Metrics: {
-                      [key: string]: MetricDimension & {
-                        ComparisonOperator: string;
-                        Value: number;
+                    SegmentCondition: SegmentCondition & { SegmentId: string };
+                    SegmentDimensions: SegmentDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      Behavior: SegmentBehaviors & {
+                        Recency: RecencyDimension & {
+                          Duration: Duration;
+                          RecencyType: RecencyType;
+                        };
+                      };
+                      Demographic: SegmentDemographics & {
+                        AppVersion: SetDimension & { Values: ListOf__string };
+                        Channel: SetDimension & { Values: ListOf__string };
+                        DeviceType: SetDimension & { Values: ListOf__string };
+                        Make: SetDimension & { Values: ListOf__string };
+                        Model: SetDimension & { Values: ListOf__string };
+                        Platform: SetDimension & { Values: ListOf__string };
+                      };
+                      Location: SegmentLocation & {
+                        Country: SetDimension & { Values: ListOf__string };
+                        GPSPoint: GPSPointDimension & {
+                          Coordinates: GPSCoordinates & {
+                            Latitude: number;
+                            Longitude: number;
+                          };
+                        };
+                      };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                      UserAttributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
                       };
                     };
-                  };
-                };
-                SegmentCondition: SegmentCondition & { SegmentId: string };
-                SegmentDimensions: SegmentDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  Behavior: SegmentBehaviors & {
-                    Recency: RecencyDimension & {
-                      Duration: Duration;
-                      RecencyType: RecencyType;
-                    };
-                  };
-                  Demographic: SegmentDemographics & {
-                    AppVersion: SetDimension & { Values: ListOf__string };
-                    Channel: SetDimension & { Values: ListOf__string };
-                    DeviceType: SetDimension & { Values: ListOf__string };
-                    Make: SetDimension & { Values: ListOf__string };
-                    Model: SetDimension & { Values: ListOf__string };
-                    Platform: SetDimension & { Values: ListOf__string };
-                  };
-                  Location: SegmentLocation & {
-                    Country: SetDimension & { Values: ListOf__string };
-                    GPSPoint: GPSPointDimension & {
-                      Coordinates: GPSCoordinates & {
-                        Latitude: number;
-                        Longitude: number;
-                      };
-                    };
-                  };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                  UserAttributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                };
-              })[];
-            };
-          };
-          Holdout: HoldoutActivity & { Percentage: number };
-          MultiCondition: MultiConditionalSplitActivity & {
-            Branches: (MultiConditionalBranch & {
-              Condition: SimpleCondition & {
-                EventCondition: EventCondition & {
-                  Dimensions: EventDimensions & {
-                    Attributes: {
-                      [key: string]: AttributeDimension & {
-                        Values: ListOf__string;
-                      };
-                    };
-                    EventType: SetDimension & { Values: ListOf__string };
-                    Metrics: {
-                      [key: string]: MetricDimension & {
-                        ComparisonOperator: string;
-                        Value: number;
-                      };
-                    };
-                  };
-                };
-                SegmentCondition: SegmentCondition & { SegmentId: string };
-                SegmentDimensions: SegmentDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  Behavior: SegmentBehaviors & {
-                    Recency: RecencyDimension & {
-                      Duration: Duration;
-                      RecencyType: RecencyType;
-                    };
-                  };
-                  Demographic: SegmentDemographics & {
-                    AppVersion: SetDimension & { Values: ListOf__string };
-                    Channel: SetDimension & { Values: ListOf__string };
-                    DeviceType: SetDimension & { Values: ListOf__string };
-                    Make: SetDimension & { Values: ListOf__string };
-                    Model: SetDimension & { Values: ListOf__string };
-                    Platform: SetDimension & { Values: ListOf__string };
-                  };
-                  Location: SegmentLocation & {
-                    Country: SetDimension & { Values: ListOf__string };
-                    GPSPoint: GPSPointDimension & {
-                      Coordinates: GPSCoordinates & {
-                        Latitude: number;
-                        Longitude: number;
-                      };
-                    };
-                  };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                  UserAttributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
+                  })[];
                 };
               };
-            })[];
-          };
-        };
+              Holdout: HoldoutActivity & { Percentage: number };
+              MultiCondition: MultiConditionalSplitActivity & {
+                Branches: (MultiConditionalBranch & {
+                  Condition: SimpleCondition & {
+                    EventCondition: EventCondition & {
+                      Dimensions: EventDimensions & {
+                        Attributes: {
+                          [key: string]:
+                            | (AttributeDimension & { Values: ListOf__string })
+                            | undefined;
+                        };
+                        EventType: SetDimension & { Values: ListOf__string };
+                        Metrics: {
+                          [key: string]:
+                            | (MetricDimension & {
+                                ComparisonOperator: string;
+                                Value: number;
+                              })
+                            | undefined;
+                        };
+                      };
+                    };
+                    SegmentCondition: SegmentCondition & { SegmentId: string };
+                    SegmentDimensions: SegmentDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      Behavior: SegmentBehaviors & {
+                        Recency: RecencyDimension & {
+                          Duration: Duration;
+                          RecencyType: RecencyType;
+                        };
+                      };
+                      Demographic: SegmentDemographics & {
+                        AppVersion: SetDimension & { Values: ListOf__string };
+                        Channel: SetDimension & { Values: ListOf__string };
+                        DeviceType: SetDimension & { Values: ListOf__string };
+                        Make: SetDimension & { Values: ListOf__string };
+                        Model: SetDimension & { Values: ListOf__string };
+                        Platform: SetDimension & { Values: ListOf__string };
+                      };
+                      Location: SegmentLocation & {
+                        Country: SetDimension & { Values: ListOf__string };
+                        GPSPoint: GPSPointDimension & {
+                          Coordinates: GPSCoordinates & {
+                            Latitude: number;
+                            Longitude: number;
+                          };
+                        };
+                      };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                      UserAttributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                    };
+                  };
+                })[];
+              };
+            })
+          | undefined;
       };
       StartCondition: StartCondition & {
         EventStartCondition: EventStartCondition & {
           EventFilter: EventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]: AttributeDimension & { Values: ListOf__string };
+                [key: string]:
+                  | (AttributeDimension & { Values: ListOf__string })
+                  | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
-                [key: string]: MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                };
+                [key: string]:
+                  | (MetricDimension & {
+                      ComparisonOperator: string;
+                      Value: number;
+                    })
+                  | undefined;
               };
             };
             FilterType: FilterType;
@@ -9524,151 +9681,165 @@ export interface UpdateJourneyStateResponse {
     Id: string;
     Name: string;
     Activities: {
-      [key: string]: Activity & {
-        ConditionalSplit: ConditionalSplitActivity & {
-          Condition: Condition & {
-            Conditions: (SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
+      [key: string]:
+        | (Activity & {
+            ConditionalSplit: ConditionalSplitActivity & {
+              Condition: Condition & {
+                Conditions: (SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
                     };
                   };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
                     };
                   };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-              };
-            })[];
-          };
-        };
-        Holdout: HoldoutActivity & { Percentage: number };
-        MultiCondition: MultiConditionalSplitActivity & {
-          Branches: (MultiConditionalBranch & {
-            Condition: SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
+                })[];
               };
             };
-          })[];
-        };
-      };
+            Holdout: HoldoutActivity & { Percentage: number };
+            MultiCondition: MultiConditionalSplitActivity & {
+              Branches: (MultiConditionalBranch & {
+                Condition: SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                    };
+                  };
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                  };
+                };
+              })[];
+            };
+          })
+        | undefined;
     };
     StartCondition: StartCondition & {
       EventStartCondition: EventStartCondition & {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -9757,7 +9928,7 @@ export interface ActivityResponse {
   TimezonesTotalCount?: number;
   TotalEndpointCount?: number;
   TreatmentId?: string;
-  ExecutionMetrics?: { [key: string]: string };
+  ExecutionMetrics?: { [key: string]: string | undefined };
 }
 export const ActivityResponse = S.suspend(() =>
   S.Struct({
@@ -9804,7 +9975,7 @@ export interface TemplateResponse {
   CreationDate?: string;
   DefaultSubstitutions?: string;
   LastModifiedDate?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   TemplateDescription?: string;
   TemplateName?: string;
   TemplateType?: TemplateType;
@@ -9851,20 +10022,22 @@ export const TemplateVersionResponse = S.suspend(() =>
 }) as any as S.Schema<TemplateVersionResponse>;
 export type ListOfTemplateVersionResponse = TemplateVersionResponse[];
 export const ListOfTemplateVersionResponse = S.Array(TemplateVersionResponse);
-export type MapOfAddressConfiguration = { [key: string]: AddressConfiguration };
+export type MapOfAddressConfiguration = {
+  [key: string]: AddressConfiguration | undefined;
+};
 export const MapOfAddressConfiguration = S.Record({
   key: S.String,
-  value: AddressConfiguration,
+  value: S.UndefinedOr(AddressConfiguration),
 });
 export interface PublicEndpoint {
   Address?: string;
-  Attributes?: { [key: string]: string[] };
+  Attributes?: { [key: string]: string[] | undefined };
   ChannelType?: ChannelType;
   Demographic?: EndpointDemographic;
   EffectiveDate?: string;
   EndpointStatus?: string;
   Location?: EndpointLocation;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
   OptOut?: string;
   RequestId?: string;
   User?: EndpointUser;
@@ -10024,7 +10197,7 @@ export const ChannelResponse = S.suspend(() =>
 }) as any as S.Schema<ChannelResponse>;
 export interface InAppMessage {
   Content?: InAppMessageContent[];
-  CustomConfig?: { [key: string]: string };
+  CustomConfig?: { [key: string]: string | undefined };
   Layout?: Layout;
 }
 export const InAppMessage = S.suspend(() =>
@@ -10158,14 +10331,18 @@ export interface DeleteCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -10218,14 +10395,18 @@ export interface DeleteCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
         };
         FilterType: FilterType;
@@ -10436,10 +10617,12 @@ export const VerifyOTPMessageResponse = S.suspend(() =>
 ).annotations({
   identifier: "VerifyOTPMessageResponse",
 }) as any as S.Schema<VerifyOTPMessageResponse>;
-export type MapOfChannelResponse = { [key: string]: ChannelResponse };
+export type MapOfChannelResponse = {
+  [key: string]: ChannelResponse | undefined;
+};
 export const MapOfChannelResponse = S.Record({
   key: S.String,
-  value: ChannelResponse,
+  value: S.UndefinedOr(ChannelResponse),
 });
 export interface InAppMessageCampaign {
   CampaignId?: string;
@@ -10505,21 +10688,23 @@ export const EndpointMessageResult = S.suspend(() =>
   identifier: "EndpointMessageResult",
 }) as any as S.Schema<EndpointMessageResult>;
 export type MapOfEndpointMessageResult = {
-  [key: string]: EndpointMessageResult;
+  [key: string]: EndpointMessageResult | undefined;
 };
 export const MapOfEndpointMessageResult = S.Record({
   key: S.String,
-  value: EndpointMessageResult,
+  value: S.UndefinedOr(EndpointMessageResult),
 });
 export type MapOfMapOfEndpointMessageResult = {
-  [key: string]: { [key: string]: EndpointMessageResult };
+  [key: string]:
+    | { [key: string]: EndpointMessageResult | undefined }
+    | undefined;
 };
 export const MapOfMapOfEndpointMessageResult = S.Record({
   key: S.String,
-  value: MapOfEndpointMessageResult,
+  value: S.UndefinedOr(MapOfEndpointMessageResult),
 });
 export interface ChannelsResponse {
-  Channels?: { [key: string]: ChannelResponse };
+  Channels?: { [key: string]: ChannelResponse | undefined };
 }
 export const ChannelsResponse = S.suspend(() =>
   S.Struct({ Channels: S.optional(MapOfChannelResponse) }),
@@ -10551,7 +10736,11 @@ export const Session = S.suspend(() =>
 export interface SendUsersMessageResponse {
   ApplicationId?: string;
   RequestId?: string;
-  Result?: { [key: string]: { [key: string]: EndpointMessageResult } };
+  Result?: {
+    [key: string]:
+      | { [key: string]: EndpointMessageResult | undefined }
+      | undefined;
+  };
 }
 export const SendUsersMessageResponse = S.suspend(() =>
   S.Struct({
@@ -10635,7 +10824,9 @@ export interface DeleteSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -10658,13 +10849,14 @@ export interface DeleteSegmentResponse {
         };
       };
       Metrics: {
-        [key: string]: MetricDimension & {
-          ComparisonOperator: string;
-          Value: number;
-        };
+        [key: string]:
+          | (MetricDimension & { ComparisonOperator: string; Value: number })
+          | undefined;
       };
       UserAttributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -10678,7 +10870,9 @@ export interface DeleteSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -10704,13 +10898,17 @@ export interface DeleteSegmentResponse {
             };
           };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
           UserAttributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -10782,14 +10980,18 @@ export interface GetInAppMessagesResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -10811,10 +11013,10 @@ export interface Event {
   AppPackageName?: string;
   AppTitle?: string;
   AppVersionCode?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   ClientSdkVersion?: string;
   EventType?: string;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
   SdkName?: string;
   Session?: Session;
   Timestamp?: string;
@@ -10837,12 +11039,16 @@ export interface SendUsersMessagesResponse {
   SendUsersMessageResponse: SendUsersMessageResponse & {
     ApplicationId: string;
     Result: {
-      [key: string]: {
-        [key: string]: EndpointMessageResult & {
-          DeliveryStatus: DeliveryStatus;
-          StatusCode: number;
-        };
-      };
+      [key: string]:
+        | {
+            [key: string]:
+              | (EndpointMessageResult & {
+                  DeliveryStatus: DeliveryStatus;
+                  StatusCode: number;
+                })
+              | undefined;
+          }
+        | undefined;
     };
   };
 }
@@ -10855,13 +11061,16 @@ export const SendUsersMessagesResponse = S.suspend(() =>
 ).annotations({
   identifier: "SendUsersMessagesResponse",
 }) as any as S.Schema<SendUsersMessagesResponse>;
-export type MapOfMessageResult = { [key: string]: MessageResult };
+export type MapOfMessageResult = { [key: string]: MessageResult | undefined };
 export const MapOfMessageResult = S.Record({
   key: S.String,
-  value: MessageResult,
+  value: S.UndefinedOr(MessageResult),
 });
-export type MapOfEvent = { [key: string]: Event };
-export const MapOfEvent = S.Record({ key: S.String, value: Event });
+export type MapOfEvent = { [key: string]: Event | undefined };
+export const MapOfEvent = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Event),
+});
 export interface ApplicationDateRangeKpiResponse {
   ApplicationId?: string;
   EndTime?: Date;
@@ -10883,9 +11092,9 @@ export const ApplicationDateRangeKpiResponse = S.suspend(() =>
   identifier: "ApplicationDateRangeKpiResponse",
 }) as any as S.Schema<ApplicationDateRangeKpiResponse>;
 export interface MessageRequest {
-  Addresses?: { [key: string]: AddressConfiguration };
-  Context?: { [key: string]: string };
-  Endpoints?: { [key: string]: EndpointSendConfiguration };
+  Addresses?: { [key: string]: AddressConfiguration | undefined };
+  Context?: { [key: string]: string | undefined };
+  Endpoints?: { [key: string]: EndpointSendConfiguration | undefined };
   MessageConfiguration?: DirectMessageConfiguration;
   TemplateConfiguration?: TemplateConfiguration;
   TraceId?: string;
@@ -10904,9 +11113,9 @@ export const MessageRequest = S.suspend(() =>
 }) as any as S.Schema<MessageRequest>;
 export interface MessageResponse {
   ApplicationId?: string;
-  EndpointResult?: { [key: string]: EndpointMessageResult };
+  EndpointResult?: { [key: string]: EndpointMessageResult | undefined };
   RequestId?: string;
-  Result?: { [key: string]: MessageResult };
+  Result?: { [key: string]: MessageResult | undefined };
 }
 export const MessageResponse = S.suspend(() =>
   S.Struct({
@@ -10920,7 +11129,7 @@ export const MessageResponse = S.suspend(() =>
 }) as any as S.Schema<MessageResponse>;
 export interface EventsBatch {
   Endpoint?: PublicEndpoint;
-  Events?: { [key: string]: Event };
+  Events?: { [key: string]: Event | undefined };
 }
 export const EventsBatch = S.suspend(() =>
   S.Struct({
@@ -10986,14 +11195,18 @@ export interface CreateCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -11046,14 +11259,18 @@ export interface CreateCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
         };
         FilterType: FilterType;
@@ -11151,16 +11368,20 @@ export interface SendOTPMessageResponse {
   MessageResponse: MessageResponse & {
     ApplicationId: string;
     EndpointResult: {
-      [key: string]: EndpointMessageResult & {
-        DeliveryStatus: DeliveryStatus;
-        StatusCode: number;
-      };
+      [key: string]:
+        | (EndpointMessageResult & {
+            DeliveryStatus: DeliveryStatus;
+            StatusCode: number;
+          })
+        | undefined;
     };
     Result: {
-      [key: string]: MessageResult & {
-        DeliveryStatus: DeliveryStatus;
-        StatusCode: number;
-      };
+      [key: string]:
+        | (MessageResult & {
+            DeliveryStatus: DeliveryStatus;
+            StatusCode: number;
+          })
+        | undefined;
     };
   };
 }
@@ -11173,8 +11394,11 @@ export const SendOTPMessageResponse = S.suspend(() =>
 ).annotations({
   identifier: "SendOTPMessageResponse",
 }) as any as S.Schema<SendOTPMessageResponse>;
-export type MapOfEventsBatch = { [key: string]: EventsBatch };
-export const MapOfEventsBatch = S.Record({ key: S.String, value: EventsBatch });
+export type MapOfEventsBatch = { [key: string]: EventsBatch | undefined };
+export const MapOfEventsBatch = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(EventsBatch),
+});
 export interface TemplateCreateMessageBody {
   Arn?: string;
   Message?: string;
@@ -11190,7 +11414,7 @@ export const TemplateCreateMessageBody = S.suspend(() =>
   identifier: "TemplateCreateMessageBody",
 }) as any as S.Schema<TemplateCreateMessageBody>;
 export interface EventsRequest {
-  BatchItem?: { [key: string]: EventsBatch };
+  BatchItem?: { [key: string]: EventsBatch | undefined };
 }
 export const EventsRequest = S.suspend(() =>
   S.Struct({ BatchItem: S.optional(MapOfEventsBatch) }),
@@ -11218,7 +11442,9 @@ export interface CreateSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -11241,13 +11467,14 @@ export interface CreateSegmentResponse {
         };
       };
       Metrics: {
-        [key: string]: MetricDimension & {
-          ComparisonOperator: string;
-          Value: number;
-        };
+        [key: string]:
+          | (MetricDimension & { ComparisonOperator: string; Value: number })
+          | undefined;
       };
       UserAttributes: {
-        [key: string]: AttributeDimension & { Values: ListOf__string };
+        [key: string]:
+          | (AttributeDimension & { Values: ListOf__string })
+          | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -11261,7 +11488,9 @@ export interface CreateSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -11287,13 +11516,17 @@ export interface CreateSegmentResponse {
             };
           };
           Metrics: {
-            [key: string]: MetricDimension & {
-              ComparisonOperator: string;
-              Value: number;
-            };
+            [key: string]:
+              | (MetricDimension & {
+                  ComparisonOperator: string;
+                  Value: number;
+                })
+              | undefined;
           };
           UserAttributes: {
-            [key: string]: AttributeDimension & { Values: ListOf__string };
+            [key: string]:
+              | (AttributeDimension & { Values: ListOf__string })
+              | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -11337,16 +11570,20 @@ export interface SendMessagesResponse {
   MessageResponse: MessageResponse & {
     ApplicationId: string;
     EndpointResult: {
-      [key: string]: EndpointMessageResult & {
-        DeliveryStatus: DeliveryStatus;
-        StatusCode: number;
-      };
+      [key: string]:
+        | (EndpointMessageResult & {
+            DeliveryStatus: DeliveryStatus;
+            StatusCode: number;
+          })
+        | undefined;
     };
     Result: {
-      [key: string]: MessageResult & {
-        DeliveryStatus: DeliveryStatus;
-        StatusCode: number;
-      };
+      [key: string]:
+        | (MessageResult & {
+            DeliveryStatus: DeliveryStatus;
+            StatusCode: number;
+          })
+        | undefined;
     };
   };
 }
@@ -11388,151 +11625,165 @@ export interface CreateJourneyResponse {
     Id: string;
     Name: string;
     Activities: {
-      [key: string]: Activity & {
-        ConditionalSplit: ConditionalSplitActivity & {
-          Condition: Condition & {
-            Conditions: (SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
+      [key: string]:
+        | (Activity & {
+            ConditionalSplit: ConditionalSplitActivity & {
+              Condition: Condition & {
+                Conditions: (SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
                     };
                   };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
                     };
                   };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-              };
-            })[];
-          };
-        };
-        Holdout: HoldoutActivity & { Percentage: number };
-        MultiCondition: MultiConditionalSplitActivity & {
-          Branches: (MultiConditionalBranch & {
-            Condition: SimpleCondition & {
-              EventCondition: EventCondition & {
-                Dimensions: EventDimensions & {
-                  Attributes: {
-                    [key: string]: AttributeDimension & {
-                      Values: ListOf__string;
-                    };
-                  };
-                  EventType: SetDimension & { Values: ListOf__string };
-                  Metrics: {
-                    [key: string]: MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    };
-                  };
-                };
-              };
-              SegmentCondition: SegmentCondition & { SegmentId: string };
-              SegmentDimensions: SegmentDimensions & {
-                Attributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
-                Behavior: SegmentBehaviors & {
-                  Recency: RecencyDimension & {
-                    Duration: Duration;
-                    RecencyType: RecencyType;
-                  };
-                };
-                Demographic: SegmentDemographics & {
-                  AppVersion: SetDimension & { Values: ListOf__string };
-                  Channel: SetDimension & { Values: ListOf__string };
-                  DeviceType: SetDimension & { Values: ListOf__string };
-                  Make: SetDimension & { Values: ListOf__string };
-                  Model: SetDimension & { Values: ListOf__string };
-                  Platform: SetDimension & { Values: ListOf__string };
-                };
-                Location: SegmentLocation & {
-                  Country: SetDimension & { Values: ListOf__string };
-                  GPSPoint: GPSPointDimension & {
-                    Coordinates: GPSCoordinates & {
-                      Latitude: number;
-                      Longitude: number;
-                    };
-                  };
-                };
-                Metrics: {
-                  [key: string]: MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  };
-                };
-                UserAttributes: {
-                  [key: string]: AttributeDimension & {
-                    Values: ListOf__string;
-                  };
-                };
+                })[];
               };
             };
-          })[];
-        };
-      };
+            Holdout: HoldoutActivity & { Percentage: number };
+            MultiCondition: MultiConditionalSplitActivity & {
+              Branches: (MultiConditionalBranch & {
+                Condition: SimpleCondition & {
+                  EventCondition: EventCondition & {
+                    Dimensions: EventDimensions & {
+                      Attributes: {
+                        [key: string]:
+                          | (AttributeDimension & { Values: ListOf__string })
+                          | undefined;
+                      };
+                      EventType: SetDimension & { Values: ListOf__string };
+                      Metrics: {
+                        [key: string]:
+                          | (MetricDimension & {
+                              ComparisonOperator: string;
+                              Value: number;
+                            })
+                          | undefined;
+                      };
+                    };
+                  };
+                  SegmentCondition: SegmentCondition & { SegmentId: string };
+                  SegmentDimensions: SegmentDimensions & {
+                    Attributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                    Behavior: SegmentBehaviors & {
+                      Recency: RecencyDimension & {
+                        Duration: Duration;
+                        RecencyType: RecencyType;
+                      };
+                    };
+                    Demographic: SegmentDemographics & {
+                      AppVersion: SetDimension & { Values: ListOf__string };
+                      Channel: SetDimension & { Values: ListOf__string };
+                      DeviceType: SetDimension & { Values: ListOf__string };
+                      Make: SetDimension & { Values: ListOf__string };
+                      Model: SetDimension & { Values: ListOf__string };
+                      Platform: SetDimension & { Values: ListOf__string };
+                    };
+                    Location: SegmentLocation & {
+                      Country: SetDimension & { Values: ListOf__string };
+                      GPSPoint: GPSPointDimension & {
+                        Coordinates: GPSCoordinates & {
+                          Latitude: number;
+                          Longitude: number;
+                        };
+                      };
+                    };
+                    Metrics: {
+                      [key: string]:
+                        | (MetricDimension & {
+                            ComparisonOperator: string;
+                            Value: number;
+                          })
+                        | undefined;
+                    };
+                    UserAttributes: {
+                      [key: string]:
+                        | (AttributeDimension & { Values: ListOf__string })
+                        | undefined;
+                    };
+                  };
+                };
+              })[];
+            };
+          })
+        | undefined;
     };
     StartCondition: StartCondition & {
       EventStartCondition: EventStartCondition & {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]: AttributeDimension & { Values: ListOf__string };
+              [key: string]:
+                | (AttributeDimension & { Values: ListOf__string })
+                | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
-              [key: string]: MetricDimension & {
-                ComparisonOperator: string;
-                Value: number;
-              };
+              [key: string]:
+                | (MetricDimension & {
+                    ComparisonOperator: string;
+                    Value: number;
+                  })
+                | undefined;
             };
           };
           FilterType: FilterType;
@@ -11569,14 +11820,16 @@ export const EventItemResponse = S.suspend(() =>
 ).annotations({
   identifier: "EventItemResponse",
 }) as any as S.Schema<EventItemResponse>;
-export type MapOfEventItemResponse = { [key: string]: EventItemResponse };
+export type MapOfEventItemResponse = {
+  [key: string]: EventItemResponse | undefined;
+};
 export const MapOfEventItemResponse = S.Record({
   key: S.String,
-  value: EventItemResponse,
+  value: S.UndefinedOr(EventItemResponse),
 });
 export interface ItemResponse {
   EndpointItemResponse?: EndpointItemResponse;
-  EventsItemResponse?: { [key: string]: EventItemResponse };
+  EventsItemResponse?: { [key: string]: EventItemResponse | undefined };
 }
 export const ItemResponse = S.suspend(() =>
   S.Struct({
@@ -11584,13 +11837,13 @@ export const ItemResponse = S.suspend(() =>
     EventsItemResponse: S.optional(MapOfEventItemResponse),
   }),
 ).annotations({ identifier: "ItemResponse" }) as any as S.Schema<ItemResponse>;
-export type MapOfItemResponse = { [key: string]: ItemResponse };
+export type MapOfItemResponse = { [key: string]: ItemResponse | undefined };
 export const MapOfItemResponse = S.Record({
   key: S.String,
-  value: ItemResponse,
+  value: S.UndefinedOr(ItemResponse),
 });
 export interface EventsResponse {
-  Results?: { [key: string]: ItemResponse };
+  Results?: { [key: string]: ItemResponse | undefined };
 }
 export const EventsResponse = S.suspend(() =>
   S.Struct({ Results: S.optional(MapOfItemResponse) }),

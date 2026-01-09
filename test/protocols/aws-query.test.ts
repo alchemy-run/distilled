@@ -333,6 +333,34 @@ describe("awsQuery protocol", () => {
         expect(params["MessageAttributes.entry.2.Name"]).toBeDefined();
       }),
     );
+
+    it.effect("should drop undefined values in maps during serialization", () =>
+      Effect.gen(function* () {
+        const request = yield* buildRequest(PublishInput, {
+          TopicArn: "arn:aws:sns:us-east-1:123456789012:MyTopic",
+          Message: "Hello World",
+          MessageAttributes: {
+            present: {
+              DataType: "String",
+              StringValue: "value",
+            },
+            absent: undefined,
+          },
+        });
+
+        const params = parseFormBody(request.body as string);
+        // Only the present entry should be serialized
+        expect(params["MessageAttributes.entry.1.Name"]).toBe("present");
+        expect(params["MessageAttributes.entry.1.Value.DataType"]).toBe(
+          "String",
+        );
+        expect(params["MessageAttributes.entry.1.Value.StringValue"]).toBe(
+          "value",
+        );
+        // There should be no entry 2
+        expect(params["MessageAttributes.entry.2.Name"]).toBeUndefined();
+      }),
+    );
   });
 
   // ==========================================================================

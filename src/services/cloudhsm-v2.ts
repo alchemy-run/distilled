@@ -197,10 +197,13 @@ export const DeleteResourcePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export type Strings = string[];
 export const Strings = S.Array(S.String);
-export type Filters = { [key: string]: string[] };
-export const Filters = S.Record({ key: S.String, value: Strings });
+export type Filters = { [key: string]: string[] | undefined };
+export const Filters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Strings),
+});
 export interface DescribeClustersRequest {
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
   NextToken?: string;
   MaxResults?: number;
 }
@@ -429,10 +432,10 @@ export const ClusterState = S.Literal(
   "DELETED",
   "DEGRADED",
 );
-export type ExternalSubnetMapping = { [key: string]: string };
+export type ExternalSubnetMapping = { [key: string]: string | undefined };
 export const ExternalSubnetMapping = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface Certificates {
   ClusterCsr?: string;
@@ -463,7 +466,7 @@ export interface Cluster {
   SourceBackupId?: string;
   State?: ClusterState;
   StateMessage?: string;
-  SubnetMapping?: { [key: string]: string };
+  SubnetMapping?: { [key: string]: string | undefined };
   VpcId?: string;
   NetworkType?: NetworkType;
   Certificates?: Certificates;
@@ -558,7 +561,7 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 export interface DescribeBackupsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
   Shared?: boolean;
   SortAscending?: boolean;
 }

@@ -1123,8 +1123,8 @@ export type MaintenanceStatus = "enabled" | "disabled";
 export const MaintenanceStatus = S.Literal("enabled", "disabled");
 export type TableRecordExpirationStatus = "enabled" | "disabled";
 export const TableRecordExpirationStatus = S.Literal("enabled", "disabled");
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface EncryptionConfiguration {
   sseAlgorithm: SSEAlgorithm;
   kmsKeyArn?: string;
@@ -1148,7 +1148,7 @@ export const TableRecordExpirationJobStatus = S.Literal(
   "Disabled",
 );
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1157,7 +1157,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1297,7 +1297,7 @@ export interface CreateTableBucketRequest {
   name: string;
   encryptionConfiguration?: EncryptionConfiguration;
   storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTableBucketRequest = S.suspend(() =>
   S.Struct({
@@ -1548,7 +1548,7 @@ export type TableBucketMaintenanceConfiguration = {
 export const TableBucketMaintenanceConfiguration = S.partial(
   S.Record({
     key: TableBucketMaintenanceType,
-    value: TableBucketMaintenanceConfigurationValue,
+    value: S.UndefinedOr(TableBucketMaintenanceConfigurationValue),
   }),
 );
 export interface TableBucketSummary {
@@ -1628,7 +1628,7 @@ export type TableMaintenanceConfiguration = {
 export const TableMaintenanceConfiguration = S.partial(
   S.Record({
     key: TableMaintenanceType,
-    value: TableMaintenanceConfigurationValue,
+    value: S.UndefinedOr(TableMaintenanceConfigurationValue),
   }),
 );
 export interface TableRecordExpirationJobMetrics {
@@ -1671,8 +1671,11 @@ export const TableSummary = S.suspend(() =>
 ).annotations({ identifier: "TableSummary" }) as any as S.Schema<TableSummary>;
 export type TableSummaryList = TableSummary[];
 export const TableSummaryList = S.Array(TableSummary);
-export type TableProperties = { [key: string]: string };
-export const TableProperties = S.Record({ key: S.String, value: S.String });
+export type TableProperties = { [key: string]: string | undefined };
+export const TableProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type JobStatus = "Not_Yet_Run" | "Successful" | "Failed" | "Disabled";
 export const JobStatus = S.Literal(
   "Not_Yet_Run",
@@ -1702,7 +1705,9 @@ export const CreateTableBucketResponse = S.suspend(() =>
 }) as any as S.Schema<CreateTableBucketResponse>;
 export interface GetTableBucketMaintenanceConfigurationResponse {
   tableBucketARN: string;
-  configuration: { [key: string]: TableBucketMaintenanceConfigurationValue };
+  configuration: {
+    [key: string]: TableBucketMaintenanceConfigurationValue | undefined;
+  };
 }
 export const GetTableBucketMaintenanceConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1749,7 +1754,9 @@ export const PutTableReplicationRequest = S.suspend(() =>
 }) as any as S.Schema<PutTableReplicationRequest>;
 export interface GetTableMaintenanceConfigurationResponse {
   tableARN: string;
-  configuration: { [key: string]: TableMaintenanceConfigurationValue };
+  configuration: {
+    [key: string]: TableMaintenanceConfigurationValue | undefined;
+  };
 }
 export const GetTableMaintenanceConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1895,7 +1902,7 @@ export type TableMaintenanceJobStatus = {
 export const TableMaintenanceJobStatus = S.partial(
   S.Record({
     key: TableMaintenanceJobType,
-    value: TableMaintenanceJobStatusValue,
+    value: S.UndefinedOr(TableMaintenanceJobStatusValue),
   }),
 );
 export interface IcebergSchema {
@@ -2026,7 +2033,7 @@ export const GetTableResponse = S.suspend(() =>
 }) as any as S.Schema<GetTableResponse>;
 export interface GetTableMaintenanceJobStatusResponse {
   tableARN: string;
-  status: { [key: string]: TableMaintenanceJobStatusValue };
+  status: { [key: string]: TableMaintenanceJobStatusValue | undefined };
 }
 export const GetTableMaintenanceJobStatusResponse = S.suspend(() =>
   S.Struct({ tableARN: S.String, status: TableMaintenanceJobStatus }),
@@ -2071,7 +2078,7 @@ export const PutTableMaintenanceConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<PutTableMaintenanceConfigurationResponse>;
 export interface IcebergMetadata {
   schema: IcebergSchema;
-  properties?: { [key: string]: string };
+  properties?: { [key: string]: string | undefined };
 }
 export const IcebergMetadata = S.suspend(() =>
   S.Struct({ schema: IcebergSchema, properties: S.optional(TableProperties) }),
@@ -2097,7 +2104,7 @@ export interface CreateTableRequest {
   metadata?: TableMetadata;
   encryptionConfiguration?: EncryptionConfiguration;
   storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTableRequest = S.suspend(() =>
   S.Struct({

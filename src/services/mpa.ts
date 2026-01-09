@@ -514,8 +514,13 @@ export const Operator = S.Literal(
   "NOT_CONTAINS",
   "BETWEEN",
 );
-export type Tags = { [key: string]: string | redacted.Redacted<string> };
-export const Tags = S.Record({ key: S.String, value: SensitiveString });
+export type Tags = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const Tags = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
 export interface PolicyReference {
   PolicyArn: string;
 }
@@ -645,7 +650,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | redacted.Redacted<string> };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -654,7 +659,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string | redacted.Redacted<string> };
+  Tags: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -933,11 +938,11 @@ export const IdentitySourceParameters = S.suspend(() =>
   identifier: "IdentitySourceParameters",
 }) as any as S.Schema<IdentitySourceParameters>;
 export type SessionMetadata = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const SessionMetadata = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface GetSessionResponseApproverResponse {
   ApproverId?: string;
@@ -1010,7 +1015,7 @@ export interface CreateApprovalTeamRequest {
   Description: string | redacted.Redacted<string>;
   Policies: PolicyReference[];
   Name: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const CreateApprovalTeamRequest = S.suspend(() =>
   S.Struct({
@@ -1087,7 +1092,7 @@ export const ListApprovalTeamsResponse = S.suspend(() =>
 export interface CreateIdentitySourceRequest {
   IdentitySourceParameters: IdentitySourceParameters;
   ClientToken?: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const CreateIdentitySourceRequest = S.suspend(() =>
   S.Struct({
@@ -1118,7 +1123,7 @@ export interface GetSessionResponse {
   ExpirationTime?: Date;
   CompletionTime?: Date;
   Description?: string | redacted.Redacted<string>;
-  Metadata?: { [key: string]: string | redacted.Redacted<string> };
+  Metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
   Status?: SessionStatus;
   StatusCode?: SessionStatusCode;
   StatusMessage?: string;

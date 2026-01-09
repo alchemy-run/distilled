@@ -636,11 +636,14 @@ export const StopApplicationInput = S.suspend(() =>
 ).annotations({
   identifier: "StopApplicationInput",
 }) as any as S.Schema<StopApplicationInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -763,17 +766,17 @@ export type ConfigurationCheckOperationList = ConfigurationCheckOperation[];
 export const ConfigurationCheckOperationList = S.Array(
   ConfigurationCheckOperation,
 );
-export type OperationProperties = { [key: string]: string };
+export type OperationProperties = { [key: string]: string | undefined };
 export const OperationProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 }).pipe(T.Sparse());
 export interface Operation {
   Id?: string;
   Type?: string;
   Status?: OperationStatus;
   StatusMessage?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   ResourceType?: string;
   ResourceId?: string;
   ResourceArn?: string;
@@ -905,7 +908,7 @@ export const ListOperationsOutput = S.suspend(() =>
   identifier: "ListOperationsOutput",
 }) as any as S.Schema<ListOperationsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -926,7 +929,7 @@ export interface RegisterApplicationInput {
   Instances: string[];
   SapInstanceNumber?: string;
   Sid?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Credentials?: ApplicationCredential[];
   DatabaseArn?: string;
   ComponentsInfo?: ComponentInfo[];
@@ -1175,7 +1178,7 @@ export interface ComponentSummary {
   ApplicationId?: string;
   ComponentId?: string;
   ComponentType?: ComponentType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
 export const ComponentSummary = S.suspend(() =>
@@ -1217,7 +1220,7 @@ export interface DatabaseSummary {
   DatabaseId?: string;
   DatabaseType?: DatabaseType;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DatabaseSummary = S.suspend(() =>
   S.Struct({
@@ -1293,7 +1296,7 @@ export type DatabaseConnectionMethod = "DIRECT" | "OVERLAY";
 export const DatabaseConnectionMethod = S.Literal("DIRECT", "OVERLAY");
 export interface GetApplicationOutput {
   Application?: Application;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetApplicationOutput = S.suspend(() =>
   S.Struct({ Application: S.optional(Application), Tags: S.optional(TagMap) }),
@@ -1302,7 +1305,7 @@ export const GetApplicationOutput = S.suspend(() =>
 }) as any as S.Schema<GetApplicationOutput>;
 export interface GetDatabaseOutput {
   Database?: Database;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDatabaseOutput = S.suspend(() =>
   S.Struct({ Database: S.optional(Database), Tags: S.optional(TagMap) }),
@@ -1441,8 +1444,11 @@ export const Resource = S.suspend(() =>
     ResourceType: S.optional(S.String),
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
-export type RuleResultMetadata = { [key: string]: string };
-export const RuleResultMetadata = S.Record({ key: S.String, value: S.String });
+export type RuleResultMetadata = { [key: string]: string | undefined };
+export const RuleResultMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type AllocationType =
   | "VPC_SUBNET"
   | "ELASTIC_IP"
@@ -1459,7 +1465,7 @@ export interface ApplicationSummary {
   DiscoveryStatus?: ApplicationDiscoveryStatus;
   Type?: ApplicationType;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ApplicationSummary = S.suspend(() =>
   S.Struct({
@@ -1499,7 +1505,7 @@ export interface RuleResult {
   Description?: string;
   Status?: RuleResultStatus;
   Message?: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
 }
 export const RuleResult = S.suspend(() =>
   S.Struct({
@@ -1646,7 +1652,7 @@ export const Component = S.suspend(() =>
 ).annotations({ identifier: "Component" }) as any as S.Schema<Component>;
 export interface GetComponentOutput {
   Component?: Component;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetComponentOutput = S.suspend(() =>
   S.Struct({ Component: S.optional(Component), Tags: S.optional(TagMap) }),

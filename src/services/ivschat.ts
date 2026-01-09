@@ -326,11 +326,11 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -482,16 +482,22 @@ export const UpdateRoomRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRoomRequest",
 }) as any as S.Schema<UpdateRoomRequest>;
-export type ChatTokenAttributes = { [key: string]: string };
-export const ChatTokenAttributes = S.Record({ key: S.String, value: S.String });
-export type EventAttributes = { [key: string]: string };
-export const EventAttributes = S.Record({ key: S.String, value: S.String });
+export type ChatTokenAttributes = { [key: string]: string | undefined };
+export const ChatTokenAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type EventAttributes = { [key: string]: string | undefined };
+export const EventAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateChatTokenRequest {
   roomIdentifier: string;
   userId: string | redacted.Redacted<string>;
   capabilities?: string[];
   sessionDurationInMinutes?: number;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const CreateChatTokenRequest = S.suspend(() =>
   S.Struct({
@@ -518,7 +524,7 @@ export interface CreateRoomRequest {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
 export const CreateRoomRequest = S.suspend(() =>
@@ -560,7 +566,7 @@ export interface GetLoggingConfigurationResponse {
   name?: string;
   destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -585,7 +591,7 @@ export interface GetRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
 export const GetRoomResponse = S.suspend(() =>
@@ -607,7 +613,7 @@ export const GetRoomResponse = S.suspend(() =>
   identifier: "GetRoomResponse",
 }) as any as S.Schema<GetRoomResponse>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -617,7 +623,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface SendEventRequest {
   roomIdentifier: string;
   eventName: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const SendEventRequest = S.suspend(() =>
   S.Struct({
@@ -645,7 +651,7 @@ export interface UpdateLoggingConfigurationResponse {
   name?: string;
   destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -670,7 +676,7 @@ export interface UpdateRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
 export const UpdateRoomResponse = S.suspend(() =>
@@ -699,7 +705,7 @@ export interface LoggingConfigurationSummary {
   name?: string;
   destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const LoggingConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -724,7 +730,7 @@ export interface RoomSummary {
   messageReviewHandler?: MessageReviewHandler;
   createTime?: Date;
   updateTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
 export const RoomSummary = S.suspend(() =>
@@ -764,7 +770,7 @@ export const CreateChatTokenResponse = S.suspend(() =>
 export interface CreateLoggingConfigurationRequest {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLoggingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -793,7 +799,7 @@ export interface CreateRoomResponse {
   maximumMessageRatePerSecond?: number;
   maximumMessageLength?: number;
   messageReviewHandler?: MessageReviewHandler;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
 export const CreateRoomResponse = S.suspend(() =>
@@ -851,7 +857,7 @@ export interface CreateLoggingConfigurationResponse {
   name?: string;
   destinationConfiguration?: DestinationConfiguration;
   state?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({

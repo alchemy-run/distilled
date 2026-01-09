@@ -778,8 +778,11 @@ export const S3DataSpec = S.suspend(() =>
     DataSchemaLocationS3: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3DataSpec" }) as any as S.Schema<S3DataSpec>;
-export type TrainingParameters = { [key: string]: string };
-export const TrainingParameters = S.Record({ key: S.String, value: S.String });
+export type TrainingParameters = { [key: string]: string | undefined };
+export const TrainingParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type EntityStatus =
   | "PENDING"
   | "INPROGRESS"
@@ -793,8 +796,11 @@ export const EntityStatus = S.Literal(
   "COMPLETED",
   "DELETED",
 );
-export type Record = { [key: string]: string };
-export const Record = S.Record({ key: S.String, value: S.String });
+export type Record = { [key: string]: string | undefined };
+export const Record = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AddTagsInput {
   Tags: Tag[];
   ResourceId: string;
@@ -863,7 +869,7 @@ export interface CreateMLModelInput {
   MLModelId: string;
   MLModelName?: string;
   MLModelType: MLModelType;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   TrainingDataSourceId: string;
   Recipe?: string;
   RecipeUri?: string;
@@ -1036,7 +1042,7 @@ export interface GetMLModelOutput {
   Status?: EntityStatus;
   SizeInBytes?: number;
   EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string };
+  TrainingParameters?: { [key: string]: string | undefined };
   InputDataLocationS3?: string;
   MLModelType?: MLModelType;
   ScoreThreshold?: number;
@@ -1080,7 +1086,7 @@ export const GetMLModelOutput = S.suspend(() =>
 }) as any as S.Schema<GetMLModelOutput>;
 export interface PredictInput {
   MLModelId: string;
-  Record: { [key: string]: string };
+  Record: { [key: string]: string | undefined };
   PredictEndpoint: string;
 }
 export const PredictInput = S.suspend(() =>
@@ -1336,13 +1342,15 @@ export const DataSource = S.suspend(() =>
 ).annotations({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
 export const DataSources = S.Array(DataSource);
-export type PerformanceMetricsProperties = { [key: string]: string };
+export type PerformanceMetricsProperties = {
+  [key: string]: string | undefined;
+};
 export const PerformanceMetricsProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PerformanceMetrics {
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const PerformanceMetrics = S.suspend(() =>
   S.Struct({ Properties: S.optional(PerformanceMetricsProperties) }),
@@ -1395,7 +1403,7 @@ export interface MLModel {
   Status?: EntityStatus;
   SizeInBytes?: number;
   EndpointInfo?: RealtimeEndpointInfo;
-  TrainingParameters?: { [key: string]: string };
+  TrainingParameters?: { [key: string]: string | undefined };
   InputDataLocationS3?: string;
   Algorithm?: Algorithm;
   MLModelType?: MLModelType;
@@ -1681,20 +1689,20 @@ export const GetEvaluationOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetEvaluationOutput",
 }) as any as S.Schema<GetEvaluationOutput>;
-export type ScoreValuePerLabelMap = { [key: string]: number };
+export type ScoreValuePerLabelMap = { [key: string]: number | undefined };
 export const ScoreValuePerLabelMap = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export type DetailsMap = { [key in DetailsAttributes]?: string };
 export const DetailsMap = S.partial(
-  S.Record({ key: DetailsAttributes, value: S.String }),
+  S.Record({ key: DetailsAttributes, value: S.UndefinedOr(S.String) }),
 );
 export interface Prediction {
   predictedLabel?: string;
   predictedValue?: number;
-  predictedScores?: { [key: string]: number };
-  details?: { [key: string]: string };
+  predictedScores?: { [key: string]: number | undefined };
+  details?: { [key: string]: string | undefined };
 }
 export const Prediction = S.suspend(() =>
   S.Struct({

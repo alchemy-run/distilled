@@ -243,14 +243,14 @@ export const GetBlueprintOptimizationStatusRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetBlueprintOptimizationStatusRequest",
 }) as any as S.Schema<GetBlueprintOptimizationStatusRequest>;
-export type KmsEncryptionContext = { [key: string]: string };
+export type KmsEncryptionContext = { [key: string]: string | undefined };
 export const KmsEncryptionContext = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface EncryptionConfiguration {
   kmsKeyId: string;
-  kmsEncryptionContext?: { [key: string]: string };
+  kmsEncryptionContext?: { [key: string]: string | undefined };
 }
 export const EncryptionConfiguration = S.suspend(() =>
   S.Struct({
@@ -1270,7 +1270,7 @@ export interface Blueprint {
   blueprintVersion?: string;
   blueprintStage?: BlueprintStage;
   kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string };
+  kmsEncryptionContext?: { [key: string]: string | undefined };
   optimizationSamples?: BlueprintOptimizationSample[];
   optimizationTime?: Date;
 }
@@ -1409,7 +1409,7 @@ export interface DataAutomationProject {
   overrideConfiguration?: OverrideConfiguration;
   status: DataAutomationProjectStatus;
   kmsKeyId?: string;
-  kmsEncryptionContext?: { [key: string]: string };
+  kmsEncryptionContext?: { [key: string]: string | undefined };
 }
 export const DataAutomationProject = S.suspend(() =>
   S.Struct({

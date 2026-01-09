@@ -526,14 +526,14 @@ export interface ClaimDeviceResponse {}
 export const ClaimDeviceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "ClaimDeviceResponse",
 }) as any as S.Schema<ClaimDeviceResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateChannelPlacementGroupRequest {
   ClusterId: string;
   Name?: string;
   Nodes?: string[];
   RequestId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelPlacementGroupRequest = S.suspend(() =>
   S.Struct({
@@ -561,12 +561,15 @@ export const CreateChannelPlacementGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateChannelPlacementGroupRequest",
 }) as any as S.Schema<CreateChannelPlacementGroupRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateCloudWatchAlarmTemplateGroupRequest {
   Description?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestId?: string;
 }
 export const CreateCloudWatchAlarmTemplateGroupRequest = S.suspend(() =>
@@ -594,7 +597,7 @@ export const CreateCloudWatchAlarmTemplateGroupRequest = S.suspend(() =>
 export interface CreateEventBridgeRuleTemplateGroupRequest {
   Description?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestId?: string;
 }
 export const CreateEventBridgeRuleTemplateGroupRequest = S.suspend(() =>
@@ -622,7 +625,7 @@ export const CreateEventBridgeRuleTemplateGroupRequest = S.suspend(() =>
 export interface CreatePartnerInputRequest {
   InputId: string;
   RequestId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePartnerInputRequest = S.suspend(() =>
   S.Struct({
@@ -649,7 +652,7 @@ export interface CreateSdiSourceRequest {
   Mode?: SdiSourceMode;
   Name?: string;
   RequestId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: SdiSourceType;
 }
 export const CreateSdiSourceRequest = S.suspend(() =>
@@ -681,7 +684,7 @@ export interface CreateSignalMapRequest {
   DiscoveryEntryPointArn?: string;
   EventBridgeRuleTemplateGroupIdentifiers?: string[];
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestId?: string;
 }
 export const CreateSignalMapRequest = S.suspend(() =>
@@ -717,7 +720,7 @@ export const CreateSignalMapRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSignalMapRequest>;
 export interface CreateTagsRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({
@@ -2835,7 +2838,7 @@ export type __listOfInputWhitelistRuleCidr = InputWhitelistRuleCidr[];
 export const __listOfInputWhitelistRuleCidr = S.Array(InputWhitelistRuleCidr);
 export interface UpdateInputSecurityGroupRequest {
   InputSecurityGroupId: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRuleCidr[];
 }
 export const UpdateInputSecurityGroupRequest = S.suspend(() =>
@@ -3810,7 +3813,7 @@ export interface Input {
   SecurityGroups?: string[];
   Sources?: InputSource[];
   State?: InputState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: InputType;
   SrtSettings?: SrtSettings;
   InputNetworkLocation?: InputNetworkLocation;
@@ -4292,7 +4295,7 @@ export interface CreateCloudWatchAlarmTemplateRequest {
   Name?: string;
   Period?: number;
   Statistic?: CloudWatchAlarmTemplateStatistic;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetResourceType?: CloudWatchAlarmTemplateTargetResourceType;
   Threshold?: number;
   TreatMissingData?: CloudWatchAlarmTemplateTreatMissingData;
@@ -4349,7 +4352,7 @@ export interface CreateCloudWatchAlarmTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -4374,7 +4377,7 @@ export interface CreateEventBridgeRuleTemplateRequest {
   EventType?: EventBridgeRuleTemplateEventType;
   GroupIdentifier?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestId?: string;
 }
 export const CreateEventBridgeRuleTemplateRequest = S.suspend(() =>
@@ -4413,7 +4416,7 @@ export interface CreateEventBridgeRuleTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -4433,7 +4436,7 @@ export const CreateEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   identifier: "CreateEventBridgeRuleTemplateGroupResponse",
 }) as any as S.Schema<CreateEventBridgeRuleTemplateGroupResponse>;
 export interface CreateInputSecurityGroupRequest {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRuleCidr[];
 }
 export const CreateInputSecurityGroupRequest = S.suspend(() =>
@@ -4460,7 +4463,7 @@ export interface CreateMultiplexRequest {
   MultiplexSettings?: MultiplexSettings;
   Name?: string;
   RequestId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateMultiplexRequest = S.suspend(() =>
   S.Struct({
@@ -4494,7 +4497,7 @@ export interface CreateNetworkRequest {
   Name?: string;
   RequestId?: string;
   Routes?: RouteCreateRequest[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateNetworkRequest = S.suspend(() =>
   S.Struct({
@@ -4527,7 +4530,7 @@ export interface CreateNodeRequest {
   NodeInterfaceMappings?: NodeInterfaceMappingCreateRequest[];
   RequestId?: string;
   Role?: NodeRole;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateNodeRequest = S.suspend(() =>
   S.Struct({
@@ -10089,7 +10092,7 @@ export interface DescribeChannelResponse {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -10292,7 +10295,7 @@ export interface DescribeMultiplexResponse {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeMultiplexResponse = S.suspend(() =>
   S.Struct({
@@ -10660,7 +10663,7 @@ export interface DescribeReservationResponse {
   ResourceSpecification?: ReservationResourceSpecification;
   Start?: string;
   State?: ReservationState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UsagePrice?: number;
 }
 export const DescribeReservationResponse = S.suspend(() =>
@@ -11438,7 +11441,7 @@ export interface GetCloudWatchAlarmTemplateResponse {
   Name?: string;
   Period?: number;
   Statistic?: CloudWatchAlarmTemplateStatistic;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetResourceType?: CloudWatchAlarmTemplateTargetResourceType;
   Threshold?: number;
   TreatMissingData?: CloudWatchAlarmTemplateTreatMissingData;
@@ -11489,7 +11492,7 @@ export interface GetCloudWatchAlarmTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -11520,7 +11523,7 @@ export interface GetEventBridgeRuleTemplateResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -11553,7 +11556,7 @@ export interface GetEventBridgeRuleTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -11604,10 +11607,12 @@ export const MediaResource = S.suspend(() =>
 ).annotations({
   identifier: "MediaResource",
 }) as any as S.Schema<MediaResource>;
-export type FailedMediaResourceMap = { [key: string]: MediaResource };
+export type FailedMediaResourceMap = {
+  [key: string]: MediaResource | undefined;
+};
 export const FailedMediaResourceMap = S.Record({
   key: S.String,
-  value: MediaResource,
+  value: S.UndefinedOr(MediaResource),
 });
 export type SignalMapMonitorDeploymentStatus =
   | "NOT_DEPLOYED"
@@ -11646,10 +11651,10 @@ export const SuccessfulMonitorDeployment = S.suspend(() =>
 ).annotations({
   identifier: "SuccessfulMonitorDeployment",
 }) as any as S.Schema<SuccessfulMonitorDeployment>;
-export type MediaResourceMap = { [key: string]: MediaResource };
+export type MediaResourceMap = { [key: string]: MediaResource | undefined };
 export const MediaResourceMap = S.Record({
   key: S.String,
-  value: MediaResource,
+  value: S.UndefinedOr(MediaResource),
 });
 export interface MonitorDeployment {
   DetailsUri?: string;
@@ -11676,14 +11681,16 @@ export interface GetSignalMapResponse {
   ErrorMessage?: string;
   EventBridgeRuleTemplateGroupIds?: string[];
   FailedMediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   Id?: string;
   LastDiscoveredAt?: Date;
@@ -11692,14 +11699,16 @@ export interface GetSignalMapResponse {
     Status: SignalMapMonitorDeploymentStatus;
   };
   MediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   ModifiedAt?: Date;
   MonitorChangesPendingDeployment?: boolean;
@@ -11708,7 +11717,7 @@ export interface GetSignalMapResponse {
   };
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetSignalMapResponse = S.suspend(() =>
   S.Struct({
@@ -11773,7 +11782,7 @@ export const ListInputsResponse = S.suspend(() =>
   identifier: "ListInputsResponse",
 }) as any as S.Schema<ListInputsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -11799,7 +11808,7 @@ export interface PurchaseOfferingRequest {
   RenewalSettings?: RenewalSettings;
   RequestId?: string;
   Start?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PurchaseOfferingRequest = S.suspend(() =>
   S.Struct({
@@ -12102,7 +12111,7 @@ export interface RestartChannelPipelinesResponse {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -12437,7 +12446,7 @@ export interface StartChannelResponse {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -12505,14 +12514,16 @@ export interface StartDeleteMonitorDeploymentResponse {
   ErrorMessage?: string;
   EventBridgeRuleTemplateGroupIds?: string[];
   FailedMediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   Id?: string;
   LastDiscoveredAt?: Date;
@@ -12521,14 +12532,16 @@ export interface StartDeleteMonitorDeploymentResponse {
     Status: SignalMapMonitorDeploymentStatus;
   };
   MediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   ModifiedAt?: Date;
   MonitorChangesPendingDeployment?: boolean;
@@ -12537,7 +12550,7 @@ export interface StartDeleteMonitorDeploymentResponse {
   };
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartDeleteMonitorDeploymentResponse = S.suspend(() =>
   S.Struct({
@@ -12594,14 +12607,16 @@ export interface StartMonitorDeploymentResponse {
   ErrorMessage?: string;
   EventBridgeRuleTemplateGroupIds?: string[];
   FailedMediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   Id?: string;
   LastDiscoveredAt?: Date;
@@ -12610,14 +12625,16 @@ export interface StartMonitorDeploymentResponse {
     Status: SignalMapMonitorDeploymentStatus;
   };
   MediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   ModifiedAt?: Date;
   MonitorChangesPendingDeployment?: boolean;
@@ -12626,7 +12643,7 @@ export interface StartMonitorDeploymentResponse {
   };
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartMonitorDeploymentResponse = S.suspend(() =>
   S.Struct({
@@ -12687,7 +12704,7 @@ export interface StartMultiplexResponse {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartMultiplexResponse = S.suspend(() =>
   S.Struct({
@@ -12722,14 +12739,16 @@ export interface StartUpdateSignalMapResponse {
   ErrorMessage?: string;
   EventBridgeRuleTemplateGroupIds?: string[];
   FailedMediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   Id?: string;
   LastDiscoveredAt?: Date;
@@ -12738,14 +12757,16 @@ export interface StartUpdateSignalMapResponse {
     Status: SignalMapMonitorDeploymentStatus;
   };
   MediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   ModifiedAt?: Date;
   MonitorChangesPendingDeployment?: boolean;
@@ -12754,7 +12775,7 @@ export interface StartUpdateSignalMapResponse {
   };
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartUpdateSignalMapResponse = S.suspend(() =>
   S.Struct({
@@ -13075,7 +13096,7 @@ export interface StopChannelResponse {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -13147,7 +13168,7 @@ export interface StopMultiplexResponse {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StopMultiplexResponse = S.suspend(() =>
   S.Struct({
@@ -13328,7 +13349,7 @@ export interface UpdateCloudWatchAlarmTemplateResponse {
   Name?: string;
   Period?: number;
   Statistic?: CloudWatchAlarmTemplateStatistic;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetResourceType?: CloudWatchAlarmTemplateTargetResourceType;
   Threshold?: number;
   TreatMissingData?: CloudWatchAlarmTemplateTreatMissingData;
@@ -13379,7 +13400,7 @@ export interface UpdateCloudWatchAlarmTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -13410,7 +13431,7 @@ export interface UpdateEventBridgeRuleTemplateResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -13443,7 +13464,7 @@ export interface UpdateEventBridgeRuleTemplateGroupResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
@@ -13477,7 +13498,7 @@ export interface InputSecurityGroup {
   Id?: string;
   Inputs?: string[];
   State?: InputSecurityGroupState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRule[];
 }
 export const InputSecurityGroup = S.suspend(() =>
@@ -13621,7 +13642,7 @@ export interface Reservation {
   ResourceSpecification?: ReservationResourceSpecification;
   Start?: string;
   State?: ReservationState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UsagePrice?: number;
 }
 export const Reservation = S.suspend(() =>
@@ -14015,7 +14036,7 @@ export interface ChannelSummary {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -14081,7 +14102,7 @@ export interface CloudWatchAlarmTemplateGroupSummary {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TemplateCount?: number;
 }
 export const CloudWatchAlarmTemplateGroupSummary = S.suspend(() =>
@@ -14121,7 +14142,7 @@ export interface CloudWatchAlarmTemplateSummary {
   Name?: string;
   Period?: number;
   Statistic?: CloudWatchAlarmTemplateStatistic;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetResourceType?: CloudWatchAlarmTemplateTargetResourceType;
   Threshold?: number;
   TreatMissingData?: CloudWatchAlarmTemplateTreatMissingData;
@@ -14233,7 +14254,7 @@ export interface EventBridgeRuleTemplateGroupSummary {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TemplateCount?: number;
 }
 export const EventBridgeRuleTemplateGroupSummary = S.suspend(() =>
@@ -14269,7 +14290,7 @@ export interface EventBridgeRuleTemplateSummary {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EventBridgeRuleTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -14407,7 +14428,7 @@ export interface InputDeviceSummary {
   SerialNumber?: string;
   Type?: InputDeviceType;
   UhdDeviceSettings?: InputDeviceUhdSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AvailabilityZone?: string;
   MedialiveInputArns?: string[];
   OutputType?: InputDeviceOutputType;
@@ -14660,7 +14681,7 @@ export interface SignalMapSummary {
   MonitorDeploymentStatus?: SignalMapMonitorDeploymentStatus;
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const SignalMapSummary = S.suspend(() =>
   S.Struct({
@@ -14702,7 +14723,7 @@ export interface Channel {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -14818,11 +14839,11 @@ export const InputDeviceConfigurableSettings = S.suspend(() =>
   identifier: "InputDeviceConfigurableSettings",
 }) as any as S.Schema<InputDeviceConfigurableSettings>;
 export type MultiplexPacketIdentifiersMapping = {
-  [key: string]: MultiplexProgramPacketIdentifiersMap;
+  [key: string]: MultiplexProgramPacketIdentifiersMap | undefined;
 };
 export const MultiplexPacketIdentifiersMapping = S.Record({
   key: S.String,
-  value: MultiplexProgramPacketIdentifiersMap,
+  value: S.UndefinedOr(MultiplexProgramPacketIdentifiersMap),
 });
 export interface MultiplexProgram {
   ChannelId?: string;
@@ -14894,7 +14915,7 @@ export interface CreateCloudWatchAlarmTemplateResponse {
   Name?: string;
   Period?: number;
   Statistic?: CloudWatchAlarmTemplateStatistic;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetResourceType?: CloudWatchAlarmTemplateTargetResourceType;
   Threshold?: number;
   TreatMissingData?: CloudWatchAlarmTemplateTreatMissingData;
@@ -14944,7 +14965,7 @@ export interface CreateClusterRequest {
   Name?: string;
   NetworkSettings?: ClusterNetworkSettingsCreateRequest;
   RequestId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
@@ -14984,7 +15005,7 @@ export interface CreateEventBridgeRuleTemplateResponse {
   Id?: string;
   ModifiedAt?: Date;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -15234,7 +15255,7 @@ export interface DeleteReservationResponse {
   ResourceSpecification?: ReservationResourceSpecification;
   Start?: string;
   State?: ReservationState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UsagePrice?: number;
 }
 export const DeleteReservationResponse = S.suspend(() =>
@@ -15275,7 +15296,7 @@ export interface DescribeInputSecurityGroupResponse {
   Id?: string;
   Inputs?: string[];
   State?: InputSecurityGroupState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WhitelistRules?: InputWhitelistRule[];
 }
 export const DescribeInputSecurityGroupResponse = S.suspend(() =>
@@ -16368,7 +16389,7 @@ export interface UpdateMultiplexRequest {
   MultiplexSettings?: MultiplexSettings;
   Name?: string;
   PacketIdentifiersMapping?: {
-    [key: string]: MultiplexProgramPacketIdentifiersMap;
+    [key: string]: MultiplexProgramPacketIdentifiersMap | undefined;
   };
 }
 export const UpdateMultiplexRequest = S.suspend(() =>
@@ -16516,7 +16537,7 @@ export interface Multiplex {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Multiplex = S.suspend(() =>
   S.Struct({
@@ -16563,7 +16584,7 @@ export interface MultiplexSummary {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const MultiplexSummary = S.suspend(() =>
   S.Struct({
@@ -16937,7 +16958,7 @@ export interface DeleteChannelResponse {
   PipelinesRunningCount?: number;
   RoleArn?: string;
   State?: ChannelState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettingsDescription;
   AnywhereSettings?: DescribeAnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionResponse;
@@ -17035,7 +17056,7 @@ export interface DeleteMultiplexResponse {
   PipelinesRunningCount?: number;
   ProgramCount?: number;
   State?: MultiplexState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DeleteMultiplexResponse = S.suspend(() =>
   S.Struct({
@@ -17074,7 +17095,7 @@ export interface DescribeInputDeviceResponse {
   SerialNumber?: string;
   Type?: InputDeviceType;
   UhdDeviceSettings?: InputDeviceUhdSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AvailabilityZone?: string;
   MedialiveInputArns?: string[];
   OutputType?: InputDeviceOutputType;
@@ -17196,7 +17217,7 @@ export interface UpdateInputDeviceResponse {
   SerialNumber?: string;
   Type?: InputDeviceType;
   UhdDeviceSettings?: InputDeviceUhdSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AvailabilityZone?: string;
   MedialiveInputArns?: string[];
   OutputType?: InputDeviceOutputType;
@@ -17265,7 +17286,7 @@ export interface CreateInputRequest {
   RequestId?: string;
   RoleArn?: string;
   Sources?: InputSourceRequest[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: InputType;
   Vpc?: InputVpcRequest;
   SrtSettings?: SrtSettingsRequest;
@@ -17359,14 +17380,16 @@ export interface CreateSignalMapResponse {
   ErrorMessage?: string;
   EventBridgeRuleTemplateGroupIds?: string[];
   FailedMediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   Id?: string;
   LastDiscoveredAt?: Date;
@@ -17375,14 +17398,16 @@ export interface CreateSignalMapResponse {
     Status: SignalMapMonitorDeploymentStatus;
   };
   MediaResourceMap?: {
-    [key: string]: MediaResource & {
-      Destinations: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-      Sources: (MediaResourceNeighbor & {
-        Arn: __stringMin1Max2048PatternArn;
-      })[];
-    };
+    [key: string]:
+      | (MediaResource & {
+          Destinations: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+          Sources: (MediaResourceNeighbor & {
+            Arn: __stringMin1Max2048PatternArn;
+          })[];
+        })
+      | undefined;
   };
   ModifiedAt?: Date;
   MonitorChangesPendingDeployment?: boolean;
@@ -17391,7 +17416,7 @@ export interface CreateSignalMapResponse {
   };
   Name?: string;
   Status?: SignalMapStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSignalMapResponse = S.suspend(() =>
   S.Struct({
@@ -17454,7 +17479,7 @@ export interface DescribeInputResponse {
   SecurityGroups?: string[];
   Sources?: InputSource[];
   State?: InputState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: InputType;
   SrtSettings?: SrtSettings;
   InputNetworkLocation?: InputNetworkLocation;
@@ -17599,7 +17624,7 @@ export interface CreateChannelRequest {
   RequestId?: string;
   Reserved?: string;
   RoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Vpc?: VpcOutputSettings;
   AnywhereSettings?: AnywhereSettings;
   ChannelEngineVersion?: ChannelEngineVersionRequest;

@@ -1034,13 +1034,16 @@ export const UpdateCapacityReservationOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCapacityReservationOutput",
 }) as any as S.Schema<UpdateCapacityReservationOutput>;
-export type ParametersMap = { [key: string]: string };
-export const ParametersMap = S.Record({ key: S.String, value: S.String });
+export type ParametersMap = { [key: string]: string | undefined };
+export const ParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateDataCatalogInput {
   Name: string;
   Type: DataCatalogType;
   Description?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const UpdateDataCatalogInput = S.suspend(() =>
   S.Struct({
@@ -1222,7 +1225,7 @@ export const CapacityReservationsList = S.Array(CapacityReservation);
 export interface Database {
   Name: string;
   Description?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const Database = S.suspend(() =>
   S.Struct({
@@ -1276,7 +1279,7 @@ export interface TableMetadata {
   TableType?: string;
   Columns?: Column[];
   PartitionKeys?: Column[];
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const TableMetadata = S.suspend(() =>
   S.Struct({
@@ -1352,7 +1355,7 @@ export interface CreateDataCatalogInput {
   Name: string;
   Type: DataCatalogType;
   Description?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   Tags?: Tag[];
 }
 export const CreateDataCatalogInput = S.suspend(() =>
@@ -1518,7 +1521,7 @@ export interface DataCatalog {
   Name: string;
   Description?: string;
   Type: DataCatalogType;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   Status?: DataCatalogStatus;
   ConnectionType?: ConnectionType;
   Error?: string;
@@ -2099,7 +2102,7 @@ export type ExecutorType = "COORDINATOR" | "GATEWAY" | "WORKER";
 export const ExecutorType = S.Literal("COORDINATOR", "GATEWAY", "WORKER");
 export interface Classification {
   Name?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const Classification = S.suspend(() =>
   S.Struct({
@@ -2287,16 +2290,16 @@ export const SessionStatistics = S.suspend(() =>
 ).annotations({
   identifier: "SessionStatistics",
 }) as any as S.Schema<SessionStatistics>;
-export type LogTypesMap = { [key: string]: string[] };
+export type LogTypesMap = { [key: string]: string[] | undefined };
 export const LogTypesMap = S.Record({
   key: S.String,
-  value: LogTypeValuesList,
+  value: S.UndefinedOr(LogTypeValuesList),
 });
 export interface CloudWatchLoggingConfiguration {
   Enabled: boolean;
   LogGroup?: string;
   LogStreamNamePrefix?: string;
-  LogTypes?: { [key: string]: string[] };
+  LogTypes?: { [key: string]: string[] | undefined };
 }
 export const CloudWatchLoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2326,8 +2329,8 @@ export interface EngineConfiguration {
   CoordinatorDpuSize?: number;
   MaxConcurrentDpus?: number;
   DefaultExecutorDpuSize?: number;
-  AdditionalConfigs?: { [key: string]: string };
-  SparkProperties?: { [key: string]: string };
+  AdditionalConfigs?: { [key: string]: string | undefined };
+  SparkProperties?: { [key: string]: string | undefined };
   Classifications?: Classification[];
 }
 export const EngineConfiguration = S.suspend(() =>

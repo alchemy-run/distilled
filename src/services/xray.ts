@@ -880,8 +880,11 @@ export const RetrievalStatus = S.Literal(
   "CANCELLED",
   "TIMEOUT",
 );
-export type AttributeMap = { [key: string]: string };
-export const AttributeMap = S.Record({ key: S.String, value: S.String });
+export type AttributeMap = { [key: string]: string | undefined };
+export const AttributeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SamplingRateBoost {
   MaxRate: number;
   CooldownWindowMinutes: number;
@@ -904,7 +907,7 @@ export interface SamplingRule {
   HTTPMethod: string;
   URLPath: string;
   Version: number;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   SamplingRateBoost?: SamplingRateBoost;
 }
 export const SamplingRule = S.suspend(() =>
@@ -1014,7 +1017,7 @@ export interface SamplingRuleUpdate {
   ServiceType?: string;
   HTTPMethod?: string;
   URLPath?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   SamplingRateBoost?: SamplingRateBoost;
 }
 export const SamplingRuleUpdate = S.suspend(() =>
@@ -2362,10 +2365,10 @@ export type ResponseTimeRootCauseServices = ResponseTimeRootCauseService[];
 export const ResponseTimeRootCauseServices = S.Array(
   ResponseTimeRootCauseService,
 );
-export type Annotations = { [key: string]: ValueWithServiceIds[] };
+export type Annotations = { [key: string]: ValueWithServiceIds[] | undefined };
 export const Annotations = S.Record({
   key: S.String,
-  value: ValuesWithServiceIds,
+  value: S.UndefinedOr(ValuesWithServiceIds),
 });
 export interface ErrorRootCause {
   Services?: ErrorRootCauseService[];
@@ -2457,7 +2460,7 @@ export interface TraceSummary {
   HasThrottle?: boolean;
   IsPartial?: boolean;
   Http?: Http;
-  Annotations?: { [key: string]: ValueWithServiceIds[] };
+  Annotations?: { [key: string]: ValueWithServiceIds[] | undefined };
   Users?: TraceUser[];
   ServiceIds?: ServiceId[];
   ResourceARNs?: ResourceARNDetail[];

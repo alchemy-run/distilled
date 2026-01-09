@@ -404,8 +404,8 @@ export const EncryptionType = S.Literal(
   "AWS_MANAGED_KEY",
   "CUSTOMER_MANAGED_KEY",
 );
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export type TaskInstanceStatus =
   | "QUEUED"
   | "FAILED"
@@ -450,8 +450,11 @@ export type WorkflowStatus = "READY" | "DELETING";
 export const WorkflowStatus = S.Literal("READY", "DELETING");
 export type WarningMessages = string[];
 export const WarningMessages = S.Array(S.String);
-export type ObjectMap = { [key: string]: any };
-export const ObjectMap = S.Record({ key: S.String, value: S.Any });
+export type ObjectMap = { [key: string]: any | undefined };
+export const ObjectMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
 export type RunType = "ON_DEMAND" | "SCHEDULED";
 export const RunType = S.Literal("ON_DEMAND", "SCHEDULED");
 export type WorkflowRunStatus =
@@ -474,7 +477,7 @@ export const WorkflowRunStatus = S.Literal(
   "STOPPED",
 );
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -483,7 +486,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -516,7 +519,7 @@ export interface CreateWorkflowRequest {
   LoggingConfiguration?: LoggingConfiguration;
   EngineVersion?: EngineVersion;
   NetworkConfiguration?: NetworkConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TriggerMode?: string;
 }
 export const CreateWorkflowRequest = S.suspend(() =>
@@ -573,7 +576,7 @@ export const DeleteWorkflowResponse = S.suspend(() =>
 export interface StartWorkflowRunRequest {
   WorkflowArn: string;
   ClientToken?: string;
-  OverrideParameters?: { [key: string]: any };
+  OverrideParameters?: { [key: string]: any | undefined };
   WorkflowVersion?: string;
 }
 export const StartWorkflowRunRequest = S.suspend(() =>
@@ -613,8 +616,11 @@ export const StopWorkflowRunResponse = S.suspend(() =>
 }) as any as S.Schema<StopWorkflowRunResponse>;
 export type TaskInstanceIds = string[];
 export const TaskInstanceIds = S.Array(S.String);
-export type GenericMap = { [key: string]: string };
-export const GenericMap = S.Record({ key: S.String, value: S.String });
+export type GenericMap = { [key: string]: string | undefined };
+export const GenericMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TaskInstanceSummary {
   WorkflowArn?: string;
   WorkflowVersion?: string;
@@ -746,7 +752,7 @@ export interface GetTaskInstanceResponse {
   ErrorMessage?: string;
   TaskId?: string;
   LogStream?: string;
-  Xcom?: { [key: string]: string };
+  Xcom?: { [key: string]: string | undefined };
 }
 export const GetTaskInstanceResponse = S.suspend(() =>
   S.Struct({
@@ -871,7 +877,7 @@ export interface GetWorkflowRunResponse {
   WorkflowVersion?: string;
   RunId?: string;
   RunType?: RunType;
-  OverrideParameters?: { [key: string]: any };
+  OverrideParameters?: { [key: string]: any | undefined };
   RunDetail?: WorkflowRunDetail;
 }
 export const GetWorkflowRunResponse = S.suspend(() =>

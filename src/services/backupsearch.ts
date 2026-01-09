@@ -300,12 +300,13 @@ export type ResourceArnList = string[];
 export const ResourceArnList = S.Array(S.String);
 export type RecoveryPointArnList = string[];
 export const RecoveryPointArnList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String }).pipe(
-  T.Sparse(),
-);
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+}).pipe(T.Sparse());
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -314,7 +315,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -519,7 +520,7 @@ export interface SearchScope {
   BackupResourceCreationTime?: BackupCreationTimeFilter;
   SourceResourceArns?: string[];
   BackupResourceArns?: string[];
-  BackupResourceTags?: { [key: string]: string };
+  BackupResourceTags?: { [key: string]: string | undefined };
 }
 export const SearchScope = S.suspend(() =>
   S.Struct({
@@ -691,7 +692,7 @@ export interface StartSearchResultExportJobInput {
   SearchJobIdentifier: string;
   ExportSpecification: ExportSpecification;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RoleArn?: string;
 }
 export const StartSearchResultExportJobInput = S.suspend(() =>
@@ -790,7 +791,7 @@ export const ListSearchJobResultsOutput = S.suspend(() =>
   identifier: "ListSearchJobResultsOutput",
 }) as any as S.Schema<ListSearchJobResultsOutput>;
 export interface StartSearchJobInput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Name?: string;
   EncryptionKeyArn?: string;
   ClientToken?: string;

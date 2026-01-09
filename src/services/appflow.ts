@@ -623,11 +623,14 @@ export const StopFlowRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopFlowRequest",
 }) as any as S.Schema<StopFlowRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -898,10 +901,10 @@ export const SAPODataConnectorProfileProperties = S.suspend(() =>
 ).annotations({
   identifier: "SAPODataConnectorProfileProperties",
 }) as any as S.Schema<SAPODataConnectorProfileProperties>;
-export type ProfilePropertiesMap = { [key: string]: string };
+export type ProfilePropertiesMap = { [key: string]: string | undefined };
 export const ProfilePropertiesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type OAuth2GrantType =
   | "CLIENT_CREDENTIALS"
@@ -912,15 +915,15 @@ export const OAuth2GrantType = S.Literal(
   "AUTHORIZATION_CODE",
   "JWT_BEARER",
 );
-export type TokenUrlCustomProperties = { [key: string]: string };
+export type TokenUrlCustomProperties = { [key: string]: string | undefined };
 export const TokenUrlCustomProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface OAuth2Properties {
   tokenUrl: string;
   oAuth2GrantType: OAuth2GrantType;
-  tokenUrlCustomProperties?: { [key: string]: string };
+  tokenUrlCustomProperties?: { [key: string]: string | undefined };
 }
 export const OAuth2Properties = S.suspend(() =>
   S.Struct({
@@ -932,7 +935,7 @@ export const OAuth2Properties = S.suspend(() =>
   identifier: "OAuth2Properties",
 }) as any as S.Schema<OAuth2Properties>;
 export interface CustomConnectorProfileProperties {
-  profileProperties?: { [key: string]: string };
+  profileProperties?: { [key: string]: string | undefined };
   oAuth2Properties?: OAuth2Properties;
 }
 export const CustomConnectorProfileProperties = S.suspend(() =>
@@ -1294,15 +1297,17 @@ export const ApiKeyCredentials = S.suspend(() =>
   identifier: "ApiKeyCredentials",
 }) as any as S.Schema<ApiKeyCredentials>;
 export type CredentialsMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const CredentialsMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface CustomAuthCredentials {
   customAuthenticationType: string;
-  credentialsMap?: { [key: string]: string | redacted.Redacted<string> };
+  credentialsMap?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const CustomAuthCredentials = S.suspend(() =>
   S.Struct({
@@ -1706,8 +1711,11 @@ export const SAPODataSourceProperties = S.suspend(() =>
 ).annotations({
   identifier: "SAPODataSourceProperties",
 }) as any as S.Schema<SAPODataSourceProperties>;
-export type CustomProperties = { [key: string]: string };
-export const CustomProperties = S.Record({ key: S.String, value: S.String });
+export type CustomProperties = { [key: string]: string | undefined };
+export const CustomProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type DataTransferApiType = "SYNC" | "ASYNC" | "AUTOMATIC";
 export const DataTransferApiType = S.Literal("SYNC", "ASYNC", "AUTOMATIC");
 export interface DataTransferApi {
@@ -1724,7 +1732,7 @@ export const DataTransferApi = S.suspend(() =>
 }) as any as S.Schema<DataTransferApi>;
 export interface CustomConnectorSourceProperties {
   entityName: string;
-  customProperties?: { [key: string]: string };
+  customProperties?: { [key: string]: string | undefined };
   dataTransferApi?: DataTransferApi;
 }
 export const CustomConnectorSourceProperties = S.suspend(() =>
@@ -2051,7 +2059,7 @@ export interface CustomConnectorDestinationProperties {
   errorHandlingConfig?: ErrorHandlingConfig;
   writeOperationType?: WriteOperationType;
   idFieldNames?: string[];
-  customProperties?: { [key: string]: string };
+  customProperties?: { [key: string]: string | undefined };
 }
 export const CustomConnectorDestinationProperties = S.suspend(() =>
   S.Struct({
@@ -2826,14 +2834,14 @@ export const OperatorPropertiesKeys = S.Literal(
 );
 export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string };
 export const TaskPropertiesMap = S.partial(
-  S.Record({ key: OperatorPropertiesKeys, value: S.String }),
+  S.Record({ key: OperatorPropertiesKeys, value: S.UndefinedOr(S.String) }),
 );
 export interface Task {
   sourceFields: string[];
   connectorOperator?: ConnectorOperator;
   destinationField?: string;
   taskType: TaskType;
-  taskProperties?: { [key: string]: string };
+  taskProperties?: { [key: string]: string | undefined };
 }
 export const Task = S.suspend(() =>
   S.Struct({
@@ -2977,7 +2985,7 @@ export const ListConnectorsResponse = S.suspend(() =>
   identifier: "ListConnectorsResponse",
 }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3499,7 +3507,10 @@ export type ConnectorConfigurationsMap = {
   [key in ConnectorType]?: ConnectorConfiguration;
 };
 export const ConnectorConfigurationsMap = S.partial(
-  S.Record({ key: ConnectorType, value: ConnectorConfiguration }),
+  S.Record({
+    key: ConnectorType,
+    value: S.UndefinedOr(ConnectorConfiguration),
+  }),
 );
 export interface ExecutionDetails {
   mostRecentExecutionMessage?: string;
@@ -3531,7 +3542,7 @@ export interface FlowDefinition {
   lastUpdatedAt?: Date;
   createdBy?: string;
   lastUpdatedBy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   lastRunExecutionDetails?: ExecutionDetails;
 }
 export const FlowDefinition = S.suspend(() =>
@@ -3580,7 +3591,9 @@ export const PrivateConnectionProvisioningFailureCause = S.Literal(
   "VALIDATION",
 );
 export interface DescribeConnectorsResponse {
-  connectorConfigurations?: { [key: string]: ConnectorConfiguration };
+  connectorConfigurations?: {
+    [key: string]: ConnectorConfiguration | undefined;
+  };
   connectors?: ConnectorDetail[];
   nextToken?: string;
 }
@@ -3761,10 +3774,12 @@ export const MetadataCatalogDetail = S.suspend(() =>
 }) as any as S.Schema<MetadataCatalogDetail>;
 export type MetadataCatalogDetails = MetadataCatalogDetail[];
 export const MetadataCatalogDetails = S.Array(MetadataCatalogDetail);
-export type ConnectorEntityMap = { [key: string]: ConnectorEntity[] };
+export type ConnectorEntityMap = {
+  [key: string]: ConnectorEntity[] | undefined;
+};
 export const ConnectorEntityMap = S.Record({
   key: S.String,
-  value: ConnectorEntityList,
+  value: S.UndefinedOr(ConnectorEntityList),
 });
 export interface ErrorInfo {
   putFailuresCount?: number;
@@ -3804,7 +3819,7 @@ export interface DescribeFlowResponse {
   lastUpdatedAt?: Date;
   createdBy?: string;
   lastUpdatedBy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   metadataCatalogConfig?: MetadataCatalogConfig;
   lastRunMetadataCatalogDetails?: MetadataCatalogDetail[];
   schemaVersion?: number;
@@ -3835,7 +3850,7 @@ export const DescribeFlowResponse = S.suspend(() =>
   identifier: "DescribeFlowResponse",
 }) as any as S.Schema<DescribeFlowResponse>;
 export interface ListConnectorEntitiesResponse {
-  connectorEntityMap: { [key: string]: ConnectorEntity[] };
+  connectorEntityMap: { [key: string]: ConnectorEntity[] | undefined };
   nextToken?: string;
 }
 export const ListConnectorEntitiesResponse = S.suspend(() =>
@@ -3964,7 +3979,7 @@ export interface ConnectorEntityField {
   description?: string;
   sourceProperties?: SourceFieldProperties;
   destinationProperties?: DestinationFieldProperties;
-  customProperties?: { [key: string]: string };
+  customProperties?: { [key: string]: string | undefined };
 }
 export const ConnectorEntityField = S.suspend(() =>
   S.Struct({
@@ -4024,7 +4039,7 @@ export interface CreateFlowRequest {
   sourceFlowConfig: SourceFlowConfig;
   destinationFlowConfigList: DestinationFlowConfig[];
   tasks: Task[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   metadataCatalogConfig?: MetadataCatalogConfig;
   clientToken?: string;
 }

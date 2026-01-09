@@ -865,8 +865,11 @@ export const CheckSchemaVersionValidityInput = S.suspend(() =>
 ).annotations({
   identifier: "CheckSchemaVersionValidityInput",
 }) as any as S.Schema<CheckSchemaVersionValidityInput>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
@@ -876,7 +879,7 @@ export interface CreateColumnStatisticsTaskSettingsRequest {
   SampleSize?: number;
   CatalogID?: string;
   SecurityConfiguration?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateColumnStatisticsTaskSettingsRequest = S.suspend(() =>
   S.Struct({
@@ -905,7 +908,7 @@ export interface CreateCustomEntityTypeRequest {
   Name: string;
   RegexString: string;
   ContextWords?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCustomEntityTypeRequest = S.suspend(() =>
   S.Struct({
@@ -935,13 +938,16 @@ export const CreateGlueIdentityCenterConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateGlueIdentityCenterConfigurationRequest",
 }) as any as S.Schema<CreateGlueIdentityCenterConfigurationRequest>;
-export type ParametersMap = { [key: string]: string };
-export const ParametersMap = S.Record({ key: S.String, value: S.String });
+export type ParametersMap = { [key: string]: string | undefined };
+export const ParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Column {
   Name: string;
   Type?: string;
   Comment?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const Column = S.suspend(() =>
   S.Struct({
@@ -958,7 +964,7 @@ export const LocationStringList = S.Array(S.String);
 export interface SerDeInfo {
   Name?: string;
   SerializationLibrary?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const SerDeInfo = S.suspend(() =>
   S.Struct({
@@ -980,12 +986,15 @@ export type OrderList = Order[];
 export const OrderList = S.Array(Order);
 export type ColumnValueStringList = string[];
 export const ColumnValueStringList = S.Array(S.String);
-export type LocationMap = { [key: string]: string };
-export const LocationMap = S.Record({ key: S.String, value: S.String });
+export type LocationMap = { [key: string]: string | undefined };
+export const LocationMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SkewedInfo {
   SkewedColumnNames?: string[];
   SkewedColumnValues?: string[];
-  SkewedColumnValueLocationMaps?: { [key: string]: string };
+  SkewedColumnValueLocationMaps?: { [key: string]: string | undefined };
 }
 export const SkewedInfo = S.suspend(() =>
   S.Struct({
@@ -1031,7 +1040,7 @@ export interface StorageDescriptor {
   SerdeInfo?: SerDeInfo;
   BucketColumns?: string[];
   SortColumns?: Order[];
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   SkewedInfo?: SkewedInfo;
   StoredAsSubDirectories?: boolean;
   SchemaReference?: SchemaReference;
@@ -1060,7 +1069,7 @@ export interface PartitionInput {
   Values?: string[];
   LastAccessTime?: Date;
   StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   LastAnalyzedTime?: Date;
 }
 export const PartitionInput = S.suspend(() =>
@@ -1103,7 +1112,7 @@ export const CreatePartitionResponse = S.suspend(() =>
 export interface CreateRegistryInput {
   RegistryName: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRegistryInput = S.suspend(() =>
   S.Struct({
@@ -2505,17 +2514,17 @@ export interface Segment {
 export const Segment = S.suspend(() =>
   S.Struct({ SegmentNumber: S.Number, TotalSegments: S.Number }),
 ).annotations({ identifier: "Segment" }) as any as S.Schema<Segment>;
-export type AdditionalContextMap = { [key: string]: string };
+export type AdditionalContextMap = { [key: string]: string | undefined };
 export const AdditionalContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface QuerySessionContext {
   QueryId?: string;
   QueryStartTime?: Date;
   ClusterId?: string;
   QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string };
+  AdditionalContext?: { [key: string]: string | undefined };
 }
 export const QuerySessionContext = S.suspend(() =>
   S.Struct({
@@ -2683,7 +2692,7 @@ export const ImportCatalogToGlueResponse = S.suspend(() =>
 export interface ListBlueprintsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListBlueprintsRequest = S.suspend(() =>
   S.Struct({
@@ -2727,7 +2736,7 @@ export const ListConnectionTypesRequest = S.suspend(() =>
 export interface ListCrawlersRequest {
   MaxResults?: number;
   NextToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListCrawlersRequest = S.suspend(() =>
   S.Struct({
@@ -2743,7 +2752,7 @@ export const ListCrawlersRequest = S.suspend(() =>
 export interface ListCustomEntityTypesRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListCustomEntityTypesRequest = S.suspend(() =>
   S.Struct({
@@ -2791,7 +2800,7 @@ export const ListDataQualityStatisticsRequest = S.suspend(() =>
 export interface ListDevEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListDevEndpointsRequest = S.suspend(() =>
   S.Struct({
@@ -2827,7 +2836,7 @@ export const ListEntitiesRequest = S.suspend(() =>
 export interface ListJobsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListJobsRequest = S.suspend(() =>
   S.Struct({
@@ -2915,7 +2924,7 @@ export interface ListMLTransformsRequest {
   MaxResults?: number;
   Filter?: TransformFilterCriteria;
   Sort?: TransformSortCriteria;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListMLTransformsRequest = S.suspend(() =>
   S.Struct({
@@ -2979,7 +2988,7 @@ export const ListSchemaVersionsInput = S.suspend(() =>
 export interface ListSessionsRequest {
   NextToken?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestOrigin?: string;
 }
 export const ListSessionsRequest = S.suspend(() =>
@@ -3036,7 +3045,7 @@ export interface ListTriggersRequest {
   NextToken?: string;
   DependentJobName?: string;
   MaxResults?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTriggersRequest = S.suspend(() =>
   S.Struct({
@@ -3078,14 +3087,16 @@ export const ListWorkflowsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkflowsRequest",
 }) as any as S.Schema<ListWorkflowsRequest>;
-export type IntegrationSourcePropertiesMap = { [key: string]: string };
+export type IntegrationSourcePropertiesMap = {
+  [key: string]: string | undefined;
+};
 export const IntegrationSourcePropertiesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface IntegrationConfig {
   RefreshInterval?: string;
-  SourceProperties?: { [key: string]: string };
+  SourceProperties?: { [key: string]: string | undefined };
   ContinuousSync?: boolean;
 }
 export const IntegrationConfig = S.suspend(() =>
@@ -3157,15 +3168,15 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
-export type WorkflowRunProperties = { [key: string]: string };
+export type WorkflowRunProperties = { [key: string]: string | undefined };
 export const WorkflowRunProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PutWorkflowRunPropertiesRequest {
   Name: string;
   RunId: string;
-  RunProperties: { [key: string]: string };
+  RunProperties: { [key: string]: string | undefined };
 }
 export const PutWorkflowRunPropertiesRequest = S.suspend(() =>
   S.Struct({
@@ -3388,8 +3399,11 @@ export const StartImportLabelsTaskRunRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartImportLabelsTaskRunRequest",
 }) as any as S.Schema<StartImportLabelsTaskRunRequest>;
-export type GenericMap = { [key: string]: string };
-export const GenericMap = S.Record({ key: S.String, value: S.String });
+export type GenericMap = { [key: string]: string | undefined };
+export const GenericMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface NotificationProperty {
   NotifyDelayAfter?: number;
 }
@@ -3402,7 +3416,7 @@ export interface StartJobRunRequest {
   JobName: string;
   JobRunQueuingEnabled?: boolean;
   JobRunId?: string;
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
@@ -3467,7 +3481,7 @@ export const StartTriggerRequest = S.suspend(() =>
 }) as any as S.Schema<StartTriggerRequest>;
 export interface StartWorkflowRunRequest {
   Name: string;
-  RunProperties?: { [key: string]: string };
+  RunProperties?: { [key: string]: string | undefined };
 }
 export const StartWorkflowRunRequest = S.suspend(() =>
   S.Struct({
@@ -3583,7 +3597,7 @@ export const StopWorkflowRunResponse = S.suspend(() =>
 }) as any as S.Schema<StopWorkflowRunResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  TagsToAdd: { [key: string]: string };
+  TagsToAdd: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagsToAdd: TagsMap }).pipe(
@@ -3667,9 +3681,9 @@ export const DataLakeAccessProperties = S.suspend(() =>
 }) as any as S.Schema<DataLakeAccessProperties>;
 export interface IcebergOptimizationProperties {
   RoleArn?: string;
-  Compaction?: { [key: string]: string };
-  Retention?: { [key: string]: string };
-  OrphanFileDeletion?: { [key: string]: string };
+  Compaction?: { [key: string]: string | undefined };
+  Retention?: { [key: string]: string | undefined };
+  OrphanFileDeletion?: { [key: string]: string | undefined };
 }
 export const IcebergOptimizationProperties = S.suspend(() =>
   S.Struct({
@@ -3684,7 +3698,7 @@ export const IcebergOptimizationProperties = S.suspend(() =>
 export interface CatalogProperties {
   DataLakeAccessProperties?: DataLakeAccessProperties;
   IcebergOptimizationProperties?: IcebergOptimizationProperties;
-  CustomProperties?: { [key: string]: string };
+  CustomProperties?: { [key: string]: string | undefined };
 }
 export const CatalogProperties = S.suspend(() =>
   S.Struct({
@@ -3722,7 +3736,7 @@ export const AllowFullTableExternalDataAccessEnum = S.Literal("True", "False");
 export interface CatalogInput {
   Description?: string;
   FederatedCatalog?: FederatedCatalog;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   TargetRedshiftCatalog?: TargetRedshiftCatalog;
   CatalogProperties?: CatalogProperties;
   CreateTableDefaultPermissions?: PrincipalPermissions[];
@@ -4276,10 +4290,13 @@ export const ConnectionPropertyKey = S.Literal(
 );
 export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string };
 export const ConnectionProperties = S.partial(
-  S.Record({ key: ConnectionPropertyKey, value: S.String }),
+  S.Record({ key: ConnectionPropertyKey, value: S.UndefinedOr(S.String) }),
 );
-export type PropertyMap = { [key: string]: string };
-export const PropertyMap = S.Record({ key: S.String, value: S.String });
+export type PropertyMap = { [key: string]: string | undefined };
+export const PropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type SecurityGroupIdList = string[];
 export const SecurityGroupIdList = S.Array(S.String);
 export interface PhysicalConnectionRequirements {
@@ -4319,10 +4336,10 @@ export const OAuth2ClientApplication = S.suspend(() =>
 ).annotations({
   identifier: "OAuth2ClientApplication",
 }) as any as S.Schema<OAuth2ClientApplication>;
-export type TokenUrlParametersMap = { [key: string]: string };
+export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export const TokenUrlParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AuthorizationCodeProperties {
   AuthorizationCode?: string | redacted.Redacted<string>;
@@ -4356,7 +4373,7 @@ export interface OAuth2PropertiesInput {
   OAuth2GrantType?: OAuth2GrantType;
   OAuth2ClientApplication?: OAuth2ClientApplication;
   TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string };
+  TokenUrlParametersMap?: { [key: string]: string | undefined };
   AuthorizationCodeProperties?: AuthorizationCodeProperties;
   OAuth2Credentials?: OAuth2Credentials;
 }
@@ -4384,15 +4401,18 @@ export const BasicAuthenticationCredentials = S.suspend(() =>
 ).annotations({
   identifier: "BasicAuthenticationCredentials",
 }) as any as S.Schema<BasicAuthenticationCredentials>;
-export type CredentialMap = { [key: string]: string };
-export const CredentialMap = S.Record({ key: S.String, value: S.String });
+export type CredentialMap = { [key: string]: string | undefined };
+export const CredentialMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AuthenticationConfigurationInput {
   AuthenticationType?: AuthenticationType;
   OAuth2Properties?: OAuth2PropertiesInput;
   SecretArn?: string;
   KmsKeyArn?: string;
   BasicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  CustomAuthenticationCredentials?: { [key: string]: string };
+  CustomAuthenticationCredentials?: { [key: string]: string | undefined };
 }
 export const AuthenticationConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -4413,10 +4433,10 @@ export interface ConnectionInput {
   Description?: string;
   ConnectionType: ConnectionType;
   MatchCriteria?: string[];
-  ConnectionProperties: { [key: string]: string };
-  SparkProperties?: { [key: string]: string };
-  AthenaProperties?: { [key: string]: string };
-  PythonProperties?: { [key: string]: string };
+  ConnectionProperties: { [key: string]: string | undefined };
+  SparkProperties?: { [key: string]: string | undefined };
+  AthenaProperties?: { [key: string]: string | undefined };
+  PythonProperties?: { [key: string]: string | undefined };
   PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
   AuthenticationConfiguration?: AuthenticationConfigurationInput;
   ValidateCredentials?: boolean;
@@ -4785,7 +4805,7 @@ export interface DatabaseInput {
   Name: string;
   Description?: string;
   LocationUri?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   CreateTableDefaultPermissions?: PrincipalPermissions[];
   TargetDatabase?: DatabaseIdentifier;
   FederatedDatabase?: FederatedDatabase;
@@ -5290,14 +5310,16 @@ export const ConfigurationObject = S.suspend(() =>
 ).annotations({
   identifier: "ConfigurationObject",
 }) as any as S.Schema<ConfigurationObject>;
-export type ConfigurationMap = { [key: string]: ConfigurationObject };
+export type ConfigurationMap = {
+  [key: string]: ConfigurationObject | undefined;
+};
 export const ConfigurationMap = S.Record({
   key: S.String,
-  value: ConfigurationObject,
+  value: S.UndefinedOr(ConfigurationObject),
 });
 export interface ProfileConfiguration {
-  SessionConfiguration?: { [key: string]: ConfigurationObject };
-  JobConfiguration?: { [key: string]: ConfigurationObject };
+  SessionConfiguration?: { [key: string]: ConfigurationObject | undefined };
+  JobConfiguration?: { [key: string]: ConfigurationObject | undefined };
 }
 export const ProfileConfiguration = S.suspend(() =>
   S.Struct({
@@ -5386,7 +5408,7 @@ export const UpdateUserDefinedFunctionResponse = S.suspend(() =>
 export interface UpdateWorkflowRequest {
   Name: string;
   Description?: string;
-  DefaultRunProperties?: { [key: string]: string };
+  DefaultRunProperties?: { [key: string]: string | undefined };
   MaxConcurrentRuns?: number;
 }
 export const UpdateWorkflowRequest = S.suspend(() =>
@@ -5629,14 +5651,17 @@ export const DataQualityTargetTable = S.suspend(() =>
 ).annotations({
   identifier: "DataQualityTargetTable",
 }) as any as S.Schema<DataQualityTargetTable>;
-export type MapValue = { [key: string]: string };
-export const MapValue = S.Record({ key: S.String, value: S.String });
+export type MapValue = { [key: string]: string | undefined };
+export const MapValue = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type IntegrationAdditionalEncryptionContextMap = {
-  [key: string]: string;
+  [key: string]: string | undefined;
 };
 export const IntegrationAdditionalEncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface Tag {
   key?: string;
@@ -5724,14 +5749,14 @@ export const SessionCommand = S.suspend(() =>
 ).annotations({
   identifier: "SessionCommand",
 }) as any as S.Schema<SessionCommand>;
-export type OrchestrationArgumentsMap = { [key: string]: string };
+export type OrchestrationArgumentsMap = { [key: string]: string | undefined };
 export const OrchestrationArgumentsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface Action {
   JobName?: string;
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
   Timeout?: number;
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
@@ -5856,9 +5881,9 @@ export const DataLakeAccessPropertiesOutput = S.suspend(() =>
 }) as any as S.Schema<DataLakeAccessPropertiesOutput>;
 export interface IcebergOptimizationPropertiesOutput {
   RoleArn?: string;
-  Compaction?: { [key: string]: string };
-  Retention?: { [key: string]: string };
-  OrphanFileDeletion?: { [key: string]: string };
+  Compaction?: { [key: string]: string | undefined };
+  Retention?: { [key: string]: string | undefined };
+  OrphanFileDeletion?: { [key: string]: string | undefined };
   LastUpdatedTime?: Date;
 }
 export const IcebergOptimizationPropertiesOutput = S.suspend(() =>
@@ -5877,7 +5902,7 @@ export const IcebergOptimizationPropertiesOutput = S.suspend(() =>
 export interface CatalogPropertiesOutput {
   DataLakeAccessProperties?: DataLakeAccessPropertiesOutput;
   IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput;
-  CustomProperties?: { [key: string]: string };
+  CustomProperties?: { [key: string]: string | undefined };
 }
 export const CatalogPropertiesOutput = S.suspend(() =>
   S.Struct({
@@ -5895,7 +5920,7 @@ export interface Catalog {
   Name: string;
   ResourceArn?: string;
   Description?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   CreateTime?: Date;
   UpdateTime?: Date;
   TargetRedshiftCatalog?: TargetRedshiftCatalog;
@@ -6119,7 +6144,7 @@ export interface Database {
   Name: string;
   Description?: string;
   LocationUri?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   CreateTime?: Date;
   CreateTableDefaultPermissions?: PrincipalPermissions[];
   TargetDatabase?: DatabaseIdentifier;
@@ -6149,8 +6174,11 @@ export const DataQualityModelStatus = S.Literal(
 );
 export type DataQualityResultIdList = string[];
 export const DataQualityResultIdList = S.Array(S.String);
-export type ConnectionOptions = { [key: string]: string };
-export const ConnectionOptions = S.Record({ key: S.String, value: S.String });
+export type ConnectionOptions = { [key: string]: string | undefined };
+export const ConnectionOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type JobRunState =
   | "STARTING"
   | "RUNNING"
@@ -6195,7 +6223,7 @@ export interface JobRun {
   LastModifiedOn?: Date;
   CompletedOn?: Date;
   JobRunState?: JobRunState;
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
   ErrorMessage?: string;
   PredecessorRuns?: Predecessor[];
   AllocatedCapacity?: number;
@@ -6320,10 +6348,10 @@ export const MappingEntry = S.suspend(() =>
 ).annotations({ identifier: "MappingEntry" }) as any as S.Schema<MappingEntry>;
 export type MappingList = MappingEntry[];
 export const MappingList = S.Array(MappingEntry);
-export type AdditionalPlanOptionsMap = { [key: string]: string };
+export type AdditionalPlanOptionsMap = { [key: string]: string | undefined };
 export const AdditionalPlanOptionsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type SchemaStatus = "AVAILABLE" | "PENDING" | "DELETING";
 export const SchemaStatus = S.Literal("AVAILABLE", "PENDING", "DELETING");
@@ -6529,7 +6557,7 @@ export interface Table {
   ViewOriginalText?: string;
   ViewExpandedText?: string;
   TableType?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   CreatedBy?: string;
   IsRegisteredWithLakeFormation?: boolean;
   TargetTable?: TableIdentifier;
@@ -6855,7 +6883,7 @@ export interface WorkflowRun {
   Name?: string;
   WorkflowRunId?: string;
   PreviousRunId?: string;
-  WorkflowRunProperties?: { [key: string]: string };
+  WorkflowRunProperties?: { [key: string]: string | undefined };
   StartedOn?: Date;
   CompletedOn?: Date;
   Status?: WorkflowRunStatus;
@@ -6897,17 +6925,17 @@ export const CrawlsFilter = S.suspend(() =>
 ).annotations({ identifier: "CrawlsFilter" }) as any as S.Schema<CrawlsFilter>;
 export type CrawlsFilterList = CrawlsFilter[];
 export const CrawlsFilterList = S.Array(CrawlsFilter);
-export type GlueTableAdditionalOptions = { [key: string]: string };
+export type GlueTableAdditionalOptions = { [key: string]: string | undefined };
 export const GlueTableAdditionalOptions = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface GlueTable {
   DatabaseName: string;
   TableName: string;
   CatalogId?: string;
   ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
 }
 export const GlueTable = S.suspend(() =>
   S.Struct({
@@ -6923,7 +6951,7 @@ export interface DataQualityGlueTable {
   TableName: string;
   CatalogId?: string;
   ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   PreProcessingQuery?: string;
 }
 export const DataQualityGlueTable = S.suspend(() =>
@@ -7066,7 +7094,7 @@ export interface Session {
   Description?: string;
   Role?: string;
   Command?: SessionCommand;
-  DefaultArguments?: { [key: string]: string };
+  DefaultArguments?: { [key: string]: string | undefined };
   Connections?: ConnectionsList;
   Progress?: number;
   MaxCapacity?: number;
@@ -7212,11 +7240,14 @@ export const DataQualityEvaluationRunAdditionalRunOptions = S.suspend(() =>
 ).annotations({
   identifier: "DataQualityEvaluationRunAdditionalRunOptions",
 }) as any as S.Schema<DataQualityEvaluationRunAdditionalRunOptions>;
-export type DataSourceMap = { [key: string]: DataSource };
-export const DataSourceMap = S.Record({ key: S.String, value: DataSource });
+export type DataSourceMap = { [key: string]: DataSource | undefined };
+export const DataSourceMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(DataSource),
+});
 export interface TestConnectionInput {
   ConnectionType: ConnectionType;
-  ConnectionProperties: { [key: string]: string };
+  ConnectionProperties: { [key: string]: string | undefined };
   AuthenticationConfiguration?: AuthenticationConfigurationInput;
 }
 export const TestConnectionInput = S.suspend(() =>
@@ -7461,7 +7492,7 @@ export const GlueRecordType = S.Literal(
 );
 export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType };
 export const JDBCDataTypeMapping = S.partial(
-  S.Record({ key: JDBCDataType, value: GlueRecordType }),
+  S.Record({ key: JDBCDataType, value: S.UndefinedOr(GlueRecordType) }),
 );
 export interface JDBCConnectorOptions {
   FilterPredicate?: string;
@@ -7471,7 +7502,7 @@ export interface JDBCConnectorOptions {
   NumPartitions?: number;
   JobBookmarkKeys?: string[];
   JobBookmarkKeysSortOrder?: string;
-  DataTypeMapping?: { [key: string]: GlueRecordType };
+  DataTypeMapping?: { [key: string]: GlueRecordType | undefined };
 }
 export const JDBCConnectorOptions = S.suspend(() =>
   S.Struct({
@@ -7511,14 +7542,17 @@ export const JDBCConnectorSource = S.suspend(() =>
 ).annotations({
   identifier: "JDBCConnectorSource",
 }) as any as S.Schema<JDBCConnectorSource>;
-export type AdditionalOptions = { [key: string]: string };
-export const AdditionalOptions = S.Record({ key: S.String, value: S.String });
+export type AdditionalOptions = { [key: string]: string | undefined };
+export const AdditionalOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SparkConnectorSource {
   Name: string;
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const SparkConnectorSource = S.suspend(() =>
@@ -7804,7 +7838,7 @@ export interface JDBCConnectorTarget {
   ConnectionTable: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const JDBCConnectorTarget = S.suspend(() =>
@@ -7827,7 +7861,7 @@ export interface SparkConnectorTarget {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const SparkConnectorTarget = S.suspend(() =>
@@ -8964,7 +8998,7 @@ export interface S3CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string };
+  AdditionalHudiOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogHudiSource = S.suspend(() =>
@@ -8982,7 +9016,7 @@ export interface CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string };
+  AdditionalHudiOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const CatalogHudiSource = S.suspend(() =>
@@ -8999,7 +9033,7 @@ export const CatalogHudiSource = S.suspend(() =>
 export interface S3HudiSource {
   Name: string;
   Paths: string[];
-  AdditionalHudiOptions?: { [key: string]: string };
+  AdditionalHudiOptions?: { [key: string]: string | undefined };
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
   OutputSchemas?: GlueSchema[];
 }
@@ -9018,7 +9052,7 @@ export interface S3HudiCatalogTarget {
   PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions: { [key: string]: string };
+  AdditionalOptions: { [key: string]: string | undefined };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
   OutputSchemas?: GlueSchema[];
@@ -9057,7 +9091,7 @@ export interface S3HudiDirectTarget {
   NumberTargetPartitions?: string;
   PartitionKeys?: string[][];
   Format: TargetFormat;
-  AdditionalOptions: { [key: string]: string };
+  AdditionalOptions: { [key: string]: string | undefined };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -9116,7 +9150,7 @@ export interface S3CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string };
+  AdditionalDeltaOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogDeltaSource = S.suspend(() =>
@@ -9134,7 +9168,7 @@ export interface CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string };
+  AdditionalDeltaOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const CatalogDeltaSource = S.suspend(() =>
@@ -9151,7 +9185,7 @@ export const CatalogDeltaSource = S.suspend(() =>
 export interface S3DeltaSource {
   Name: string;
   Paths: string[];
-  AdditionalDeltaOptions?: { [key: string]: string };
+  AdditionalDeltaOptions?: { [key: string]: string | undefined };
   AdditionalOptions?: S3DirectSourceAdditionalOptions;
   OutputSchemas?: GlueSchema[];
 }
@@ -9172,7 +9206,7 @@ export interface S3DeltaCatalogTarget {
   PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
   OutputSchemas?: GlueSchema[];
@@ -9202,7 +9236,7 @@ export interface S3DeltaDirectTarget {
   Compression: DeltaTargetCompressionType;
   NumberTargetPartitions?: string;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -9335,8 +9369,11 @@ export const AmazonRedshiftTarget = S.suspend(() =>
 ).annotations({
   identifier: "AmazonRedshiftTarget",
 }) as any as S.Schema<AmazonRedshiftTarget>;
-export type DQDLAliases = { [key: string]: string };
-export const DQDLAliases = S.Record({ key: S.String, value: S.String });
+export type DQDLAliases = { [key: string]: string | undefined };
+export const DQDLAliases = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type AdditionalOptionKeys =
   | "performanceTuning.caching"
   | "observations.scope"
@@ -9348,15 +9385,15 @@ export const AdditionalOptionKeys = S.Literal(
 );
 export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string };
 export const DQAdditionalOptions = S.partial(
-  S.Record({ key: AdditionalOptionKeys, value: S.String }),
+  S.Record({ key: AdditionalOptionKeys, value: S.UndefinedOr(S.String) }),
 );
 export interface EvaluateDataQualityMultiFrame {
   Name: string;
   Inputs: string[];
-  AdditionalDataSources?: { [key: string]: string };
+  AdditionalDataSources?: { [key: string]: string | undefined };
   Ruleset: string;
   PublishingOptions?: DQResultsPublishingOptions;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
 }
 export const EvaluateDataQualityMultiFrame = S.suspend(() =>
@@ -9381,11 +9418,14 @@ export const RecipeReference = S.suspend(() =>
 ).annotations({
   identifier: "RecipeReference",
 }) as any as S.Schema<RecipeReference>;
-export type ParameterMap = { [key: string]: string };
-export const ParameterMap = S.Record({ key: S.String, value: S.String });
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RecipeAction {
   Operation: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const RecipeAction = S.suspend(() =>
   S.Struct({ Operation: S.String, Parameters: S.optional(ParameterMap) }),
@@ -9440,7 +9480,7 @@ export interface SnowflakeNodeData {
   Database?: string;
   TempDir?: string;
   IamRole?: Option;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   SampleQuery?: string;
   PreAction?: string;
   PostAction?: string;
@@ -9510,12 +9550,15 @@ export const SnowflakeTarget = S.suspend(() =>
 ).annotations({
   identifier: "SnowflakeTarget",
 }) as any as S.Schema<SnowflakeTarget>;
-export type ConnectorOptions = { [key: string]: string };
-export const ConnectorOptions = S.Record({ key: S.String, value: S.String });
+export type ConnectorOptions = { [key: string]: string | undefined };
+export const ConnectorOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ConnectorDataSource {
   Name: string;
   ConnectionType: string;
-  Data: { [key: string]: string };
+  Data: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const ConnectorDataSource = S.suspend(() =>
@@ -9531,7 +9574,7 @@ export const ConnectorDataSource = S.suspend(() =>
 export interface ConnectorDataTarget {
   Name: string;
   ConnectionType: string;
-  Data: { [key: string]: string };
+  Data: { [key: string]: string | undefined };
   Inputs?: string[];
 }
 export const ConnectorDataTarget = S.suspend(() =>
@@ -9548,7 +9591,7 @@ export interface S3CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string };
+  AdditionalIcebergOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const S3CatalogIcebergSource = S.suspend(() =>
@@ -9566,7 +9609,7 @@ export interface CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string };
+  AdditionalIcebergOptions?: { [key: string]: string | undefined };
   OutputSchemas?: GlueSchema[];
 }
 export const CatalogIcebergSource = S.suspend(() =>
@@ -9586,7 +9629,7 @@ export interface S3IcebergCatalogTarget {
   PartitionKeys?: string[][];
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   SchemaChangePolicy?: CatalogSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
 }
@@ -9621,7 +9664,7 @@ export interface S3IcebergDirectTarget {
   PartitionKeys?: string[][];
   Path: string;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string };
+  AdditionalOptions?: { [key: string]: string | undefined };
   SchemaChangePolicy?: DirectSchemaChangePolicy;
   AutoDataQuality?: AutoDataQuality;
   Compression: IcebergTargetCompressionType;
@@ -9916,11 +9959,11 @@ export const CodeGenConfigurationNode = S.suspend(() =>
   identifier: "CodeGenConfigurationNode",
 }) as any as S.Schema<CodeGenConfigurationNode>;
 export type CodeGenConfigurationNodes = {
-  [key: string]: CodeGenConfigurationNode;
+  [key: string]: CodeGenConfigurationNode | undefined;
 };
 export const CodeGenConfigurationNodes = S.Record({
   key: S.String,
-  value: CodeGenConfigurationNode,
+  value: S.UndefinedOr(CodeGenConfigurationNode),
 });
 export interface JobUpdate {
   JobMode?: JobMode;
@@ -9930,8 +9973,8 @@ export interface JobUpdate {
   Role?: string;
   ExecutionProperty?: ExecutionProperty;
   Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string };
-  NonOverridableArguments?: { [key: string]: string };
+  DefaultArguments?: { [key: string]: string | undefined };
+  NonOverridableArguments?: { [key: string]: string | undefined };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
@@ -9942,7 +9985,9 @@ export interface JobUpdate {
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  CodeGenConfigurationNodes?: {
+    [key: string]: CodeGenConfigurationNode | undefined;
+  };
   ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;
@@ -10094,7 +10139,7 @@ export interface CreateBlueprintRequest {
   Name: string;
   Description?: string;
   BlueprintLocation: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateBlueprintRequest = S.suspend(() =>
   S.Struct({
@@ -10144,7 +10189,7 @@ export interface CreateDataQualityRulesetRequest {
   Name: string;
   Description?: string;
   Ruleset: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetTable?: DataQualityTargetTable;
   DataQualitySecurityConfiguration?: string;
   ClientToken?: string;
@@ -10178,8 +10223,8 @@ export interface CreateDevEndpointRequest {
   ExtraPythonLibsS3Path?: string;
   ExtraJarsS3Path?: string;
   SecurityConfiguration?: string;
-  Tags?: { [key: string]: string };
-  Arguments?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  Arguments?: { [key: string]: string | undefined };
 }
 export const CreateDevEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -10258,7 +10303,7 @@ export interface CreateRegistryResponse {
   RegistryArn?: string;
   RegistryName?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -10276,7 +10321,7 @@ export interface CreateSchemaInput {
   DataFormat: DataFormat;
   Compatibility?: Compatibility;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SchemaDefinition?: string;
 }
 export const CreateSchemaInput = S.suspend(() =>
@@ -10301,14 +10346,14 @@ export interface CreateSessionRequest {
   Command: SessionCommand;
   Timeout?: number;
   IdleTimeout?: number;
-  DefaultArguments?: { [key: string]: string };
+  DefaultArguments?: { [key: string]: string | undefined };
   Connections?: ConnectionsList;
   MaxCapacity?: number;
   NumberOfWorkers?: number;
   WorkerType?: WorkerType;
   SecurityConfiguration?: string;
   GlueVersion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RequestOrigin?: string;
 }
 export const CreateSessionRequest = S.suspend(() =>
@@ -10337,8 +10382,8 @@ export const CreateSessionRequest = S.suspend(() =>
 export interface CreateWorkflowRequest {
   Name: string;
   Description?: string;
-  DefaultRunProperties?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  DefaultRunProperties?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
   MaxConcurrentRuns?: number;
 }
 export const CreateWorkflowRequest = S.suspend(() =>
@@ -10905,7 +10950,7 @@ export interface GetDataQualityRulesetEvaluationRunResponse {
   ExecutionTime?: number;
   RulesetNames?: string[];
   ResultIds?: string[];
-  AdditionalDataSources?: { [key: string]: DataSource };
+  AdditionalDataSources?: { [key: string]: DataSource | undefined };
 }
 export const GetDataQualityRulesetEvaluationRunResponse = S.suspend(() =>
   S.Struct({
@@ -10955,7 +11000,7 @@ export interface DevEndpoint {
   PublicKey?: string;
   PublicKeys?: string[];
   SecurityConfiguration?: string;
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
 }
 export const DevEndpoint = S.suspend(() =>
   S.Struct({
@@ -11018,7 +11063,7 @@ export interface GetEntityRecordsRequest {
   EntityName: string;
   NextToken?: string;
   DataStoreApiVersion?: string;
-  ConnectionOptions?: { [key: string]: string };
+  ConnectionOptions?: { [key: string]: string | undefined };
   FilterPredicate?: string;
   Limit: number;
   OrderBy?: string;
@@ -11085,8 +11130,8 @@ export interface Job {
   LastModifiedOn?: Date;
   ExecutionProperty?: ExecutionProperty;
   Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string };
-  NonOverridableArguments?: { [key: string]: string };
+  DefaultArguments?: { [key: string]: string | undefined };
+  NonOverridableArguments?: { [key: string]: string | undefined };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
@@ -11097,7 +11142,9 @@ export interface Job {
   SecurityConfiguration?: string;
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  CodeGenConfigurationNodes?: {
+    [key: string]: CodeGenConfigurationNode | undefined;
+  };
   ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;
@@ -11208,7 +11255,7 @@ export interface Partition {
   CreationTime?: Date;
   LastAccessTime?: Date;
   StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   LastAnalyzedTime?: Date;
   CatalogId?: string;
 }
@@ -11271,7 +11318,7 @@ export interface GetPlanRequest {
   Sinks?: CatalogEntry[];
   Location?: Location;
   Language?: Language;
-  AdditionalPlanOptionsMap?: { [key: string]: string };
+  AdditionalPlanOptionsMap?: { [key: string]: string | undefined };
 }
 export const GetPlanRequest = S.suspend(() =>
   S.Struct({
@@ -11448,7 +11495,7 @@ export const GetTableVersionsResponse = S.suspend(() =>
   identifier: "GetTableVersionsResponse",
 }) as any as S.Schema<GetTableVersionsResponse>;
 export interface GetTagsResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagsMap) }),
@@ -11554,7 +11601,7 @@ export const BlueprintDetails = S.suspend(() =>
 export interface Workflow {
   Name?: string;
   Description?: string;
-  DefaultRunProperties?: { [key: string]: string };
+  DefaultRunProperties?: { [key: string]: string | undefined };
   CreatedOn?: Date;
   LastModifiedOn?: Date;
   LastRun?: WorkflowRun;
@@ -11584,7 +11631,7 @@ export const GetWorkflowResponse = S.suspend(() =>
   identifier: "GetWorkflowResponse",
 }) as any as S.Schema<GetWorkflowResponse>;
 export interface GetWorkflowRunPropertiesResponse {
-  RunProperties?: { [key: string]: string };
+  RunProperties?: { [key: string]: string | undefined };
 }
 export const GetWorkflowRunPropertiesResponse = S.suspend(() =>
   S.Struct({ RunProperties: S.optional(WorkflowRunProperties) }),
@@ -11734,7 +11781,7 @@ export interface ListDataQualityRulesetsRequest {
   NextToken?: string;
   MaxResults?: number;
   Filter?: DataQualityRulesetFilterCriteria;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListDataQualityRulesetsRequest = S.suspend(() =>
   S.Struct({
@@ -11888,7 +11935,7 @@ export interface ModifyIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   Status: IntegrationStatus;
   CreateTime: Date;
@@ -12078,7 +12125,7 @@ export interface StartDataQualityRulesetEvaluationRunRequest {
   ClientToken?: string;
   AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
   RulesetNames: string[];
-  AdditionalDataSources?: { [key: string]: DataSource };
+  AdditionalDataSources?: { [key: string]: DataSource | undefined };
 }
 export const StartDataQualityRulesetEvaluationRunRequest = S.suspend(() =>
   S.Struct({
@@ -12244,7 +12291,7 @@ export interface UpdateDevEndpointRequest {
   CustomLibraries?: DevEndpointCustomLibraries;
   UpdateEtlLibraries?: boolean;
   DeleteArguments?: string[];
-  AddArguments?: { [key: string]: string };
+  AddArguments?: { [key: string]: string | undefined };
 }
 export const UpdateDevEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -12520,21 +12567,30 @@ export const TableVersionError = S.suspend(() =>
 }) as any as S.Schema<TableVersionError>;
 export type TableVersionErrors = TableVersionError[];
 export const TableVersionErrors = S.Array(TableVersionError);
-export type EvaluatedMetricsMap = { [key: string]: number };
-export const EvaluatedMetricsMap = S.Record({ key: S.String, value: S.Number });
-export type RuleMetricsMap = { [key: string]: number };
-export const RuleMetricsMap = S.Record({ key: S.String, value: S.Number });
-export type Labels = { [key: string]: string };
-export const Labels = S.Record({ key: S.String, value: S.String });
+export type EvaluatedMetricsMap = { [key: string]: number | undefined };
+export const EvaluatedMetricsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
+export type RuleMetricsMap = { [key: string]: number | undefined };
+export const RuleMetricsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
+export type Labels = { [key: string]: string | undefined };
+export const Labels = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DataQualityRuleResult {
   Name?: string;
   Description?: string | redacted.Redacted<string>;
   EvaluationMessage?: string | redacted.Redacted<string>;
   Result?: DataQualityRuleResultStatus;
-  EvaluatedMetrics?: { [key: string]: number };
+  EvaluatedMetrics?: { [key: string]: number | undefined };
   EvaluatedRule?: string | redacted.Redacted<string>;
-  RuleMetrics?: { [key: string]: number };
-  Labels?: { [key: string]: string };
+  RuleMetrics?: { [key: string]: number | undefined };
+  Labels?: { [key: string]: string | undefined };
 }
 export const DataQualityRuleResult = S.suspend(() =>
   S.Struct({
@@ -12556,7 +12612,7 @@ export interface DataQualityAnalyzerResult {
   Name?: string;
   Description?: string | redacted.Redacted<string>;
   EvaluationMessage?: string | redacted.Redacted<string>;
-  EvaluatedMetrics?: { [key: string]: number };
+  EvaluatedMetrics?: { [key: string]: number | undefined };
 }
 export const DataQualityAnalyzerResult = S.suspend(() =>
   S.Struct({
@@ -12803,14 +12859,17 @@ export const Property = S.suspend(() =>
     DataOperationScopes: S.optional(DataOperations),
   }),
 ).annotations({ identifier: "Property" }) as any as S.Schema<Property>;
-export type PropertiesMap = { [key: string]: Property };
-export const PropertiesMap = S.Record({ key: S.String, value: Property });
+export type PropertiesMap = { [key: string]: Property | undefined };
+export const PropertiesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Property),
+});
 export interface AuthConfiguration {
   AuthenticationType: Property;
   SecretArn?: Property;
-  OAuth2Properties?: { [key: string]: Property };
-  BasicAuthenticationProperties?: { [key: string]: Property };
-  CustomAuthenticationProperties?: { [key: string]: Property };
+  OAuth2Properties?: { [key: string]: Property | undefined };
+  BasicAuthenticationProperties?: { [key: string]: Property | undefined };
+  CustomAuthenticationProperties?: { [key: string]: Property | undefined };
 }
 export const AuthConfiguration = S.suspend(() =>
   S.Struct({
@@ -12865,7 +12924,7 @@ export interface OAuth2Properties {
   OAuth2GrantType?: OAuth2GrantType;
   OAuth2ClientApplication?: OAuth2ClientApplication;
   TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string };
+  TokenUrlParametersMap?: { [key: string]: string | undefined };
 }
 export const OAuth2Properties = S.suspend(() =>
   S.Struct({
@@ -12898,10 +12957,10 @@ export interface Connection {
   Description?: string;
   ConnectionType?: ConnectionType;
   MatchCriteria?: string[];
-  ConnectionProperties?: { [key: string]: string };
-  SparkProperties?: { [key: string]: string };
-  AthenaProperties?: { [key: string]: string };
-  PythonProperties?: { [key: string]: string };
+  ConnectionProperties?: { [key: string]: string | undefined };
+  SparkProperties?: { [key: string]: string | undefined };
+  AthenaProperties?: { [key: string]: string | undefined };
+  PythonProperties?: { [key: string]: string | undefined };
   PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
   CreationTime?: Date;
   LastUpdatedTime?: Date;
@@ -13157,15 +13216,18 @@ export const UnfilteredPartition = S.suspend(() =>
 }) as any as S.Schema<UnfilteredPartition>;
 export type UnfilteredPartitionList = UnfilteredPartition[];
 export const UnfilteredPartitionList = S.Array(UnfilteredPartition);
-export type CustomProperties = { [key: string]: string };
-export const CustomProperties = S.Record({ key: S.String, value: S.String });
+export type CustomProperties = { [key: string]: string | undefined };
+export const CustomProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Entity {
   EntityName?: string;
   Label?: string;
   IsParentEntity?: boolean;
   Description?: string;
   Category?: string;
-  CustomProperties?: { [key: string]: string };
+  CustomProperties?: { [key: string]: string | undefined };
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -13452,7 +13514,7 @@ export interface CreateCrawlerRequest {
   LakeFormationConfiguration?: LakeFormationConfiguration;
   Configuration?: string;
   CrawlerSecurityConfiguration?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCrawlerRequest = S.suspend(() =>
   S.Struct({
@@ -13484,7 +13546,7 @@ export const CreateCrawlerResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateDatabaseRequest {
   CatalogId?: string;
   DatabaseInput: DatabaseInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDatabaseRequest = S.suspend(() =>
   S.Struct({
@@ -13528,7 +13590,7 @@ export interface CreateDevEndpointResponse {
   FailureReason?: string;
   SecurityConfiguration?: string;
   CreatedTimestamp?: Date;
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
 }
 export const CreateDevEndpointResponse = S.suspend(() =>
   S.Struct({
@@ -13564,7 +13626,7 @@ export interface CreateIntegrationRequest {
   Description?: string;
   DataFilter?: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   IntegrationConfig?: IntegrationConfig;
 }
@@ -13639,7 +13701,7 @@ export interface CreateMLTransformRequest {
   NumberOfWorkers?: number;
   Timeout?: number;
   MaxRetries?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TransformEncryption?: TransformEncryption;
 }
 export const CreateMLTransformRequest = S.suspend(() =>
@@ -13675,7 +13737,7 @@ export interface CreateSchemaResponse {
   LatestSchemaVersion?: number;
   NextSchemaVersion?: number;
   SchemaStatus?: SchemaStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SchemaVersionId?: string;
   SchemaVersionStatus?: SchemaVersionStatus;
 }
@@ -13750,7 +13812,7 @@ export interface CreateTriggerRequest {
   Actions: Action[];
   Description?: string;
   StartOnCreation?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   EventBatchingCondition?: EventBatchingCondition;
 }
 export const CreateTriggerRequest = S.suspend(() =>
@@ -13808,7 +13870,7 @@ export interface DeleteIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   Status: IntegrationStatus;
   CreateTime: Date;
@@ -14500,10 +14562,10 @@ export const RunIdentifier = S.suspend(() =>
 ).annotations({
   identifier: "RunIdentifier",
 }) as any as S.Schema<RunIdentifier>;
-export type StatisticPropertiesMap = { [key: string]: string };
+export type StatisticPropertiesMap = { [key: string]: string | undefined };
 export const StatisticPropertiesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface TimestampedInclusionAnnotation {
   Value?: InclusionAnnotationValue;
@@ -14537,10 +14599,16 @@ export const Mapping = S.suspend(() =>
     ),
   }),
 ).annotations({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
-export type StringToStringMap = { [key: string]: string };
-export const StringToStringMap = S.Record({ key: S.String, value: S.String });
-export type ErrorByName = { [key: string]: ErrorDetail };
-export const ErrorByName = S.Record({ key: S.String, value: ErrorDetail });
+export type StringToStringMap = { [key: string]: string | undefined };
+export const StringToStringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type ErrorByName = { [key: string]: ErrorDetail | undefined };
+export const ErrorByName = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ErrorDetail),
+});
 export interface PartitionError {
   PartitionValues?: string[];
   ErrorDetail?: ErrorDetail;
@@ -14642,7 +14710,7 @@ export interface TableInput {
   ViewOriginalText?: string;
   ViewExpandedText?: string;
   TableType?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   TargetTable?: TableIdentifier;
   ViewDefinition?: ViewDefinitionInput;
 }
@@ -14702,7 +14770,7 @@ export interface Field {
   SupportedFilterOperators?: FieldFilterOperator[];
   ParentField?: string;
   NativeDataType?: string;
-  CustomProperties?: { [key: string]: string };
+  CustomProperties?: { [key: string]: string | undefined };
 }
 export const Field = S.suspend(() =>
   S.Struct({
@@ -14735,7 +14803,7 @@ export interface Integration {
   IntegrationName: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   Status: IntegrationStatus;
   CreateTime: Date;
@@ -15047,7 +15115,7 @@ export interface StatisticSummary {
   EvaluationLevel?: StatisticEvaluationLevel;
   ColumnsReferenced?: string[];
   ReferencedDatasets?: string[];
-  StatisticProperties?: { [key: string]: string };
+  StatisticProperties?: { [key: string]: string | undefined };
   RecordedOn?: Date;
   InclusionAnnotation?: TimestampedInclusionAnnotation;
 }
@@ -15090,10 +15158,10 @@ export type IntegrationResourcePropertyList = IntegrationResourceProperty[];
 export const IntegrationResourcePropertyList = S.Array(
   IntegrationResourceProperty,
 );
-export type PropertyNameOverrides = { [key: string]: string };
+export type PropertyNameOverrides = { [key: string]: string | undefined };
 export const PropertyNameOverrides = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ConfusionMatrix {
   NumTruePositives?: number;
@@ -15141,7 +15209,7 @@ export type OtherMetadataValueList = OtherMetadataValueListItem[];
 export const OtherMetadataValueList = S.Array(OtherMetadataValueListItem);
 export interface BatchDeleteConnectionResponse {
   Succeeded?: string[];
-  Errors?: { [key: string]: ErrorDetail };
+  Errors?: { [key: string]: ErrorDetail | undefined };
 }
 export const BatchDeleteConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -15214,7 +15282,7 @@ export const BatchUpdatePartitionResponse = S.suspend(() =>
 export interface CreateCatalogRequest {
   Name: string;
   CatalogInput: CatalogInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCatalogRequest = S.suspend(() =>
   S.Struct({
@@ -15238,7 +15306,7 @@ export interface CreateIntegrationResponse {
   Description?: string;
   IntegrationArn: string;
   KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   Status: IntegrationStatus;
   CreateTime: Date;
@@ -15399,7 +15467,7 @@ export interface CreateUsageProfileRequest {
   Name: string;
   Description?: string;
   Configuration: ProfileConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateUsageProfileRequest = S.suspend(() =>
   S.Struct({
@@ -15694,7 +15762,7 @@ export interface IcebergEncryptedKey {
   KeyId: string;
   EncryptedKeyMetadata: string;
   EncryptedById?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const IcebergEncryptedKey = S.suspend(() =>
   S.Struct({
@@ -15711,9 +15779,9 @@ export interface ComputeEnvironmentConfiguration {
   Description: string;
   ComputeEnvironment: ComputeEnvironment;
   SupportedAuthenticationTypes: AuthenticationType[];
-  ConnectionOptions: { [key: string]: Property };
-  ConnectionPropertyNameOverrides: { [key: string]: string };
-  ConnectionOptionNameOverrides: { [key: string]: string };
+  ConnectionOptions: { [key: string]: Property | undefined };
+  ConnectionPropertyNameOverrides: { [key: string]: string | undefined };
+  ConnectionOptionNameOverrides: { [key: string]: string | undefined };
   ConnectionPropertiesRequiredOverrides: string[];
   PhysicalConnectionPropertiesRequired?: boolean;
 }
@@ -15828,7 +15896,7 @@ export interface IcebergTableUpdate {
   PartitionSpec?: IcebergPartitionSpec;
   SortOrder?: IcebergSortOrder;
   Location: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   Action?: IcebergUpdateAction;
   EncryptionKey?: IcebergEncryptedKey;
   KeyId?: string;
@@ -15852,11 +15920,11 @@ export const IcebergTableUpdateList = S.Array(IcebergTableUpdate);
 export type PartitionInputList = PartitionInput[];
 export const PartitionInputList = S.Array(PartitionInput);
 export type ComputeEnvironmentConfigurationMap = {
-  [key: string]: ComputeEnvironmentConfiguration;
+  [key: string]: ComputeEnvironmentConfiguration | undefined;
 };
 export const ComputeEnvironmentConfigurationMap = S.Record({
   key: S.String,
-  value: ComputeEnvironmentConfiguration,
+  value: S.UndefinedOr(ComputeEnvironmentConfiguration),
 });
 export interface EvaluationMetrics {
   TransformType: TransformType;
@@ -15918,14 +15986,17 @@ export type TransformList = MLTransform[];
 export const TransformList = S.Array(MLTransform);
 export type TableOptimizerRuns = TableOptimizerRun[];
 export const TableOptimizerRuns = S.Array(TableOptimizerRun);
-export type MetadataInfoMap = { [key: string]: MetadataInfo };
-export const MetadataInfoMap = S.Record({ key: S.String, value: MetadataInfo });
+export type MetadataInfoMap = { [key: string]: MetadataInfo | undefined };
+export const MetadataInfoMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(MetadataInfo),
+});
 export interface CreateIcebergTableInput {
   Location: string;
   Schema: IcebergSchema;
   PartitionSpec?: IcebergPartitionSpec;
   WriteOrder?: IcebergSortOrder;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const CreateIcebergTableInput = S.suspend(() =>
   S.Struct({
@@ -15983,7 +16054,7 @@ export const BatchCreatePartitionRequest = S.suspend(() =>
 export interface CreateConnectionRequest {
   CatalogId?: string;
   ConnectionInput: ConnectionInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -16008,16 +16079,16 @@ export interface DescribeConnectionTypeResponse {
   ConnectionType?: string;
   Description?: string;
   Capabilities?: Capabilities;
-  ConnectionProperties?: { [key: string]: Property };
-  ConnectionOptions?: { [key: string]: Property };
+  ConnectionProperties?: { [key: string]: Property | undefined };
+  ConnectionOptions?: { [key: string]: Property | undefined };
   AuthenticationConfiguration?: AuthConfiguration;
   ComputeEnvironmentConfigurations?: {
-    [key: string]: ComputeEnvironmentConfiguration;
+    [key: string]: ComputeEnvironmentConfiguration | undefined;
   };
-  PhysicalConnectionRequirements?: { [key: string]: Property };
-  AthenaConnectionProperties?: { [key: string]: Property };
-  PythonConnectionProperties?: { [key: string]: Property };
-  SparkConnectionProperties?: { [key: string]: Property };
+  PhysicalConnectionRequirements?: { [key: string]: Property | undefined };
+  AthenaConnectionProperties?: { [key: string]: Property | undefined };
+  PythonConnectionProperties?: { [key: string]: Property | undefined };
+  SparkConnectionProperties?: { [key: string]: Property | undefined };
 }
 export const DescribeConnectionTypeResponse = S.suspend(() =>
   S.Struct({
@@ -16174,7 +16245,7 @@ export const ListTableOptimizerRunsResponse = S.suspend(() =>
   identifier: "ListTableOptimizerRunsResponse",
 }) as any as S.Schema<ListTableOptimizerRunsResponse>;
 export interface QuerySchemaVersionMetadataResponse {
-  MetadataInfoMap?: { [key: string]: MetadataInfo };
+  MetadataInfoMap?: { [key: string]: MetadataInfo | undefined };
   SchemaVersionId?: string;
   NextToken?: string;
 }
@@ -16390,20 +16461,22 @@ export interface CreateJobRequest {
   Role: string;
   ExecutionProperty?: ExecutionProperty;
   Command: JobCommand;
-  DefaultArguments?: { [key: string]: string };
-  NonOverridableArguments?: { [key: string]: string };
+  DefaultArguments?: { [key: string]: string | undefined };
+  NonOverridableArguments?: { [key: string]: string | undefined };
   Connections?: ConnectionsList;
   MaxRetries?: number;
   AllocatedCapacity?: number;
   Timeout?: number;
   MaxCapacity?: number;
   SecurityConfiguration?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NotificationProperty?: NotificationProperty;
   GlueVersion?: string;
   NumberOfWorkers?: number;
   WorkerType?: WorkerType;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode };
+  CodeGenConfigurationNodes?: {
+    [key: string]: CodeGenConfigurationNode | undefined;
+  };
   ExecutionClass?: ExecutionClass;
   SourceControlDetails?: SourceControlDetails;
   MaintenanceWindow?: string;

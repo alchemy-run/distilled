@@ -2468,15 +2468,17 @@ export const TestTypeInput = S.suspend(() =>
 ).annotations({
   identifier: "TestTypeInput",
 }) as any as S.Schema<TestTypeInput>;
-export type ResourceIdentifierProperties = { [key: string]: string };
+export type ResourceIdentifierProperties = {
+  [key: string]: string | undefined;
+};
 export const ResourceIdentifierProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ResourceDefinition {
   ResourceType?: string;
   LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string };
+  ResourceIdentifier?: { [key: string]: string | undefined };
 }
 export const ResourceDefinition = S.suspend(() =>
   S.Struct({
@@ -3919,10 +3921,12 @@ export const AnnotationSeverityLevel = S.Literal(
   "HIGH",
   "CRITICAL",
 );
-export type JazzResourceIdentifierProperties = { [key: string]: string };
+export type JazzResourceIdentifierProperties = {
+  [key: string]: string | undefined;
+};
 export const JazzResourceIdentifierProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type StackRefactorActionType = "MOVE" | "CREATE";
 export const StackRefactorActionType = S.Literal("MOVE", "CREATE");
@@ -3941,7 +3945,7 @@ export const UnprocessedTypeConfigurations = S.Array(
 export interface ResourceToImport {
   ResourceType?: string;
   LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string };
+  ResourceIdentifier?: { [key: string]: string | undefined };
 }
 export const ResourceToImport = S.suspend(() =>
   S.Struct({
@@ -4247,7 +4251,7 @@ export type HookResultSummaries = HookResultSummary[];
 export const HookResultSummaries = S.Array(HookResultSummary);
 export interface ScannedResourceIdentifier {
   ResourceType?: string;
-  ResourceIdentifier?: { [key: string]: string };
+  ResourceIdentifier?: { [key: string]: string | undefined };
 }
 export const ScannedResourceIdentifier = S.suspend(() =>
   S.Struct({
@@ -4261,7 +4265,7 @@ export type ScannedResourceIdentifiers = ScannedResourceIdentifier[];
 export const ScannedResourceIdentifiers = S.Array(ScannedResourceIdentifier);
 export interface ScannedResource {
   ResourceType?: string;
-  ResourceIdentifier?: { [key: string]: string };
+  ResourceIdentifier?: { [key: string]: string | undefined };
   ManagedByStack?: boolean;
 }
 export const ScannedResource = S.suspend(() =>
@@ -6102,7 +6106,7 @@ export const ChangeSetHooks = S.Array(ChangeSetHook);
 export interface ResourceDetail {
   ResourceType?: string;
   LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string };
+  ResourceIdentifier?: { [key: string]: string | undefined };
   ResourceStatus?: GeneratedTemplateResourceStatus;
   ResourceStatusReason?: string;
   Warnings?: WarningDetail[];

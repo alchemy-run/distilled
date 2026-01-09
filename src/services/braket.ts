@@ -342,8 +342,11 @@ export const DeleteSpendingLimitResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteSpendingLimitResponse>;
 export type String256List = string[];
 export const String256List = S.Array(S.String);
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SearchDevicesFilter {
   name: string;
   values: string[];
@@ -395,8 +398,11 @@ export const InstanceConfig = S.suspend(() =>
 ).annotations({
   identifier: "InstanceConfig",
 }) as any as S.Schema<InstanceConfig>;
-export type HyperParameters = { [key: string]: string };
-export const HyperParameters = S.Record({ key: S.String, value: S.String });
+export type HyperParameters = { [key: string]: string | undefined };
+export const HyperParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DeviceConfig {
   device: string;
 }
@@ -455,7 +461,7 @@ export const SearchSpendingLimitsFilterList = S.Array(
   SearchSpendingLimitsFilter,
 );
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -464,7 +470,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -550,7 +556,7 @@ export interface CreateQuantumTaskRequest {
   outputS3Bucket: string;
   outputS3KeyPrefix: string;
   action: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobToken?: string;
   associations?: Association[];
   experimentalCapabilities?: ExperimentalCapabilities;
@@ -618,7 +624,7 @@ export interface CreateSpendingLimitRequest {
   deviceArn: string;
   spendingLimit: string;
   timePeriod?: TimePeriod;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSpendingLimitRequest = S.suspend(() =>
   S.Struct({
@@ -829,7 +835,7 @@ export interface GetJobResponse {
   roleArn: string;
   failureReason?: string;
   jobName: string;
-  hyperParameters?: { [key: string]: string };
+  hyperParameters?: { [key: string]: string | undefined };
   inputDataConfig?: InputFileConfig[];
   outputDataConfig: JobOutputDataConfig;
   stoppingCondition?: JobStoppingCondition;
@@ -842,7 +848,7 @@ export interface GetJobResponse {
   billableDuration?: number;
   deviceConfig?: DeviceConfig;
   events?: JobEventDetails[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   queueInfo?: HybridJobQueueInfo;
   associations?: Association[];
 }
@@ -892,7 +898,7 @@ export interface GetQuantumTaskResponse {
   outputS3Directory: string;
   createdAt: Date;
   endedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobArn?: string;
   queueInfo?: QuantumTaskQueueInfo;
   associations?: Association[];
@@ -959,7 +965,7 @@ export interface JobSummary {
   createdAt: Date;
   startedAt?: Date;
   endedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const JobSummary = S.suspend(() =>
   S.Struct({
@@ -984,7 +990,7 @@ export interface QuantumTaskSummary {
   outputS3Directory: string;
   createdAt: Date;
   endedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const QuantumTaskSummary = S.suspend(() =>
   S.Struct({
@@ -1012,7 +1018,7 @@ export interface SpendingLimitSummary {
   totalSpend: string;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SpendingLimitSummary = S.suspend(() =>
   S.Struct({
@@ -1050,9 +1056,9 @@ export interface CreateJobRequest {
   roleArn: string;
   stoppingCondition?: JobStoppingCondition;
   instanceConfig: InstanceConfig;
-  hyperParameters?: { [key: string]: string };
+  hyperParameters?: { [key: string]: string | undefined };
   deviceConfig: DeviceConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   associations?: Association[];
 }
 export const CreateJobRequest = S.suspend(() =>

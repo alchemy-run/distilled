@@ -714,14 +714,14 @@ export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL";
 export const VectorSearchRerankingConfigurationType = S.Literal(
   "BEDROCK_RERANKING_MODEL",
 );
-export type AdditionalModelRequestFields = { [key: string]: any };
+export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record({
   key: S.String,
-  value: S.Any,
+  value: S.UndefinedOr(S.Any),
 });
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -898,7 +898,7 @@ export interface GenerationConfiguration {
   promptTemplate?: PromptTemplate;
   guardrailConfiguration?: GuardrailConfiguration;
   inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
   performanceConfig?: PerformanceConfiguration;
 }
 export const GenerationConfiguration = S.suspend(() =>
@@ -925,7 +925,7 @@ export const QueryTransformationConfiguration = S.suspend(() =>
 export interface OrchestrationConfiguration {
   promptTemplate?: PromptTemplate;
   inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
   queryTransformationConfiguration?: QueryTransformationConfiguration;
   performanceConfig?: PerformanceConfiguration;
 }
@@ -1002,7 +1002,7 @@ export interface ExternalSourcesGenerationConfiguration {
   promptTemplate?: PromptTemplate;
   guardrailConfiguration?: GuardrailConfiguration;
   inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
   performanceConfig?: PerformanceConfiguration;
 }
 export const ExternalSourcesGenerationConfiguration = S.suspend(() =>
@@ -1102,10 +1102,13 @@ export const GetSessionRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetSessionRequest",
 }) as any as S.Schema<GetSessionRequest>;
-export type SessionMetadataMap = { [key: string]: string };
-export const SessionMetadataMap = S.Record({ key: S.String, value: S.String });
+export type SessionMetadataMap = { [key: string]: string | undefined };
+export const SessionMetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateSessionRequest {
-  sessionMetadata?: { [key: string]: string };
+  sessionMetadata?: { [key: string]: string | undefined };
   sessionIdentifier: string;
 }
 export const UpdateSessionRequest = S.suspend(() =>
@@ -1311,11 +1314,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1490,15 +1496,15 @@ export const CollaboratorConfiguration = S.suspend(() =>
 }) as any as S.Schema<CollaboratorConfiguration>;
 export type CollaboratorConfigurations = CollaboratorConfiguration[];
 export const CollaboratorConfigurations = S.Array(CollaboratorConfiguration);
-export type SessionAttributesMap = { [key: string]: string };
+export type SessionAttributesMap = { [key: string]: string | undefined };
 export const SessionAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type PromptSessionAttributesMap = { [key: string]: string };
+export type PromptSessionAttributesMap = { [key: string]: string | undefined };
 export const PromptSessionAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ConfirmationState = "CONFIRM" | "DENY";
 export const ConfirmationState = S.Literal("CONFIRM", "DENY");
@@ -1524,8 +1530,11 @@ export interface ContentBody {
 export const ContentBody = S.suspend(() =>
   S.Struct({ body: S.optional(S.String), images: S.optional(ImageInputs) }),
 ).annotations({ identifier: "ContentBody" }) as any as S.Schema<ContentBody>;
-export type ResponseBody = { [key: string]: ContentBody };
-export const ResponseBody = S.Record({ key: S.String, value: ContentBody });
+export type ResponseBody = { [key: string]: ContentBody | undefined };
+export const ResponseBody = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ContentBody),
+});
 export interface ApiResult {
   actionGroup: string;
   httpMethod?: string;
@@ -1533,7 +1542,7 @@ export interface ApiResult {
   confirmationState?: ConfirmationState;
   responseState?: ResponseState;
   httpStatusCode?: number;
-  responseBody?: { [key: string]: ContentBody };
+  responseBody?: { [key: string]: ContentBody | undefined };
   agentId?: string;
 }
 export const ApiResult = S.suspend(() =>
@@ -1552,7 +1561,7 @@ export interface FunctionResult {
   actionGroup: string;
   confirmationState?: ConfirmationState;
   function?: string;
-  responseBody?: { [key: string]: ContentBody };
+  responseBody?: { [key: string]: ContentBody | undefined };
   responseState?: ResponseState;
   agentId?: string;
 }
@@ -1642,8 +1651,8 @@ export const ConversationHistory = S.suspend(() =>
   identifier: "ConversationHistory",
 }) as any as S.Schema<ConversationHistory>;
 export interface InlineSessionState {
-  sessionAttributes?: { [key: string]: string };
-  promptSessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
+  promptSessionAttributes?: { [key: string]: string | undefined };
   returnControlInvocationResults?: InvocationResultMember[];
   invocationId?: string;
   files?: InputFile[];
@@ -1714,14 +1723,17 @@ export const ParameterDetail = S.suspend(() =>
 ).annotations({
   identifier: "ParameterDetail",
 }) as any as S.Schema<ParameterDetail>;
-export type ParameterMap = { [key: string]: ParameterDetail };
-export const ParameterMap = S.Record({ key: S.String, value: ParameterDetail });
+export type ParameterMap = { [key: string]: ParameterDetail | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ParameterDetail),
+});
 export type RequireConfirmation = "ENABLED" | "DISABLED";
 export const RequireConfirmation = S.Literal("ENABLED", "DISABLED");
 export interface FunctionDefinition {
   name: string | redacted.Redacted<string>;
   description?: string;
-  parameters?: { [key: string]: ParameterDetail };
+  parameters?: { [key: string]: ParameterDetail | undefined };
   requireConfirmation?: RequireConfirmation;
 }
 export const FunctionDefinition = S.suspend(() =>
@@ -1738,10 +1750,10 @@ export type Functions = FunctionDefinition[];
 export const Functions = S.Array(FunctionDefinition);
 export type FunctionSchema = { functions: FunctionDefinition[] };
 export const FunctionSchema = S.Union(S.Struct({ functions: Functions }));
-export type ActionGroupSignatureParams = { [key: string]: string };
+export type ActionGroupSignatureParams = { [key: string]: string | undefined };
 export const ActionGroupSignatureParams = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AgentActionGroup {
   actionGroupName: string | redacted.Redacted<string>;
@@ -1750,7 +1762,7 @@ export interface AgentActionGroup {
   actionGroupExecutor?: ActionGroupExecutor;
   apiSchema?: APISchema;
   functionSchema?: FunctionSchema;
-  parentActionGroupSignatureParams?: { [key: string]: string };
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
 }
 export const AgentActionGroup = S.suspend(() =>
   S.Struct({
@@ -1918,9 +1930,9 @@ export const StopFlowExecutionResponse = S.suspend(() =>
   identifier: "StopFlowExecutionResponse",
 }) as any as S.Schema<StopFlowExecutionResponse>;
 export interface CreateSessionRequest {
-  sessionMetadata?: { [key: string]: string };
+  sessionMetadata?: { [key: string]: string | undefined };
   encryptionKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSessionRequest = S.suspend(() =>
   S.Struct({
@@ -1946,7 +1958,7 @@ export interface GetSessionResponse {
   sessionStatus: SessionStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
-  sessionMetadata?: { [key: string]: string };
+  sessionMetadata?: { [key: string]: string | undefined };
   encryptionKeyArn?: string;
 }
 export const GetSessionResponse = S.suspend(() =>
@@ -2009,7 +2021,7 @@ export const CreateInvocationResponse = S.suspend(() =>
   identifier: "CreateInvocationResponse",
 }) as any as S.Schema<CreateInvocationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -2634,7 +2646,7 @@ export type FlowMultiTurnInputContent = { document: any };
 export const FlowMultiTurnInputContent = S.Union(S.Struct({ document: S.Any }));
 export interface BedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const BedrockRerankingModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -2855,15 +2867,15 @@ export const RetrievalResultLocation = S.suspend(() =>
 ).annotations({
   identifier: "RetrievalResultLocation",
 }) as any as S.Schema<RetrievalResultLocation>;
-export type RetrievalResultMetadata = { [key: string]: any };
+export type RetrievalResultMetadata = { [key: string]: any | undefined };
 export const RetrievalResultMetadata = S.Record({
   key: S.String,
-  value: S.Any,
+  value: S.UndefinedOr(S.Any),
 });
 export interface RetrievedReference {
   content?: RetrievalResultContent;
   location?: RetrievalResultLocation;
-  metadata?: { [key: string]: any };
+  metadata?: { [key: string]: any | undefined };
 }
 export const RetrievedReference = S.suspend(() =>
   S.Struct({
@@ -3577,10 +3589,13 @@ export const Parameter = S.suspend(() =>
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type Parameters = Parameter[];
 export const Parameters = S.Array(Parameter);
-export type ContentMap = { [key: string]: Parameter[] };
-export const ContentMap = S.Record({ key: S.String, value: Parameters });
+export type ContentMap = { [key: string]: Parameter[] | undefined };
+export const ContentMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Parameters),
+});
 export interface RequestBody {
-  content?: { [key: string]: Parameter[] };
+  content?: { [key: string]: Parameter[] | undefined };
 }
 export const RequestBody = S.suspend(() =>
   S.Struct({ content: S.optional(ContentMap) }),
@@ -3749,13 +3764,13 @@ export const PropertyParameters = S.suspend(() =>
 ).annotations({
   identifier: "PropertyParameters",
 }) as any as S.Schema<PropertyParameters>;
-export type ApiContentMap = { [key: string]: PropertyParameters };
+export type ApiContentMap = { [key: string]: PropertyParameters | undefined };
 export const ApiContentMap = S.Record({
   key: S.String,
-  value: PropertyParameters,
+  value: S.UndefinedOr(PropertyParameters),
 });
 export interface ApiRequestBody {
-  content?: { [key: string]: PropertyParameters };
+  content?: { [key: string]: PropertyParameters | undefined };
 }
 export const ApiRequestBody = S.suspend(() =>
   S.Struct({ content: S.optional(ApiContentMap) }),
@@ -5322,8 +5337,8 @@ export const FlowResponseStream = T.EventStream(
   ),
 ) as any as S.Schema<stream.Stream<FlowResponseStream, Error, never>>;
 export interface SessionState {
-  sessionAttributes?: { [key: string]: string };
-  promptSessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
+  promptSessionAttributes?: { [key: string]: string | undefined };
   returnControlInvocationResults?: InvocationResultMember[];
   invocationId?: string;
   files?: InputFile[];
@@ -5776,7 +5791,7 @@ export interface KnowledgeBaseRetrievalResult {
   content: RetrievalResultContent;
   location?: RetrievalResultLocation;
   score?: number;
-  metadata?: { [key: string]: any };
+  metadata?: { [key: string]: any | undefined };
 }
 export const KnowledgeBaseRetrievalResult = S.suspend(() =>
   S.Struct({

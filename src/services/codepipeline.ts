@@ -1044,10 +1044,10 @@ export const ArtifactStore = S.suspend(() =>
 ).annotations({
   identifier: "ArtifactStore",
 }) as any as S.Schema<ArtifactStore>;
-export type ArtifactStoreMap = { [key: string]: ArtifactStore };
+export type ArtifactStoreMap = { [key: string]: ArtifactStore | undefined };
 export const ArtifactStoreMap = S.Record({
   key: S.String,
-  value: ArtifactStore,
+  value: S.UndefinedOr(ArtifactStore),
 });
 export type BlockerType = "Schedule";
 export const BlockerType = S.Literal("Schedule");
@@ -1062,10 +1062,10 @@ export const BlockerDeclaration = S.suspend(() =>
 }) as any as S.Schema<BlockerDeclaration>;
 export type StageBlockerDeclarationList = BlockerDeclaration[];
 export const StageBlockerDeclarationList = S.Array(BlockerDeclaration);
-export type ActionConfigurationMap = { [key: string]: string };
+export type ActionConfigurationMap = { [key: string]: string | undefined };
 export const ActionConfigurationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type CommandList = string[];
 export const CommandList = S.Array(S.String);
@@ -1119,7 +1119,7 @@ export interface ActionDeclaration {
   name: string;
   actionTypeId: ActionTypeId;
   runOrder?: number;
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
   commands?: string[];
   outputArtifacts?: OutputArtifact[];
   inputArtifacts?: InputArtifact[];
@@ -1177,15 +1177,15 @@ export const RuleTypeId = S.suspend(() =>
     version: S.optional(S.String),
   }),
 ).annotations({ identifier: "RuleTypeId" }) as any as S.Schema<RuleTypeId>;
-export type RuleConfigurationMap = { [key: string]: string };
+export type RuleConfigurationMap = { [key: string]: string | undefined };
 export const RuleConfigurationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RuleDeclaration {
   name: string;
   ruleTypeId: RuleTypeId;
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
   commands?: string[];
   inputArtifacts?: InputArtifact[];
   roleArn?: string;
@@ -1410,7 +1410,7 @@ export interface PipelineDeclaration {
   name: string;
   roleArn: string;
   artifactStore?: ArtifactStore;
-  artifactStores?: { [key: string]: ArtifactStore };
+  artifactStores?: { [key: string]: ArtifactStore | undefined };
   stages: StageDeclaration[];
   version?: number;
   executionMode?: ExecutionMode;
@@ -1587,8 +1587,11 @@ export const RuleExecutionFilter = S.suspend(() =>
 ).annotations({
   identifier: "RuleExecutionFilter",
 }) as any as S.Schema<RuleExecutionFilter>;
-export type QueryParamMap = { [key: string]: string };
-export const QueryParamMap = S.Record({ key: S.String, value: S.String });
+export type QueryParamMap = { [key: string]: string | undefined };
+export const QueryParamMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ActionRevision {
   revisionId: string;
   revisionChangeId: string;
@@ -1612,8 +1615,11 @@ export const ApprovalResult = S.suspend(() =>
 ).annotations({
   identifier: "ApprovalResult",
 }) as any as S.Schema<ApprovalResult>;
-export type OutputVariablesMap = { [key: string]: string };
-export const OutputVariablesMap = S.Record({ key: S.String, value: S.String });
+export type OutputVariablesMap = { [key: string]: string | undefined };
+export const OutputVariablesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface PipelineVariable {
   name: string;
   value: string;
@@ -1918,7 +1924,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 export interface PollForJobsInput {
   actionTypeId: ActionTypeId;
   maxBatchSize?: number;
-  queryParam?: { [key: string]: string };
+  queryParam?: { [key: string]: string | undefined };
 }
 export const PollForJobsInput = S.suspend(() =>
   S.Struct({
@@ -2023,7 +2029,7 @@ export interface PutJobSuccessResultInput {
   currentRevision?: CurrentRevision;
   continuationToken?: string;
   executionDetails?: ExecutionDetails;
-  outputVariables?: { [key: string]: string };
+  outputVariables?: { [key: string]: string | undefined };
 }
 export const PutJobSuccessResultInput = S.suspend(() =>
   S.Struct({
@@ -2608,7 +2614,7 @@ export const RetryStageMetadata = S.suspend(() =>
   identifier: "RetryStageMetadata",
 }) as any as S.Schema<RetryStageMetadata>;
 export interface ActionConfiguration {
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
 }
 export const ActionConfiguration = S.suspend(() =>
   S.Struct({ configuration: S.optional(ActionConfigurationMap) }),
@@ -3022,10 +3028,12 @@ export const DeployTargetEventContext = S.suspend(() =>
 ).annotations({
   identifier: "DeployTargetEventContext",
 }) as any as S.Schema<DeployTargetEventContext>;
-export type ResolvedRuleConfigurationMap = { [key: string]: string };
+export type ResolvedRuleConfigurationMap = {
+  [key: string]: string | undefined;
+};
 export const ResolvedRuleConfigurationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RuleExecutionResult {
   externalExecutionId?: string;
@@ -3274,10 +3282,12 @@ export const ConditionState = S.suspend(() =>
 }) as any as S.Schema<ConditionState>;
 export type ConditionStateList = ConditionState[];
 export const ConditionStateList = S.Array(ConditionState);
-export type ResolvedActionConfigurationMap = { [key: string]: string };
+export type ResolvedActionConfigurationMap = {
+  [key: string]: string | undefined;
+};
 export const ResolvedActionConfigurationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ActionExecutionResult {
   externalExecutionId?: string;
@@ -3346,8 +3356,8 @@ export const StageConditionState = S.suspend(() =>
 }) as any as S.Schema<StageConditionState>;
 export interface ActionExecutionInput {
   actionTypeId?: ActionTypeId;
-  configuration?: { [key: string]: string };
-  resolvedConfiguration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
+  resolvedConfiguration?: { [key: string]: string | undefined };
   roleArn?: string;
   region?: string;
   inputArtifacts?: ArtifactDetail[];
@@ -3369,7 +3379,7 @@ export const ActionExecutionInput = S.suspend(() =>
 export interface ActionExecutionOutput {
   outputArtifacts?: ArtifactDetail[];
   executionResult?: ActionExecutionResult;
-  outputVariables?: { [key: string]: string };
+  outputVariables?: { [key: string]: string | undefined };
 }
 export const ActionExecutionOutput = S.suspend(() =>
   S.Struct({
@@ -3382,8 +3392,8 @@ export const ActionExecutionOutput = S.suspend(() =>
 }) as any as S.Schema<ActionExecutionOutput>;
 export interface RuleExecutionInput {
   ruleTypeId?: RuleTypeId;
-  configuration?: { [key: string]: string };
-  resolvedConfiguration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
+  resolvedConfiguration?: { [key: string]: string | undefined };
   roleArn?: string;
   region?: string;
   inputArtifacts?: ArtifactDetail[];

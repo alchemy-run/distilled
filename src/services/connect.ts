@@ -2069,15 +2069,18 @@ export const CompleteAttachedFileUploadResponse = S.suspend(() =>
 ).annotations({
   identifier: "CompleteAttachedFileUploadResponse",
 }) as any as S.Schema<CompleteAttachedFileUploadResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAgentStatusRequest {
   InstanceId: string;
   Name: string;
   Description?: string;
   State: AgentStatusState;
   DisplayOrder?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAgentStatusRequest = S.suspend(() =>
   S.Struct({
@@ -2107,7 +2110,7 @@ export interface CreateContactFlowRequest {
   Description?: string;
   Content: string;
   Status?: ContactFlowStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateContactFlowRequest = S.suspend(() =>
   S.Struct({
@@ -2232,7 +2235,7 @@ export interface CreateDataTableRequest {
   TimeZone: string;
   ValueLockLevel: DataTableLockLevel;
   Status: DataTableStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDataTableRequest = S.suspend(() =>
   S.Struct({
@@ -2261,7 +2264,7 @@ export interface CreateEmailAddressRequest {
   InstanceId: string;
   EmailAddress: string | redacted.Redacted<string>;
   DisplayName?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateEmailAddressRequest = S.suspend(() =>
@@ -2292,7 +2295,7 @@ export interface CreateInstanceRequest {
   DirectoryId?: string;
   InboundCallsEnabled: boolean;
   OutboundCallsEnabled: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -2323,7 +2326,7 @@ export interface CreateIntegrationAssociationRequest {
   SourceApplicationUrl?: string;
   SourceApplicationName?: string;
   SourceType?: SourceType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateIntegrationAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -2385,7 +2388,7 @@ export interface CreatePromptRequest {
   Name: string;
   Description?: string;
   S3Uri: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePromptRequest = S.suspend(() =>
   S.Struct({
@@ -2412,7 +2415,7 @@ export interface CreateTrafficDistributionGroupRequest {
   Description?: string;
   InstanceId: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTrafficDistributionGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2438,7 +2441,7 @@ export interface CreateUseCaseRequest {
   InstanceId: string;
   IntegrationAssociationId: string;
   UseCaseType: UseCaseType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateUseCaseRequest = S.suspend(() =>
   S.Struct({
@@ -2468,7 +2471,7 @@ export interface CreateUserHierarchyGroupRequest {
   Name: string;
   ParentGroupId?: string;
   InstanceId: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateUserHierarchyGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2520,7 +2523,7 @@ export interface CreateVocabularyRequest {
   VocabularyName: string;
   LanguageCode: VocabularyLanguageCode;
   Content: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateVocabularyRequest = S.suspend(() =>
   S.Struct({
@@ -5032,7 +5035,7 @@ export interface ImportPhoneNumberRequest {
   InstanceId: string;
   SourcePhoneNumberArn: string;
   PhoneNumberDescription?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const ImportPhoneNumberRequest = S.suspend(() =>
@@ -6997,10 +7000,13 @@ export const OutboundAdditionalRecipients = S.suspend(() =>
 }) as any as S.Schema<OutboundAdditionalRecipients>;
 export type OutboundMessageSourceType = "TEMPLATE" | "RAW";
 export const OutboundMessageSourceType = S.Literal("TEMPLATE", "RAW");
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TemplateAttributes {
-  CustomAttributes?: { [key: string]: string };
+  CustomAttributes?: { [key: string]: string | undefined };
   CustomerProfileAttributes?: string;
 }
 export const TemplateAttributes = S.suspend(() =>
@@ -7144,11 +7150,14 @@ export const Reference = S.suspend(() =>
     StatusReason: S.optional(S.String),
   }),
 ).annotations({ identifier: "Reference" }) as any as S.Schema<Reference>;
-export type ContactReferences = { [key: string]: Reference };
-export const ContactReferences = S.Record({ key: S.String, value: Reference });
+export type ContactReferences = { [key: string]: Reference | undefined };
+export const ContactReferences = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Reference),
+});
 export interface SegmentAttributeValue {
   ValueString?: string;
-  ValueMap?: { [key: string]: SegmentAttributeValue };
+  ValueMap?: { [key: string]: SegmentAttributeValue | undefined };
   ValueInteger?: number;
   ValueList?: SegmentAttributeValue[];
   ValueArn?: string;
@@ -7172,27 +7181,31 @@ export const SegmentAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "SegmentAttributeValue",
 }) as any as S.Schema<SegmentAttributeValue>;
-export type SegmentAttributes = { [key: string]: SegmentAttributeValue };
+export type SegmentAttributes = {
+  [key: string]: SegmentAttributeValue | undefined;
+};
 export const SegmentAttributes = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
-  ).annotations({ identifier: "SegmentAttributeValue" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
+    ).annotations({ identifier: "SegmentAttributeValue" }),
+  ),
 });
 export interface StartTaskContactRequest {
   InstanceId: string;
   PreviousContactId?: string;
   ContactFlowId?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Name: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference };
+  References?: { [key: string]: Reference | undefined };
   Description?: string | redacted.Redacted<string>;
   ClientToken?: string;
   ScheduledTime?: Date;
   TaskTemplateId?: string;
   QuickConnectId?: string;
   RelatedContactId?: string;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
 }
 export const StartTaskContactRequest = S.suspend(() =>
   S.Struct({
@@ -7342,7 +7355,7 @@ export const SuspendContactRecordingResponse = S.suspend(() =>
 }) as any as S.Schema<SuspendContactRecordingResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -7538,7 +7551,7 @@ export const UpdateAuthenticationProfileResponse = S.suspend(() =>
 export interface UpdateContactAttributesRequest {
   InitialContactId: string;
   InstanceId: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const UpdateContactAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -7618,11 +7631,11 @@ export const EvaluationAnswerInput = S.suspend(() =>
   identifier: "EvaluationAnswerInput",
 }) as any as S.Schema<EvaluationAnswerInput>;
 export type EvaluationAnswersInputMap = {
-  [key: string]: EvaluationAnswerInput;
+  [key: string]: EvaluationAnswerInput | undefined;
 };
 export const EvaluationAnswersInputMap = S.Record({
   key: S.String,
-  value: EvaluationAnswerInput,
+  value: S.UndefinedOr(EvaluationAnswerInput),
 });
 export interface EvaluationNote {
   Value?: string;
@@ -7632,10 +7645,10 @@ export const EvaluationNote = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationNote",
 }) as any as S.Schema<EvaluationNote>;
-export type EvaluationNotesMap = { [key: string]: EvaluationNote };
+export type EvaluationNotesMap = { [key: string]: EvaluationNote | undefined };
 export const EvaluationNotesMap = S.Record({
   key: S.String,
-  value: EvaluationNote,
+  value: S.UndefinedOr(EvaluationNote),
 });
 export type EvaluatorUserUnion = { ConnectUserArn: string };
 export const EvaluatorUserUnion = S.Union(
@@ -7644,8 +7657,8 @@ export const EvaluatorUserUnion = S.Union(
 export interface UpdateContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: { [key: string]: EvaluationAnswerInput };
-  Notes?: { [key: string]: EvaluationNote };
+  Answers?: { [key: string]: EvaluationAnswerInput | undefined };
+  Notes?: { [key: string]: EvaluationNote | undefined };
   UpdatedBy?: EvaluatorUserUnion;
 }
 export const UpdateContactEvaluationRequest = S.suspend(() =>
@@ -9223,7 +9236,7 @@ export interface TaskActionDefinition {
   Name: string;
   Description?: string;
   ContactFlowId: string;
-  References?: { [key: string]: Reference };
+  References?: { [key: string]: Reference | undefined };
 }
 export const TaskActionDefinition = S.suspend(() =>
   S.Struct({
@@ -9253,12 +9266,15 @@ export type NotificationDeliveryType = "EMAIL";
 export const NotificationDeliveryType = S.Literal("EMAIL");
 export type NotificationContentType = "PLAIN_TEXT";
 export const NotificationContentType = S.Literal("PLAIN_TEXT");
-export type UserTagMap = { [key: string]: string };
-export const UserTagMap = S.Record({ key: S.String, value: S.String });
+export type UserTagMap = { [key: string]: string | undefined };
+export const UserTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type UserIdList = string[];
 export const UserIdList = S.Array(S.String);
 export interface NotificationRecipientType {
-  UserTags?: { [key: string]: string };
+  UserTags?: { [key: string]: string | undefined };
   UserIds?: string[];
 }
 export const NotificationRecipientType = S.suspend(() =>
@@ -9450,10 +9466,10 @@ export interface UpdateRuleResponse {}
 export const UpdateRuleResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateRuleResponse",
 }) as any as S.Schema<UpdateRuleResponse>;
-export type AllowedAccessControlTags = { [key: string]: string };
+export type AllowedAccessControlTags = { [key: string]: string | undefined };
 export const AllowedAccessControlTags = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ApplicationPermissions = string[];
 export const ApplicationPermissions = S.Array(S.String);
@@ -9544,7 +9560,7 @@ export interface UpdateSecurityProfileRequest {
   Permissions?: string[];
   SecurityProfileId: string;
   InstanceId: string;
-  AllowedAccessControlTags?: { [key: string]: string };
+  AllowedAccessControlTags?: { [key: string]: string | undefined };
   TagRestrictedResources?: string[];
   Applications?: Application[];
   HierarchyRestrictedResources?: string[];
@@ -11727,7 +11743,7 @@ export const ChatStreamingConfiguration = S.suspend(() =>
 export interface NewSessionDetails {
   SupportedMessagingContentTypes?: string[];
   ParticipantDetails?: ParticipantDetails;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   StreamingConfiguration?: ChatStreamingConfiguration;
 }
 export const NewSessionDetails = S.suspend(() =>
@@ -11884,8 +11900,11 @@ export const DisconnectReason = S.suspend(() =>
 ).annotations({
   identifier: "DisconnectReason",
 }) as any as S.Schema<DisconnectReason>;
-export type ContactTagMap = { [key: string]: string };
-export const ContactTagMap = S.Record({ key: S.String, value: S.String });
+export type ContactTagMap = { [key: string]: string | undefined };
+export const ContactTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface QueueInfoInput {
   Id?: string;
 }
@@ -12317,7 +12336,7 @@ export interface ClaimPhoneNumberRequest {
   InstanceId?: string;
   PhoneNumber: string;
   PhoneNumberDescription?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const ClaimPhoneNumberRequest = S.suspend(() =>
@@ -12372,7 +12391,7 @@ export interface CreateContactFlowModuleRequest {
   Name: string;
   Description?: string;
   Content: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
   Settings?: string;
   ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
@@ -12572,7 +12591,7 @@ export interface CreateQueueRequest {
   HoursOfOperationId: string;
   MaxContacts?: number;
   QuickConnectIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -12629,7 +12648,7 @@ export interface CreateUserRequest {
   RoutingProfileId: string;
   HierarchyGroupId?: string;
   InstanceId: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -12675,7 +12694,7 @@ export interface CreateViewRequest {
   Content: ViewInputContent;
   Description?: string;
   Name: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateViewRequest = S.suspend(() =>
   S.Struct({
@@ -12758,7 +12777,7 @@ export interface DescribeEmailAddressResponse {
   CreateTimestamp?: string;
   ModifiedTimestamp?: string;
   AliasConfigurations?: AliasConfiguration[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeEmailAddressResponse = S.suspend(() =>
   S.Struct({
@@ -12805,7 +12824,7 @@ export interface View {
   Version?: number;
   VersionDescription?: string;
   Content?: ViewContent;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedTime?: Date;
   LastModifiedTime?: Date;
   ViewContentSha256?: string;
@@ -12981,7 +13000,7 @@ export const EvaluateDataTableValuesRequest = S.suspend(() =>
   identifier: "EvaluateDataTableValuesRequest",
 }) as any as S.Schema<EvaluateDataTableValuesRequest>;
 export interface GetContactAttributesResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetContactAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(Attributes) }),
@@ -13086,7 +13105,7 @@ export interface GetTaskTemplateResponse {
   Status?: TaskTemplateStatus;
   LastModifiedTime?: Date;
   CreatedTime?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetTaskTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -13449,7 +13468,7 @@ export const ListSecurityProfilePermissionsResponse = S.suspend(() =>
   identifier: "ListSecurityProfilePermissionsResponse",
 }) as any as S.Schema<ListSecurityProfilePermissionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -13907,7 +13926,7 @@ export interface StartAttachedFileUploadRequest {
   FileUseCaseType: FileUseCaseType;
   AssociatedResourceArn: string;
   CreatedBy?: CreatedByInfo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartAttachedFileUploadRequest = S.suspend(() =>
   S.Struct({
@@ -13936,7 +13955,7 @@ export const StartAttachedFileUploadRequest = S.suspend(() =>
 export interface StartChatContactRequest {
   InstanceId: string;
   ContactFlowId: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   ParticipantDetails: ParticipantDetails;
   ParticipantConfiguration?: ParticipantConfiguration;
   InitialMessage?: ChatMessage;
@@ -13945,7 +13964,7 @@ export interface StartChatContactRequest {
   SupportedMessagingContentTypes?: string[];
   PersistentChat?: PersistentChat;
   RelatedContactId?: string;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
   CustomerId?: string | redacted.Redacted<string>;
   DisconnectOnCustomerExit?: DisconnectOnCustomerExitParticipantType[];
 }
@@ -13984,7 +14003,7 @@ export interface StartContactEvaluationRequest {
   EvaluationFormId: string;
   AutoEvaluationConfiguration?: AutoEvaluationConfiguration;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartContactEvaluationRequest = S.suspend(() =>
   S.Struct({
@@ -14080,14 +14099,14 @@ export const StartTaskContactResponse = S.suspend(() =>
   identifier: "StartTaskContactResponse",
 }) as any as S.Schema<StartTaskContactResponse>;
 export interface StartWebRTCContactRequest {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   ClientToken?: string;
   ContactFlowId: string;
   InstanceId: string;
   AllowedCapabilities?: AllowedCapabilities;
   ParticipantDetails: ParticipantDetails;
   RelatedContactId?: string;
-  References?: { [key: string]: Reference };
+  References?: { [key: string]: Reference | undefined };
   Description?: string | redacted.Redacted<string>;
 }
 export const StartWebRTCContactRequest = S.suspend(() =>
@@ -14144,7 +14163,7 @@ export const StopContactResponse = S.suspend(() => S.Struct({})).annotations({
 export interface TagContactRequest {
   ContactId: string;
   InstanceId: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagContactRequest = S.suspend(() =>
   S.Struct({
@@ -14185,8 +14204,8 @@ export interface UpdateContactRequest {
   ContactId: string;
   Name?: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference };
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  References?: { [key: string]: Reference | undefined };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
   QueueInfo?: QueueInfoInput;
   UserInfo?: UserInfo;
   CustomerEndpoint?: Endpoint;
@@ -14656,7 +14675,7 @@ export interface AttachedFile {
   CreatedBy?: CreatedByInfo;
   FileUseCaseType?: FileUseCaseType;
   AssociatedResourceArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const AttachedFile = S.suspend(() =>
   S.Struct({
@@ -14743,7 +14762,7 @@ export interface ContactDataRequest {
   CustomerEndpoint?: Endpoint;
   RequestIdentifier?: string;
   QueueId?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Campaign?: Campaign;
   OutboundStrategy?: OutboundStrategy;
 }
@@ -14822,7 +14841,7 @@ export interface AgentStatus {
   Type?: AgentStatusType;
   DisplayOrder?: number;
   State?: AgentStatusState;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -14919,7 +14938,7 @@ export interface ContactFlow {
   Status?: ContactFlowStatus;
   Description?: string;
   Content?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   FlowContentSha256?: string;
   Version?: number;
   VersionDescription?: string;
@@ -14954,7 +14973,7 @@ export interface ContactFlowModule {
   Description?: string;
   State?: ContactFlowModuleState;
   Status?: ContactFlowModuleStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   FlowModuleContentSha256?: string;
   Version?: number;
   VersionDescription?: string;
@@ -15022,7 +15041,7 @@ export interface DataTable {
   CreatedTime?: Date;
   LastModifiedTime: Date;
   LastModifiedRegion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DataTable = S.suspend(() =>
   S.Struct({
@@ -15057,7 +15076,7 @@ export interface EvaluationForm {
   LastModifiedTime: Date;
   LastModifiedBy: string;
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
 }
@@ -15093,7 +15112,7 @@ export interface HoursOfOperation {
   Description?: string;
   TimeZone?: string;
   Config?: HoursOfOperationConfig[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15119,7 +15138,7 @@ export interface Prompt {
   PromptId?: string;
   Name?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15146,7 +15165,7 @@ export interface Queue {
   HoursOfOperationId?: string;
   MaxContacts?: number;
   Status?: QueueStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15174,7 +15193,7 @@ export interface QuickConnect {
   Name?: string;
   Description?: string;
   QuickConnectConfig?: QuickConnectConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15200,7 +15219,7 @@ export interface RoutingProfile {
   Description?: string;
   MediaConcurrencies?: MediaConcurrency[];
   DefaultOutboundQueueId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NumberOfAssociatedQueues?: number;
   NumberOfAssociatedManualAssignmentQueues?: number;
   NumberOfAssociatedUsers?: number;
@@ -15247,7 +15266,7 @@ export interface Rule {
   CreatedTime: Date;
   LastUpdatedTime: Date;
   LastUpdatedBy: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -15270,8 +15289,8 @@ export interface SecurityProfile {
   Arn?: string;
   SecurityProfileName?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
-  AllowedAccessControlTags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  AllowedAccessControlTags?: { [key: string]: string | undefined };
   TagRestrictedResources?: string[];
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
@@ -15309,7 +15328,7 @@ export interface TrafficDistributionGroup {
   Description?: string;
   InstanceArn?: string;
   Status?: TrafficDistributionGroupStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   IsDefault?: boolean;
 }
 export const TrafficDistributionGroup = S.suspend(() =>
@@ -15336,7 +15355,7 @@ export interface User {
   SecurityProfileIds?: string[];
   RoutingProfileId?: string;
   HierarchyGroupId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -15367,7 +15386,7 @@ export interface Vocabulary {
   LastModifiedTime: Date;
   FailureReason?: string;
   Content?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Vocabulary = S.suspend(() =>
   S.Struct({
@@ -15392,7 +15411,7 @@ export interface Workspace {
   Title?: string;
   LastModifiedTime: Date;
   LastModifiedRegion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Workspace = S.suspend(() =>
   S.Struct({
@@ -16501,7 +16520,7 @@ export interface HierarchyGroup {
   Name?: string;
   LevelId?: string;
   HierarchyPath?: HierarchyPath;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastModifiedTime?: Date;
   LastModifiedRegion?: string;
 }
@@ -16567,12 +16586,16 @@ export const HierarchyStructureUpdate = S.suspend(() =>
 ).annotations({
   identifier: "HierarchyStructureUpdate",
 }) as any as S.Schema<HierarchyStructureUpdate>;
-export type SegmentAttributeValueMap = { [key: string]: SegmentAttributeValue };
+export type SegmentAttributeValueMap = {
+  [key: string]: SegmentAttributeValue | undefined;
+};
 export const SegmentAttributeValueMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
-  ).annotations({ identifier: "SegmentAttributeValue" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
+    ).annotations({ identifier: "SegmentAttributeValue" }),
+  ),
 }) as any as S.Schema<SegmentAttributeValueMap>;
 export type MediaStreamType = "AUDIO" | "VIDEO";
 export const MediaStreamType = S.Literal("AUDIO", "VIDEO");
@@ -16736,7 +16759,7 @@ export type Conditions = Condition[];
 export const Conditions = S.Array(Condition);
 export type EmailHeaders = { [key in EmailHeaderType]?: string };
 export const EmailHeaders = S.partial(
-  S.Record({ key: EmailHeaderType, value: S.String }),
+  S.Record({ key: EmailHeaderType, value: S.UndefinedOr(S.String) }),
 );
 export interface RoutingCriteriaInputStepExpiry {
   DurationInSeconds?: number;
@@ -16904,7 +16927,7 @@ export interface CreateHoursOfOperationRequest {
   Description?: string;
   TimeZone: string;
   Config: HoursOfOperationConfig[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateHoursOfOperationRequest = S.suspend(() =>
   S.Struct({
@@ -17008,7 +17031,7 @@ export interface CreateQuickConnectRequest {
   Name: string;
   Description?: string;
   QuickConnectConfig: QuickConnectConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateQuickConnectRequest = S.suspend(() =>
   S.Struct({
@@ -17038,7 +17061,7 @@ export interface CreateRoutingProfileRequest {
   QueueConfigs?: RoutingProfileQueueConfig[];
   ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[];
   MediaConcurrencies: MediaConcurrency[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AgentAvailabilityTimer?: AgentAvailabilityTimer;
 }
 export const CreateRoutingProfileRequest = S.suspend(() =>
@@ -17300,7 +17323,7 @@ export interface GetAttachedFileResponse {
   FileUseCaseType?: FileUseCaseType;
   CreatedBy?: CreatedByInfo;
   DownloadUrlMetadata?: DownloadUrlMetadata;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetAttachedFileResponse = S.suspend(() =>
   S.Struct({
@@ -18274,8 +18297,8 @@ export interface StartOutboundChatContactRequest {
   SourceEndpoint: Endpoint;
   DestinationEndpoint: Endpoint;
   InstanceId: string;
-  SegmentAttributes: { [key: string]: SegmentAttributeValue };
-  Attributes?: { [key: string]: string };
+  SegmentAttributes: { [key: string]: SegmentAttributeValue | undefined };
+  Attributes?: { [key: string]: string | undefined };
   ContactFlowId: string;
   ChatDurationInMinutes?: number;
   ParticipantDetails?: ParticipantDetails;
@@ -18540,10 +18563,12 @@ export const EvaluationScore = S.suspend(() =>
 ).annotations({
   identifier: "EvaluationScore",
 }) as any as S.Schema<EvaluationScore>;
-export type EvaluationScoresMap = { [key: string]: EvaluationScore };
+export type EvaluationScoresMap = {
+  [key: string]: EvaluationScore | undefined;
+};
 export const EvaluationScoresMap = S.Record({
   key: S.String,
-  value: EvaluationScore,
+  value: S.UndefinedOr(EvaluationScore),
 });
 export interface InstanceStatusReason {
   Message?: string;
@@ -18849,7 +18874,7 @@ export interface InboundRawMessage {
   Subject: string | redacted.Redacted<string>;
   Body: string | redacted.Redacted<string>;
   ContentType: string;
-  Headers?: { [key: string]: string };
+  Headers?: { [key: string]: string | undefined };
 }
 export const InboundRawMessage = S.suspend(() =>
   S.Struct({
@@ -19093,7 +19118,7 @@ export interface Instance {
   InboundCallsEnabled?: boolean;
   OutboundCallsEnabled?: boolean;
   InstanceAccessUrl?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Instance = S.suspend(() =>
   S.Struct({
@@ -19134,7 +19159,7 @@ export interface ClaimedPhoneNumberSummary {
   PhoneNumberDescription?: string;
   TargetArn?: string;
   InstanceId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   PhoneNumberStatus?: PhoneNumberStatus;
   SourcePhoneNumberArn?: string;
 }
@@ -19481,7 +19506,7 @@ export interface EvaluationFormSearchSummary {
   AutoEvaluationEnabled?: boolean;
   EvaluationFormLanguage?: EvaluationFormLanguageCode;
   ContactInteractionType?: ContactInteractionType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EvaluationFormSearchSummary = S.suspend(() =>
   S.Struct({
@@ -19518,7 +19543,7 @@ export interface SecurityProfileSearchSummary {
   Arn?: string;
   SecurityProfileName?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const SecurityProfileSearchSummary = S.suspend(() =>
   S.Struct({
@@ -19607,7 +19632,7 @@ export interface WorkspaceSearchSummary {
   Title?: string;
   Arn?: string;
   CreatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const WorkspaceSearchSummary = S.suspend(() =>
   S.Struct({
@@ -19983,8 +20008,8 @@ export interface CreateContactRequest {
   InstanceId: string;
   ClientToken?: string;
   RelatedContactId?: string;
-  Attributes?: { [key: string]: string };
-  References?: { [key: string]: Reference };
+  Attributes?: { [key: string]: string | undefined };
+  References?: { [key: string]: Reference | undefined };
   Channel: Channel;
   InitiationMethod: ContactInitiationMethod;
   ExpiryDurationInMinutes?: number;
@@ -19992,7 +20017,7 @@ export interface CreateContactRequest {
   InitiateAs?: InitiateAs;
   Name?: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
   PreviousContactId?: string;
 }
 export const CreateContactRequest = S.suspend(() =>
@@ -20501,15 +20526,15 @@ export interface StartEmailContactRequest {
   FromEmailAddress: EmailAddressInfo;
   DestinationEmailAddress: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference };
+  References?: { [key: string]: Reference | undefined };
   Name?: string | redacted.Redacted<string>;
   EmailMessage: InboundEmailContent;
   AdditionalRecipients?: InboundAdditionalRecipients;
   Attachments?: EmailAttachment[];
   ContactFlowId?: string;
   RelatedContactId?: string;
-  Attributes?: { [key: string]: string };
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  Attributes?: { [key: string]: string | undefined };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
   ClientToken?: string;
 }
 export const StartEmailContactRequest = S.suspend(() =>
@@ -20552,8 +20577,8 @@ export const StartOutboundChatContactResponse = S.suspend(() =>
 export interface SubmitContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: { [key: string]: EvaluationAnswerInput };
-  Notes?: { [key: string]: EvaluationNote };
+  Answers?: { [key: string]: EvaluationAnswerInput | undefined };
+  Notes?: { [key: string]: EvaluationNote | undefined };
   SubmittedBy?: EvaluatorUserUnion;
 }
 export const SubmitContactEvaluationRequest = S.suspend(() =>
@@ -20688,10 +20713,12 @@ export const AdditionalEmailRecipients = S.suspend(() =>
 ).annotations({
   identifier: "AdditionalEmailRecipients",
 }) as any as S.Schema<AdditionalEmailRecipients>;
-export type ContactEvaluations = { [key: string]: ContactEvaluation };
+export type ContactEvaluations = {
+  [key: string]: ContactEvaluation | undefined;
+};
 export const ContactEvaluations = S.Record({
   key: S.String,
-  value: ContactEvaluation,
+  value: S.UndefinedOr(ContactEvaluation),
 });
 export interface EvaluationMetadata {
   ContactId: string;
@@ -20780,10 +20807,10 @@ export const SearchContactsAdditionalTimeRange = S.suspend(() =>
 ).annotations({
   identifier: "SearchContactsAdditionalTimeRange",
 }) as any as S.Schema<SearchContactsAdditionalTimeRange>;
-export type UrlMetadataSignedHeaders = { [key: string]: string };
+export type UrlMetadataSignedHeaders = { [key: string]: string | undefined };
 export const UrlMetadataSignedHeaders = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface Attendee {
   AttendeeId?: string;
@@ -21012,7 +21039,7 @@ export const TagsList = S.Array(TagSet);
 export interface UploadUrlMetadata {
   Url?: string;
   UrlExpiry?: string;
-  HeadersToInclude?: { [key: string]: string };
+  HeadersToInclude?: { [key: string]: string | undefined };
 }
 export const UploadUrlMetadata = S.suspend(() =>
   S.Struct({
@@ -21354,8 +21381,8 @@ export interface CreateSecurityProfileRequest {
   Description?: string;
   Permissions?: string[];
   InstanceId: string;
-  Tags?: { [key: string]: string };
-  AllowedAccessControlTags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  AllowedAccessControlTags?: { [key: string]: string | undefined };
   TagRestrictedResources?: string[];
   Applications?: Application[];
   HierarchyRestrictedResources?: string[];
@@ -21398,7 +21425,7 @@ export interface CreateWorkspaceRequest {
   Description?: string;
   Theme?: WorkspaceTheme;
   Title?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -21775,7 +21802,7 @@ export const AgentStatusReference = S.suspend(() =>
 }) as any as S.Schema<AgentStatusReference>;
 export type ChannelToCountMap = { [key in Channel]?: number };
 export const ChannelToCountMap = S.partial(
-  S.Record({ key: Channel, value: S.Number }),
+  S.Record({ key: Channel, value: S.UndefinedOr(S.Number) }),
 );
 export interface AgentContactReference {
   ContactId?: string;
@@ -21819,8 +21846,11 @@ export const HistoricalMetricData = S.suspend(() =>
 }) as any as S.Schema<HistoricalMetricData>;
 export type HistoricalMetricDataCollections = HistoricalMetricData[];
 export const HistoricalMetricDataCollections = S.Array(HistoricalMetricData);
-export type DimensionsV2Map = { [key: string]: string };
-export const DimensionsV2Map = S.Record({ key: S.String, value: S.String });
+export type DimensionsV2Map = { [key: string]: string | undefined };
+export const DimensionsV2Map = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface MetricInterval {
   Interval?: IntervalPeriod;
   StartTime?: Date;
@@ -22017,7 +22047,7 @@ export interface Contact {
   SystemEndpoint?: EndpointInfo;
   QueueTimeAdjustmentSeconds?: number;
   QueuePriority?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ConnectedToSystemTimestamp?: Date;
   RoutingCriteria?: RoutingCriteria;
   Customer?: Customer;
@@ -22028,14 +22058,14 @@ export interface Contact {
   ChatMetrics?: ChatMetrics;
   DisconnectDetails?: DisconnectDetails;
   AdditionalEmailRecipients?: AdditionalEmailRecipients;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue };
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
   Recordings?: RecordingInfo[];
   DisconnectReason?: string;
-  ContactEvaluations?: { [key: string]: ContactEvaluation };
+  ContactEvaluations?: { [key: string]: ContactEvaluation | undefined };
   TaskTemplateInfo?: TaskTemplateInfoV2;
   ContactDetails?: ContactDetails;
   OutboundStrategy?: OutboundStrategy;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   NextContacts?: NextContactEntry[];
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
 }
@@ -22138,7 +22168,7 @@ export const HistoricalMetricResult = S.suspend(() =>
 export type HistoricalMetricResults = HistoricalMetricResult[];
 export const HistoricalMetricResults = S.Array(HistoricalMetricResult);
 export interface MetricResultV2 {
-  Dimensions?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
   MetricInterval?: MetricInterval;
   Collections?: MetricDataV2[];
 }
@@ -22181,7 +22211,7 @@ export interface EvaluationSearchSummary {
   EvaluationType?: EvaluationType;
   CreatedTime: Date;
   LastModifiedTime: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EvaluationSearchSummary = S.suspend(() =>
   S.Struct({
@@ -22385,7 +22415,7 @@ export const SearchContactEvaluationsResponse = S.suspend(() =>
 export interface StartOutboundVoiceContactRequest {
   Name?: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference };
+  References?: { [key: string]: Reference | undefined };
   RelatedContactId?: string;
   DestinationPhoneNumber: string;
   ContactFlowId: string;
@@ -22393,7 +22423,7 @@ export interface StartOutboundVoiceContactRequest {
   ClientToken?: string;
   SourcePhoneNumber?: string;
   QueueId?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   AnswerMachineDetectionConfig?: AnswerMachineDetectionConfig;
   CampaignId?: string;
   TrafficType?: TrafficType;
@@ -22602,9 +22632,9 @@ export interface UserData {
   RoutingProfile?: RoutingProfileReference;
   HierarchyPath?: HierarchyPathReference;
   Status?: AgentStatusReference;
-  AvailableSlotsByChannel?: { [key: string]: number };
-  MaxSlotsByChannel?: { [key: string]: number };
-  ActiveSlotsByChannel?: { [key: string]: number };
+  AvailableSlotsByChannel?: { [key: string]: number | undefined };
+  MaxSlotsByChannel?: { [key: string]: number | undefined };
+  ActiveSlotsByChannel?: { [key: string]: number | undefined };
   Contacts?: AgentContactReference[];
   NextStatus?: string;
 }
@@ -22632,7 +22662,7 @@ export interface UserSearchSummary {
   PhoneConfig?: UserPhoneConfig;
   RoutingProfileId?: string;
   SecurityProfileIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Username?: string;
 }
 export const UserSearchSummary = S.suspend(() =>
@@ -22716,11 +22746,11 @@ export const EvaluationFormItemEnablementConfiguration = S.suspend(() =>
   identifier: "EvaluationFormItemEnablementConfiguration",
 }) as any as S.Schema<EvaluationFormItemEnablementConfiguration>;
 export type RealTimeContactAnalysisMatchedDetails = {
-  [key: string]: RealTimeContactAnalysisCategoryDetails;
+  [key: string]: RealTimeContactAnalysisCategoryDetails | undefined;
 };
 export const RealTimeContactAnalysisMatchedDetails = S.Record({
   key: S.String,
-  value: RealTimeContactAnalysisCategoryDetails,
+  value: S.UndefinedOr(RealTimeContactAnalysisCategoryDetails),
 });
 export interface GetCurrentUserDataResponse {
   NextToken?: string;
@@ -22835,7 +22865,9 @@ export const EvaluationFormQuestion = S.suspend(() =>
   identifier: "EvaluationFormQuestion",
 }) as any as S.Schema<EvaluationFormQuestion>;
 export interface RealTimeContactAnalysisSegmentCategories {
-  MatchedDetails: { [key: string]: RealTimeContactAnalysisCategoryDetails };
+  MatchedDetails: {
+    [key: string]: RealTimeContactAnalysisCategoryDetails | undefined;
+  };
 }
 export const RealTimeContactAnalysisSegmentCategories = S.suspend(() =>
   S.Struct({ MatchedDetails: RealTimeContactAnalysisMatchedDetails }),
@@ -22958,7 +22990,7 @@ export const RealtimeContactAnalysisSegments = S.Array(
 );
 export interface ContactSearchSummarySegmentAttributeValue {
   ValueString?: string;
-  ValueMap?: { [key: string]: SegmentAttributeValue };
+  ValueMap?: { [key: string]: SegmentAttributeValue | undefined };
 }
 export const ContactSearchSummarySegmentAttributeValue = S.suspend(() =>
   S.Struct({
@@ -22977,7 +23009,7 @@ export interface CreateEvaluationFormRequest {
   AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
   ClientToken?: string;
   AsDraft?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetConfiguration?: EvaluationFormTargetConfiguration;
   LanguageConfiguration?: EvaluationFormLanguageConfiguration;
 }
@@ -23033,11 +23065,11 @@ export const ListRealtimeContactAnalysisSegmentsV2Response = S.suspend(() =>
   identifier: "ListRealtimeContactAnalysisSegmentsV2Response",
 }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsV2Response>;
 export type ContactSearchSummarySegmentAttributes = {
-  [key: string]: ContactSearchSummarySegmentAttributeValue;
+  [key: string]: ContactSearchSummarySegmentAttributeValue | undefined;
 };
 export const ContactSearchSummarySegmentAttributes = S.Record({
   key: S.String,
-  value: ContactSearchSummarySegmentAttributeValue,
+  value: S.UndefinedOr(ContactSearchSummarySegmentAttributeValue),
 });
 export interface EvaluationSuggestedAnswer {
   Value?: EvaluationAnswerData;
@@ -23074,7 +23106,7 @@ export interface ContactSearchSummary {
   DisconnectTimestamp?: Date;
   ScheduledTimestamp?: Date;
   SegmentAttributes?: {
-    [key: string]: ContactSearchSummarySegmentAttributeValue;
+    [key: string]: ContactSearchSummarySegmentAttributeValue | undefined;
   };
   Name?: string | redacted.Redacted<string>;
   RoutingCriteria?: RoutingCriteria;
@@ -23147,24 +23179,24 @@ export const SearchContactsResponse = S.suspend(() =>
   identifier: "SearchContactsResponse",
 }) as any as S.Schema<SearchContactsResponse>;
 export type EvaluationAnswersOutputMap = {
-  [key: string]: EvaluationAnswerOutput;
+  [key: string]: EvaluationAnswerOutput | undefined;
 };
 export const EvaluationAnswersOutputMap = S.Record({
   key: S.String,
-  value: EvaluationAnswerOutput,
+  value: S.UndefinedOr(EvaluationAnswerOutput),
 });
 export interface Evaluation {
   EvaluationId: string;
   EvaluationArn: string;
   Metadata: EvaluationMetadata;
-  Answers: { [key: string]: EvaluationAnswerOutput };
-  Notes: { [key: string]: EvaluationNote };
+  Answers: { [key: string]: EvaluationAnswerOutput | undefined };
+  Notes: { [key: string]: EvaluationNote | undefined };
   Status: EvaluationStatus;
-  Scores?: { [key: string]: EvaluationScore };
+  Scores?: { [key: string]: EvaluationScore | undefined };
   CreatedTime: Date;
   LastModifiedTime: Date;
   EvaluationType?: EvaluationType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Evaluation = S.suspend(() =>
   S.Struct({

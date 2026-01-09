@@ -96,13 +96,16 @@ export type Statistic = string;
 export type ErrorMessage = string;
 
 //# Schemas
-export type Filters = { [key: string]: string };
-export const Filters = S.Record({ key: S.String, value: S.String });
+export type Filters = { [key: string]: string | undefined };
+export const Filters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;
   StartDate?: string;
   EndDate?: string;
-  Filters: { [key: string]: string };
+  Filters: { [key: string]: string | undefined };
   NextToken?: string;
 }
 export const QueryWhatIfForecastRequest = S.suspend(() =>
@@ -122,7 +125,7 @@ export interface QueryForecastRequest {
   ForecastArn: string;
   StartDate?: string;
   EndDate?: string;
-  Filters: { [key: string]: string };
+  Filters: { [key: string]: string | undefined };
   NextToken?: string;
 }
 export const QueryForecastRequest = S.suspend(() =>
@@ -147,10 +150,13 @@ export const DataPoint = S.suspend(() =>
 ).annotations({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type TimeSeries = DataPoint[];
 export const TimeSeries = S.Array(DataPoint);
-export type Predictions = { [key: string]: DataPoint[] };
-export const Predictions = S.Record({ key: S.String, value: TimeSeries });
+export type Predictions = { [key: string]: DataPoint[] | undefined };
+export const Predictions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(TimeSeries),
+});
 export interface Forecast {
-  Predictions?: { [key: string]: DataPoint[] };
+  Predictions?: { [key: string]: DataPoint[] | undefined };
 }
 export const Forecast = S.suspend(() =>
   S.Struct({ Predictions: S.optional(Predictions) }),

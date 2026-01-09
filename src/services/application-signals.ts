@@ -194,10 +194,13 @@ export const BatchGetServiceLevelObjectiveBudgetReportInput = S.suspend(() =>
 ).annotations({
   identifier: "BatchGetServiceLevelObjectiveBudgetReportInput",
 }) as any as S.Schema<BatchGetServiceLevelObjectiveBudgetReportInput>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ListEntityEventsInput {
-  Entity: { [key: string]: string };
+  Entity: { [key: string]: string | undefined };
   StartTime: Date;
   EndTime: Date;
   MaxResults?: number;
@@ -251,7 +254,7 @@ export const ListGroupingAttributeDefinitionsInput = S.suspend(() =>
 export interface ListServiceDependenciesInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -282,7 +285,7 @@ export const ListServiceDependenciesInput = S.suspend(() =>
 export interface ListServiceDependentsInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -336,7 +339,7 @@ export const ListServiceLevelObjectiveExclusionWindowsInput = S.suspend(() =>
 export interface ListServiceOperationsInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -577,7 +580,7 @@ export const MetricDataQuery = S.suspend(() =>
 export type MetricDataQueries = MetricDataQuery[];
 export const MetricDataQueries = S.Array(MetricDataQuery);
 export interface DependencyConfig {
-  DependencyKeyAttributes: { [key: string]: string };
+  DependencyKeyAttributes: { [key: string]: string | undefined };
   DependencyOperationName: string;
 }
 export const DependencyConfig = S.suspend(() =>
@@ -589,7 +592,7 @@ export const DependencyConfig = S.suspend(() =>
   identifier: "DependencyConfig",
 }) as any as S.Schema<DependencyConfig>;
 export interface ServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   MetricType?: ServiceLevelIndicatorMetricType;
   MetricName?: string;
@@ -645,7 +648,7 @@ export const MonitoredRequestCountMetricDataQueries = S.Union(
   S.Struct({ BadCountMetric: MetricDataQueries }),
 );
 export interface RequestBasedServiceLevelIndicatorMetricConfig {
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   MetricType?: ServiceLevelIndicatorMetricType;
   TotalRequestCountMetric?: MetricDataQuery[];
@@ -834,7 +837,7 @@ export const TagList = S.Array(Tag);
 export interface GetServiceInput {
   StartTime: Date;
   EndTime: Date;
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
 }
 export const GetServiceInput = S.suspend(() =>
   S.Struct({
@@ -996,7 +999,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface ServiceLevelIndicatorMetric {
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   MetricType?: ServiceLevelIndicatorMetricType;
   MetricDataQueries: MetricDataQuery[];
@@ -1028,7 +1031,7 @@ export const ServiceLevelIndicator = S.suspend(() =>
   identifier: "ServiceLevelIndicator",
 }) as any as S.Schema<ServiceLevelIndicator>;
 export interface RequestBasedServiceLevelIndicatorMetric {
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   MetricType?: ServiceLevelIndicatorMetricType;
   TotalRequestCountMetric: MetricDataQuery[];
@@ -1102,7 +1105,7 @@ export const UpdateServiceLevelObjectiveOutput = S.suspend(() =>
   identifier: "UpdateServiceLevelObjectiveOutput",
 }) as any as S.Schema<UpdateServiceLevelObjectiveOutput>;
 export interface ListServiceLevelObjectivesInput {
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   DependencyConfig?: DependencyConfig;
   MaxResults?: number;
@@ -1172,13 +1175,13 @@ export type ServiceLevelObjectiveBudgetReportErrors =
 export const ServiceLevelObjectiveBudgetReportErrors = S.Array(
   ServiceLevelObjectiveBudgetReportError,
 );
-export type LogGroupReferences = { [key: string]: string }[];
+export type LogGroupReferences = { [key: string]: string | undefined }[];
 export const LogGroupReferences = S.Array(Attributes);
 export interface ChangeEvent {
   Timestamp: Date;
   AccountId: string;
   Region: string;
-  Entity: { [key: string]: string };
+  Entity: { [key: string]: string | undefined };
   ChangeEventType: ChangeEventType;
   EventId: string;
   UserName?: string;
@@ -1220,7 +1223,7 @@ export type MetricReferences = MetricReference[];
 export const MetricReferences = S.Array(MetricReference);
 export interface ServiceDependent {
   OperationName?: string;
-  DependentKeyAttributes: { [key: string]: string };
+  DependentKeyAttributes: { [key: string]: string | undefined };
   DependentOperationName?: string;
   MetricReferences: MetricReference[];
 }
@@ -1402,9 +1405,12 @@ export const AuditTargetEntity = S.Union(
   S.Struct({ ServiceOperation: ServiceOperationEntity }),
   S.Struct({ Canary: CanaryEntity }),
 );
-export type AttributeMap = { [key: string]: string };
-export const AttributeMap = S.Record({ key: S.String, value: S.String });
-export type AttributeMaps = { [key: string]: string }[];
+export type AttributeMap = { [key: string]: string | undefined };
+export const AttributeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type AttributeMaps = { [key: string]: string | undefined }[];
 export const AttributeMaps = S.Array(AttributeMap);
 export interface ServiceGroup {
   GroupName: string;
@@ -1425,11 +1431,11 @@ export const ServiceGroups = S.Array(ServiceGroup);
 export type LatestChangeEvents = ChangeEvent[];
 export const LatestChangeEvents = S.Array(ChangeEvent);
 export interface Service {
-  KeyAttributes: { [key: string]: string };
-  AttributeMaps?: { [key: string]: string }[];
+  KeyAttributes: { [key: string]: string | undefined };
+  AttributeMaps?: { [key: string]: string | undefined }[];
   ServiceGroups?: ServiceGroup[];
   MetricReferences: MetricReference[];
-  LogGroupReferences?: { [key: string]: string }[];
+  LogGroupReferences?: { [key: string]: string | undefined }[];
 }
 export const Service = S.suspend(() =>
   S.Struct({
@@ -1450,8 +1456,8 @@ export const AuditTarget = S.suspend(() =>
 export type AuditTargets = AuditTarget[];
 export const AuditTargets = S.Array(AuditTarget);
 export interface ServiceSummary {
-  KeyAttributes: { [key: string]: string };
-  AttributeMaps?: { [key: string]: string }[];
+  KeyAttributes: { [key: string]: string | undefined };
+  AttributeMaps?: { [key: string]: string | undefined }[];
   MetricReferences: MetricReference[];
   ServiceGroups?: ServiceGroup[];
 }
@@ -1469,7 +1475,7 @@ export type ServiceSummaries = ServiceSummary[];
 export const ServiceSummaries = S.Array(ServiceSummary);
 export interface ServiceState {
   AttributeFilters?: AttributeFilter[];
-  Service: { [key: string]: string };
+  Service: { [key: string]: string | undefined };
   LatestChangeEvents: ChangeEvent[];
 }
 export const ServiceState = S.suspend(() =>
@@ -1496,7 +1502,7 @@ export const GroupingConfiguration = S.suspend(() =>
 export interface ServiceLevelObjectiveSummary {
   Arn: string;
   Name: string;
-  KeyAttributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
   OperationName?: string;
   DependencyConfig?: DependencyConfig;
   CreatedTime?: Date;
@@ -1525,7 +1531,7 @@ export interface GetServiceOutput {
   Service: Service;
   StartTime: Date;
   EndTime: Date;
-  LogGroupReferences?: { [key: string]: string }[];
+  LogGroupReferences?: { [key: string]: string | undefined }[];
 }
 export const GetServiceOutput = S.suspend(() =>
   S.Struct({
@@ -1678,7 +1684,7 @@ export const BatchUpdateExclusionWindowsErrors = S.Array(
 );
 export interface ServiceDependency {
   OperationName: string;
-  DependencyKeyAttributes: { [key: string]: string };
+  DependencyKeyAttributes: { [key: string]: string | undefined };
   DependencyOperationName: string;
   MetricReferences: MetricReference[];
 }
@@ -1783,10 +1789,13 @@ export const MetricGraph = S.suspend(() =>
 ).annotations({ identifier: "MetricGraph" }) as any as S.Schema<MetricGraph>;
 export type ConnectionType = "INDIRECT" | "DIRECT";
 export const ConnectionType = S.Literal("INDIRECT", "DIRECT");
-export type DataMap = { [key: string]: string };
-export const DataMap = S.Record({ key: S.String, value: S.String });
+export type DataMap = { [key: string]: string | undefined };
+export const DataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Node {
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
   Name: string;
   NodeId: string;
   Operation?: string;
@@ -1834,7 +1843,7 @@ export const CreateServiceLevelObjectiveOutput = S.suspend(() =>
 export interface AuditorResult {
   Auditor?: string;
   Description?: string;
-  Data?: { [key: string]: string };
+  Data?: { [key: string]: string | undefined };
   Severity?: Severity;
 }
 export const AuditorResult = S.suspend(() =>
@@ -1859,7 +1868,7 @@ export const DependencyGraph = S.suspend(() =>
   identifier: "DependencyGraph",
 }) as any as S.Schema<DependencyGraph>;
 export interface AuditFinding {
-  KeyAttributes: { [key: string]: string };
+  KeyAttributes: { [key: string]: string | undefined };
   AuditorResults?: AuditorResult[];
   Operation?: string;
   MetricGraph?: MetricGraph;

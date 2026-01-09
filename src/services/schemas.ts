@@ -99,12 +99,12 @@ export type __listOfGetDiscoveredSchemaVersionItemInput = string[];
 export const __listOfGetDiscoveredSchemaVersionItemInput = S.Array(S.String);
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateRegistryRequest {
   Description?: string;
   RegistryName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRegistryRequest = S.suspend(() =>
   S.Struct({
@@ -129,7 +129,7 @@ export interface CreateSchemaRequest {
   Description?: string;
   RegistryName: string;
   SchemaName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: Type;
 }
 export const CreateSchemaRequest = S.suspend(() =>
@@ -716,7 +716,7 @@ export const StopDiscovererRequest = S.suspend(() =>
 }) as any as S.Schema<StopDiscovererRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -855,7 +855,7 @@ export interface CreateDiscovererRequest {
   Description?: string;
   SourceArn?: string;
   CrossAccount?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDiscovererRequest = S.suspend(() =>
   S.Struct({
@@ -880,7 +880,7 @@ export interface CreateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -898,7 +898,7 @@ export interface CreateSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -939,7 +939,7 @@ export interface DescribeDiscovererResponse {
   SourceArn?: string;
   State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeDiscovererResponse = S.suspend(() =>
   S.Struct({
@@ -958,7 +958,7 @@ export interface DescribeRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -977,7 +977,7 @@ export interface DescribeSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -1040,7 +1040,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -1103,7 +1103,7 @@ export interface UpdateDiscovererResponse {
   SourceArn?: string;
   State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateDiscovererResponse = S.suspend(() =>
   S.Struct({
@@ -1122,7 +1122,7 @@ export interface UpdateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateRegistryResponse = S.suspend(() =>
   S.Struct({
@@ -1140,7 +1140,7 @@ export interface UpdateSchemaResponse {
   SchemaArn?: string;
   SchemaName?: string;
   SchemaVersion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: string;
   VersionCreatedDate?: Date;
 }
@@ -1164,7 +1164,7 @@ export interface DiscovererSummary {
   SourceArn?: string;
   State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DiscovererSummary = S.suspend(() =>
   S.Struct({
@@ -1183,7 +1183,7 @@ export const __listOfDiscovererSummary = S.Array(DiscovererSummary);
 export interface RegistrySummary {
   RegistryArn?: string;
   RegistryName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RegistrySummary = S.suspend(() =>
   S.Struct({
@@ -1200,7 +1200,7 @@ export interface SchemaSummary {
   LastModified?: Date;
   SchemaArn?: string;
   SchemaName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VersionCount?: number;
 }
 export const SchemaSummary = S.suspend(() =>
@@ -1241,7 +1241,7 @@ export interface CreateDiscovererResponse {
   SourceArn?: string;
   State?: DiscovererState;
   CrossAccount?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDiscovererResponse = S.suspend(() =>
   S.Struct({

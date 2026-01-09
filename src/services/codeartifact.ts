@@ -575,10 +575,10 @@ export const DisassociateExternalConnectionRequest = S.suspend(() =>
 ).annotations({
   identifier: "DisassociateExternalConnectionRequest",
 }) as any as S.Schema<DisassociateExternalConnectionRequest>;
-export type PackageVersionRevisionMap = { [key: string]: string };
+export type PackageVersionRevisionMap = { [key: string]: string | undefined };
 export const PackageVersionRevisionMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface DisposePackageVersionsRequest {
   domain: string;
@@ -588,7 +588,7 @@ export interface DisposePackageVersionsRequest {
   namespace?: string;
   package: string;
   versions: string[];
-  versionRevisions?: { [key: string]: string };
+  versionRevisions?: { [key: string]: string | undefined };
   expectedStatus?: PackageVersionStatus;
 }
 export const DisposePackageVersionsRequest = S.suspend(() =>
@@ -1334,7 +1334,7 @@ export interface UpdatePackageVersionsStatusRequest {
   namespace?: string;
   package: string;
   versions: string[];
-  versionRevisions?: { [key: string]: string };
+  versionRevisions?: { [key: string]: string | undefined };
   expectedStatus?: PackageVersionStatus;
   targetStatus: PackageVersionStatus;
 }
@@ -1456,7 +1456,7 @@ export type OriginRestrictions = {
 export const OriginRestrictions = S.partial(
   S.Record({
     key: PackageGroupOriginRestrictionType,
-    value: PackageGroupOriginRestrictionMode,
+    value: S.UndefinedOr(PackageGroupOriginRestrictionMode),
   }),
 );
 export interface PackageGroupAllowedRepository {
@@ -1484,7 +1484,7 @@ export interface CopyPackageVersionsRequest {
   namespace?: string;
   package: string;
   versions?: string[];
-  versionRevisions?: { [key: string]: string };
+  versionRevisions?: { [key: string]: string | undefined };
   allowOverwrite?: boolean;
   includeFromUpstream?: boolean;
 }
@@ -1597,11 +1597,11 @@ export type PackageGroupOriginRestrictions = {
 export const PackageGroupOriginRestrictions = S.partial(
   S.Record({
     key: PackageGroupOriginRestrictionType,
-    value: PackageGroupOriginRestriction,
+    value: S.UndefinedOr(PackageGroupOriginRestriction),
   }),
 );
 export interface PackageGroupOriginConfiguration {
-  restrictions?: { [key: string]: PackageGroupOriginRestriction };
+  restrictions?: { [key: string]: PackageGroupOriginRestriction | undefined };
 }
 export const PackageGroupOriginConfiguration = S.suspend(() =>
   S.Struct({ restrictions: S.optional(PackageGroupOriginRestrictions) }),
@@ -1802,11 +1802,11 @@ export const SuccessfulPackageVersionInfo = S.suspend(() =>
   identifier: "SuccessfulPackageVersionInfo",
 }) as any as S.Schema<SuccessfulPackageVersionInfo>;
 export type SuccessfulPackageVersionInfoMap = {
-  [key: string]: SuccessfulPackageVersionInfo;
+  [key: string]: SuccessfulPackageVersionInfo | undefined;
 };
 export const SuccessfulPackageVersionInfoMap = S.Record({
   key: S.String,
-  value: SuccessfulPackageVersionInfo,
+  value: S.UndefinedOr(SuccessfulPackageVersionInfo),
 });
 export type PackageVersionErrorCode =
   | "ALREADY_EXISTS"
@@ -1835,14 +1835,18 @@ export const PackageVersionError = S.suspend(() =>
 ).annotations({
   identifier: "PackageVersionError",
 }) as any as S.Schema<PackageVersionError>;
-export type PackageVersionErrorMap = { [key: string]: PackageVersionError };
+export type PackageVersionErrorMap = {
+  [key: string]: PackageVersionError | undefined;
+};
 export const PackageVersionErrorMap = S.Record({
   key: S.String,
-  value: PackageVersionError,
+  value: S.UndefinedOr(PackageVersionError),
 });
 export interface DisposePackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
-  failedVersions?: { [key: string]: PackageVersionError };
+  successfulVersions?: {
+    [key: string]: SuccessfulPackageVersionInfo | undefined;
+  };
+  failedVersions?: { [key: string]: PackageVersionError | undefined };
 }
 export const DisposePackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -2050,12 +2054,12 @@ export type HashAlgorithm = "MD5" | "SHA-1" | "SHA-256" | "SHA-512";
 export const HashAlgorithm = S.Literal("MD5", "SHA-1", "SHA-256", "SHA-512");
 export type AssetHashes = { [key in HashAlgorithm]?: string };
 export const AssetHashes = S.partial(
-  S.Record({ key: HashAlgorithm, value: S.String }),
+  S.Record({ key: HashAlgorithm, value: S.UndefinedOr(S.String) }),
 );
 export interface AssetSummary {
   name: string;
   size?: number;
-  hashes?: { [key: string]: string };
+  hashes?: { [key: string]: string | undefined };
 }
 export const AssetSummary = S.suspend(() =>
   S.Struct({
@@ -2145,7 +2149,9 @@ export interface UpdatePackageGroupOriginConfigurationRequest {
   domain: string;
   domainOwner?: string;
   packageGroup: string;
-  restrictions?: { [key: string]: PackageGroupOriginRestrictionMode };
+  restrictions?: {
+    [key: string]: PackageGroupOriginRestrictionMode | undefined;
+  };
   addAllowedRepositories?: PackageGroupAllowedRepository[];
   removeAllowedRepositories?: PackageGroupAllowedRepository[];
 }
@@ -2171,8 +2177,10 @@ export const UpdatePackageGroupOriginConfigurationRequest = S.suspend(() =>
   identifier: "UpdatePackageGroupOriginConfigurationRequest",
 }) as any as S.Schema<UpdatePackageGroupOriginConfigurationRequest>;
 export interface UpdatePackageVersionsStatusResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
-  failedVersions?: { [key: string]: PackageVersionError };
+  successfulVersions?: {
+    [key: string]: SuccessfulPackageVersionInfo | undefined;
+  };
+  failedVersions?: { [key: string]: PackageVersionError | undefined };
 }
 export const UpdatePackageVersionsStatusResult = S.suspend(() =>
   S.Struct({
@@ -2320,8 +2328,10 @@ export const ResourceType = S.Literal(
   "asset",
 );
 export interface CopyPackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
-  failedVersions?: { [key: string]: PackageVersionError };
+  successfulVersions?: {
+    [key: string]: SuccessfulPackageVersionInfo | undefined;
+  };
+  failedVersions?: { [key: string]: PackageVersionError | undefined };
 }
 export const CopyPackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -2515,8 +2525,10 @@ export const DeletePackageResult = S.suspend(() =>
   identifier: "DeletePackageResult",
 }) as any as S.Schema<DeletePackageResult>;
 export interface DeletePackageVersionsResult {
-  successfulVersions?: { [key: string]: SuccessfulPackageVersionInfo };
-  failedVersions?: { [key: string]: PackageVersionError };
+  successfulVersions?: {
+    [key: string]: SuccessfulPackageVersionInfo | undefined;
+  };
+  failedVersions?: { [key: string]: PackageVersionError | undefined };
 }
 export const DeletePackageVersionsResult = S.suspend(() =>
   S.Struct({
@@ -2554,7 +2566,7 @@ export type PackageGroupAllowedRepositoryUpdate = {
 export const PackageGroupAllowedRepositoryUpdate = S.partial(
   S.Record({
     key: PackageGroupAllowedRepositoryUpdateType,
-    value: RepositoryNameList,
+    value: S.UndefinedOr(RepositoryNameList),
   }),
 );
 export interface PackageVersionDescription {
@@ -2592,12 +2604,14 @@ export const PackageVersionDescription = S.suspend(() =>
   identifier: "PackageVersionDescription",
 }) as any as S.Schema<PackageVersionDescription>;
 export type PackageGroupAllowedRepositoryUpdates = {
-  [key in PackageGroupOriginRestrictionType]?: { [key: string]: string[] };
+  [key in PackageGroupOriginRestrictionType]?: {
+    [key: string]: string[] | undefined;
+  };
 };
 export const PackageGroupAllowedRepositoryUpdates = S.partial(
   S.Record({
     key: PackageGroupOriginRestrictionType,
-    value: PackageGroupAllowedRepositoryUpdate,
+    value: S.UndefinedOr(PackageGroupAllowedRepositoryUpdate),
   }),
 );
 export interface DescribePackageVersionResult {
@@ -2610,7 +2624,9 @@ export const DescribePackageVersionResult = S.suspend(() =>
 }) as any as S.Schema<DescribePackageVersionResult>;
 export interface UpdatePackageGroupOriginConfigurationResult {
   packageGroup?: PackageGroupDescription;
-  allowedRepositoryUpdates?: { [key: string]: { [key: string]: string[] } };
+  allowedRepositoryUpdates?: {
+    [key: string]: { [key: string]: string[] | undefined } | undefined;
+  };
 }
 export const UpdatePackageGroupOriginConfigurationResult = S.suspend(() =>
   S.Struct({

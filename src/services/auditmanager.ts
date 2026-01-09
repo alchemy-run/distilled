@@ -1278,11 +1278,14 @@ export const StartAssessmentFrameworkShareRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartAssessmentFrameworkShareRequest",
 }) as any as S.Schema<StartAssessmentFrameworkShareRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1616,8 +1619,11 @@ export const Resource = S.suspend(() =>
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type Resources = Resource[];
 export const Resources = S.Array(Resource);
-export type EvidenceAttributes = { [key: string]: string };
-export const EvidenceAttributes = S.Record({ key: S.String, value: S.String });
+export type EvidenceAttributes = { [key: string]: string | undefined };
+export const EvidenceAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Evidence {
   dataSource?: string;
   evidenceAwsAccountId?: string;
@@ -1626,7 +1632,7 @@ export interface Evidence {
   eventName?: string;
   evidenceByType?: string;
   resourcesIncluded?: Resource[];
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   iamId?: string;
   complianceCheck?: string;
   awsOrganization?: string;
@@ -2047,7 +2053,7 @@ export const ListKeywordsForDataSourceResponse = S.suspend(() =>
   identifier: "ListKeywordsForDataSourceResponse",
 }) as any as S.Schema<ListKeywordsForDataSourceResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2325,7 +2331,7 @@ export interface Assessment {
   awsAccount?: AWSAccount;
   metadata?: AssessmentMetadata;
   framework?: AssessmentFramework;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Assessment = S.suspend(() =>
   S.Struct({
@@ -2639,7 +2645,7 @@ export interface Control {
   lastUpdatedAt?: Date;
   createdBy?: string | redacted.Redacted<string>;
   lastUpdatedBy?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   state?: ControlState;
 }
 export const Control = S.suspend(() =>
@@ -2893,7 +2899,7 @@ export interface CreateAssessmentRequest {
   scope: Scope;
   roles: Role[];
   frameworkId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAssessmentRequest = S.suspend(() =>
   S.Struct({
@@ -2922,7 +2928,7 @@ export interface CreateAssessmentFrameworkRequest {
   description?: string;
   complianceType?: string | redacted.Redacted<string>;
   controlSets: CreateAssessmentFrameworkControlSet[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAssessmentFrameworkRequest = S.suspend(() =>
   S.Struct({
@@ -2959,7 +2965,7 @@ export interface CreateControlRequest {
   actionPlanTitle?: string | redacted.Redacted<string>;
   actionPlanInstructions?: string | redacted.Redacted<string>;
   controlMappingSources: CreateControlMappingSource[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateControlRequest = S.suspend(() =>
   S.Struct({
@@ -3161,7 +3167,7 @@ export interface Framework {
   lastUpdatedAt?: Date;
   createdBy?: string | redacted.Redacted<string>;
   lastUpdatedBy?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Framework = S.suspend(() =>
   S.Struct({

@@ -1017,14 +1017,16 @@ export const TaxExemptionDetails = S.suspend(() =>
 ).annotations({
   identifier: "TaxExemptionDetails",
 }) as any as S.Schema<TaxExemptionDetails>;
-export type TaxExemptionDetailsMap = { [key: string]: TaxExemptionDetails };
+export type TaxExemptionDetailsMap = {
+  [key: string]: TaxExemptionDetails | undefined;
+};
 export const TaxExemptionDetailsMap = S.Record({
   key: S.String,
-  value: TaxExemptionDetails,
+  value: S.UndefinedOr(TaxExemptionDetails),
 });
 export interface ListTaxExemptionsResponse {
   nextToken?: string;
-  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails };
+  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined };
 }
 export const ListTaxExemptionsResponse = S.suspend(() =>
   S.Struct({
@@ -1251,7 +1253,7 @@ export const Jurisdiction = S.suspend(() =>
 ).annotations({ identifier: "Jurisdiction" }) as any as S.Schema<Jurisdiction>;
 export type AddressRoleMap = { [key in AddressRoleType]?: Jurisdiction };
 export const AddressRoleMap = S.partial(
-  S.Record({ key: AddressRoleType, value: Jurisdiction }),
+  S.Record({ key: AddressRoleType, value: S.UndefinedOr(Jurisdiction) }),
 );
 export interface AdditionalInfoResponse {
   malaysiaAdditionalInfo?: MalaysiaAdditionalInfo;
@@ -1334,7 +1336,7 @@ export interface AccountMetaData {
   seller?: string;
   address?: Address;
   addressType?: AddressRoleType;
-  addressRoleMap?: { [key: string]: Jurisdiction };
+  addressRoleMap?: { [key: string]: Jurisdiction | undefined };
 }
 export const AccountMetaData = S.suspend(() =>
   S.Struct({
@@ -1392,7 +1394,7 @@ export const AccountDetails = S.suspend(() =>
 export type AccountDetailsList = AccountDetails[];
 export const AccountDetailsList = S.Array(AccountDetails);
 export interface BatchGetTaxExemptionsResponse {
-  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails };
+  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined };
   failedAccounts?: string[];
 }
 export const BatchGetTaxExemptionsResponse = S.suspend(() =>

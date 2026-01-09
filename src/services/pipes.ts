@@ -341,8 +341,13 @@ export const StopPipeRequest = S.suspend(() =>
 }) as any as S.Schema<StopPipeRequest>;
 export type IncludeExecutionData = string[];
 export const IncludeExecutionData = S.Array(S.String);
-export type TagMap = { [key: string]: string | redacted.Redacted<string> };
-export const TagMap = S.Record({ key: S.String, value: SensitiveString });
+export type TagMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
 export type KafkaBootstrapServers = string | redacted.Redacted<string>[];
 export const KafkaBootstrapServers = S.Array(SensitiveString);
 export type PathParameterList = string | redacted.Redacted<string>[];
@@ -352,7 +357,7 @@ export const Sqls = S.Array(SensitiveString);
 export type EventBridgeEventResourceList = string[];
 export const EventBridgeEventResourceList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | redacted.Redacted<string> };
+  tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
@@ -361,7 +366,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string | redacted.Redacted<string> };
+  tags: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -556,23 +561,27 @@ export const PipeTargetSqsQueueParameters = S.suspend(() =>
   identifier: "PipeTargetSqsQueueParameters",
 }) as any as S.Schema<PipeTargetSqsQueueParameters>;
 export type HeaderParametersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const HeaderParametersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type QueryStringParametersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const QueryStringParametersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface PipeTargetHttpParameters {
   PathParameterValues?: string | redacted.Redacted<string>[];
-  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> };
-  QueryStringParameters?: { [key: string]: string | redacted.Redacted<string> };
+  HeaderParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  QueryStringParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const PipeTargetHttpParameters = S.suspend(() =>
   S.Struct({
@@ -1016,8 +1025,11 @@ export const BatchJobDependency = S.suspend(() =>
 }) as any as S.Schema<BatchJobDependency>;
 export type BatchDependsOn = BatchJobDependency[];
 export const BatchDependsOn = S.Array(BatchJobDependency);
-export type BatchParametersMap = { [key: string]: string };
-export const BatchParametersMap = S.Record({ key: S.String, value: S.String });
+export type BatchParametersMap = { [key: string]: string | undefined };
+export const BatchParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SageMakerPipelineParameter {
   Name: string | redacted.Redacted<string>;
   Value: string | redacted.Redacted<string>;
@@ -1069,8 +1081,12 @@ export type SecurityGroups = string | redacted.Redacted<string>[];
 export const SecurityGroups = S.Array(SensitiveString);
 export interface PipeEnrichmentHttpParameters {
   PathParameterValues?: string | redacted.Redacted<string>[];
-  HeaderParameters?: { [key: string]: string | redacted.Redacted<string> };
-  QueryStringParameters?: { [key: string]: string | redacted.Redacted<string> };
+  HeaderParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  QueryStringParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const PipeEnrichmentHttpParameters = S.suspend(() =>
   S.Struct({
@@ -1306,7 +1322,7 @@ export interface PipeTargetBatchJobParameters {
   RetryStrategy?: BatchRetryStrategy;
   ContainerOverrides?: BatchContainerOverrides;
   DependsOn?: BatchJobDependency[];
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const PipeTargetBatchJobParameters = S.suspend(() =>
   S.Struct({
@@ -1661,7 +1677,7 @@ export interface DescribePipeResponse {
   Target?: string;
   TargetParameters?: PipeTargetParameters;
   RoleArn?: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
   CreationTime?: Date;
   LastModifiedTime?: Date;
   LogConfiguration?: PipeLogConfiguration;
@@ -1737,7 +1753,7 @@ export interface CreatePipeRequest {
   Target: string;
   TargetParameters?: PipeTargetParameters;
   RoleArn: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
   LogConfiguration?: PipeLogConfigurationParameters;
   KmsKeyIdentifier?: string;
 }

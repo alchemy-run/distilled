@@ -783,14 +783,14 @@ export type CoverageTimes = CoverageTime[];
 export const CoverageTimes = S.Array(CoverageTime);
 export type ShiftCoveragesMap = { [key in DayOfWeek]?: CoverageTime[] };
 export const ShiftCoveragesMap = S.partial(
-  S.Record({ key: DayOfWeek, value: CoverageTimes }),
+  S.Record({ key: DayOfWeek, value: S.UndefinedOr(CoverageTimes) }),
 );
 export interface RecurrenceSettings {
   MonthlySettings?: MonthlySetting[];
   WeeklySettings?: WeeklySetting[];
   DailySettings?: HandOffTime[];
   NumberOfOnCalls: number;
-  ShiftCoverages?: { [key: string]: CoverageTime[] };
+  ShiftCoverages?: { [key: string]: CoverageTime[] | undefined };
   RecurrenceMultiplier: number;
 }
 export const RecurrenceSettings = S.suspend(() =>

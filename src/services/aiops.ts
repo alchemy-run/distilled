@@ -185,10 +185,12 @@ export const EncryptionConfiguration = S.suspend(() =>
 }) as any as S.Schema<EncryptionConfiguration>;
 export type ChatConfigurationArns = string[];
 export const ChatConfigurationArns = S.Array(S.String);
-export type ChatbotNotificationChannel = { [key: string]: string[] };
+export type ChatbotNotificationChannel = {
+  [key: string]: string[] | undefined;
+};
 export const ChatbotNotificationChannel = S.Record({
   key: S.String,
-  value: ChatConfigurationArns,
+  value: S.UndefinedOr(ChatConfigurationArns),
 });
 export interface CrossAccountConfiguration {
   sourceRoleArn?: string;
@@ -205,7 +207,7 @@ export interface UpdateInvestigationGroupRequest {
   roleArn?: string;
   encryptionConfiguration?: EncryptionConfiguration;
   tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] };
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];
 }
@@ -351,10 +353,10 @@ export const DeleteInvestigationGroupPolicyOutput = S.suspend(() =>
 ).annotations({
   identifier: "DeleteInvestigationGroupPolicyOutput",
 }) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -363,7 +365,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -391,9 +393,9 @@ export interface CreateInvestigationGroupInput {
   roleArn: string;
   encryptionConfiguration?: EncryptionConfiguration;
   retentionInDays?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] };
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];
 }
@@ -431,7 +433,7 @@ export interface GetInvestigationGroupResponse {
   roleArn?: string;
   encryptionConfiguration?: EncryptionConfiguration;
   retentionInDays?: number;
-  chatbotNotificationChannel?: { [key: string]: string[] };
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
   tagKeyBoundaries?: string[];
   isCloudTrailEventHistoryEnabled?: boolean;
   crossAccountConfigurations?: CrossAccountConfiguration[];

@@ -3391,8 +3391,8 @@ export const ConfigurationItemStatus = S.Literal(
   "ResourceDeleted",
   "ResourceDeletedNotRecorded",
 );
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export type RelatedEventList = string[];
 export const RelatedEventList = S.Array(S.String);
 export interface Relationship {
@@ -3411,10 +3411,10 @@ export const Relationship = S.suspend(() =>
 ).annotations({ identifier: "Relationship" }) as any as S.Schema<Relationship>;
 export type RelationshipList = Relationship[];
 export const RelationshipList = S.Array(Relationship);
-export type SupplementaryConfiguration = { [key: string]: string };
+export type SupplementaryConfiguration = { [key: string]: string | undefined };
 export const SupplementaryConfiguration = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ConfigurationItem {
   version?: string;
@@ -3430,11 +3430,11 @@ export interface ConfigurationItem {
   awsRegion?: string;
   availabilityZone?: string;
   resourceCreationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   relatedEvents?: string[];
   relationships?: Relationship[];
   configuration?: string;
-  supplementaryConfiguration?: { [key: string]: string };
+  supplementaryConfiguration?: { [key: string]: string | undefined };
   recordingFrequency?: RecordingFrequency;
   configurationItemDeliveryTime?: Date;
 }
@@ -3962,11 +3962,11 @@ export const RemediationParameterValue = S.suspend(() =>
   identifier: "RemediationParameterValue",
 }) as any as S.Schema<RemediationParameterValue>;
 export type RemediationParameters = {
-  [key: string]: RemediationParameterValue;
+  [key: string]: RemediationParameterValue | undefined;
 };
 export const RemediationParameters = S.Record({
   key: S.String,
-  value: RemediationParameterValue,
+  value: S.UndefinedOr(RemediationParameterValue),
 });
 export interface SsmControls {
   ConcurrentExecutionRatePercentage?: number;
@@ -3991,7 +3991,7 @@ export interface RemediationConfiguration {
   TargetType: RemediationTargetType;
   TargetId: string;
   TargetVersion?: string;
-  Parameters?: { [key: string]: RemediationParameterValue };
+  Parameters?: { [key: string]: RemediationParameterValue | undefined };
   ResourceType?: string;
   Automatic?: boolean;
   ExecutionControls?: ExecutionControls;
@@ -4553,7 +4553,7 @@ export interface PutResourceConfigRequest {
   ResourceId: string;
   ResourceName?: string;
   Configuration: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PutResourceConfigRequest = S.suspend(() =>
   S.Struct({
@@ -5489,7 +5489,7 @@ export interface BaseConfigurationItem {
   availabilityZone?: string;
   resourceCreationTime?: Date;
   configuration?: string;
-  supplementaryConfiguration?: { [key: string]: string };
+  supplementaryConfiguration?: { [key: string]: string | undefined };
   recordingFrequency?: RecordingFrequency;
   configurationItemDeliveryTime?: Date;
 }

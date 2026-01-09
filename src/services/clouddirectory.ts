@@ -1744,11 +1744,14 @@ export const RuleType = S.Literal(
   "STRING_FROM_SET",
   "STRING_LENGTH",
 );
-export type RuleParameterMap = { [key: string]: string };
-export const RuleParameterMap = S.Record({ key: S.String, value: S.String });
+export type RuleParameterMap = { [key: string]: string | undefined };
+export const RuleParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Rule {
   Type?: RuleType;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const Rule = S.suspend(() =>
   S.Struct({
@@ -1756,13 +1759,13 @@ export const Rule = S.suspend(() =>
     Parameters: S.optional(RuleParameterMap),
   }),
 ).annotations({ identifier: "Rule" }) as any as S.Schema<Rule>;
-export type RuleMap = { [key: string]: Rule };
-export const RuleMap = S.Record({ key: S.String, value: Rule });
+export type RuleMap = { [key: string]: Rule | undefined };
+export const RuleMap = S.Record({ key: S.String, value: S.UndefinedOr(Rule) });
 export interface FacetAttributeDefinition {
   Type: FacetAttributeType;
   DefaultValue?: TypedAttributeValue;
   IsImmutable?: boolean;
-  Rules?: { [key: string]: Rule };
+  Rules?: { [key: string]: Rule | undefined };
 }
 export const FacetAttributeDefinition = S.suspend(() =>
   S.Struct({
@@ -1818,7 +1821,7 @@ export interface TypedLinkAttributeDefinition {
   Type: FacetAttributeType;
   DefaultValue?: TypedAttributeValue;
   IsImmutable?: boolean;
-  Rules?: { [key: string]: Rule };
+  Rules?: { [key: string]: Rule | undefined };
   RequiredBehavior: RequiredAttributeBehavior;
 }
 export const TypedLinkAttributeDefinition = S.suspend(() =>
@@ -2980,10 +2983,12 @@ export const IndexAttachment = S.suspend(() =>
 }) as any as S.Schema<IndexAttachment>;
 export type IndexAttachmentList = IndexAttachment[];
 export const IndexAttachmentList = S.Array(IndexAttachment);
-export type LinkNameToObjectIdentifierMap = { [key: string]: string };
+export type LinkNameToObjectIdentifierMap = {
+  [key: string]: string | undefined;
+};
 export const LinkNameToObjectIdentifierMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PathToObjectIdentifiers {
   Path?: string;
@@ -2999,10 +3004,12 @@ export const PathToObjectIdentifiers = S.suspend(() =>
 }) as any as S.Schema<PathToObjectIdentifiers>;
 export type PathToObjectIdentifiersList = PathToObjectIdentifiers[];
 export const PathToObjectIdentifiersList = S.Array(PathToObjectIdentifiers);
-export type ObjectIdentifierToLinkNameMap = { [key: string]: string };
+export type ObjectIdentifierToLinkNameMap = {
+  [key: string]: string | undefined;
+};
 export const ObjectIdentifierToLinkNameMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ObjectIdentifierAndLinkNameTuple {
   ObjectIdentifier?: string;
@@ -3228,7 +3235,7 @@ export const ListIndexResponse = S.suspend(() =>
   identifier: "ListIndexResponse",
 }) as any as S.Schema<ListIndexResponse>;
 export interface ListObjectChildrenResponse {
-  Children?: { [key: string]: string };
+  Children?: { [key: string]: string | undefined };
   NextToken?: string;
 }
 export const ListObjectChildrenResponse = S.suspend(() =>
@@ -3252,7 +3259,7 @@ export const ListObjectParentPathsResponse = S.suspend(() =>
   identifier: "ListObjectParentPathsResponse",
 }) as any as S.Schema<ListObjectParentPathsResponse>;
 export interface ListObjectParentsResponse {
-  Parents?: { [key: string]: string };
+  Parents?: { [key: string]: string | undefined };
   NextToken?: string;
   ParentLinks?: ObjectIdentifierAndLinkNameTuple[];
 }
@@ -3585,7 +3592,7 @@ export const BatchListObjectAttributesResponse = S.suspend(() =>
   identifier: "BatchListObjectAttributesResponse",
 }) as any as S.Schema<BatchListObjectAttributesResponse>;
 export interface BatchListObjectChildrenResponse {
-  Children?: { [key: string]: string };
+  Children?: { [key: string]: string | undefined };
   NextToken?: string;
 }
 export const BatchListObjectChildrenResponse = S.suspend(() =>

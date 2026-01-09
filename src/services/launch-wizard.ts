@@ -290,12 +290,12 @@ export const DeploymentFilterKey = S.Literal(
 );
 export type DeploymentFilterValues = string[];
 export const DeploymentFilterValues = S.Array(S.String);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
-export type DeploymentSpecifications = { [key: string]: string };
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
+export type DeploymentSpecifications = { [key: string]: string | undefined };
 export const DeploymentSpecifications = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type DeploymentStatus =
   | "COMPLETED"
@@ -333,7 +333,7 @@ export const DeploymentFilter = S.suspend(() =>
 export type DeploymentFilterList = DeploymentFilter[];
 export const DeploymentFilterList = S.Array(DeploymentFilter);
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -342,7 +342,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -369,9 +369,9 @@ export interface CreateDeploymentInput {
   workloadName: string;
   deploymentPatternName: string;
   name: string;
-  specifications: { [key: string]: string };
+  specifications: { [key: string]: string | undefined };
   dryRun?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDeploymentInput = S.suspend(() =>
   S.Struct({
@@ -473,10 +473,10 @@ export interface DeploymentData {
   patternName?: string;
   status?: DeploymentStatus;
   createdAt?: Date;
-  specifications?: { [key: string]: string };
+  specifications?: { [key: string]: string | undefined };
   resourceGroup?: string;
   deletedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   deploymentArn?: string;
 }
 export const DeploymentData = S.suspend(() =>

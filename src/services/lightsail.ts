@@ -1556,15 +1556,18 @@ export const DeleteDomainRequest = S.suspend(() =>
 ).annotations({
   identifier: "DeleteDomainRequest",
 }) as any as S.Schema<DeleteDomainRequest>;
-export type DomainEntryOptions = { [key: string]: string };
-export const DomainEntryOptions = S.Record({ key: S.String, value: S.String });
+export type DomainEntryOptions = { [key: string]: string | undefined };
+export const DomainEntryOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DomainEntry {
   id?: string;
   name?: string;
   target?: string;
   isAlias?: boolean;
   type?: string;
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
 }
 export const DomainEntry = S.suspend(() =>
   S.Struct({
@@ -3984,10 +3987,12 @@ export const UpdateBucketBundleRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBucketBundleRequest>;
 export type ContainerServicePublicDomainsList = string[];
 export const ContainerServicePublicDomainsList = S.Array(S.String);
-export type ContainerServicePublicDomains = { [key: string]: string[] };
+export type ContainerServicePublicDomains = {
+  [key: string]: string[] | undefined;
+};
 export const ContainerServicePublicDomains = S.Record({
   key: S.String,
-  value: ContainerServicePublicDomainsList,
+  value: S.UndefinedOr(ContainerServicePublicDomainsList),
 });
 export interface ContainerServiceECRImagePullerRoleRequest {
   isActive?: boolean;
@@ -4012,7 +4017,7 @@ export interface UpdateContainerServiceRequest {
   power?: ContainerServicePowerName;
   scale?: number;
   isDisabled?: boolean;
-  publicDomainNames?: { [key: string]: string[] };
+  publicDomainNames?: { [key: string]: string[] | undefined };
   privateRegistryAccess?: PrivateRegistryAccessRequest;
 }
 export const UpdateContainerServiceRequest = S.suspend(() =>
@@ -4377,8 +4382,11 @@ export const InstanceEntry = S.suspend(() =>
 }) as any as S.Schema<InstanceEntry>;
 export type InstanceEntryList = InstanceEntry[];
 export const InstanceEntryList = S.Array(InstanceEntry);
-export type Environment = { [key: string]: string };
-export const Environment = S.Record({ key: S.String, value: S.String });
+export type Environment = { [key: string]: string | undefined };
+export const Environment = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ContainerServiceProtocol = "HTTP" | "HTTPS" | "TCP" | "UDP";
 export const ContainerServiceProtocol = S.Literal(
   "HTTP",
@@ -4386,16 +4394,16 @@ export const ContainerServiceProtocol = S.Literal(
   "TCP",
   "UDP",
 );
-export type PortMap = { [key: string]: ContainerServiceProtocol };
+export type PortMap = { [key: string]: ContainerServiceProtocol | undefined };
 export const PortMap = S.Record({
   key: S.String,
-  value: ContainerServiceProtocol,
+  value: S.UndefinedOr(ContainerServiceProtocol),
 });
 export interface Container {
   image?: string;
   command?: string[];
-  environment?: { [key: string]: string };
-  ports?: { [key: string]: ContainerServiceProtocol };
+  environment?: { [key: string]: string | undefined };
+  ports?: { [key: string]: ContainerServiceProtocol | undefined };
 }
 export const Container = S.suspend(() =>
   S.Struct({
@@ -4405,8 +4413,11 @@ export const Container = S.suspend(() =>
     ports: S.optional(PortMap),
   }),
 ).annotations({ identifier: "Container" }) as any as S.Schema<Container>;
-export type ContainerMap = { [key: string]: Container };
-export const ContainerMap = S.Record({ key: S.String, value: Container });
+export type ContainerMap = { [key: string]: Container | undefined };
+export const ContainerMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Container),
+});
 export interface ContainerServiceHealthCheckConfig {
   healthyThreshold?: number;
   unhealthyThreshold?: number;
@@ -4442,7 +4453,7 @@ export const EndpointRequest = S.suspend(() =>
   identifier: "EndpointRequest",
 }) as any as S.Schema<EndpointRequest>;
 export interface ContainerServiceDeploymentRequest {
-  containers?: { [key: string]: Container };
+  containers?: { [key: string]: Container | undefined };
   publicEndpoint?: EndpointRequest;
 }
 export const ContainerServiceDeploymentRequest = S.suspend(() =>
@@ -4680,12 +4691,16 @@ export const CertificateSummary = S.suspend(() =>
 }) as any as S.Schema<CertificateSummary>;
 export type CertificateSummaryList = CertificateSummary[];
 export const CertificateSummaryList = S.Array(CertificateSummary);
-export type ContainerServiceMetadataEntry = { [key: string]: string };
+export type ContainerServiceMetadataEntry = {
+  [key: string]: string | undefined;
+};
 export const ContainerServiceMetadataEntry = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type ContainerServiceMetadataEntryList = { [key: string]: string }[];
+export type ContainerServiceMetadataEntryList = {
+  [key: string]: string | undefined;
+}[];
 export const ContainerServiceMetadataEntryList = S.Array(
   ContainerServiceMetadataEntry,
 );
@@ -5256,7 +5271,7 @@ export type LoadBalancerConfigurationOptions = {
   [key in LoadBalancerAttributeName]?: string;
 };
 export const LoadBalancerConfigurationOptions = S.partial(
-  S.Record({ key: LoadBalancerAttributeName, value: S.String }),
+  S.Record({ key: LoadBalancerAttributeName, value: S.UndefinedOr(S.String) }),
 );
 export interface LoadBalancer {
   name?: string;
@@ -5274,7 +5289,7 @@ export interface LoadBalancer {
   instancePort?: number;
   instanceHealthSummary?: InstanceHealthSummary[];
   tlsCertificateSummaries?: LoadBalancerTlsCertificateSummary[];
-  configurationOptions?: { [key: string]: string };
+  configurationOptions?: { [key: string]: string | undefined };
   ipAddressType?: IpAddressType;
   httpsRedirectionEnabled?: boolean;
   tlsPolicyName?: string;
@@ -6010,7 +6025,7 @@ export const GetCertificatesResult = S.suspend(() =>
   identifier: "GetCertificatesResult",
 }) as any as S.Schema<GetCertificatesResult>;
 export interface GetContainerAPIMetadataResult {
-  metadata?: { [key: string]: string }[];
+  metadata?: { [key: string]: string | undefined }[];
 }
 export const GetContainerAPIMetadataResult = S.suspend(() =>
   S.Struct({ metadata: S.optional(ContainerServiceMetadataEntryList) }),
@@ -6605,7 +6620,7 @@ export const ContainerServiceEndpoint = S.suspend(() =>
 export interface ContainerServiceDeployment {
   version?: number;
   state?: ContainerServiceDeploymentState;
-  containers?: { [key: string]: Container };
+  containers?: { [key: string]: Container | undefined };
   publicEndpoint?: ContainerServiceEndpoint;
   createdAt?: Date;
 }
@@ -6659,7 +6674,7 @@ export interface ContainerService {
   isDisabled?: boolean;
   principalArn?: string;
   privateDomainName?: string;
-  publicDomainNames?: { [key: string]: string[] };
+  publicDomainNames?: { [key: string]: string[] | undefined };
   url?: string;
   privateRegistryAccess?: PrivateRegistryAccess;
 }
@@ -6926,8 +6941,11 @@ export const Session = S.suspend(() =>
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
 export type Sessions = Session[];
 export const Sessions = S.Array(Session);
-export type AttachedDiskMap = { [key: string]: DiskMap[] };
-export const AttachedDiskMap = S.Record({ key: S.String, value: DiskMapList });
+export type AttachedDiskMap = { [key: string]: DiskMap[] | undefined };
+export const AttachedDiskMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(DiskMapList),
+});
 export interface Blueprint {
   blueprintId?: string;
   name?: string;
@@ -7332,7 +7350,7 @@ export interface CreateContainerServiceRequest {
   power: ContainerServicePowerName;
   scale: number;
   tags?: Tag[];
-  publicDomainNames?: { [key: string]: string[] };
+  publicDomainNames?: { [key: string]: string[] | undefined };
   deployment?: ContainerServiceDeploymentRequest;
   privateRegistryAccess?: PrivateRegistryAccessRequest;
 }
@@ -7462,7 +7480,7 @@ export const CreateGUISessionAccessDetailsResult = S.suspend(() =>
 }) as any as S.Schema<CreateGUISessionAccessDetailsResult>;
 export interface CreateInstancesFromSnapshotRequest {
   instanceNames: string[];
-  attachedDiskMapping?: { [key: string]: DiskMap[] };
+  attachedDiskMapping?: { [key: string]: DiskMap[] | undefined };
   availabilityZone: string;
   instanceSnapshotName?: string;
   bundleId: string;
@@ -8213,7 +8231,7 @@ export const CreateContainerServiceResult = S.suspend(() =>
 }) as any as S.Schema<CreateContainerServiceResult>;
 export interface CreateContainerServiceDeploymentRequest {
   serviceName: string;
-  containers?: { [key: string]: Container };
+  containers?: { [key: string]: Container | undefined };
   publicEndpoint?: EndpointRequest;
 }
 export const CreateContainerServiceDeploymentRequest = S.suspend(() =>

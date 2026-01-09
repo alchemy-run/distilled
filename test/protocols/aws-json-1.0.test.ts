@@ -206,6 +206,23 @@ describe("awsJson1_0 protocol", () => {
       }),
     );
 
+    it.effect("should drop undefined values in maps during serialization", () =>
+      Effect.gen(function* () {
+        const request = yield* buildRequest(GetItemInput, {
+          TableName: "my-table",
+          Key: { id: { S: "123" } },
+          ExpressionAttributeNames: {
+            "#name": "userName",
+            "#absent": undefined,
+          } as { [key: string]: string | undefined },
+        });
+
+        const body = JSON.parse(request.body as string);
+        expect(body.ExpressionAttributeNames["#name"]).toBe("userName");
+        expect("#absent" in body.ExpressionAttributeNames).toBe(false);
+      }),
+    );
+
     it.effect("should serialize Key with multiple string values", () =>
       Effect.gen(function* () {
         const request = yield* buildRequest(GetItemInput, {

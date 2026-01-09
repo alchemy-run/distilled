@@ -138,13 +138,16 @@ export type RetryAfterSeconds = number;
 //# Schemas
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateEnvironmentRequest {
   Name: string;
   Description?: string;
   NetworkFabricType: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
@@ -572,7 +575,7 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -711,7 +714,7 @@ export interface CreateApplicationRequest {
   VpcId: string;
   ProxyType: string;
   ApiGatewayProxy?: ApiGatewayProxyInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -747,7 +750,7 @@ export interface CreateEnvironmentResponse {
   NetworkFabricType?: string;
   OwnerAccountId?: string;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -776,7 +779,7 @@ export interface CreateRouteRequest {
   RouteType: string;
   DefaultRoute?: DefaultRouteInput;
   UriPathRoute?: UriPathRouteInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateRouteRequest = S.suspend(() =>
@@ -814,7 +817,7 @@ export interface CreateServiceRequest {
   EndpointType: string;
   UrlEndpoint?: UrlEndpointInput;
   LambdaEndpoint?: LambdaEndpointInput;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateServiceRequest = S.suspend(() =>
@@ -933,15 +936,18 @@ export const DeleteServiceResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteServiceResponse",
 }) as any as S.Schema<DeleteServiceResponse>;
-export type AdditionalDetails = { [key: string]: string };
-export const AdditionalDetails = S.Record({ key: S.String, value: S.String });
+export type AdditionalDetails = { [key: string]: string | undefined };
+export const AdditionalDetails = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ErrorResponse {
   Code?: string;
   Message?: string;
   AccountId?: string;
   ResourceIdentifier?: string;
   ResourceType?: string;
-  AdditionalDetails?: { [key: string]: string };
+  AdditionalDetails?: { [key: string]: string | undefined };
 }
 export const ErrorResponse = S.suspend(() =>
   S.Struct({
@@ -964,7 +970,7 @@ export interface GetEnvironmentResponse {
   OwnerAccountId?: string;
   TransitGatewayId?: string;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -998,7 +1004,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1051,8 +1057,11 @@ export const ApiGatewayProxyConfig = S.suspend(() =>
 ).annotations({
   identifier: "ApiGatewayProxyConfig",
 }) as any as S.Schema<ApiGatewayProxyConfig>;
-export type PathResourceToId = { [key: string]: string };
-export const PathResourceToId = S.Record({ key: S.String, value: S.String });
+export type PathResourceToId = { [key: string]: string | undefined };
+export const PathResourceToId = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UrlEndpointConfig {
   Url?: string;
   HealthUrl?: string;
@@ -1079,7 +1088,7 @@ export interface EnvironmentSummary {
   OwnerAccountId?: string;
   TransitGatewayId?: string;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1144,9 +1153,9 @@ export interface RouteSummary {
   SourcePath?: string;
   Methods?: string[];
   IncludeChildPaths?: boolean;
-  PathResourceToId?: { [key: string]: string };
+  PathResourceToId?: { [key: string]: string | undefined };
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1189,7 +1198,7 @@ export interface CreateApplicationResponse {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxyInput;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1224,7 +1233,7 @@ export interface CreateRouteResponse {
   ApplicationId?: string;
   UriPathRoute?: UriPathRouteInput;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1262,7 +1271,7 @@ export interface CreateServiceResponse {
   UrlEndpoint?: UrlEndpointInput;
   LambdaEndpoint?: LambdaEndpointInput;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
 }
@@ -1302,9 +1311,9 @@ export interface GetRouteResponse {
   SourcePath?: string;
   Methods?: string[];
   IncludeChildPaths?: boolean;
-  PathResourceToId?: { [key: string]: string };
+  PathResourceToId?: { [key: string]: string | undefined };
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1350,7 +1359,7 @@ export interface GetServiceResponse {
   UrlEndpoint?: UrlEndpointConfig;
   LambdaEndpoint?: LambdaEndpointConfig;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1466,7 +1475,7 @@ export interface ApplicationSummary {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxySummary;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1509,7 +1518,7 @@ export interface ServiceSummary {
   UrlEndpoint?: UrlEndpointSummary;
   LambdaEndpoint?: LambdaEndpointSummary;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;
@@ -1552,7 +1561,7 @@ export interface GetApplicationResponse {
   ProxyType?: string;
   ApiGatewayProxy?: ApiGatewayProxyConfig;
   State?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Error?: ErrorResponse;
   LastUpdatedTime?: Date;
   CreatedTime?: Date;

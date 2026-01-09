@@ -351,11 +351,14 @@ export const ReturnSavingsPlanRequest = S.suspend(() =>
 ).annotations({
   identifier: "ReturnSavingsPlanRequest",
 }) as any as S.Schema<ReturnSavingsPlanRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagMap }).pipe(
@@ -530,7 +533,7 @@ export interface CreateSavingsPlanRequest {
   upfrontPaymentAmount?: string;
   purchaseTime?: Date;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSavingsPlanRequest = S.suspend(() =>
   S.Struct({
@@ -688,7 +691,7 @@ export const DescribeSavingsPlansOfferingsRequest = S.suspend(() =>
   identifier: "DescribeSavingsPlansOfferingsRequest",
 }) as any as S.Schema<DescribeSavingsPlansOfferingsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -762,7 +765,7 @@ export interface SavingsPlan {
   upfrontPaymentAmount?: string;
   recurringPaymentAmount?: string;
   termDurationInSeconds?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   returnableUntil?: string;
 }
 export const SavingsPlan = S.suspend(() =>

@@ -766,11 +766,14 @@ export const GetCisScanReportRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetCisScanReportRequest",
 }) as any as S.Schema<GetCisScanReportRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetCodeSecurityIntegrationRequest {
   integrationArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCodeSecurityIntegrationRequest = S.suspend(() =>
   S.Struct({ integrationArn: S.String, tags: S.optional(TagMap) }).pipe(
@@ -1293,7 +1296,7 @@ export const StartCodeSecurityScanRequest = S.suspend(() =>
 }) as any as S.Schema<StartCodeSecurityScanRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1849,8 +1852,11 @@ export type MemberAccountEc2DeepInspectionStatusList =
 export const MemberAccountEc2DeepInspectionStatusList = S.Array(
   MemberAccountEc2DeepInspectionStatus,
 );
-export type CisTagMap = { [key: string]: string };
-export const CisTagMap = S.Record({ key: S.String, value: S.String });
+export type CisTagMap = { [key: string]: string | undefined };
+export const CisTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ScopeSettings {
   projectSelectionScope?: ProjectSelectionScope;
 }
@@ -1970,14 +1976,14 @@ export const CodeScanStatus = S.Literal(
 );
 export type TagValueList = string[];
 export const TagValueList = S.Array(S.String);
-export type TargetResourceTags = { [key: string]: string[] };
+export type TargetResourceTags = { [key: string]: string[] | undefined };
 export const TargetResourceTags = S.Record({
   key: S.String,
-  value: TagValueList,
+  value: S.UndefinedOr(TagValueList),
 });
 export interface UpdateCisTargets {
   accountIds?: string[];
-  targetResourceTags?: { [key: string]: string[] };
+  targetResourceTags?: { [key: string]: string[] | undefined };
 }
 export const UpdateCisTargets = S.suspend(() =>
   S.Struct({
@@ -2336,7 +2342,7 @@ export interface GetCodeSecurityIntegrationResponse {
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   authorizationUrl?: string | redacted.Redacted<string>;
 }
 export const GetCodeSecurityIntegrationResponse = S.suspend(() =>
@@ -2380,7 +2386,7 @@ export interface GetCodeSecurityScanConfigurationResponse {
   scopeSettings?: ScopeSettings;
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCodeSecurityScanConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -2543,7 +2549,7 @@ export const ListMembersResponse = S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3294,7 +3300,7 @@ export const FailedMemberAccountEc2DeepInspectionStatusStateList = S.Array(
 );
 export interface CreateCisTargets {
   accountIds: string[];
-  targetResourceTags: { [key: string]: string[] };
+  targetResourceTags: { [key: string]: string[] | undefined };
 }
 export const CreateCisTargets = S.suspend(() =>
   S.Struct({
@@ -3450,7 +3456,7 @@ export interface CodeSecurityIntegrationSummary {
   statusReason: string;
   createdOn: Date;
   lastUpdateOn: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CodeSecurityIntegrationSummary = S.suspend(() =>
   S.Struct({
@@ -3490,7 +3496,7 @@ export interface CodeSecurityScanConfigurationSummary {
   continuousIntegrationScanSupportedEvents?: ContinuousIntegrationScanEvent[];
   ruleSetCategories: RuleSetCategory[];
   scopeSettings?: ScopeSettings;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CodeSecurityScanConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -3544,7 +3550,7 @@ export interface Filter {
   updatedAt: Date;
   description?: string;
   reason?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Filter = S.suspend(() =>
   S.Struct({
@@ -3869,7 +3875,7 @@ export interface CreateCodeSecurityIntegrationRequest {
   name: string;
   type: IntegrationType;
   details?: CreateIntegrationDetail;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCodeSecurityIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -3895,7 +3901,7 @@ export interface CreateCodeSecurityScanConfigurationRequest {
   level: ConfigurationLevel;
   configuration: CodeSecurityScanConfiguration;
   scopeSettings?: ScopeSettings;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCodeSecurityScanConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -3925,7 +3931,7 @@ export interface CreateFilterRequest {
   description?: string;
   filterCriteria: FilterCriteria;
   name: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   reason?: string;
 }
 export const CreateFilterRequest = S.suspend(() =>
@@ -4653,7 +4659,7 @@ export interface CreateCisScanConfigurationRequest {
   securityLevel: CisSecurityLevel;
   schedule: Schedule;
   targets: CreateCisTargets;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCisScanConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -4852,7 +4858,7 @@ export interface CisTargetResourceAggregation {
   scanArn: string;
   targetResourceId?: string;
   accountId?: string;
-  targetResourceTags?: { [key: string]: string[] };
+  targetResourceTags?: { [key: string]: string[] | undefined };
   statusCounts?: StatusCounts;
   platform?: string;
   targetStatus?: CisTargetStatus;
@@ -4880,7 +4886,7 @@ export type CisAccountIdList = string[];
 export const CisAccountIdList = S.Array(S.String);
 export interface CisTargets {
   accountIds?: string[];
-  targetResourceTags?: { [key: string]: string[] };
+  targetResourceTags?: { [key: string]: string[] | undefined };
 }
 export const CisTargets = S.suspend(() =>
   S.Struct({
@@ -5190,7 +5196,7 @@ export interface Ec2InstanceAggregationResponse {
   instanceId: string;
   ami?: string;
   operatingSystem?: string;
-  instanceTags?: { [key: string]: string };
+  instanceTags?: { [key: string]: string | undefined };
   accountId?: string;
   severityCounts?: SeverityCounts;
   networkFindings?: number;
@@ -5310,7 +5316,7 @@ export interface LambdaFunctionAggregationResponse {
   resourceId: string;
   functionName?: string;
   runtime?: string;
-  lambdaTags?: { [key: string]: string };
+  lambdaTags?: { [key: string]: string | undefined };
   accountId?: string;
   severityCounts?: SeverityCounts;
   lastModifiedAt?: Date;
@@ -5527,7 +5533,7 @@ export interface CisScanConfiguration {
   securityLevel?: CisSecurityLevel;
   schedule?: Schedule;
   targets?: CisTargets;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CisScanConfiguration = S.suspend(() =>
   S.Struct({
@@ -5600,7 +5606,7 @@ export const EcrContainerImageMetadata = S.suspend(() =>
   identifier: "EcrContainerImageMetadata",
 }) as any as S.Schema<EcrContainerImageMetadata>;
 export interface Ec2Metadata {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   amiId?: string;
   platform?: string;
 }
@@ -5612,7 +5618,7 @@ export const Ec2Metadata = S.suspend(() =>
   }),
 ).annotations({ identifier: "Ec2Metadata" }) as any as S.Schema<Ec2Metadata>;
 export interface LambdaFunctionMetadata {
-  functionTags?: { [key: string]: string };
+  functionTags?: { [key: string]: string | undefined };
   layers?: string[];
   functionName?: string;
   runtime?: string;
@@ -6079,7 +6085,7 @@ export interface Resource {
   id: string;
   partition?: string;
   region?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   details?: ResourceDetails;
 }
 export const Resource = S.suspend(() =>

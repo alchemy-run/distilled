@@ -207,12 +207,12 @@ export const ListConnectorsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListConnectorsRequest",
 }) as any as S.Schema<ListConnectorsRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateDirectoryRegistrationRequest {
   DirectoryId: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDirectoryRegistrationRequest = S.suspend(() =>
   S.Struct({
@@ -1340,7 +1340,7 @@ export const VpcInformation = S.suspend(() =>
   identifier: "VpcInformation",
 }) as any as S.Schema<VpcInformation>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -1349,7 +1349,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1377,7 +1377,7 @@ export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
   VpcInformation: VpcInformation;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -1906,7 +1906,7 @@ export interface CreateTemplateRequest {
   Name: string;
   Definition: TemplateDefinition;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({

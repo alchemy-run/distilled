@@ -199,13 +199,16 @@ export type AvailabilityZoneIds = string[];
 export const AvailabilityZoneIds = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateKxDatabaseRequest {
   environmentId: string;
   databaseName: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateKxDatabaseRequest = S.suspend(() =>
@@ -235,7 +238,7 @@ export interface CreateKxEnvironmentRequest {
   name: string;
   description?: string;
   kmsKeyId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateKxEnvironmentRequest = S.suspend(() =>
@@ -264,7 +267,7 @@ export interface CreateKxScalingGroupRequest {
   scalingGroupName: string;
   hostType: string;
   availabilityZoneId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateKxScalingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -294,7 +297,7 @@ export interface CreateKxUserRequest {
   environmentId: string;
   userName: string;
   iamRole: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateKxUserRequest = S.suspend(() =>
@@ -1118,7 +1121,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1166,15 +1169,18 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type AttributeMap = { [key: string]: string };
-export const AttributeMap = S.Record({ key: S.String, value: S.String });
+export type AttributeMap = { [key: string]: string | undefined };
+export const AttributeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface FederationParameters {
   samlMetadataDocument?: string;
   samlMetadataURL?: string;
   applicationCallBackURL?: string;
   federationURN?: string;
   federationProviderName?: string;
-  attributeMap?: { [key: string]: string };
+  attributeMap?: { [key: string]: string | undefined };
 }
 export const FederationParameters = S.suspend(() =>
   S.Struct({
@@ -1828,7 +1834,7 @@ export interface CreateKxDataviewRequest {
   autoUpdate?: boolean;
   readWrite?: boolean;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateKxDataviewRequest = S.suspend(() =>
@@ -1936,7 +1942,7 @@ export interface CreateKxVolumeRequest {
   nas1Configuration?: KxNAS1Configuration;
   azMode: KxAzMode;
   availabilityZoneIds: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateKxVolumeRequest = S.suspend(() =>
   S.Struct({
@@ -2160,7 +2166,7 @@ export const ListEnvironmentsResponse = S.suspend(() =>
   identifier: "ListEnvironmentsResponse",
 }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2824,7 +2830,7 @@ export interface CreateEnvironmentRequest {
   name: string;
   description?: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   federationMode?: FederationMode;
   federationParameters?: FederationParameters;
   superuserParameters?: SuperuserParameters;
@@ -2901,7 +2907,7 @@ export interface CreateKxClusterRequest {
   savedownStorageConfiguration?: KxSavedownStorageConfiguration;
   azMode: KxAzMode;
   availabilityZoneId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   scalingGroupConfiguration?: KxScalingGroupConfiguration;
 }
 export const CreateKxClusterRequest = S.suspend(() =>

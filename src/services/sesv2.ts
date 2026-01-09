@@ -3267,19 +3267,25 @@ export type ListRecommendationsFilter = {
   [key in ListRecommendationsFilterKey]?: string;
 };
 export const ListRecommendationsFilter = S.partial(
-  S.Record({ key: ListRecommendationsFilterKey, value: S.String }),
+  S.Record({
+    key: ListRecommendationsFilterKey,
+    value: S.UndefinedOr(S.String),
+  }),
 );
 export type ReputationEntityFilter = {
   [key in ReputationEntityFilterKey]?: string;
 };
 export const ReputationEntityFilter = S.partial(
-  S.Record({ key: ReputationEntityFilterKey, value: S.String }),
+  S.Record({ key: ReputationEntityFilterKey, value: S.UndefinedOr(S.String) }),
 );
 export type ListTenantResourcesFilter = {
   [key in ListTenantResourcesFilterKey]?: string;
 };
 export const ListTenantResourcesFilter = S.partial(
-  S.Record({ key: ListTenantResourcesFilterKey, value: S.String }),
+  S.Record({
+    key: ListTenantResourcesFilterKey,
+    value: S.UndefinedOr(S.String),
+  }),
 );
 export type DkimStatus =
   | "PENDING"
@@ -3672,10 +3678,13 @@ export const GetDedicatedIpsResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetDedicatedIpsResponse",
 }) as any as S.Schema<GetDedicatedIpsResponse>;
-export type PolicyMap = { [key: string]: string };
-export const PolicyMap = S.Record({ key: S.String, value: S.String });
+export type PolicyMap = { [key: string]: string | undefined };
+export const PolicyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetEmailIdentityPoliciesResponse {
-  Policies?: { [key: string]: string };
+  Policies?: { [key: string]: string | undefined };
 }
 export const GetEmailIdentityPoliciesResponse = S.suspend(() =>
   S.Struct({ Policies: S.optional(PolicyMap) }),
@@ -3817,7 +3826,7 @@ export const ListDomainDeliverabilityCampaignsResponse = S.suspend(() =>
   identifier: "ListDomainDeliverabilityCampaignsResponse",
 }) as any as S.Schema<ListDomainDeliverabilityCampaignsResponse>;
 export interface ListRecommendationsRequest {
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
   NextToken?: string;
   PageSize?: number;
 }
@@ -3840,7 +3849,7 @@ export const ListRecommendationsRequest = S.suspend(() =>
   identifier: "ListRecommendationsRequest",
 }) as any as S.Schema<ListRecommendationsRequest>;
 export interface ListReputationEntitiesRequest {
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
   NextToken?: string;
   PageSize?: number;
 }
@@ -3872,7 +3881,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTenantResourcesRequest {
   TenantName: string;
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
   PageSize?: number;
   NextToken?: string;
 }
@@ -4046,7 +4055,7 @@ export const TestRenderEmailTemplateResponse = S.suspend(() =>
 }) as any as S.Schema<TestRenderEmailTemplateResponse>;
 export type Dimensions = { [key in MetricDimensionName]?: string };
 export const Dimensions = S.partial(
-  S.Record({ key: MetricDimensionName, value: S.String }),
+  S.Record({ key: MetricDimensionName, value: S.UndefinedOr(S.String) }),
 );
 export interface RouteDetails {
   Region: string;
@@ -4148,7 +4157,7 @@ export interface BatchGetMetricDataQuery {
   Id: string;
   Namespace: MetricNamespace;
   Metric: Metric;
-  Dimensions?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
   StartDate: Date;
   EndDate: Date;
 }
@@ -4640,7 +4649,10 @@ export type TenantInfoList = TenantInfo[];
 export const TenantInfoList = S.Array(TenantInfo);
 export type ExportDimensions = { [key in MetricDimensionName]?: string[] };
 export const ExportDimensions = S.partial(
-  S.Record({ key: MetricDimensionName, value: ExportDimensionValue }),
+  S.Record({
+    key: MetricDimensionName,
+    value: S.UndefinedOr(ExportDimensionValue),
+  }),
 );
 export interface ExportMetric {
   Name?: Metric;
@@ -4901,7 +4913,7 @@ export const GetDomainDeliverabilityCampaignResponse = S.suspend(() =>
   identifier: "GetDomainDeliverabilityCampaignResponse",
 }) as any as S.Schema<GetDomainDeliverabilityCampaignResponse>;
 export interface MetricsDataSource {
-  Dimensions: { [key: string]: string[] };
+  Dimensions: { [key: string]: string[] | undefined };
   Namespace: MetricNamespace;
   Metrics: ExportMetric[];
   StartDate: Date;
@@ -5288,10 +5300,10 @@ export const ReplacementEmailContent = S.suspend(() =>
 ).annotations({
   identifier: "ReplacementEmailContent",
 }) as any as S.Schema<ReplacementEmailContent>;
-export type BlacklistReport = { [key: string]: BlacklistEntry[] };
+export type BlacklistReport = { [key: string]: BlacklistEntry[] | undefined };
 export const BlacklistReport = S.Record({
   key: S.String,
-  value: BlacklistEntries,
+  value: S.UndefinedOr(BlacklistEntries),
 });
 export interface OverallVolume {
   VolumeStatistics?: VolumeStatistics;
@@ -5514,7 +5526,7 @@ export const CreateMultiRegionEndpointResponse = S.suspend(() =>
   identifier: "CreateMultiRegionEndpointResponse",
 }) as any as S.Schema<CreateMultiRegionEndpointResponse>;
 export interface GetBlacklistReportsResponse {
-  BlacklistReport: { [key: string]: BlacklistEntry[] };
+  BlacklistReport: { [key: string]: BlacklistEntry[] | undefined };
 }
 export const GetBlacklistReportsResponse = S.suspend(() =>
   S.Struct({ BlacklistReport: BlacklistReport }),
@@ -5544,7 +5556,7 @@ export interface GetEmailIdentityResponse {
   VerifiedForSendingStatus?: boolean;
   DkimAttributes?: DkimAttributes;
   MailFromAttributes?: MailFromAttributes;
-  Policies?: { [key: string]: string };
+  Policies?: { [key: string]: string | undefined };
   Tags?: Tag[];
   ConfigurationSetName?: string;
   VerificationStatus?: VerificationStatus;

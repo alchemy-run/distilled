@@ -1678,10 +1678,13 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
-export type TransformerPaths = { [key: string]: string };
-export const TransformerPaths = S.Record({ key: S.String, value: S.String });
+export type TransformerPaths = { [key: string]: string | undefined };
+export const TransformerPaths = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InputTransformer {
-  InputPathsMap?: { [key: string]: string };
+  InputPathsMap?: { [key: string]: string | undefined };
   InputTemplate: string;
 }
 export const InputTransformer = S.suspend(() =>
@@ -1874,17 +1877,20 @@ export const SqsParameters = S.suspend(() =>
 ).annotations({
   identifier: "SqsParameters",
 }) as any as S.Schema<SqsParameters>;
-export type HeaderParametersMap = { [key: string]: string };
-export const HeaderParametersMap = S.Record({ key: S.String, value: S.String });
-export type QueryStringParametersMap = { [key: string]: string };
+export type HeaderParametersMap = { [key: string]: string | undefined };
+export const HeaderParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type QueryStringParametersMap = { [key: string]: string | undefined };
 export const QueryStringParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface HttpParameters {
   PathParameterValues?: string[];
-  HeaderParameters?: { [key: string]: string };
-  QueryStringParameters?: { [key: string]: string };
+  HeaderParameters?: { [key: string]: string | undefined };
+  QueryStringParameters?: { [key: string]: string | undefined };
 }
 export const HttpParameters = S.suspend(() =>
   S.Struct({

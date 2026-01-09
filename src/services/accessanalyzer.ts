@@ -521,8 +521,11 @@ export const Criterion = S.suspend(() =>
     exists: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Criterion" }) as any as S.Schema<Criterion>;
-export type FilterCriteriaMap = { [key: string]: Criterion };
-export const FilterCriteriaMap = S.Record({ key: S.String, value: Criterion });
+export type FilterCriteriaMap = { [key: string]: Criterion | undefined };
+export const FilterCriteriaMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Criterion),
+});
 export interface SortCriteria {
   attributeName?: string;
   orderBy?: string;
@@ -535,7 +538,7 @@ export const SortCriteria = S.suspend(() =>
 ).annotations({ identifier: "SortCriteria" }) as any as S.Schema<SortCriteria>;
 export interface ListFindingsV2Request {
   analyzerArn: string;
-  filter?: { [key: string]: Criterion };
+  filter?: { [key: string]: Criterion | undefined };
   maxResults?: number;
   nextToken?: string;
   sort?: SortCriteria;
@@ -733,13 +736,16 @@ export const GetAnalyzerRequest = S.suspend(() =>
 }) as any as S.Schema<GetAnalyzerRequest>;
 export type AccountIdsList = string[];
 export const AccountIdsList = S.Array(S.String);
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
-export type TagsList = { [key: string]: string }[];
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type TagsList = { [key: string]: string | undefined }[];
 export const TagsList = S.Array(TagsMap);
 export interface AnalysisRuleCriteria {
   accountIds?: string[];
-  resourceTags?: { [key: string]: string }[];
+  resourceTags?: { [key: string]: string | undefined }[];
 }
 export const AnalysisRuleCriteria = S.suspend(() =>
   S.Struct({
@@ -890,7 +896,7 @@ export const ListAnalyzersRequest = S.suspend(() =>
 export interface CreateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
-  filter: { [key: string]: Criterion };
+  filter: { [key: string]: Criterion | undefined };
   clientToken?: string;
 }
 export const CreateArchiveRuleRequest = S.suspend(() =>
@@ -945,7 +951,7 @@ export const GetArchiveRuleRequest = S.suspend(() =>
 export interface UpdateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
-  filter: { [key: string]: Criterion };
+  filter: { [key: string]: Criterion | undefined };
   clientToken?: string;
 }
 export const UpdateArchiveRuleRequest = S.suspend(() =>
@@ -1060,7 +1066,7 @@ export const PolicyGenerationDetails = S.suspend(() =>
 }) as any as S.Schema<PolicyGenerationDetails>;
 export interface InlineArchiveRule {
   ruleName: string;
-  filter: { [key: string]: Criterion };
+  filter: { [key: string]: Criterion | undefined };
 }
 export const InlineArchiveRule = S.suspend(() =>
   S.Struct({ ruleName: S.String, filter: FilterCriteriaMap }),
@@ -1082,7 +1088,7 @@ export interface AnalyzerSummary {
   createdAt: Date;
   lastResourceAnalyzed?: string;
   lastResourceAnalyzedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   status: string;
   statusReason?: StatusReason;
   configuration?: AnalyzerConfiguration;
@@ -1109,7 +1115,7 @@ export type AnalyzersList = AnalyzerSummary[];
 export const AnalyzersList = S.Array(AnalyzerSummary);
 export interface ArchiveRuleSummary {
   ruleName: string;
-  filter: { [key: string]: Criterion };
+  filter: { [key: string]: Criterion | undefined };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -1182,7 +1188,7 @@ export const CheckNoPublicAccessResponse = S.suspend(() =>
 }) as any as S.Schema<CheckNoPublicAccessResponse>;
 export interface ListFindingsRequest {
   analyzerArn: string;
-  filter?: { [key: string]: Criterion };
+  filter?: { [key: string]: Criterion | undefined };
   sort?: SortCriteria;
   nextToken?: string;
   maxResults?: number;
@@ -1208,7 +1214,7 @@ export const ListFindingsRequest = S.suspend(() =>
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1217,7 +1223,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1560,7 +1566,7 @@ export const GetAnalyzedResourceResponse = S.suspend(() =>
 export interface ListAccessPreviewFindingsRequest {
   accessPreviewId: string;
   analyzerArn: string;
-  filter?: { [key: string]: Criterion };
+  filter?: { [key: string]: Criterion | undefined };
   nextToken?: string;
   maxResults?: number;
 }
@@ -1660,10 +1666,16 @@ export const GetArchiveRuleResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetArchiveRuleResponse",
 }) as any as S.Schema<GetArchiveRuleResponse>;
-export type PrincipalMap = { [key: string]: string };
-export const PrincipalMap = S.Record({ key: S.String, value: S.String });
-export type ConditionKeyMap = { [key: string]: string };
-export const ConditionKeyMap = S.Record({ key: S.String, value: S.String });
+export type PrincipalMap = { [key: string]: string | undefined };
+export const PrincipalMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type ConditionKeyMap = { [key: string]: string | undefined };
+export const ConditionKeyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UnusedPermissionsRecommendedStep {
   policyUpdatedAt?: Date;
   recommendedAction: string;
@@ -1705,8 +1717,8 @@ export type FindingSourceList = FindingSource[];
 export const FindingSourceList = S.Array(FindingSource);
 export interface InternalAccessDetails {
   action?: string[];
-  condition?: { [key: string]: string };
-  principal?: { [key: string]: string };
+  condition?: { [key: string]: string | undefined };
+  principal?: { [key: string]: string | undefined };
   principalOwnerAccount?: string;
   accessType?: string;
   principalType?: string;
@@ -1731,9 +1743,9 @@ export const InternalAccessDetails = S.suspend(() =>
 }) as any as S.Schema<InternalAccessDetails>;
 export interface ExternalAccessDetails {
   action?: string[];
-  condition: { [key: string]: string };
+  condition: { [key: string]: string | undefined };
   isPublic?: boolean;
-  principal?: { [key: string]: string };
+  principal?: { [key: string]: string | undefined };
   sources?: FindingSource[];
   resourceControlPolicyRestriction?: string;
 }
@@ -1798,8 +1810,11 @@ export const GeneratedPolicy = S.suspend(() =>
 }) as any as S.Schema<GeneratedPolicy>;
 export type GeneratedPolicyList = GeneratedPolicy[];
 export const GeneratedPolicyList = S.Array(GeneratedPolicy);
-export type KmsKeyPoliciesMap = { [key: string]: string };
-export const KmsKeyPoliciesMap = S.Record({ key: S.String, value: S.String });
+export type KmsKeyPoliciesMap = { [key: string]: string | undefined };
+export const KmsKeyPoliciesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface S3PublicAccessBlockConfiguration {
   ignorePublicAcls: boolean;
   restrictPublicBuckets: boolean;
@@ -1813,11 +1828,14 @@ export type RdsDbClusterSnapshotAccountIdsList = string[];
 export const RdsDbClusterSnapshotAccountIdsList = S.Array(S.String);
 export type RdsDbSnapshotAccountIdsList = string[];
 export const RdsDbSnapshotAccountIdsList = S.Array(S.String);
-export type KmsConstraintsMap = { [key: string]: string };
-export const KmsConstraintsMap = S.Record({ key: S.String, value: S.String });
+export type KmsConstraintsMap = { [key: string]: string | undefined };
+export const KmsConstraintsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface KmsGrantConstraints {
-  encryptionContextEquals?: { [key: string]: string };
-  encryptionContextSubset?: { [key: string]: string };
+  encryptionContextEquals?: { [key: string]: string | undefined };
+  encryptionContextSubset?: { [key: string]: string | undefined };
 }
 export const KmsGrantConstraints = S.suspend(() =>
   S.Struct({
@@ -1848,7 +1866,7 @@ export const KmsGrantConfiguration = S.suspend(() =>
 export type KmsGrantConfigurationsList = KmsGrantConfiguration[];
 export const KmsGrantConfigurationsList = S.Array(KmsGrantConfiguration);
 export interface KmsKeyConfiguration {
-  keyPolicies?: { [key: string]: string };
+  keyPolicies?: { [key: string]: string | undefined };
   grants?: KmsGrantConfiguration[];
 }
 export const KmsKeyConfiguration = S.suspend(() =>
@@ -1864,14 +1882,16 @@ export const RdsDbClusterSnapshotAttributeValue = S.Union(
   S.Struct({ accountIds: RdsDbClusterSnapshotAccountIdsList }),
 );
 export type RdsDbClusterSnapshotAttributesMap = {
-  [key: string]: RdsDbClusterSnapshotAttributeValue;
+  [key: string]: RdsDbClusterSnapshotAttributeValue | undefined;
 };
 export const RdsDbClusterSnapshotAttributesMap = S.Record({
   key: S.String,
-  value: RdsDbClusterSnapshotAttributeValue,
+  value: S.UndefinedOr(RdsDbClusterSnapshotAttributeValue),
 });
 export interface RdsDbClusterSnapshotConfiguration {
-  attributes?: { [key: string]: RdsDbClusterSnapshotAttributeValue };
+  attributes?: {
+    [key: string]: RdsDbClusterSnapshotAttributeValue | undefined;
+  };
   kmsKeyId?: string;
 }
 export const RdsDbClusterSnapshotConfiguration = S.suspend(() =>
@@ -1887,14 +1907,14 @@ export const RdsDbSnapshotAttributeValue = S.Union(
   S.Struct({ accountIds: RdsDbSnapshotAccountIdsList }),
 );
 export type RdsDbSnapshotAttributesMap = {
-  [key: string]: RdsDbSnapshotAttributeValue;
+  [key: string]: RdsDbSnapshotAttributeValue | undefined;
 };
 export const RdsDbSnapshotAttributesMap = S.Record({
   key: S.String,
-  value: RdsDbSnapshotAttributeValue,
+  value: S.UndefinedOr(RdsDbSnapshotAttributeValue),
 });
 export interface RdsDbSnapshotConfiguration {
-  attributes?: { [key: string]: RdsDbSnapshotAttributeValue };
+  attributes?: { [key: string]: RdsDbSnapshotAttributeValue | undefined };
   kmsKeyId?: string;
 }
 export const RdsDbSnapshotConfiguration = S.suspend(() =>
@@ -1960,17 +1980,17 @@ export const S3AccessPointConfiguration = S.suspend(() =>
   identifier: "S3AccessPointConfiguration",
 }) as any as S.Schema<S3AccessPointConfiguration>;
 export type S3AccessPointConfigurationsMap = {
-  [key: string]: S3AccessPointConfiguration;
+  [key: string]: S3AccessPointConfiguration | undefined;
 };
 export const S3AccessPointConfigurationsMap = S.Record({
   key: S.String,
-  value: S3AccessPointConfiguration,
+  value: S.UndefinedOr(S3AccessPointConfiguration),
 });
 export interface S3BucketConfiguration {
   bucketPolicy?: string;
   bucketAclGrants?: S3BucketAclGrantConfiguration[];
   bucketPublicAccessBlock?: S3PublicAccessBlockConfiguration;
-  accessPoints?: { [key: string]: S3AccessPointConfiguration };
+  accessPoints?: { [key: string]: S3AccessPointConfiguration | undefined };
 }
 export const S3BucketConfiguration = S.suspend(() =>
   S.Struct({
@@ -1995,15 +2015,17 @@ export const S3ExpressDirectoryAccessPointConfiguration = S.suspend(() =>
   identifier: "S3ExpressDirectoryAccessPointConfiguration",
 }) as any as S.Schema<S3ExpressDirectoryAccessPointConfiguration>;
 export type S3ExpressDirectoryAccessPointConfigurationsMap = {
-  [key: string]: S3ExpressDirectoryAccessPointConfiguration;
+  [key: string]: S3ExpressDirectoryAccessPointConfiguration | undefined;
 };
 export const S3ExpressDirectoryAccessPointConfigurationsMap = S.Record({
   key: S.String,
-  value: S3ExpressDirectoryAccessPointConfiguration,
+  value: S.UndefinedOr(S3ExpressDirectoryAccessPointConfiguration),
 });
 export interface S3ExpressDirectoryBucketConfiguration {
   bucketPolicy?: string;
-  accessPoints?: { [key: string]: S3ExpressDirectoryAccessPointConfiguration };
+  accessPoints?: {
+    [key: string]: S3ExpressDirectoryAccessPointConfiguration | undefined;
+  };
 }
 export const S3ExpressDirectoryBucketConfiguration = S.suspend(() =>
   S.Struct({
@@ -2254,15 +2276,15 @@ export const Configuration = S.Union(
   S.Struct({ dynamodbStream: DynamodbStreamConfiguration }),
   S.Struct({ dynamodbTable: DynamodbTableConfiguration }),
 );
-export type ConfigurationsMap = { [key: string]: Configuration };
+export type ConfigurationsMap = { [key: string]: Configuration | undefined };
 export const ConfigurationsMap = S.Record({
   key: S.String,
-  value: Configuration,
+  value: S.UndefinedOr(Configuration),
 });
 export interface AccessPreview {
   id: string;
   analyzerArn: string;
-  configurations: { [key: string]: Configuration };
+  configurations: { [key: string]: Configuration | undefined };
   createdAt: Date;
   status: string;
   statusReason?: AccessPreviewStatusReason;
@@ -2307,12 +2329,12 @@ export const JobDetails = S.suspend(() =>
 ).annotations({ identifier: "JobDetails" }) as any as S.Schema<JobDetails>;
 export interface FindingSummary {
   id: string;
-  principal?: { [key: string]: string };
+  principal?: { [key: string]: string | undefined };
   action?: string[];
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
-  condition: { [key: string]: string };
+  condition: { [key: string]: string | undefined };
   createdAt: Date;
   analyzedAt: Date;
   updatedAt: Date;
@@ -2472,10 +2494,12 @@ export const InternalAccessResourceTypeDetails = S.suspend(() =>
 ).annotations({
   identifier: "InternalAccessResourceTypeDetails",
 }) as any as S.Schema<InternalAccessResourceTypeDetails>;
-export type FindingAggregationAccountDetailsMap = { [key: string]: number };
+export type FindingAggregationAccountDetailsMap = {
+  [key: string]: number | undefined;
+};
 export const FindingAggregationAccountDetailsMap = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface TrailProperties {
   cloudTrailArn: string;
@@ -2510,12 +2534,12 @@ export const Position = S.suspend(() =>
 ).annotations({ identifier: "Position" }) as any as S.Schema<Position>;
 export interface Finding {
   id: string;
-  principal?: { [key: string]: string };
+  principal?: { [key: string]: string | undefined };
   action?: string[];
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
-  condition: { [key: string]: string };
+  condition: { [key: string]: string | undefined };
   createdAt: Date;
   analyzedAt: Date;
   updatedAt: Date;
@@ -2607,9 +2631,9 @@ export interface AccessPreviewFinding {
   id: string;
   existingFindingId?: string;
   existingFindingStatus?: string;
-  principal?: { [key: string]: string };
+  principal?: { [key: string]: string | undefined };
   action?: string[];
-  condition?: { [key: string]: string };
+  condition?: { [key: string]: string | undefined };
   resource?: string;
   isPublic?: boolean;
   resourceType: string;
@@ -2645,22 +2669,24 @@ export const AccessPreviewFinding = S.suspend(() =>
 }) as any as S.Schema<AccessPreviewFinding>;
 export type AccessPreviewFindingsList = AccessPreviewFinding[];
 export const AccessPreviewFindingsList = S.Array(AccessPreviewFinding);
-export type ResourceTypeStatisticsMap = { [key: string]: ResourceTypeDetails };
+export type ResourceTypeStatisticsMap = {
+  [key: string]: ResourceTypeDetails | undefined;
+};
 export const ResourceTypeStatisticsMap = S.Record({
   key: S.String,
-  value: ResourceTypeDetails,
+  value: S.UndefinedOr(ResourceTypeDetails),
 });
 export type InternalAccessResourceTypeStatisticsMap = {
-  [key: string]: InternalAccessResourceTypeDetails;
+  [key: string]: InternalAccessResourceTypeDetails | undefined;
 };
 export const InternalAccessResourceTypeStatisticsMap = S.Record({
   key: S.String,
-  value: InternalAccessResourceTypeDetails,
+  value: S.UndefinedOr(InternalAccessResourceTypeDetails),
 });
 export interface FindingAggregationAccountDetails {
   account?: string;
   numberOfActiveFindings?: number;
-  details?: { [key: string]: number };
+  details?: { [key: string]: number | undefined };
 }
 export const FindingAggregationAccountDetails = S.suspend(() =>
   S.Struct({
@@ -2763,7 +2789,7 @@ export interface CreateAnalyzerRequest {
   analyzerName: string;
   type: string;
   archiveRules?: InlineArchiveRule[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
   configuration?: AnalyzerConfiguration;
 }
@@ -2789,7 +2815,7 @@ export const CreateAnalyzerRequest = S.suspend(() =>
   identifier: "CreateAnalyzerRequest",
 }) as any as S.Schema<CreateAnalyzerRequest>;
 export interface ExternalAccessFindingsStatistics {
-  resourceTypeStatistics?: { [key: string]: ResourceTypeDetails };
+  resourceTypeStatistics?: { [key: string]: ResourceTypeDetails | undefined };
   totalActiveFindings?: number;
   totalArchivedFindings?: number;
   totalResolvedFindings?: number;
@@ -2805,7 +2831,9 @@ export const ExternalAccessFindingsStatistics = S.suspend(() =>
   identifier: "ExternalAccessFindingsStatistics",
 }) as any as S.Schema<ExternalAccessFindingsStatistics>;
 export interface InternalAccessFindingsStatistics {
-  resourceTypeStatistics?: { [key: string]: InternalAccessResourceTypeDetails };
+  resourceTypeStatistics?: {
+    [key: string]: InternalAccessResourceTypeDetails | undefined;
+  };
   totalActiveFindings?: number;
   totalArchivedFindings?: number;
   totalResolvedFindings?: number;
@@ -2977,7 +3005,7 @@ export const CreateAnalyzerResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAnalyzerResponse>;
 export interface CreateAccessPreviewRequest {
   analyzerArn: string;
-  configurations: { [key: string]: Configuration };
+  configurations: { [key: string]: Configuration | undefined };
   clientToken?: string;
 }
 export const CreateAccessPreviewRequest = S.suspend(() =>

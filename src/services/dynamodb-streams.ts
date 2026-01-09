@@ -382,12 +382,14 @@ export const SequenceNumberRange = S.suspend(() =>
 ).annotations({
   identifier: "SequenceNumberRange",
 }) as any as S.Schema<SequenceNumberRange>;
-export type MapAttributeValue = { [key: string]: AttributeValue };
+export type MapAttributeValue = { [key: string]: AttributeValue | undefined };
 export const MapAttributeValue = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 }) as any as S.Schema<MapAttributeValue>;
 export interface Shard {
   ShardId?: string;
@@ -483,7 +485,7 @@ export type AttributeValue =
       SS?: never;
       NS?: never;
       BS?: never;
-      M: { [key: string]: AttributeValue };
+      M: { [key: string]: AttributeValue | undefined };
       L?: never;
       NULL?: never;
       BOOL?: never;
@@ -572,12 +574,14 @@ export const StreamDescription = S.suspend(() =>
 ).annotations({
   identifier: "StreamDescription",
 }) as any as S.Schema<StreamDescription>;
-export type AttributeMap = { [key: string]: AttributeValue };
+export type AttributeMap = { [key: string]: AttributeValue | undefined };
 export const AttributeMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
 export interface DescribeStreamOutput {
   StreamDescription?: StreamDescription;
@@ -589,9 +593,9 @@ export const DescribeStreamOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeStreamOutput>;
 export interface StreamRecord {
   ApproximateCreationDateTime?: Date;
-  Keys?: { [key: string]: AttributeValue };
-  NewImage?: { [key: string]: AttributeValue };
-  OldImage?: { [key: string]: AttributeValue };
+  Keys?: { [key: string]: AttributeValue | undefined };
+  NewImage?: { [key: string]: AttributeValue | undefined };
+  OldImage?: { [key: string]: AttributeValue | undefined };
   SequenceNumber?: string;
   SizeBytes?: number;
   StreamViewType?: StreamViewType;

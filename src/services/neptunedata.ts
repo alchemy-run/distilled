@@ -1073,8 +1073,11 @@ export const ManageSparqlStatisticsInput = S.suspend(() =>
 ).annotations({
   identifier: "ManageSparqlStatisticsInput",
 }) as any as S.Schema<ManageSparqlStatisticsInput>;
-export type StringValuedMap = { [key: string]: string };
-export const StringValuedMap = S.Record({ key: S.String, value: S.String });
+export type StringValuedMap = { [key: string]: string | undefined };
+export const StringValuedMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface StartLoaderJobInput {
   source: string;
   format: Format;
@@ -1083,7 +1086,7 @@ export interface StartLoaderJobInput {
   mode?: Mode;
   failOnError?: boolean;
   parallelism?: Parallelism;
-  parserConfiguration?: { [key: string]: string };
+  parserConfiguration?: { [key: string]: string | undefined };
   updateSingleCardinalityProperties?: boolean;
   queueRequest?: boolean;
   dependencies?: string[];
@@ -1171,8 +1174,11 @@ export const QueryLanguageVersion = S.suspend(() =>
 ).annotations({
   identifier: "QueryLanguageVersion",
 }) as any as S.Schema<QueryLanguageVersion>;
-export type DocumentValuedMap = { [key: string]: any };
-export const DocumentValuedMap = S.Record({ key: S.String, value: S.Any });
+export type DocumentValuedMap = { [key: string]: any | undefined };
+export const DocumentValuedMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
 export interface MlConfigDefinition {
   name?: string;
   arn?: string;
@@ -1370,11 +1376,11 @@ export interface GetEngineStatusOutput {
   gremlin?: QueryLanguageVersion;
   sparql?: QueryLanguageVersion;
   opencypher?: QueryLanguageVersion;
-  labMode?: { [key: string]: string };
+  labMode?: { [key: string]: string | undefined };
   rollingBackTrxCount?: number;
   rollingBackTrxEarliestStartTime?: string;
-  features?: { [key: string]: any };
-  settings?: { [key: string]: string };
+  features?: { [key: string]: any | undefined };
+  settings?: { [key: string]: string | undefined };
 }
 export const GetEngineStatusOutput = S.suspend(() =>
   S.Struct({
@@ -1541,7 +1547,7 @@ export const ManageSparqlStatisticsOutput = S.suspend(() =>
 }) as any as S.Schema<ManageSparqlStatisticsOutput>;
 export interface StartLoaderJobOutput {
   status: string;
-  payload: { [key: string]: string };
+  payload: { [key: string]: string | undefined };
 }
 export const StartLoaderJobOutput = S.suspend(() =>
   S.Struct({ status: S.String, payload: StringValuedMap }),
@@ -1872,7 +1878,7 @@ export type Predicates = string[];
 export const Predicates = S.Array(S.String);
 export interface PropertygraphRecord {
   commitTimestampInMillis: number;
-  eventId: { [key: string]: string };
+  eventId: { [key: string]: string | undefined };
   data: PropertygraphData;
   op: string;
   isLastOp?: boolean;
@@ -1892,7 +1898,7 @@ export type PropertygraphRecordsList = PropertygraphRecord[];
 export const PropertygraphRecordsList = S.Array(PropertygraphRecord);
 export interface SparqlRecord {
   commitTimestampInMillis: number;
-  eventId: { [key: string]: string };
+  eventId: { [key: string]: string | undefined };
   data: SparqlData;
   op: string;
   isLastOp?: boolean;
@@ -1908,9 +1914,12 @@ export const SparqlRecord = S.suspend(() =>
 ).annotations({ identifier: "SparqlRecord" }) as any as S.Schema<SparqlRecord>;
 export type SparqlRecordsList = SparqlRecord[];
 export const SparqlRecordsList = S.Array(SparqlRecord);
-export type LongValuedMap = { [key: string]: number };
-export const LongValuedMap = S.Record({ key: S.String, value: S.Number });
-export type LongValuedMapList = { [key: string]: number }[];
+export type LongValuedMap = { [key: string]: number | undefined };
+export const LongValuedMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
+export type LongValuedMapList = { [key: string]: number | undefined }[];
 export const LongValuedMapList = S.Array(LongValuedMap);
 export interface NodeStructure {
   count?: number;
@@ -1954,7 +1963,7 @@ export const SubjectStructure = S.suspend(() =>
 export type SubjectStructures = SubjectStructure[];
 export const SubjectStructures = S.Array(SubjectStructure);
 export interface GetPropertygraphStreamOutput {
-  lastEventId: { [key: string]: string };
+  lastEventId: { [key: string]: string | undefined };
   lastTrxTimestampInMillis: number;
   format: string;
   records: PropertygraphRecord[];
@@ -1972,7 +1981,7 @@ export const GetPropertygraphStreamOutput = S.suspend(() =>
   identifier: "GetPropertygraphStreamOutput",
 }) as any as S.Schema<GetPropertygraphStreamOutput>;
 export interface GetSparqlStreamOutput {
-  lastEventId: { [key: string]: string };
+  lastEventId: { [key: string]: string | undefined };
   lastTrxTimestampInMillis: number;
   format: string;
   records: SparqlRecord[];
@@ -1998,8 +2007,8 @@ export interface PropertygraphSummary {
   edgeLabels?: string[];
   numNodeProperties?: number;
   numEdgeProperties?: number;
-  nodeProperties?: { [key: string]: number }[];
-  edgeProperties?: { [key: string]: number }[];
+  nodeProperties?: { [key: string]: number | undefined }[];
+  edgeProperties?: { [key: string]: number | undefined }[];
   totalNodePropertyValues?: number;
   totalEdgePropertyValues?: number;
   nodeStructures?: NodeStructure[];
@@ -2031,7 +2040,7 @@ export interface RDFGraphSummary {
   numQuads?: number;
   numClasses?: number;
   classes?: string[];
-  predicates?: { [key: string]: number }[];
+  predicates?: { [key: string]: number | undefined }[];
   subjectStructures?: SubjectStructure[];
 }
 export const RDFGraphSummary = S.suspend(() =>

@@ -1013,6 +1013,34 @@ test(
 );
 
 test(
+  "putObject drops undefined values in Metadata map",
+  withBucket("itty-s3-undefined-meta", (bucket) =>
+    Effect.gen(function* () {
+      const key = "test-undefined-metadata.txt";
+
+      // Put object with undefined metadata value - should not fail
+      yield* putObject({
+        Bucket: bucket,
+        Key: key,
+        Body: "test content",
+        Metadata: {
+          present: "value",
+          absent: undefined,
+        } as { [key: string]: string | undefined },
+      });
+
+      // Verify only non-undefined metadata is returned
+      const result = yield* getObject({ Bucket: bucket, Key: key });
+      expect(result.Metadata?.["present"]).toEqual("value");
+      expect("absent" in (result.Metadata ?? {})).toBe(false);
+
+      // Cleanup
+      yield* deleteObject({ Bucket: bucket, Key: key });
+    }),
+  ),
+);
+
+test(
   "putObject with Uint8Array body",
   withBucket("itty-s3-binary-obj", (bucket) =>
     Effect.gen(function* () {

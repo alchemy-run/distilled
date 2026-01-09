@@ -142,12 +142,12 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateChallengeRequest {
   ConnectorArn: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChallengeRequest = S.suspend(() =>
   S.Struct({
@@ -309,7 +309,7 @@ export const ListConnectorsRequest = S.suspend(() =>
   identifier: "ListConnectorsRequest",
 }) as any as S.Schema<ListConnectorsRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -318,7 +318,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -508,7 +508,7 @@ export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
   MobileDeviceManagement?: MobileDeviceManagement;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({

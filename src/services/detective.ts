@@ -645,11 +645,14 @@ export const StartMonitoringMemberResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartMonitoringMemberResponse",
 }) as any as S.Schema<StartMonitoringMemberResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -813,7 +816,7 @@ export const SortCriteria = S.suspend(() =>
   S.Struct({ Field: S.optional(Field), SortOrder: S.optional(SortOrder) }),
 ).annotations({ identifier: "SortCriteria" }) as any as S.Schema<SortCriteria>;
 export interface CreateGraphRequest {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateGraphRequest = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(
@@ -951,7 +954,10 @@ export type VolumeUsageByDatasourcePackage = {
   [key in DatasourcePackage]?: DatasourcePackageUsageInfo;
 };
 export const VolumeUsageByDatasourcePackage = S.partial(
-  S.Record({ key: DatasourcePackage, value: DatasourcePackageUsageInfo }),
+  S.Record({
+    key: DatasourcePackage,
+    value: S.UndefinedOr(DatasourcePackageUsageInfo),
+  }),
 );
 export type DatasourcePackageIngestState = "STARTED" | "STOPPED" | "DISABLED";
 export const DatasourcePackageIngestState = S.Literal(
@@ -963,7 +969,10 @@ export type DatasourcePackageIngestStates = {
   [key in DatasourcePackage]?: DatasourcePackageIngestState;
 };
 export const DatasourcePackageIngestStates = S.partial(
-  S.Record({ key: DatasourcePackage, value: DatasourcePackageIngestState }),
+  S.Record({
+    key: DatasourcePackage,
+    value: S.UndefinedOr(DatasourcePackageIngestState),
+  }),
 );
 export interface MemberDetail {
   AccountId?: string;
@@ -981,10 +990,10 @@ export interface MemberDetail {
   PercentOfGraphUtilizationUpdatedTime?: Date;
   InvitationType?: InvitationType;
   VolumeUsageByDatasourcePackage?: {
-    [key: string]: DatasourcePackageUsageInfo;
+    [key: string]: DatasourcePackageUsageInfo | undefined;
   };
   DatasourcePackageIngestStates?: {
-    [key: string]: DatasourcePackageIngestState;
+    [key: string]: DatasourcePackageIngestState | undefined;
   };
 }
 export const MemberDetail = S.suspend(() =>
@@ -1038,7 +1047,7 @@ export const ListMembersResponse = S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1142,20 +1151,27 @@ export type LastIngestStateChangeDates = {
 export const LastIngestStateChangeDates = S.partial(
   S.Record({
     key: DatasourcePackageIngestState,
-    value: TimestampForCollection,
+    value: S.UndefinedOr(TimestampForCollection),
   }),
 );
 export type DatasourcePackageIngestHistory = {
-  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection };
+  [key in DatasourcePackage]?: {
+    [key: string]: TimestampForCollection | undefined;
+  };
 };
 export const DatasourcePackageIngestHistory = S.partial(
-  S.Record({ key: DatasourcePackage, value: LastIngestStateChangeDates }),
+  S.Record({
+    key: DatasourcePackage,
+    value: S.UndefinedOr(LastIngestStateChangeDates),
+  }),
 );
 export interface MembershipDatasources {
   AccountId?: string;
   GraphArn?: string;
   DatasourcePackageIngestHistory?: {
-    [key: string]: { [key: string]: TimestampForCollection };
+    [key: string]:
+      | { [key: string]: TimestampForCollection | undefined }
+      | undefined;
   };
 }
 export const MembershipDatasources = S.suspend(() =>
@@ -1254,7 +1270,7 @@ export const ListOrganizationAdminAccountsResponse = S.suspend(() =>
 }) as any as S.Schema<ListOrganizationAdminAccountsResponse>;
 export interface DatasourcePackageIngestDetail {
   DatasourcePackageIngestState?: DatasourcePackageIngestState;
-  LastIngestStateChange?: { [key: string]: TimestampForCollection };
+  LastIngestStateChange?: { [key: string]: TimestampForCollection | undefined };
 }
 export const DatasourcePackageIngestDetail = S.suspend(() =>
   S.Struct({
@@ -1272,7 +1288,10 @@ export type DatasourcePackageIngestDetails = {
   [key in DatasourcePackage]?: DatasourcePackageIngestDetail;
 };
 export const DatasourcePackageIngestDetails = S.partial(
-  S.Record({ key: DatasourcePackage, value: DatasourcePackageIngestDetail }),
+  S.Record({
+    key: DatasourcePackage,
+    value: S.UndefinedOr(DatasourcePackageIngestDetail),
+  }),
 );
 export interface TTPsObservedDetail {
   Tactic?: string;
@@ -1382,7 +1401,9 @@ export const RelatedFindingGroupDetail = S.suspend(() =>
   identifier: "RelatedFindingGroupDetail",
 }) as any as S.Schema<RelatedFindingGroupDetail>;
 export interface ListDatasourcePackagesResponse {
-  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail };
+  DatasourcePackages?: {
+    [key: string]: DatasourcePackageIngestDetail | undefined;
+  };
   NextToken?: string;
 }
 export const ListDatasourcePackagesResponse = S.suspend(() =>

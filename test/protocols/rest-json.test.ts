@@ -297,6 +297,22 @@ describe("restJson1 protocol", () => {
       }),
     );
 
+    it.effect("should drop undefined values in maps during serialization", () =>
+      Effect.gen(function* () {
+        const request = yield* buildRequest(TagResourceRequest, {
+          Resource: "arn:aws:lambda:us-east-1:123456789012:function:test",
+          Tags: {
+            present: "value",
+            absent: undefined,
+          } as { [key: string]: string | undefined },
+        });
+
+        const body = JSON.parse(request.body as string);
+        expect(body.Tags.present).toBe("value");
+        expect("absent" in body.Tags).toBe(false);
+      }),
+    );
+
     it.effect("should not include undefined properties in body", () =>
       Effect.gen(function* () {
         const request = yield* buildRequest(

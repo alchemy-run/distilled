@@ -615,12 +615,18 @@ export interface Spend {
 export const Spend = S.suspend(() =>
   S.Struct({ Amount: S.String, Unit: S.String }),
 ).annotations({ identifier: "Spend" }) as any as S.Schema<Spend>;
-export type PlannedBudgetLimits = { [key: string]: Spend };
-export const PlannedBudgetLimits = S.Record({ key: S.String, value: Spend });
+export type PlannedBudgetLimits = { [key: string]: Spend | undefined };
+export const PlannedBudgetLimits = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Spend),
+});
 export type DimensionValues = string[];
 export const DimensionValues = S.Array(S.String);
-export type CostFilters = { [key: string]: string[] };
-export const CostFilters = S.Record({ key: S.String, value: DimensionValues });
+export type CostFilters = { [key: string]: string[] | undefined };
+export const CostFilters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(DimensionValues),
+});
 export interface CostTypes {
   IncludeTax?: boolean;
   IncludeSubscription?: boolean;
@@ -925,8 +931,8 @@ export const HealthStatus = S.suspend(() =>
 export interface Budget {
   BudgetName: string;
   BudgetLimit?: Spend;
-  PlannedBudgetLimits?: { [key: string]: Spend };
-  CostFilters?: { [key: string]: string[] };
+  PlannedBudgetLimits?: { [key: string]: Spend | undefined };
+  CostFilters?: { [key: string]: string[] | undefined };
   CostTypes?: CostTypes;
   TimeUnit: TimeUnit;
   TimePeriod?: TimePeriod;
@@ -1464,7 +1470,7 @@ export const BudgetedAndActualAmountsList = S.Array(BudgetedAndActualAmounts);
 export interface BudgetPerformanceHistory {
   BudgetName?: string;
   BudgetType?: BudgetType;
-  CostFilters?: { [key: string]: string[] };
+  CostFilters?: { [key: string]: string[] | undefined };
   CostTypes?: CostTypes;
   TimeUnit?: TimeUnit;
   BillingViewArn?: string;

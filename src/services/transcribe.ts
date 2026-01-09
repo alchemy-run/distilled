@@ -1638,10 +1638,10 @@ export const ChannelDefinition = S.suspend(() =>
 }) as any as S.Schema<ChannelDefinition>;
 export type ChannelDefinitions = ChannelDefinition[];
 export const ChannelDefinitions = S.Array(ChannelDefinition);
-export type KMSEncryptionContextMap = { [key: string]: string };
+export type KMSEncryptionContextMap = { [key: string]: string | undefined };
 export const KMSEncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface MedicalScribeChannelDefinition {
   ChannelId: number;
@@ -1992,7 +1992,7 @@ export interface StartMedicalTranscriptionJobRequest {
   OutputBucketName: string;
   OutputKey?: string;
   OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string };
+  KMSEncryptionContext?: { [key: string]: string | undefined };
   Settings?: MedicalTranscriptionSetting;
   ContentIdentificationType?: MedicalContentIdentificationType;
   Specialty: Specialty;
@@ -2333,7 +2333,7 @@ export type LanguageIdSettingsMap = {
   [key in LanguageCode]?: LanguageIdSettings;
 };
 export const LanguageIdSettingsMap = S.partial(
-  S.Record({ key: LanguageCode, value: LanguageIdSettings }),
+  S.Record({ key: LanguageCode, value: S.UndefinedOr(LanguageIdSettings) }),
 );
 export interface CallAnalyticsJobSettings {
   VocabularyName?: string;
@@ -2342,7 +2342,7 @@ export interface CallAnalyticsJobSettings {
   LanguageModelName?: string;
   ContentRedaction?: ContentRedaction;
   LanguageOptions?: LanguageCode[];
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings };
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
   Summarization?: Summarization;
 }
 export const CallAnalyticsJobSettings = S.suspend(() =>
@@ -2550,7 +2550,7 @@ export interface StartMedicalScribeJobRequest {
   Media: Media;
   OutputBucketName: string;
   OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string };
+  KMSEncryptionContext?: { [key: string]: string | undefined };
   DataAccessRoleArn: string;
   Settings: MedicalScribeSettings;
   ChannelDefinitions?: MedicalScribeChannelDefinition[];
@@ -2650,7 +2650,7 @@ export interface StartTranscriptionJobRequest {
   OutputBucketName?: string;
   OutputKey?: string;
   OutputEncryptionKMSKeyId?: string;
-  KMSEncryptionContext?: { [key: string]: string };
+  KMSEncryptionContext?: { [key: string]: string | undefined };
   Settings?: Settings;
   ModelSettings?: ModelSettings;
   JobExecutionSettings?: JobExecutionSettings;
@@ -2660,7 +2660,7 @@ export interface StartTranscriptionJobRequest {
   LanguageOptions?: LanguageCode[];
   Subtitles?: Subtitles;
   Tags?: Tag[];
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings };
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
   ToxicityDetection?: ToxicityDetectionSettings[];
 }
 export const StartTranscriptionJobRequest = S.suspend(() =>
@@ -2793,7 +2793,7 @@ export interface TranscriptionJob {
   LanguageCodes?: LanguageCodeItem[];
   Tags?: Tag[];
   Subtitles?: SubtitlesOutput;
-  LanguageIdSettings?: { [key: string]: LanguageIdSettings };
+  LanguageIdSettings?: { [key: string]: LanguageIdSettings | undefined };
   ToxicityDetection?: ToxicityDetectionSettings[];
 }
 export const TranscriptionJob = S.suspend(() =>

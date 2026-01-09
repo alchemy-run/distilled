@@ -415,14 +415,14 @@ export const ListAssistantAssociationsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAssistantAssociationsRequest",
 }) as any as S.Schema<ListAssistantAssociationsRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateSessionRequest {
   clientToken?: string;
   assistantId: string;
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSessionRequest = S.suspend(() =>
   S.Struct({
@@ -737,17 +737,20 @@ export const UpdateKnowledgeBaseTemplateUriRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateKnowledgeBaseTemplateUriRequest",
 }) as any as S.Schema<UpdateKnowledgeBaseTemplateUriRequest>;
-export type ContentMetadata = { [key: string]: string };
-export const ContentMetadata = S.Record({ key: S.String, value: S.String });
+export type ContentMetadata = { [key: string]: string | undefined };
+export const ContentMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateContentRequest {
   knowledgeBaseId: string;
   name: string;
   title?: string;
   overrideLinkOutUri?: string;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   uploadId: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateContentRequest = S.suspend(() =>
   S.Struct({
@@ -806,7 +809,7 @@ export interface UpdateContentRequest {
   title?: string;
   overrideLinkOutUri?: string;
   removeOverrideLinkOutUri?: boolean;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   uploadId?: string;
 }
 export const UpdateContentRequest = S.suspend(() =>
@@ -1081,8 +1084,11 @@ export const RenderingConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "RenderingConfiguration",
 }) as any as S.Schema<RenderingConfiguration>;
-export type ContactAttributes = { [key: string]: string };
-export const ContactAttributes = S.Record({ key: S.String, value: S.String });
+export type ContactAttributes = { [key: string]: string | undefined };
+export const ContactAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ObjectFieldsList = string[];
 export const ObjectFieldsList = S.Array(S.String);
 export type QuickResponseQueryValueList = string[];
@@ -1090,7 +1096,7 @@ export const QuickResponseQueryValueList = S.Array(S.String);
 export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1099,7 +1105,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1127,7 +1133,7 @@ export interface CreateAssistantRequest {
   name: string;
   type: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
 }
 export const CreateAssistantRequest = S.suspend(() =>
@@ -1158,7 +1164,7 @@ export interface CreateAssistantAssociationRequest {
   associationType: string;
   association: AssistantAssociationInputData;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAssistantAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1193,7 +1199,7 @@ export interface SessionData {
   sessionId: string;
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   integrationConfiguration?: SessionIntegrationConfiguration;
 }
 export const SessionData = S.suspend(() =>
@@ -1243,7 +1249,7 @@ export interface KnowledgeBaseData {
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const KnowledgeBaseData = S.suspend(() =>
   S.Struct({
@@ -1284,8 +1290,8 @@ export interface ContentData {
   title: string;
   contentType: string;
   status: string;
-  metadata: { [key: string]: string };
-  tags?: { [key: string]: string };
+  metadata: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
   linkOutUri?: string;
   url: string | redacted.Redacted<string>;
   urlExpiry: Date;
@@ -1334,8 +1340,8 @@ export interface ContentSummary {
   title: string;
   contentType: string;
   status: string;
-  metadata: { [key: string]: string };
-  tags?: { [key: string]: string };
+  metadata: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const ContentSummary = S.suspend(() =>
   S.Struct({
@@ -1388,7 +1394,7 @@ export interface CreateQuickResponseRequest {
   channels?: string | redacted.Redacted<string>[];
   language?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateQuickResponseRequest = S.suspend(() =>
   S.Struct({
@@ -1456,7 +1462,7 @@ export interface QuickResponseData {
   isActive?: boolean;
   channels?: string | redacted.Redacted<string>[];
   language?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const QuickResponseData = S.suspend(() =>
   S.Struct({
@@ -1552,7 +1558,7 @@ export interface AssistantSummary {
   type: string;
   status: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
 }
@@ -1681,7 +1687,7 @@ export interface AssistantAssociationSummary {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AssistantAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -1710,7 +1716,7 @@ export interface KnowledgeBaseSummary {
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const KnowledgeBaseSummary = S.suspend(() =>
   S.Struct({
@@ -1765,7 +1771,7 @@ export interface ImportJobData {
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobData = S.suspend(() =>
@@ -1796,7 +1802,7 @@ export interface ImportJobSummary {
   status: string;
   createdTime: Date;
   lastModifiedTime: Date;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const ImportJobSummary = S.suspend(() =>
@@ -1831,8 +1837,11 @@ export const QuickResponseSearchExpression = S.suspend(() =>
 ).annotations({
   identifier: "QuickResponseSearchExpression",
 }) as any as S.Schema<QuickResponseSearchExpression>;
-export type Headers = { [key: string]: string };
-export const Headers = S.Record({ key: S.String, value: S.String });
+export type Headers = { [key: string]: string | undefined };
+export const Headers = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface QuickResponseSummary {
   quickResponseArn: string;
   quickResponseId: string;
@@ -1847,7 +1856,7 @@ export interface QuickResponseSummary {
   lastModifiedBy?: string;
   isActive?: boolean;
   channels?: string | redacted.Redacted<string>[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const QuickResponseSummary = S.suspend(() =>
   S.Struct({
@@ -1878,7 +1887,7 @@ export interface AssistantData {
   type: string;
   status: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   integrationConfiguration?: AssistantIntegrationConfiguration;
 }
@@ -1975,7 +1984,7 @@ export interface AssistantAssociationData {
   assistantArn: string;
   associationType: string;
   associationData: AssistantAssociationOutputData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AssistantAssociationData = S.suspend(() =>
   S.Struct({
@@ -2018,7 +2027,7 @@ export interface CreateKnowledgeBaseRequest {
   renderingConfiguration?: RenderingConfiguration;
   serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -2102,7 +2111,7 @@ export interface SearchQuickResponsesRequest {
   searchExpression: QuickResponseSearchExpression;
   nextToken?: string;
   maxResults?: number;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const SearchQuickResponsesRequest = S.suspend(() =>
   S.Struct({
@@ -2131,7 +2140,7 @@ export interface StartContentUploadResponse {
   uploadId: string;
   url: string | redacted.Redacted<string>;
   urlExpiry: Date;
-  headersToInclude: { [key: string]: string };
+  headersToInclude: { [key: string]: string | undefined };
 }
 export const StartContentUploadResponse = S.suspend(() =>
   S.Struct({
@@ -2208,7 +2217,7 @@ export interface StartImportJobRequest {
   importJobType: string;
   uploadId: string;
   clientToken?: string;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   externalSourceConfiguration?: ExternalSourceConfiguration;
 }
 export const StartImportJobRequest = S.suspend(() =>
@@ -2301,7 +2310,7 @@ export interface QuickResponseSearchResultData {
   language?: string;
   attributesNotInterpolated?: string[];
   attributesInterpolated?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const QuickResponseSearchResultData = S.suspend(() =>
   S.Struct({

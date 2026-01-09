@@ -779,11 +779,11 @@ export const UserIdentifier = S.Union(
   S.Struct({ userId: S.String }),
 );
 export type CustomRequestParametersType = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const CustomRequestParametersType = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface ViewPort {
   width: number;
@@ -910,7 +910,9 @@ export interface GetResourceOauth2TokenRequest {
   sessionUri?: string;
   resourceOauth2ReturnUrl?: string;
   forceAuthentication?: boolean;
-  customParameters?: { [key: string]: string | redacted.Redacted<string> };
+  customParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   customState?: string | redacted.Redacted<string>;
 }
 export const GetResourceOauth2TokenRequest = S.suspend(() =>
@@ -1410,8 +1412,11 @@ export const MemoryRecordCreateInput = S.suspend(() =>
 }) as any as S.Schema<MemoryRecordCreateInput>;
 export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
-export type MetadataMap = { [key: string]: MetadataValue };
-export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
+export type MetadataMap = { [key: string]: MetadataValue | undefined };
+export const MetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(MetadataValue),
+});
 export type Content = { text: string | redacted.Redacted<string> };
 export const Content = S.Union(S.Struct({ text: SensitiveString }));
 export interface Conversational {
@@ -1440,7 +1445,7 @@ export interface Event {
   eventTimestamp: Date;
   payload: PayloadType[];
   branch?: Branch;
-  metadata?: { [key: string]: MetadataValue };
+  metadata?: { [key: string]: MetadataValue | undefined };
 }
 export const Event = S.suspend(() =>
   S.Struct({
@@ -1460,7 +1465,7 @@ export interface MemoryRecord {
   memoryStrategyId: string;
   namespaces: string[];
   createdAt: Date;
-  metadata?: { [key: string]: MetadataValue };
+  metadata?: { [key: string]: MetadataValue | undefined };
 }
 export const MemoryRecord = S.suspend(() =>
   S.Struct({
@@ -1487,7 +1492,7 @@ export interface MemoryRecordSummary {
   namespaces: string[];
   createdAt: Date;
   score?: number;
-  metadata?: { [key: string]: MetadataValue };
+  metadata?: { [key: string]: MetadataValue | undefined };
 }
 export const MemoryRecordSummary = S.suspend(() =>
   S.Struct({
@@ -1931,7 +1936,7 @@ export interface CreateEventInput {
   payload: PayloadType[];
   branch?: Branch;
   clientToken?: string;
-  metadata?: { [key: string]: MetadataValue };
+  metadata?: { [key: string]: MetadataValue | undefined };
 }
 export const CreateEventInput = S.suspend(() =>
   S.Struct({

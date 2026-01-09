@@ -207,13 +207,16 @@ export const CancelJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
-export type TagrisTagsMap = { [key: string]: string };
-export const TagrisTagsMap = S.Record({ key: S.String, value: S.String });
+export type TagrisTagsMap = { [key: string]: string | undefined };
+export const TagrisTagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateConsumableResourceRequest {
   consumableResourceName?: string;
   totalQuantity?: number;
   resourceType?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConsumableResourceRequest = S.suspend(() =>
   S.Struct({
@@ -697,7 +700,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1041,8 +1044,11 @@ export const EksConfiguration = S.suspend(() =>
 }) as any as S.Schema<EksConfiguration>;
 export type ListConsumableResourcesFilterList = KeyValuesPair[];
 export const ListConsumableResourcesFilterList = S.Array(KeyValuesPair);
-export type ParametersMap = { [key: string]: string };
-export const ParametersMap = S.Record({ key: S.String, value: S.String });
+export type ParametersMap = { [key: string]: string | undefined };
+export const ParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface JobTimeout {
   attemptDurationSeconds?: number;
 }
@@ -1121,8 +1127,11 @@ export const ServiceJobTimeout = S.suspend(() =>
 ).annotations({
   identifier: "ServiceJobTimeout",
 }) as any as S.Schema<ServiceJobTimeout>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type UserdataType = "EKS_BOOTSTRAP_SH" | "EKS_NODEADM";
 export const UserdataType = S.Literal("EKS_BOOTSTRAP_SH", "EKS_NODEADM");
 export interface LaunchTemplateSpecificationOverride {
@@ -1192,7 +1201,7 @@ export interface ComputeResourceUpdate {
   instanceTypes?: string[];
   ec2KeyPair?: string;
   instanceRole?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   placementGroup?: string;
   bidPercentage?: number;
   launchTemplate?: LaunchTemplateSpecification;
@@ -1279,7 +1288,7 @@ export interface CreateJobQueueRequest {
   computeEnvironmentOrder?: ComputeEnvironmentOrder[];
   serviceEnvironmentOrder?: ServiceEnvironmentOrder[];
   jobQueueType?: JobQueueType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobStateTimeLimitActions?: JobStateTimeLimitAction[];
 }
 export const CreateJobQueueRequest = S.suspend(() =>
@@ -1312,7 +1321,7 @@ export interface CreateServiceEnvironmentRequest {
   serviceEnvironmentType?: ServiceEnvironmentType;
   state?: ServiceEnvironmentState;
   capacityLimits?: CapacityLimit[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateServiceEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -1343,7 +1352,7 @@ export interface DescribeConsumableResourceResponse {
   availableQuantity?: number;
   resourceType?: string;
   createdAt?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DescribeConsumableResourceResponse = S.suspend(() =>
   S.Struct({
@@ -1384,7 +1393,7 @@ export const ListConsumableResourcesRequest = S.suspend(() =>
   identifier: "ListConsumableResourcesRequest",
 }) as any as S.Schema<ListConsumableResourcesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagrisTagsMap) }).pipe(ns),
@@ -1695,14 +1704,14 @@ export const LinuxParameters = S.suspend(() =>
 ).annotations({
   identifier: "LinuxParameters",
 }) as any as S.Schema<LinuxParameters>;
-export type LogConfigurationOptionsMap = { [key: string]: string };
+export type LogConfigurationOptionsMap = { [key: string]: string | undefined };
 export const LogConfigurationOptionsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface LogConfiguration {
   logDriver?: LogDriver;
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
   secretOptions?: Secret[];
 }
 export const LogConfiguration = S.suspend(() =>
@@ -1786,14 +1795,16 @@ export type TaskContainerDependencyList = TaskContainerDependency[];
 export const TaskContainerDependencyList = S.Array(TaskContainerDependency);
 export type FirelensConfigurationType = "fluentd" | "fluentbit";
 export const FirelensConfigurationType = S.Literal("fluentd", "fluentbit");
-export type FirelensConfigurationOptionsMap = { [key: string]: string };
+export type FirelensConfigurationOptionsMap = {
+  [key: string]: string | undefined;
+};
 export const FirelensConfigurationOptionsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface FirelensConfiguration {
   type?: FirelensConfigurationType;
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
 }
 export const FirelensConfiguration = S.suspend(() =>
   S.Struct({
@@ -1911,13 +1922,19 @@ export type EksContainerEnvironmentVariables =
 export const EksContainerEnvironmentVariables = S.Array(
   EksContainerEnvironmentVariable,
 );
-export type EksLimits = { [key: string]: string };
-export const EksLimits = S.Record({ key: S.String, value: S.String });
-export type EksRequests = { [key: string]: string };
-export const EksRequests = S.Record({ key: S.String, value: S.String });
+export type EksLimits = { [key: string]: string | undefined };
+export const EksLimits = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type EksRequests = { [key: string]: string | undefined };
+export const EksRequests = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface EksContainerResourceRequirements {
-  limits?: { [key: string]: string };
-  requests?: { [key: string]: string };
+  limits?: { [key: string]: string | undefined };
+  requests?: { [key: string]: string | undefined };
 }
 export const EksContainerResourceRequirements = S.suspend(() =>
   S.Struct({
@@ -2044,13 +2061,19 @@ export const EksVolume = S.suspend(() =>
 ).annotations({ identifier: "EksVolume" }) as any as S.Schema<EksVolume>;
 export type EksVolumes = EksVolume[];
 export const EksVolumes = S.Array(EksVolume);
-export type EksLabelsMap = { [key: string]: string };
-export const EksLabelsMap = S.Record({ key: S.String, value: S.String });
-export type EksAnnotationsMap = { [key: string]: string };
-export const EksAnnotationsMap = S.Record({ key: S.String, value: S.String });
+export type EksLabelsMap = { [key: string]: string | undefined };
+export const EksLabelsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type EksAnnotationsMap = { [key: string]: string | undefined };
+export const EksAnnotationsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface EksMetadata {
-  labels?: { [key: string]: string };
-  annotations?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
+  annotations?: { [key: string]: string | undefined };
   namespace?: string;
 }
 export const EksMetadata = S.suspend(() =>
@@ -2286,7 +2309,7 @@ export interface ComputeResource {
   securityGroupIds?: string[];
   ec2KeyPair?: string;
   instanceRole?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   placementGroup?: string;
   bidPercentage?: number;
   spotIamFleetRole?: string;
@@ -2321,7 +2344,7 @@ export interface ComputeEnvironmentDetail {
   computeEnvironmentArn?: string;
   unmanagedvCpus?: number;
   ecsClusterArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   type?: CEType;
   state?: CEState;
   status?: CEStatus;
@@ -2391,12 +2414,12 @@ export interface JobDefinition {
   status?: string;
   type?: string;
   schedulingPriority?: number;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   retryStrategy?: RetryStrategy;
   containerProperties?: ContainerProperties;
   timeout?: JobTimeout;
   nodeProperties?: NodeProperties;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   propagateTags?: boolean;
   platformCapabilities?: PlatformCapability[];
   ecsProperties?: EcsProperties;
@@ -2441,7 +2464,7 @@ export interface JobQueueDetail {
   computeEnvironmentOrder?: ComputeEnvironmentOrder[];
   serviceEnvironmentOrder?: ServiceEnvironmentOrder[];
   jobQueueType?: JobQueueType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobStateTimeLimitActions?: JobStateTimeLimitAction[];
 }
 export const JobQueueDetail = S.suspend(() =>
@@ -2468,7 +2491,7 @@ export interface SchedulingPolicyDetail {
   name?: string;
   arn?: string;
   fairsharePolicy?: FairsharePolicy;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SchedulingPolicyDetail = S.suspend(() =>
   S.Struct({
@@ -2489,7 +2512,7 @@ export interface ServiceEnvironmentDetail {
   state?: ServiceEnvironmentState;
   status?: ServiceEnvironmentStatus;
   capacityLimits?: CapacityLimit[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ServiceEnvironmentDetail = S.suspend(() =>
   S.Struct({
@@ -2646,7 +2669,7 @@ export const CreateJobQueueResponse = S.suspend(() =>
 export interface CreateSchedulingPolicyRequest {
   name?: string;
   fairsharePolicy?: FairsharePolicy;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSchedulingPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -3030,7 +3053,7 @@ export interface SubmitServiceJobRequest {
   serviceJobType?: ServiceJobType;
   shareIdentifier?: string;
   timeoutConfig?: ServiceJobTimeout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const SubmitServiceJobRequest = S.suspend(() =>
@@ -3245,10 +3268,10 @@ export const AttemptContainerDetail = S.suspend(() =>
 ).annotations({
   identifier: "AttemptContainerDetail",
 }) as any as S.Schema<AttemptContainerDetail>;
-export type ArrayJobStatusSummary = { [key: string]: number };
+export type ArrayJobStatusSummary = { [key: string]: number | undefined };
 export const ArrayJobStatusSummary = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface EksAttemptContainerDetail {
   name?: string;
@@ -3275,7 +3298,7 @@ export interface CreateComputeEnvironmentRequest {
   unmanagedvCpus?: number;
   computeResources?: ComputeResource;
   serviceRole?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   eksConfiguration?: EksConfiguration;
   context?: string;
 }
@@ -3341,7 +3364,7 @@ export interface DescribeServiceJobResponse {
   status: ServiceJobStatus;
   statusReason?: string;
   stoppedAt?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   timeoutConfig?: ServiceJobTimeout;
 }
 export const DescribeServiceJobResponse = S.suspend(() =>
@@ -3412,13 +3435,13 @@ export interface SubmitJobRequest {
   arrayProperties?: ArrayProperties;
   dependsOn?: JobDependency[];
   jobDefinition?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   containerOverrides?: ContainerOverrides;
   nodeOverrides?: NodeOverrides;
   retryStrategy?: RetryStrategy;
   propagateTags?: boolean;
   timeout?: JobTimeout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   eksPropertiesOverride?: EksPropertiesOverride;
   ecsPropertiesOverride?: EcsPropertiesOverride;
   consumableResourcePropertiesOverride?: ConsumableResourceProperties;
@@ -3541,7 +3564,7 @@ export const ContainerDetail = S.suspend(() =>
   identifier: "ContainerDetail",
 }) as any as S.Schema<ContainerDetail>;
 export interface ArrayPropertiesDetail {
-  statusSummary?: { [key: string]: number };
+  statusSummary?: { [key: string]: number | undefined };
   size?: number;
   index?: number;
 }
@@ -3848,13 +3871,13 @@ export interface JobDetail {
   stoppedAt?: number;
   dependsOn?: JobDependency[];
   jobDefinition?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   container?: ContainerDetail;
   nodeDetails?: NodeDetails;
   nodeProperties?: NodeProperties;
   arrayProperties?: ArrayPropertiesDetail;
   timeout?: JobTimeout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   propagateTags?: boolean;
   platformCapabilities?: PlatformCapability[];
   eksProperties?: EksPropertiesDetail;
@@ -4097,14 +4120,14 @@ export const DescribeJobsResponse = S.suspend(() =>
 export interface RegisterJobDefinitionRequest {
   jobDefinitionName?: string;
   type?: JobDefinitionType;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   schedulingPriority?: number;
   containerProperties?: ContainerProperties;
   nodeProperties?: NodeProperties;
   retryStrategy?: RetryStrategy;
   propagateTags?: boolean;
   timeout?: JobTimeout;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   platformCapabilities?: PlatformCapability[];
   eksProperties?: EksProperties;
   ecsProperties?: EcsProperties;

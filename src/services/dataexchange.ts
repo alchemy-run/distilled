@@ -176,13 +176,16 @@ export interface CancelJobResponse {}
 export const CancelJobResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
-export type MapOf__string = { [key: string]: string };
-export const MapOf__string = S.Record({ key: S.String, value: S.String });
+export type MapOf__string = { [key: string]: string | undefined };
+export const MapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDataSetRequest {
   AssetType: string;
   Description: string;
   Name: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDataSetRequest = S.suspend(() =>
   S.Struct({
@@ -206,7 +209,7 @@ export const CreateDataSetRequest = S.suspend(() =>
 export interface CreateRevisionRequest {
   Comment?: string;
   DataSetId: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRevisionRequest = S.suspend(() =>
   S.Struct({
@@ -699,10 +702,10 @@ export const RevokeRevisionRequest = S.suspend(() =>
 }) as any as S.Schema<RevokeRevisionRequest>;
 export interface SendApiAssetRequest {
   Body?: string;
-  QueryStringParameters?: { [key: string]: string };
+  QueryStringParameters?: { [key: string]: string | undefined };
   AssetId: string;
   DataSetId: string;
-  RequestHeaders?: { [key: string]: string };
+  RequestHeaders?: { [key: string]: string | undefined };
   Method?: string;
   Path?: string;
   RevisionId: string;
@@ -750,7 +753,7 @@ export const StartJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StartJobResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -977,7 +980,7 @@ export interface CreateDataGrantRequest {
   SourceDataSetId: string;
   EndsAt?: Date;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDataGrantRequest = S.suspend(() =>
   S.Struct({
@@ -1009,7 +1012,7 @@ export interface CreateRevisionResponse {
   Finalized?: boolean;
   Id?: string;
   SourceId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
   RevocationComment?: string;
   Revoked?: boolean;
@@ -1048,7 +1051,7 @@ export interface GetDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDataGrantResponse = S.suspend(() =>
   S.Struct({
@@ -1093,7 +1096,7 @@ export interface GetDataSetResponse {
   Origin?: string;
   OriginDetails?: OriginDetails;
   SourceId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
 }
 export const GetDataSetResponse = S.suspend(() =>
@@ -1133,7 +1136,7 @@ export interface GetEventActionResponse {
   CreatedAt?: Date;
   Event?: Event;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
 }
 export const GetEventActionResponse = S.suspend(() =>
@@ -1191,7 +1194,7 @@ export interface GetRevisionResponse {
   Finalized?: boolean;
   Id?: string;
   SourceId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
   RevocationComment?: string;
   Revoked?: boolean;
@@ -1216,7 +1219,7 @@ export const GetRevisionResponse = S.suspend(() =>
   identifier: "GetRevisionResponse",
 }) as any as S.Schema<GetRevisionResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
@@ -1255,7 +1258,7 @@ export const RevokeRevisionResponse = S.suspend(() =>
 }) as any as S.Schema<RevokeRevisionResponse>;
 export interface SendApiAssetResponse {
   Body?: string;
-  ResponseHeaders?: { [key: string]: string };
+  ResponseHeaders?: { [key: string]: string | undefined };
 }
 export const SendApiAssetResponse = S.suspend(() =>
   S.Struct({
@@ -2246,7 +2249,7 @@ export interface CreateDataGrantResponse {
   Arn: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDataGrantResponse = S.suspend(() =>
   S.Struct({
@@ -2279,7 +2282,7 @@ export interface CreateDataSetResponse {
   Origin?: string;
   OriginDetails?: OriginDetails;
   SourceId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
 }
 export const CreateDataSetResponse = S.suspend(() =>
@@ -2470,7 +2473,7 @@ export const NotificationDetails = S.suspend(() =>
 export interface CreateEventActionRequest {
   Action: Action;
   Event: Event;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventActionRequest = S.suspend(() =>
   S.Struct({
@@ -2602,7 +2605,7 @@ export interface CreateEventActionResponse {
   CreatedAt?: Date;
   Event?: Event;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdatedAt?: Date;
 }
 export const CreateEventActionResponse = S.suspend(() =>

@@ -942,8 +942,11 @@ export const App = S.suspend(() =>
 ).annotations({ identifier: "App" }) as any as S.Schema<App>;
 export type AppsList = App[];
 export const AppsList = S.Array(App);
-export type PreviousAppsList = { [key: string]: App[] };
-export const PreviousAppsList = S.Record({ key: S.String, value: AppsList });
+export type PreviousAppsList = { [key: string]: App[] | undefined };
+export const PreviousAppsList = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(AppsList),
+});
 export interface AppsListData {
   ListId?: string;
   ListName: string;
@@ -951,7 +954,7 @@ export interface AppsListData {
   CreateTime?: Date;
   LastUpdateTime?: Date;
   AppsList: App[];
-  PreviousAppsList?: { [key: string]: App[] };
+  PreviousAppsList?: { [key: string]: App[] | undefined };
 }
 export const AppsListData = S.suspend(() =>
   S.Struct({
@@ -1103,7 +1106,7 @@ export type CustomerPolicyScopeMap = {
 export const CustomerPolicyScopeMap = S.partial(
   S.Record({
     key: CustomerPolicyScopeIdType,
-    value: CustomerPolicyScopeIdList,
+    value: S.UndefinedOr(CustomerPolicyScopeIdList),
   }),
 );
 export interface Policy {
@@ -1117,8 +1120,8 @@ export interface Policy {
   ExcludeResourceTags: boolean;
   RemediationEnabled: boolean;
   DeleteUnusedFMManagedResources?: boolean;
-  IncludeMap?: { [key: string]: string[] };
-  ExcludeMap?: { [key: string]: string[] };
+  IncludeMap?: { [key: string]: string[] | undefined };
+  ExcludeMap?: { [key: string]: string[] | undefined };
   ResourceSetIds?: string[];
   PolicyDescription?: string;
   PolicyStatus?: CustomerPolicyStatus;
@@ -1169,10 +1172,10 @@ export const GetProtectionStatusResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetProtectionStatusResponse",
 }) as any as S.Schema<GetProtectionStatusResponse>;
-export type PreviousProtocolsList = { [key: string]: string[] };
+export type PreviousProtocolsList = { [key: string]: string[] | undefined };
 export const PreviousProtocolsList = S.Record({
   key: S.String,
-  value: ProtocolsList,
+  value: S.UndefinedOr(ProtocolsList),
 });
 export interface ProtocolsListData {
   ListId?: string;
@@ -1181,7 +1184,7 @@ export interface ProtocolsListData {
   CreateTime?: Date;
   LastUpdateTime?: Date;
   ProtocolsList: string[];
-  PreviousProtocolsList?: { [key: string]: string[] };
+  PreviousProtocolsList?: { [key: string]: string[] | undefined };
 }
 export const ProtocolsListData = S.suspend(() =>
   S.Struct({
@@ -1652,7 +1655,7 @@ export const PutResourceSetResponse = S.suspend(() =>
 }) as any as S.Schema<PutResourceSetResponse>;
 export type IssueInfoMap = { [key in DependentServiceName]?: string };
 export const IssueInfoMap = S.partial(
-  S.Record({ key: DependentServiceName, value: S.String }),
+  S.Record({ key: DependentServiceName, value: S.UndefinedOr(S.String) }),
 );
 export interface EvaluationResult {
   ComplianceStatus?: PolicyComplianceStatusType;
@@ -1700,7 +1703,7 @@ export interface PolicyComplianceStatus {
   MemberAccount?: string;
   EvaluationResults?: EvaluationResult[];
   LastUpdated?: Date;
-  IssueInfoMap?: { [key: string]: string };
+  IssueInfoMap?: { [key: string]: string | undefined };
 }
 export const PolicyComplianceStatus = S.suspend(() =>
   S.Struct({
@@ -1717,10 +1720,10 @@ export const PolicyComplianceStatus = S.suspend(() =>
 }) as any as S.Schema<PolicyComplianceStatus>;
 export type PolicyComplianceStatusList = PolicyComplianceStatus[];
 export const PolicyComplianceStatusList = S.Array(PolicyComplianceStatus);
-export type ComplianceViolatorMetadata = { [key: string]: string };
+export type ComplianceViolatorMetadata = { [key: string]: string | undefined };
 export const ComplianceViolatorMetadata = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AwsEc2InstanceViolation {
   ViolationTarget?: string;
@@ -2222,7 +2225,7 @@ export interface ComplianceViolator {
   ResourceId?: string;
   ViolationReason?: ViolationReason;
   ResourceType?: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
 }
 export const ComplianceViolator = S.suspend(() =>
   S.Struct({
@@ -2255,7 +2258,7 @@ export interface PolicyComplianceDetail {
   Violators?: ComplianceViolator[];
   EvaluationLimitExceeded?: boolean;
   ExpiredAt?: Date;
-  IssueInfoMap?: { [key: string]: string };
+  IssueInfoMap?: { [key: string]: string | undefined };
 }
 export const PolicyComplianceDetail = S.suspend(() =>
   S.Struct({

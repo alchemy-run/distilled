@@ -1601,7 +1601,7 @@ export const TimeRange = S.suspend(() =>
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export type TargetFilters = { [key in TargetFilterName]?: string[] };
 export const TargetFilters = S.partial(
-  S.Record({ key: TargetFilterName, value: FilterValueList }),
+  S.Record({ key: TargetFilterName, value: S.UndefinedOr(FilterValueList) }),
 );
 export type GitHubAccountTokenNameList = string[];
 export const GitHubAccountTokenNameList = S.Array(S.String);
@@ -2384,7 +2384,7 @@ export const ListDeploymentsInput = S.suspend(() =>
 export interface ListDeploymentTargetsInput {
   deploymentId: string;
   nextToken?: string;
-  targetFilters?: { [key: string]: string[] };
+  targetFilters?: { [key: string]: string[] | undefined };
 }
 export const ListDeploymentTargetsInput = S.suspend(() =>
   S.Struct({

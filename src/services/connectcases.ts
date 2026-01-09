@@ -1159,10 +1159,11 @@ export interface CommentFilter {}
 export const CommentFilter = S.suspend(() => S.Struct({})).annotations({
   identifier: "CommentFilter",
 }) as any as S.Schema<CommentFilter>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String }).pipe(
-  T.Sparse(),
-);
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+}).pipe(T.Sparse());
 export type FieldIdentifierList = FieldIdentifier[];
 export const FieldIdentifierList = S.Array(FieldIdentifier);
 export interface Sort {
@@ -1208,7 +1209,7 @@ export const FieldOptionsList = S.Array(FieldOption);
 export type ChannelList = string[];
 export const ChannelList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1217,7 +1218,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: Tags }).pipe(
@@ -1299,7 +1300,7 @@ export interface GetDomainResponse {
   name: string;
   createdTime: Date;
   domainStatus: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetDomainResponse = S.suspend(() =>
   S.Struct({
@@ -1615,7 +1616,7 @@ export interface GetLayoutResponse {
   layoutArn: string;
   name: string;
   content: LayoutContent;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
@@ -1672,7 +1673,7 @@ export interface GetTemplateResponse {
   description?: string;
   layoutConfiguration?: LayoutConfiguration;
   requiredFields?: RequiredField[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   status: string;
   deleted?: boolean;
   createdTime?: Date;
@@ -1831,7 +1832,7 @@ export interface GetFieldResponse {
   description?: string;
   type: string;
   namespace: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
@@ -1947,7 +1948,7 @@ export interface GetCaseResponse {
   fields: FieldValue[];
   templateId: string;
   nextToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCaseResponse = S.suspend(() =>
   S.Struct({
@@ -2141,7 +2142,7 @@ export interface GetCaseRuleResponse {
   deleted?: boolean;
   createdTime?: Date;
   lastModifiedTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCaseRuleResponse = S.suspend(() =>
   S.Struct({
@@ -2392,7 +2393,7 @@ export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
   fields: FieldValue[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SearchCasesResponseItem = S.suspend(() =>
   S.Struct({
@@ -2558,7 +2559,7 @@ export interface SearchRelatedItemsResponseItem {
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   performedBy?: UserUnion;
 }
 export const SearchRelatedItemsResponseItem = S.suspend(() =>
@@ -2622,7 +2623,7 @@ export interface SearchAllRelatedItemsResponseItem {
   associationTime: Date;
   content: RelatedItemContent;
   performedBy?: UserUnion;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SearchAllRelatedItemsResponseItem = S.suspend(() =>
   S.Struct({

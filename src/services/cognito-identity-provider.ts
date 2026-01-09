@@ -785,12 +785,15 @@ export const AdminRemoveUserFromGroupResponse = S.suspend(() =>
 ).annotations({
   identifier: "AdminRemoveUserFromGroupResponse",
 }) as any as S.Schema<AdminRemoveUserFromGroupResponse>;
-export type ClientMetadataType = { [key: string]: string };
-export const ClientMetadataType = S.Record({ key: S.String, value: S.String });
+export type ClientMetadataType = { [key: string]: string | undefined };
+export const ClientMetadataType = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AdminResetUserPasswordRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const AdminResetUserPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -928,7 +931,7 @@ export interface AdminUpdateUserAttributesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   UserAttributes: AttributeType[];
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const AdminUpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -1086,7 +1089,7 @@ export interface ConfirmSignUpRequest {
   ForceAliasCreation?: boolean;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
   Session?: string | redacted.Redacted<string>;
 }
 export const ConfirmSignUpRequest = S.suspend(() =>
@@ -1677,7 +1680,7 @@ export interface ForgotPasswordRequest {
   UserContextData?: UserContextDataType;
   Username: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const ForgotPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -1820,7 +1823,7 @@ export interface GetTokensFromRefreshTokenRequest {
   ClientId: string | redacted.Redacted<string>;
   ClientSecret?: string | redacted.Redacted<string>;
   DeviceKey?: string;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
   S.Struct({
@@ -1886,7 +1889,7 @@ export const GetUserRequest = S.suspend(() =>
 export interface GetUserAttributeVerificationCodeRequest {
   AccessToken: string | redacted.Redacted<string>;
   AttributeName: string;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -1967,12 +1970,15 @@ export const GlobalSignOutResponse = S.suspend(() =>
 ).annotations({
   identifier: "GlobalSignOutResponse",
 }) as any as S.Schema<GlobalSignOutResponse>;
-export type AuthParametersType = { [key: string]: string };
-export const AuthParametersType = S.Record({ key: S.String, value: S.String });
+export type AuthParametersType = { [key: string]: string | undefined };
+export const AuthParametersType = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InitiateAuthRequest {
   AuthFlow: AuthFlowType;
-  AuthParameters?: { [key: string]: string };
-  ClientMetadata?: { [key: string]: string };
+  AuthParameters?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined };
   ClientId: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
@@ -2290,7 +2296,7 @@ export interface ResendConfirmationCodeRequest {
   UserContextData?: UserContextDataType;
   Username: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const ResendConfirmationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -2314,19 +2320,19 @@ export const ResendConfirmationCodeRequest = S.suspend(() =>
 ).annotations({
   identifier: "ResendConfirmationCodeRequest",
 }) as any as S.Schema<ResendConfirmationCodeRequest>;
-export type ChallengeResponsesType = { [key: string]: string };
+export type ChallengeResponsesType = { [key: string]: string | undefined };
 export const ChallengeResponsesType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RespondToAuthChallengeRequest {
   ClientId: string | redacted.Redacted<string>;
   ChallengeName: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
-  ChallengeResponses?: { [key: string]: string };
+  ChallengeResponses?: { [key: string]: string | undefined };
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const RespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
@@ -2526,7 +2532,7 @@ export interface SignUpRequest {
   ValidationData?: AttributeType[];
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const SignUpRequest = S.suspend(() =>
   S.Struct({
@@ -2609,11 +2615,14 @@ export const StopUserImportJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopUserImportJobRequest",
 }) as any as S.Schema<StopUserImportJobRequest>;
-export type UserPoolTagsType = { [key: string]: string };
-export const UserPoolTagsType = S.Record({ key: S.String, value: S.String });
+export type UserPoolTagsType = { [key: string]: string | undefined };
+export const UserPoolTagsType = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: UserPoolTagsType }).pipe(
@@ -2753,18 +2762,21 @@ export const UpdateGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateGroupRequest",
 }) as any as S.Schema<UpdateGroupRequest>;
-export type ProviderDetailsType = { [key: string]: string };
-export const ProviderDetailsType = S.Record({ key: S.String, value: S.String });
-export type AttributeMappingType = { [key: string]: string };
+export type ProviderDetailsType = { [key: string]: string | undefined };
+export const ProviderDetailsType = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type AttributeMappingType = { [key: string]: string | undefined };
 export const AttributeMappingType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface UpdateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
-  ProviderDetails?: { [key: string]: string };
-  AttributeMapping?: { [key: string]: string };
+  ProviderDetails?: { [key: string]: string | undefined };
+  AttributeMapping?: { [key: string]: string | undefined };
   IdpIdentifiers?: string[];
 }
 export const UpdateIdentityProviderRequest = S.suspend(() =>
@@ -2914,15 +2926,18 @@ export const UpdateResourceServerRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateResourceServerRequest",
 }) as any as S.Schema<UpdateResourceServerRequest>;
-export type LinksType = { [key: string]: string };
-export const LinksType = S.Record({ key: S.String, value: S.String });
+export type LinksType = { [key: string]: string | undefined };
+export const LinksType = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateTermsRequest {
   TermsId: string;
   UserPoolId: string;
   TermsName?: string;
   TermsSource?: TermsSourceType;
   Enforcement?: TermsEnforcementType;
-  Links?: { [key: string]: string };
+  Links?: { [key: string]: string | undefined };
 }
 export const UpdateTermsRequest = S.suspend(() =>
   S.Struct({
@@ -2949,7 +2964,7 @@ export const UpdateTermsRequest = S.suspend(() =>
 export interface UpdateUserAttributesRequest {
   UserAttributes: AttributeType[];
   AccessToken: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const UpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -3294,7 +3309,7 @@ export interface UpdateUserPoolRequest {
   DeviceConfiguration?: DeviceConfigurationType;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string };
+  UserPoolTags?: { [key: string]: string | undefined };
   AdminCreateUserConfig?: AdminCreateUserConfigType;
   UserPoolAddOns?: UserPoolAddOnsType;
   AccountRecoverySetting?: AccountRecoverySettingType;
@@ -3787,7 +3802,7 @@ export const CompromisedCredentialsEventActionType = S.Literal(
 export interface AdminConfirmSignUpRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const AdminConfirmSignUpRequest = S.suspend(() =>
   S.Struct({
@@ -3823,7 +3838,7 @@ export interface AdminCreateUserRequest {
   ForceAliasCreation?: boolean;
   MessageAction?: MessageActionType;
   DesiredDeliveryMediums?: DeliveryMediumType[];
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const AdminCreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -3949,11 +3964,11 @@ export interface AdminRespondToAuthChallengeRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   ChallengeName: ChallengeNameType;
-  ChallengeResponses?: { [key: string]: string };
+  ChallengeResponses?: { [key: string]: string | undefined };
   Session?: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const AdminRespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
@@ -4089,7 +4104,7 @@ export interface ConfirmForgotPasswordRequest {
   Password: string | redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string };
+  ClientMetadata?: { [key: string]: string | undefined };
 }
 export const ConfirmForgotPasswordRequest = S.suspend(() =>
   S.Struct({
@@ -4163,8 +4178,8 @@ export interface CreateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
   ProviderType: IdentityProviderTypeType;
-  ProviderDetails: { [key: string]: string };
-  AttributeMapping?: { [key: string]: string };
+  ProviderDetails: { [key: string]: string | undefined };
+  AttributeMapping?: { [key: string]: string | undefined };
   IdpIdentifiers?: string[];
 }
 export const CreateIdentityProviderRequest = S.suspend(() =>
@@ -4249,7 +4264,7 @@ export interface CreateTermsRequest {
   TermsName: string;
   TermsSource: TermsSourceType;
   Enforcement: TermsEnforcementType;
-  Links?: { [key: string]: string };
+  Links?: { [key: string]: string | undefined };
 }
 export const CreateTermsRequest = S.suspend(() =>
   S.Struct({
@@ -4437,8 +4452,8 @@ export interface IdentityProviderType {
   UserPoolId?: string;
   ProviderName?: string;
   ProviderType?: IdentityProviderTypeType;
-  ProviderDetails?: { [key: string]: string };
-  AttributeMapping?: { [key: string]: string };
+  ProviderDetails?: { [key: string]: string | undefined };
+  AttributeMapping?: { [key: string]: string | undefined };
   IdpIdentifiers?: string[];
   LastModifiedDate?: Date;
   CreationDate?: Date;
@@ -4576,7 +4591,7 @@ export const ListResourceServersResponse = S.suspend(() =>
   identifier: "ListResourceServersResponse",
 }) as any as S.Schema<ListResourceServersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(UserPoolTagsType) }).pipe(ns),
@@ -4641,10 +4656,10 @@ export const ResendConfirmationCodeResponse = S.suspend(() =>
 ).annotations({
   identifier: "ResendConfirmationCodeResponse",
 }) as any as S.Schema<ResendConfirmationCodeResponse>;
-export type ChallengeParametersType = { [key: string]: string };
+export type ChallengeParametersType = { [key: string]: string | undefined };
 export const ChallengeParametersType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface NewDeviceMetadataType {
   DeviceKey?: string;
@@ -4681,7 +4696,7 @@ export const AuthenticationResultType = S.suspend(() =>
 export interface RespondToAuthChallengeResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string };
+  ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
 }
 export const RespondToAuthChallengeResponse = S.suspend(() =>
@@ -4837,7 +4852,7 @@ export interface TermsType {
   TermsName: string;
   TermsSource: TermsSourceType;
   Enforcement: TermsEnforcementType;
-  Links: { [key: string]: string };
+  Links: { [key: string]: string | undefined };
   CreationDate: Date;
   LastModifiedDate: Date;
 }
@@ -5174,7 +5189,7 @@ export interface UserPoolType {
   EstimatedNumberOfUsers?: number;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string };
+  UserPoolTags?: { [key: string]: string | undefined };
   SmsConfigurationFailure?: string;
   EmailConfigurationFailure?: string;
   Domain?: string;
@@ -5445,8 +5460,8 @@ export interface AdminInitiateAuthRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   AuthFlow: AuthFlowType;
-  AuthParameters?: { [key: string]: string };
-  ClientMetadata?: { [key: string]: string };
+  AuthParameters?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined };
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
   Session?: string | redacted.Redacted<string>;
@@ -5490,7 +5505,7 @@ export const AdminListGroupsForUserResponse = S.suspend(() =>
 export interface AdminRespondToAuthChallengeResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string };
+  ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
 }
 export const AdminRespondToAuthChallengeResponse = S.suspend(() =>
@@ -5571,7 +5586,7 @@ export interface CreateUserPoolRequest {
   DeviceConfiguration?: DeviceConfigurationType;
   EmailConfiguration?: EmailConfigurationType;
   SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string };
+  UserPoolTags?: { [key: string]: string | undefined };
   AdminCreateUserConfig?: AdminCreateUserConfigType;
   Schema?: SchemaAttributeType[];
   UserPoolAddOns?: UserPoolAddOnsType;
@@ -5736,7 +5751,7 @@ export const GetUICustomizationResponse = S.suspend(() =>
 export interface InitiateAuthResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string };
+  ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: ChallengeNameType[];
 }
@@ -5952,7 +5967,7 @@ export const AuthEventsType = S.Array(AuthEventType);
 export interface AdminInitiateAuthResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string };
+  ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: ChallengeNameType[];
 }

@@ -412,11 +412,11 @@ export const StartTagSyncTaskInput = S.suspend(() =>
 ).annotations({
   identifier: "StartTagSyncTaskInput",
 }) as any as S.Schema<StartTagSyncTaskInput>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagInput {
   Arn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagInput = S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags }).pipe(
@@ -647,8 +647,11 @@ export const GetAccountSettingsOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetAccountSettingsOutput",
 }) as any as S.Schema<GetAccountSettingsOutput>;
-export type ApplicationTag = { [key: string]: string };
-export const ApplicationTag = S.Record({ key: S.String, value: S.String });
+export type ApplicationTag = { [key: string]: string | undefined };
+export const ApplicationTag = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Group {
   GroupArn: string;
   Name: string;
@@ -656,7 +659,7 @@ export interface Group {
   Criticality?: number;
   Owner?: string;
   DisplayName?: string;
-  ApplicationTag?: { [key: string]: string };
+  ApplicationTag?: { [key: string]: string | undefined };
 }
 export const Group = S.suspend(() =>
   S.Struct({
@@ -679,7 +682,7 @@ export const GetGroupOutput = S.suspend(() =>
 }) as any as S.Schema<GetGroupOutput>;
 export interface GetTagsOutput {
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetTagsOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -836,7 +839,7 @@ export const StartTagSyncTaskOutput = S.suspend(() =>
 }) as any as S.Schema<StartTagSyncTaskOutput>;
 export interface TagOutput {
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagOutput = S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -987,7 +990,7 @@ export interface CreateGroupInput {
   Name: string;
   Description?: string;
   ResourceQuery?: ResourceQuery;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Configuration?: GroupConfigurationItem[];
   Criticality?: number;
   Owner?: string;
@@ -1148,7 +1151,7 @@ export const ResourceStatusValue = S.Literal("PENDING");
 export interface CreateGroupOutput {
   Group?: Group;
   ResourceQuery?: ResourceQuery;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   GroupConfiguration?: GroupConfiguration;
 }
 export const CreateGroupOutput = S.suspend(() =>

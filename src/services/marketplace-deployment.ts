@@ -142,8 +142,8 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface DeploymentParameterInput {
   name: string;
   secretString: string | redacted.Redacted<string>;
@@ -153,10 +153,13 @@ export const DeploymentParameterInput = S.suspend(() =>
 ).annotations({
   identifier: "DeploymentParameterInput",
 }) as any as S.Schema<DeploymentParameterInput>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -165,7 +168,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -193,7 +196,7 @@ export interface PutDeploymentParameterRequest {
   productId: string;
   agreementId: string;
   deploymentParameter: DeploymentParameterInput;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   expirationDate?: Date;
   clientToken?: string;
 }
@@ -226,7 +229,7 @@ export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutDeploymentParameterResponse = S.suspend(() =>
   S.Struct({

@@ -112,21 +112,31 @@ export const InputList = S.Array(S.String);
 export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
 export type FilterValues = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const FilterValues = S.Record({ key: S.String, value: SensitiveString });
-export type Context = { [key: string]: string | redacted.Redacted<string> };
-export const Context = S.Record({ key: S.String, value: SensitiveString });
-export type MetadataColumns = { [key: string]: string[] };
+export const FilterValues = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
+export type Context = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const Context = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
+export type MetadataColumns = { [key: string]: string[] | undefined };
 export const MetadataColumns = S.Record({
   key: S.String,
-  value: ColumnNamesList,
+  value: S.UndefinedOr(ColumnNamesList),
 });
 export interface Promotion {
   name?: string;
   percentPromotedItems?: number;
   filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> };
+  filterValues?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const Promotion = S.suspend(() =>
   S.Struct({
@@ -143,7 +153,9 @@ export interface GetActionRecommendationsRequest {
   userId?: string;
   numResults?: number;
   filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> };
+  filterValues?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const GetActionRecommendationsRequest = S.suspend(() =>
   S.Struct({
@@ -169,10 +181,12 @@ export interface GetPersonalizedRankingRequest {
   campaignArn: string;
   inputList: string[];
   userId: string;
-  context?: { [key: string]: string | redacted.Redacted<string> };
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
   filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> };
-  metadataColumns?: { [key: string]: string[] };
+  filterValues?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  metadataColumns?: { [key: string]: string[] | undefined };
 }
 export const GetPersonalizedRankingRequest = S.suspend(() =>
   S.Struct({
@@ -201,12 +215,14 @@ export interface GetRecommendationsRequest {
   itemId?: string;
   userId?: string;
   numResults?: number;
-  context?: { [key: string]: string | redacted.Redacted<string> };
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
   filterArn?: string;
-  filterValues?: { [key: string]: string | redacted.Redacted<string> };
+  filterValues?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   recommenderArn?: string;
   promotions?: Promotion[];
-  metadataColumns?: { [key: string]: string[] };
+  metadataColumns?: { [key: string]: string[] | undefined };
 }
 export const GetRecommendationsRequest = S.suspend(() =>
   S.Struct({
@@ -233,15 +249,18 @@ export const GetRecommendationsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetRecommendationsRequest",
 }) as any as S.Schema<GetRecommendationsRequest>;
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ReasonList = string[];
 export const ReasonList = S.Array(S.String);
 export interface PredictedItem {
   itemId?: string;
   score?: number;
   promotionName?: string;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   reason?: string[];
 }
 export const PredictedItem = S.suspend(() =>

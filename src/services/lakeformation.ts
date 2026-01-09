@@ -1969,14 +1969,17 @@ export const PrincipalPermissions = S.suspend(() =>
 }) as any as S.Schema<PrincipalPermissions>;
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export const PrincipalPermissionsList = S.Array(PrincipalPermissions);
-export type ParametersMap = { [key: string]: string };
-export const ParametersMap = S.Record({ key: S.String, value: S.String });
+export type ParametersMap = { [key: string]: string | undefined };
+export const ParametersMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DataLakeSettings {
   DataLakeAdmins?: DataLakePrincipal[];
   ReadOnlyAdmins?: DataLakePrincipal[];
   CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
   CreateTableDefaultPermissions?: PrincipalPermissions[];
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   TrustedResourceOwners?: string[];
   AllowExternalDataFiltering?: boolean;
   AllowFullTableExternalDataAccess?: boolean;
@@ -2208,13 +2211,16 @@ export const StartTransactionResponse = S.suspend(() =>
 ).annotations({
   identifier: "StartTransactionResponse",
 }) as any as S.Schema<StartTransactionResponse>;
-export type AdditionalContextMap = { [key: string]: string };
+export type AdditionalContextMap = { [key: string]: string | undefined };
 export const AdditionalContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type QueryParameterMap = { [key: string]: string };
-export const QueryParameterMap = S.Record({ key: S.String, value: S.String });
+export type QueryParameterMap = { [key: string]: string | undefined };
+export const QueryParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AddObjectInput {
   Uri: string;
   ETag: string;
@@ -2245,10 +2251,10 @@ export const DeleteObjectInput = S.suspend(() =>
 ).annotations({
   identifier: "DeleteObjectInput",
 }) as any as S.Schema<DeleteObjectInput>;
-export type StorageOptimizerConfig = { [key: string]: string };
+export type StorageOptimizerConfig = { [key: string]: string | undefined };
 export const StorageOptimizerConfig = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ResourceInfo {
   ResourceArn?: string;
@@ -2312,7 +2318,7 @@ export interface QuerySessionContext {
   QueryStartTime?: Date;
   ClusterId?: string;
   QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string };
+  AdditionalContext?: { [key: string]: string | undefined };
 }
 export const QuerySessionContext = S.suspend(() =>
   S.Struct({
@@ -2385,7 +2391,7 @@ export type ResourceInfoList = ResourceInfo[];
 export const ResourceInfoList = S.Array(ResourceInfo);
 export interface StorageOptimizer {
   StorageOptimizerType?: OptimizerType;
-  Config?: { [key: string]: string };
+  Config?: { [key: string]: string | undefined };
   ErrorMessage?: string;
   Warnings?: string;
   LastRunDetails?: string;
@@ -2456,7 +2462,7 @@ export interface QueryPlanningContext {
   CatalogId?: string;
   DatabaseName: string;
   QueryAsOfTime?: Date;
-  QueryParameters?: { [key: string]: string };
+  QueryParameters?: { [key: string]: string | undefined };
   TransactionId?: string;
 }
 export const QueryPlanningContext = S.suspend(() =>
@@ -2485,10 +2491,13 @@ export const WriteOperation = S.suspend(() =>
 export type WriteOperationList = WriteOperation[];
 export const WriteOperationList = S.Array(WriteOperation);
 export type StorageOptimizerConfigMap = {
-  [key in OptimizerType]?: { [key: string]: string };
+  [key in OptimizerType]?: { [key: string]: string | undefined };
 };
 export const StorageOptimizerConfigMap = S.partial(
-  S.Record({ key: OptimizerType, value: StorageOptimizerConfig }),
+  S.Record({
+    key: OptimizerType,
+    value: S.UndefinedOr(StorageOptimizerConfig),
+  }),
 );
 export interface AddLFTagsToResourceRequest {
   CatalogId?: string;
@@ -2844,7 +2853,9 @@ export interface UpdateTableStorageOptimizerRequest {
   CatalogId?: string;
   DatabaseName: string;
   TableName: string;
-  StorageOptimizerConfig: { [key: string]: { [key: string]: string } };
+  StorageOptimizerConfig: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
 }
 export const UpdateTableStorageOptimizerRequest = S.suspend(() =>
   S.Struct({

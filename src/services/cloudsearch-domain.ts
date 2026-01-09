@@ -296,8 +296,11 @@ export type Suggestions = SuggestionMatch[];
 export const Suggestions = S.Array(SuggestionMatch);
 export type FieldValue = string[];
 export const FieldValue = S.Array(S.String);
-export type Stats = { [key: string]: FieldStats };
-export const Stats = S.Record({ key: S.String, value: FieldStats });
+export type Stats = { [key: string]: FieldStats | undefined };
+export const Stats = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FieldStats),
+});
 export interface SuggestModel {
   query?: string;
   found?: number;
@@ -310,12 +313,21 @@ export const SuggestModel = S.suspend(() =>
     suggestions: S.optional(Suggestions),
   }),
 ).annotations({ identifier: "SuggestModel" }) as any as S.Schema<SuggestModel>;
-export type Fields = { [key: string]: string[] };
-export const Fields = S.Record({ key: S.String, value: FieldValue });
-export type Exprs = { [key: string]: string };
-export const Exprs = S.Record({ key: S.String, value: S.String });
-export type Highlights = { [key: string]: string };
-export const Highlights = S.Record({ key: S.String, value: S.String });
+export type Fields = { [key: string]: string[] | undefined };
+export const Fields = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FieldValue),
+});
+export type Exprs = { [key: string]: string | undefined };
+export const Exprs = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Highlights = { [key: string]: string | undefined };
+export const Highlights = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Bucket {
   value?: string;
   count?: number;
@@ -339,9 +351,9 @@ export const SuggestResponse = S.suspend(() =>
 }) as any as S.Schema<SuggestResponse>;
 export interface Hit {
   id?: string;
-  fields?: { [key: string]: string[] };
-  exprs?: { [key: string]: string };
-  highlights?: { [key: string]: string };
+  fields?: { [key: string]: string[] | undefined };
+  exprs?: { [key: string]: string | undefined };
+  highlights?: { [key: string]: string | undefined };
 }
 export const Hit = S.suspend(() =>
   S.Struct({
@@ -373,13 +385,16 @@ export const Hits = S.suspend(() =>
     hit: S.optional(HitList),
   }),
 ).annotations({ identifier: "Hits" }) as any as S.Schema<Hits>;
-export type Facets = { [key: string]: BucketInfo };
-export const Facets = S.Record({ key: S.String, value: BucketInfo });
+export type Facets = { [key: string]: BucketInfo | undefined };
+export const Facets = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(BucketInfo),
+});
 export interface SearchResponse {
   status?: SearchStatus;
   hits?: Hits;
-  facets?: { [key: string]: BucketInfo };
-  stats?: { [key: string]: FieldStats };
+  facets?: { [key: string]: BucketInfo | undefined };
+  stats?: { [key: string]: FieldStats | undefined };
 }
 export const SearchResponse = S.suspend(() =>
   S.Struct({

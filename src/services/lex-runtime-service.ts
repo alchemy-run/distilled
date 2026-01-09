@@ -277,12 +277,15 @@ export const DialogState = S.Literal(
   "ReadyForFulfillment",
   "Failed",
 );
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DialogAction {
   type: DialogActionType;
   intentName?: string;
-  slots?: { [key: string]: string };
+  slots?: { [key: string]: string | undefined };
   slotToElicit?: string;
   fulfillmentState?: FulfillmentState;
   message?: string | redacted.Redacted<string>;
@@ -302,7 +305,7 @@ export const DialogAction = S.suspend(() =>
 export interface IntentSummary {
   intentName?: string;
   checkpointLabel?: string;
-  slots?: { [key: string]: string };
+  slots?: { [key: string]: string | undefined };
   confirmationStatus?: ConfirmationStatus;
   dialogActionType: DialogActionType;
   fulfillmentState?: FulfillmentState;
@@ -352,16 +355,16 @@ export const ActiveContextTimeToLive = S.suspend(() =>
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
-  parameters: { [key: string]: string | redacted.Redacted<string> };
+  parameters: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const ActiveContext = S.suspend(() =>
   S.Struct({
@@ -376,7 +379,7 @@ export type ActiveContextsList = ActiveContext[];
 export const ActiveContextsList = S.Array(ActiveContext);
 export interface GetSessionResponse {
   recentIntentSummaryView?: IntentSummary[];
-  sessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
   sessionId?: string;
   dialogAction?: DialogAction;
   activeContexts?: ActiveContext[];
@@ -468,7 +471,7 @@ export interface PutSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
   dialogAction?: DialogAction;
   recentIntentSummaryView?: IntentSummary[];
   accept?: string;
@@ -504,8 +507,8 @@ export interface PostTextRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string };
-  requestAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
+  requestAttributes?: { [key: string]: string | undefined };
   inputText: string | redacted.Redacted<string>;
   activeContexts?: ActiveContext[];
 }
@@ -595,7 +598,7 @@ export const IntentConfidence = S.suspend(() =>
 export interface PredictedIntent {
   intentName?: string;
   nluIntentConfidence?: IntentConfidence;
-  slots?: { [key: string]: string };
+  slots?: { [key: string]: string | undefined };
 }
 export const PredictedIntent = S.suspend(() =>
   S.Struct({
@@ -665,8 +668,8 @@ export interface PostTextResponse {
   intentName?: string;
   nluIntentConfidence?: IntentConfidence;
   alternativeIntents?: PredictedIntent[];
-  slots?: { [key: string]: string };
-  sessionAttributes?: { [key: string]: string };
+  slots?: { [key: string]: string | undefined };
+  sessionAttributes?: { [key: string]: string | undefined };
   message?: string | redacted.Redacted<string>;
   sentimentResponse?: SentimentResponse;
   messageFormat?: MessageFormatType;

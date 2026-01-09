@@ -240,16 +240,23 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TableProperties = { [key: string]: string };
-export const TableProperties = S.Record({ key: S.String, value: S.String });
-export type TableConfigurations = { [key: string]: { [key: string]: string } };
+export type TableProperties = { [key: string]: string | undefined };
+export const TableProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type TableConfigurations = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
 export const TableConfigurations = S.Record({
   key: S.String,
-  value: TableProperties,
+  value: S.UndefinedOr(TableProperties),
 });
 export interface DataQuery {
   QueryStatement: string;
-  TableConfigurations?: { [key: string]: { [key: string]: string } };
+  TableConfigurations?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
 }
 export const DataQuery = S.suspend(() =>
   S.Struct({
@@ -357,7 +364,7 @@ export const DeleteExportResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteExportResponse>;
 export interface GetTableRequest {
   TableName: string;
-  TableProperties?: { [key: string]: string };
+  TableProperties?: { [key: string]: string | undefined };
 }
 export const GetTableRequest = S.suspend(() =>
   S.Struct({
@@ -579,7 +586,7 @@ export const TableList = S.Array(Table);
 export interface GetTableResponse {
   TableName?: string;
   Description?: string;
-  TableProperties?: { [key: string]: string };
+  TableProperties?: { [key: string]: string | undefined };
   Schema?: Column[];
 }
 export const GetTableResponse = S.suspend(() =>

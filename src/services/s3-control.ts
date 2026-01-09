@@ -5998,8 +5998,11 @@ export const CreateMultiRegionAccessPointInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateMultiRegionAccessPointInput",
 }) as any as S.Schema<CreateMultiRegionAccessPointInput>;
-export type Endpoints = { [key: string]: string };
-export const Endpoints = S.Record({ key: S.String, value: S.String });
+export type Endpoints = { [key: string]: string | undefined };
+export const Endpoints = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ObjectLambdaAccessPointAlias {
   Value?: string;
   Status?: ObjectLambdaAccessPointAliasStatus;
@@ -6264,8 +6267,11 @@ export const StorageLensGroupList = S.Array(
     identifier: "ListStorageLensGroupEntry",
   }),
 );
-export type UserArguments = { [key: string]: string };
-export const UserArguments = S.Record({ key: S.String, value: S.String });
+export type UserArguments = { [key: string]: string | undefined };
+export const UserArguments = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface S3ObjectLockLegalHold {
   Status: S3ObjectLockLegalHoldStatus;
 }
@@ -6404,7 +6410,7 @@ export interface GetAccessPointResult {
   CreationDate?: Date;
   Alias?: string;
   AccessPointArn?: string;
-  Endpoints?: { [key: string]: string };
+  Endpoints?: { [key: string]: string | undefined };
   BucketAccountId?: string;
   DataSourceId?: string;
   DataSourceType?: string;
@@ -6602,7 +6608,7 @@ export const PutMultiRegionAccessPointPolicyResult = S.suspend(() =>
 export interface LambdaInvokeOperation {
   FunctionArn?: string;
   InvocationSchemaVersion?: string;
-  UserArguments?: { [key: string]: string };
+  UserArguments?: { [key: string]: string | undefined };
 }
 export const LambdaInvokeOperation = S.suspend(() =>
   S.Struct({
@@ -6705,8 +6711,11 @@ export const S3Grantee = S.suspend(() =>
     DisplayName: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Grantee" }) as any as S.Schema<S3Grantee>;
-export type S3UserMetadata = { [key: string]: string };
-export const S3UserMetadata = S.Record({ key: S.String, value: S.String });
+export type S3UserMetadata = { [key: string]: string | undefined };
+export const S3UserMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface KeyNameConstraint {
   MatchAnyPrefix?: string[];
   MatchAnySuffix?: string[];
@@ -6750,7 +6759,7 @@ export interface S3ObjectMetadata {
   ContentDisposition?: string;
   ContentEncoding?: string;
   ContentLanguage?: string;
-  UserMetadata?: { [key: string]: string };
+  UserMetadata?: { [key: string]: string | undefined };
   ContentLength?: number;
   ContentMD5?: string;
   ContentType?: string;

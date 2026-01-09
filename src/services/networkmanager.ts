@@ -1953,13 +1953,16 @@ export const ListCoreNetworkPrefixListAssociationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListCoreNetworkPrefixListAssociationsRequest>;
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
-export type FilterMap = { [key: string]: string[] };
-export const FilterMap = S.Record({ key: S.String, value: FilterValues });
+export type FilterMap = { [key: string]: string[] | undefined };
+export const FilterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FilterValues),
+});
 export interface ListCoreNetworkRoutingInformationRequest {
   CoreNetworkId: string;
   SegmentName: string;
   EdgeLocation: string;
-  NextHopFilters?: { [key: string]: string[] };
+  NextHopFilters?: { [key: string]: string[] | undefined };
   LocalPreferenceMatches?: string[];
   ExactAsPathMatches?: string[];
   MedMatches?: string[];
@@ -3144,10 +3147,10 @@ export const RouteAnalysisEndpointOptionsSpecification = S.suspend(() =>
 ).annotations({
   identifier: "RouteAnalysisEndpointOptionsSpecification",
 }) as any as S.Schema<RouteAnalysisEndpointOptionsSpecification>;
-export type NetworkResourceMetadataMap = { [key: string]: string };
+export type NetworkResourceMetadataMap = { [key: string]: string | undefined };
 export const NetworkResourceMetadataMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CreateConnectAttachmentRequest {
   CoreNetworkId: string;
@@ -4136,7 +4139,7 @@ export const UpdateLinkResponse = S.suspend(() =>
 export interface UpdateNetworkResourceMetadataRequest {
   GlobalNetworkId: string;
   ResourceArn: string;
-  Metadata: { [key: string]: string };
+  Metadata: { [key: string]: string | undefined };
 }
 export const UpdateNetworkResourceMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -4308,7 +4311,7 @@ export interface NetworkResource {
   Definition?: string;
   DefinitionTimestamp?: Date;
   Tags?: Tag[];
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
 }
 export const NetworkResource = S.suspend(() =>
   S.Struct({
@@ -4672,7 +4675,7 @@ export interface GetNetworkRoutesRequest {
   PrefixListIds?: string[];
   States?: RouteState[];
   Types?: RouteType[];
-  DestinationFilters?: { [key: string]: string[] };
+  DestinationFilters?: { [key: string]: string[] | undefined };
 }
 export const GetNetworkRoutesRequest = S.suspend(() =>
   S.Struct({
@@ -4816,12 +4819,15 @@ export const RouteAnalysisCompletionReasonCode = S.Literal(
   "POSSIBLE_MIDDLEBOX",
   "NO_DESTINATION_ARN_PROVIDED",
 );
-export type ReasonContextMap = { [key: string]: string };
-export const ReasonContextMap = S.Record({ key: S.String, value: S.String });
+export type ReasonContextMap = { [key: string]: string | undefined };
+export const ReasonContextMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RouteAnalysisCompletion {
   ResultCode?: RouteAnalysisCompletionResultCode;
   ReasonCode?: RouteAnalysisCompletionReasonCode;
-  ReasonContext?: { [key: string]: string };
+  ReasonContext?: { [key: string]: string | undefined };
 }
 export const RouteAnalysisCompletion = S.suspend(() =>
   S.Struct({
@@ -4920,7 +4926,7 @@ export const StartRouteAnalysisResponse = S.suspend(() =>
 }) as any as S.Schema<StartRouteAnalysisResponse>;
 export interface UpdateNetworkResourceMetadataResponse {
   ResourceArn?: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
 }
 export const UpdateNetworkResourceMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -5144,8 +5150,11 @@ export interface WhenSentTo {
 export const WhenSentTo = S.suspend(() =>
   S.Struct({ WhenSentToSegmentsList: S.optional(WhenSentToSegmentsList) }),
 ).annotations({ identifier: "WhenSentTo" }) as any as S.Schema<WhenSentTo>;
-export type ExceptionContextMap = { [key: string]: string };
-export const ExceptionContextMap = S.Record({ key: S.String, value: S.String });
+export type ExceptionContextMap = { [key: string]: string | undefined };
+export const ExceptionContextMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CoreNetworkChangeEvent {
   Type?: ChangeType;
   Action?: ChangeAction;

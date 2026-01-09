@@ -356,8 +356,11 @@ export const GuardrailConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailConfiguration",
 }) as any as S.Schema<GuardrailConfiguration>;
-export type RequestMetadata = { [key: string]: string };
-export const RequestMetadata = S.Record({ key: S.String, value: S.String });
+export type RequestMetadata = { [key: string]: string | undefined };
+export const RequestMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface PerformanceConfiguration {
   latency?: PerformanceConfigLatency;
 }
@@ -1251,10 +1254,12 @@ export const ToolConfiguration = S.suspend(() =>
 }) as any as S.Schema<ToolConfiguration>;
 export type PromptVariableValues = { text: string };
 export const PromptVariableValues = S.Union(S.Struct({ text: S.String }));
-export type PromptVariableMap = { [key: string]: PromptVariableValues };
+export type PromptVariableMap = {
+  [key: string]: PromptVariableValues | undefined;
+};
 export const PromptVariableMap = S.Record({
   key: S.String,
-  value: PromptVariableValues,
+  value: S.UndefinedOr(PromptVariableValues),
 });
 export interface ConverseStreamRequest {
   modelId: string;
@@ -1264,9 +1269,9 @@ export interface ConverseStreamRequest {
   toolConfig?: ToolConfiguration;
   guardrailConfig?: GuardrailStreamConfiguration;
   additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues };
+  promptVariables?: { [key: string]: PromptVariableValues | undefined };
   additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string };
+  requestMetadata?: { [key: string]: string | undefined };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
 }
@@ -2719,19 +2724,21 @@ export const GuardrailAssessment = S.suspend(() =>
 ).annotations({
   identifier: "GuardrailAssessment",
 }) as any as S.Schema<GuardrailAssessment>;
-export type GuardrailAssessmentMap = { [key: string]: GuardrailAssessment };
+export type GuardrailAssessmentMap = {
+  [key: string]: GuardrailAssessment | undefined;
+};
 export const GuardrailAssessmentMap = S.Record({
   key: S.String,
-  value: GuardrailAssessment,
+  value: S.UndefinedOr(GuardrailAssessment),
 });
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export const GuardrailAssessmentList = S.Array(GuardrailAssessment);
 export type GuardrailAssessmentListMap = {
-  [key: string]: GuardrailAssessment[];
+  [key: string]: GuardrailAssessment[] | undefined;
 };
 export const GuardrailAssessmentListMap = S.Record({
   key: S.String,
-  value: GuardrailAssessmentList,
+  value: S.UndefinedOr(GuardrailAssessmentList),
 });
 export interface InvokeModelWithBidirectionalStreamResponse {
   body: stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>;
@@ -2770,8 +2777,8 @@ export const CitationsDelta = S.suspend(() =>
 }) as any as S.Schema<CitationsDelta>;
 export interface GuardrailTraceAssessment {
   modelOutput?: string[];
-  inputAssessment?: { [key: string]: GuardrailAssessment };
-  outputAssessments?: { [key: string]: GuardrailAssessment[] };
+  inputAssessment?: { [key: string]: GuardrailAssessment | undefined };
+  outputAssessments?: { [key: string]: GuardrailAssessment[] | undefined };
   actionReason?: string;
 }
 export const GuardrailTraceAssessment = S.suspend(() =>
@@ -2861,9 +2868,9 @@ export interface ConverseRequest {
   toolConfig?: ToolConfiguration;
   guardrailConfig?: GuardrailConfiguration;
   additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues };
+  promptVariables?: { [key: string]: PromptVariableValues | undefined };
   additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string };
+  requestMetadata?: { [key: string]: string | undefined };
   performanceConfig?: PerformanceConfiguration;
   serviceTier?: ServiceTier;
 }

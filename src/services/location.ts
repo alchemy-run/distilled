@@ -288,11 +288,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -345,7 +348,7 @@ export interface CreateGeofenceCollectionRequest {
   PricingPlan?: string;
   PricingPlanDataSource?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KmsKeyId?: string;
 }
 export const CreateGeofenceCollectionRequest = S.suspend(() =>
@@ -942,7 +945,7 @@ export interface CreateRouteCalculatorRequest {
   DataSource: string;
   PricingPlan?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRouteCalculatorRequest = S.suspend(() =>
   S.Struct({
@@ -1155,7 +1158,7 @@ export interface CreateTrackerRequest {
   KmsKeyId?: string;
   PricingPlanDataSource?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   PositionFiltering?: string;
   EventBridgeEnabled?: boolean;
   KmsKeyEnableGeospatialQueries?: boolean;
@@ -1360,14 +1363,17 @@ export const PositionalAccuracy = S.suspend(() =>
 ).annotations({
   identifier: "PositionalAccuracy",
 }) as any as S.Schema<PositionalAccuracy>;
-export type PositionPropertyMap = { [key: string]: string };
-export const PositionPropertyMap = S.Record({ key: S.String, value: S.String });
+export type PositionPropertyMap = { [key: string]: string | undefined };
+export const PositionPropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DevicePositionUpdate {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string };
+  PositionProperties?: { [key: string]: string | undefined };
 }
 export const DevicePositionUpdate = S.suspend(() =>
   S.Struct({
@@ -1555,12 +1561,15 @@ export const GeofenceGeometry = S.suspend(() =>
 ).annotations({
   identifier: "GeofenceGeometry",
 }) as any as S.Schema<GeofenceGeometry>;
-export type PropertyMap = { [key: string]: string };
-export const PropertyMap = S.Record({ key: S.String, value: S.String });
+export type PropertyMap = { [key: string]: string | undefined };
+export const PropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface BatchPutGeofenceRequestEntry {
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string };
+  GeofenceProperties?: { [key: string]: string | undefined };
 }
 export const BatchPutGeofenceRequestEntry = S.suspend(() =>
   S.Struct({
@@ -1629,7 +1638,7 @@ export interface DescribeKeyResponse {
   ExpireTime: Date;
   UpdateTime: Date;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeKeyResponse = S.suspend(() =>
   S.Struct({
@@ -1684,7 +1693,7 @@ export const ListKeysRequest = S.suspend(() =>
   identifier: "ListKeysRequest",
 }) as any as S.Schema<ListKeysRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1712,7 +1721,7 @@ export interface DescribeGeofenceCollectionResponse {
   PricingPlan?: string;
   PricingPlanDataSource?: string;
   KmsKeyId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreateTime: Date;
   UpdateTime: Date;
   GeofenceCount?: number;
@@ -1811,7 +1820,7 @@ export interface GetGeofenceResponse {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string };
+  GeofenceProperties?: { [key: string]: string | undefined };
 }
 export const GetGeofenceResponse = S.suspend(() =>
   S.Struct({
@@ -1830,7 +1839,7 @@ export interface CreateMapRequest {
   Configuration: MapConfiguration;
   PricingPlan?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateMapRequest = S.suspend(() =>
   S.Struct({
@@ -1859,7 +1868,7 @@ export interface DescribeMapResponse {
   DataSource: string;
   Configuration: MapConfiguration;
   Description: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreateTime: Date;
   UpdateTime: Date;
 }
@@ -1965,7 +1974,7 @@ export interface CreatePlaceIndexRequest {
   PricingPlan?: string;
   Description?: string;
   DataSourceConfiguration?: DataSourceConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePlaceIndexRequest = S.suspend(() =>
   S.Struct({
@@ -1997,7 +2006,7 @@ export interface DescribePlaceIndexResponse {
   UpdateTime: Date;
   DataSource: string;
   DataSourceConfiguration: DataSourceConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribePlaceIndexResponse = S.suspend(() =>
   S.Struct({
@@ -2050,7 +2059,7 @@ export interface DescribeRouteCalculatorResponse {
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeRouteCalculatorResponse = S.suspend(() =>
   S.Struct({
@@ -2100,7 +2109,7 @@ export interface DescribeTrackerResponse {
   Description: string;
   PricingPlan?: string;
   PricingPlanDataSource?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreateTime: Date;
   UpdateTime: Date;
   KmsKeyId?: string;
@@ -2146,7 +2155,7 @@ export interface GetDevicePositionResponse {
   ReceivedTime: Date;
   Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string };
+  PositionProperties?: { [key: string]: string | undefined };
 }
 export const GetDevicePositionResponse = S.suspend(() =>
   S.Struct({
@@ -2166,7 +2175,7 @@ export interface DevicePosition {
   ReceivedTime: Date;
   Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string };
+  PositionProperties?: { [key: string]: string | undefined };
 }
 export const DevicePosition = S.suspend(() =>
   S.Struct({
@@ -2279,7 +2288,7 @@ export interface ListGeofenceResponseEntry {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string };
+  GeofenceProperties?: { [key: string]: string | undefined };
 }
 export const ListGeofenceResponseEntry = S.suspend(() =>
   S.Struct({
@@ -2640,7 +2649,7 @@ export interface CreateKeyRequest {
   Description?: string;
   ExpireTime?: Date;
   NoExpiry?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateKeyRequest = S.suspend(() =>
   S.Struct({
@@ -2715,7 +2724,7 @@ export interface PutGeofenceRequest {
   CollectionName: string;
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string };
+  GeofenceProperties?: { [key: string]: string | undefined };
 }
 export const PutGeofenceRequest = S.suspend(() =>
   S.Struct({
@@ -3044,7 +3053,7 @@ export interface ForecastedEvent {
   NearestDistance: number;
   EventType: string;
   ForecastedBreachTime?: Date;
-  GeofenceProperties?: { [key: string]: string };
+  GeofenceProperties?: { [key: string]: string | undefined };
 }
 export const ForecastedEvent = S.suspend(() =>
   S.Struct({
@@ -3086,7 +3095,7 @@ export interface ListDevicePositionsResponseEntry {
   SampleTime: Date;
   Position: number[];
   Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string };
+  PositionProperties?: { [key: string]: string | undefined };
 }
 export const ListDevicePositionsResponseEntry = S.suspend(() =>
   S.Struct({

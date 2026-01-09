@@ -467,11 +467,11 @@ export interface SendInvitesResponse {}
 export const SendInvitesResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "SendInvitesResponse",
 }) as any as S.Schema<SendInvitesResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -673,7 +673,7 @@ export interface CreateSpaceInput {
   tier: TierLevel;
   description?: string | redacted.Redacted<string>;
   userKMSKey?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   roleArn?: string;
   supportedEmailDomains?: SupportedEmailDomainsParameters;
 }
@@ -701,7 +701,7 @@ export const CreateSpaceInput = S.suspend(() =>
   identifier: "CreateSpaceInput",
 }) as any as S.Schema<CreateSpaceInput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -718,10 +718,16 @@ export const FeatureEnableStatus = S.Literal(
   "DISABLED",
   "NOT_ALLOWED",
 );
-export type ChannelRoles = { [key: string]: ChannelRole[] };
-export const ChannelRoles = S.Record({ key: S.String, value: ChannelRoleList });
-export type Roles = { [key: string]: Role[] };
-export const Roles = S.Record({ key: S.String, value: RoleList });
+export type ChannelRoles = { [key: string]: ChannelRole[] | undefined };
+export const ChannelRoles = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ChannelRoleList),
+});
+export type Roles = { [key: string]: Role[] | undefined };
+export const Roles = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(RoleList),
+});
 export interface SupportedEmailDomainsStatus {
   enabled?: FeatureEnableStatus;
   allowedDomains?: string | redacted.Redacted<string>[];
@@ -826,7 +832,7 @@ export interface GetChannelOutput {
   channelDescription?: string | redacted.Redacted<string>;
   createDateTime: Date;
   deleteDateTime?: Date;
-  channelRoles?: { [key: string]: ChannelRole[] };
+  channelRoles?: { [key: string]: ChannelRole[] | undefined };
   channelStatus: ChannelStatus;
 }
 export const GetChannelOutput = S.suspend(() =>
@@ -863,7 +869,7 @@ export interface GetSpaceOutput {
   storageLimit: number;
   userAdmins?: string[];
   groupAdmins?: string[];
-  roles?: { [key: string]: Role[] };
+  roles?: { [key: string]: Role[] | undefined };
   userKMSKey?: string;
   userCount?: number;
   contentSize?: number;

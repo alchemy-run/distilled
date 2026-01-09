@@ -740,15 +740,15 @@ export const EnableKeyRotationResponse = S.suspend(() =>
 ).annotations({
   identifier: "EnableKeyRotationResponse",
 }) as any as S.Schema<EnableKeyRotationResponse>;
-export type EncryptionContextType = { [key: string]: string };
+export type EncryptionContextType = { [key: string]: string | undefined };
 export const EncryptionContextType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface EncryptRequest {
   KeyId: string;
   Plaintext: Uint8Array | redacted.Redacted<Uint8Array>;
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   GrantTokens?: string[];
   EncryptionAlgorithm?: EncryptionAlgorithmSpec;
   DryRun?: boolean;
@@ -777,7 +777,7 @@ export const EncryptRequest = S.suspend(() =>
 }) as any as S.Schema<EncryptRequest>;
 export interface GenerateDataKeyRequest {
   KeyId: string;
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   NumberOfBytes?: number;
   KeySpec?: DataKeySpec;
   GrantTokens?: string[];
@@ -808,7 +808,7 @@ export const GenerateDataKeyRequest = S.suspend(() =>
   identifier: "GenerateDataKeyRequest",
 }) as any as S.Schema<GenerateDataKeyRequest>;
 export interface GenerateDataKeyPairRequest {
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   KeyId: string;
   KeyPairSpec: DataKeyPairSpec;
   GrantTokens?: string[];
@@ -838,7 +838,7 @@ export const GenerateDataKeyPairRequest = S.suspend(() =>
   identifier: "GenerateDataKeyPairRequest",
 }) as any as S.Schema<GenerateDataKeyPairRequest>;
 export interface GenerateDataKeyPairWithoutPlaintextRequest {
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   KeyId: string;
   KeyPairSpec: DataKeyPairSpec;
   GrantTokens?: string[];
@@ -867,7 +867,7 @@ export const GenerateDataKeyPairWithoutPlaintextRequest = S.suspend(() =>
 }) as any as S.Schema<GenerateDataKeyPairWithoutPlaintextRequest>;
 export interface GenerateDataKeyWithoutPlaintextRequest {
   KeyId: string;
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   KeySpec?: DataKeySpec;
   NumberOfBytes?: number;
   GrantTokens?: string[];
@@ -1264,10 +1264,10 @@ export const PutKeyPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutKeyPolicyResponse>;
 export interface ReEncryptRequest {
   CiphertextBlob: Uint8Array;
-  SourceEncryptionContext?: { [key: string]: string };
+  SourceEncryptionContext?: { [key: string]: string | undefined };
   SourceKeyId?: string;
   DestinationKeyId: string;
-  DestinationEncryptionContext?: { [key: string]: string };
+  DestinationEncryptionContext?: { [key: string]: string | undefined };
   SourceEncryptionAlgorithm?: EncryptionAlgorithmSpec;
   DestinationEncryptionAlgorithm?: EncryptionAlgorithmSpec;
   GrantTokens?: string[];
@@ -1710,8 +1710,8 @@ export const VerifyMacRequest = S.suspend(() =>
   identifier: "VerifyMacRequest",
 }) as any as S.Schema<VerifyMacRequest>;
 export interface GrantConstraints {
-  EncryptionContextSubset?: { [key: string]: string };
-  EncryptionContextEquals?: { [key: string]: string };
+  EncryptionContextSubset?: { [key: string]: string | undefined };
+  EncryptionContextEquals?: { [key: string]: string | undefined };
 }
 export const GrantConstraints = S.suspend(() =>
   S.Struct({
@@ -1874,7 +1874,7 @@ export const CreateKeyRequest = S.suspend(() =>
 }) as any as S.Schema<CreateKeyRequest>;
 export interface DecryptRequest {
   CiphertextBlob: Uint8Array;
-  EncryptionContext?: { [key: string]: string };
+  EncryptionContext?: { [key: string]: string | undefined };
   GrantTokens?: string[];
   KeyId?: string;
   EncryptionAlgorithm?: EncryptionAlgorithmSpec;

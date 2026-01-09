@@ -649,8 +649,11 @@ export const AutoshiftSummary = S.suspend(() =>
 }) as any as S.Schema<AutoshiftSummary>;
 export type AutoshiftSummaries = AutoshiftSummary[];
 export const AutoshiftSummaries = S.Array(AutoshiftSummary);
-export type AppliedWeights = { [key: string]: number };
-export const AppliedWeights = S.Record({ key: S.String, value: S.Number });
+export type AppliedWeights = { [key: string]: number | undefined };
+export const AppliedWeights = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface ZonalShiftInResource {
   appliedStatus: AppliedStatus;
   zonalShiftId: string;
@@ -699,7 +702,7 @@ export interface ManagedResourceSummary {
   arn?: string;
   name?: string;
   availabilityZones: string[];
-  appliedWeights?: { [key: string]: number };
+  appliedWeights?: { [key: string]: number | undefined };
   zonalShifts?: ZonalShiftInResource[];
   autoshifts?: AutoshiftInResource[];
   zonalAutoshiftStatus?: ZonalAutoshiftStatus;
@@ -791,7 +794,7 @@ export const ListAutoshiftsResponse = S.suspend(() =>
 export interface GetManagedResourceResponse {
   arn?: string;
   name?: string;
-  appliedWeights: { [key: string]: number };
+  appliedWeights: { [key: string]: number | undefined };
   zonalShifts: ZonalShiftInResource[];
   autoshifts?: AutoshiftInResource[];
   practiceRunConfiguration?: PracticeRunConfiguration;

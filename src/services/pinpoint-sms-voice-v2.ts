@@ -1017,8 +1017,11 @@ export const RequestSenderIdRequest = S.suspend(() =>
 ).annotations({
   identifier: "RequestSenderIdRequest",
 }) as any as S.Schema<RequestSenderIdRequest>;
-export type ContextMap = { [key: string]: string };
-export const ContextMap = S.Record({ key: S.String, value: S.String });
+export type ContextMap = { [key: string]: string | undefined };
+export const ContextMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SendMediaMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
@@ -1027,7 +1030,7 @@ export interface SendMediaMessageRequest {
   ConfigurationSetName?: string;
   MaxPrice?: string;
   TimeToLive?: number;
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -1051,10 +1054,12 @@ export const SendMediaMessageRequest = S.suspend(() =>
 ).annotations({
   identifier: "SendMediaMessageRequest",
 }) as any as S.Schema<SendMediaMessageRequest>;
-export type DestinationCountryParameters = { [key: string]: string };
+export type DestinationCountryParameters = {
+  [key: string]: string | undefined;
+};
 export const DestinationCountryParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface SendTextMessageRequest {
   DestinationPhoneNumber: string;
@@ -1065,8 +1070,8 @@ export interface SendTextMessageRequest {
   ConfigurationSetName?: string;
   MaxPrice?: string;
   TimeToLive?: number;
-  Context?: { [key: string]: string };
-  DestinationCountryParameters?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
+  DestinationCountryParameters?: { [key: string]: string | undefined };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -1101,7 +1106,7 @@ export interface SendVoiceMessageRequest {
   ConfigurationSetName?: string;
   MaxPricePerMinute?: string;
   TimeToLive?: number;
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   DryRun?: boolean;
   ProtectConfigurationId?: string;
   MessageFeedbackEnabled?: boolean;
@@ -2005,8 +2010,11 @@ export const DeleteProtectConfigurationRuleSetNumberOverrideResult = S.suspend(
 ).annotations({
   identifier: "DeleteProtectConfigurationRuleSetNumberOverrideResult",
 }) as any as S.Schema<DeleteProtectConfigurationRuleSetNumberOverrideResult>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DeleteRegistrationResult {
   RegistrationArn: string;
   RegistrationId: string;
@@ -2015,7 +2023,7 @@ export interface DeleteRegistrationResult {
   CurrentVersionNumber: number;
   ApprovedVersionNumber?: number;
   LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: { [key: string]: string };
+  AdditionalAttributes?: { [key: string]: string | undefined };
   CreatedTimestamp: Date;
 }
 export const DeleteRegistrationResult = S.suspend(() =>
@@ -2442,18 +2450,18 @@ export const ProtectConfigurationCountryRuleSetInformation = S.suspend(() =>
   identifier: "ProtectConfigurationCountryRuleSetInformation",
 }) as any as S.Schema<ProtectConfigurationCountryRuleSetInformation>;
 export type ProtectConfigurationCountryRuleSet = {
-  [key: string]: ProtectConfigurationCountryRuleSetInformation;
+  [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
 };
 export const ProtectConfigurationCountryRuleSet = S.Record({
   key: S.String,
-  value: ProtectConfigurationCountryRuleSetInformation,
+  value: S.UndefinedOr(ProtectConfigurationCountryRuleSetInformation),
 });
 export interface GetProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   NumberCapability: string;
   CountryRuleSet: {
-    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+    [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
   };
 }
 export const GetProtectConfigurationCountryRuleSetResult = S.suspend(() =>
@@ -2800,8 +2808,8 @@ export interface SendDestinationNumberVerificationCodeRequest {
   LanguageCode?: string;
   OriginationIdentity?: string;
   ConfigurationSetName?: string;
-  Context?: { [key: string]: string };
-  DestinationCountryParameters?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
+  DestinationCountryParameters?: { [key: string]: string | undefined };
 }
 export const SendDestinationNumberVerificationCodeRequest = S.suspend(() =>
   S.Struct({
@@ -3214,7 +3222,7 @@ export interface CreateRegistrationResult {
   RegistrationType: string;
   RegistrationStatus: string;
   CurrentVersionNumber: number;
-  AdditionalAttributes?: { [key: string]: string };
+  AdditionalAttributes?: { [key: string]: string | undefined };
   Tags?: Tag[];
   CreatedTimestamp: Date;
 }
@@ -3352,7 +3360,7 @@ export interface UpdateProtectConfigurationCountryRuleSetRequest {
   ProtectConfigurationId: string;
   NumberCapability: string;
   CountryRuleSetUpdates: {
-    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+    [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
   };
 }
 export const UpdateProtectConfigurationCountryRuleSetRequest = S.suspend(() =>
@@ -3600,7 +3608,7 @@ export interface RegistrationInformation {
   CurrentVersionNumber: number;
   ApprovedVersionNumber?: number;
   LatestDeniedVersionNumber?: number;
-  AdditionalAttributes?: { [key: string]: string };
+  AdditionalAttributes?: { [key: string]: string | undefined };
   CreatedTimestamp: Date;
 }
 export const RegistrationInformation = S.suspend(() =>
@@ -3971,7 +3979,7 @@ export interface UpdateProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationId: string;
   NumberCapability: string;
   CountryRuleSet: {
-    [key: string]: ProtectConfigurationCountryRuleSetInformation;
+    [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
   };
 }
 export const UpdateProtectConfigurationCountryRuleSetResult = S.suspend(() =>

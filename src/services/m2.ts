@@ -913,8 +913,11 @@ export const ListEnvironmentsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export type PortList = number[];
@@ -937,10 +940,10 @@ export const ApplicationVersionSummary = S.suspend(() =>
 }) as any as S.Schema<ApplicationVersionSummary>;
 export type ApplicationVersionSummaryList = ApplicationVersionSummary[];
 export const ApplicationVersionSummaryList = S.Array(ApplicationVersionSummary);
-export type BatchJobParametersMap = { [key: string]: string };
+export type BatchJobParametersMap = { [key: string]: string | undefined };
 export const BatchJobParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface HighAvailabilityConfig {
   desiredCapacity: number;
@@ -951,7 +954,7 @@ export const HighAvailabilityConfig = S.suspend(() =>
   identifier: "HighAvailabilityConfig",
 }) as any as S.Schema<HighAvailabilityConfig>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -960,7 +963,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -988,7 +991,7 @@ export interface CreateApplicationRequest {
   description?: string;
   engineType: string;
   definition: Definition;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
   kmsKeyId?: string;
   roleArn?: string;
@@ -1550,7 +1553,7 @@ export interface GetApplicationResponse {
   logGroups?: LogGroupSummary[];
   creationTime: Date;
   lastStartTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   environmentId?: string;
   targetGroupArns?: string[];
   listenerArns?: string[];
@@ -1737,7 +1740,7 @@ export interface CreateEnvironmentRequest {
   storageConfigurations?: StorageConfiguration[];
   publiclyAccessible?: boolean;
   highAvailabilityConfig?: HighAvailabilityConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   preferredMaintenanceWindow?: string;
   networkType?: string;
   clientToken?: string;
@@ -2014,7 +2017,7 @@ export const ListBatchJobDefinitionsResponse = S.suspend(() =>
 export interface StartBatchJobRequest {
   applicationId: string;
   batchJobIdentifier: BatchJobIdentifier;
-  jobParams?: { [key: string]: string };
+  jobParams?: { [key: string]: string | undefined };
   authSecretsManagerArn?: string;
 }
 export const StartBatchJobRequest = S.suspend(() =>
@@ -2061,7 +2064,7 @@ export interface GetEnvironmentResponse {
   securityGroupIds: string[];
   creationTime: Date;
   storageConfigurations?: StorageConfiguration[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   highAvailabilityConfig?: HighAvailabilityConfig;
   publiclyAccessible?: boolean;
   actualCapacity?: number;

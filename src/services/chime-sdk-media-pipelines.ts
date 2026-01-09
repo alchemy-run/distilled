@@ -1070,10 +1070,12 @@ export const SseAwsKeyManagementParams = S.suspend(() =>
 ).annotations({
   identifier: "SseAwsKeyManagementParams",
 }) as any as S.Schema<SseAwsKeyManagementParams>;
-export type MediaInsightsRuntimeMetadata = { [key: string]: string };
+export type MediaInsightsRuntimeMetadata = {
+  [key: string]: string | undefined;
+};
 export const MediaInsightsRuntimeMetadata = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface S3RecordingSinkRuntimeConfiguration {
   Destination: string | redacted.Redacted<string>;
@@ -2409,7 +2411,7 @@ export interface MediaInsightsPipeline {
   MediaInsightsPipelineConfigurationArn?: string | redacted.Redacted<string>;
   Status?: MediaPipelineStatus;
   KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: { [key: string]: string };
+  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined };
   KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
   S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
   CreatedTimestamp?: Date;
@@ -2458,7 +2460,7 @@ export const MediaPipeline = S.suspend(() =>
 export interface CreateMediaInsightsPipelineRequest {
   MediaInsightsPipelineConfigurationArn: string | redacted.Redacted<string>;
   KinesisVideoStreamSourceRuntimeConfiguration?: KinesisVideoStreamSourceRuntimeConfiguration;
-  MediaInsightsRuntimeMetadata?: { [key: string]: string };
+  MediaInsightsRuntimeMetadata?: { [key: string]: string | undefined };
   KinesisVideoStreamRecordingSourceRuntimeConfiguration?: KinesisVideoStreamRecordingSourceRuntimeConfiguration;
   S3RecordingSinkRuntimeConfiguration?: S3RecordingSinkRuntimeConfiguration;
   Tags?: Tag[];

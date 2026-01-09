@@ -1025,14 +1025,17 @@ export const AttributeFilter = S.suspend(() =>
 }) as any as S.Schema<AttributeFilter>;
 export type Order = "ASCENDING" | "DESCENDING";
 export const Order = S.Literal("ASCENDING", "DESCENDING");
-export type ValueImportanceMap = { [key: string]: number };
-export const ValueImportanceMap = S.Record({ key: S.String, value: S.Number });
+export type ValueImportanceMap = { [key: string]: number | undefined };
+export const ValueImportanceMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface Relevance {
   Freshness?: boolean;
   Importance?: number;
   Duration?: string;
   RankOrder?: Order;
-  ValueImportanceMap?: { [key: string]: number };
+  ValueImportanceMap?: { [key: string]: number | undefined };
 }
 export const Relevance = S.suspend(() =>
   S.Struct({

@@ -169,8 +169,8 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateAccessSourceInput {
   cidr: string;
   clientToken?: string;
@@ -178,7 +178,7 @@ export interface CreateAccessSourceInput {
   name?: string;
   dnsViewId: string;
   protocol: DnsProtocol;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAccessSourceInput = S.suspend(() =>
   S.Struct({
@@ -272,7 +272,7 @@ export interface CreateAccessTokenInput {
   dnsViewId: string;
   expiresAt?: Date;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAccessTokenInput = S.suspend(() =>
   S.Struct({
@@ -351,13 +351,16 @@ export const DeleteAccessTokenInput = S.suspend(() =>
 }) as any as S.Schema<DeleteAccessTokenInput>;
 export type Strings = string[];
 export const Strings = S.Array(S.String);
-export type Filters = { [key: string]: string[] };
-export const Filters = S.Record({ key: S.String, value: Strings });
+export type Filters = { [key: string]: string[] | undefined };
+export const Filters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Strings),
+});
 export interface ListAccessTokensInput {
   maxResults?: number;
   nextToken?: string;
   dnsViewId: string;
-  filters?: { [key: string]: string[] };
+  filters?: { [key: string]: string[] | undefined };
 }
 export const ListAccessTokensInput = S.suspend(() =>
   S.Struct({
@@ -386,7 +389,7 @@ export interface CreateDNSViewInput {
   ednsClientSubnet?: EdnsClientSubnetType;
   firewallRulesFailOpen?: FirewallRulesFailOpenType;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDNSViewInput = S.suspend(() =>
   S.Struct({
@@ -536,7 +539,7 @@ export interface CreateFirewallDomainListInput {
   globalResolverId: string;
   description?: string;
   name: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFirewallDomainListInput = S.suspend(() =>
   S.Struct({
@@ -836,7 +839,7 @@ export interface ListFirewallRulesInput {
   maxResults?: number;
   nextToken?: string;
   dnsViewId: string;
-  filters?: { [key: string]: string[] };
+  filters?: { [key: string]: string[] | undefined };
 }
 export const ListFirewallRulesInput = S.suspend(() =>
   S.Struct({
@@ -863,7 +866,7 @@ export interface CreateGlobalResolverInput {
   name: string;
   observabilityRegion?: string;
   regions: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateGlobalResolverInput = S.suspend(() =>
   S.Struct({
@@ -1279,7 +1282,7 @@ export const DisassociateHostedZoneOutput = S.suspend(() =>
   identifier: "DisassociateHostedZoneOutput",
 }) as any as S.Schema<DisassociateHostedZoneOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1288,7 +1291,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -1423,7 +1426,7 @@ export const DeleteAccessSourceOutput = S.suspend(() =>
 export interface ListAccessSourcesInput {
   maxResults?: number;
   nextToken?: string;
-  filters?: { [key: string]: string[] };
+  filters?: { [key: string]: string[] | undefined };
 }
 export const ListAccessSourcesInput = S.suspend(() =>
   S.Struct({

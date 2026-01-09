@@ -3433,8 +3433,11 @@ export const ResourceInventory = S.suspend(() =>
 }) as any as S.Schema<ResourceInventory>;
 export type ResourceInventoryList = ResourceInventory[];
 export const ResourceInventoryList = S.Array(ResourceInventory);
-export type RegionStatusMap = { [key: string]: RegionStatus };
-export const RegionStatusMap = S.Record({ key: S.String, value: RegionStatus });
+export type RegionStatusMap = { [key: string]: RegionStatus | undefined };
+export const RegionStatusMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(RegionStatus),
+});
 export interface CreateLicenseResponse {
   LicenseArn?: string;
   Status?: LicenseStatus;
@@ -3514,7 +3517,7 @@ export const ListResourceInventoryResponse = S.suspend(() =>
   identifier: "ListResourceInventoryResponse",
 }) as any as S.Schema<ListResourceInventoryResponse>;
 export interface CrossRegionDiscoveryStatus {
-  Message?: { [key: string]: RegionStatus };
+  Message?: { [key: string]: RegionStatus | undefined };
 }
 export const CrossRegionDiscoveryStatus = S.suspend(() =>
   S.Struct({ Message: S.optional(RegionStatusMap) }),

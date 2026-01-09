@@ -1488,8 +1488,11 @@ export const NodeToNodeEncryptionOptions = S.suspend(() =>
 ).annotations({
   identifier: "NodeToNodeEncryptionOptions",
 }) as any as S.Schema<NodeToNodeEncryptionOptions>;
-export type AdvancedOptions = { [key: string]: string };
-export const AdvancedOptions = S.Record({ key: S.String, value: S.String });
+export type AdvancedOptions = { [key: string]: string | undefined };
+export const AdvancedOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DomainEndpointOptions {
   EnforceHTTPS?: boolean;
   TLSSecurityPolicy?: TLSSecurityPolicy;
@@ -1522,8 +1525,11 @@ export const DomainInformation = S.suspend(() =>
 ).annotations({
   identifier: "DomainInformation",
 }) as any as S.Schema<DomainInformation>;
-export type EndpointsMap = { [key: string]: string };
-export const EndpointsMap = S.Record({ key: S.String, value: S.String });
+export type EndpointsMap = { [key: string]: string | undefined };
+export const EndpointsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ZoneAwarenessConfig {
   AvailabilityZoneCount?: number;
 }
@@ -1600,7 +1606,7 @@ export const LogPublishingOption = S.suspend(() =>
 }) as any as S.Schema<LogPublishingOption>;
 export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
 export const LogPublishingOptions = S.partial(
-  S.Record({ key: LogType, value: LogPublishingOption }),
+  S.Record({ key: LogType, value: S.UndefinedOr(LogPublishingOption) }),
 );
 export type DeploymentStatus =
   | "PENDING_UPDATE"
@@ -1806,7 +1812,7 @@ export interface ElasticsearchDomainStatus {
   Created?: boolean;
   Deleted?: boolean;
   Endpoint?: string;
-  Endpoints?: { [key: string]: string };
+  Endpoints?: { [key: string]: string | undefined };
   Processing?: boolean;
   UpgradeProcessing?: boolean;
   ElasticsearchVersion?: string;
@@ -1818,8 +1824,8 @@ export interface ElasticsearchDomainStatus {
   CognitoOptions?: CognitoOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  AdvancedOptions?: { [key: string]: string | undefined };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   ServiceSoftwareOptions?: ServiceSoftwareOptions;
   DomainEndpointOptions?: DomainEndpointOptions;
   AdvancedSecurityOptions?: AdvancedSecurityOptions;
@@ -2538,9 +2544,9 @@ export interface UpdateElasticsearchDomainConfigRequest {
   SnapshotOptions?: SnapshotOptions;
   VPCOptions?: VPCOptions;
   CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string };
+  AdvancedOptions?: { [key: string]: string | undefined };
   AccessPolicies?: string;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   DomainEndpointOptions?: DomainEndpointOptions;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
@@ -3102,7 +3108,7 @@ export const NodeToNodeEncryptionOptionsStatus = S.suspend(() =>
   identifier: "NodeToNodeEncryptionOptionsStatus",
 }) as any as S.Schema<NodeToNodeEncryptionOptionsStatus>;
 export interface AdvancedOptionsStatus {
-  Options: { [key: string]: string };
+  Options: { [key: string]: string | undefined };
   Status: OptionStatus;
 }
 export const AdvancedOptionsStatus = S.suspend(() =>
@@ -3111,7 +3117,7 @@ export const AdvancedOptionsStatus = S.suspend(() =>
   identifier: "AdvancedOptionsStatus",
 }) as any as S.Schema<AdvancedOptionsStatus>;
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption };
+  Options?: { [key: string]: LogPublishingOption | undefined };
   Status?: OptionStatus;
 }
 export const LogPublishingOptionsStatus = S.suspend(() =>
@@ -3353,8 +3359,8 @@ export interface CreateElasticsearchDomainRequest {
   CognitoOptions?: CognitoOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  AdvancedOptions?: { [key: string]: string | undefined };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   DomainEndpointOptions?: DomainEndpointOptions;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
   AutoTuneOptions?: AutoTuneOptionsInput;
@@ -3639,10 +3645,13 @@ export const Limits = S.suspend(() =>
     AdditionalLimits: S.optional(AdditionalLimitList),
   }),
 ).annotations({ identifier: "Limits" }) as any as S.Schema<Limits>;
-export type LimitsByRole = { [key: string]: Limits };
-export const LimitsByRole = S.Record({ key: S.String, value: Limits });
+export type LimitsByRole = { [key: string]: Limits | undefined };
+export const LimitsByRole = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Limits),
+});
 export interface DescribeElasticsearchInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits };
+  LimitsByRole?: { [key: string]: Limits | undefined };
 }
 export const DescribeElasticsearchInstanceTypeLimitsResponse = S.suspend(() =>
   S.Struct({ LimitsByRole: S.optional(LimitsByRole) }).pipe(ns),

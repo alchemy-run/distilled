@@ -378,14 +378,17 @@ export const BatchDisassociateResourcesFromCustomLineItemInput = S.suspend(() =>
 ).annotations({
   identifier: "BatchDisassociateResourcesFromCustomLineItemInput",
 }) as any as S.Schema<BatchDisassociateResourcesFromCustomLineItemInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreatePricingPlanInput {
   ClientToken?: string;
   Name: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
   PricingRuleArns?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePricingPlanInput = S.suspend(() =>
   S.Struct({
@@ -800,7 +803,7 @@ export const ListBillingGroupCostReportsInput = S.suspend(() =>
   identifier: "ListBillingGroupCostReportsInput",
 }) as any as S.Schema<ListBillingGroupCostReportsInput>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -809,7 +812,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -839,7 +842,7 @@ export interface CreateBillingGroupInput {
   ComputationPreference: ComputationPreference;
   PrimaryAccountId?: string;
   Description?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateBillingGroupInput = S.suspend(() =>
   S.Struct({
@@ -1418,7 +1421,7 @@ export interface CreateCustomLineItemInput {
   Description: string | redacted.Redacted<string>;
   BillingGroupArn: string;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ChargeDetails: CustomLineItemChargeDetails;
   AccountId?: string;
   ComputationRule?: ComputationRuleEnum;
@@ -1529,7 +1532,7 @@ export interface CreatePricingRuleInput {
   Type: PricingRuleType;
   ModifierPercentage?: number;
   Service?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   BillingEntity?: string;
   Tiering?: CreateTieringInput;
   UsageType?: string;

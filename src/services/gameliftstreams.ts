@@ -553,14 +553,14 @@ export const LocationConfiguration = S.suspend(() =>
 }) as any as S.Schema<LocationConfiguration>;
 export type LocationConfigurations = LocationConfiguration[];
 export const LocationConfigurations = S.Array(LocationConfiguration);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateStreamGroupInput {
   Description: string;
   StreamClass: StreamClass;
   DefaultApplicationIdentifier?: string;
   LocationConfigurations?: LocationConfiguration[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateStreamGroupInput = S.suspend(() =>
@@ -697,10 +697,10 @@ export const StreamSessionStatusReason = S.Literal(
   "idleTimeout",
   "apiTerminated",
 );
-export type EnvironmentVariables = { [key: string]: string };
+export type EnvironmentVariables = { [key: string]: string | undefined };
 export const EnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PerformanceStatsConfiguration {
   SharedWithClient?: boolean;
@@ -863,7 +863,7 @@ export const ListStreamSessionsByAccountOutput = S.suspend(() =>
   identifier: "ListStreamSessionsByAccountOutput",
 }) as any as S.Schema<ListStreamSessionsByAccountOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -882,7 +882,7 @@ export interface StartStreamSessionInput {
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
   AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string };
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
 }
 export const StartStreamSessionInput = S.suspend(() =>
@@ -918,7 +918,7 @@ export const StartStreamSessionInput = S.suspend(() =>
 }) as any as S.Schema<StartStreamSessionInput>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -948,7 +948,7 @@ export interface CreateApplicationInput {
   ApplicationSourceUri: string;
   ApplicationLogPaths?: string[];
   ApplicationLogOutputUri?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateApplicationInput = S.suspend(() =>
@@ -1213,7 +1213,7 @@ export interface GetStreamSessionOutput {
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
   AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string };
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
   LogFileLocationUri?: string;
   WebSdkProtocolUrl?: string;
@@ -1275,7 +1275,7 @@ export interface StartStreamSessionOutput {
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
   AdditionalLaunchArgs?: string[];
-  AdditionalEnvironmentVariables?: { [key: string]: string };
+  AdditionalEnvironmentVariables?: { [key: string]: string | undefined };
   PerformanceStatsConfiguration?: PerformanceStatsConfiguration;
   LogFileLocationUri?: string;
   WebSdkProtocolUrl?: string;

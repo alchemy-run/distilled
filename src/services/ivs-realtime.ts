@@ -459,12 +459,12 @@ export const GetStorageConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetStorageConfigurationRequest",
 }) as any as S.Schema<GetStorageConfigurationRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface ImportPublicKeyRequest {
   publicKeyMaterial: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ImportPublicKeyRequest = S.suspend(() =>
   S.Struct({
@@ -743,17 +743,17 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type ParticipantAttributes = { [key: string]: string };
+export type ParticipantAttributes = { [key: string]: string | undefined };
 export const ParticipantAttributes = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface StartParticipantReplicationRequest {
   sourceStageArn: string;
   destinationStageArn: string;
   participantId: string;
   reconnectWindowSeconds?: number;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const StartParticipantReplicationRequest = S.suspend(() =>
   S.Struct({
@@ -823,7 +823,7 @@ export const StopParticipantReplicationRequest = S.suspend(() =>
 }) as any as S.Schema<StopParticipantReplicationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -989,15 +989,15 @@ export const Video = S.suspend(() =>
     bitrate: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Video" }) as any as S.Schema<Video>;
-export type ParticipantTokenAttributes = { [key: string]: string };
+export type ParticipantTokenAttributes = { [key: string]: string | undefined };
 export const ParticipantTokenAttributes = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ParticipantTokenConfiguration {
   duration?: number;
   userId?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
 export const ParticipantTokenConfiguration = S.suspend(() =>
@@ -1049,7 +1049,7 @@ export const EncoderConfigurationArnList = S.Array(S.String);
 export interface CreateEncoderConfigurationRequest {
   name?: string;
   video?: Video;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateEncoderConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1073,10 +1073,10 @@ export interface CreateIngestConfigurationRequest {
   name?: string;
   stageArn?: string;
   userId?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   ingestProtocol: IngestProtocol;
   insecureIngest?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateIngestConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1104,7 +1104,7 @@ export interface CreateParticipantTokenRequest {
   stageArn: string;
   duration?: number;
   userId?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
 export const CreateParticipantTokenRequest = S.suspend(() =>
@@ -1130,7 +1130,7 @@ export const CreateParticipantTokenRequest = S.suspend(() =>
 export interface CreateStorageConfigurationRequest {
   name?: string;
   s3: S3StorageConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateStorageConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1155,7 +1155,7 @@ export interface PublicKey {
   name?: string;
   publicKeyMaterial?: string;
   fingerprint?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PublicKey = S.suspend(() =>
   S.Struct({
@@ -1175,7 +1175,7 @@ export const ImportPublicKeyResponse = S.suspend(() =>
   identifier: "ImportPublicKeyResponse",
 }) as any as S.Schema<ImportPublicKeyResponse>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1255,8 +1255,8 @@ export interface IngestConfiguration {
   participantId: string;
   state: string;
   userId?: string;
-  attributes?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const IngestConfiguration = S.suspend(() =>
   S.Struct({
@@ -1302,7 +1302,7 @@ export interface Stage {
   arn: string;
   name?: string;
   activeSessionId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
   endpoints?: StageEndpoints;
 }
@@ -1430,7 +1430,7 @@ export interface EncoderConfiguration {
   arn: string;
   name?: string;
   video?: Video;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const EncoderConfiguration = S.suspend(() =>
   S.Struct({
@@ -1447,7 +1447,7 @@ export interface Participant {
   userId?: string;
   state?: string;
   firstJoinTime?: Date;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   published?: boolean;
   ispName?: string;
   osName?: string;
@@ -1504,7 +1504,7 @@ export interface StorageConfiguration {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StorageConfiguration = S.suspend(() =>
   S.Struct({
@@ -1519,7 +1519,7 @@ export const StorageConfiguration = S.suspend(() =>
 export interface EncoderConfigurationSummary {
   arn: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const EncoderConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1613,7 +1613,7 @@ export const ParticipantList = S.Array(ParticipantSummary);
 export interface PublicKeySummary {
   arn?: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PublicKeySummary = S.suspend(() =>
   S.Struct({
@@ -1630,7 +1630,7 @@ export interface StageSummary {
   arn: string;
   name?: string;
   activeSessionId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StageSummary = S.suspend(() =>
   S.Struct({
@@ -1662,7 +1662,7 @@ export interface StorageConfigurationSummary {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StorageConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1726,7 +1726,7 @@ export const CreateIngestConfigurationResponse = S.suspend(() =>
 export interface CreateStageRequest {
   name?: string;
   participantTokenConfigurations?: ParticipantTokenConfiguration[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
 export const CreateStageRequest = S.suspend(() =>
@@ -1913,7 +1913,7 @@ export type DestinationSummaryList = DestinationSummary[];
 export const DestinationSummaryList = S.Array(DestinationSummary);
 export interface ExchangedParticipantToken {
   capabilities?: string[];
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   userId?: string;
   expirationTime?: Date;
 }
@@ -1939,7 +1939,7 @@ export interface ParticipantToken {
   participantId?: string;
   token?: string | redacted.Redacted<string>;
   userId?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   duration?: number;
   capabilities?: string[];
   expirationTime?: Date;
@@ -1964,7 +1964,7 @@ export interface CompositionSummary {
   stageArn: string;
   destinations: DestinationSummary[];
   state: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   startTime?: Date;
   endTime?: Date;
 }
@@ -2123,7 +2123,7 @@ export interface StartCompositionRequest {
   idempotencyToken?: string;
   layout?: LayoutConfiguration;
   destinations: DestinationConfiguration[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartCompositionRequest = S.suspend(() =>
   S.Struct({
@@ -2171,7 +2171,7 @@ export interface Composition {
   state: string;
   layout: LayoutConfiguration;
   destinations: Destination[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   startTime?: Date;
   endTime?: Date;
 }

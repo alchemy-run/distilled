@@ -244,11 +244,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -744,7 +747,7 @@ export const UpdateLifecyclePolicyResponse = S.suspend(() =>
   identifier: "UpdateLifecyclePolicyResponse",
 }) as any as S.Schema<UpdateLifecyclePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -755,7 +758,7 @@ export interface LifecyclePolicySummary {
   PolicyId?: string;
   Description?: string;
   State?: GettablePolicyStateValues;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   PolicyType?: PolicyTypeValues;
   DefaultPolicy?: boolean;
 }
@@ -782,7 +785,7 @@ export interface LifecyclePolicy {
   DateCreated?: Date;
   DateModified?: Date;
   PolicyDetails?: PolicyDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   PolicyArn?: string;
   DefaultPolicy?: boolean;
 }
@@ -872,7 +875,7 @@ export interface CreateLifecyclePolicyRequest {
   Description?: string;
   State?: SettablePolicyStateValues;
   PolicyDetails?: PolicyDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   DefaultPolicy?: DefaultPolicyTypeValues;
   CreateInterval?: number;
   RetainInterval?: number;

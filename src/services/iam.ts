@@ -4857,7 +4857,7 @@ export const PasswordPolicy = S.suspend(() =>
 }) as any as S.Schema<PasswordPolicy>;
 export type SummaryMapType = { [key in SummaryKeyType]?: number };
 export const SummaryMapType = S.partial(
-  S.Record({ key: SummaryKeyType, value: S.Number }),
+  S.Record({ key: SummaryKeyType, value: S.UndefinedOr(S.Number) }),
 );
 export type ContextKeyNamesResultListType = string[];
 export const ContextKeyNamesResultListType = S.Array(S.String);
@@ -5315,7 +5315,7 @@ export const GetAccountPasswordPolicyResponse = S.suspend(() =>
   identifier: "GetAccountPasswordPolicyResponse",
 }) as any as S.Schema<GetAccountPasswordPolicyResponse>;
 export interface GetAccountSummaryResponse {
-  SummaryMap?: { [key: string]: number };
+  SummaryMap?: { [key: string]: number | undefined };
 }
 export const GetAccountSummaryResponse = S.suspend(() =>
   S.Struct({ SummaryMap: S.optional(SummaryMapType) }).pipe(ns),
@@ -6161,10 +6161,10 @@ export const ManagedPolicyDetail = S.suspend(() =>
 }) as any as S.Schema<ManagedPolicyDetail>;
 export type ManagedPolicyDetailListType = ManagedPolicyDetail[];
 export const ManagedPolicyDetailListType = S.Array(ManagedPolicyDetail);
-export type CertificationMapType = { [key: string]: string };
+export type CertificationMapType = { [key: string]: string | undefined };
 export const CertificationMapType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AccessDetail {
   ServiceName: string;
@@ -6508,7 +6508,7 @@ export interface GetMFADeviceResponse {
   UserName?: string;
   SerialNumber: string;
   EnableDate?: Date;
-  Certifications?: { [key: string]: string };
+  Certifications?: { [key: string]: string | undefined };
 }
 export const GetMFADeviceResponse = S.suspend(() =>
   S.Struct({
@@ -6787,11 +6787,11 @@ export const PermissionsBoundaryDecisionDetail = S.suspend(() =>
   identifier: "PermissionsBoundaryDecisionDetail",
 }) as any as S.Schema<PermissionsBoundaryDecisionDetail>;
 export type EvalDecisionDetailsType = {
-  [key: string]: PolicyEvaluationDecisionType;
+  [key: string]: PolicyEvaluationDecisionType | undefined;
 };
 export const EvalDecisionDetailsType = S.Record({
   key: S.String,
-  value: PolicyEvaluationDecisionType,
+  value: S.UndefinedOr(PolicyEvaluationDecisionType),
 });
 export interface Position {
   Line?: number;
@@ -6821,7 +6821,9 @@ export interface ResourceSpecificResult {
   EvalResourceDecision: PolicyEvaluationDecisionType;
   MatchedStatements?: Statement[];
   MissingContextValues?: string[];
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType };
+  EvalDecisionDetails?: {
+    [key: string]: PolicyEvaluationDecisionType | undefined;
+  };
   PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
 }
 export const ResourceSpecificResult = S.suspend(() =>
@@ -7056,7 +7058,9 @@ export interface EvaluationResult {
   MissingContextValues?: string[];
   OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
   PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType };
+  EvalDecisionDetails?: {
+    [key: string]: PolicyEvaluationDecisionType | undefined;
+  };
   ResourceSpecificResults?: ResourceSpecificResult[];
 }
 export const EvaluationResult = S.suspend(() =>

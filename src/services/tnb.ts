@@ -145,13 +145,16 @@ export const CancelSolNetworkOperationResponse = S.suspend(() =>
 ).annotations({
   identifier: "CancelSolNetworkOperationResponse",
 }) as any as S.Schema<CancelSolNetworkOperationResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateSolNetworkInstanceInput {
   nsdInfoId: string;
   nsName: string;
   nsDescription?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -173,7 +176,7 @@ export const CreateSolNetworkInstanceInput = S.suspend(() =>
   identifier: "CreateSolNetworkInstanceInput",
 }) as any as S.Schema<CreateSolNetworkInstanceInput>;
 export interface CreateSolNetworkPackageInput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolNetworkPackageInput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(
@@ -457,7 +460,7 @@ export interface InstantiateSolNetworkInstanceInput {
   nsInstanceId: string;
   dryRun?: boolean;
   additionalParamsForNs?: any;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const InstantiateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -663,7 +666,7 @@ export const PutSolNetworkPackageContentInput = S.suspend(() =>
 }) as any as S.Schema<PutSolNetworkPackageContentInput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -688,7 +691,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface TerminateSolNetworkInstanceInput {
   nsInstanceId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TerminateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -913,7 +916,7 @@ export const UpdateSolNetworkServiceData = S.suspend(() =>
   identifier: "UpdateSolNetworkServiceData",
 }) as any as S.Schema<UpdateSolNetworkServiceData>;
 export interface CreateSolFunctionPackageInput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolFunctionPackageInput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(
@@ -934,7 +937,7 @@ export interface CreateSolNetworkInstanceOutput {
   arn: string;
   nsdInfoId: string;
   nsInstanceName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -953,7 +956,7 @@ export interface CreateSolNetworkPackageOutput {
   nsdOnboardingState: NsdOnboardingState;
   nsdOperationalState: NsdOperationalState;
   nsdUsageState: NsdUsageState;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolNetworkPackageOutput = S.suspend(() =>
   S.Struct({
@@ -1025,7 +1028,7 @@ export const GetSolNetworkPackageDescriptorOutput = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkPackageDescriptorOutput>;
 export interface InstantiateSolNetworkInstanceOutput {
   nsLcmOpOccId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const InstantiateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.String, tags: S.optional(TagMap) }),
@@ -1033,7 +1036,7 @@ export const InstantiateSolNetworkInstanceOutput = S.suspend(() =>
   identifier: "InstantiateSolNetworkInstanceOutput",
 }) as any as S.Schema<InstantiateSolNetworkInstanceOutput>;
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1042,7 +1045,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TerminateSolNetworkInstanceOutput {
   nsLcmOpOccId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TerminateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
@@ -1062,7 +1065,7 @@ export interface UpdateSolNetworkInstanceInput {
   updateType: UpdateSolNetworkType;
   modifyVnfInfoData?: UpdateSolNetworkModify;
   updateNs?: UpdateSolNetworkServiceData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
@@ -1220,7 +1223,7 @@ export interface CreateSolFunctionPackageOutput {
   onboardingState: OnboardingState;
   operationalState: OperationalState;
   usageState: UsageState;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSolFunctionPackageOutput = S.suspend(() =>
   S.Struct({
@@ -1244,7 +1247,7 @@ export interface GetSolNetworkInstanceOutput {
   nsState?: NsState;
   lcmOpInfo?: LcmOperationInfo;
   metadata: GetSolNetworkInstanceMetadata;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -1306,7 +1309,7 @@ export const PutSolNetworkPackageContentOutput = S.suspend(() =>
 }) as any as S.Schema<PutSolNetworkPackageContentOutput>;
 export interface UpdateSolNetworkInstanceOutput {
   nsLcmOpOccId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateSolNetworkInstanceOutput = S.suspend(() =>
   S.Struct({ nsLcmOpOccId: S.optional(S.String), tags: S.optional(TagMap) }),
@@ -1382,8 +1385,11 @@ export const InstantiateMetadata = S.suspend(() =>
 ).annotations({
   identifier: "InstantiateMetadata",
 }) as any as S.Schema<InstantiateMetadata>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ErrorInfo {
   cause?: string;
   details?: string;
@@ -1483,7 +1489,7 @@ export const GetSolNetworkOperationMetadata = S.suspend(() =>
 }) as any as S.Schema<GetSolNetworkOperationMetadata>;
 export interface GetSolNetworkOperationTaskDetails {
   taskName?: string;
-  taskContext?: { [key: string]: string };
+  taskContext?: { [key: string]: string | undefined };
   taskErrorDetails?: ErrorInfo;
   taskStatus?: TaskStatus;
   taskStartTime?: Date;
@@ -1696,7 +1702,7 @@ export interface GetSolNetworkOperationOutput {
   error?: ProblemDetails;
   metadata?: GetSolNetworkOperationMetadata;
   tasks?: GetSolNetworkOperationTaskDetails[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSolNetworkOperationOutput = S.suspend(() =>
   S.Struct({
@@ -1725,7 +1731,7 @@ export interface GetSolNetworkPackageOutput {
   nsdVersion: string;
   vnfPkgIds: string[];
   metadata: GetSolNetworkPackageMetadata;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSolNetworkPackageOutput = S.suspend(() =>
   S.Struct({
@@ -1852,7 +1858,7 @@ export interface GetSolFunctionInstanceOutput {
   instantiationState: VnfInstantiationState;
   instantiatedVnfInfo?: GetSolVnfInfo;
   metadata: GetSolFunctionInstanceMetadata;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSolFunctionInstanceOutput = S.suspend(() =>
   S.Struct({
@@ -1883,7 +1889,7 @@ export interface GetSolFunctionPackageOutput {
   vnfProductName?: string;
   vnfdVersion?: string;
   metadata?: GetSolFunctionPackageMetadata;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSolFunctionPackageOutput = S.suspend(() =>
   S.Struct({

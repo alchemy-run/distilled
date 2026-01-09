@@ -285,7 +285,8 @@ function serializeValue(
   // Handle maps
   if (isMapAST(ast)) {
     const mapValue = value as Record<string, unknown>;
-    const entries = Object.entries(mapValue);
+    // Filter out undefined values (allowed in schema for user convenience, dropped on wire)
+    const entries = Object.entries(mapValue).filter(([, v]) => v !== undefined);
     if (entries.length === 0) return;
 
     const { keyAST, valueAST } = getMapKeyValueAST(ast) ?? {};

@@ -379,6 +379,28 @@ test(
   ),
 );
 
+test(
+  "sendMessage drops undefined values in MessageAttributes map",
+  withQueue("itty-sqs-undefined-attrs", (queueUrl) =>
+    Effect.gen(function* () {
+      // Send message with undefined attribute - should not fail
+      const result = yield* sendMessage({
+        QueueUrl: queueUrl,
+        MessageBody: "test message",
+        MessageAttributes: {
+          Present: {
+            DataType: "String",
+            StringValue: "value",
+          },
+          Absent: undefined,
+        },
+      }).pipe(Effect.retry(retryQueueNotExist));
+
+      expect(result.MessageId).toBeDefined();
+    }),
+  ),
+);
+
 // ============================================================================
 // Visibility Timeout Tests
 // ============================================================================

@@ -186,11 +186,14 @@ export type DeviceIdList = string[];
 export const DeviceIdList = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreatePackageRequest {
   PackageName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePackageRequest = S.suspend(() =>
   S.Struct({ PackageName: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -772,7 +775,7 @@ export const RemoveApplicationInstanceResponse = S.suspend(() =>
 }) as any as S.Schema<RemoveApplicationInstanceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -848,15 +851,15 @@ export const ManifestOverridesPayload = S.Union(
   S.Struct({ PayloadData: S.String }),
 );
 export type TemplateParametersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const TemplateParametersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface JobResourceTags {
   ResourceType: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const JobResourceTags = S.suspend(() =>
   S.Struct({ ResourceType: S.String, Tags: TagMap }),
@@ -886,7 +889,7 @@ export interface CreateApplicationInstanceRequest {
   ApplicationInstanceIdToReplace?: string;
   RuntimeRoleArn?: string;
   DefaultRuntimeContextDevice: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -917,7 +920,9 @@ export interface CreateNodeFromTemplateJobRequest {
   OutputPackageVersion: string;
   NodeName: string;
   NodeDescription?: string;
-  TemplateParameters: { [key: string]: string | redacted.Redacted<string> };
+  TemplateParameters: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   JobTags?: JobResourceTags[];
 }
 export const CreateNodeFromTemplateJobRequest = S.suspend(() =>
@@ -1011,7 +1016,9 @@ export interface DescribeNodeFromTemplateJobResponse {
   NodeName: string;
   NodeDescription?: string;
   TemplateType: string;
-  TemplateParameters: { [key: string]: string | redacted.Redacted<string> };
+  TemplateParameters: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   JobTags?: JobResourceTags[];
 }
 export const DescribeNodeFromTemplateJobResponse = S.suspend(() =>
@@ -1058,7 +1065,7 @@ export interface DescribePackageResponse {
   ReadAccessPrincipalArns?: string[];
   WriteAccessPrincipalArns?: string[];
   CreatedTime: Date;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const DescribePackageResponse = S.suspend(() =>
   S.Struct({
@@ -1103,7 +1110,7 @@ export const DescribePackageVersionResponse = S.suspend(() =>
   identifier: "DescribePackageVersionResponse",
 }) as any as S.Schema<DescribePackageVersionResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1285,7 +1292,7 @@ export interface ApplicationInstance {
   StatusDescription?: string;
   CreatedTime?: Date;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RuntimeContextStates?: ReportedRuntimeContextState[];
 }
 export const ApplicationInstance = S.suspend(() =>
@@ -1318,7 +1325,7 @@ export interface Device {
   Brand?: string;
   CurrentSoftware?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: string;
   LatestDeviceJob?: LatestDeviceJob;
   DeviceAggregatedStatus?: string;
@@ -1445,7 +1452,7 @@ export interface PackageListItem {
   PackageName?: string;
   Arn?: string;
   CreatedTime?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PackageListItem = S.suspend(() =>
   S.Struct({
@@ -1555,7 +1562,7 @@ export interface DescribeApplicationInstanceResponse {
   LastUpdatedTime?: Date;
   ApplicationInstanceId?: string;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RuntimeContextStates?: ReportedRuntimeContextState[];
 }
 export const DescribeApplicationInstanceResponse = S.suspend(() =>
@@ -1902,7 +1909,7 @@ export interface DescribeDeviceResponse {
   LatestSoftware?: string;
   CurrentSoftware?: string;
   SerialNumber?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NetworkingConfiguration?: NetworkPayload;
   CurrentNetworkingStatus?: NetworkStatus;
   LeaseExpirationTime?: Date;
@@ -2009,7 +2016,7 @@ export const DescribePackageImportJobResponse = S.suspend(() =>
 export interface ProvisionDeviceRequest {
   Name: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NetworkingConfiguration?: NetworkPayload;
 }
 export const ProvisionDeviceRequest = S.suspend(() =>

@@ -238,8 +238,11 @@ export const SetGatewayBridgeSourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "SetGatewayBridgeSourceRequest",
 }) as any as S.Schema<SetGatewayBridgeSourceRequest>;
-export type __mapOfString = { [key: string]: string };
-export const __mapOfString = S.Record({ key: S.String, value: S.String });
+export type __mapOfString = { [key: string]: string | undefined };
+export const __mapOfString = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type State = "ENABLED" | "DISABLED";
 export const State = S.Literal("ENABLED", "DISABLED");
 export type FlowTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC";
@@ -319,7 +322,7 @@ export interface SetSourceRequest {
   VpcInterfaceName?: string;
   WhitelistCidr?: string;
   GatewayBridgeSource?: SetGatewayBridgeSourceRequest;
-  SourceTags?: { [key: string]: string };
+  SourceTags?: { [key: string]: string | undefined };
   RouterIntegrationState?: State;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption;
 }
@@ -452,7 +455,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -947,7 +950,7 @@ export interface AddMediaStreamRequest {
   MediaStreamName?: string;
   MediaStreamType?: MediaStreamType;
   VideoFormat?: string;
-  MediaStreamTags?: { [key: string]: string };
+  MediaStreamTags?: { [key: string]: string | undefined };
 }
 export const AddMediaStreamRequest = S.suspend(() =>
   S.Struct({
@@ -1077,7 +1080,7 @@ export interface AddOutputRequest {
   OutputStatus?: OutputStatus;
   NdiSpeedHqQuality?: number;
   NdiProgramName?: string;
-  OutputTags?: { [key: string]: string };
+  OutputTags?: { [key: string]: string | undefined };
   RouterIntegrationState?: State;
   RouterIntegrationTransitEncryption?: FlowTransitEncryption;
 }
@@ -1174,7 +1177,7 @@ export interface VpcInterfaceRequest {
   RoleArn?: string;
   SecurityGroupIds?: string[];
   SubnetId?: string;
-  VpcInterfaceTags?: { [key: string]: string };
+  VpcInterfaceTags?: { [key: string]: string | undefined };
 }
 export const VpcInterfaceRequest = S.suspend(() =>
   S.Struct({
@@ -1260,7 +1263,7 @@ export interface GrantEntitlementRequest {
   EntitlementStatus?: EntitlementStatus;
   Name?: string;
   Subscribers?: string[];
-  EntitlementTags?: { [key: string]: string };
+  EntitlementTags?: { [key: string]: string | undefined };
 }
 export const GrantEntitlementRequest = S.suspend(() =>
   S.Struct({
@@ -3506,7 +3509,7 @@ export interface RouterInput {
   UpdatedAt: Date;
   Messages: RouterInputMessage[];
   TransitEncryption: RouterInputTransitEncryption;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
   StreamDetails: RouterInputStreamDetails;
   IpAddress?: string;
   MaintenanceType: MaintenanceType;
@@ -3614,7 +3617,7 @@ export interface RouterNetworkInterface {
   RegionName: string;
   CreatedAt: Date;
   UpdatedAt: Date;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const RouterNetworkInterface = S.suspend(() =>
   S.Struct({
@@ -3829,7 +3832,7 @@ export interface RouterOutput {
   CreatedAt: Date;
   UpdatedAt: Date;
   Messages: RouterOutputMessage[];
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
   StreamDetails: RouterOutputStreamDetails;
   IpAddress?: string;
   RoutedInputArn?: string;
@@ -3878,7 +3881,7 @@ export const RouterOutput = S.suspend(() =>
 export type RouterOutputList = RouterOutput[];
 export const RouterOutputList = S.Array(RouterOutput);
 export interface ListTagsForGlobalResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForGlobalResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOfString).pipe(T.JsonName("tags")) }),
@@ -3886,7 +3889,7 @@ export const ListTagsForGlobalResourceResponse = S.suspend(() =>
   identifier: "ListTagsForGlobalResourceResponse",
 }) as any as S.Schema<ListTagsForGlobalResourceResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOfString).pipe(T.JsonName("tags")) }),
@@ -3895,7 +3898,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagGlobalResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagGlobalResourceRequest = S.suspend(() =>
   S.Struct({
@@ -6817,7 +6820,7 @@ export interface CreateFlowRequest {
   SourceMonitoringConfig?: MonitoringConfig;
   FlowSize?: FlowSize;
   NdiConfig?: NdiConfig;
-  FlowTags?: { [key: string]: string };
+  FlowTags?: { [key: string]: string | undefined };
 }
 export const CreateFlowRequest = S.suspend(() =>
   S.Struct({
@@ -7165,7 +7168,7 @@ export interface CreateRouterNetworkInterfaceRequest {
   Name: string;
   Configuration: RouterNetworkInterfaceConfiguration;
   RegionName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateRouterNetworkInterfaceRequest = S.suspend(() =>
@@ -7494,7 +7497,7 @@ export interface CreateRouterInputRequest {
   AvailabilityZone?: string;
   TransitEncryption?: RouterInputTransitEncryption;
   MaintenanceConfiguration?: MaintenanceConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateRouterInputRequest = S.suspend(() =>
@@ -7551,7 +7554,7 @@ export interface CreateRouterOutputRequest {
   RegionName?: string;
   AvailabilityZone?: string;
   MaintenanceConfiguration?: MaintenanceConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateRouterOutputRequest = S.suspend(() =>

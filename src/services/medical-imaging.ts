@@ -381,12 +381,15 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDatastoreRequest {
   datastoreName?: string;
   clientToken: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
   lambdaAuthorizerArn?: string;
   losslessStorageFormat?: LosslessStorageFormat;
@@ -586,7 +589,7 @@ export const GetImageSetMetadataResponse = S.suspend(() =>
   identifier: "GetImageSetMetadataResponse",
 }) as any as S.Schema<GetImageSetMetadataResponse>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -611,7 +614,7 @@ export const StartDICOMImportJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartDICOMImportJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({

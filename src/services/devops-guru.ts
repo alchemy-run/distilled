@@ -1581,15 +1581,17 @@ export const PerformanceInsightsMetricDimensionGroup = S.suspend(() =>
 ).annotations({
   identifier: "PerformanceInsightsMetricDimensionGroup",
 }) as any as S.Schema<PerformanceInsightsMetricDimensionGroup>;
-export type PerformanceInsightsMetricFilterMap = { [key: string]: string };
+export type PerformanceInsightsMetricFilterMap = {
+  [key: string]: string | undefined;
+};
 export const PerformanceInsightsMetricFilterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PerformanceInsightsMetricQuery {
   Metric?: string;
   GroupBy?: PerformanceInsightsMetricDimensionGroup;
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
 }
 export const PerformanceInsightsMetricQuery = S.suspend(() =>
   S.Struct({

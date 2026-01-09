@@ -363,8 +363,11 @@ export interface Reboot {}
 export const Reboot = S.suspend(() => S.Struct({})).annotations({
   identifier: "Reboot",
 }) as any as S.Schema<Reboot>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Command =
   | { unlock: Unlock; reboot?: never }
   | { unlock?: never; reboot: Reboot };
@@ -373,7 +376,7 @@ export const Command = S.Union(
   S.Struct({ reboot: Reboot }),
 );
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -382,7 +385,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -409,7 +412,7 @@ export interface CreateTaskInput {
   targets: string[];
   command: Command;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateTaskInput = S.suspend(() =>
@@ -441,7 +444,7 @@ export interface DescribeTaskOutput {
   lastUpdatedAt?: Date;
   completedAt?: Date;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DescribeTaskOutput = S.suspend(() =>
   S.Struct({
@@ -546,7 +549,7 @@ export interface DeviceSummary {
   managedDeviceId?: string;
   managedDeviceArn?: string;
   associatedWithJob?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DeviceSummary = S.suspend(() =>
   S.Struct({
@@ -580,7 +583,7 @@ export interface TaskSummary {
   taskId: string;
   taskArn?: string;
   state?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TaskSummary = S.suspend(() =>
   S.Struct({
@@ -613,7 +616,7 @@ export const ExecutionSummaryList = S.Array(ExecutionSummary);
 export interface DescribeDeviceOutput {
   lastReachedOutAt?: Date;
   lastUpdatedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   managedDeviceId?: string;
   managedDeviceArn?: string;
   deviceType?: string;

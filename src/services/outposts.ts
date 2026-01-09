@@ -970,11 +970,14 @@ export const StartOutpostDecommissionInput = S.suspend(() =>
 ).annotations({
   identifier: "StartOutpostDecommissionInput",
 }) as any as S.Schema<StartOutpostDecommissionInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1255,7 +1258,7 @@ export interface Outpost {
   LifeCycleStatus?: string;
   AvailabilityZone?: string;
   AvailabilityZoneId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SiteArn?: string;
   SupportedHardwareType?: SupportedHardwareType;
 }
@@ -1282,7 +1285,7 @@ export interface Site {
   AccountId?: string;
   Name?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SiteArn?: string;
   Notes?: string;
   OperatingAddressCountryCode?: string;
@@ -1388,7 +1391,7 @@ export interface CreateOutpostInput {
   SiteId: string;
   AvailabilityZone?: string;
   AvailabilityZoneId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SupportedHardwareType?: SupportedHardwareType;
 }
 export const CreateOutpostInput = S.suspend(() =>
@@ -1417,7 +1420,7 @@ export interface CreateSiteInput {
   Name: string;
   Description?: string;
   Notes?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   OperatingAddress?: Address;
   ShippingAddress?: Address;
   RackPhysicalProperties?: RackPhysicalProperties;
@@ -1518,7 +1521,7 @@ export const ListSitesOutput = S.suspend(() =>
   identifier: "ListSitesOutput",
 }) as any as S.Schema<ListSitesOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -2102,14 +2105,14 @@ export const AssetLocation = S.suspend(() =>
 }) as any as S.Schema<AssetLocation>;
 export type LineItemStatusCounts = { [key in LineItemStatus]?: number };
 export const LineItemStatusCounts = S.partial(
-  S.Record({ key: LineItemStatus, value: S.Number }),
+  S.Record({ key: LineItemStatus, value: S.UndefinedOr(S.Number) }),
 );
 export interface OrderSummary {
   OutpostId?: string;
   OrderId?: string;
   OrderType?: OrderType;
   Status?: OrderStatus;
-  LineItemCountsByStatus?: { [key: string]: number };
+  LineItemCountsByStatus?: { [key: string]: number | undefined };
   OrderSubmissionDate?: Date;
   OrderFulfilledDate?: Date;
 }

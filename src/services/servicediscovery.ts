@@ -313,13 +313,16 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RegisterInstanceRequest {
   ServiceId: string;
   InstanceId: string;
   CreatorRequestId?: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const RegisterInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -518,10 +521,10 @@ export const HttpNamespaceChange = S.suspend(() =>
 ).annotations({
   identifier: "HttpNamespaceChange",
 }) as any as S.Schema<HttpNamespaceChange>;
-export type ServiceAttributesMap = { [key: string]: string };
+export type ServiceAttributesMap = { [key: string]: string | undefined };
 export const ServiceAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type RecordType = "SRV" | "A" | "AAAA" | "CNAME";
 export const RecordType = S.Literal("SRV", "A", "AAAA", "CNAME");
@@ -563,8 +566,8 @@ export interface DiscoverInstancesRequest {
   NamespaceName: string;
   ServiceName: string;
   MaxResults?: number;
-  QueryParameters?: { [key: string]: string };
-  OptionalParameters?: { [key: string]: string };
+  QueryParameters?: { [key: string]: string | undefined };
+  OptionalParameters?: { [key: string]: string | undefined };
   HealthStatus?: HealthStatusFilter;
   OwnerAccount?: string;
 }
@@ -673,7 +676,7 @@ export const UpdateHttpNamespaceRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateHttpNamespaceRequest>;
 export interface UpdateServiceAttributesRequest {
   ServiceId: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const UpdateServiceAttributesRequest = S.suspend(() =>
   S.Struct({ ServiceId: S.String, Attributes: ServiceAttributesMap }).pipe(
@@ -770,7 +773,7 @@ export const DnsConfig = S.suspend(() =>
 export interface Instance {
   Id: string;
   CreatorRequestId?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   CreatedByAccount?: string;
 }
 export const Instance = S.suspend(() =>
@@ -781,10 +784,12 @@ export const Instance = S.suspend(() =>
     CreatedByAccount: S.optional(S.String),
   }),
 ).annotations({ identifier: "Instance" }) as any as S.Schema<Instance>;
-export type InstanceHealthStatusMap = { [key: string]: HealthStatus };
+export type InstanceHealthStatusMap = {
+  [key: string]: HealthStatus | undefined;
+};
 export const InstanceHealthStatusMap = S.Record({
   key: S.String,
-  value: HealthStatus,
+  value: S.UndefinedOr(HealthStatus),
 });
 export interface Service {
   Id?: string;
@@ -823,7 +828,7 @@ export const Service = S.suspend(() =>
 export interface ServiceAttributes {
   ServiceArn?: string;
   ResourceOwner?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const ServiceAttributes = S.suspend(() =>
   S.Struct({
@@ -836,7 +841,7 @@ export const ServiceAttributes = S.suspend(() =>
 }) as any as S.Schema<ServiceAttributes>;
 export interface InstanceSummary {
   Id?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   CreatedByAccount?: string;
 }
 export const InstanceSummary = S.suspend(() =>
@@ -957,7 +962,7 @@ export const GetInstanceResponse = S.suspend(() =>
   identifier: "GetInstanceResponse",
 }) as any as S.Schema<GetInstanceResponse>;
 export interface GetInstancesHealthStatusResponse {
-  Status?: { [key: string]: HealthStatus };
+  Status?: { [key: string]: HealthStatus | undefined };
   NextToken?: string;
 }
 export const GetInstancesHealthStatusResponse = S.suspend(() =>
@@ -1027,7 +1032,7 @@ export const PrivateDnsPropertiesMutable = S.suspend(() =>
 }) as any as S.Schema<PrivateDnsPropertiesMutable>;
 export type OperationTargetsMap = { [key in OperationTargetType]?: string };
 export const OperationTargetsMap = S.partial(
-  S.Record({ key: OperationTargetType, value: S.String }),
+  S.Record({ key: OperationTargetType, value: S.UndefinedOr(S.String) }),
 );
 export interface PublicDnsNamespacePropertiesChange {
   DnsProperties: PublicDnsPropertiesMutableChange;
@@ -1050,7 +1055,7 @@ export interface HttpInstanceSummary {
   NamespaceName?: string;
   ServiceName?: string;
   HealthStatus?: HealthStatus;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const HttpInstanceSummary = S.suspend(() =>
   S.Struct({
@@ -1074,7 +1079,7 @@ export interface Operation {
   ErrorCode?: string;
   CreateDate?: Date;
   UpdateDate?: Date;
-  Targets?: { [key: string]: string };
+  Targets?: { [key: string]: string | undefined };
 }
 export const Operation = S.suspend(() =>
   S.Struct({

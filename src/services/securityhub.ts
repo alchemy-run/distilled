@@ -998,10 +998,13 @@ export const EnableOrganizationAdminAccountRequest = S.suspend(() =>
 ).annotations({
   identifier: "EnableOrganizationAdminAccountRequest",
 }) as any as S.Schema<EnableOrganizationAdminAccountRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface EnableSecurityHubRequest {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   EnableDefaultStandards?: boolean;
   ControlFindingGenerator?: ControlFindingGenerator;
 }
@@ -1030,7 +1033,7 @@ export const EnableSecurityHubResponse = S.suspend(() =>
   identifier: "EnableSecurityHubResponse",
 }) as any as S.Schema<EnableSecurityHubResponse>;
 export interface EnableSecurityHubV2Request {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EnableSecurityHubV2Request = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(
@@ -1695,7 +1698,7 @@ export const StartConfigurationPolicyDisassociationResponse = S.suspend(() =>
 }) as any as S.Schema<StartConfigurationPolicyDisassociationResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2019,14 +2022,14 @@ export const ParameterConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "ParameterConfiguration",
 }) as any as S.Schema<ParameterConfiguration>;
-export type Parameters = { [key: string]: ParameterConfiguration };
+export type Parameters = { [key: string]: ParameterConfiguration | undefined };
 export const Parameters = S.Record({
   key: S.String,
-  value: ParameterConfiguration,
+  value: S.UndefinedOr(ParameterConfiguration),
 });
 export interface SecurityControlCustomParameter {
   SecurityControlId?: string;
-  Parameters?: { [key: string]: ParameterConfiguration };
+  Parameters?: { [key: string]: ParameterConfiguration | undefined };
 }
 export const SecurityControlCustomParameter = S.suspend(() =>
   S.Struct({
@@ -2882,8 +2885,11 @@ export const SeverityUpdate = S.suspend(() =>
 ).annotations({
   identifier: "SeverityUpdate",
 }) as any as S.Schema<SeverityUpdate>;
-export type FieldMap = { [key: string]: string };
-export const FieldMap = S.Record({ key: S.String, value: S.String });
+export type FieldMap = { [key: string]: string | undefined };
+export const FieldMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface WorkflowUpdate {
   Status?: WorkflowStatus;
 }
@@ -2910,7 +2916,7 @@ export interface AutomationRulesFindingFieldsUpdate {
   Confidence?: number;
   Criticality?: number;
   Types?: string[];
-  UserDefinedFields?: { [key: string]: string };
+  UserDefinedFields?: { [key: string]: string | undefined };
   Workflow?: WorkflowUpdate;
   RelatedFindings?: RelatedFinding[];
 }
@@ -3316,10 +3322,12 @@ export const ParameterDefinition = S.suspend(() =>
 ).annotations({
   identifier: "ParameterDefinition",
 }) as any as S.Schema<ParameterDefinition>;
-export type ParameterDefinitions = { [key: string]: ParameterDefinition };
+export type ParameterDefinitions = {
+  [key: string]: ParameterDefinition | undefined;
+};
 export const ParameterDefinitions = S.Record({
   key: S.String,
-  value: ParameterDefinition,
+  value: S.UndefinedOr(ParameterDefinition),
 });
 export interface SecurityControlDefinition {
   SecurityControlId?: string;
@@ -3329,7 +3337,7 @@ export interface SecurityControlDefinition {
   SeverityRating?: SeverityRating;
   CurrentRegionAvailability?: RegionAvailabilityStatus;
   CustomizableProperties?: SecurityControlProperty[];
-  ParameterDefinitions?: { [key: string]: ParameterDefinition };
+  ParameterDefinitions?: { [key: string]: ParameterDefinition | undefined };
 }
 export const SecurityControlDefinition = S.suspend(() =>
   S.Struct({
@@ -3517,7 +3525,7 @@ export interface BatchUpdateFindingsRequest {
   Confidence?: number;
   Criticality?: number;
   Types?: string[];
-  UserDefinedFields?: { [key: string]: string };
+  UserDefinedFields?: { [key: string]: string | undefined };
   Workflow?: WorkflowUpdate;
   RelatedFindings?: RelatedFinding[];
 }
@@ -3605,7 +3613,7 @@ export const CreateActionTargetResponse = S.suspend(() =>
 export interface CreateAggregatorV2Request {
   RegionLinkingMode?: string;
   LinkedRegions?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateAggregatorV2Request = S.suspend(() =>
@@ -3867,10 +3875,10 @@ export const GetConfigurationPolicyAssociationRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetConfigurationPolicyAssociationRequest",
 }) as any as S.Schema<GetConfigurationPolicyAssociationRequest>;
-export type StandardsInputParameterMap = { [key: string]: string };
+export type StandardsInputParameterMap = { [key: string]: string | undefined };
 export const StandardsInputParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type StandardsStatus =
   | "PENDING"
@@ -3912,7 +3920,7 @@ export const StandardsStatusReason = S.suspend(() =>
 export interface StandardsSubscription {
   StandardsSubscriptionArn?: string;
   StandardsArn?: string;
-  StandardsInput?: { [key: string]: string };
+  StandardsInput?: { [key: string]: string | undefined };
   StandardsStatus?: StandardsStatus;
   StandardsControlsUpdatable?: StandardsControlsUpdatable;
   StandardsStatusReason?: StandardsStatusReason;
@@ -4136,10 +4144,12 @@ export interface ListSecurityControlDefinitionsResponse {
     SeverityRating: SeverityRating;
     CurrentRegionAvailability: RegionAvailabilityStatus;
     ParameterDefinitions: {
-      [key: string]: ParameterDefinition & {
-        Description: NonEmptyString;
-        ConfigurationOptions: ConfigurationOptions;
-      };
+      [key: string]:
+        | (ParameterDefinition & {
+            Description: NonEmptyString;
+            ConfigurationOptions: ConfigurationOptions;
+          })
+        | undefined;
     };
   })[];
   NextToken?: string;
@@ -4153,7 +4163,7 @@ export const ListSecurityControlDefinitionsResponse = S.suspend(() =>
   identifier: "ListSecurityControlDefinitionsResponse",
 }) as any as S.Schema<ListSecurityControlDefinitionsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -4782,7 +4792,7 @@ export const UnprocessedAutomationRulesList = S.Array(
 );
 export interface StandardsSubscriptionRequest {
   StandardsArn?: string;
-  StandardsInput?: { [key: string]: string };
+  StandardsInput?: { [key: string]: string | undefined };
 }
 export const StandardsSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -4837,7 +4847,7 @@ export interface SecurityControl {
   SeverityRating?: SeverityRating;
   SecurityControlStatus?: ControlStatus;
   UpdateStatus?: UpdateStatus;
-  Parameters?: { [key: string]: ParameterConfiguration };
+  Parameters?: { [key: string]: ParameterConfiguration | undefined };
   LastUpdateReason?: string;
 }
 export const SecurityControl = S.suspend(() =>
@@ -6676,7 +6686,7 @@ export interface AwsElasticsearchDomainDetails {
   DomainId?: string;
   DomainName?: string;
   Endpoint?: string;
-  Endpoints?: { [key: string]: string };
+  Endpoints?: { [key: string]: string | undefined };
   ElasticsearchVersion?: string;
   ElasticsearchClusterConfig?: AwsElasticsearchDomainElasticsearchClusterConfigDetails;
   EncryptionAtRestOptions?: AwsElasticsearchDomainEncryptionAtRestOptions;
@@ -7486,7 +7496,7 @@ export interface AwsApiGatewayV2StageDetails {
   LastUpdatedDate?: string;
   RouteSettings?: AwsApiGatewayV2RouteSettings;
   StageName?: string;
-  StageVariables?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
   AccessLogSettings?: AwsApiGatewayAccessLogSettings;
   AutoDeploy?: boolean;
   LastDeploymentStatusMessage?: string;
@@ -7870,7 +7880,7 @@ export const AwsApiGatewayMethodSettingsList = S.Array(
 export interface AwsApiGatewayCanarySettings {
   PercentTraffic?: number;
   DeploymentId?: string;
-  StageVariableOverrides?: { [key: string]: string };
+  StageVariableOverrides?: { [key: string]: string | undefined };
   UseStageCache?: boolean;
 }
 export const AwsApiGatewayCanarySettings = S.suspend(() =>
@@ -7892,7 +7902,7 @@ export interface AwsApiGatewayStageDetails {
   CacheClusterSize?: string;
   CacheClusterStatus?: string;
   MethodSettings?: AwsApiGatewayMethodSettings[];
-  Variables?: { [key: string]: string };
+  Variables?: { [key: string]: string | undefined };
   DocumentationVersion?: string;
   AccessLogSettings?: AwsApiGatewayAccessLogSettings;
   CanarySettings?: AwsApiGatewayCanarySettings;
@@ -8991,7 +9001,7 @@ export const AwsLambdaFunctionEnvironmentError = S.suspend(() =>
   identifier: "AwsLambdaFunctionEnvironmentError",
 }) as any as S.Schema<AwsLambdaFunctionEnvironmentError>;
 export interface AwsLambdaFunctionEnvironment {
-  Variables?: { [key: string]: string };
+  Variables?: { [key: string]: string | undefined };
   Error?: AwsLambdaFunctionEnvironmentError;
 }
 export const AwsLambdaFunctionEnvironment = S.suspend(() =>
@@ -10033,7 +10043,7 @@ export const AwsEcsTaskDefinitionContainerDefinitionsExtraHostsList = S.Array(
   AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails,
 );
 export interface AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails {
-  Options?: { [key: string]: string };
+  Options?: { [key: string]: string | undefined };
   Type?: string;
 }
 export const AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails =
@@ -10167,7 +10177,7 @@ export const AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptio
   );
 export interface AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
   LogDriver?: string;
-  Options?: { [key: string]: string };
+  Options?: { [key: string]: string | undefined };
   SecretOptions?: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails[];
 }
 export const AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails =
@@ -10322,7 +10332,7 @@ export interface AwsEcsTaskDefinitionContainerDefinitionsDetails {
   DisableNetworking?: boolean;
   DnsSearchDomains?: string[];
   DnsServers?: string[];
-  DockerLabels?: { [key: string]: string };
+  DockerLabels?: { [key: string]: string | undefined };
   DockerSecurityOptions?: string[];
   EntryPoint?: string[];
   Environment?: AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails[];
@@ -10501,8 +10511,8 @@ export const AwsEcsTaskDefinitionProxyConfigurationDetails = S.suspend(() =>
 export interface AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails {
   Autoprovision?: boolean;
   Driver?: string;
-  DriverOpts?: { [key: string]: string };
-  Labels?: { [key: string]: string };
+  DriverOpts?: { [key: string]: string | undefined };
+  Labels?: { [key: string]: string | undefined };
   Scope?: string;
 }
 export const AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails =
@@ -11356,7 +11366,7 @@ export interface AwsOpenSearchServiceDomainDetails {
   DomainEndpointOptions?: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails;
   VpcOptions?: AwsOpenSearchServiceDomainVpcOptionsDetails;
   LogPublishingOptions?: AwsOpenSearchServiceDomainLogPublishingOptionsDetails;
-  DomainEndpoints?: { [key: string]: string };
+  DomainEndpoints?: { [key: string]: string | undefined };
   AdvancedSecurityOptions?: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails;
 }
 export const AwsOpenSearchServiceDomainDetails = S.suspend(() =>
@@ -12806,7 +12816,7 @@ export const AwsBackupBackupVaultDetails = S.suspend(() =>
   identifier: "AwsBackupBackupVaultDetails",
 }) as any as S.Schema<AwsBackupBackupVaultDetails>;
 export interface AwsBackupBackupPlanAdvancedBackupSettingsDetails {
-  BackupOptions?: { [key: string]: string };
+  BackupOptions?: { [key: string]: string | undefined };
   ResourceType?: string;
 }
 export const AwsBackupBackupPlanAdvancedBackupSettingsDetails = S.suspend(() =>
@@ -15287,7 +15297,7 @@ export interface ResourceDetails {
   AwsEcsContainer?: AwsEcsContainerDetails;
   AwsEcsTaskDefinition?: AwsEcsTaskDefinitionDetails;
   Container?: ContainerDetails;
-  Other?: { [key: string]: string };
+  Other?: { [key: string]: string | undefined };
   AwsRdsEventSubscription?: AwsRdsEventSubscriptionDetails;
   AwsEcsService?: AwsEcsServiceDetails;
   AwsAutoScalingLaunchConfiguration?: AwsAutoScalingLaunchConfigurationDetails;
@@ -15467,7 +15477,7 @@ export interface Resource {
   Partition?: Partition;
   Region?: string;
   ResourceRole?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   DataClassification?: DataClassificationDetails;
   Details?: ResourceDetails;
   ApplicationName?: string;
@@ -15793,7 +15803,7 @@ export interface AwsApiCallAction {
   CallerType?: string;
   RemoteIpDetails?: ActionRemoteIpDetails;
   DomainDetails?: AwsApiCallActionDomainDetails;
-  AffectedResources?: { [key: string]: string };
+  AffectedResources?: { [key: string]: string | undefined };
   FirstSeen?: string;
   LastSeen?: string;
 }
@@ -16116,8 +16126,8 @@ export interface AwsSecurityFinding {
   Description?: string;
   Remediation?: Remediation;
   SourceUrl?: string;
-  ProductFields?: { [key: string]: string };
-  UserDefinedFields?: { [key: string]: string };
+  ProductFields?: { [key: string]: string | undefined };
+  UserDefinedFields?: { [key: string]: string | undefined };
   Malware?: Malware[];
   Network?: Network;
   NetworkPath?: NetworkPathComponent[];
@@ -16600,7 +16610,9 @@ export interface BatchGetSecurityControlsResponse {
     SeverityRating: SeverityRating;
     SecurityControlStatus: ControlStatus;
     Parameters: {
-      [key: string]: ParameterConfiguration & { ValueType: ParameterValueType };
+      [key: string]:
+        | (ParameterConfiguration & { ValueType: ParameterValueType })
+        | undefined;
     };
   })[];
   UnprocessedIds?: (UnprocessedSecurityControl & {
@@ -16651,7 +16663,7 @@ export interface CreateAutomationRuleV2Request {
   RuleOrder?: number;
   Criteria?: Criteria;
   Actions?: AutomationRulesActionV2[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateAutomationRuleV2Request = S.suspend(() =>
@@ -16682,7 +16694,7 @@ export interface CreateConnectorV2Request {
   Description?: string;
   Provider?: ProviderConfiguration;
   KmsKeyArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
 export const CreateConnectorV2Request = S.suspend(() =>
@@ -17708,7 +17720,7 @@ export const BatchUpdateStandardsControlAssociationsResponse = S.suspend(() =>
   identifier: "BatchUpdateStandardsControlAssociationsResponse",
 }) as any as S.Schema<BatchUpdateStandardsControlAssociationsResponse>;
 export interface CreateAutomationRuleRequest {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RuleStatus?: RuleStatus;
   RuleOrder?: number;
   RuleName?: string;
@@ -17981,7 +17993,7 @@ export const ListConnectorsV2Response = S.suspend(() =>
 }) as any as S.Schema<ListConnectorsV2Response>;
 export interface UpdateSecurityControlRequest {
   SecurityControlId?: string;
-  Parameters?: { [key: string]: ParameterConfiguration };
+  Parameters?: { [key: string]: ParameterConfiguration | undefined };
   LastUpdateReason?: string;
 }
 export const UpdateSecurityControlRequest = S.suspend(() =>
@@ -18024,7 +18036,7 @@ export interface CreateConfigurationPolicyRequest {
   Name?: string;
   Description?: string;
   ConfigurationPolicy?: Policy;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConfigurationPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -18180,10 +18192,12 @@ export interface GetSecurityControlDefinitionResponse {
     SeverityRating: SeverityRating;
     CurrentRegionAvailability: RegionAvailabilityStatus;
     ParameterDefinitions: {
-      [key: string]: ParameterDefinition & {
-        Description: NonEmptyString;
-        ConfigurationOptions: ConfigurationOptions;
-      };
+      [key: string]:
+        | (ParameterDefinition & {
+            Description: NonEmptyString;
+            ConfigurationOptions: ConfigurationOptions;
+          })
+        | undefined;
     };
   };
 }

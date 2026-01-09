@@ -515,8 +515,11 @@ export const ListHealthEventsInput = S.suspend(() =>
 }) as any as S.Schema<ListHealthEventsInput>;
 export type FilterList = string[];
 export const FilterList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type QueryRow = string[];
 export const QueryRow = S.Array(S.String);
 export type QueryData = string[][];
@@ -538,7 +541,7 @@ export const FilterParameter = S.suspend(() =>
 export type FilterParameters = FilterParameter[];
 export const FilterParameters = S.Array(FilterParameter);
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -547,7 +550,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -579,7 +582,7 @@ export interface GetMonitorOutput {
   ModifiedAt: Date;
   ProcessingStatus?: string;
   ProcessingStatusInfo?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   MaxCityNetworksToMonitor?: number;
   InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
   TrafficPercentageToMonitor?: number;
@@ -917,7 +920,7 @@ export interface CreateMonitorInput {
   MonitorName: string;
   Resources?: string[];
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   MaxCityNetworksToMonitor?: number;
   InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
   TrafficPercentageToMonitor?: number;

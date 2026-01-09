@@ -658,11 +658,14 @@ export const StartMatchingJobInput = S.suspend(() =>
 ).annotations({
   identifier: "StartMatchingJobInput",
 }) as any as S.Schema<StartMatchingJobInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -1210,8 +1213,11 @@ export type DisconnectedUniqueIdsList = string[];
 export const DisconnectedUniqueIdsList = S.Array(S.String);
 export type JobStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | "QUEUED";
 export const JobStatus = S.Literal("RUNNING", "SUCCEEDED", "FAILED", "QUEUED");
-export type RecordAttributeMap = { [key: string]: string };
-export const RecordAttributeMap = S.Record({ key: S.String, value: S.String });
+export type RecordAttributeMap = { [key: string]: string | undefined };
+export const RecordAttributeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ServiceType = "ASSIGNMENT" | "ID_MAPPING";
 export const ServiceType = S.Literal("ASSIGNMENT", "ID_MAPPING");
 export interface IdMappingJobOutputSource {
@@ -1244,7 +1250,7 @@ export interface CreateSchemaMappingInput {
   schemaName: string;
   description?: string;
   mappedInputFields: SchemaInputAttribute[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSchemaMappingInput = S.suspend(() =>
   S.Struct({
@@ -1318,7 +1324,7 @@ export interface GetIdMappingWorkflowOutput {
   updatedAt: Date;
   incrementalRunConfig?: IdMappingIncrementalRunConfig;
   roleArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetIdMappingWorkflowOutput = S.suspend(() =>
   S.Struct({
@@ -1347,7 +1353,7 @@ export interface GetIdNamespaceOutput {
   roleArn?: string;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetIdNamespaceOutput = S.suspend(() =>
   S.Struct({
@@ -1369,7 +1375,7 @@ export const GetIdNamespaceOutput = S.suspend(() =>
 }) as any as S.Schema<GetIdNamespaceOutput>;
 export interface GetMatchIdInput {
   workflowName: string;
-  record: { [key: string]: string };
+  record: { [key: string]: string | undefined };
   applyNormalization?: boolean;
 }
 export const GetMatchIdInput = S.suspend(() =>
@@ -1404,7 +1410,7 @@ export interface GetMatchingWorkflowOutput {
   updatedAt: Date;
   incrementalRunConfig?: IncrementalRunConfig;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetMatchingWorkflowOutput = S.suspend(() =>
   S.Struct({
@@ -1440,7 +1446,7 @@ export interface GetSchemaMappingOutput {
   mappedInputFields: SchemaInputAttribute[];
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   hasWorkflows: boolean;
 }
 export const GetSchemaMappingOutput = S.suspend(() =>
@@ -1483,7 +1489,7 @@ export const ListMatchingJobsOutput = S.suspend(() =>
   identifier: "ListMatchingJobsOutput",
 }) as any as S.Schema<ListMatchingJobsOutput>;
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1629,10 +1635,10 @@ export const DeleteUniqueIdErrorType = S.Literal(
   "SERVICE_ERROR",
   "VALIDATION_ERROR",
 );
-export type RecordAttributeMapString255 = { [key: string]: string };
+export type RecordAttributeMapString255 = { [key: string]: string | undefined };
 export const RecordAttributeMapString255 = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type AwsAccountIdList = string[];
 export const AwsAccountIdList = S.Array(S.String);
@@ -1666,7 +1672,7 @@ export const DeletedUniqueIdList = S.Array(DeletedUniqueId);
 export interface Record {
   inputSourceARN: string;
   uniqueId: string;
-  recordAttributeMap: { [key: string]: string };
+  recordAttributeMap: { [key: string]: string | undefined };
 }
 export const Record = S.suspend(() =>
   S.Struct({
@@ -1880,7 +1886,7 @@ export interface CreateIdNamespaceInput {
   idMappingWorkflowProperties?: IdNamespaceIdMappingWorkflowProperties[];
   type: IdNamespaceType;
   roleArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateIdNamespaceInput = S.suspend(() =>
   S.Struct({
@@ -2173,7 +2179,7 @@ export interface CreateIdMappingWorkflowInput {
   idMappingTechniques: IdMappingTechniques;
   incrementalRunConfig?: IdMappingIncrementalRunConfig;
   roleArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateIdMappingWorkflowInput = S.suspend(() =>
   S.Struct({
@@ -2208,7 +2214,7 @@ export interface CreateIdNamespaceOutput {
   roleArn?: string;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateIdNamespaceOutput = S.suspend(() =>
   S.Struct({
@@ -2236,7 +2242,7 @@ export interface CreateMatchingWorkflowInput {
   resolutionTechniques: ResolutionTechniques;
   incrementalRunConfig?: IncrementalRunConfig;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMatchingWorkflowInput = S.suspend(() =>
   S.Struct({

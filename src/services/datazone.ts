@@ -3286,11 +3286,11 @@ export const SearchUserProfilesInput = S.suspend(() =>
 ).annotations({
   identifier: "SearchUserProfilesInput",
 }) as any as S.Schema<SearchUserProfilesInput>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -4793,13 +4793,13 @@ export const RedshiftRunConfigurationInput = S.suspend(() =>
 }) as any as S.Schema<RedshiftRunConfigurationInput>;
 export type TrackingAssetArns = string[];
 export const TrackingAssetArns = S.Array(S.String);
-export type TrackingAssets = { [key: string]: string[] };
+export type TrackingAssets = { [key: string]: string[] | undefined };
 export const TrackingAssets = S.Record({
   key: S.String,
-  value: TrackingAssetArns,
+  value: S.UndefinedOr(TrackingAssetArns),
 });
 export interface SageMakerRunConfigurationInput {
-  trackingAssets: { [key: string]: string[] };
+  trackingAssets: { [key: string]: string[] | undefined };
 }
 export const SageMakerRunConfigurationInput = S.suspend(() =>
   S.Struct({ trackingAssets: TrackingAssets }),
@@ -6455,8 +6455,11 @@ export type DataSourceRunType = "PRIORITIZED" | "SCHEDULED";
 export const DataSourceRunType = S.Literal("PRIORITIZED", "SCHEDULED");
 export type DomainUnitIds = string[];
 export const DomainUnitIds = S.Array(S.String);
-export type GlobalParameterMap = { [key: string]: string };
-export const GlobalParameterMap = S.Record({ key: S.String, value: S.String });
+export type GlobalParameterMap = { [key: string]: string | undefined };
+export const GlobalParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Model = { smithy: string };
 export const Model = S.Union(S.Struct({ smithy: S.String }));
 export interface MetadataGenerationRunTarget {
@@ -7212,7 +7215,7 @@ export const ListAccountsInAccountPoolOutput = S.suspend(() =>
   identifier: "ListAccountsInAccountPoolOutput",
 }) as any as S.Schema<ListAccountsInAccountPoolOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -8128,7 +8131,7 @@ export const RedshiftRunConfigurationOutput = S.suspend(() =>
 export interface SageMakerRunConfigurationOutput {
   accountId?: string;
   region?: string;
-  trackingAssets: { [key: string]: string[] };
+  trackingAssets: { [key: string]: string[] | undefined };
 }
 export const SageMakerRunConfigurationOutput = S.suspend(() =>
   S.Struct({
@@ -8365,7 +8368,7 @@ export interface CreateDomainInput {
   singleSignOn?: SingleSignOn;
   domainExecutionRole: string;
   kmsKeyIdentifier?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   domainVersion?: DomainVersion;
   serviceRole?: string;
   clientToken?: string;
@@ -8407,7 +8410,7 @@ export interface GetDomainOutput {
   portalUrl?: string;
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   domainVersion?: DomainVersion;
   serviceRole?: string;
 }
@@ -8545,12 +8548,17 @@ export const UpdateDomainUnitOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDomainUnitOutput",
 }) as any as S.Schema<UpdateDomainUnitOutput>;
-export type RegionalParameter = { [key: string]: string };
-export const RegionalParameter = S.Record({ key: S.String, value: S.String });
-export type RegionalParameterMap = { [key: string]: { [key: string]: string } };
+export type RegionalParameter = { [key: string]: string | undefined };
+export const RegionalParameter = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type RegionalParameterMap = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
 export const RegionalParameterMap = S.Record({
   key: S.String,
-  value: RegionalParameter,
+  value: S.UndefinedOr(RegionalParameter),
 });
 export interface LakeFormationConfiguration {
   locationRegistrationRole?: string;
@@ -8579,7 +8587,9 @@ export interface GetEnvironmentBlueprintConfigurationOutput {
   environmentRolePermissionBoundary?: string;
   manageAccessRoleArn?: string;
   enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string } };
+  regionalParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   createdAt?: Date;
   updatedAt?: Date;
   provisioningConfigurations?: ProvisioningConfiguration[];
@@ -9831,13 +9841,16 @@ export type AssetRevisions = AssetRevision[];
 export const AssetRevisions = S.Array(AssetRevision);
 export type MatchCriteria = string[];
 export const MatchCriteria = S.Array(S.String);
-export type ConnectionProperties = { [key: string]: string };
+export type ConnectionProperties = { [key: string]: string | undefined };
 export const ConnectionProperties = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type PropertyMap = { [key: string]: string };
-export const PropertyMap = S.Record({ key: S.String, value: S.String });
+export type PropertyMap = { [key: string]: string | undefined };
+export const PropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
@@ -9900,10 +9913,10 @@ export const OAuth2ClientApplication = S.suspend(() =>
 ).annotations({
   identifier: "OAuth2ClientApplication",
 }) as any as S.Schema<OAuth2ClientApplication>;
-export type TokenUrlParametersMap = { [key: string]: string };
+export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export const TokenUrlParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AuthorizationCodeProperties {
   authorizationCode?: string;
@@ -9937,7 +9950,7 @@ export interface OAuth2Properties {
   oAuth2GrantType?: OAuth2GrantType;
   oAuth2ClientApplication?: OAuth2ClientApplication;
   tokenUrl?: string;
-  tokenUrlParametersMap?: { [key: string]: string };
+  tokenUrlParametersMap?: { [key: string]: string | undefined };
   authorizationCodeProperties?: AuthorizationCodeProperties;
   oAuth2Credentials?: GlueOAuth2Credentials;
 }
@@ -9972,10 +9985,10 @@ export interface GlueConnection {
   description?: string;
   connectionType?: ConnectionType;
   matchCriteria?: string[];
-  connectionProperties?: { [key: string]: string };
-  sparkProperties?: { [key: string]: string };
-  athenaProperties?: { [key: string]: string };
-  pythonProperties?: { [key: string]: string };
+  connectionProperties?: { [key: string]: string | undefined };
+  sparkProperties?: { [key: string]: string | undefined };
+  athenaProperties?: { [key: string]: string | undefined };
+  pythonProperties?: { [key: string]: string | undefined };
   physicalConnectionRequirements?: PhysicalConnectionRequirements;
   creationTime?: Date;
   lastUpdatedTime?: Date;
@@ -10841,8 +10854,11 @@ export const UserProfileSummary = S.suspend(() =>
 }) as any as S.Schema<UserProfileSummary>;
 export type UserProfileSummaries = UserProfileSummary[];
 export const UserProfileSummaries = S.Array(UserProfileSummary);
-export type FormsInputMap = { [key: string]: FormEntryInput };
-export const FormsInputMap = S.Record({ key: S.String, value: FormEntryInput });
+export type FormsInputMap = { [key: string]: FormEntryInput | undefined };
+export const FormsInputMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FormEntryInput),
+});
 export interface DataSourceSummary {
   domainId: string;
   environmentId?: string;
@@ -10993,7 +11009,9 @@ export interface EnvironmentBlueprintConfigurationItem {
   environmentRolePermissionBoundary?: string;
   manageAccessRoleArn?: string;
   enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string } };
+  regionalParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   createdAt?: Date;
   updatedAt?: Date;
   provisioningConfigurations?: ProvisioningConfiguration[];
@@ -11349,7 +11367,7 @@ export interface CreateProjectInput {
   domainIdentifier: string;
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   glossaryTerms?: string[];
   domainUnitId?: string;
   projectProfileId?: string;
@@ -11525,14 +11543,16 @@ export const GetLineageNodeOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetLineageNodeOutput",
 }) as any as S.Schema<GetLineageNodeOutput>;
-export type EnvironmentFailureReasons = { [key: string]: EnvironmentError[] };
+export type EnvironmentFailureReasons = {
+  [key: string]: EnvironmentError[] | undefined;
+};
 export const EnvironmentFailureReasons = S.Record({
   key: S.String,
-  value: EnvironmentFailureReasonsList,
+  value: S.UndefinedOr(EnvironmentFailureReasonsList),
 });
 export interface EnvironmentDeploymentDetails {
   overallDeploymentStatus?: OverallDeploymentStatus;
-  environmentFailureReasons?: { [key: string]: EnvironmentError[] };
+  environmentFailureReasons?: { [key: string]: EnvironmentError[] | undefined };
 }
 export const EnvironmentDeploymentDetails = S.suspend(() =>
   S.Struct({
@@ -12000,7 +12020,7 @@ export interface CreateAssetTypeInput {
   domainIdentifier: string;
   name: string;
   description?: string | redacted.Redacted<string>;
-  formsInput: { [key: string]: FormEntryInput };
+  formsInput: { [key: string]: FormEntryInput | undefined };
   owningProjectIdentifier: string;
 }
 export const CreateAssetTypeInput = S.suspend(() =>
@@ -12163,7 +12183,7 @@ export interface CreateDomainOutput {
   kmsKeyIdentifier?: string;
   status?: DomainStatus;
   portalUrl?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   domainVersion?: DomainVersion;
   serviceRole?: string;
 }
@@ -12211,8 +12231,10 @@ export interface PutEnvironmentBlueprintConfigurationInput {
   manageAccessRoleArn?: string;
   environmentRolePermissionBoundary?: string;
   enabledRegions: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string } };
-  globalParameters?: { [key: string]: string };
+  regionalParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+  globalParameters?: { [key: string]: string | undefined };
   provisioningConfigurations?: ProvisioningConfiguration[];
 }
 export const PutEnvironmentBlueprintConfigurationInput = S.suspend(() =>
@@ -12461,8 +12483,11 @@ export const OwnerGroupPropertiesOutput = S.suspend(() =>
 ).annotations({
   identifier: "OwnerGroupPropertiesOutput",
 }) as any as S.Schema<OwnerGroupPropertiesOutput>;
-export type MetadataMap = { [key: string]: string };
-export const MetadataMap = S.Record({ key: S.String, value: S.String });
+export type MetadataMap = { [key: string]: string | undefined };
+export const MetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface MetadataFormSummary {
   formName?: string;
   typeName: string | redacted.Redacted<string>;
@@ -12493,17 +12518,17 @@ export const FormEntryOutput = S.suspend(() =>
 ).annotations({
   identifier: "FormEntryOutput",
 }) as any as S.Schema<FormEntryOutput>;
-export type FormsOutputMap = { [key: string]: FormEntryOutput };
+export type FormsOutputMap = { [key: string]: FormEntryOutput | undefined };
 export const FormsOutputMap = S.Record({
   key: S.String,
-  value: FormEntryOutput,
+  value: S.UndefinedOr(FormEntryOutput),
 });
 export interface AssetTypeItem {
   domainId: string;
   name: string;
   revision: string;
   description?: string | redacted.Redacted<string>;
-  formsOutput: { [key: string]: FormEntryOutput };
+  formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
   originDomainId?: string;
   originProjectId?: string;
@@ -12569,7 +12594,7 @@ export interface LineageNodeTypeItem {
   updatedAt?: Date;
   updatedBy?: string;
   revision: string;
-  formsOutput: { [key: string]: FormEntryOutput };
+  formsOutput: { [key: string]: FormEntryOutput | undefined };
 }
 export const LineageNodeTypeItem = S.suspend(() =>
   S.Struct({
@@ -12795,7 +12820,7 @@ export const GroupDetails = S.suspend(() =>
 ).annotations({ identifier: "GroupDetails" }) as any as S.Schema<GroupDetails>;
 export interface GlueConnectionPatch {
   description?: string;
-  connectionProperties?: { [key: string]: string };
+  connectionProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationPatch;
 }
 export const GlueConnectionPatch = S.suspend(() =>
@@ -12901,8 +12926,11 @@ export const CreateAccountPoolOutput = S.suspend(() =>
 ).annotations({
   identifier: "CreateAccountPoolOutput",
 }) as any as S.Schema<CreateAccountPoolOutput>;
-export type CredentialMap = { [key: string]: string };
-export const CredentialMap = S.Record({ key: S.String, value: S.String });
+export type CredentialMap = { [key: string]: string | undefined };
+export const CredentialMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateEnvironmentActionOutput {
   domainId: string;
   environmentId: string;
@@ -13243,7 +13271,7 @@ export interface UpdateProjectInput {
   identifier: string;
   name?: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   glossaryTerms?: string[];
   domainUnitId?: string;
   environmentDeploymentDetails?: EnvironmentDeploymentDetails;
@@ -13335,7 +13363,7 @@ export interface CreateAssetTypeOutput {
   name: string;
   revision: string;
   description?: string | redacted.Redacted<string>;
-  formsOutput: { [key: string]: FormEntryOutput };
+  formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId?: string;
   originDomainId?: string;
   originProjectId?: string;
@@ -13367,7 +13395,7 @@ export interface GetAssetTypeOutput {
   name: string;
   revision: string;
   description?: string | redacted.Redacted<string>;
-  formsOutput: { [key: string]: FormEntryOutput };
+  formsOutput: { [key: string]: FormEntryOutput | undefined };
   owningProjectId: string;
   originDomainId?: string;
   originProjectId?: string;
@@ -13427,7 +13455,9 @@ export interface PutEnvironmentBlueprintConfigurationOutput {
   environmentRolePermissionBoundary?: string;
   manageAccessRoleArn?: string;
   enabledRegions?: string[];
-  regionalParameters?: { [key: string]: { [key: string]: string } };
+  regionalParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   createdAt?: Date;
   updatedAt?: Date;
   provisioningConfigurations?: ProvisioningConfiguration[];
@@ -13615,7 +13645,7 @@ export interface NotificationOutput {
   actionLink: string | redacted.Redacted<string>;
   creationTimestamp: Date;
   lastUpdatedTimestamp: Date;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
 }
 export const NotificationOutput = S.suspend(() =>
   S.Struct({
@@ -14274,7 +14304,7 @@ export interface AuthenticationConfigurationInput {
   secretArn?: string;
   kmsKeyArn?: string;
   basicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  customAuthenticationCredentials?: { [key: string]: string };
+  customAuthenticationCredentials?: { [key: string]: string | undefined };
 }
 export const AuthenticationConfigurationInput = S.suspend(() =>
   S.Struct({
@@ -14313,7 +14343,7 @@ export const LineageEventSummary = S.suspend(() =>
 export type LineageEventSummaries = LineageEventSummary[];
 export const LineageEventSummaries = S.Array(LineageEventSummary);
 export interface GlueConnectionInput {
-  connectionProperties?: { [key: string]: string };
+  connectionProperties?: { [key: string]: string | undefined };
   physicalConnectionRequirements?: PhysicalConnectionRequirements;
   name?: string;
   description?: string;
@@ -14321,9 +14351,9 @@ export interface GlueConnectionInput {
   matchCriteria?: string;
   validateCredentials?: boolean;
   validateForComputeEnvironments?: ComputeEnvironments[];
-  sparkProperties?: { [key: string]: string };
-  athenaProperties?: { [key: string]: string };
-  pythonProperties?: { [key: string]: string };
+  sparkProperties?: { [key: string]: string | undefined };
+  athenaProperties?: { [key: string]: string | undefined };
+  pythonProperties?: { [key: string]: string | undefined };
   authenticationConfiguration?: AuthenticationConfigurationInput;
 }
 export const GlueConnectionInput = S.suspend(() =>

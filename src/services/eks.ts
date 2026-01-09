@@ -223,13 +223,16 @@ export const EksAnywhereSubscriptionStatusValues = S.Array(
 );
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAccessEntryRequest {
   clusterName: string;
   principalArn: string;
   kubernetesGroups?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientRequestToken?: string;
   username?: string;
   type?: string;
@@ -262,7 +265,7 @@ export interface CreatePodIdentityAssociationRequest {
   serviceAccount: string;
   roleArn: string;
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   disableSessionTags?: boolean;
   targetRoleArn?: string;
 }
@@ -1240,7 +1243,7 @@ export const StartInsightsRefreshRequest = S.suspend(() =>
 }) as any as S.Schema<StartInsightsRefreshRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1688,8 +1691,11 @@ export const RemoteAccessConfig = S.suspend(() =>
 ).annotations({
   identifier: "RemoteAccessConfig",
 }) as any as S.Schema<RemoteAccessConfig>;
-export type LabelsMap = { [key: string]: string };
-export const LabelsMap = S.Record({ key: S.String, value: S.String });
+export type LabelsMap = { [key: string]: string | undefined };
+export const LabelsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Taint {
   key?: string;
   value?: string;
@@ -1746,7 +1752,7 @@ export interface EksAnywhereSubscription {
   autoRenew?: boolean;
   licenseArns?: string[];
   licenses?: License[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const EksAnywhereSubscription = S.suspend(() =>
   S.Struct({
@@ -1803,7 +1809,7 @@ export const UpdateAccessConfigRequest = S.suspend(() =>
   identifier: "UpdateAccessConfigRequest",
 }) as any as S.Schema<UpdateAccessConfigRequest>;
 export interface UpdateLabelsPayload {
-  addOrUpdateLabels?: { [key: string]: string };
+  addOrUpdateLabels?: { [key: string]: string | undefined };
   removeLabels?: string[];
 }
 export const UpdateLabelsPayload = S.suspend(() =>
@@ -1878,7 +1884,7 @@ export interface CreateAddonRequest {
   serviceAccountRoleArn?: string;
   resolveConflicts?: ResolveConflicts;
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   configurationValues?: string;
   podIdentityAssociations?: AddonPodIdentityAssociations[];
   namespaceConfig?: AddonNamespaceConfigRequest;
@@ -1915,7 +1921,7 @@ export interface CreateEksAnywhereSubscriptionRequest {
   licenseType?: EksAnywhereSubscriptionLicenseType;
   autoRenew?: boolean;
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateEksAnywhereSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -1946,7 +1952,7 @@ export interface PodIdentityAssociation {
   roleArn?: string;
   associationArn?: string;
   associationId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   createdAt?: Date;
   modifiedAt?: Date;
   ownerArn?: string;
@@ -2303,7 +2309,7 @@ export interface Cluster {
   certificateAuthority?: Certificate;
   clientRequestToken?: string;
   platformVersion?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   encryptionConfig?: EncryptionConfig[];
   connectorConfig?: ConnectorConfigResponse;
   id?: string;
@@ -2365,7 +2371,7 @@ export interface AccessEntry {
   accessEntryArn?: string;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   username?: string;
   type?: string;
 }
@@ -2482,7 +2488,7 @@ export interface Addon {
   createdAt?: Date;
   modifiedAt?: Date;
   serviceAccountRoleArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   publisher?: string;
   owner?: string;
   marketplaceInformation?: MarketplaceInformation;
@@ -2643,7 +2649,7 @@ export interface Capability {
   status?: CapabilityStatus;
   version?: string;
   configuration?: CapabilityConfigurationResponse;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   health?: CapabilityHealth;
   createdAt?: Date;
   modifiedAt?: Date;
@@ -2690,11 +2696,14 @@ export const DescribeEksAnywhereSubscriptionResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeEksAnywhereSubscriptionResponse",
 }) as any as S.Schema<DescribeEksAnywhereSubscriptionResponse>;
-export type FargateProfileLabel = { [key: string]: string };
-export const FargateProfileLabel = S.Record({ key: S.String, value: S.String });
+export type FargateProfileLabel = { [key: string]: string | undefined };
+export const FargateProfileLabel = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface FargateProfileSelector {
   namespace?: string;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
 }
 export const FargateProfileSelector = S.suspend(() =>
   S.Struct({
@@ -2763,7 +2772,7 @@ export interface FargateProfile {
   subnets?: string[];
   selectors?: FargateProfileSelector[];
   status?: FargateProfileStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   health?: FargateProfileHealth;
 }
 export const FargateProfile = S.suspend(() =>
@@ -3020,7 +3029,7 @@ export interface Nodegroup {
   remoteAccess?: RemoteAccessConfig;
   amiType?: AMITypes;
   nodeRole?: string;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
   taints?: Taint[];
   resources?: NodegroupResources;
   diskSize?: number;
@@ -3028,7 +3037,7 @@ export interface Nodegroup {
   updateConfig?: NodegroupUpdateConfig;
   nodeRepairConfig?: NodeRepairConfig;
   launchTemplate?: LaunchTemplateSpecification;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Nodegroup = S.suspend(() =>
   S.Struct({
@@ -3392,7 +3401,7 @@ export const ListNodegroupsResponse = S.suspend(() =>
   identifier: "ListNodegroupsResponse",
 }) as any as S.Schema<ListNodegroupsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3415,7 +3424,7 @@ export interface RegisterClusterRequest {
   name: string;
   connectorConfig: ConnectorConfigRequest;
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const RegisterClusterRequest = S.suspend(() =>
   S.Struct({
@@ -3609,8 +3618,11 @@ export const UpdatePodIdentityAssociationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePodIdentityAssociationResponse",
 }) as any as S.Schema<UpdatePodIdentityAssociationResponse>;
-export type RequiredClaimsMap = { [key: string]: string };
-export const RequiredClaimsMap = S.Record({ key: S.String, value: S.String });
+export type RequiredClaimsMap = { [key: string]: string | undefined };
+export const RequiredClaimsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ControlPlanePlacementRequest {
   groupName?: string;
 }
@@ -3627,7 +3639,7 @@ export interface OidcIdentityProviderConfigRequest {
   usernamePrefix?: string;
   groupsClaim?: string;
   groupsPrefix?: string;
-  requiredClaims?: { [key: string]: string };
+  requiredClaims?: { [key: string]: string | undefined };
 }
 export const OidcIdentityProviderConfigRequest = S.suspend(() =>
   S.Struct({
@@ -3854,7 +3866,7 @@ export const AssociateEncryptionConfigRequest = S.suspend(() =>
 export interface AssociateIdentityProviderConfigRequest {
   clusterName: string;
   oidc: OidcIdentityProviderConfigRequest;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientRequestToken?: string;
 }
 export const AssociateIdentityProviderConfigRequest = S.suspend(() =>
@@ -3903,7 +3915,7 @@ export interface CreateClusterRequest {
   kubernetesNetworkConfig?: KubernetesNetworkConfigRequest;
   logging?: Logging;
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   encryptionConfig?: EncryptionConfig[];
   outpostConfig?: OutpostConfigRequest;
   accessConfig?: CreateAccessConfigRequest;
@@ -3965,7 +3977,7 @@ export interface CreateFargateProfileRequest {
   subnets?: string[];
   selectors?: FargateProfileSelector[];
   clientRequestToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFargateProfileRequest = S.suspend(() =>
   S.Struct({
@@ -4002,9 +4014,9 @@ export interface CreateNodegroupRequest {
   amiType?: AMITypes;
   remoteAccess?: RemoteAccessConfig;
   nodeRole: string;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
   taints?: Taint[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientRequestToken?: string;
   launchTemplate?: LaunchTemplateSpecification;
   updateConfig?: NodegroupUpdateConfig;
@@ -4171,8 +4183,11 @@ export const InsightStatus = S.suspend(() =>
 ).annotations({
   identifier: "InsightStatus",
 }) as any as S.Schema<InsightStatus>;
-export type AdditionalInfoMap = { [key: string]: string };
-export const AdditionalInfoMap = S.Record({ key: S.String, value: S.String });
+export type AdditionalInfoMap = { [key: string]: string | undefined };
+export const AdditionalInfoMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InsightResourceDetail {
   insightStatus?: InsightStatus;
   kubernetesResourceUri?: string;
@@ -4281,7 +4296,7 @@ export const AssociateEncryptionConfigResponse = S.suspend(() =>
 }) as any as S.Schema<AssociateEncryptionConfigResponse>;
 export interface AssociateIdentityProviderConfigResponse {
   update?: Update;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AssociateIdentityProviderConfigResponse = S.suspend(() =>
   S.Struct({ update: S.optional(Update), tags: S.optional(TagMap) }),
@@ -4420,8 +4435,8 @@ export interface OidcIdentityProviderConfig {
   usernamePrefix?: string;
   groupsClaim?: string;
   groupsPrefix?: string;
-  requiredClaims?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  requiredClaims?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
   status?: ConfigStatus;
 }
 export const OidcIdentityProviderConfig = S.suspend(() =>
@@ -4523,7 +4538,7 @@ export interface CreateCapabilityRequest {
   type: CapabilityType;
   roleArn: string;
   configuration?: CapabilityConfigurationRequest;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   deletePropagationPolicy: CapabilityDeletePropagationPolicy;
 }
 export const CreateCapabilityRequest = S.suspend(() =>
@@ -4630,7 +4645,7 @@ export interface Insight {
   description?: string;
   insightStatus?: InsightStatus;
   recommendation?: string;
-  additionalInfo?: { [key: string]: string };
+  additionalInfo?: { [key: string]: string | undefined };
   resources?: InsightResourceDetail[];
   categorySpecificSummary?: InsightCategorySpecificSummary;
 }

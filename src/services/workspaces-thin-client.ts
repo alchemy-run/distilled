@@ -350,11 +350,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -472,10 +475,10 @@ export const MaintenanceWindow = S.suspend(() =>
 ).annotations({
   identifier: "MaintenanceWindow",
 }) as any as S.Schema<MaintenanceWindow>;
-export type DeviceCreationTagsMap = { [key: string]: string };
+export type DeviceCreationTagsMap = { [key: string]: string | undefined };
 export const DeviceCreationTagsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface UpdateEnvironmentRequest {
   id: string;
@@ -486,7 +489,7 @@ export interface UpdateEnvironmentRequest {
   maintenanceWindow?: MaintenanceWindow;
   softwareSetUpdateMode?: SoftwareSetUpdateMode;
   desiredSoftwareSetId?: string;
-  deviceCreationTags?: { [key: string]: string };
+  deviceCreationTags?: { [key: string]: string | undefined };
 }
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -549,8 +552,8 @@ export interface CreateEnvironmentRequest {
   desiredSoftwareSetId?: string;
   kmsKeyArn?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
-  deviceCreationTags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  deviceCreationTags?: { [key: string]: string | undefined };
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -579,7 +582,7 @@ export const CreateEnvironmentRequest = S.suspend(() =>
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -793,7 +796,7 @@ export interface Environment {
   updatedAt?: Date;
   arn?: string;
   kmsKeyArn?: string;
-  deviceCreationTags?: { [key: string]: string };
+  deviceCreationTags?: { [key: string]: string | undefined };
 }
 export const Environment = S.suspend(() =>
   S.Struct({

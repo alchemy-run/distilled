@@ -1238,6 +1238,24 @@ describe("restXml protocol", () => {
         }),
     );
 
+    it.effect(
+      "PutObjectRequest - should drop undefined values in metadata (httpPrefixHeaders)",
+      () =>
+        Effect.gen(function* () {
+          const request = yield* buildRequest(PutObjectRequest, {
+            Bucket: "my-bucket",
+            Key: "my-key",
+            Metadata: {
+              present: "value",
+              absent: undefined,
+            } as { [key: string]: string | undefined },
+          });
+
+          expect(request.headers["x-amz-meta-present"]).toBe("value");
+          expect("x-amz-meta-absent" in request.headers).toBe(false);
+        }),
+    );
+
     it.effect("GetObjectOutput - should deserialize response headers", () =>
       Effect.gen(function* () {
         const response: Response = {

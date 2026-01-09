@@ -384,14 +384,14 @@ export const ListUserAssociationsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListUserAssociationsRequest",
 }) as any as S.Schema<ListUserAssociationsRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface StartProductSubscriptionRequest {
   Username: string;
   IdentityProvider: IdentityProvider;
   Product: string;
   Domain?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartProductSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -442,7 +442,7 @@ export const StopProductSubscriptionRequest = S.suspend(() =>
 }) as any as S.Schema<StopProductSubscriptionRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -632,7 +632,7 @@ export const ListLicenseServerEndpointsResponse = S.suspend(() =>
   identifier: "ListLicenseServerEndpointsResponse",
 }) as any as S.Schema<ListLicenseServerEndpointsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -655,7 +655,7 @@ export interface RegisterIdentityProviderRequest {
   IdentityProvider: IdentityProvider;
   Product: string;
   Settings?: Settings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RegisterIdentityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -893,7 +893,7 @@ export const LicenseServerSettings = S.suspend(() =>
 export interface CreateLicenseServerEndpointRequest {
   IdentityProviderArn: string;
   LicenseServerSettings: LicenseServerSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateLicenseServerEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -941,7 +941,7 @@ export interface AssociateUserRequest {
   InstanceId: string;
   IdentityProvider: IdentityProvider;
   Domain?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const AssociateUserRequest = S.suspend(() =>
   S.Struct({

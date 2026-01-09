@@ -1541,11 +1541,14 @@ export const FlinkApplicationConfigurationDescription = S.suspend(() =>
 ).annotations({
   identifier: "FlinkApplicationConfigurationDescription",
 }) as any as S.Schema<FlinkApplicationConfigurationDescription>;
-export type PropertyMap = { [key: string]: string };
-export const PropertyMap = S.Record({ key: S.String, value: S.String });
+export type PropertyMap = { [key: string]: string | undefined };
+export const PropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface PropertyGroup {
   PropertyGroupId: string;
-  PropertyMap: { [key: string]: string };
+  PropertyMap: { [key: string]: string | undefined };
 }
 export const PropertyGroup = S.suspend(() =>
   S.Struct({ PropertyGroupId: S.String, PropertyMap: PropertyMap }),

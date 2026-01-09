@@ -200,14 +200,14 @@ export const BatchGetStreamKeyRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchGetStreamKeyRequest",
 }) as any as S.Schema<BatchGetStreamKeyRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreatePlaybackRestrictionPolicyRequest {
   allowedCountries?: string[];
   allowedOrigins?: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePlaybackRestrictionPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -231,7 +231,7 @@ export const CreatePlaybackRestrictionPolicyRequest = S.suspend(() =>
 }) as any as S.Schema<CreatePlaybackRestrictionPolicyRequest>;
 export interface CreateStreamKeyRequest {
   channelArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateStreamKeyRequest = S.suspend(() =>
   S.Struct({ channelArn: S.String, tags: S.optional(Tags) }).pipe(
@@ -483,7 +483,7 @@ export const GetStreamSessionRequest = S.suspend(() =>
 export interface ImportPlaybackKeyPairRequest {
   publicKeyMaterial: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ImportPlaybackKeyPairRequest = S.suspend(() =>
   S.Struct({
@@ -730,7 +730,7 @@ export const StopStreamResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopStreamResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -971,7 +971,7 @@ export interface CreateChannelRequest {
   type?: ChannelType;
   authorized?: boolean;
   recordingConfigurationArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   insecureIngest?: boolean;
   preset?: TranscodePreset;
   playbackRestrictionPolicyArn?: string;
@@ -1008,7 +1008,7 @@ export interface StreamKey {
   arn?: string;
   value?: string | redacted.Redacted<string>;
   channelArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StreamKey = S.suspend(() =>
   S.Struct({
@@ -1045,7 +1045,7 @@ export interface Channel {
   ingestEndpoint?: string;
   playbackUrl?: string;
   authorized?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   insecureIngest?: boolean;
   preset?: TranscodePreset;
   srt?: Srt;
@@ -1086,7 +1086,7 @@ export interface PlaybackRestrictionPolicy {
   allowedOrigins: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PlaybackRestrictionPolicy = S.suspend(() =>
   S.Struct({
@@ -1122,7 +1122,7 @@ export interface PlaybackKeyPair {
   arn?: string;
   name?: string;
   fingerprint?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PlaybackKeyPair = S.suspend(() =>
   S.Struct({
@@ -1166,7 +1166,7 @@ export const ListStreamsRequest = S.suspend(() =>
   identifier: "ListStreamsRequest",
 }) as any as S.Schema<ListStreamsRequest>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1228,7 +1228,7 @@ export interface RecordingConfiguration {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   thumbnailConfiguration?: ThumbnailConfiguration;
   recordingReconnectWindowSeconds?: number;
   renditionConfiguration?: RenditionConfiguration;
@@ -1273,7 +1273,7 @@ export interface ChannelSummary {
   latencyMode?: string;
   authorized?: boolean;
   recordingConfigurationArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   insecureIngest?: boolean;
   type?: ChannelType;
   preset?: TranscodePreset;
@@ -1300,7 +1300,7 @@ export const ChannelList = S.Array(ChannelSummary);
 export interface PlaybackKeyPairSummary {
   arn?: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PlaybackKeyPairSummary = S.suspend(() =>
   S.Struct({
@@ -1319,7 +1319,7 @@ export interface PlaybackRestrictionPolicySummary {
   allowedOrigins: string[];
   enableStrictOriginEnforcement?: boolean;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PlaybackRestrictionPolicySummary = S.suspend(() =>
   S.Struct({
@@ -1342,7 +1342,7 @@ export interface RecordingConfigurationSummary {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const RecordingConfigurationSummary = S.suspend(() =>
   S.Struct({
@@ -1362,7 +1362,7 @@ export const RecordingConfigurationList = S.Array(
 export interface StreamKeySummary {
   arn?: string;
   channelArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StreamKeySummary = S.suspend(() =>
   S.Struct({
@@ -1479,7 +1479,7 @@ export const CreatePlaybackRestrictionPolicyResponse = S.suspend(() =>
 export interface CreateRecordingConfigurationRequest {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   thumbnailConfiguration?: ThumbnailConfiguration;
   recordingReconnectWindowSeconds?: number;
   renditionConfiguration?: RenditionConfiguration;

@@ -147,8 +147,11 @@ export const DeletionProtectionCheck = S.Literal(
 );
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDeploymentStrategyRequest {
   Name: string;
   Description?: string;
@@ -157,7 +160,7 @@ export interface CreateDeploymentStrategyRequest {
   GrowthFactor: number;
   GrowthType?: GrowthType;
   ReplicateTo?: ReplicateTo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDeploymentStrategyRequest = S.suspend(() =>
   S.Struct({
@@ -911,7 +914,7 @@ export const StopDeploymentRequest = S.suspend(() =>
 }) as any as S.Schema<StopDeploymentRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1166,7 +1169,7 @@ export type ActionList = Action[];
 export const ActionList = S.Array(Action);
 export type ActionsMap = { [key in ActionPoint]?: Action[] };
 export const ActionsMap = S.partial(
-  S.Record({ key: ActionPoint, value: ActionList }),
+  S.Record({ key: ActionPoint, value: S.UndefinedOr(ActionList) }),
 );
 export interface Parameter {
   Description?: string;
@@ -1180,13 +1183,16 @@ export const Parameter = S.suspend(() =>
     Dynamic: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
-export type ParameterMap = { [key: string]: Parameter };
-export const ParameterMap = S.Record({ key: S.String, value: Parameter });
+export type ParameterMap = { [key: string]: Parameter | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Parameter),
+});
 export interface UpdateExtensionRequest {
   ExtensionIdentifier: string;
   Description?: string;
-  Actions?: { [key: string]: Action[] };
-  Parameters?: { [key: string]: Parameter };
+  Actions?: { [key: string]: Action[] | undefined };
+  Parameters?: { [key: string]: Parameter | undefined };
   VersionNumber?: number;
 }
 export const UpdateExtensionRequest = S.suspend(() =>
@@ -1209,11 +1215,14 @@ export const UpdateExtensionRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateExtensionRequest",
 }) as any as S.Schema<UpdateExtensionRequest>;
-export type ParameterValueMap = { [key: string]: string };
-export const ParameterValueMap = S.Record({ key: S.String, value: S.String });
+export type ParameterValueMap = { [key: string]: string | undefined };
+export const ParameterValueMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateExtensionAssociationRequest {
   ExtensionAssociationId: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const UpdateExtensionAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1363,12 +1372,15 @@ export const Environment = S.suspend(() =>
 ).annotations({ identifier: "Environment" }) as any as S.Schema<Environment>;
 export type EnvironmentList = Environment[];
 export const EnvironmentList = S.Array(Environment);
-export type DynamicParameterMap = { [key: string]: string };
-export const DynamicParameterMap = S.Record({ key: S.String, value: S.String });
+export type DynamicParameterMap = { [key: string]: string | undefined };
+export const DynamicParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateApplicationRequest {
   Name: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -1395,7 +1407,7 @@ export interface CreateConfigurationProfileRequest {
   LocationUri: string;
   RetrievalRoleArn?: string;
   Validators?: Validator[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Type?: string;
   KmsKeyIdentifier?: string;
 }
@@ -1431,7 +1443,7 @@ export interface CreateEnvironmentRequest {
   Name: string;
   Description?: string;
   Monitors?: Monitor[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -1460,8 +1472,8 @@ export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
   ExtensionVersionNumber?: number;
   ResourceIdentifier: string;
-  Parameters?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateExtensionAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1567,8 +1579,8 @@ export interface Extension {
   VersionNumber?: number;
   Arn?: string;
   Description?: string;
-  Actions?: { [key: string]: Action[] };
-  Parameters?: { [key: string]: Parameter };
+  Actions?: { [key: string]: Action[] | undefined };
+  Parameters?: { [key: string]: Parameter | undefined };
 }
 export const Extension = S.suspend(() =>
   S.Struct({
@@ -1586,7 +1598,7 @@ export interface ExtensionAssociation {
   ExtensionArn?: string;
   ResourceArn?: string;
   Arn?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   ExtensionVersionNumber?: number;
 }
 export const ExtensionAssociation = S.suspend(() =>
@@ -1634,7 +1646,7 @@ export const Environments = S.suspend(() =>
   }),
 ).annotations({ identifier: "Environments" }) as any as S.Schema<Environments>;
 export interface ResourceTags {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ResourceTags = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1646,9 +1658,9 @@ export interface StartDeploymentRequest {
   ConfigurationProfileId: string;
   ConfigurationVersion: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KmsKeyIdentifier?: string;
-  DynamicExtensionParameters?: { [key: string]: string };
+  DynamicExtensionParameters?: { [key: string]: string | undefined };
 }
 export const StartDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1711,7 +1723,7 @@ export interface AppliedExtension {
   ExtensionId?: string;
   ExtensionAssociationId?: string;
   VersionNumber?: number;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const AppliedExtension = S.suspend(() =>
   S.Struct({
@@ -1851,9 +1863,9 @@ export const HostedConfigurationVersionSummaryList = S.Array(
 export interface CreateExtensionRequest {
   Name: string;
   Description?: string;
-  Actions: { [key: string]: Action[] };
-  Parameters?: { [key: string]: Parameter };
-  Tags?: { [key: string]: string };
+  Actions: { [key: string]: Action[] | undefined };
+  Parameters?: { [key: string]: Parameter | undefined };
+  Tags?: { [key: string]: string | undefined };
   LatestVersionNumber?: number;
 }
 export const CreateExtensionRequest = S.suspend(() =>

@@ -241,20 +241,23 @@ export const CreateDeploymentRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateDeploymentRequest",
 }) as any as S.Schema<CreateDeploymentRequest>;
-export type IntegrationParameters = { [key: string]: string };
+export type IntegrationParameters = { [key: string]: string | undefined };
 export const IntegrationParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type TemplateMap = { [key: string]: string };
-export const TemplateMap = S.Record({ key: S.String, value: S.String });
+export type TemplateMap = { [key: string]: string | undefined };
+export const TemplateMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateIntegrationResponseRequest {
   ApiId: string;
   ContentHandlingStrategy?: ContentHandlingStrategy;
   IntegrationId: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const CreateIntegrationResponseRequest = S.suspend(() =>
@@ -319,12 +322,12 @@ export const CreateModelRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateModelRequest",
 }) as any as S.Schema<CreateModelRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreatePortalProductRequest {
   Description?: string;
   DisplayName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePortalProductRequest = S.suspend(() =>
   S.Struct({
@@ -344,8 +347,11 @@ export const CreatePortalProductRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreatePortalProductRequest",
 }) as any as S.Schema<CreatePortalProductRequest>;
-export type RouteModels = { [key: string]: string };
-export const RouteModels = S.Record({ key: S.String, value: S.String });
+export type RouteModels = { [key: string]: string | undefined };
+export const RouteModels = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ParameterConstraints {
   Required?: boolean;
 }
@@ -354,16 +360,18 @@ export const ParameterConstraints = S.suspend(() =>
 ).annotations({
   identifier: "ParameterConstraints",
 }) as any as S.Schema<ParameterConstraints>;
-export type RouteParameters = { [key: string]: ParameterConstraints };
+export type RouteParameters = {
+  [key: string]: ParameterConstraints | undefined;
+};
 export const RouteParameters = S.Record({
   key: S.String,
-  value: ParameterConstraints,
+  value: S.UndefinedOr(ParameterConstraints),
 });
 export interface CreateRouteResponseRequest {
   ApiId: string;
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId: string;
   RouteResponseKey?: string;
 }
@@ -399,7 +407,7 @@ export interface CreateVpcLinkRequest {
   Name?: string;
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateVpcLinkRequest = S.suspend(() =>
   S.Struct({
@@ -2230,7 +2238,7 @@ export const ResetAuthorizersCacheResponse = S.suspend(() =>
 }) as any as S.Schema<ResetAuthorizersCacheResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2587,10 +2595,12 @@ export const UpdateDomainNameRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateDomainNameRequest",
 }) as any as S.Schema<UpdateDomainNameRequest>;
-export type ResponseParameters = { [key: string]: { [key: string]: string } };
+export type ResponseParameters = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
 export const ResponseParameters = S.Record({
   key: S.String,
-  value: IntegrationParameters,
+  value: S.UndefinedOr(IntegrationParameters),
 });
 export interface TlsConfigInput {
   ServerNameToVerify?: string;
@@ -2618,9 +2628,11 @@ export interface UpdateIntegrationRequest {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfigInput;
@@ -2692,8 +2704,8 @@ export interface UpdateIntegrationResponseRequest {
   IntegrationId: string;
   IntegrationResponseId: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const UpdateIntegrationResponseRequest = S.suspend(() =>
@@ -3022,8 +3034,8 @@ export interface UpdateRouteRequest {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId: string;
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
@@ -3070,8 +3082,8 @@ export const UpdateRouteRequest = S.suspend(() =>
 export interface UpdateRouteResponseRequest {
   ApiId: string;
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId: string;
   RouteResponseId: string;
   RouteResponseKey?: string;
@@ -3145,13 +3157,16 @@ export const RouteSettings = S.suspend(() =>
 ).annotations({
   identifier: "RouteSettings",
 }) as any as S.Schema<RouteSettings>;
-export type RouteSettingsMap = { [key: string]: RouteSettings };
+export type RouteSettingsMap = { [key: string]: RouteSettings | undefined };
 export const RouteSettingsMap = S.Record({
   key: S.String,
-  value: RouteSettings,
+  value: S.UndefinedOr(RouteSettings),
 });
-export type StageVariablesMap = { [key: string]: string };
-export const StageVariablesMap = S.Record({ key: S.String, value: S.String });
+export type StageVariablesMap = { [key: string]: string | undefined };
+export const StageVariablesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateStageRequest {
   AccessLogSettings?: AccessLogSettings;
   ApiId: string;
@@ -3160,9 +3175,9 @@ export interface UpdateStageRequest {
   DefaultRouteSettings?: RouteSettings;
   DeploymentId?: string;
   Description?: string;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName: string;
-  StageVariables?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
 }
 export const UpdateStageRequest = S.suspend(() =>
   S.Struct({
@@ -3262,7 +3277,7 @@ export interface CreateApiRequest {
   ProtocolType?: ProtocolType;
   RouteKey?: string;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Target?: string;
   Version?: string;
 }
@@ -3407,7 +3422,7 @@ export interface CreateDomainNameRequest {
   DomainNameConfigurations?: DomainNameConfiguration[];
   MutualTlsAuthentication?: MutualTlsAuthenticationInput;
   RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainNameRequest = S.suspend(() =>
   S.Struct({
@@ -3446,9 +3461,11 @@ export interface CreateIntegrationRequest {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfigInput;
@@ -3514,8 +3531,8 @@ export interface CreateIntegrationResponseResponse {
   ContentHandlingStrategy?: ContentHandlingStrategy;
   IntegrationResponseId?: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const CreateIntegrationResponseResponse = S.suspend(() =>
@@ -3600,7 +3617,7 @@ export interface CreatePortalProductResponse {
   LastModified?: Date;
   PortalProductArn?: string;
   PortalProductId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePortalProductResponse = S.suspend(() =>
   S.Struct({
@@ -3647,8 +3664,8 @@ export const CreateProductPageRequest = S.suspend(() =>
 }) as any as S.Schema<CreateProductPageRequest>;
 export interface CreateRouteResponseResponse {
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteResponseId?: string;
   RouteResponseKey?: string;
 }
@@ -3675,10 +3692,10 @@ export interface CreateStageRequest {
   DefaultRouteSettings?: RouteSettings;
   DeploymentId?: string;
   Description?: string;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName?: string;
-  StageVariables?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateStageRequest = S.suspend(() =>
   S.Struct({
@@ -3721,7 +3738,7 @@ export interface CreateVpcLinkResponse {
   Name?: string;
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VpcLinkId?: string;
   VpcLinkStatus?: VpcLinkStatus;
   VpcLinkStatusMessage?: string;
@@ -3773,7 +3790,7 @@ export interface GetApiResponse {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -3906,8 +3923,8 @@ export interface GetIntegrationResponseResponse {
   ContentHandlingStrategy?: ContentHandlingStrategy;
   IntegrationResponseId?: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const GetIntegrationResponseResponse = S.suspend(() =>
@@ -3972,7 +3989,7 @@ export interface GetPortalProductResponse {
   LastModified?: Date;
   PortalProductArn?: string;
   PortalProductId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetPortalProductResponse = S.suspend(() =>
   S.Struct({
@@ -4034,8 +4051,8 @@ export interface GetRouteResult {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId?: string;
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
@@ -4074,8 +4091,8 @@ export const GetRouteResult = S.suspend(() =>
 }) as any as S.Schema<GetRouteResult>;
 export interface GetRouteResponseResponse {
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteResponseId?: string;
   RouteResponseKey?: string;
 }
@@ -4138,10 +4155,10 @@ export interface GetStageResponse {
   Description?: string;
   LastDeploymentStatusMessage?: string;
   LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName?: string;
-  StageVariables?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetStageResponse = S.suspend(() =>
   S.Struct({
@@ -4182,7 +4199,7 @@ export const GetStageResponse = S.suspend(() =>
   identifier: "GetStageResponse",
 }) as any as S.Schema<GetStageResponse>;
 export interface GetTagsResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -4194,7 +4211,7 @@ export interface GetVpcLinkResponse {
   Name?: string;
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VpcLinkId?: string;
   VpcLinkStatus?: VpcLinkStatus;
   VpcLinkStatusMessage?: string;
@@ -4238,7 +4255,7 @@ export interface ImportApiResponse {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -4327,7 +4344,7 @@ export interface ReimportApiResponse {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -4383,7 +4400,7 @@ export interface UpdateApiResponse {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -4537,7 +4554,7 @@ export interface UpdateDomainNameResponse {
   DomainNameConfigurations?: DomainNameConfiguration[];
   MutualTlsAuthentication?: MutualTlsAuthentication;
   RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateDomainNameResponse = S.suspend(() =>
   S.Struct({
@@ -4583,9 +4600,11 @@ export interface UpdateIntegrationResult {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfig;
@@ -4648,8 +4667,8 @@ export interface UpdateIntegrationResponseResponse {
   ContentHandlingStrategy?: ContentHandlingStrategy;
   IntegrationResponseId?: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const UpdateIntegrationResponseResponse = S.suspend(() =>
@@ -4784,7 +4803,7 @@ export interface UpdatePortalResponse {
   PublishStatus?: PublishStatus;
   RumAppMonitorName?: string;
   StatusException?: StatusException;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdatePortalResponse = S.suspend(() =>
   S.Struct({
@@ -4944,8 +4963,8 @@ export interface UpdateRouteResult {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId?: string;
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
@@ -4984,8 +5003,8 @@ export const UpdateRouteResult = S.suspend(() =>
 }) as any as S.Schema<UpdateRouteResult>;
 export interface UpdateRouteResponseResponse {
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteResponseId?: string;
   RouteResponseKey?: string;
 }
@@ -5015,10 +5034,10 @@ export interface UpdateStageResponse {
   Description?: string;
   LastDeploymentStatusMessage?: string;
   LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName?: string;
-  StageVariables?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateStageResponse = S.suspend(() =>
   S.Struct({
@@ -5063,7 +5082,7 @@ export interface UpdateVpcLinkResponse {
   Name?: string;
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VpcLinkId?: string;
   VpcLinkStatus?: VpcLinkStatus;
   VpcLinkStatusMessage?: string;
@@ -5123,7 +5142,7 @@ export interface Api {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -5243,7 +5262,7 @@ export interface DomainName {
   DomainNameConfigurations?: DomainNameConfiguration[];
   MutualTlsAuthentication?: MutualTlsAuthentication;
   RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DomainName = S.suspend(() =>
   S.Struct({
@@ -5268,8 +5287,8 @@ export interface IntegrationResponse {
   ContentHandlingStrategy?: ContentHandlingStrategy;
   IntegrationResponseId?: string;
   IntegrationResponseKey?: string;
-  ResponseParameters?: { [key: string]: string };
-  ResponseTemplates?: { [key: string]: string };
+  ResponseParameters?: { [key: string]: string | undefined };
+  ResponseTemplates?: { [key: string]: string | undefined };
   TemplateSelectionExpression?: string;
 }
 export const IntegrationResponse = S.suspend(() =>
@@ -5313,9 +5332,11 @@ export interface Integration {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfig;
@@ -5394,8 +5415,8 @@ export type __listOfModel = Model[];
 export const __listOfModel = S.Array(Model);
 export interface RouteResponse {
   ModelSelectionExpression?: string;
-  ResponseModels?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: ParameterConstraints };
+  ResponseModels?: { [key: string]: string | undefined };
+  ResponseParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteResponseId?: string;
   RouteResponseKey?: string;
 }
@@ -5424,8 +5445,8 @@ export interface Route {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId?: string;
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
@@ -5473,10 +5494,10 @@ export interface Stage {
   Description?: string;
   LastDeploymentStatusMessage?: string;
   LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName?: string;
-  StageVariables?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Stage = S.suspend(() =>
   S.Struct({
@@ -5521,7 +5542,7 @@ export interface VpcLink {
   Name?: string;
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VpcLinkId?: string;
   VpcLinkStatus?: VpcLinkStatus;
   VpcLinkStatusMessage?: string;
@@ -5556,7 +5577,7 @@ export interface PortalProductSummary {
   LastModified?: Date;
   PortalProductArn?: string;
   PortalProductId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PortalProductSummary = S.suspend(() =>
   S.Struct({
@@ -5588,7 +5609,7 @@ export interface PortalSummary {
   PublishStatus?: PublishStatus;
   RumAppMonitorName?: string;
   StatusException?: StatusException;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PortalSummary = S.suspend(() =>
   S.Struct({
@@ -5730,7 +5751,7 @@ export interface CreateApiResponse {
   Name?: string;
   ProtocolType?: ProtocolType;
   RouteSelectionExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Version?: string;
   Warnings?: string[];
 }
@@ -5824,7 +5845,7 @@ export interface CreateDomainNameResponse {
   DomainNameConfigurations?: DomainNameConfiguration[];
   MutualTlsAuthentication?: MutualTlsAuthentication;
   RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainNameResponse = S.suspend(() =>
   S.Struct({
@@ -5860,9 +5881,11 @@ export interface CreateIntegrationResult {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfig;
@@ -5984,8 +6007,8 @@ export interface CreateRouteRequest {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
   Target?: string;
@@ -6038,10 +6061,10 @@ export interface CreateStageResponse {
   Description?: string;
   LastDeploymentStatusMessage?: string;
   LastUpdatedDate?: Date;
-  RouteSettings?: { [key: string]: RouteSettings };
+  RouteSettings?: { [key: string]: RouteSettings | undefined };
   StageName?: string;
-  StageVariables?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  StageVariables?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateStageResponse = S.suspend(() =>
   S.Struct({
@@ -6140,7 +6163,7 @@ export interface GetDomainNameResponse {
   DomainNameConfigurations?: DomainNameConfiguration[];
   MutualTlsAuthentication?: MutualTlsAuthentication;
   RoutingMode?: RoutingMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDomainNameResponse = S.suspend(() =>
   S.Struct({
@@ -6188,9 +6211,11 @@ export interface GetIntegrationResult {
   IntegrationUri?: string;
   PassthroughBehavior?: PassthroughBehavior;
   PayloadFormatVersion?: string;
-  RequestParameters?: { [key: string]: string };
-  RequestTemplates?: { [key: string]: string };
-  ResponseParameters?: { [key: string]: { [key: string]: string } };
+  RequestParameters?: { [key: string]: string | undefined };
+  RequestTemplates?: { [key: string]: string | undefined };
+  ResponseParameters?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   TemplateSelectionExpression?: string;
   TimeoutInMillis?: number;
   TlsConfig?: TlsConfig;
@@ -6320,7 +6345,7 @@ export interface GetPortalResponse {
   PublishStatus?: PublishStatus;
   RumAppMonitorName?: string;
   StatusException?: StatusException;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetPortalResponse = S.suspend(() =>
   S.Struct({
@@ -6638,7 +6663,7 @@ export interface CreatePortalRequest {
   LogoUri?: string;
   PortalContent?: PortalContent;
   RumAppMonitorName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
@@ -6725,8 +6750,8 @@ export interface CreateRouteResult {
   AuthorizerId?: string;
   ModelSelectionExpression?: string;
   OperationName?: string;
-  RequestModels?: { [key: string]: string };
-  RequestParameters?: { [key: string]: ParameterConstraints };
+  RequestModels?: { [key: string]: string | undefined };
+  RequestParameters?: { [key: string]: ParameterConstraints | undefined };
   RouteId?: string;
   RouteKey?: string;
   RouteResponseSelectionExpression?: string;
@@ -6807,7 +6832,7 @@ export interface UpdatePortalProductResponse {
   LastModified?: Date;
   PortalProductArn?: string;
   PortalProductId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdatePortalProductResponse = S.suspend(() =>
   S.Struct({
@@ -6860,7 +6885,7 @@ export interface CreatePortalResponse {
   PublishStatus?: PublishStatus;
   RumAppMonitorName?: string;
   StatusException?: StatusException;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePortalResponse = S.suspend(() =>
   S.Struct({

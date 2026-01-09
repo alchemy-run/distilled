@@ -626,8 +626,11 @@ export type EventPublishers = string[];
 export const EventPublishers = S.Array(S.String);
 export type ThreadStates = string[];
 export const ThreadStates = S.Array(S.String);
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ProfilingGroupNames = string[];
 export const ProfilingGroupNames = S.Array(S.String);
 export interface AggregatedProfileTime {
@@ -668,7 +671,7 @@ export interface ProfilingGroupDescription {
   updatedAt?: Date;
   profilingStatus?: ProfilingStatus;
   computePlatform?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ProfilingGroupDescription = S.suspend(() =>
   S.Struct({
@@ -710,10 +713,13 @@ export const FrameMetric = S.suspend(() =>
 ).annotations({ identifier: "FrameMetric" }) as any as S.Schema<FrameMetric>;
 export type FrameMetrics = FrameMetric[];
 export const FrameMetrics = S.Array(FrameMetric);
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -722,7 +728,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -750,7 +756,7 @@ export interface CreateProfilingGroupRequest {
   computePlatform?: string;
   clientToken: string;
   agentOrchestrationConfig?: AgentOrchestrationConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateProfilingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -866,7 +872,7 @@ export const BatchGetFrameMetricDataRequest = S.suspend(() =>
 export interface ConfigureAgentRequest {
   profilingGroupName: string;
   fleetInstanceId?: string;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
 }
 export const ConfigureAgentRequest = S.suspend(() =>
   S.Struct({
@@ -1101,10 +1107,12 @@ export const TimestampStructure = S.suspend(() =>
 }) as any as S.Schema<TimestampStructure>;
 export type ListOfTimestamps = TimestampStructure[];
 export const ListOfTimestamps = S.Array(TimestampStructure);
-export type UnprocessedEndTimeMap = { [key: string]: TimestampStructure[] };
+export type UnprocessedEndTimeMap = {
+  [key: string]: TimestampStructure[] | undefined;
+};
 export const UnprocessedEndTimeMap = S.Record({
   key: S.String,
-  value: ListOfTimestamps,
+  value: S.UndefinedOr(ListOfTimestamps),
 });
 export interface FrameMetricDatum {
   frameMetric: FrameMetric;
@@ -1150,7 +1158,7 @@ export interface BatchGetFrameMetricDataResponse {
   endTime: Date;
   resolution: string;
   endTimes: TimestampStructure[];
-  unprocessedEndTimes: { [key: string]: TimestampStructure[] };
+  unprocessedEndTimes: { [key: string]: TimestampStructure[] | undefined };
   frameMetricData: FrameMetricDatum[];
 }
 export const BatchGetFrameMetricDataResponse = S.suspend(() =>
@@ -1165,8 +1173,11 @@ export const BatchGetFrameMetricDataResponse = S.suspend(() =>
 ).annotations({
   identifier: "BatchGetFrameMetricDataResponse",
 }) as any as S.Schema<BatchGetFrameMetricDataResponse>;
-export type AgentParameters = { [key: string]: string };
-export const AgentParameters = S.Record({ key: S.String, value: S.String });
+export type AgentParameters = { [key: string]: string | undefined };
+export const AgentParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AnomalyInstance {
   id: string;
   startTime: Date;
@@ -1188,7 +1199,7 @@ export const AnomalyInstances = S.Array(AnomalyInstance);
 export interface AgentConfiguration {
   shouldProfile: boolean;
   periodInSeconds: number;
-  agentParameters?: { [key: string]: string };
+  agentParameters?: { [key: string]: string | undefined };
 }
 export const AgentConfiguration = S.suspend(() =>
   S.Struct({

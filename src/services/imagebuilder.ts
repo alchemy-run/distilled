@@ -281,8 +281,11 @@ export const CancelLifecycleExecutionRequest = S.suspend(() =>
 ).annotations({
   identifier: "CancelLifecycleExecutionRequest",
 }) as any as S.Schema<CancelLifecycleExecutionRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateWorkflowRequest {
   name: string;
   semanticVersion: string;
@@ -291,7 +294,7 @@ export interface CreateWorkflowRequest {
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
   type: WorkflowType;
   dryRun?: boolean;
@@ -513,7 +516,7 @@ export interface DistributeImageRequest {
   sourceImage: string;
   distributionConfigurationArn: string;
   executionRole: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
   loggingConfiguration?: ImageLoggingConfiguration;
 }
@@ -880,7 +883,7 @@ export interface ImportComponentRequest {
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const ImportComponentRequest = S.suspend(() =>
@@ -920,7 +923,7 @@ export interface ImportDiskImageRequest {
   infrastructureConfigurationArn: string;
   uri: string;
   loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const ImportDiskImageRequest = S.suspend(() =>
@@ -957,7 +960,7 @@ export interface ImportVmImageRequest {
   osVersion?: string;
   vmImportTaskId: string;
   loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const ImportVmImageRequest = S.suspend(() =>
@@ -1588,7 +1591,7 @@ export const SendWorkflowStepActionRequest = S.suspend(() =>
 export interface StartImagePipelineExecutionRequest {
   imagePipelineArn: string;
   clientToken: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartImagePipelineExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -1610,7 +1613,7 @@ export const StartImagePipelineExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<StartImagePipelineExecutionRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1686,7 +1689,7 @@ export interface AmiDistributionConfiguration {
   name?: string;
   description?: string;
   targetAccountIds?: string[];
-  amiTags?: { [key: string]: string };
+  amiTags?: { [key: string]: string | undefined };
   kmsKeyId?: string;
   launchPermission?: LaunchPermissionConfiguration;
 }
@@ -2051,8 +2054,11 @@ export interface Logging {
 export const Logging = S.suspend(() =>
   S.Struct({ s3Logs: S.optional(S3Logs) }),
 ).annotations({ identifier: "Logging" }) as any as S.Schema<Logging>;
-export type ResourceTagMap = { [key: string]: string };
-export const ResourceTagMap = S.Record({ key: S.String, value: S.String });
+export type ResourceTagMap = { [key: string]: string | undefined };
+export const ResourceTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InstanceMetadataOptions {
   httpTokens?: string;
   httpPutResponseHopLimit?: number;
@@ -2092,7 +2098,7 @@ export interface UpdateInfrastructureConfigurationRequest {
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
   snsTopicArn?: string;
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   instanceMetadataOptions?: InstanceMetadataOptions;
   placement?: Placement;
   clientToken: string;
@@ -2200,7 +2206,7 @@ export interface LifecyclePolicyDetailExclusionRulesAmis {
   regions?: string[];
   sharedAccounts?: string[];
   lastLaunched?: LifecyclePolicyDetailExclusionRulesAmisLastLaunched;
-  tagMap?: { [key: string]: string };
+  tagMap?: { [key: string]: string | undefined };
 }
 export const LifecyclePolicyDetailExclusionRulesAmis = S.suspend(() =>
   S.Struct({
@@ -2216,7 +2222,7 @@ export const LifecyclePolicyDetailExclusionRulesAmis = S.suspend(() =>
   identifier: "LifecyclePolicyDetailExclusionRulesAmis",
 }) as any as S.Schema<LifecyclePolicyDetailExclusionRulesAmis>;
 export interface LifecyclePolicyDetailExclusionRules {
-  tagMap?: { [key: string]: string };
+  tagMap?: { [key: string]: string | undefined };
   amis?: LifecyclePolicyDetailExclusionRulesAmis;
 }
 export const LifecyclePolicyDetailExclusionRules = S.suspend(() =>
@@ -2259,7 +2265,7 @@ export const LifecyclePolicyResourceSelectionRecipes = S.Array(
 );
 export interface LifecyclePolicyResourceSelection {
   recipes?: LifecyclePolicyResourceSelectionRecipe[];
-  tagMap?: { [key: string]: string };
+  tagMap?: { [key: string]: string | undefined };
 }
 export const LifecyclePolicyResourceSelection = S.suspend(() =>
   S.Struct({
@@ -2476,7 +2482,7 @@ export interface ImagePipeline {
   dateLastRun?: string;
   lastRunStatus?: ImageStatus;
   dateNextRun?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   imageScanningConfiguration?: ImageScanningConfiguration;
   executionRole?: string;
   workflows?: WorkflowConfiguration[];
@@ -2643,7 +2649,7 @@ export interface CreateComponentRequest {
   data?: string;
   uri?: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
   dryRun?: boolean;
 }
@@ -3064,7 +3070,7 @@ export interface ImageSummary {
   owner?: string;
   dateCreated?: string;
   outputResources?: OutputResources;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   buildType?: BuildType;
   imageSource?: ImageSource;
   deprecationTime?: Date;
@@ -3159,7 +3165,7 @@ export const ListLifecycleExecutionsResponse = S.suspend(() =>
   identifier: "ListLifecycleExecutionsResponse",
 }) as any as S.Schema<ListLifecycleExecutionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -3379,7 +3385,7 @@ export interface ContainerRecipe {
   encrypted?: boolean;
   parentImage?: string;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   workingDirectory?: string;
   targetRepository?: TargetContainerRepository;
 }
@@ -3414,7 +3420,7 @@ export interface DistributionConfiguration {
   timeoutMinutes: number;
   dateCreated?: string;
   dateUpdated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DistributionConfiguration = S.suspend(() =>
   S.Struct({
@@ -3442,10 +3448,10 @@ export interface ImageRecipe {
   parentImage?: string;
   blockDeviceMappings?: InstanceBlockDeviceMapping[];
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   workingDirectory?: string;
   additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: { [key: string]: string };
+  amiTags?: { [key: string]: string | undefined };
 }
 export const ImageRecipe = S.suspend(() =>
   S.Struct({
@@ -3482,9 +3488,9 @@ export interface InfrastructureConfiguration {
   snsTopicArn?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   placement?: Placement;
 }
 export const InfrastructureConfiguration = S.suspend(() =>
@@ -3522,7 +3528,7 @@ export interface LifecyclePolicy {
   dateCreated?: Date;
   dateUpdated?: Date;
   dateLastRun?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const LifecyclePolicy = S.suspend(() =>
   S.Struct({
@@ -3568,7 +3574,7 @@ export interface ComponentSummary {
   description?: string;
   changeDescription?: string;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   publisher?: string;
   obfuscate?: boolean;
 }
@@ -3603,7 +3609,7 @@ export interface ContainerRecipeSummary {
   parentImage?: string;
   dateCreated?: string;
   instanceImage?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ContainerRecipeSummary = S.suspend(() =>
   S.Struct({
@@ -3628,7 +3634,7 @@ export interface DistributionConfigurationSummary {
   description?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   regions?: string[];
 }
 export const DistributionConfigurationSummary = S.suspend(() =>
@@ -3668,7 +3674,7 @@ export interface ImageRecipeSummary {
   owner?: string;
   parentImage?: string;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ImageRecipeSummary = S.suspend(() =>
   S.Struct({
@@ -3719,8 +3725,8 @@ export interface InfrastructureConfigurationSummary {
   description?: string;
   dateCreated?: string;
   dateUpdated?: string;
-  resourceTags?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
   instanceTypes?: string[];
   instanceProfileName?: string;
   placement?: Placement;
@@ -3756,7 +3762,7 @@ export interface LifecyclePolicySummary {
   dateCreated?: Date;
   dateUpdated?: Date;
   dateLastRun?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const LifecyclePolicySummary = S.suspend(() =>
   S.Struct({
@@ -3824,7 +3830,7 @@ export interface WorkflowSummary {
   owner?: string;
   state?: WorkflowState;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const WorkflowSummary = S.suspend(() =>
   S.Struct({
@@ -4005,7 +4011,7 @@ export interface CreateContainerRecipeRequest {
   platformOverride?: Platform;
   imageOsVersionOverride?: string;
   parentImage: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   workingDirectory?: string;
   targetRepository: TargetContainerRepository;
   kmsKeyId?: string;
@@ -4049,7 +4055,7 @@ export interface CreateImageRequest {
   infrastructureConfigurationArn: string;
   imageTestsConfiguration?: ImageTestsConfiguration;
   enhancedImageMetadataEnabled?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
   imageScanningConfiguration?: ImageScanningConfiguration;
   workflows?: WorkflowConfiguration[];
@@ -4094,7 +4100,7 @@ export interface CreateImagePipelineRequest {
   enhancedImageMetadataEnabled?: boolean;
   schedule?: Schedule;
   status?: PipelineStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
   imageScanningConfiguration?: ImageScanningConfiguration;
   workflows?: WorkflowConfiguration[];
@@ -4139,10 +4145,10 @@ export interface CreateImageRecipeRequest {
   components?: ComponentConfiguration[];
   parentImage: string;
   blockDeviceMappings?: InstanceBlockDeviceMapping[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   workingDirectory?: string;
   additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: { [key: string]: string };
+  amiTags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateImageRecipeRequest = S.suspend(() =>
@@ -4184,9 +4190,9 @@ export interface CreateInfrastructureConfigurationRequest {
   keyPair?: string;
   terminateInstanceOnFailure?: boolean;
   snsTopicArn?: string;
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   placement?: Placement;
   clientToken: string;
 }
@@ -4678,7 +4684,7 @@ export interface Component {
   kmsKeyId?: string;
   encrypted?: boolean;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   publisher?: string;
   obfuscate?: boolean;
   productCodes?: ProductCodeListItem[];
@@ -4718,7 +4724,7 @@ export interface Workflow {
   data?: string;
   kmsKeyId?: string;
   dateCreated?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   parameters?: WorkflowParameterDetail[];
 }
 export const Workflow = S.suspend(() =>
@@ -4832,7 +4838,7 @@ export interface CreateDistributionConfigurationRequest {
   name: string;
   description?: string;
   distributions: Distribution[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateDistributionConfigurationRequest = S.suspend(() =>
@@ -4923,7 +4929,7 @@ export interface CreateLifecyclePolicyRequest {
   resourceType: LifecyclePolicyResourceType;
   policyDetails: LifecyclePolicyDetail[];
   resourceSelection: LifecyclePolicyResourceSelection;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateLifecyclePolicyRequest = S.suspend(() =>
@@ -5075,7 +5081,7 @@ export interface Image {
   imageTestsConfiguration?: ImageTestsConfiguration;
   dateCreated?: string;
   outputResources?: OutputResources;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   buildType?: BuildType;
   imageSource?: ImageSource;
   scanState?: ImageScanState;

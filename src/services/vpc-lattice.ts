@@ -415,14 +415,17 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAccessLogSubscriptionRequest {
   clientToken?: string;
   resourceIdentifier: string;
   destinationArn: string;
   serviceNetworkLogType?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAccessLogSubscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -550,7 +553,7 @@ export const ListAccessLogSubscriptionsRequest = S.suspend(() =>
 export interface StartDomainVerificationRequest {
   clientToken?: string;
   domainName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartDomainVerificationRequest = S.suspend(() =>
   S.Struct({
@@ -997,7 +1000,7 @@ export interface CreateResourceGatewayRequest {
   securityGroupIds?: string[];
   ipAddressType?: string;
   ipv4AddressesPerEni?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateResourceGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1287,7 +1290,7 @@ export const ListRulesRequest = S.suspend(() =>
 export interface CreateServiceRequest {
   clientToken?: string;
   name: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   customDomainName?: string;
   certificateArn?: string;
   authType?: string;
@@ -1501,7 +1504,7 @@ export interface CreateServiceNetworkResourceAssociationRequest {
   resourceConfigurationIdentifier: string;
   serviceNetworkIdentifier: string;
   privateDnsEnabled?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateServiceNetworkResourceAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -1606,7 +1609,7 @@ export interface CreateServiceNetworkServiceAssociationRequest {
   clientToken?: string;
   serviceIdentifier: string;
   serviceNetworkIdentifier: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateServiceNetworkServiceAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -2073,7 +2076,7 @@ export const GetResourcePolicyResponse = S.suspend(() =>
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2091,7 +2094,7 @@ export const PutAuthPolicyResponse = S.suspend(() =>
 }) as any as S.Schema<PutAuthPolicyResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2193,7 +2196,7 @@ export interface GetDomainVerificationResponse {
   txtMethodConfig?: TxtMethodConfig;
   createdAt: Date;
   lastVerifiedTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetDomainVerificationResponse = S.suspend(() =>
   S.Struct({
@@ -2587,7 +2590,7 @@ export interface CreateServiceNetworkRequest {
   clientToken?: string;
   name: string;
   authType?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   sharingConfig?: SharingConfig;
 }
 export const CreateServiceNetworkRequest = S.suspend(() =>
@@ -2808,7 +2811,7 @@ export interface CreateServiceNetworkVpcAssociationRequest {
   vpcIdentifier: string;
   privateDnsEnabled?: boolean;
   securityGroupIds?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   dnsOptions?: DnsOptions;
 }
 export const CreateServiceNetworkVpcAssociationRequest = S.suspend(() =>
@@ -2908,7 +2911,7 @@ export interface CreateTargetGroupRequest {
   type: string;
   config?: TargetGroupConfig;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTargetGroupRequest = S.suspend(() =>
   S.Struct({
@@ -3059,7 +3062,7 @@ export interface DomainVerificationSummary {
   txtMethodConfig?: TxtMethodConfig;
   createdAt: Date;
   lastVerifiedTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DomainVerificationSummary = S.suspend(() =>
   S.Struct({
@@ -3542,7 +3545,7 @@ export interface CreateResourceConfigurationRequest {
   groupDomain?: string;
   domainVerificationIdentifier?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateResourceConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -3882,7 +3885,7 @@ export interface CreateListenerRequest {
   port?: number;
   defaultAction: RuleAction;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateListenerRequest = S.suspend(() =>
   S.Struct({
@@ -4005,7 +4008,7 @@ export interface CreateRuleRequest {
   priority: number;
   action: RuleAction;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRuleRequest = S.suspend(() =>
   S.Struct({

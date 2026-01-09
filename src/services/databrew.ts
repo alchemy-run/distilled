@@ -210,12 +210,15 @@ export const BatchDeleteRecipeVersionRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchDeleteRecipeVersionRequest",
 }) as any as S.Schema<BatchDeleteRecipeVersionRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateScheduleRequest {
   JobNames?: string[];
   CronExpression: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Name: string;
 }
 export const CreateScheduleRequest = S.suspend(() =>
@@ -754,7 +757,7 @@ export const StopJobRunRequest = S.suspend(() =>
 }) as any as S.Schema<StopJobRunRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -912,11 +915,14 @@ export const Input = S.suspend(() =>
     Metadata: S.optional(Metadata),
   }),
 ).annotations({ identifier: "Input" }) as any as S.Schema<Input>;
-export type ValuesMap = { [key: string]: string };
-export const ValuesMap = S.Record({ key: S.String, value: S.String });
+export type ValuesMap = { [key: string]: string | undefined };
+export const ValuesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface FilterExpression {
   Expression: string;
-  ValuesMap: { [key: string]: string };
+  ValuesMap: { [key: string]: string | undefined };
 }
 export const FilterExpression = S.suspend(() =>
   S.Struct({ Expression: S.String, ValuesMap: ValuesMap }),
@@ -973,15 +979,15 @@ export const DatasetParameter = S.suspend(() =>
 ).annotations({
   identifier: "DatasetParameter",
 }) as any as S.Schema<DatasetParameter>;
-export type PathParametersMap = { [key: string]: DatasetParameter };
+export type PathParametersMap = { [key: string]: DatasetParameter | undefined };
 export const PathParametersMap = S.Record({
   key: S.String,
-  value: DatasetParameter,
+  value: S.UndefinedOr(DatasetParameter),
 });
 export interface PathOptions {
   LastModifiedDateCondition?: FilterExpression;
   FilesLimit?: FilesLimit;
-  Parameters?: { [key: string]: DatasetParameter };
+  Parameters?: { [key: string]: DatasetParameter | undefined };
 }
 export const PathOptions = S.suspend(() =>
   S.Struct({
@@ -1019,11 +1025,14 @@ export const UpdateDatasetRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDatasetRequest>;
 export type StatisticList = string[];
 export const StatisticList = S.Array(S.String);
-export type ParameterMap = { [key: string]: string };
-export const ParameterMap = S.Record({ key: S.String, value: S.String });
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface StatisticOverride {
   Statistic: string;
-  Parameters: { [key: string]: string };
+  Parameters: { [key: string]: string | undefined };
 }
 export const StatisticOverride = S.suspend(() =>
   S.Struct({ Statistic: S.String, Parameters: ParameterMap }),
@@ -1213,7 +1222,7 @@ export const UpdateProjectRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateProjectRequest>;
 export interface RecipeAction {
   Operation: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const RecipeAction = S.suspend(() =>
   S.Struct({ Operation: S.String, Parameters: S.optional(ParameterMap) }),
@@ -1474,7 +1483,7 @@ export interface Rule {
   Name: string;
   Disabled?: boolean;
   CheckExpression: string;
-  SubstitutionMap?: { [key: string]: string };
+  SubstitutionMap?: { [key: string]: string | undefined };
   Threshold?: Threshold;
   ColumnSelectors?: ColumnSelector[];
 }
@@ -1617,7 +1626,7 @@ export interface CreateProjectRequest {
   RecipeName: string;
   Sample?: Sample;
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -1708,7 +1717,7 @@ export interface DescribeDatasetResponse {
   LastModifiedBy?: string;
   Source?: Source;
   PathOptions?: PathOptions;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ResourceArn?: string;
 }
 export const DescribeDatasetResponse = S.suspend(() =>
@@ -1753,7 +1762,7 @@ export interface DescribeJobResponse {
   RecipeReference?: RecipeReference;
   ResourceArn?: string;
   RoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Timeout?: number;
   JobSample?: JobSample;
 }
@@ -1846,7 +1855,7 @@ export interface DescribeProjectResponse {
   ResourceArn?: string;
   Sample?: Sample;
   RoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SessionStatus?: SessionStatus;
   OpenedBy?: string;
   OpenDate?: Date;
@@ -1884,7 +1893,7 @@ export interface DescribeRecipeResponse {
   Description?: string;
   Name: string;
   Steps?: RecipeStep[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ResourceArn?: string;
   RecipeVersion?: string;
 }
@@ -1919,7 +1928,7 @@ export interface DescribeRulesetResponse {
   LastModifiedBy?: string;
   LastModifiedDate?: Date;
   ResourceArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeRulesetResponse = S.suspend(() =>
   S.Struct({
@@ -1947,7 +1956,7 @@ export interface DescribeScheduleResponse {
   LastModifiedDate?: Date;
   ResourceArn?: string;
   CronExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Name: string;
 }
 export const DescribeScheduleResponse = S.suspend(() =>
@@ -1979,7 +1988,7 @@ export interface Recipe {
   Name: string;
   ResourceArn?: string;
   Steps?: RecipeStep[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RecipeVersion?: string;
 }
 export const Recipe = S.suspend(() =>
@@ -2013,7 +2022,7 @@ export const ListRecipeVersionsResponse = S.suspend(() =>
   identifier: "ListRecipeVersionsResponse",
 }) as any as S.Schema<ListRecipeVersionsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -2175,7 +2184,7 @@ export interface Dataset {
   LastModifiedBy?: string;
   Source?: Source;
   PathOptions?: PathOptions;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ResourceArn?: string;
 }
 export const Dataset = S.suspend(() =>
@@ -2265,7 +2274,7 @@ export interface Job {
   ResourceArn?: string;
   RoleArn?: string;
   Timeout?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   JobSample?: JobSample;
   ValidationConfigurations?: ValidationConfiguration[];
 }
@@ -2312,7 +2321,7 @@ export interface Project {
   RecipeName: string;
   ResourceArn?: string;
   Sample?: Sample;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RoleArn?: string;
   OpenedBy?: string;
   OpenDate?: Date;
@@ -2349,7 +2358,7 @@ export interface RulesetItem {
   Name: string;
   ResourceArn?: string;
   RuleCount?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TargetArn: string;
 }
 export const RulesetItem = S.suspend(() =>
@@ -2380,7 +2389,7 @@ export interface Schedule {
   LastModifiedDate?: Date;
   ResourceArn?: string;
   CronExpression?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Name: string;
 }
 export const Schedule = S.suspend(() =>
@@ -2423,7 +2432,7 @@ export interface CreateRulesetRequest {
   Description?: string;
   TargetArn: string;
   Rules: Rule[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRulesetRequest = S.suspend(() =>
   S.Struct({
@@ -2534,7 +2543,7 @@ export interface CreateProfileJobRequest {
   Configuration?: ProfileConfiguration;
   ValidationConfigurations?: ValidationConfiguration[];
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Timeout?: number;
   JobSample?: JobSample;
 }
@@ -2571,7 +2580,7 @@ export interface CreateRecipeRequest {
   Description?: string;
   Name: string;
   Steps: RecipeStep[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRecipeRequest = S.suspend(() =>
   S.Struct({
@@ -2606,7 +2615,7 @@ export interface CreateRecipeJobRequest {
   ProjectName?: string;
   RecipeReference?: RecipeReference;
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Timeout?: number;
 }
 export const CreateRecipeJobRequest = S.suspend(() =>
@@ -2653,7 +2662,7 @@ export interface CreateDatasetRequest {
   FormatOptions?: FormatOptions;
   Input: Input;
   PathOptions?: PathOptions;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({

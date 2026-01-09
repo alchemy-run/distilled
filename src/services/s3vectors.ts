@@ -457,8 +457,11 @@ export type NonFilterableMetadataKeys = string[];
 export const NonFilterableMetadataKeys = S.Array(S.String);
 export type Float32VectorData = number[];
 export const Float32VectorData = S.Array(S.Number);
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface EncryptionConfiguration {
   sseType?: SseType;
   kmsKeyArn?: string;
@@ -491,7 +494,7 @@ export const PutInputVector = S.suspend(() =>
 export type PutVectorsInputList = PutInputVector[];
 export const PutVectorsInputList = S.Array(PutInputVector);
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagsMap }),
@@ -500,7 +503,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -526,7 +529,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 export interface CreateVectorBucketInput {
   vectorBucketName: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateVectorBucketInput = S.suspend(() =>
   S.Struct({
@@ -563,7 +566,7 @@ export interface CreateIndexInput {
   distanceMetric: DistanceMetric;
   metadataConfiguration?: MetadataConfiguration;
   encryptionConfiguration?: EncryptionConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateIndexInput = S.suspend(() =>
   S.Struct({

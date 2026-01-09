@@ -921,14 +921,14 @@ export const UpdateQueueLimitAssociationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateQueueLimitAssociationResponse",
 }) as any as S.Schema<UpdateQueueLimitAssociationResponse>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateFarmRequest {
   clientToken?: string;
   displayName: string;
   description?: string | redacted.Redacted<string>;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFarmRequest = S.suspend(() =>
   S.Struct({
@@ -3377,7 +3377,7 @@ export interface CreateLicenseEndpointRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLicenseEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -3565,7 +3565,7 @@ export interface CreateMonitorRequest {
   identityCenterInstanceArn: string;
   subdomain: string;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorRequest = S.suspend(() =>
   S.Struct({
@@ -3968,7 +3968,7 @@ export const GetQueueLimitAssociationResponse = S.suspend(() =>
   identifier: "GetQueueLimitAssociationResponse",
 }) as any as S.Schema<GetQueueLimitAssociationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -4013,7 +4013,7 @@ export const StartSessionsStatisticsAggregationRequest = S.suspend(() =>
 }) as any as S.Schema<StartSessionsStatisticsAggregationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -4420,14 +4420,20 @@ export const CopyJobTemplateRequest = S.suspend(() =>
 ).annotations({
   identifier: "CopyJobTemplateRequest",
 }) as any as S.Schema<CopyJobTemplateRequest>;
-export type LogOptions = { [key: string]: string };
-export const LogOptions = S.Record({ key: S.String, value: S.String });
-export type LogParameters = { [key: string]: string };
-export const LogParameters = S.Record({ key: S.String, value: S.String });
+export type LogOptions = { [key: string]: string | undefined };
+export const LogOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type LogParameters = { [key: string]: string | undefined };
+export const LogParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface LogConfiguration {
   logDriver: string;
-  options?: { [key: string]: string };
-  parameters?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined };
   error?: string;
 }
 export const LogConfiguration = S.suspend(() =>
@@ -4722,8 +4728,11 @@ export const ComparisonOperator = S.Literal(
 );
 export type SearchTermMatchingType = "FUZZY_MATCH" | "CONTAINS";
 export const SearchTermMatchingType = S.Literal("FUZZY_MATCH", "CONTAINS");
-export type ExceptionContext = { [key: string]: string };
-export const ExceptionContext = S.Record({ key: S.String, value: S.String });
+export type ExceptionContext = { [key: string]: string | undefined };
+export const ExceptionContext = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface QueueFleetAssociationSummary {
   queueId: string;
   fleetId: string;
@@ -4778,7 +4787,7 @@ export const QueueLimitAssociationSummaries = S.Array(
 );
 export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
 export const TaskRunStatusCounts = S.partial(
-  S.Record({ key: TaskRunStatus, value: S.Number }),
+  S.Record({ key: TaskRunStatus, value: S.UndefinedOr(S.Number) }),
 );
 export type StepParameterType =
   | "INT"
@@ -4825,7 +4834,7 @@ export interface StepSearchSummary {
   lifecycleStatusMessage?: string;
   taskRunStatus?: TaskRunStatus;
   targetTaskRunStatus?: StepTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number };
+  taskRunStatusCounts?: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   createdAt?: Date;
   createdBy?: string;
@@ -4903,10 +4912,10 @@ export const TaskParameterValue = S.Union(
   S.Struct({ path: S.String }),
   S.Struct({ chunkInt: S.String }),
 );
-export type TaskParameters = { [key: string]: TaskParameterValue };
+export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
 export const TaskParameters = S.Record({
   key: S.String,
-  value: TaskParameterValue,
+  value: S.UndefinedOr(TaskParameterValue),
 });
 export interface TaskSearchSummary {
   taskId?: string;
@@ -4915,7 +4924,7 @@ export interface TaskSearchSummary {
   queueId?: string;
   runStatus?: TaskRunStatus;
   targetRunStatus?: TaskTargetRunStatus;
-  parameters?: { [key: string]: TaskParameterValue };
+  parameters?: { [key: string]: TaskParameterValue | undefined };
   failureRetryCount?: number;
   startedAt?: Date;
   endedAt?: Date;
@@ -5325,8 +5334,11 @@ export const QueueMember = S.suspend(() =>
 ).annotations({ identifier: "QueueMember" }) as any as S.Schema<QueueMember>;
 export type QueueMemberList = QueueMember[];
 export const QueueMemberList = S.Array(QueueMember);
-export type JobParameters = { [key: string]: JobParameter };
-export const JobParameters = S.Record({ key: S.String, value: JobParameter });
+export type JobParameters = { [key: string]: JobParameter | undefined };
+export const JobParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(JobParameter),
+});
 export interface Attachments {
   manifests: ManifestProperties[];
   fileSystem?: JobAttachmentsFileSystem;
@@ -5351,7 +5363,7 @@ export interface JobSummary {
   endedAt?: Date;
   taskRunStatus?: TaskRunStatus;
   targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number };
+  taskRunStatusCounts?: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
@@ -5503,7 +5515,7 @@ export interface StepSummary {
   lifecycleStatus: StepLifecycleStatus;
   lifecycleStatusMessage?: string;
   taskRunStatus: TaskRunStatus;
-  taskRunStatusCounts: { [key: string]: number };
+  taskRunStatusCounts: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   targetTaskRunStatus?: StepTargetTaskRunStatus;
   createdAt: Date;
@@ -5542,7 +5554,7 @@ export interface TaskSummary {
   runStatus: TaskRunStatus;
   targetRunStatus?: TaskTargetRunStatus;
   failureRetryCount?: number;
-  parameters?: { [key: string]: TaskParameterValue };
+  parameters?: { [key: string]: TaskParameterValue | undefined };
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
@@ -5927,7 +5939,7 @@ export interface CreateWorkerRequest {
   fleetId: string;
   hostProperties?: HostPropertiesRequest;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkerRequest = S.suspend(() =>
   S.Struct({
@@ -6047,7 +6059,7 @@ export interface CreateQueueRequest {
   jobRunAsUser?: JobRunAsUser;
   requiredFileSystemLocationNames?: string[];
   allowedStorageProfileIds?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -6117,7 +6129,7 @@ export interface CreateJobRequest {
   template?: string | redacted.Redacted<string>;
   templateType?: JobTemplateType;
   priority: number;
-  parameters?: { [key: string]: JobParameter };
+  parameters?: { [key: string]: JobParameter | undefined };
   attachments?: Attachments;
   storageProfileId?: string;
   targetTaskRunStatus?: CreateJobTargetTaskRunStatus;
@@ -6175,12 +6187,12 @@ export interface GetJobResponse {
   endedAt?: Date;
   taskRunStatus?: TaskRunStatus;
   targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number };
+  taskRunStatusCounts?: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   storageProfileId?: string;
   maxFailedTasksCount?: number;
   maxRetriesPerTask?: number;
-  parameters?: { [key: string]: JobParameter };
+  parameters?: { [key: string]: JobParameter | undefined };
   attachments?: Attachments;
   description?: string | redacted.Redacted<string>;
   maxWorkerCount?: number;
@@ -6422,7 +6434,7 @@ export const EnvironmentExitSessionActionDefinition = S.suspend(() =>
 export interface TaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
-  parameters: { [key: string]: TaskParameterValue };
+  parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export const TaskRunSessionActionDefinition = S.suspend(() =>
   S.Struct({
@@ -6523,10 +6535,12 @@ export const FleetCapabilities = S.suspend(() =>
 ).annotations({
   identifier: "FleetCapabilities",
 }) as any as S.Schema<FleetCapabilities>;
-export type UpdatedSessionActions = { [key: string]: UpdatedSessionActionInfo };
+export type UpdatedSessionActions = {
+  [key: string]: UpdatedSessionActionInfo | undefined;
+};
 export const UpdatedSessionActions = S.Record({
   key: S.String,
-  value: UpdatedSessionActionInfo,
+  value: S.UndefinedOr(UpdatedSessionActionInfo),
 });
 export type SessionActionDefinition =
   | {
@@ -6605,7 +6619,7 @@ export const EnvironmentExitSessionActionDefinitionSummary = S.suspend(() =>
 export interface TaskRunSessionActionDefinitionSummary {
   taskId?: string;
   stepId: string;
-  parameters?: { [key: string]: TaskParameterValue };
+  parameters?: { [key: string]: TaskParameterValue | undefined };
 }
 export const TaskRunSessionActionDefinitionSummary = S.suspend(() =>
   S.Struct({
@@ -6775,7 +6789,9 @@ export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo };
+  updatedSessionActions?: {
+    [key: string]: UpdatedSessionActionInfo | undefined;
+  };
 }
 export const UpdateWorkerScheduleRequest = S.suspend(() =>
   S.Struct({
@@ -6853,7 +6869,7 @@ export interface GetStepResponse {
   lifecycleStatus: StepLifecycleStatus;
   lifecycleStatusMessage?: string;
   taskRunStatus: TaskRunStatus;
-  taskRunStatusCounts: { [key: string]: number };
+  taskRunStatusCounts: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   targetTaskRunStatus?: StepTargetTaskRunStatus;
   createdAt: Date;
@@ -6898,7 +6914,7 @@ export interface GetTaskResponse {
   runStatus: TaskRunStatus;
   targetRunStatus?: TaskTargetRunStatus;
   failureRetryCount?: number;
-  parameters?: { [key: string]: TaskParameterValue };
+  parameters?: { [key: string]: TaskParameterValue | undefined };
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
@@ -7128,7 +7144,7 @@ export interface JobSearchSummary {
   lifecycleStatusMessage?: string;
   taskRunStatus?: TaskRunStatus;
   targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number };
+  taskRunStatusCounts?: { [key: string]: number | undefined };
   taskFailureRetryCount?: number;
   priority?: number;
   maxFailedTasksCount?: number;
@@ -7139,7 +7155,7 @@ export interface JobSearchSummary {
   startedAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;
-  jobParameters?: { [key: string]: JobParameter };
+  jobParameters?: { [key: string]: JobParameter | undefined };
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
@@ -7205,10 +7221,10 @@ export const GetJobEntityError = S.Union(
 );
 export type BatchGetJobEntityErrors = GetJobEntityError[];
 export const BatchGetJobEntityErrors = S.Array(GetJobEntityError);
-export type CancelSessionActions = { [key: string]: string[] };
+export type CancelSessionActions = { [key: string]: string[] | undefined };
 export const CancelSessionActions = S.Record({
   key: S.String,
-  value: SessionActionIdList,
+  value: S.UndefinedOr(SessionActionIdList),
 });
 export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
@@ -7260,7 +7276,7 @@ export interface CreateFleetRequest {
   minWorkerCount?: number;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   hostConfiguration?: HostConfiguration;
 }
 export const CreateFleetRequest = S.suspend(() =>
@@ -7297,7 +7313,7 @@ export interface JobDetailsEntity {
   jobRunAsUser?: JobRunAsUser;
   logGroupName: string;
   queueRoleArn?: string;
-  parameters?: { [key: string]: JobParameter };
+  parameters?: { [key: string]: JobParameter | undefined };
   schemaVersion: string;
   pathMappingRules?: PathMappingRule[];
 }
@@ -7398,7 +7414,7 @@ export const AssignedEnvironmentExitSessionActionDefinition = S.suspend(() =>
 export interface AssignedTaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
-  parameters: { [key: string]: TaskParameterValue };
+  parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export const AssignedTaskRunSessionActionDefinition = S.suspend(() =>
   S.Struct({
@@ -7481,14 +7497,14 @@ export const AssignedSession = S.suspend(() =>
 ).annotations({
   identifier: "AssignedSession",
 }) as any as S.Schema<AssignedSession>;
-export type AssignedSessions = { [key: string]: AssignedSession };
+export type AssignedSessions = { [key: string]: AssignedSession | undefined };
 export const AssignedSessions = S.Record({
   key: S.String,
-  value: AssignedSession,
+  value: S.UndefinedOr(AssignedSession),
 });
 export interface UpdateWorkerScheduleResponse {
-  assignedSessions: { [key: string]: AssignedSession };
-  cancelSessionActions: { [key: string]: string[] };
+  assignedSessions: { [key: string]: AssignedSession | undefined };
+  cancelSessionActions: { [key: string]: string[] | undefined };
   desiredWorkerStatus?: DesiredWorkerStatus;
   updateIntervalSeconds: number;
 }

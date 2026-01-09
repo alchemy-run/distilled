@@ -1004,13 +1004,13 @@ export const FailedItemDetails = S.suspend(() =>
 ).annotations({
   identifier: "FailedItemDetails",
 }) as any as S.Schema<FailedItemDetails>;
-export type FailedItems = { [key: string]: FailedItemDetails };
+export type FailedItems = { [key: string]: FailedItemDetails | undefined };
 export const FailedItems = S.Record({
   key: S.String,
-  value: FailedItemDetails,
+  value: S.UndefinedOr(FailedItemDetails),
 });
 export interface RemoveAttributesFromFindingsResponse {
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const RemoveAttributesFromFindingsResponse = S.suspend(() =>
   S.Struct({ failedItems: FailedItems }),
@@ -1328,7 +1328,7 @@ export const Tags = S.Array(Tag);
 export type ScopeType = "INSTANCE_ID" | "RULES_PACKAGE_ARN";
 export const ScopeType = S.Literal("INSTANCE_ID", "RULES_PACKAGE_ARN");
 export interface AddAttributesToFindingsResponse {
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const AddAttributesToFindingsResponse = S.suspend(() =>
   S.Struct({ failedItems: FailedItems }),
@@ -1345,7 +1345,7 @@ export const CreateResourceGroupResponse = S.suspend(() =>
 }) as any as S.Schema<CreateResourceGroupResponse>;
 export interface DescribeAssessmentTargetsResponse {
   assessmentTargets: AssessmentTarget[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeAssessmentTargetsResponse = S.suspend(() =>
   S.Struct({
@@ -1357,7 +1357,7 @@ export const DescribeAssessmentTargetsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAssessmentTargetsResponse>;
 export interface DescribeAssessmentTemplatesResponse {
   assessmentTemplates: AssessmentTemplate[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeAssessmentTemplatesResponse = S.suspend(() =>
   S.Struct({
@@ -1369,7 +1369,7 @@ export const DescribeAssessmentTemplatesResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAssessmentTemplatesResponse>;
 export interface DescribeResourceGroupsResponse {
   resourceGroups: ResourceGroup[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeResourceGroupsResponse = S.suspend(() =>
   S.Struct({ resourceGroups: ResourceGroupList, failedItems: FailedItems }),
@@ -1378,7 +1378,7 @@ export const DescribeResourceGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeResourceGroupsResponse>;
 export interface DescribeRulesPackagesResponse {
   rulesPackages: RulesPackage[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeRulesPackagesResponse = S.suspend(() =>
   S.Struct({ rulesPackages: RulesPackageList, failedItems: FailedItems }),
@@ -1497,7 +1497,7 @@ export type AssessmentRunNotificationList = AssessmentRunNotification[];
 export const AssessmentRunNotificationList = S.Array(AssessmentRunNotification);
 export type AssessmentRunFindingCounts = { [key in Severity]?: number };
 export const AssessmentRunFindingCounts = S.partial(
-  S.Record({ key: Severity, value: S.Number }),
+  S.Record({ key: Severity, value: S.UndefinedOr(S.Number) }),
 );
 export interface Scope {
   key?: ScopeType;
@@ -1571,7 +1571,7 @@ export interface AssessmentRun {
   dataCollected: boolean;
   stateChanges: AssessmentRunStateChange[];
   notifications: AssessmentRunNotification[];
-  findingCounts: { [key: string]: number };
+  findingCounts: { [key: string]: number | undefined };
 }
 export const AssessmentRun = S.suspend(() =>
   S.Struct({
@@ -1596,8 +1596,11 @@ export const AssessmentRun = S.suspend(() =>
 }) as any as S.Schema<AssessmentRun>;
 export type AssessmentRunList = AssessmentRun[];
 export const AssessmentRunList = S.Array(AssessmentRun);
-export type ExclusionMap = { [key: string]: Exclusion };
-export const ExclusionMap = S.Record({ key: S.String, value: Exclusion });
+export type ExclusionMap = { [key: string]: Exclusion | undefined };
+export const ExclusionMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Exclusion),
+});
 export interface ExclusionPreview {
   title: string;
   description: string;
@@ -1703,7 +1706,7 @@ export const LimitExceededErrorCode = S.Literal(
 );
 export interface DescribeAssessmentRunsResponse {
   assessmentRuns: AssessmentRun[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeAssessmentRunsResponse = S.suspend(() =>
   S.Struct({ assessmentRuns: AssessmentRunList, failedItems: FailedItems }),
@@ -1711,8 +1714,8 @@ export const DescribeAssessmentRunsResponse = S.suspend(() =>
   identifier: "DescribeAssessmentRunsResponse",
 }) as any as S.Schema<DescribeAssessmentRunsResponse>;
 export interface DescribeExclusionsResponse {
-  exclusions: { [key: string]: Exclusion };
-  failedItems: { [key: string]: FailedItemDetails };
+  exclusions: { [key: string]: Exclusion | undefined };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeExclusionsResponse = S.suspend(() =>
   S.Struct({ exclusions: ExclusionMap, failedItems: FailedItems }),
@@ -1892,7 +1895,7 @@ export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
 export interface DescribeFindingsResponse {
   findings: Finding[];
-  failedItems: { [key: string]: FailedItemDetails };
+  failedItems: { [key: string]: FailedItemDetails | undefined };
 }
 export const DescribeFindingsResponse = S.suspend(() =>
   S.Struct({ findings: FindingList, failedItems: FailedItems }),

@@ -1042,8 +1042,11 @@ export const ParameterRanges = S.suspend(() =>
 ).annotations({
   identifier: "ParameterRanges",
 }) as any as S.Schema<ParameterRanges>;
-export type HyperParameters = { [key: string]: string };
-export const HyperParameters = S.Record({ key: S.String, value: S.String });
+export type HyperParameters = { [key: string]: string | undefined };
+export const HyperParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type TrainingInputMode = "Pipe" | "File" | "FastFile";
 export const TrainingInputMode = S.Literal("Pipe", "File", "FastFile");
 export interface MetricDefinition {
@@ -1650,16 +1653,18 @@ export const RetryStrategy = S.suspend(() =>
 ).annotations({
   identifier: "RetryStrategy",
 }) as any as S.Schema<RetryStrategy>;
-export type HyperParameterTrainingJobEnvironmentMap = { [key: string]: string };
+export type HyperParameterTrainingJobEnvironmentMap = {
+  [key: string]: string | undefined;
+};
 export const HyperParameterTrainingJobEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface HyperParameterTrainingJobDefinition {
   DefinitionName?: string;
   TuningObjective?: HyperParameterTuningJobObjective;
   HyperParameterRanges?: ParameterRanges;
-  StaticHyperParameters?: { [key: string]: string };
+  StaticHyperParameters?: { [key: string]: string | undefined };
   AlgorithmSpecification?: HyperParameterAlgorithmSpecification;
   RoleArn?: string;
   InputDataConfig?: Channel[];
@@ -1673,7 +1678,7 @@ export interface HyperParameterTrainingJobDefinition {
   EnableManagedSpotTraining?: boolean;
   CheckpointConfig?: CheckpointConfig;
   RetryStrategy?: RetryStrategy;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const HyperParameterTrainingJobDefinition = S.suspend(() =>
   S.Struct({
@@ -1820,8 +1825,11 @@ export const AdditionalModelDataSource = S.suspend(() =>
 }) as any as S.Schema<AdditionalModelDataSource>;
 export type AdditionalModelDataSources = AdditionalModelDataSource[];
 export const AdditionalModelDataSources = S.Array(AdditionalModelDataSource);
-export type EnvironmentMap = { [key: string]: string };
-export const EnvironmentMap = S.Record({ key: S.String, value: S.String });
+export type EnvironmentMap = { [key: string]: string | undefined };
+export const EnvironmentMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ModelCacheSetting = "Enabled" | "Disabled";
 export const ModelCacheSetting = S.Literal("Enabled", "Disabled");
 export interface MultiModelConfig {
@@ -1840,7 +1848,7 @@ export interface ContainerDefinition {
   ModelDataUrl?: string;
   ModelDataSource?: ModelDataSource;
   AdditionalModelDataSources?: AdditionalModelDataSource[];
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   ModelPackageName?: string;
   InferenceSpecificationName?: string;
   MultiModelConfig?: MultiModelConfig;
@@ -11529,16 +11537,16 @@ export const StopTransformJobResponse = S.suspend(() =>
 ).annotations({
   identifier: "StopTransformJobResponse",
 }) as any as S.Schema<StopTransformJobResponse>;
-export type LineageEntityParameters = { [key: string]: string };
+export type LineageEntityParameters = { [key: string]: string | undefined };
 export const LineageEntityParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface UpdateActionRequest {
   ActionName?: string;
   Description?: string;
   Status?: ActionStatus;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   PropertiesToRemove?: string[];
 }
 export const UpdateActionRequest = S.suspend(() =>
@@ -11602,16 +11610,16 @@ export const CustomImageContainerArguments = S.Array(S.String);
 export type CustomImageContainerEntrypoint = string[];
 export const CustomImageContainerEntrypoint = S.Array(S.String);
 export type CustomImageContainerEnvironmentVariables = {
-  [key: string]: string;
+  [key: string]: string | undefined;
 };
 export const CustomImageContainerEnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ContainerConfig {
   ContainerArguments?: string[];
   ContainerEntrypoint?: string[];
-  ContainerEnvironmentVariables?: { [key: string]: string };
+  ContainerEnvironmentVariables?: { [key: string]: string | undefined };
 }
 export const ContainerConfig = S.suspend(() =>
   S.Struct({
@@ -11674,12 +11682,15 @@ export const UpdateAppImageConfigRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAppImageConfigRequest",
 }) as any as S.Schema<UpdateAppImageConfigRequest>;
-export type ArtifactProperties = { [key: string]: string };
-export const ArtifactProperties = S.Record({ key: S.String, value: S.String });
+export type ArtifactProperties = { [key: string]: string | undefined };
+export const ArtifactProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateArtifactRequest {
   ArtifactArn?: string;
   ArtifactName?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   PropertiesToRemove?: string[];
 }
 export const UpdateArtifactRequest = S.suspend(() =>
@@ -12043,10 +12054,10 @@ export const ScheduledUpdateConfig = S.suspend(() =>
 ).annotations({
   identifier: "ScheduledUpdateConfig",
 }) as any as S.Schema<ScheduledUpdateConfig>;
-export type ClusterKubernetesLabels = { [key: string]: string };
+export type ClusterKubernetesLabels = { [key: string]: string | undefined };
 export const ClusterKubernetesLabels = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ClusterKubernetesTaintEffect =
   | "NoSchedule"
@@ -12074,7 +12085,7 @@ export const ClusterKubernetesTaint = S.suspend(() =>
 export type ClusterKubernetesTaints = ClusterKubernetesTaint[];
 export const ClusterKubernetesTaints = S.Array(ClusterKubernetesTaint);
 export interface ClusterKubernetesConfig {
-  Labels?: { [key: string]: string };
+  Labels?: { [key: string]: string | undefined };
   Taints?: ClusterKubernetesTaint[];
 }
 export const ClusterKubernetesConfig = S.suspend(() =>
@@ -12493,7 +12504,7 @@ export const UpdateComputeQuotaRequest = S.suspend(() =>
 export interface UpdateContextRequest {
   ContextName?: string;
   Description?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   PropertiesToRemove?: string[];
 }
 export const UpdateContextRequest = S.suspend(() =>
@@ -13028,8 +13039,11 @@ export const UpdateModelCardRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateModelCardRequest",
 }) as any as S.Schema<UpdateModelCardRequest>;
-export type CustomerMetadataMap = { [key: string]: string };
-export const CustomerMetadataMap = S.Record({ key: S.String, value: S.String });
+export type CustomerMetadataMap = { [key: string]: string | undefined };
+export const CustomerMetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ModelInput {
   DataInputConfig?: string;
 }
@@ -13073,7 +13087,7 @@ export interface ModelPackageContainerDefinition {
   ModelDataUrl?: string;
   ModelDataSource?: ModelDataSource;
   ProductId?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   ModelInput?: ModelInput;
   Framework?: string;
   FrameworkVersion?: string;
@@ -13949,7 +13963,7 @@ export interface UpdateModelPackageInput {
   ModelApprovalStatus?: ModelApprovalStatus;
   ModelPackageRegistrationType?: ModelPackageRegistrationType;
   ApprovalDescription?: string;
-  CustomerMetadataProperties?: { [key: string]: string };
+  CustomerMetadataProperties?: { [key: string]: string | undefined };
   CustomerMetadataPropertiesToRemove?: string[];
   AdditionalInferenceSpecificationsToAdd?: AdditionalInferenceSpecificationDefinition[];
   InferenceSpecification?: InferenceSpecification;
@@ -14516,10 +14530,10 @@ export const MonitoringStoppingCondition = S.suspend(() =>
 ).annotations({
   identifier: "MonitoringStoppingCondition",
 }) as any as S.Schema<MonitoringStoppingCondition>;
-export type MonitoringEnvironmentMap = { [key: string]: string };
+export type MonitoringEnvironmentMap = { [key: string]: string | undefined };
 export const MonitoringEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface NetworkConfig {
   EnableInterContainerTrafficEncryption?: boolean;
@@ -14542,7 +14556,7 @@ export interface MonitoringJobDefinition {
   MonitoringResources?: MonitoringResources;
   MonitoringAppSpecification?: MonitoringAppSpecification;
   StoppingCondition?: MonitoringStoppingCondition;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   NetworkConfig?: NetworkConfig;
   RoleArn?: string;
 }
@@ -14718,8 +14732,11 @@ export const PartnerAppMaintenanceConfig = S.suspend(() =>
 }) as any as S.Schema<PartnerAppMaintenanceConfig>;
 export type PartnerAppAdminUserList = string[];
 export const PartnerAppAdminUserList = S.Array(S.String);
-export type PartnerAppArguments = { [key: string]: string };
-export const PartnerAppArguments = S.Record({ key: S.String, value: S.String });
+export type PartnerAppArguments = { [key: string]: string | undefined };
+export const PartnerAppArguments = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type AssignedGroupPatternsList = string[];
 export const AssignedGroupPatternsList = S.Array(S.String);
 export type GroupPatternsList = string[];
@@ -14737,7 +14754,7 @@ export type RoleGroupAssignmentsList = RoleGroupAssignment[];
 export const RoleGroupAssignmentsList = S.Array(RoleGroupAssignment);
 export interface PartnerAppConfig {
   AdminUsers?: string[];
-  Arguments?: { [key: string]: string };
+  Arguments?: { [key: string]: string | undefined };
   AssignedGroupPatterns?: string[];
   RoleGroupAssignments?: RoleGroupAssignment[];
 }
@@ -15095,11 +15112,11 @@ export const TrialComponentParameterValue = S.Union(
   S.Struct({ NumberValue: S.Number }),
 );
 export type TrialComponentParameters = {
-  [key: string]: TrialComponentParameterValue;
+  [key: string]: TrialComponentParameterValue | undefined;
 };
 export const TrialComponentParameters = S.Record({
   key: S.String,
-  value: TrialComponentParameterValue,
+  value: S.UndefinedOr(TrialComponentParameterValue),
 });
 export interface TrialComponentArtifact {
   MediaType?: string;
@@ -15110,10 +15127,12 @@ export const TrialComponentArtifact = S.suspend(() =>
 ).annotations({
   identifier: "TrialComponentArtifact",
 }) as any as S.Schema<TrialComponentArtifact>;
-export type TrialComponentArtifacts = { [key: string]: TrialComponentArtifact };
+export type TrialComponentArtifacts = {
+  [key: string]: TrialComponentArtifact | undefined;
+};
 export const TrialComponentArtifacts = S.Record({
   key: S.String,
-  value: TrialComponentArtifact,
+  value: S.UndefinedOr(TrialComponentArtifact),
 });
 export interface UpdateTrialComponentRequest {
   TrialComponentName?: string;
@@ -15121,11 +15140,11 @@ export interface UpdateTrialComponentRequest {
   Status?: TrialComponentStatus;
   StartTime?: Date;
   EndTime?: Date;
-  Parameters?: { [key: string]: TrialComponentParameterValue };
+  Parameters?: { [key: string]: TrialComponentParameterValue | undefined };
   ParametersToRemove?: string[];
-  InputArtifacts?: { [key: string]: TrialComponentArtifact };
+  InputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
   InputArtifactsToRemove?: string[];
-  OutputArtifacts?: { [key: string]: TrialComponentArtifact };
+  OutputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
   OutputArtifactsToRemove?: string[];
 }
 export const UpdateTrialComponentRequest = S.suspend(() =>
@@ -15189,10 +15208,12 @@ export const SourceIpConfig = S.suspend(() =>
 ).annotations({
   identifier: "SourceIpConfig",
 }) as any as S.Schema<SourceIpConfig>;
-export type AuthenticationRequestExtraParams = { [key: string]: string };
+export type AuthenticationRequestExtraParams = {
+  [key: string]: string | undefined;
+};
 export const AuthenticationRequestExtraParams = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface OidcConfig {
   ClientId?: string;
@@ -15204,7 +15225,7 @@ export interface OidcConfig {
   LogoutEndpoint?: string;
   JwksUri?: string;
   Scope?: string;
-  AuthenticationRequestExtraParams?: { [key: string]: string };
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
 }
 export const OidcConfig = S.suspend(() =>
   S.Struct({
@@ -16062,7 +16083,7 @@ export const ModelBiasBaselineConfig = S.suspend(() =>
 export interface ModelBiasAppSpecification {
   ImageUri?: string;
   ConfigUri?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const ModelBiasAppSpecification = S.suspend(() =>
   S.Struct({
@@ -16104,7 +16125,7 @@ export const ModelExplainabilityBaselineConfig = S.suspend(() =>
 export interface ModelExplainabilityAppSpecification {
   ImageUri?: string;
   ConfigUri?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const ModelExplainabilityAppSpecification = S.suspend(() =>
   S.Struct({
@@ -16154,7 +16175,7 @@ export interface ModelQualityAppSpecification {
   RecordPreprocessorSourceUri?: string;
   PostAnalyticsProcessorSourceUri?: string;
   ProblemType?: MonitoringProblemType;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const ModelQualityAppSpecification = S.suspend(() =>
   S.Struct({
@@ -16191,10 +16212,12 @@ export const ModelQualityJobInput = S.suspend(() =>
 ).annotations({
   identifier: "ModelQualityJobInput",
 }) as any as S.Schema<ModelQualityJobInput>;
-export type OptimizationJobEnvironmentVariables = { [key: string]: string };
+export type OptimizationJobEnvironmentVariables = {
+  [key: string]: string | undefined;
+};
 export const OptimizationJobEnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface OptimizationSageMakerModel {
   ModelName?: string;
@@ -16252,10 +16275,10 @@ export const AppSpecification = S.suspend(() =>
 ).annotations({
   identifier: "AppSpecification",
 }) as any as S.Schema<AppSpecification>;
-export type ProcessingEnvironmentMap = { [key: string]: string };
+export type ProcessingEnvironmentMap = { [key: string]: string | undefined };
 export const ProcessingEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ExperimentConfig {
   ExperimentName?: string;
@@ -16301,8 +16324,11 @@ export const TensorBoardOutputConfig = S.suspend(() =>
 ).annotations({
   identifier: "TensorBoardOutputConfig",
 }) as any as S.Schema<TensorBoardOutputConfig>;
-export type RuleParameters = { [key: string]: string };
-export const RuleParameters = S.Record({ key: S.String, value: S.String });
+export type RuleParameters = { [key: string]: string | undefined };
+export const RuleParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProfilerRuleConfiguration {
   RuleConfigurationName?: string;
   LocalPath?: string;
@@ -16310,7 +16336,7 @@ export interface ProfilerRuleConfiguration {
   RuleEvaluatorImage?: string;
   InstanceType?: ProcessingInstanceType;
   VolumeSizeInGB?: number;
-  RuleParameters?: { [key: string]: string };
+  RuleParameters?: { [key: string]: string | undefined };
 }
 export const ProfilerRuleConfiguration = S.suspend(() =>
   S.Struct({
@@ -16327,10 +16353,10 @@ export const ProfilerRuleConfiguration = S.suspend(() =>
 }) as any as S.Schema<ProfilerRuleConfiguration>;
 export type ProfilerRuleConfigurations = ProfilerRuleConfiguration[];
 export const ProfilerRuleConfigurations = S.Array(ProfilerRuleConfiguration);
-export type TrainingEnvironmentMap = { [key: string]: string };
+export type TrainingEnvironmentMap = { [key: string]: string | undefined };
 export const TrainingEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RemoteDebugConfig {
   EnableRemoteDebug?: boolean;
@@ -16414,10 +16440,10 @@ export const ModelClientConfig = S.suspend(() =>
 ).annotations({
   identifier: "ModelClientConfig",
 }) as any as S.Schema<ModelClientConfig>;
-export type TransformEnvironmentMap = { [key: string]: string };
+export type TransformEnvironmentMap = { [key: string]: string | undefined };
 export const TransformEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface TransformOutput {
   S3OutputPath?: string;
@@ -16991,7 +17017,7 @@ export const CandidateSteps = S.Array(AutoMLCandidateStep);
 export interface AutoMLContainerDefinition {
   Image?: string;
   ModelDataUrl?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const AutoMLContainerDefinition = S.suspend(() =>
   S.Struct({
@@ -17109,7 +17135,10 @@ export type AutoMLInferenceContainerDefinitions = {
   [key in AutoMLProcessingUnit]?: AutoMLContainerDefinition[];
 };
 export const AutoMLInferenceContainerDefinitions = S.partial(
-  S.Record({ key: AutoMLProcessingUnit, value: AutoMLContainerDefinitions }),
+  S.Record({
+    key: AutoMLProcessingUnit,
+    value: S.UndefinedOr(AutoMLContainerDefinitions),
+  }),
 );
 export interface AutoMLCandidate {
   CandidateName?: string;
@@ -17124,7 +17153,7 @@ export interface AutoMLCandidate {
   FailureReason?: string;
   CandidateProperties?: CandidateProperties;
   InferenceContainerDefinitions?: {
-    [key: string]: AutoMLContainerDefinition[];
+    [key: string]: AutoMLContainerDefinition[] | undefined;
   };
 }
 export const AutoMLCandidate = S.suspend(() =>
@@ -17228,7 +17257,7 @@ export interface HyperParameterTrainingJobSummary {
   TrainingStartTime?: Date;
   TrainingEndTime?: Date;
   TrainingJobStatus?: TrainingJobStatus;
-  TunedHyperParameters?: { [key: string]: string };
+  TunedHyperParameters?: { [key: string]: string | undefined };
   FailureReason?: string;
   FinalHyperParameterTuningJobObjectiveMetric?: FinalHyperParameterTuningJobObjectiveMetric;
   ObjectiveStatus?: ObjectiveStatus;
@@ -17285,7 +17314,7 @@ export interface OidcConfigForResponse {
   LogoutEndpoint?: string;
   JwksUri?: string;
   Scope?: string;
-  AuthenticationRequestExtraParams?: { [key: string]: string };
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
 }
 export const OidcConfigForResponse = S.suspend(() =>
   S.Struct({
@@ -17440,10 +17469,12 @@ export const Parameter = S.suspend(() =>
 ).annotations({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParameterList = Parameter[];
 export const ParameterList = S.Array(Parameter);
-export type ModelVariantActionMap = { [key: string]: ModelVariantAction };
+export type ModelVariantActionMap = {
+  [key: string]: ModelVariantAction | undefined;
+};
 export const ModelVariantActionMap = S.Record({
   key: S.String,
-  value: ModelVariantAction,
+  value: S.UndefinedOr(ModelVariantAction),
 });
 export interface UpdateClusterSoftwareInstanceGroupSpecification {
   InstanceGroupName?: string;
@@ -17543,12 +17574,15 @@ export const ServiceCatalogProvisioningUpdateDetails = S.suspend(() =>
 ).annotations({
   identifier: "ServiceCatalogProvisioningUpdateDetails",
 }) as any as S.Schema<ServiceCatalogProvisioningUpdateDetails>;
-export type ProfilingParameters = { [key: string]: string };
-export const ProfilingParameters = S.Record({ key: S.String, value: S.String });
+export type ProfilingParameters = { [key: string]: string | undefined };
+export const ProfilingParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProfilerConfigForUpdate {
   S3OutputPath?: string;
   ProfilingIntervalInMilliseconds?: number;
-  ProfilingParameters?: { [key: string]: string };
+  ProfilingParameters?: { [key: string]: string | undefined };
   DisableProfiler?: boolean;
 }
 export const ProfilerConfigForUpdate = S.suspend(() =>
@@ -17802,7 +17836,7 @@ export interface CreateActionRequest {
   ActionType?: string;
   Description?: string;
   Status?: ActionStatus;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   MetadataProperties?: MetadataProperties;
   Tags?: Tag[];
 }
@@ -17893,7 +17927,7 @@ export interface CreateContextRequest {
   Source?: ContextSource;
   ContextType?: string;
   Description?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   Tags?: Tag[];
 }
 export const CreateContextRequest = S.suspend(() =>
@@ -18671,7 +18705,7 @@ export interface DescribeArtifactResponse {
     })[];
   };
   ArtifactType?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   CreationTime?: Date;
   CreatedBy?: UserContext;
   LastModifiedTime?: Date;
@@ -18818,7 +18852,7 @@ export interface DescribeContextResponse {
   Source?: ContextSource & { SourceUri: SourceUri };
   ContextType?: string;
   Description?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   CreationTime?: Date;
   CreatedBy?: UserContext;
   LastModifiedTime?: Date;
@@ -18864,7 +18898,7 @@ export interface DataQualityAppSpecification {
   ContainerArguments?: string[];
   RecordPreprocessorSourceUri?: string;
   PostAnalyticsProcessorSourceUri?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const DataQualityAppSpecification = S.suspend(() =>
   S.Struct({
@@ -20706,7 +20740,7 @@ export interface DescribeProcessingJobResponse {
     MaxRuntimeInSeconds: ProcessingMaxRuntimeInSeconds;
   };
   AppSpecification: AppSpecification & { ImageUri: ImageUri };
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   NetworkConfig?: NetworkConfig & {
     VpcConfig: VpcConfig & {
       SecurityGroupIds: VpcSecurityGroupIds;
@@ -20881,7 +20915,7 @@ export interface DescribeTransformJobResponse {
   ModelClientConfig?: ModelClientConfig;
   MaxPayloadInMB?: number;
   BatchStrategy?: BatchStrategy;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   TransformInput: TransformInput & {
     DataSource: TransformDataSource & {
       S3DataSource: TransformS3DataSource & {
@@ -21133,10 +21167,12 @@ export interface ListCandidatesForAutoMLJobResponse {
       };
     };
     InferenceContainerDefinitions: {
-      [key: string]: (AutoMLContainerDefinition & {
-        Image: ContainerImage;
-        ModelDataUrl: Url;
-      })[];
+      [key: string]:
+        | (AutoMLContainerDefinition & {
+            Image: ContainerImage;
+            ModelDataUrl: Url;
+          })[]
+        | undefined;
     };
   })[];
   NextToken?: string;
@@ -21576,7 +21612,7 @@ export const StartSessionResponse = S.suspend(() =>
 }) as any as S.Schema<StartSessionResponse>;
 export interface StopInferenceExperimentRequest {
   Name?: string;
-  ModelVariantActions?: { [key: string]: ModelVariantAction };
+  ModelVariantActions?: { [key: string]: ModelVariantAction | undefined };
   DesiredModelVariants?: ModelVariantConfig[];
   DesiredState?: InferenceExperimentStopDesiredState;
   Reason?: string;
@@ -22415,7 +22451,7 @@ export const ParentHyperParameterTuningJobs = S.Array(
 export interface InferenceComponentContainerSpecification {
   Image?: string;
   ArtifactUrl?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const InferenceComponentContainerSpecification = S.suspend(() =>
   S.Struct({
@@ -22558,7 +22594,7 @@ export interface TransformJobDefinition {
   MaxConcurrentTransforms?: number;
   MaxPayloadInMB?: number;
   BatchStrategy?: BatchStrategy;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   TransformInput?: TransformInput;
   TransformOutput?: TransformOutput;
   TransformResources?: TransformResources;
@@ -22706,7 +22742,7 @@ export const DriftCheckModelDataQuality = S.suspend(() =>
 }) as any as S.Schema<DriftCheckModelDataQuality>;
 export interface ModelQuantizationConfig {
   Image?: string;
-  OverrideEnvironment?: { [key: string]: string };
+  OverrideEnvironment?: { [key: string]: string | undefined };
 }
 export const ModelQuantizationConfig = S.suspend(() =>
   S.Struct({
@@ -22718,7 +22754,7 @@ export const ModelQuantizationConfig = S.suspend(() =>
 }) as any as S.Schema<ModelQuantizationConfig>;
 export interface ModelCompilationConfig {
   Image?: string;
-  OverrideEnvironment?: { [key: string]: string };
+  OverrideEnvironment?: { [key: string]: string | undefined };
 }
 export const ModelCompilationConfig = S.suspend(() =>
   S.Struct({
@@ -22730,7 +22766,7 @@ export const ModelCompilationConfig = S.suspend(() =>
 }) as any as S.Schema<ModelCompilationConfig>;
 export interface ModelShardingConfig {
   Image?: string;
-  OverrideEnvironment?: { [key: string]: string };
+  OverrideEnvironment?: { [key: string]: string | undefined };
 }
 export const ModelShardingConfig = S.suspend(() =>
   S.Struct({
@@ -22740,8 +22776,11 @@ export const ModelShardingConfig = S.suspend(() =>
 ).annotations({
   identifier: "ModelShardingConfig",
 }) as any as S.Schema<ModelShardingConfig>;
-export type HookParameters = { [key: string]: string };
-export const HookParameters = S.Record({ key: S.String, value: S.String });
+export type HookParameters = { [key: string]: string | undefined };
+export const HookParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type InstanceGroupStatus =
   | "InService"
   | "Creating"
@@ -22900,8 +22939,11 @@ export const UltraServerHealthStatus = S.Literal(
   "Impaired",
   "Insufficient-Data",
 );
-export type QueryProperties = { [key: string]: string };
-export const QueryProperties = S.Record({ key: S.String, value: S.String });
+export type QueryProperties = { [key: string]: string | undefined };
+export const QueryProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Filter {
   Name?: string;
   Operator?: Operator;
@@ -23310,7 +23352,7 @@ export interface DebugRuleConfiguration {
   RuleEvaluatorImage?: string;
   InstanceType?: ProcessingInstanceType;
   VolumeSizeInGB?: number;
-  RuleParameters?: { [key: string]: string };
+  RuleParameters?: { [key: string]: string | undefined };
 }
 export const DebugRuleConfiguration = S.suspend(() =>
   S.Struct({
@@ -23330,7 +23372,7 @@ export const DebugRuleConfigurations = S.Array(DebugRuleConfiguration);
 export interface ProfilerConfig {
   S3OutputPath?: string;
   ProfilingIntervalInMilliseconds?: number;
-  ProfilingParameters?: { [key: string]: string };
+  ProfilingParameters?: { [key: string]: string | undefined };
   DisableProfiler?: boolean;
 }
 export const ProfilerConfig = S.suspend(() =>
@@ -25709,7 +25751,7 @@ export interface QueryFilters {
   CreatedAfter?: Date;
   ModifiedBefore?: Date;
   ModifiedAfter?: Date;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const QueryFilters = S.suspend(() =>
   S.Struct({
@@ -25802,7 +25844,7 @@ export type DesiredWeightAndCapacityList = DesiredWeightAndCapacity[];
 export const DesiredWeightAndCapacityList = S.Array(DesiredWeightAndCapacity);
 export interface TrainingJobDefinition {
   TrainingInputMode?: TrainingInputMode;
-  HyperParameters?: { [key: string]: string };
+  HyperParameters?: { [key: string]: string | undefined };
   InputDataConfig?: Channel[];
   OutputDataConfig?: OutputDataConfig;
   ResourceConfig?: ResourceConfig;
@@ -25846,10 +25888,12 @@ export const HolidayConfigAttributes = S.suspend(() =>
 }) as any as S.Schema<HolidayConfigAttributes>;
 export type HolidayConfig = HolidayConfigAttributes[];
 export const HolidayConfig = S.Array(HolidayConfigAttributes);
-export type TextGenerationHyperParameters = { [key: string]: string };
+export type TextGenerationHyperParameters = {
+  [key: string]: string | undefined;
+};
 export const TextGenerationHyperParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface HyperbandStrategyConfig {
   MinResource?: number;
@@ -25956,10 +26000,10 @@ export const TrainingRepositoryAuthConfig = S.suspend(() =>
 ).annotations({
   identifier: "TrainingRepositoryAuthConfig",
 }) as any as S.Schema<TrainingRepositoryAuthConfig>;
-export type CollectionParameters = { [key: string]: string };
+export type CollectionParameters = { [key: string]: string | undefined };
 export const CollectionParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type DetailedAlgorithmStatus =
   | "NotStarted"
@@ -26140,7 +26184,7 @@ export interface CreateArtifactRequest {
   ArtifactName?: string;
   Source?: ArtifactSource;
   ArtifactType?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   MetadataProperties?: MetadataProperties;
   Tags?: Tag[];
 }
@@ -26477,9 +26521,9 @@ export interface CreateTrialComponentRequest {
   Status?: TrialComponentStatus;
   StartTime?: Date;
   EndTime?: Date;
-  Parameters?: { [key: string]: TrialComponentParameterValue };
-  InputArtifacts?: { [key: string]: TrialComponentArtifact };
-  OutputArtifacts?: { [key: string]: TrialComponentArtifact };
+  Parameters?: { [key: string]: TrialComponentParameterValue | undefined };
+  InputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
+  OutputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
   MetadataProperties?: MetadataProperties;
   Tags?: Tag[];
 }
@@ -27154,7 +27198,7 @@ export interface DescribeOptimizationJobResponse {
       };
     };
   };
-  OptimizationEnvironment?: { [key: string]: string };
+  OptimizationEnvironment?: { [key: string]: string | undefined };
   DeploymentInstanceType: OptimizationJobDeploymentInstanceType;
   MaxInstanceCount?: number;
   OptimizationConfigs: OptimizationConfig[];
@@ -27374,7 +27418,7 @@ export const AlgorithmSpecification = S.suspend(() =>
 }) as any as S.Schema<AlgorithmSpecification>;
 export interface CollectionConfiguration {
   CollectionName?: string;
-  CollectionParameters?: { [key: string]: string };
+  CollectionParameters?: { [key: string]: string | undefined };
 }
 export const CollectionConfiguration = S.suspend(() =>
   S.Struct({
@@ -27389,7 +27433,7 @@ export const CollectionConfigurations = S.Array(CollectionConfiguration);
 export interface DebugHookConfig {
   LocalPath?: string;
   S3OutputPath?: string;
-  HookParameters?: { [key: string]: string };
+  HookParameters?: { [key: string]: string | undefined };
   CollectionConfigurations?: CollectionConfiguration[];
 }
 export const DebugHookConfig = S.suspend(() =>
@@ -27412,7 +27456,7 @@ export interface DescribeTrainingJobResponse {
   TrainingJobStatus: TrainingJobStatus;
   SecondaryStatus: SecondaryStatus;
   FailureReason?: string;
-  HyperParameters?: { [key: string]: string };
+  HyperParameters?: { [key: string]: string | undefined };
   AlgorithmSpecification?: AlgorithmSpecification & {
     TrainingInputMode: TrainingInputMode;
     MetricDefinitions: (MetricDefinition & {
@@ -27495,7 +27539,7 @@ export interface DescribeTrainingJobResponse {
   })[];
   ProfilerRuleEvaluationStatuses?: ProfilerRuleEvaluationStatus[];
   ProfilingStatus?: ProfilingStatus;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   RetryStrategy?: RetryStrategy & {
     MaximumRetryAttempts: MaximumRetryAttempts;
   };
@@ -27661,16 +27705,16 @@ export interface DescribeTrialComponentResponse {
   CreatedBy?: UserContext;
   LastModifiedTime?: Date;
   LastModifiedBy?: UserContext;
-  Parameters?: { [key: string]: TrialComponentParameterValue };
+  Parameters?: { [key: string]: TrialComponentParameterValue | undefined };
   InputArtifacts?: {
-    [key: string]: TrialComponentArtifact & {
-      Value: TrialComponentArtifactValue;
-    };
+    [key: string]:
+      | (TrialComponentArtifact & { Value: TrialComponentArtifactValue })
+      | undefined;
   };
   OutputArtifacts?: {
-    [key: string]: TrialComponentArtifact & {
-      Value: TrialComponentArtifactValue;
-    };
+    [key: string]:
+      | (TrialComponentArtifact & { Value: TrialComponentArtifactValue })
+      | undefined;
   };
   MetadataProperties?: MetadataProperties;
   Metrics?: TrialComponentMetricSummary[];
@@ -29177,7 +29221,7 @@ export const AutoMLCandidateGenerationConfig = S.suspend(() =>
 export interface TextGenerationJobConfig {
   CompletionCriteria?: AutoMLJobCompletionCriteria;
   BaseModelName?: string;
-  TextGenerationHyperParameters?: { [key: string]: string };
+  TextGenerationHyperParameters?: { [key: string]: string | undefined };
   ModelAccessConfig?: ModelAccessConfig;
 }
 export const TextGenerationJobConfig = S.suspend(() =>
@@ -29314,11 +29358,11 @@ export type AlgorithmStatusItemList = AlgorithmStatusItem[];
 export const AlgorithmStatusItemList = S.Array(AlgorithmStatusItem);
 export type ActiveOperations = { [key in ActiveClusterOperationName]?: number };
 export const ActiveOperations = S.partial(
-  S.Record({ key: ActiveClusterOperationName, value: S.Number }),
+  S.Record({ key: ActiveClusterOperationName, value: S.UndefinedOr(S.Number) }),
 );
 export interface ClusterKubernetesConfigDetails {
-  CurrentLabels?: { [key: string]: string };
-  DesiredLabels?: { [key: string]: string };
+  CurrentLabels?: { [key: string]: string | undefined };
+  DesiredLabels?: { [key: string]: string | undefined };
   CurrentTaints?: ClusterKubernetesTaint[];
   DesiredTaints?: ClusterKubernetesTaint[];
 }
@@ -29357,8 +29401,8 @@ export const ClusterInstancePlacement = S.suspend(() =>
   identifier: "ClusterInstancePlacement",
 }) as any as S.Schema<ClusterInstancePlacement>;
 export interface ClusterKubernetesConfigNodeDetails {
-  CurrentLabels?: { [key: string]: string };
-  DesiredLabels?: { [key: string]: string };
+  CurrentLabels?: { [key: string]: string | undefined };
+  DesiredLabels?: { [key: string]: string | undefined };
   CurrentTaints?: ClusterKubernetesTaint[];
   DesiredTaints?: ClusterKubernetesTaint[];
 }
@@ -29468,7 +29512,7 @@ export const PendingProductionVariantSummaryList = S.Array(
 export interface InferenceComponentContainerSpecificationSummary {
   DeployedImage?: DeployedImage;
   ArtifactUrl?: string;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const InferenceComponentContainerSpecificationSummary = S.suspend(() =>
   S.Struct({
@@ -29542,7 +29586,7 @@ export const InferenceMetrics = S.suspend(() =>
 export interface RealTimeInferenceRecommendation {
   RecommendationId?: string;
   InstanceType?: ProductionVariantInstanceType;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
 }
 export const RealTimeInferenceRecommendation = S.suspend(() =>
   S.Struct({
@@ -29791,11 +29835,11 @@ export const CategoricalParameterRangeSpecification = S.suspend(() =>
   identifier: "CategoricalParameterRangeSpecification",
 }) as any as S.Schema<CategoricalParameterRangeSpecification>;
 export type AggregationTransformations = {
-  [key: string]: AggregationTransformationValue;
+  [key: string]: AggregationTransformationValue | undefined;
 };
 export const AggregationTransformations = S.Record({
   key: S.String,
-  value: AggregationTransformationValue,
+  value: S.UndefinedOr(AggregationTransformationValue),
 });
 export interface CategoricalParameter {
   Name?: string;
@@ -29848,18 +29892,18 @@ export const BatchAddClusterNodesError = S.suspend(() =>
 export type BatchAddClusterNodesErrorList = BatchAddClusterNodesError[];
 export const BatchAddClusterNodesErrorList = S.Array(BatchAddClusterNodesError);
 export type ModelPackageSummaries = {
-  [key: string]: BatchDescribeModelPackageSummary;
+  [key: string]: BatchDescribeModelPackageSummary | undefined;
 };
 export const ModelPackageSummaries = S.Record({
   key: S.String,
-  value: BatchDescribeModelPackageSummary,
+  value: S.UndefinedOr(BatchDescribeModelPackageSummary),
 });
 export type BatchDescribeModelPackageErrorMap = {
-  [key: string]: BatchDescribeModelPackageError;
+  [key: string]: BatchDescribeModelPackageError | undefined;
 };
 export const BatchDescribeModelPackageErrorMap = S.Record({
   key: S.String,
-  value: BatchDescribeModelPackageError,
+  value: S.UndefinedOr(BatchDescribeModelPackageError),
 });
 export interface AlgorithmValidationSpecification {
   ValidationRole?: string;
@@ -30039,7 +30083,7 @@ export interface ClusterInstanceGroupDetails {
   ScheduledUpdateConfig?: ScheduledUpdateConfig;
   CurrentImageId?: string;
   DesiredImageId?: string;
-  ActiveOperations?: { [key: string]: number };
+  ActiveOperations?: { [key: string]: number | undefined };
   KubernetesConfig?: ClusterKubernetesConfigDetails;
   CapacityRequirements?: ClusterCapacityRequirements;
   TargetStateCount?: number;
@@ -30823,38 +30867,44 @@ export const BatchAddClusterNodesResponse = S.suspend(() =>
 }) as any as S.Schema<BatchAddClusterNodesResponse>;
 export interface BatchDescribeModelPackageOutput {
   ModelPackageSummaries?: {
-    [key: string]: BatchDescribeModelPackageSummary & {
-      ModelPackageGroupName: EntityName;
-      ModelPackageArn: ModelPackageArn;
-      CreationTime: CreationTime;
-      InferenceSpecification: InferenceSpecification & {
-        Containers: (ModelPackageContainerDefinition & {
-          ModelDataSource: ModelDataSource & {
-            S3DataSource: S3ModelDataSource & {
-              S3Uri: S3ModelUri;
-              S3DataType: S3ModelDataType;
-              CompressionType: ModelCompressionType;
-              ModelAccessConfig: ModelAccessConfig & { AcceptEula: AcceptEula };
-              HubAccessConfig: InferenceHubAccessConfig & {
-                HubContentArn: HubContentArn;
+    [key: string]:
+      | (BatchDescribeModelPackageSummary & {
+          ModelPackageGroupName: EntityName;
+          ModelPackageArn: ModelPackageArn;
+          CreationTime: CreationTime;
+          InferenceSpecification: InferenceSpecification & {
+            Containers: (ModelPackageContainerDefinition & {
+              ModelDataSource: ModelDataSource & {
+                S3DataSource: S3ModelDataSource & {
+                  S3Uri: S3ModelUri;
+                  S3DataType: S3ModelDataType;
+                  CompressionType: ModelCompressionType;
+                  ModelAccessConfig: ModelAccessConfig & {
+                    AcceptEula: AcceptEula;
+                  };
+                  HubAccessConfig: InferenceHubAccessConfig & {
+                    HubContentArn: HubContentArn;
+                  };
+                };
               };
-            };
+              ModelInput: ModelInput & { DataInputConfig: DataInputConfig };
+              AdditionalS3DataSource: AdditionalS3DataSource & {
+                S3DataType: AdditionalS3DataSourceDataType;
+                S3Uri: S3Uri;
+              };
+            })[];
           };
-          ModelInput: ModelInput & { DataInputConfig: DataInputConfig };
-          AdditionalS3DataSource: AdditionalS3DataSource & {
-            S3DataType: AdditionalS3DataSourceDataType;
-            S3Uri: S3Uri;
-          };
-        })[];
-      };
-      ModelPackageStatus: ModelPackageStatus;
-    };
+          ModelPackageStatus: ModelPackageStatus;
+        })
+      | undefined;
   };
   BatchDescribeModelPackageErrorMap?: {
-    [key: string]: BatchDescribeModelPackageError & {
-      ErrorCode: string;
-      ErrorResponse: string;
-    };
+    [key: string]:
+      | (BatchDescribeModelPackageError & {
+          ErrorCode: string;
+          ErrorResponse: string;
+        })
+      | undefined;
   };
 }
 export const BatchDescribeModelPackageOutput = S.suspend(() =>
@@ -30943,7 +30993,7 @@ export const CreateAutoMLJobRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAutoMLJobRequest>;
 export type FillingTransformationMap = { [key in FillingType]?: string };
 export const FillingTransformationMap = S.partial(
-  S.Record({ key: FillingType, value: S.String }),
+  S.Record({ key: FillingType, value: S.UndefinedOr(S.String) }),
 );
 export interface CreateClusterRequest {
   ClusterName?: string;
@@ -31298,7 +31348,7 @@ export interface CreateModelPackageInput {
   Domain?: string;
   Task?: string;
   SamplePayloadUrl?: string;
-  CustomerMetadataProperties?: { [key: string]: string };
+  CustomerMetadataProperties?: { [key: string]: string | undefined };
   DriftCheckBaselines?: DriftCheckBaselines;
   AdditionalInferenceSpecifications?: AdditionalInferenceSpecificationDefinition[];
   SkipModelValidation?: SkipModelValidation;
@@ -31379,7 +31429,7 @@ export interface CreateOptimizationJobRequest {
   ModelSource?: OptimizationJobModelSource;
   DeploymentInstanceType?: OptimizationJobDeploymentInstanceType;
   MaxInstanceCount?: number;
-  OptimizationEnvironment?: { [key: string]: string };
+  OptimizationEnvironment?: { [key: string]: string | undefined };
   OptimizationConfigs?: OptimizationConfig[];
   OutputConfig?: OptimizationJobOutputConfig;
   StoppingCondition?: StoppingCondition;
@@ -31428,7 +31478,7 @@ export interface CreateProcessingJobRequest {
   ProcessingResources?: ProcessingResources;
   StoppingCondition?: ProcessingStoppingCondition;
   AppSpecification?: AppSpecification;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   NetworkConfig?: NetworkConfig;
   RoleArn?: string;
   Tags?: Tag[];
@@ -31498,7 +31548,7 @@ export interface CreateTransformJobRequest {
   ModelClientConfig?: ModelClientConfig;
   MaxPayloadInMB?: number;
   BatchStrategy?: BatchStrategy;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   TransformInput?: TransformInput;
   TransformOutput?: TransformOutput;
   DataCaptureConfig?: BatchDataCaptureConfig;
@@ -31592,7 +31642,7 @@ export interface DescribeActionResponse {
   ActionType?: string;
   Description?: string;
   Status?: ActionStatus;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   CreationTime?: Date;
   CreatedBy?: UserContext;
   LastModifiedTime?: Date;
@@ -32532,7 +32582,7 @@ export interface DescribeModelPackageOutput {
   Domain?: string;
   Task?: string;
   SamplePayloadUrl?: string;
-  CustomerMetadataProperties?: { [key: string]: string };
+  CustomerMetadataProperties?: { [key: string]: string | undefined };
   DriftCheckBaselines?: DriftCheckBaselines & {
     Bias: DriftCheckBias & {
       ConfigFile: FileSource & { S3Uri: S3Uri };
@@ -32983,11 +33033,11 @@ export const MonitoringAlertActions = S.suspend(() =>
 export type Relation = "EqualTo" | "GreaterThanOrEqualTo";
 export const Relation = S.Literal("EqualTo", "GreaterThanOrEqualTo");
 export type FillingTransformations = {
-  [key: string]: { [key: string]: string };
+  [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export const FillingTransformations = S.Record({
   key: S.String,
-  value: FillingTransformationMap,
+  value: S.UndefinedOr(FillingTransformationMap),
 });
 export interface ClusterMetadata {
   FailureMessage?: string;
@@ -33019,8 +33069,11 @@ export const InstanceGroupScalingMetadata = S.suspend(() =>
 ).annotations({
   identifier: "InstanceGroupScalingMetadata",
 }) as any as S.Schema<InstanceGroupScalingMetadata>;
-export type MapString2048 = { [key: string]: string };
-export const MapString2048 = S.Record({ key: S.String, value: S.String });
+export type MapString2048 = { [key: string]: string | undefined };
+export const MapString2048 = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AssociationInfo {
   SourceArn?: string;
   DestinationArn?: string;
@@ -33249,8 +33302,10 @@ export const TotalHits = S.suspend(() =>
   S.Struct({ Value: S.optional(S.Number), Relation: S.optional(Relation) }),
 ).annotations({ identifier: "TotalHits" }) as any as S.Schema<TotalHits>;
 export interface TimeSeriesTransformations {
-  Filling?: { [key: string]: { [key: string]: string } };
-  Aggregation?: { [key: string]: AggregationTransformationValue };
+  Filling?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+  Aggregation?: { [key: string]: AggregationTransformationValue | undefined };
 }
 export const TimeSeriesTransformations = S.suspend(() =>
   S.Struct({
@@ -33261,9 +33316,9 @@ export const TimeSeriesTransformations = S.suspend(() =>
   identifier: "TimeSeriesTransformations",
 }) as any as S.Schema<TimeSeriesTransformations>;
 export interface LineageMetadata {
-  ActionArns?: { [key: string]: string };
-  ArtifactArns?: { [key: string]: string };
-  ContextArns?: { [key: string]: string };
+  ActionArns?: { [key: string]: string | undefined };
+  ArtifactArns?: { [key: string]: string | undefined };
+  ContextArns?: { [key: string]: string | undefined };
   Associations?: AssociationInfo[];
 }
 export const LineageMetadata = S.suspend(() =>
@@ -33662,7 +33717,7 @@ export const CreateSpaceRequest = S.suspend(() =>
 }) as any as S.Schema<CreateSpaceRequest>;
 export interface CreateTrainingJobRequest {
   TrainingJobName?: string;
-  HyperParameters?: { [key: string]: string };
+  HyperParameters?: { [key: string]: string | undefined };
   AlgorithmSpecification?: AlgorithmSpecification;
   RoleArn?: string;
   InputDataConfig?: Channel[];
@@ -33681,7 +33736,7 @@ export interface CreateTrainingJobRequest {
   ExperimentConfig?: ExperimentConfig;
   ProfilerConfig?: ProfilerConfig;
   ProfilerRuleConfigurations?: ProfilerRuleConfiguration[];
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   RetryStrategy?: RetryStrategy;
   RemoteDebugConfig?: RemoteDebugConfig;
   InfraCheckConfig?: InfraCheckConfig;
@@ -33809,10 +33864,12 @@ export interface DescribeAutoMLJobResponse {
       };
     };
     InferenceContainerDefinitions: {
-      [key: string]: (AutoMLContainerDefinition & {
-        Image: ContainerImage;
-        ModelDataUrl: Url;
-      })[];
+      [key: string]:
+        | (AutoMLContainerDefinition & {
+            Image: ContainerImage;
+            ModelDataUrl: Url;
+          })[]
+        | undefined;
     };
   };
   AutoMLJobStatus: AutoMLJobStatus;
@@ -33969,10 +34026,12 @@ export interface DescribeAutoMLJobV2Response {
       };
     };
     InferenceContainerDefinitions: {
-      [key: string]: (AutoMLContainerDefinition & {
-        Image: ContainerImage;
-        ModelDataUrl: Url;
-      })[];
+      [key: string]:
+        | (AutoMLContainerDefinition & {
+            Image: ContainerImage;
+            ModelDataUrl: Url;
+          })[]
+        | undefined;
     };
   };
   AutoMLJobStatus: AutoMLJobStatus;
@@ -34467,7 +34526,7 @@ export interface TrainingJob {
   TrainingJobStatus?: TrainingJobStatus;
   SecondaryStatus?: SecondaryStatus;
   FailureReason?: string;
-  HyperParameters?: { [key: string]: string };
+  HyperParameters?: { [key: string]: string | undefined };
   AlgorithmSpecification?: AlgorithmSpecification;
   RoleArn?: string;
   InputDataConfig?: Channel[];
@@ -34495,7 +34554,7 @@ export interface TrainingJob {
   OutputModelPackageArn?: string;
   ModelPackageConfig?: ModelPackageConfig;
   ProfilerConfig?: ProfilerConfig;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   RetryStrategy?: RetryStrategy;
   Tags?: Tag[];
 }
@@ -34607,7 +34666,7 @@ export interface ModelPackage {
   ModelCard?: ModelPackageModelCard;
   ModelLifeCycle?: ModelLifeCycle;
   Tags?: Tag[];
-  CustomerMetadataProperties?: { [key: string]: string };
+  CustomerMetadataProperties?: { [key: string]: string | undefined };
   DriftCheckBaselines?: DriftCheckBaselines;
   SkipModelValidation?: SkipModelValidation;
 }
@@ -35215,7 +35274,7 @@ export interface TransformJob {
   ModelClientConfig?: ModelClientConfig;
   MaxPayloadInMB?: number;
   BatchStrategy?: BatchStrategy;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   TransformInput?: TransformInput;
   TransformOutput?: TransformOutput;
   DataCaptureConfig?: BatchDataCaptureConfig;
@@ -35599,7 +35658,7 @@ export interface ProcessingJob {
   ProcessingResources?: ProcessingResources;
   StoppingCondition?: ProcessingStoppingCondition;
   AppSpecification?: AppSpecification;
-  Environment?: { [key: string]: string };
+  Environment?: { [key: string]: string | undefined };
   NetworkConfig?: NetworkConfig;
   RoleArn?: string;
   ExperimentConfig?: ExperimentConfig;
@@ -35746,9 +35805,9 @@ export interface TrialComponent {
   CreatedBy?: UserContext;
   LastModifiedTime?: Date;
   LastModifiedBy?: UserContext;
-  Parameters?: { [key: string]: TrialComponentParameterValue };
-  InputArtifacts?: { [key: string]: TrialComponentArtifact };
-  OutputArtifacts?: { [key: string]: TrialComponentArtifact };
+  Parameters?: { [key: string]: TrialComponentParameterValue | undefined };
+  InputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
+  OutputArtifacts?: { [key: string]: TrialComponentArtifact | undefined };
   Metrics?: TrialComponentMetricSummary[];
   MetadataProperties?: MetadataProperties;
   SourceDetail?: TrialComponentSourceDetail;
@@ -35952,14 +36011,14 @@ export interface SearchResponse {
     TrialComponent: TrialComponent & {
       Source: TrialComponentSource & { SourceArn: TrialComponentSourceArn };
       InputArtifacts: {
-        [key: string]: TrialComponentArtifact & {
-          Value: TrialComponentArtifactValue;
-        };
+        [key: string]:
+          | (TrialComponentArtifact & { Value: TrialComponentArtifactValue })
+          | undefined;
       };
       OutputArtifacts: {
-        [key: string]: TrialComponentArtifact & {
-          Value: TrialComponentArtifactValue;
-        };
+        [key: string]:
+          | (TrialComponentArtifact & { Value: TrialComponentArtifactValue })
+          | undefined;
       };
       SourceDetail: TrialComponentSourceDetail & {
         TrainingJob: TrainingJob & {

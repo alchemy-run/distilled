@@ -229,11 +229,11 @@ export const SubscribeRequest = S.suspend(() =>
 ).annotations({
   identifier: "SubscribeRequest",
 }) as any as S.Schema<SubscribeRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   Arn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ Arn: S.String, Tags: Tags }).pipe(
@@ -396,7 +396,7 @@ export interface CreateNotificationRuleRequest {
   Targets: Target[];
   DetailType: DetailType;
   ClientRequestToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Status?: NotificationRuleStatus;
 }
 export const CreateNotificationRuleRequest = S.suspend(() =>
@@ -477,7 +477,7 @@ export const ListNotificationRulesRequest = S.suspend(() =>
   identifier: "ListNotificationRulesRequest",
 }) as any as S.Schema<ListNotificationRulesRequest>;
 export interface ListTagsForResourceResult {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -516,7 +516,7 @@ export const SubscribeResult = S.suspend(() =>
   identifier: "SubscribeResult",
 }) as any as S.Schema<SubscribeResult>;
 export interface TagResourceResult {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceResult = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -597,7 +597,7 @@ export interface DescribeNotificationRuleResult {
   Status?: NotificationRuleStatus;
   CreatedTimestamp?: Date;
   LastModifiedTimestamp?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeNotificationRuleResult = S.suspend(() =>
   S.Struct({

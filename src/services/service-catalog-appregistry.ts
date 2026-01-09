@@ -201,13 +201,13 @@ export const AssociateResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateResourceRequest",
 }) as any as S.Schema<AssociateResourceRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateAttributeGroupRequest {
   name: string;
   description?: string;
   attributes: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateAttributeGroupRequest = S.suspend(() =>
@@ -582,7 +582,7 @@ export const SyncResourceRequest = S.suspend(() =>
 }) as any as S.Schema<SyncResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -757,7 +757,7 @@ export const AssociateResourceResponse = S.suspend(() =>
 export interface CreateApplicationRequest {
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -811,7 +811,7 @@ export interface GetAttributeGroupResponse {
   attributes?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   createdBy?: string;
 }
 export const GetAttributeGroupResponse = S.suspend(() =>
@@ -866,7 +866,7 @@ export const ListAttributeGroupsResponse = S.suspend(() =>
   identifier: "ListAttributeGroupsResponse",
 }) as any as S.Schema<ListAttributeGroupsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -894,7 +894,7 @@ export interface AttributeGroup {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AttributeGroup = S.suspend(() =>
   S.Struct({
@@ -923,10 +923,10 @@ export const ApplicationTagStatus = S.Literal(
   "SUCCESS",
   "FAILURE",
 );
-export type ApplicationTagDefinition = { [key: string]: string };
+export type ApplicationTagDefinition = { [key: string]: string | undefined };
 export const ApplicationTagDefinition = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AttributeGroupDetails {
   id?: string;
@@ -953,8 +953,8 @@ export interface Application {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: { [key: string]: string };
-  applicationTag?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  applicationTag?: { [key: string]: string | undefined };
 }
 export const Application = S.suspend(() =>
   S.Struct({
@@ -1157,9 +1157,9 @@ export interface GetApplicationResponse {
   creationTime?: Date;
   lastUpdateTime?: Date;
   associatedResourceCount?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   integrations?: Integrations;
-  applicationTag?: { [key: string]: string };
+  applicationTag?: { [key: string]: string | undefined };
 }
 export const GetApplicationResponse = S.suspend(() =>
   S.Struct({

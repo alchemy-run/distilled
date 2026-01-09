@@ -910,8 +910,8 @@ export const IngressAccessLogs = S.suspend(() =>
 ).annotations({
   identifier: "IngressAccessLogs",
 }) as any as S.Schema<IngressAccessLogs>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface S3Destination {
   BucketName?: string;
   ManifestKey?: string;
@@ -928,8 +928,11 @@ export const S3Destination = S.suspend(() =>
 }) as any as S.Schema<S3Destination>;
 export type Status = "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
 export const Status = S.Literal("IN_PROGRESS", "SUCCEEDED", "FAILED");
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
@@ -960,7 +963,7 @@ export const ConfigureLogsRequest = S.suspend(() =>
 export interface CreateChannelRequest {
   Description?: string;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -1042,7 +1045,7 @@ export const DescribeHarvestJobResponse = S.suspend(() =>
   identifier: "DescribeHarvestJobResponse",
 }) as any as S.Schema<DescribeHarvestJobResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -1085,7 +1088,7 @@ export interface RotateChannelCredentialsResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RotateChannelCredentialsResponse = S.suspend(() =>
   S.Struct({
@@ -1115,7 +1118,7 @@ export interface RotateIngestEndpointCredentialsResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RotateIngestEndpointCredentialsResponse = S.suspend(() =>
   S.Struct({
@@ -1139,7 +1142,7 @@ export const RotateIngestEndpointCredentialsResponse = S.suspend(() =>
 }) as any as S.Schema<RotateIngestEndpointCredentialsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1170,7 +1173,7 @@ export interface UpdateChannelResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateChannelResponse = S.suspend(() =>
   S.Struct({
@@ -1322,7 +1325,7 @@ export interface UpdateOriginEndpointResponse {
   };
   Origination?: Origination;
   StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TimeDelaySeconds?: number;
   Url?: string;
   Whitelist?: string[];
@@ -1370,7 +1373,7 @@ export interface Channel {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Channel = S.suspend(() =>
   S.Struct({
@@ -1434,7 +1437,7 @@ export interface OriginEndpoint {
   MssPackage?: MssPackage;
   Origination?: Origination;
   StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TimeDelaySeconds?: number;
   Url?: string;
   Whitelist?: string[];
@@ -1484,7 +1487,7 @@ export interface ConfigureLogsResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ConfigureLogsResponse = S.suspend(() =>
   S.Struct({
@@ -1514,7 +1517,7 @@ export interface CreateChannelResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelResponse = S.suspend(() =>
   S.Struct({
@@ -1682,7 +1685,7 @@ export interface DescribeChannelResponse {
   HlsIngest?: HlsIngest;
   Id?: string;
   IngressAccessLogs?: IngressAccessLogs;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeChannelResponse = S.suspend(() =>
   S.Struct({
@@ -1774,7 +1777,7 @@ export interface DescribeOriginEndpointResponse {
   };
   Origination?: Origination;
   StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TimeDelaySeconds?: number;
   Url?: string;
   Whitelist?: string[];
@@ -1826,7 +1829,7 @@ export interface CreateOriginEndpointRequest {
   MssPackage?: MssPackage;
   Origination?: Origination;
   StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TimeDelaySeconds?: number;
   Whitelist?: string[];
 }
@@ -1941,7 +1944,7 @@ export interface CreateOriginEndpointResponse {
   };
   Origination?: Origination;
   StartoverWindowSeconds?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TimeDelaySeconds?: number;
   Url?: string;
   Whitelist?: string[];

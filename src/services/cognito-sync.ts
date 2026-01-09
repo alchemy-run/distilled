@@ -546,8 +546,11 @@ export type IdentityPoolUsageList = IdentityPoolUsage[];
 export const IdentityPoolUsageList = S.Array(IdentityPoolUsage);
 export type MergedDatasetNameList = string[];
 export const MergedDatasetNameList = S.Array(S.String);
-export type Events = { [key: string]: string };
-export const Events = S.Record({ key: S.String, value: S.String });
+export type Events = { [key: string]: string | undefined };
+export const Events = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface PushSync {
   ApplicationArns?: string[];
   RoleArn?: string;
@@ -631,7 +634,7 @@ export const GetBulkPublishDetailsResponse = S.suspend(() =>
   identifier: "GetBulkPublishDetailsResponse",
 }) as any as S.Schema<GetBulkPublishDetailsResponse>;
 export interface GetCognitoEventsResponse {
-  Events?: { [key: string]: string };
+  Events?: { [key: string]: string | undefined };
 }
 export const GetCognitoEventsResponse = S.suspend(() =>
   S.Struct({ Events: S.optional(Events) }).pipe(ns),
@@ -692,7 +695,7 @@ export const RegisterDeviceResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterDeviceResponse>;
 export interface SetCognitoEventsRequest {
   IdentityPoolId: string;
-  Events: { [key: string]: string };
+  Events: { [key: string]: string | undefined };
 }
 export const SetCognitoEventsRequest = S.suspend(() =>
   S.Struct({

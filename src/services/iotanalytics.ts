@@ -645,14 +645,14 @@ export const DatastoreActivity = S.suspend(() =>
 ).annotations({
   identifier: "DatastoreActivity",
 }) as any as S.Schema<DatastoreActivity>;
-export type AttributeNameMapping = { [key: string]: string };
+export type AttributeNameMapping = { [key: string]: string | undefined };
 export const AttributeNameMapping = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AddAttributesActivity {
   name: string;
-  attributes: { [key: string]: string };
+  attributes: { [key: string]: string | undefined };
   next?: string;
 }
 export const AddAttributesActivity = S.suspend(() =>

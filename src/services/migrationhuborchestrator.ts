@@ -193,8 +193,11 @@ export const GetMigrationWorkflowRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetMigrationWorkflowRequest",
 }) as any as S.Schema<GetMigrationWorkflowRequest>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type StepInput =
   | {
       integerValue: number;
@@ -218,7 +221,7 @@ export type StepInput =
       integerValue?: never;
       stringValue?: never;
       listOfStringsValue?: never;
-      mapOfStringValue: { [key: string]: string };
+      mapOfStringValue: { [key: string]: string | undefined };
     };
 export const StepInput = S.Union(
   S.Struct({ integerValue: S.Number }),
@@ -226,16 +229,16 @@ export const StepInput = S.Union(
   S.Struct({ listOfStringsValue: StringList }),
   S.Struct({ mapOfStringValue: StringMap }),
 );
-export type StepInputParameters = { [key: string]: StepInput };
+export type StepInputParameters = { [key: string]: StepInput | undefined };
 export const StepInputParameters = S.Record({
   key: S.String,
-  value: StepInput,
+  value: S.UndefinedOr(StepInput),
 });
 export interface UpdateMigrationWorkflowRequest {
   id: string;
   name?: string;
   description?: string;
-  inputParameters?: { [key: string]: StepInput };
+  inputParameters?: { [key: string]: StepInput | undefined };
   stepTargets?: string[];
 }
 export const UpdateMigrationWorkflowRequest = S.suspend(() =>
@@ -877,12 +880,15 @@ export const ListWorkflowStepGroupsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListWorkflowStepGroupsRequest",
 }) as any as S.Schema<ListWorkflowStepGroupsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type TemplateSource = { workflowId: string };
 export const TemplateSource = S.Union(S.Struct({ workflowId: S.String }));
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -891,7 +897,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -921,12 +927,12 @@ export interface UpdateMigrationWorkflowResponse {
   description?: string;
   templateId?: string;
   adsApplicationConfigurationId?: string;
-  workflowInputs?: { [key: string]: StepInput };
+  workflowInputs?: { [key: string]: StepInput | undefined };
   stepTargets?: string[];
   status?: string;
   creationTime?: Date;
   lastModifiedTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateMigrationWorkflowResponse = S.suspend(() =>
   S.Struct({
@@ -1003,7 +1009,7 @@ export interface CreateTemplateRequest {
   templateDescription?: string;
   templateSource: TemplateSource;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -1028,7 +1034,7 @@ export const CreateTemplateRequest = S.suspend(() =>
 export interface UpdateTemplateResponse {
   templateId?: string;
   templateArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1473,9 +1479,9 @@ export interface CreateMigrationWorkflowRequest {
   description?: string;
   templateId: string;
   applicationConfigurationId?: string;
-  inputParameters: { [key: string]: StepInput };
+  inputParameters: { [key: string]: StepInput | undefined };
   stepTargets?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMigrationWorkflowRequest = S.suspend(() =>
   S.Struct({
@@ -1517,8 +1523,8 @@ export interface GetMigrationWorkflowResponse {
   tools?: Tool[];
   totalSteps?: number;
   completedSteps?: number;
-  workflowInputs?: { [key: string]: StepInput };
-  tags?: { [key: string]: string };
+  workflowInputs?: { [key: string]: StepInput | undefined };
+  tags?: { [key: string]: string | undefined };
   workflowBucket?: string;
 }
 export const GetMigrationWorkflowResponse = S.suspend(() =>
@@ -1564,7 +1570,7 @@ export const ListMigrationWorkflowsResponse = S.suspend(() =>
 export interface CreateTemplateResponse {
   templateId?: string;
   templateArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1587,7 +1593,7 @@ export interface GetMigrationWorkflowTemplateResponse {
   status?: string;
   statusMessage?: string;
   templateClass?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetMigrationWorkflowTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -1755,11 +1761,11 @@ export interface CreateMigrationWorkflowResponse {
   description?: string;
   templateId?: string;
   adsApplicationConfigurationId?: string;
-  workflowInputs?: { [key: string]: StepInput };
+  workflowInputs?: { [key: string]: StepInput | undefined };
   stepTargets?: string[];
   status?: string;
   creationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMigrationWorkflowResponse = S.suspend(() =>
   S.Struct({

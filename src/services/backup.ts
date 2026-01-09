@@ -473,11 +473,11 @@ export interface CancelLegalHoldOutput {}
 export const CancelLegalHoldOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "CancelLegalHoldOutput",
 }) as any as S.Schema<CancelLegalHoldOutput>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: { [key: string]: string };
+  BackupVaultTags?: { [key: string]: string | undefined };
   EncryptionKeyArn?: string;
   CreatorRequestId?: string;
 }
@@ -502,7 +502,7 @@ export const CreateBackupVaultInput = S.suspend(() =>
 }) as any as S.Schema<CreateBackupVaultInput>;
 export interface CreateLogicallyAirGappedBackupVaultInput {
   BackupVaultName: string;
-  BackupVaultTags?: { [key: string]: string };
+  BackupVaultTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
   MinRetentionDays: number;
   MaxRetentionDays: number;
@@ -535,7 +535,7 @@ export const CreateLogicallyAirGappedBackupVaultInput = S.suspend(() =>
 export interface CreateRestoreAccessBackupVaultInput {
   SourceBackupVaultArn: string;
   BackupVaultName?: string;
-  BackupVaultTags?: { [key: string]: string };
+  BackupVaultTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
   RequesterComment?: string | redacted.Redacted<string>;
 }
@@ -2705,7 +2705,7 @@ export const StopBackupJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopBackupJobResponse>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -2793,7 +2793,7 @@ export interface BackupRuleInput {
   StartWindowMinutes?: number;
   CompletionWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string };
+  RecoveryPointTags?: { [key: string]: string | undefined };
   CopyActions?: CopyAction[];
   EnableContinuousBackup?: boolean;
   ScheduleExpressionTimezone?: string;
@@ -2821,11 +2821,14 @@ export const BackupRuleInput = S.suspend(() =>
 }) as any as S.Schema<BackupRuleInput>;
 export type BackupRulesInput = BackupRuleInput[];
 export const BackupRulesInput = S.Array(BackupRuleInput);
-export type BackupOptions = { [key: string]: string };
-export const BackupOptions = S.Record({ key: S.String, value: S.String });
+export type BackupOptions = { [key: string]: string | undefined };
+export const BackupOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AdvancedBackupSetting {
   ResourceType?: string;
-  BackupOptions?: { [key: string]: string };
+  BackupOptions?: { [key: string]: string | undefined };
 }
 export const AdvancedBackupSetting = S.suspend(() =>
   S.Struct({
@@ -2906,12 +2909,15 @@ export type ComplianceResourceIdList = string[];
 export const ComplianceResourceIdList = S.Array(S.String);
 export type ResourceTypeList = string[];
 export const ResourceTypeList = S.Array(S.String);
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ControlScope {
   ComplianceResourceIds?: string[];
   ComplianceResourceTypes?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ControlScope = S.suspend(() =>
   S.Struct({
@@ -2961,10 +2967,13 @@ export const UpdateFrameworkInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateFrameworkInput",
 }) as any as S.Schema<UpdateFrameworkInput>;
-export type GlobalSettings = { [key: string]: string };
-export const GlobalSettings = S.Record({ key: S.String, value: S.String });
+export type GlobalSettings = { [key: string]: string | undefined };
+export const GlobalSettings = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateGlobalSettingsInput {
-  GlobalSettings?: { [key: string]: string };
+  GlobalSettings?: { [key: string]: string | undefined };
 }
 export const UpdateGlobalSettingsInput = S.suspend(() =>
   S.Struct({ GlobalSettings: S.optional(GlobalSettings) }).pipe(
@@ -3040,19 +3049,23 @@ export const UpdateRecoveryPointLifecycleInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateRecoveryPointLifecycleInput",
 }) as any as S.Schema<UpdateRecoveryPointLifecycleInput>;
-export type ResourceTypeOptInPreference = { [key: string]: boolean };
+export type ResourceTypeOptInPreference = {
+  [key: string]: boolean | undefined;
+};
 export const ResourceTypeOptInPreference = S.Record({
   key: S.String,
-  value: S.Boolean,
+  value: S.UndefinedOr(S.Boolean),
 });
-export type ResourceTypeManagementPreference = { [key: string]: boolean };
+export type ResourceTypeManagementPreference = {
+  [key: string]: boolean | undefined;
+};
 export const ResourceTypeManagementPreference = S.Record({
   key: S.String,
-  value: S.Boolean,
+  value: S.UndefinedOr(S.Boolean),
 });
 export interface UpdateRegionSettingsInput {
-  ResourceTypeOptInPreference?: { [key: string]: boolean };
-  ResourceTypeManagementPreference?: { [key: string]: boolean };
+  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
+  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
 }
 export const UpdateRegionSettingsInput = S.suspend(() =>
   S.Struct({
@@ -3152,8 +3165,11 @@ export type ResourceIdentifiers = string[];
 export const ResourceIdentifiers = S.Array(S.String);
 export type VaultState = "CREATING" | "AVAILABLE" | "FAILED";
 export const VaultState = S.Literal("CREATING", "AVAILABLE", "FAILED");
-export type SensitiveStringMap = { [key: string]: string };
-export const SensitiveStringMap = S.Record({ key: S.String, value: S.String });
+export type SensitiveStringMap = { [key: string]: string | undefined };
+export const SensitiveStringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type EncryptionKeyType =
   | "AWS_OWNED_KMS_KEY"
   | "CUSTOMER_MANAGED_KMS_KEY";
@@ -3249,7 +3265,7 @@ export const RecoveryPointCreator = S.suspend(() =>
 }) as any as S.Schema<RecoveryPointCreator>;
 export type CopyJobChildJobsInState = { [key in CopyJobState]?: number };
 export const CopyJobChildJobsInState = S.partial(
-  S.Record({ key: CopyJobState, value: S.Number }),
+  S.Record({ key: CopyJobState, value: S.UndefinedOr(S.Number) }),
 );
 export interface CopyJob {
   AccountId?: string;
@@ -3276,7 +3292,7 @@ export interface CopyJob {
   IsParent?: boolean;
   CompositeMemberIdentifier?: string;
   NumberOfChildJobs?: number;
-  ChildJobsInState?: { [key: string]: number };
+  ChildJobsInState?: { [key: string]: number | undefined };
   ResourceName?: string;
   MessageCategory?: string;
 }
@@ -3379,8 +3395,11 @@ export const ReportPlan = S.suspend(() =>
 ).annotations({ identifier: "ReportPlan" }) as any as S.Schema<ReportPlan>;
 export type ReportPlanList = ReportPlan[];
 export const ReportPlanList = S.Array(ReportPlan);
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type RestoreTestingRecoveryPointSelectionAlgorithm =
   | "LATEST_WITHIN_WINDOW"
   | "RANDOM_WITHIN_WINDOW";
@@ -3457,7 +3476,7 @@ export interface RestoreTestingSelectionForUpdate {
   IamRoleArn?: string;
   ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
-  RestoreMetadataOverrides?: { [key: string]: string };
+  RestoreMetadataOverrides?: { [key: string]: string | undefined };
   ValidationWindowHours?: number;
 }
 export const RestoreTestingSelectionForUpdate = S.suspend(() =>
@@ -3536,7 +3555,7 @@ export interface CreateReportPlanInput {
   ReportPlanDescription?: string;
   ReportDeliveryChannel: ReportDeliveryChannel;
   ReportSetting: ReportSetting;
-  ReportPlanTags?: { [key: string]: string };
+  ReportPlanTags?: { [key: string]: string | undefined };
   IdempotencyToken?: string;
 }
 export const CreateReportPlanInput = S.suspend(() =>
@@ -3617,7 +3636,7 @@ export const DescribeFrameworkOutput = S.suspend(() =>
   identifier: "DescribeFrameworkOutput",
 }) as any as S.Schema<DescribeFrameworkOutput>;
 export interface DescribeGlobalSettingsOutput {
-  GlobalSettings?: { [key: string]: string };
+  GlobalSettings?: { [key: string]: string | undefined };
   LastUpdateTime?: Date;
 }
 export const DescribeGlobalSettingsOutput = S.suspend(() =>
@@ -3659,8 +3678,8 @@ export const DescribeProtectedResourceOutput = S.suspend(() =>
   identifier: "DescribeProtectedResourceOutput",
 }) as any as S.Schema<DescribeProtectedResourceOutput>;
 export interface DescribeRegionSettingsOutput {
-  ResourceTypeOptInPreference?: { [key: string]: boolean };
-  ResourceTypeManagementPreference?: { [key: string]: boolean };
+  ResourceTypeOptInPreference?: { [key: string]: boolean | undefined };
+  ResourceTypeManagementPreference?: { [key: string]: boolean | undefined };
 }
 export const DescribeRegionSettingsOutput = S.suspend(() =>
   S.Struct({
@@ -3688,7 +3707,7 @@ export interface BackupRule {
   StartWindowMinutes?: number;
   CompletionWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string };
+  RecoveryPointTags?: { [key: string]: string | undefined };
   RuleId?: string;
   CopyActions?: CopyAction[];
   EnableContinuousBackup?: boolean;
@@ -3947,7 +3966,7 @@ export const GetRecoveryPointIndexDetailsOutput = S.suspend(() =>
 export interface GetRecoveryPointRestoreMetadataOutput {
   BackupVaultArn?: string;
   RecoveryPointArn?: string;
-  RestoreMetadata?: { [key: string]: string };
+  RestoreMetadata?: { [key: string]: string | undefined };
   ResourceType?: string;
 }
 export const GetRecoveryPointRestoreMetadataOutput = S.suspend(() =>
@@ -3962,7 +3981,7 @@ export const GetRecoveryPointRestoreMetadataOutput = S.suspend(() =>
 }) as any as S.Schema<GetRecoveryPointRestoreMetadataOutput>;
 export interface GetRestoreJobMetadataOutput {
   RestoreJobId?: string;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
 }
 export const GetRestoreJobMetadataOutput = S.suspend(() =>
   S.Struct({
@@ -3973,7 +3992,7 @@ export const GetRestoreJobMetadataOutput = S.suspend(() =>
   identifier: "GetRestoreJobMetadataOutput",
 }) as any as S.Schema<GetRestoreJobMetadataOutput>;
 export interface GetRestoreTestingInferredMetadataOutput {
-  InferredMetadata: { [key: string]: string };
+  InferredMetadata: { [key: string]: string | undefined };
 }
 export const GetRestoreTestingInferredMetadataOutput = S.suspend(() =>
   S.Struct({ InferredMetadata: StringMap }),
@@ -4142,7 +4161,7 @@ export const ListRestoreJobsByProtectedResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListRestoreJobsByProtectedResourceOutput>;
 export interface ListTagsOutput {
   NextToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsOutput = S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(Tags) }),
@@ -4158,8 +4177,8 @@ export interface StartBackupJobInput {
   StartWindowMinutes?: number;
   CompleteWindowMinutes?: number;
   Lifecycle?: Lifecycle;
-  RecoveryPointTags?: { [key: string]: string };
-  BackupOptions?: { [key: string]: string };
+  RecoveryPointTags?: { [key: string]: string | undefined };
+  BackupOptions?: { [key: string]: string | undefined };
   Index?: Index;
 }
 export const StartBackupJobInput = S.suspend(() =>
@@ -4212,7 +4231,7 @@ export const StartReportJobOutput = S.suspend(() =>
 }) as any as S.Schema<StartReportJobOutput>;
 export interface StartRestoreJobInput {
   RecoveryPointArn: string;
-  Metadata: { [key: string]: string };
+  Metadata: { [key: string]: string | undefined };
   IamRoleArn?: string;
   IdempotencyToken?: string;
   ResourceType?: string;
@@ -4487,7 +4506,7 @@ export const TieringConfigurationInputForCreate = S.suspend(() =>
 }) as any as S.Schema<TieringConfigurationInputForCreate>;
 export type BackupJobChildJobsInState = { [key in BackupJobState]?: number };
 export const BackupJobChildJobsInState = S.partial(
-  S.Record({ key: BackupJobState, value: S.Number }),
+  S.Record({ key: BackupJobState, value: S.UndefinedOr(S.Number) }),
 );
 export interface LatestMpaApprovalTeamUpdate {
   MpaSessionArn?: string;
@@ -4602,7 +4621,7 @@ export interface RestoreTestingSelectionForGet {
   ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: { [key: string]: string };
+  RestoreMetadataOverrides?: { [key: string]: string | undefined };
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
@@ -4671,7 +4690,7 @@ export interface BackupJob {
   StartBy?: Date;
   ResourceType?: string;
   BytesTransferred?: number;
-  BackupOptions?: { [key: string]: string };
+  BackupOptions?: { [key: string]: string | undefined };
   BackupType?: string;
   ParentJobId?: string;
   IsParent?: boolean;
@@ -5172,7 +5191,7 @@ export interface CreateFrameworkInput {
   FrameworkDescription?: string;
   FrameworkControls: FrameworkControl[];
   IdempotencyToken?: string;
-  FrameworkTags?: { [key: string]: string };
+  FrameworkTags?: { [key: string]: string | undefined };
 }
 export const CreateFrameworkInput = S.suspend(() =>
   S.Struct({
@@ -5199,7 +5218,7 @@ export interface CreateLegalHoldInput {
   Description: string;
   IdempotencyToken?: string;
   RecoveryPointSelection?: RecoveryPointSelection;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateLegalHoldInput = S.suspend(() =>
   S.Struct({
@@ -5238,7 +5257,7 @@ export const CreateReportPlanOutput = S.suspend(() =>
 export interface CreateRestoreTestingPlanInput {
   CreatorRequestId?: string;
   RestoreTestingPlan: RestoreTestingPlanForCreate;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRestoreTestingPlanInput = S.suspend(() =>
   S.Struct({
@@ -5260,7 +5279,7 @@ export const CreateRestoreTestingPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreateRestoreTestingPlanInput>;
 export interface CreateTieringConfigurationInput {
   TieringConfiguration: TieringConfigurationInputForCreate;
-  TieringConfigurationTags?: { [key: string]: string };
+  TieringConfigurationTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
 }
 export const CreateTieringConfigurationInput = S.suspend(() =>
@@ -5305,12 +5324,12 @@ export interface DescribeBackupJobOutput {
   BytesTransferred?: number;
   ExpectedCompletionDate?: Date;
   StartBy?: Date;
-  BackupOptions?: { [key: string]: string };
+  BackupOptions?: { [key: string]: string | undefined };
   BackupType?: string;
   ParentJobId?: string;
   IsParent?: boolean;
   NumberOfChildJobs?: number;
-  ChildJobsInState?: { [key: string]: number };
+  ChildJobsInState?: { [key: string]: number | undefined };
   ResourceName?: string;
   InitiationDate?: Date;
   MessageCategory?: string;
@@ -5945,7 +5964,7 @@ export interface RestoreTestingSelectionForCreate {
   ProtectedResourceArns?: string[];
   ProtectedResourceConditions?: ProtectedResourceConditions;
   ProtectedResourceType: string;
-  RestoreMetadataOverrides?: { [key: string]: string };
+  RestoreMetadataOverrides?: { [key: string]: string | undefined };
   RestoreTestingSelectionName: string;
   ValidationWindowHours?: number;
 }
@@ -6056,7 +6075,7 @@ export const RestoreAccessBackupVaultList = S.Array(
 );
 export interface CreateBackupPlanInput {
   BackupPlan: BackupPlanInput;
-  BackupPlanTags?: { [key: string]: string };
+  BackupPlanTags?: { [key: string]: string | undefined };
   CreatorRequestId?: string;
 }
 export const CreateBackupPlanInput = S.suspend(() =>

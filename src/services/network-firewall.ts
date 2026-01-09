@@ -1281,10 +1281,10 @@ export interface IPSet {
 export const IPSet = S.suspend(() =>
   S.Struct({ Definition: VariableDefinitionList }),
 ).annotations({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
-export type IPSets = { [key: string]: IPSet };
-export const IPSets = S.Record({ key: S.String, value: IPSet });
+export type IPSets = { [key: string]: IPSet | undefined };
+export const IPSets = S.Record({ key: S.String, value: S.UndefinedOr(IPSet) });
 export interface PolicyVariables {
-  RuleVariables?: { [key: string]: IPSet };
+  RuleVariables?: { [key: string]: IPSet | undefined };
 }
 export const PolicyVariables = S.suspend(() =>
   S.Struct({ RuleVariables: S.optional(IPSets) }),
@@ -1450,11 +1450,14 @@ export interface PortSet {
 export const PortSet = S.suspend(() =>
   S.Struct({ Definition: S.optional(VariableDefinitionList) }),
 ).annotations({ identifier: "PortSet" }) as any as S.Schema<PortSet>;
-export type PortSets = { [key: string]: PortSet };
-export const PortSets = S.Record({ key: S.String, value: PortSet });
+export type PortSets = { [key: string]: PortSet | undefined };
+export const PortSets = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(PortSet),
+});
 export interface RuleVariables {
-  IPSets?: { [key: string]: IPSet };
-  PortSets?: { [key: string]: PortSet };
+  IPSets?: { [key: string]: IPSet | undefined };
+  PortSets?: { [key: string]: PortSet | undefined };
 }
 export const RuleVariables = S.suspend(() =>
   S.Struct({ IPSets: S.optional(IPSets), PortSets: S.optional(PortSets) }),
@@ -1469,13 +1472,13 @@ export const IPSetReference = S.suspend(() =>
 ).annotations({
   identifier: "IPSetReference",
 }) as any as S.Schema<IPSetReference>;
-export type IPSetReferenceMap = { [key: string]: IPSetReference };
+export type IPSetReferenceMap = { [key: string]: IPSetReference | undefined };
 export const IPSetReferenceMap = S.Record({
   key: S.String,
-  value: IPSetReference,
+  value: S.UndefinedOr(IPSetReference),
 });
 export interface ReferenceSets {
-  IPSetReferences?: { [key: string]: IPSetReference };
+  IPSetReferences?: { [key: string]: IPSetReference | undefined };
 }
 export const ReferenceSets = S.suspend(() =>
   S.Struct({ IPSetReferences: S.optional(IPSetReferenceMap) }),
@@ -2298,14 +2301,14 @@ export interface AZSyncState {
 export const AZSyncState = S.suspend(() =>
   S.Struct({ Attachment: S.optional(Attachment) }),
 ).annotations({ identifier: "AZSyncState" }) as any as S.Schema<AZSyncState>;
-export type AssociationSyncState = { [key: string]: AZSyncState };
+export type AssociationSyncState = { [key: string]: AZSyncState | undefined };
 export const AssociationSyncState = S.Record({
   key: S.String,
-  value: AZSyncState,
+  value: S.UndefinedOr(AZSyncState),
 });
 export interface VpcEndpointAssociationStatus {
   Status: FirewallStatusValue;
-  AssociationSyncState?: { [key: string]: AZSyncState };
+  AssociationSyncState?: { [key: string]: AZSyncState | undefined };
 }
 export const VpcEndpointAssociationStatus = S.suspend(() =>
   S.Struct({
@@ -2403,14 +2406,14 @@ export const PerObjectStatus = S.suspend(() =>
 ).annotations({
   identifier: "PerObjectStatus",
 }) as any as S.Schema<PerObjectStatus>;
-export type SyncStateConfig = { [key: string]: PerObjectStatus };
+export type SyncStateConfig = { [key: string]: PerObjectStatus | undefined };
 export const SyncStateConfig = S.Record({
   key: S.String,
-  value: PerObjectStatus,
+  value: S.UndefinedOr(PerObjectStatus),
 });
 export interface SyncState {
   Attachment?: Attachment;
-  Config?: { [key: string]: PerObjectStatus };
+  Config?: { [key: string]: PerObjectStatus | undefined };
 }
 export const SyncState = S.suspend(() =>
   S.Struct({
@@ -2418,8 +2421,11 @@ export const SyncState = S.suspend(() =>
     Config: S.optional(SyncStateConfig),
   }),
 ).annotations({ identifier: "SyncState" }) as any as S.Schema<SyncState>;
-export type SyncStates = { [key: string]: SyncState };
-export const SyncStates = S.Record({ key: S.String, value: SyncState });
+export type SyncStates = { [key: string]: SyncState | undefined };
+export const SyncStates = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SyncState),
+});
 export interface IPSetMetadata {
   ResolvedCIDRCount?: number;
 }
@@ -2428,15 +2434,15 @@ export const IPSetMetadata = S.suspend(() =>
 ).annotations({
   identifier: "IPSetMetadata",
 }) as any as S.Schema<IPSetMetadata>;
-export type IPSetMetadataMap = { [key: string]: IPSetMetadata };
+export type IPSetMetadataMap = { [key: string]: IPSetMetadata | undefined };
 export const IPSetMetadataMap = S.Record({
   key: S.String,
-  value: IPSetMetadata,
+  value: S.UndefinedOr(IPSetMetadata),
 });
 export interface CIDRSummary {
   AvailableCIDRCount?: number;
   UtilizedCIDRCount?: number;
-  IPSetReferences?: { [key: string]: IPSetMetadata };
+  IPSetReferences?: { [key: string]: IPSetMetadata | undefined };
 }
 export const CIDRSummary = S.suspend(() =>
   S.Struct({
@@ -2470,7 +2476,7 @@ export const TransitGatewayAttachmentSyncState = S.suspend(() =>
 export interface FirewallStatus {
   Status: FirewallStatusValue;
   ConfigurationSyncStateSummary: ConfigurationSyncState;
-  SyncStates?: { [key: string]: SyncState };
+  SyncStates?: { [key: string]: SyncState | undefined };
   CapacityUsageSummary?: CapacityUsageSummary;
   TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState;
 }
@@ -2549,12 +2555,15 @@ export const DescribeFirewallPolicyResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeFirewallPolicyResponse",
 }) as any as S.Schema<DescribeFirewallPolicyResponse>;
-export type LogDestinationMap = { [key: string]: string };
-export const LogDestinationMap = S.Record({ key: S.String, value: S.String });
+export type LogDestinationMap = { [key: string]: string | undefined };
+export const LogDestinationMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface LogDestinationConfig {
   LogType: LogType;
   LogDestinationType: LogDestinationType;
-  LogDestination: { [key: string]: string };
+  LogDestination: { [key: string]: string | undefined };
 }
 export const LogDestinationConfig = S.suspend(() =>
   S.Struct({
@@ -3903,11 +3912,11 @@ export const UniqueSources = S.suspend(() =>
   identifier: "UniqueSources",
 }) as any as S.Schema<UniqueSources>;
 export type SupportedAvailabilityZones = {
-  [key: string]: AvailabilityZoneMetadata;
+  [key: string]: AvailabilityZoneMetadata | undefined;
 };
 export const SupportedAvailabilityZones = S.Record({
   key: S.String,
-  value: AvailabilityZoneMetadata,
+  value: S.UndefinedOr(AvailabilityZoneMetadata),
 });
 export interface DescribeProxyResource {
   ProxyName?: string;
@@ -4042,7 +4051,9 @@ export interface DescribeFirewallMetadataResponse {
   FirewallPolicyArn?: string;
   Description?: string;
   Status?: FirewallStatusValue;
-  SupportedAvailabilityZones?: { [key: string]: AvailabilityZoneMetadata };
+  SupportedAvailabilityZones?: {
+    [key: string]: AvailabilityZoneMetadata | undefined;
+  };
   TransitGatewayAttachmentId?: string;
 }
 export const DescribeFirewallMetadataResponse = S.suspend(() =>

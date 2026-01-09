@@ -4512,11 +4512,14 @@ export const DescribeVTLDevicesOutput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeVTLDevicesOutput",
 }) as any as S.Schema<DescribeVTLDevicesOutput>;
-export type ErrorDetails = { [key: string]: string };
-export const ErrorDetails = S.Record({ key: S.String, value: S.String });
+export type ErrorDetails = { [key: string]: string | undefined };
+export const ErrorDetails = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface StorageGatewayError {
   errorCode?: ErrorCode;
-  errorDetails?: { [key: string]: string };
+  errorDetails?: { [key: string]: string | undefined };
 }
 export const StorageGatewayError = S.suspend(() =>
   S.Struct({

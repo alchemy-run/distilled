@@ -195,15 +195,18 @@ export const CreateConfigurationRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateConfigurationRequest",
 }) as any as S.Schema<CreateConfigurationRequest>;
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateVpcConnectionRequest {
   TargetClusterArn?: string;
   Authentication?: string;
   VpcId?: string;
   ClientSubnets?: string[];
   SecurityGroups?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateVpcConnectionRequest = S.suspend(() =>
   S.Struct({
@@ -997,7 +1000,7 @@ export const RejectClientVpcConnectionResponse = S.suspend(() =>
 }) as any as S.Schema<RejectClientVpcConnectionResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2085,7 +2088,7 @@ export interface ClusterInfo {
   NumberOfBrokerNodes?: number;
   State?: ClusterState;
   StateInfo?: StateInfo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ZookeeperConnectString?: string;
   ZookeeperConnectStringTls?: string;
   StorageMode?: StorageMode;
@@ -2265,7 +2268,7 @@ export interface Cluster {
   CurrentVersion?: string;
   State?: ClusterState;
   StateInfo?: StateInfo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Provisioned?: Provisioned;
   Serverless?: Serverless;
 }
@@ -2404,7 +2407,7 @@ export interface CreateVpcConnectionResponse {
   ClientSubnets?: string[];
   SecurityGroups?: string[];
   CreationTime?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateVpcConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -2558,7 +2561,7 @@ export interface DescribeVpcConnectionResponse {
   Subnets?: string[];
   SecurityGroups?: string[];
   CreationTime?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeVpcConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -2806,7 +2809,7 @@ export const ListScramSecretsResponse = S.suspend(() =>
   identifier: "ListScramSecretsResponse",
 }) as any as S.Schema<ListScramSecretsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -3485,7 +3488,7 @@ export interface DescribeReplicatorResponse {
   ReplicatorState?: ReplicatorState;
   ServiceExecutionRoleArn?: string;
   StateInfo?: ReplicationStateInfo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeReplicatorResponse = S.suspend(() =>
   S.Struct({
@@ -3948,7 +3951,7 @@ export interface CreateClusterRequest {
   KafkaVersion?: string;
   LoggingInfo?: LoggingInfo;
   NumberOfBrokerNodes?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   StorageMode?: StorageMode;
 }
 export const CreateClusterRequest = S.suspend(() =>
@@ -3999,7 +4002,7 @@ export const CreateClusterRequest = S.suspend(() =>
 }) as any as S.Schema<CreateClusterRequest>;
 export interface CreateClusterV2Request {
   ClusterName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Provisioned?: ProvisionedRequest;
   Serverless?: ServerlessRequest;
 }
@@ -4032,7 +4035,7 @@ export interface CreateReplicatorRequest {
   ReplicationInfoList?: ReplicationInfo[];
   ReplicatorName?: string;
   ServiceExecutionRoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateReplicatorRequest = S.suspend(() =>
   S.Struct({

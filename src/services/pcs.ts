@@ -311,8 +311,11 @@ export const SpotAllocationStrategy = S.Literal(
   "capacity-optimized",
   "price-capacity-optimized",
 );
-export type RequestTagMap = { [key: string]: string };
-export const RequestTagMap = S.Record({ key: S.String, value: S.String });
+export type RequestTagMap = { [key: string]: string | undefined };
+export const RequestTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SchedulerRequest {
   type: SchedulerType;
   version: string;
@@ -431,7 +434,7 @@ export type SlurmRestMode = "STANDARD" | "NONE";
 export const SlurmRestMode = S.Literal("STANDARD", "NONE");
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -457,7 +460,7 @@ export interface CreateComputeNodeGroupRequest {
   spotOptions?: SpotOptions;
   slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateComputeNodeGroupRequest = S.suspend(() =>
   S.Struct({
@@ -520,7 +523,7 @@ export interface CreateQueueRequest {
   computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[];
   slurmConfiguration?: QueueSlurmConfigurationRequest;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -667,8 +670,11 @@ export const QueueStatus = S.Literal(
   "SUSPENDING",
   "SUSPENDED",
 );
-export type ResponseTagMap = { [key: string]: string };
-export const ResponseTagMap = S.Record({ key: S.String, value: S.String });
+export type ResponseTagMap = { [key: string]: string | undefined };
+export const ResponseTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ClusterSlurmConfigurationRequest {
   scaleDownIdleTimeInSeconds?: number;
   slurmCustomSettings?: SlurmCustomSetting[];
@@ -788,7 +794,7 @@ export const QueueSummary = S.suspend(() =>
 export type QueueList = QueueSummary[];
 export const QueueList = S.Array(QueueSummary);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -802,7 +808,7 @@ export interface CreateClusterRequest {
   networking: NetworkingRequest;
   slurmConfiguration?: ClusterSlurmConfigurationRequest;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({

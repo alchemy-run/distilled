@@ -367,10 +367,10 @@ export const ListAgentActionGroupsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAgentActionGroupsRequest",
 }) as any as S.Schema<ListAgentActionGroupsRequest>;
-export type ActionGroupSignatureParams = { [key: string]: string };
+export type ActionGroupSignatureParams = { [key: string]: string | undefined };
 export const ActionGroupSignatureParams = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type CustomControlMethod = "RETURN_CONTROL";
 export const CustomControlMethod = S.Literal("RETURN_CONTROL");
@@ -420,14 +420,17 @@ export const ParameterDetail = S.suspend(() =>
 ).annotations({
   identifier: "ParameterDetail",
 }) as any as S.Schema<ParameterDetail>;
-export type ParameterMap = { [key: string]: ParameterDetail };
-export const ParameterMap = S.Record({ key: S.String, value: ParameterDetail });
+export type ParameterMap = { [key: string]: ParameterDetail | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ParameterDetail),
+});
 export type RequireConfirmation = "ENABLED" | "DISABLED";
 export const RequireConfirmation = S.Literal("ENABLED", "DISABLED");
 export interface Function {
   name: string;
   description?: string;
-  parameters?: { [key: string]: ParameterDetail };
+  parameters?: { [key: string]: ParameterDetail | undefined };
   requireConfirmation?: RequireConfirmation;
 }
 export const Function = S.suspend(() =>
@@ -449,7 +452,7 @@ export interface UpdateAgentActionGroupRequest {
   actionGroupName: string;
   description?: string;
   parentActionGroupSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string };
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
   actionGroupExecutor?: ActionGroupExecutor;
   actionGroupState?: ActionGroupState;
   apiSchema?: APISchema;
@@ -1699,8 +1702,11 @@ export const FlowDefinition = S.suspend(() =>
 ).annotations({
   identifier: "FlowDefinition",
 }) as any as S.Schema<FlowDefinition>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateFlowRequest {
   name: string;
   description?: string;
@@ -1708,7 +1714,7 @@ export interface CreateFlowRequest {
   customerEncryptionKeyArn?: string;
   definition?: FlowDefinition;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFlowRequest = S.suspend(() =>
   S.Struct({
@@ -3412,7 +3418,7 @@ export interface CreatePromptVersionRequest {
   promptIdentifier: string;
   description?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePromptVersionRequest = S.suspend(() =>
   S.Struct({
@@ -3452,7 +3458,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3719,7 +3725,7 @@ export interface AgentActionGroup {
   createdAt: Date;
   updatedAt: Date;
   parentActionSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string };
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
   actionGroupExecutor?: ActionGroupExecutor;
   apiSchema?: APISchema;
   functionSchema?: FunctionSchema;
@@ -3918,7 +3924,7 @@ export interface CreateAgentAliasRequest {
   clientToken?: string;
   description?: string;
   routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAgentAliasRequest = S.suspend(() =>
   S.Struct({
@@ -4149,7 +4155,7 @@ export interface CreateFlowAliasRequest {
   concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
   flowIdentifier: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFlowAliasRequest = S.suspend(() =>
   S.Struct({
@@ -4650,7 +4656,7 @@ export const CreatePromptVersionResponse = S.suspend(() =>
   identifier: "CreatePromptVersionResponse",
 }) as any as S.Schema<CreatePromptVersionResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -5893,7 +5899,7 @@ export interface CreateAgentRequest {
   idleSessionTTLInSeconds?: number;
   agentResourceRoleArn?: string;
   customerEncryptionKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   guardrailConfiguration?: GuardrailConfiguration;
   memoryConfiguration?: MemoryConfiguration;
@@ -7261,10 +7267,10 @@ export const InlineContent = S.suspend(() =>
 ).annotations({
   identifier: "InlineContent",
 }) as any as S.Schema<InlineContent>;
-export type AdditionalModelRequestFields = { [key: string]: any };
+export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record({
   key: S.String,
-  value: S.Any,
+  value: S.UndefinedOr(S.Any),
 });
 export interface PerformanceConfiguration {
   latency?: PerformanceConfigLatency;
@@ -7355,7 +7361,7 @@ export const CustomContent = S.suspend(() =>
 export interface KnowledgeBaseOrchestrationConfiguration {
   promptTemplate?: KnowledgeBasePromptTemplate;
   inferenceConfig?: PromptInferenceConfiguration;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
   performanceConfig?: PerformanceConfiguration;
 }
 export const KnowledgeBaseOrchestrationConfiguration = S.suspend(() =>
@@ -7394,7 +7400,7 @@ export interface CreateAgentActionGroupRequest {
   clientToken?: string;
   description?: string;
   parentActionGroupSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string };
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
   actionGroupExecutor?: ActionGroupExecutor;
   apiSchema?: APISchema;
   actionGroupState?: ActionGroupState;
@@ -7471,7 +7477,7 @@ export const GetFlowResponse = S.suspend(() =>
 }) as any as S.Schema<GetFlowResponse>;
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -7704,7 +7710,7 @@ export interface CreateKnowledgeBaseRequest {
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
   storageConfiguration?: StorageConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateKnowledgeBaseRequest = S.suspend(() =>
   S.Struct({
@@ -7735,7 +7741,7 @@ export interface CreatePromptRequest {
   defaultVariant?: string;
   variants?: PromptVariant[];
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePromptRequest = S.suspend(() =>
   S.Struct({

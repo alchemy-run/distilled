@@ -874,11 +874,16 @@ export type ApplicationInfoList = ApplicationInfo[];
 export const ApplicationInfoList = S.Array(ApplicationInfo);
 export type OsType = "WINDOWS" | "LINUX";
 export const OsType = S.Literal("WINDOWS", "LINUX");
-export type WorkloadMetaData = { [key: string]: string };
-export const WorkloadMetaData = S.Record({ key: S.String, value: S.String });
-export type DetectedWorkload = { [key in Tier]?: { [key: string]: string } };
+export type WorkloadMetaData = { [key: string]: string | undefined };
+export const WorkloadMetaData = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type DetectedWorkload = {
+  [key in Tier]?: { [key: string]: string | undefined };
+};
 export const DetectedWorkload = S.partial(
-  S.Record({ key: Tier, value: WorkloadMetaData }),
+  S.Record({ key: Tier, value: S.UndefinedOr(WorkloadMetaData) }),
 );
 export interface ApplicationComponent {
   ComponentName?: string;
@@ -887,7 +892,9 @@ export interface ApplicationComponent {
   OsType?: OsType;
   Tier?: Tier;
   Monitor?: boolean;
-  DetectedWorkload?: { [key: string]: { [key: string]: string } };
+  DetectedWorkload?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
 }
 export const ApplicationComponent = S.suspend(() =>
   S.Struct({
@@ -943,7 +950,7 @@ export type FeedbackValue = "NOT_SPECIFIED" | "USEFUL" | "NOT_USEFUL";
 export const FeedbackValue = S.Literal("NOT_SPECIFIED", "USEFUL", "NOT_USEFUL");
 export type Feedback = { [key in FeedbackKey]?: FeedbackValue };
 export const Feedback = S.partial(
-  S.Record({ key: FeedbackKey, value: FeedbackValue }),
+  S.Record({ key: FeedbackKey, value: S.UndefinedOr(FeedbackValue) }),
 );
 export type ResolutionMethod = "MANUAL" | "AUTOMATIC" | "UNRESOLVED";
 export const ResolutionMethod = S.Literal("MANUAL", "AUTOMATIC", "UNRESOLVED");
@@ -959,7 +966,7 @@ export interface Problem {
   SeverityLevel?: SeverityLevel;
   AccountId?: string;
   ResourceGroupName?: string;
-  Feedback?: { [key: string]: FeedbackValue };
+  Feedback?: { [key: string]: FeedbackValue | undefined };
   RecurringCount?: number;
   LastRecurrenceTime?: Date;
   Visibility?: Visibility;

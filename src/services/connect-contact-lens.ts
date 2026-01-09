@@ -229,14 +229,14 @@ export const CategoryDetails = S.suspend(() =>
 ).annotations({
   identifier: "CategoryDetails",
 }) as any as S.Schema<CategoryDetails>;
-export type MatchedDetails = { [key: string]: CategoryDetails };
+export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
 export const MatchedDetails = S.Record({
   key: S.String,
-  value: CategoryDetails,
+  value: S.UndefinedOr(CategoryDetails),
 });
 export interface Categories {
   MatchedCategories?: string[];
-  MatchedDetails?: { [key: string]: CategoryDetails };
+  MatchedDetails?: { [key: string]: CategoryDetails | undefined };
 }
 export const Categories = S.suspend(() =>
   S.Struct({
@@ -281,12 +281,14 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
     Categories: Categories & {
       MatchedCategories: MatchedCategories;
       MatchedDetails: {
-        [key: string]: CategoryDetails & {
-          PointsOfInterest: (PointOfInterest & {
-            BeginOffsetMillis: OffsetMillis;
-            EndOffsetMillis: OffsetMillis;
-          })[];
-        };
+        [key: string]:
+          | (CategoryDetails & {
+              PointsOfInterest: (PointOfInterest & {
+                BeginOffsetMillis: OffsetMillis;
+                EndOffsetMillis: OffsetMillis;
+              })[];
+            })
+          | undefined;
       };
     };
     PostContactSummary: PostContactSummary & {

@@ -2274,18 +2274,18 @@ export const GeoMatchParams = S.suspend(() =>
   identifier: "GeoMatchParams",
 }) as any as S.Schema<GeoMatchParams>;
 export type SipHeadersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const SipHeadersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type SMACreateCallArgumentsMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const SMACreateCallArgumentsMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface ServerSideEncryptionConfiguration {
   KmsKeyArn: string | redacted.Redacted<string>;
@@ -2722,11 +2722,11 @@ export const Credential = S.suspend(() =>
 export type CredentialList = Credential[];
 export const CredentialList = S.Array(Credential);
 export type SMAUpdateCallArgumentsMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const SMAUpdateCallArgumentsMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type OriginationRouteProtocol = "TCP" | "UDP";
 export const OriginationRouteProtocol = S.Literal("TCP", "UDP");
@@ -2848,8 +2848,12 @@ export interface CreateSipMediaApplicationCallRequest {
   FromPhoneNumber: string | redacted.Redacted<string>;
   ToPhoneNumber: string | redacted.Redacted<string>;
   SipMediaApplicationId: string;
-  SipHeaders?: { [key: string]: string | redacted.Redacted<string> };
-  ArgumentsMap?: { [key: string]: string | redacted.Redacted<string> };
+  SipHeaders?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  ArgumentsMap?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const CreateSipMediaApplicationCallRequest = S.suspend(() =>
   S.Struct({
@@ -3609,7 +3613,7 @@ export const UpdateSipMediaApplicationResponse = S.suspend(() =>
 export interface UpdateSipMediaApplicationCallRequest {
   SipMediaApplicationId: string;
   TransactionId: string;
-  Arguments: { [key: string]: string | redacted.Redacted<string> };
+  Arguments: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const UpdateSipMediaApplicationCallRequest = S.suspend(() =>
   S.Struct({

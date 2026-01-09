@@ -702,11 +702,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -754,14 +757,14 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type PlatformAttributesMap = { [key: string]: string };
+export type PlatformAttributesMap = { [key: string]: string | undefined };
 export const PlatformAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ComponentPlatform {
   name?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const ComponentPlatform = S.suspend(() =>
   S.Struct({
@@ -916,7 +919,7 @@ export const CancelDeploymentResponse = S.suspend(() =>
 export interface GetComponentResponse {
   recipeOutputFormat: RecipeOutputFormat;
   recipe: Uint8Array;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetComponentResponse = S.suspend(() =>
   S.Struct({
@@ -957,7 +960,7 @@ export interface GetCoreDeviceResponse {
   runtime?: string;
   status?: CoreDeviceStatus;
   lastStatusUpdateTimestamp?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCoreDeviceResponse = S.suspend(() =>
   S.Struct({
@@ -1027,11 +1030,11 @@ export const ComponentDeploymentSpecification = S.suspend(() =>
   identifier: "ComponentDeploymentSpecification",
 }) as any as S.Schema<ComponentDeploymentSpecification>;
 export type ComponentDeploymentSpecifications = {
-  [key: string]: ComponentDeploymentSpecification;
+  [key: string]: ComponentDeploymentSpecification | undefined;
 };
 export const ComponentDeploymentSpecifications = S.Record({
   key: S.String,
-  value: ComponentDeploymentSpecification,
+  value: S.UndefinedOr(ComponentDeploymentSpecification),
 });
 export interface DeploymentComponentUpdatePolicy {
   timeoutInSeconds?: number;
@@ -1176,13 +1179,13 @@ export interface GetDeploymentResponse {
   deploymentStatus?: DeploymentStatus;
   iotJobId?: string;
   iotJobArn?: string;
-  components?: { [key: string]: ComponentDeploymentSpecification };
+  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
   deploymentPolicies?: DeploymentPolicies;
   iotJobConfiguration?: DeploymentIoTJobConfiguration;
   creationTimestamp?: Date;
   isLatestForTarget?: boolean;
   parentTargetArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetDeploymentResponse = S.suspend(() =>
   S.Struct({
@@ -1207,7 +1210,7 @@ export const GetDeploymentResponse = S.suspend(() =>
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1293,10 +1296,12 @@ export const InstalledComponentLifecycleState = S.Literal(
 );
 export type InstalledComponentLifecycleStatusCodeList = string[];
 export const InstalledComponentLifecycleStatusCodeList = S.Array(S.String);
-export type ComponentVersionRequirementMap = { [key: string]: string };
+export type ComponentVersionRequirementMap = {
+  [key: string]: string | undefined;
+};
 export const ComponentVersionRequirementMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ComponentDependencyType = "HARD" | "SOFT";
 export const ComponentDependencyType = S.Literal("HARD", "SOFT");
@@ -1433,7 +1438,7 @@ export const InstalledComponentList = S.Array(InstalledComponent);
 export interface ComponentCandidate {
   componentName?: string;
   componentVersion?: string;
-  versionRequirements?: { [key: string]: string };
+  versionRequirements?: { [key: string]: string | undefined };
 }
 export const ComponentCandidate = S.suspend(() =>
   S.Struct({
@@ -1469,10 +1474,10 @@ export const LambdaEventSource = S.suspend(() =>
 }) as any as S.Schema<LambdaEventSource>;
 export type LambdaEventSourceList = LambdaEventSource[];
 export const LambdaEventSourceList = S.Array(LambdaEventSource);
-export type LambdaEnvironmentVariables = { [key: string]: string };
+export type LambdaEnvironmentVariables = { [key: string]: string | undefined };
 export const LambdaEnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type EffectiveDeploymentErrorStack = string[];
 export const EffectiveDeploymentErrorStack = S.Array(S.String);
@@ -1575,14 +1580,17 @@ export const UpdateConnectivityInfoResponse = S.suspend(() =>
   identifier: "UpdateConnectivityInfoResponse",
 }) as any as S.Schema<UpdateConnectivityInfoResponse>;
 export type ComponentDependencyMap = {
-  [key: string]: ComponentDependencyRequirement;
+  [key: string]: ComponentDependencyRequirement | undefined;
 };
 export const ComponentDependencyMap = S.Record({
   key: S.String,
-  value: ComponentDependencyRequirement,
+  value: S.UndefinedOr(ComponentDependencyRequirement),
 });
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ComponentLatestVersion {
   arn?: string;
   componentVersion?: string;
@@ -1660,7 +1668,7 @@ export const LambdaFilesystemPermission = S.Literal("ro", "rw");
 export interface CloudComponentStatus {
   componentState?: CloudComponentState;
   message?: string;
-  errors?: { [key: string]: string };
+  errors?: { [key: string]: string | undefined };
   vendorGuidance?: VendorGuidance;
   vendorGuidanceMessage?: string;
 }
@@ -1796,7 +1804,7 @@ export interface DescribeComponentResponse {
   description?: string;
   status?: CloudComponentStatus;
   platforms?: ComponentPlatform[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DescribeComponentResponse = S.suspend(() =>
   S.Struct({
@@ -1892,11 +1900,11 @@ export const LambdaLinuxProcessParams = S.suspend(() =>
 export interface CreateDeploymentRequest {
   targetArn: string;
   deploymentName?: string;
-  components?: { [key: string]: ComponentDeploymentSpecification };
+  components?: { [key: string]: ComponentDeploymentSpecification | undefined };
   iotJobConfiguration?: DeploymentIoTJobConfiguration;
   deploymentPolicies?: DeploymentPolicies;
   parentTargetArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateDeploymentRequest = S.suspend(() =>
@@ -1942,7 +1950,7 @@ export interface LambdaExecutionParameters {
   pinned?: boolean;
   inputPayloadEncodingType?: LambdaInputPayloadEncodingType;
   execArgs?: string[];
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   linuxProcessParams?: LambdaLinuxProcessParams;
 }
 export const LambdaExecutionParameters = S.suspend(() =>
@@ -1967,7 +1975,9 @@ export interface LambdaFunctionRecipeSource {
   componentName?: string;
   componentVersion?: string;
   componentPlatforms?: ComponentPlatform[];
-  componentDependencies?: { [key: string]: ComponentDependencyRequirement };
+  componentDependencies?: {
+    [key: string]: ComponentDependencyRequirement | undefined;
+  };
   componentLambdaParameters?: LambdaExecutionParameters;
 }
 export const LambdaFunctionRecipeSource = S.suspend(() =>
@@ -1985,7 +1995,7 @@ export const LambdaFunctionRecipeSource = S.suspend(() =>
 export interface CreateComponentVersionRequest {
   inlineRecipe?: Uint8Array;
   lambdaFunction?: LambdaFunctionRecipeSource;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateComponentVersionRequest = S.suspend(() =>

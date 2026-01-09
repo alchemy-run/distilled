@@ -591,8 +591,8 @@ export const RefreshTokenRequestBody = S.suspend(() =>
 ).annotations({
   identifier: "RefreshTokenRequestBody",
 }) as any as S.Schema<RefreshTokenRequestBody>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface ComponentPropertyBindingProperties {
   property: string;
   field?: string;
@@ -611,10 +611,10 @@ export const FormBindingElement = S.suspend(() =>
 ).annotations({
   identifier: "FormBindingElement",
 }) as any as S.Schema<FormBindingElement>;
-export type FormBindings = { [key: string]: FormBindingElement };
+export type FormBindings = { [key: string]: FormBindingElement | undefined };
 export const FormBindings = S.Record({
   key: S.String,
-  value: FormBindingElement,
+  value: S.UndefinedOr(FormBindingElement),
 });
 export interface ComponentProperty {
   value?: string;
@@ -622,7 +622,7 @@ export interface ComponentProperty {
   collectionBindingProperties?: ComponentPropertyBindingProperties;
   defaultValue?: string;
   model?: string;
-  bindings?: { [key: string]: FormBindingElement };
+  bindings?: { [key: string]: FormBindingElement | undefined };
   event?: string;
   userAttribute?: string;
   concat?: ComponentProperty[];
@@ -663,12 +663,16 @@ export const ComponentProperty = S.suspend(() =>
 ).annotations({
   identifier: "ComponentProperty",
 }) as any as S.Schema<ComponentProperty>;
-export type ComponentProperties = { [key: string]: ComponentProperty };
+export type ComponentProperties = {
+  [key: string]: ComponentProperty | undefined;
+};
 export const ComponentProperties = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<ComponentProperty, any> => ComponentProperty,
-  ).annotations({ identifier: "ComponentProperty" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<ComponentProperty, any> => ComponentProperty,
+    ).annotations({ identifier: "ComponentProperty" }),
+  ),
 });
 export type ComponentChildList = ComponentChild[];
 export const ComponentChildList = S.Array(
@@ -676,24 +680,28 @@ export const ComponentChildList = S.Array(
     identifier: "ComponentChild",
   }),
 ) as any as S.Schema<ComponentChildList>;
-export type ComponentVariantValues = { [key: string]: string };
+export type ComponentVariantValues = { [key: string]: string | undefined };
 export const ComponentVariantValues = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type ComponentOverridesValue = { [key: string]: string };
+export type ComponentOverridesValue = { [key: string]: string | undefined };
 export const ComponentOverridesValue = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type ComponentOverrides = { [key: string]: { [key: string]: string } };
+export type ComponentOverrides = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
 export const ComponentOverrides = S.Record({
   key: S.String,
-  value: ComponentOverridesValue,
+  value: S.UndefinedOr(ComponentOverridesValue),
 });
 export interface ComponentVariant {
-  variantValues?: { [key: string]: string };
-  overrides?: { [key: string]: { [key: string]: string } };
+  variantValues?: { [key: string]: string | undefined };
+  overrides?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
 }
 export const ComponentVariant = S.suspend(() =>
   S.Struct({
@@ -750,11 +758,11 @@ export const ComponentBindingPropertiesValue = S.suspend(() =>
   identifier: "ComponentBindingPropertiesValue",
 }) as any as S.Schema<ComponentBindingPropertiesValue>;
 export type ComponentBindingProperties = {
-  [key: string]: ComponentBindingPropertiesValue;
+  [key: string]: ComponentBindingPropertiesValue | undefined;
 };
 export const ComponentBindingProperties = S.Record({
   key: S.String,
-  value: ComponentBindingPropertiesValue,
+  value: S.UndefinedOr(ComponentBindingPropertiesValue),
 });
 export type SortDirection = "ASC" | "DESC";
 export const SortDirection = S.Literal("ASC", "DESC");
@@ -812,11 +820,11 @@ export const ComponentDataConfiguration = S.suspend(() =>
   identifier: "ComponentDataConfiguration",
 }) as any as S.Schema<ComponentDataConfiguration>;
 export type ComponentCollectionProperties = {
-  [key: string]: ComponentDataConfiguration;
+  [key: string]: ComponentDataConfiguration | undefined;
 };
 export const ComponentCollectionProperties = S.Record({
   key: S.String,
-  value: ComponentDataConfiguration,
+  value: S.UndefinedOr(ComponentDataConfiguration),
 });
 export interface MutationActionSetStateParameter {
   componentName: string;
@@ -840,7 +848,7 @@ export interface ActionParameters {
   global?: ComponentProperty;
   model?: string;
   id?: ComponentProperty;
-  fields?: { [key: string]: ComponentProperty };
+  fields?: { [key: string]: ComponentProperty | undefined };
   state?: MutationActionSetStateParameter;
 }
 export const ActionParameters = S.suspend(() =>
@@ -872,23 +880,29 @@ export const ComponentEvent = S.suspend(() =>
 ).annotations({
   identifier: "ComponentEvent",
 }) as any as S.Schema<ComponentEvent>;
-export type ComponentEvents = { [key: string]: ComponentEvent };
+export type ComponentEvents = { [key: string]: ComponentEvent | undefined };
 export const ComponentEvents = S.Record({
   key: S.String,
-  value: ComponentEvent,
+  value: S.UndefinedOr(ComponentEvent),
 });
 export interface UpdateComponentData {
   id?: string;
   name?: string;
   sourceId?: string;
   componentType?: string;
-  properties?: { [key: string]: ComponentProperty };
+  properties?: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants?: ComponentVariant[];
-  overrides?: { [key: string]: { [key: string]: string } };
-  bindingProperties?: { [key: string]: ComponentBindingPropertiesValue };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration };
-  events?: { [key: string]: ComponentEvent };
+  overrides?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+  bindingProperties?: {
+    [key: string]: ComponentBindingPropertiesValue | undefined;
+  };
+  collectionProperties?: {
+    [key: string]: ComponentDataConfiguration | undefined;
+  };
+  events?: { [key: string]: ComponentEvent | undefined };
   schemaVersion?: string;
 }
 export const UpdateComponentData = S.suspend(() =>
@@ -916,16 +930,22 @@ export interface Component {
   id: string;
   name: string;
   componentType: string;
-  properties: { [key: string]: ComponentProperty };
+  properties: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants: ComponentVariant[];
-  overrides: { [key: string]: { [key: string]: string } };
-  bindingProperties: { [key: string]: ComponentBindingPropertiesValue };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration };
+  overrides: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+  bindingProperties: {
+    [key: string]: ComponentBindingPropertiesValue | undefined;
+  };
+  collectionProperties?: {
+    [key: string]: ComponentDataConfiguration | undefined;
+  };
   createdAt: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
-  events?: { [key: string]: ComponentEvent };
+  tags?: { [key: string]: string | undefined };
+  events?: { [key: string]: ComponentEvent | undefined };
   schemaVersion?: string;
 }
 export const Component = S.suspend(() =>
@@ -1031,15 +1051,17 @@ export const FormInputBindingPropertiesValue = S.suspend(() =>
   identifier: "FormInputBindingPropertiesValue",
 }) as any as S.Schema<FormInputBindingPropertiesValue>;
 export type FormInputBindingProperties = {
-  [key: string]: FormInputBindingPropertiesValue;
+  [key: string]: FormInputBindingPropertiesValue | undefined;
 };
 export const FormInputBindingProperties = S.Record({
   key: S.String,
-  value: FormInputBindingPropertiesValue,
+  value: S.UndefinedOr(FormInputBindingPropertiesValue),
 });
 export interface ValueMappings {
   values: ValueMapping[];
-  bindingProperties?: { [key: string]: FormInputBindingPropertiesValue };
+  bindingProperties?: {
+    [key: string]: FormInputBindingPropertiesValue | undefined;
+  };
 }
 export const ValueMappings = S.suspend(() =>
   S.Struct({
@@ -1149,8 +1171,11 @@ export const FieldConfig = S.suspend(() =>
     validations: S.optional(ValidationsList),
   }),
 ).annotations({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
-export type FieldsMap = { [key: string]: FieldConfig };
-export const FieldsMap = S.Record({ key: S.String, value: FieldConfig });
+export type FieldsMap = { [key: string]: FieldConfig | undefined };
+export const FieldsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FieldConfig),
+});
 export type FormStyleConfig =
   | { tokenReference: string; value?: never }
   | { tokenReference?: never; value: string };
@@ -1190,10 +1215,12 @@ export const SectionalElement = S.suspend(() =>
 ).annotations({
   identifier: "SectionalElement",
 }) as any as S.Schema<SectionalElement>;
-export type SectionalElementMap = { [key: string]: SectionalElement };
+export type SectionalElementMap = {
+  [key: string]: SectionalElement | undefined;
+};
 export const SectionalElementMap = S.Record({
   key: S.String,
-  value: SectionalElement,
+  value: S.UndefinedOr(SectionalElement),
 });
 export type FormButtonsPosition = "top" | "bottom" | "top_and_bottom";
 export const FormButtonsPosition = S.Literal("top", "bottom", "top_and_bottom");
@@ -1227,9 +1254,9 @@ export interface UpdateFormData {
   name?: string;
   dataType?: FormDataTypeConfig;
   formActionType?: FormActionType;
-  fields?: { [key: string]: FieldConfig };
+  fields?: { [key: string]: FieldConfig | undefined };
   style?: FormStyle;
-  sectionalElements?: { [key: string]: SectionalElement };
+  sectionalElements?: { [key: string]: SectionalElement | undefined };
   schemaVersion?: string;
   cta?: FormCTA;
   labelDecorator?: string;
@@ -1257,10 +1284,10 @@ export interface Form {
   formActionType: FormActionType;
   style: FormStyle;
   dataType: FormDataTypeConfig;
-  fields: { [key: string]: FieldConfig };
-  sectionalElements: { [key: string]: SectionalElement };
+  fields: { [key: string]: FieldConfig | undefined };
+  sectionalElements: { [key: string]: SectionalElement | undefined };
   schemaVersion: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   cta?: FormCTA;
   labelDecorator?: string;
 }
@@ -1314,7 +1341,7 @@ export interface Theme {
   modifiedAt?: Date;
   values: ThemeValues[];
   overrides?: ThemeValues[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Theme = S.suspend(() =>
   S.Struct({
@@ -1357,7 +1384,7 @@ export const ExchangeCodeForTokenRequest = S.suspend(() =>
   identifier: "ExchangeCodeForTokenRequest",
 }) as any as S.Schema<ExchangeCodeForTokenRequest>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: Tags }),
@@ -1425,7 +1452,7 @@ export const RefreshTokenRequest = S.suspend(() =>
 }) as any as S.Schema<RefreshTokenRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1597,9 +1624,9 @@ export const CodegenJobStatus = S.Literal("in_progress", "failed", "succeeded");
 export interface ComponentChild {
   componentType: string;
   name: string;
-  properties: { [key: string]: ComponentProperty };
+  properties: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
-  events?: { [key: string]: ComponentEvent };
+  events?: { [key: string]: ComponentEvent | undefined };
   sourceId?: string;
 }
 export const ComponentChild = S.suspend(() =>
@@ -1630,8 +1657,11 @@ export const ComponentPropertyList = S.Array(
     (): S.Schema<ComponentProperty, any> => ComponentProperty,
   ).annotations({ identifier: "ComponentProperty" }),
 ) as any as S.Schema<ComponentPropertyList>;
-export type FeaturesMap = { [key: string]: string };
-export const FeaturesMap = S.Record({ key: S.String, value: S.String });
+export type FeaturesMap = { [key: string]: string | undefined };
+export const FeaturesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CodegenJobSummary {
   appId: string;
   environmentName: string;
@@ -1737,7 +1767,7 @@ export const ExchangeCodeForTokenResponse = S.suspend(() =>
   identifier: "ExchangeCodeForTokenResponse",
 }) as any as S.Schema<ExchangeCodeForTokenResponse>;
 export interface GetMetadataResponse {
-  features: { [key: string]: string };
+  features: { [key: string]: string | undefined };
 }
 export const GetMetadataResponse = S.suspend(() =>
   S.Struct({ features: FeaturesMap }),
@@ -1916,10 +1946,10 @@ export const ThemeValues = S.suspend(() =>
     ),
   }),
 ).annotations({ identifier: "ThemeValues" }) as any as S.Schema<ThemeValues>;
-export type ReactCodegenDependencies = { [key: string]: string };
+export type ReactCodegenDependencies = { [key: string]: string | undefined };
 export const ReactCodegenDependencies = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CodegenGenericDataEnum {
   values: string[];
@@ -2005,7 +2035,7 @@ export interface ReactStartCodegenJobData {
   renderTypeDeclarations?: boolean;
   inlineSourceMap?: boolean;
   apiConfiguration?: ApiConfiguration;
-  dependencies?: { [key: string]: string };
+  dependencies?: { [key: string]: string | undefined };
 }
 export const ReactStartCodegenJobData = S.suspend(() =>
   S.Struct({
@@ -2118,14 +2148,14 @@ export const CodegenGenericDataField = S.suspend(() =>
   identifier: "CodegenGenericDataField",
 }) as any as S.Schema<CodegenGenericDataField>;
 export type CodegenGenericDataFields = {
-  [key: string]: CodegenGenericDataField;
+  [key: string]: CodegenGenericDataField | undefined;
 };
 export const CodegenGenericDataFields = S.Record({
   key: S.String,
-  value: CodegenGenericDataField,
+  value: S.UndefinedOr(CodegenGenericDataField),
 });
 export interface CodegenGenericDataModel {
-  fields: { [key: string]: CodegenGenericDataField };
+  fields: { [key: string]: CodegenGenericDataField | undefined };
   isJoinTable?: boolean;
   primaryKeys: string[];
 }
@@ -2139,26 +2169,28 @@ export const CodegenGenericDataModel = S.suspend(() =>
   identifier: "CodegenGenericDataModel",
 }) as any as S.Schema<CodegenGenericDataModel>;
 export type CodegenGenericDataModels = {
-  [key: string]: CodegenGenericDataModel;
+  [key: string]: CodegenGenericDataModel | undefined;
 };
 export const CodegenGenericDataModels = S.Record({
   key: S.String,
-  value: CodegenGenericDataModel,
+  value: S.UndefinedOr(CodegenGenericDataModel),
 });
-export type CodegenGenericDataEnums = { [key: string]: CodegenGenericDataEnum };
+export type CodegenGenericDataEnums = {
+  [key: string]: CodegenGenericDataEnum | undefined;
+};
 export const CodegenGenericDataEnums = S.Record({
   key: S.String,
-  value: CodegenGenericDataEnum,
+  value: S.UndefinedOr(CodegenGenericDataEnum),
 });
 export type CodegenGenericDataNonModelFields = {
-  [key: string]: CodegenGenericDataField;
+  [key: string]: CodegenGenericDataField | undefined;
 };
 export const CodegenGenericDataNonModelFields = S.Record({
   key: S.String,
-  value: CodegenGenericDataField,
+  value: S.UndefinedOr(CodegenGenericDataField),
 });
 export interface CodegenGenericDataNonModel {
-  fields: { [key: string]: CodegenGenericDataField };
+  fields: { [key: string]: CodegenGenericDataField | undefined };
 }
 export const CodegenGenericDataNonModel = S.suspend(() =>
   S.Struct({ fields: CodegenGenericDataNonModelFields }),
@@ -2166,17 +2198,17 @@ export const CodegenGenericDataNonModel = S.suspend(() =>
   identifier: "CodegenGenericDataNonModel",
 }) as any as S.Schema<CodegenGenericDataNonModel>;
 export type CodegenGenericDataNonModels = {
-  [key: string]: CodegenGenericDataNonModel;
+  [key: string]: CodegenGenericDataNonModel | undefined;
 };
 export const CodegenGenericDataNonModels = S.Record({
   key: S.String,
-  value: CodegenGenericDataNonModel,
+  value: S.UndefinedOr(CodegenGenericDataNonModel),
 });
 export interface CodegenJobGenericDataSchema {
   dataSourceType: CodegenJobGenericDataSourceType;
-  models: { [key: string]: CodegenGenericDataModel };
-  enums: { [key: string]: CodegenGenericDataEnum };
-  nonModels: { [key: string]: CodegenGenericDataNonModel };
+  models: { [key: string]: CodegenGenericDataModel | undefined };
+  enums: { [key: string]: CodegenGenericDataEnum | undefined };
+  nonModels: { [key: string]: CodegenGenericDataNonModel | undefined };
 }
 export const CodegenJobGenericDataSchema = S.suspend(() =>
   S.Struct({
@@ -2199,7 +2231,7 @@ export interface CodegenJob {
   status?: CodegenJobStatus;
   statusMessage?: string;
   asset?: CodegenJobAsset;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   createdAt?: Date;
   modifiedAt?: Date;
   dependencies?: CodegenDependency[];
@@ -2226,7 +2258,7 @@ export interface CreateThemeData {
   name: string;
   values: ThemeValues[];
   overrides?: ThemeValues[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateThemeData = S.suspend(() =>
   S.Struct({
@@ -2305,14 +2337,20 @@ export interface CreateComponentData {
   name: string;
   sourceId?: string;
   componentType: string;
-  properties: { [key: string]: ComponentProperty };
+  properties: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants: ComponentVariant[];
-  overrides: { [key: string]: { [key: string]: string } };
-  bindingProperties: { [key: string]: ComponentBindingPropertiesValue };
-  collectionProperties?: { [key: string]: ComponentDataConfiguration };
-  tags?: { [key: string]: string };
-  events?: { [key: string]: ComponentEvent };
+  overrides: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
+  bindingProperties: {
+    [key: string]: ComponentBindingPropertiesValue | undefined;
+  };
+  collectionProperties?: {
+    [key: string]: ComponentDataConfiguration | undefined;
+  };
+  tags?: { [key: string]: string | undefined };
+  events?: { [key: string]: ComponentEvent | undefined };
   schemaVersion?: string;
 }
 export const CreateComponentData = S.suspend(() =>
@@ -2383,7 +2421,7 @@ export interface StartCodegenJobData {
   genericDataSchema?: CodegenJobGenericDataSchema;
   autoGenerateForms?: boolean;
   features?: CodegenFeatureFlags;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartCodegenJobData = S.suspend(() =>
   S.Struct({
@@ -2433,12 +2471,12 @@ export interface CreateFormData {
   name: string;
   dataType: FormDataTypeConfig;
   formActionType: FormActionType;
-  fields: { [key: string]: FieldConfig };
+  fields: { [key: string]: FieldConfig | undefined };
   style: FormStyle;
-  sectionalElements: { [key: string]: SectionalElement };
+  sectionalElements: { [key: string]: SectionalElement | undefined };
   schemaVersion: string;
   cta?: FormCTA;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   labelDecorator?: string;
 }
 export const CreateFormData = S.suspend(() =>

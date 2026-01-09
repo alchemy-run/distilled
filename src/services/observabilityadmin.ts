@@ -533,12 +533,15 @@ export const TelemetryRule = S.suspend(() =>
 ).annotations({
   identifier: "TelemetryRule",
 }) as any as S.Schema<TelemetryRule>;
-export type TagMapInput = { [key: string]: string };
-export const TagMapInput = S.Record({ key: S.String, value: S.String });
+export type TagMapInput = { [key: string]: string | undefined };
+export const TagMapInput = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateTelemetryRuleForOrganizationInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTelemetryRuleForOrganizationInput = S.suspend(() =>
   S.Struct({
@@ -785,14 +788,14 @@ export type TelemetryConfigurationState = {
   [key in TelemetryType]?: TelemetryState;
 };
 export const TelemetryConfigurationState = S.partial(
-  S.Record({ key: TelemetryType, value: TelemetryState }),
+  S.Record({ key: TelemetryType, value: S.UndefinedOr(TelemetryState) }),
 );
 export interface ListResourceTelemetryForOrganizationInput {
   AccountIdentifiers?: string[];
   ResourceIdentifierPrefix?: string;
   ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState };
-  ResourceTags?: { [key: string]: string };
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
+  ResourceTags?: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -928,7 +931,7 @@ export const StopTelemetryEnrichmentOutput = S.suspend(() =>
 }) as any as S.Schema<StopTelemetryEnrichmentOutput>;
 export interface TagResourceInput {
   ResourceARN: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagMapInput }).pipe(
@@ -1155,7 +1158,7 @@ export const ValidateTelemetryPipelineConfigurationInput = S.suspend(() =>
 export interface CreateTelemetryPipelineInput {
   Name: string;
   Configuration: TelemetryPipelineConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTelemetryPipelineInput = S.suspend(() =>
   S.Struct({
@@ -1299,7 +1302,7 @@ export const Records = S.Array(Record);
 export interface CreateS3TableIntegrationInput {
   Encryption: Encryption;
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateS3TableIntegrationInput = S.suspend(() =>
   S.Struct({
@@ -1412,8 +1415,8 @@ export const GetTelemetryRuleForOrganizationOutput = S.suspend(() =>
 export interface ListResourceTelemetryInput {
   ResourceIdentifierPrefix?: string;
   ResourceTypes?: ResourceType[];
-  TelemetryConfigurationState?: { [key: string]: TelemetryState };
-  ResourceTags?: { [key: string]: string };
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
+  ResourceTags?: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -1572,14 +1575,17 @@ export const CentralizationRuleSummary = S.suspend(() =>
 }) as any as S.Schema<CentralizationRuleSummary>;
 export type CentralizationRuleSummaries = CentralizationRuleSummary[];
 export const CentralizationRuleSummaries = S.Array(CentralizationRuleSummary);
-export type TagMapOutput = { [key: string]: string };
-export const TagMapOutput = S.Record({ key: S.String, value: S.String });
+export type TagMapOutput = { [key: string]: string | undefined };
+export const TagMapOutput = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TelemetryConfiguration {
   AccountIdentifier?: string;
-  TelemetryConfigurationState?: { [key: string]: TelemetryState };
+  TelemetryConfigurationState?: { [key: string]: TelemetryState | undefined };
   ResourceType?: ResourceType;
   ResourceIdentifier?: string;
-  ResourceTags?: { [key: string]: string };
+  ResourceTags?: { [key: string]: string | undefined };
   LastUpdateTimeStamp?: number;
 }
 export const TelemetryConfiguration = S.suspend(() =>
@@ -1671,7 +1677,7 @@ export const ListS3TableIntegrationsOutput = S.suspend(() =>
   identifier: "ListS3TableIntegrationsOutput",
 }) as any as S.Schema<ListS3TableIntegrationsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: TagMapOutput }),
@@ -1690,8 +1696,11 @@ export const ListTelemetryRulesOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListTelemetryRulesOutput",
 }) as any as S.Schema<ListTelemetryRulesOutput>;
-export type FieldMap = { [key: string]: string };
-export const FieldMap = S.Record({ key: S.String, value: S.String });
+export type FieldMap = { [key: string]: string | undefined };
+export const FieldMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TelemetryPipelineStatusReason {
   Description?: string;
 }
@@ -1703,7 +1712,7 @@ export const TelemetryPipelineStatusReason = S.suspend(() =>
 export interface ValidationError {
   Message?: string;
   Reason?: string;
-  FieldMap?: { [key: string]: string };
+  FieldMap?: { [key: string]: string | undefined };
 }
 export const ValidationError = S.suspend(() =>
   S.Struct({
@@ -1724,7 +1733,7 @@ export interface TelemetryPipeline {
   Configuration?: TelemetryPipelineConfiguration;
   Status?: TelemetryPipelineStatus;
   StatusReason?: TelemetryPipelineStatusReason;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TelemetryPipeline = S.suspend(() =>
   S.Struct({
@@ -1819,7 +1828,7 @@ export interface TelemetryPipelineSummary {
   Arn?: string;
   Name?: string;
   Status?: TelemetryPipelineStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ConfigurationSummary?: ConfigurationSummary;
 }
 export const TelemetryPipelineSummary = S.suspend(() =>
@@ -1840,7 +1849,7 @@ export const TelemetryPipelineSummaries = S.Array(TelemetryPipelineSummary);
 export interface CreateCentralizationRuleForOrganizationInput {
   RuleName: string;
   Rule: CentralizationRule;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCentralizationRuleForOrganizationInput = S.suspend(() =>
   S.Struct({
@@ -1894,7 +1903,7 @@ export const CreateCentralizationRuleForOrganizationOutput = S.suspend(() =>
 export interface CreateTelemetryRuleInput {
   RuleName: string;
   Rule: TelemetryRule;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTelemetryRuleInput = S.suspend(() =>
   S.Struct({

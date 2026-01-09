@@ -511,8 +511,11 @@ export const ProfileResourceAssociation = S.suspend(() =>
 }) as any as S.Schema<ProfileResourceAssociation>;
 export type ProfileResourceAssociations = ProfileResourceAssociation[];
 export const ProfileResourceAssociations = S.Array(ProfileResourceAssociation);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
@@ -641,7 +644,7 @@ export const ListProfileResourceAssociationsResponse = S.suspend(() =>
   identifier: "ListProfileResourceAssociationsResponse",
 }) as any as S.Schema<ListProfileResourceAssociationsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: TagMap }),
@@ -650,7 +653,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({

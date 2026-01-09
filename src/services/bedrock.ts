@@ -3759,10 +3759,12 @@ export const OutputDataConfig = S.suspend(() =>
 ).annotations({
   identifier: "OutputDataConfig",
 }) as any as S.Schema<OutputDataConfig>;
-export type ModelCustomizationHyperParameters = { [key: string]: string };
+export type ModelCustomizationHyperParameters = {
+  [key: string]: string | undefined;
+};
 export const ModelCustomizationHyperParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ModelCustomizationJobStatus =
   | "InProgress"
@@ -4978,14 +4980,14 @@ export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL";
 export const VectorSearchRerankingConfigurationType = S.Literal(
   "BEDROCK_RERANKING_MODEL",
 );
-export type AdditionalModelRequestFields = { [key: string]: any };
+export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record({
   key: S.String,
-  value: S.Any,
+  value: S.UndefinedOr(S.Any),
 });
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const VectorSearchBedrockRerankingModelConfiguration = S.suspend(() =>
   S.Struct({
@@ -5148,7 +5150,7 @@ export interface GenerationConfiguration {
   promptTemplate?: PromptTemplate;
   guardrailConfiguration?: GuardrailConfiguration;
   kbInferenceConfig?: KbInferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const GenerationConfiguration = S.suspend(() =>
   S.Struct({
@@ -5240,7 +5242,7 @@ export interface ExternalSourcesGenerationConfiguration {
   promptTemplate?: PromptTemplate;
   guardrailConfiguration?: GuardrailConfiguration;
   kbInferenceConfig?: KbInferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any };
+  additionalModelRequestFields?: { [key: string]: any | undefined };
 }
 export const ExternalSourcesGenerationConfiguration = S.suspend(() =>
   S.Struct({
@@ -6734,11 +6736,14 @@ export const CreateCustomModelRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateCustomModelRequest",
 }) as any as S.Schema<CreateCustomModelRequest>;
-export type RequestMetadataMap = { [key: string]: string };
-export const RequestMetadataMap = S.Record({ key: S.String, value: S.String });
+export type RequestMetadataMap = { [key: string]: string | undefined };
+export const RequestMetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RequestMetadataBaseFilters {
-  equals?: { [key: string]: string };
-  notEquals?: { [key: string]: string };
+  equals?: { [key: string]: string | undefined };
+  notEquals?: { [key: string]: string | undefined };
 }
 export const RequestMetadataBaseFilters = S.suspend(() =>
   S.Struct({
@@ -6752,14 +6757,14 @@ export type RequestMetadataFiltersList = RequestMetadataBaseFilters[];
 export const RequestMetadataFiltersList = S.Array(RequestMetadataBaseFilters);
 export type RequestMetadataFilters =
   | {
-      equals: { [key: string]: string };
+      equals: { [key: string]: string | undefined };
       notEquals?: never;
       andAll?: never;
       orAll?: never;
     }
   | {
       equals?: never;
-      notEquals: { [key: string]: string };
+      notEquals: { [key: string]: string | undefined };
       andAll?: never;
       orAll?: never;
     }
@@ -6852,7 +6857,7 @@ export interface GetCustomModelResponse {
   baseModelArn?: string;
   customizationType?: CustomizationType;
   modelKmsKeyArn?: string;
-  hyperParameters?: { [key: string]: string };
+  hyperParameters?: { [key: string]: string | undefined };
   trainingDataConfig?: TrainingDataConfig;
   validationDataConfig?: ValidationDataConfig;
   outputDataConfig?: OutputDataConfig;
@@ -7832,7 +7837,7 @@ export interface GetModelCustomizationJobResponse {
   lastModifiedTime?: Date;
   endTime?: Date;
   baseModelArn: string;
-  hyperParameters?: { [key: string]: string };
+  hyperParameters?: { [key: string]: string | undefined };
   trainingDataConfig: TrainingDataConfig;
   validationDataConfig: ValidationDataConfig;
   outputDataConfig: OutputDataConfig;
@@ -8123,7 +8128,7 @@ export interface CreateModelCustomizationJobRequest {
   trainingDataConfig: TrainingDataConfig;
   validationDataConfig?: ValidationDataConfig;
   outputDataConfig: OutputDataConfig;
-  hyperParameters?: { [key: string]: string };
+  hyperParameters?: { [key: string]: string | undefined };
   vpcConfig?: VpcConfig;
   customizationConfig?: CustomizationConfig;
 }

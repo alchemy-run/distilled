@@ -1652,11 +1652,14 @@ export const GetCostCategoriesRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetCostCategoriesRequest",
 }) as any as S.Schema<GetCostCategoriesRequest>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DimensionValuesWithAttributes {
   Value?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const DimensionValuesWithAttributes = S.suspend(() =>
   S.Struct({ Value: S.optional(S.String), Attributes: S.optional(Attributes) }),
@@ -1873,10 +1876,12 @@ export type CostCategoryValuesList = string[];
 export const CostCategoryValuesList = S.Array(S.String);
 export type ResourceTypes = string[];
 export const ResourceTypes = S.Array(S.String);
-export type ApproximateUsageRecordsPerService = { [key: string]: number };
+export type ApproximateUsageRecordsPerService = {
+  [key: string]: number | undefined;
+};
 export const ApproximateUsageRecordsPerService = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface ComparisonMetricValue {
   BaselineTimePeriodAmount?: string;
@@ -1894,14 +1899,16 @@ export const ComparisonMetricValue = S.suspend(() =>
 ).annotations({
   identifier: "ComparisonMetricValue",
 }) as any as S.Schema<ComparisonMetricValue>;
-export type ComparisonMetrics = { [key: string]: ComparisonMetricValue };
+export type ComparisonMetrics = {
+  [key: string]: ComparisonMetricValue | undefined;
+};
 export const ComparisonMetrics = S.Record({
   key: S.String,
-  value: ComparisonMetricValue,
+  value: S.UndefinedOr(ComparisonMetricValue),
 });
 export interface CostAndUsageComparison {
   CostAndUsageSelector?: Expression;
-  Metrics?: { [key: string]: ComparisonMetricValue };
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
 }
 export const CostAndUsageComparison = S.suspend(() =>
   S.Struct({
@@ -2037,7 +2044,7 @@ export const SavingsPlansUtilizationAggregates = S.suspend(() =>
 }) as any as S.Schema<SavingsPlansUtilizationAggregates>;
 export interface SavingsPlansUtilizationDetail {
   SavingsPlanArn?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Utilization?: SavingsPlansUtilization;
   Savings?: SavingsPlansSavings;
   AmortizedCommitment?: SavingsPlansAmortizedCommitment;
@@ -2292,7 +2299,7 @@ export const CreateCostCategoryDefinitionRequest = S.suspend(() =>
   identifier: "CreateCostCategoryDefinitionRequest",
 }) as any as S.Schema<CreateCostCategoryDefinitionRequest>;
 export interface GetApproximateUsageRecordsResponse {
-  Services?: { [key: string]: number };
+  Services?: { [key: string]: number | undefined };
   TotalRecords?: number;
   LookbackPeriod?: DateInterval;
 }
@@ -2562,11 +2569,14 @@ export const SavingsPlansPurchaseAnalysisDetails = S.suspend(() =>
 ).annotations({
   identifier: "SavingsPlansPurchaseAnalysisDetails",
 }) as any as S.Schema<SavingsPlansPurchaseAnalysisDetails>;
-export type Metrics = { [key: string]: MetricValue };
-export const Metrics = S.Record({ key: S.String, value: MetricValue });
+export type Metrics = { [key: string]: MetricValue | undefined };
+export const Metrics = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(MetricValue),
+});
 export interface Group {
   Keys?: string[];
-  Metrics?: { [key: string]: MetricValue };
+  Metrics?: { [key: string]: MetricValue | undefined };
 }
 export const Group = S.suspend(() =>
   S.Struct({ Keys: S.optional(Keys), Metrics: S.optional(Metrics) }),
@@ -2576,7 +2586,7 @@ export const Groups = S.Array(Group);
 export interface CostDriver {
   Type?: string;
   Name?: string;
-  Metrics?: { [key: string]: ComparisonMetricValue };
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
 }
 export const CostDriver = S.suspend(() =>
   S.Struct({
@@ -2638,7 +2648,7 @@ export const Coverage = S.suspend(() =>
   }),
 ).annotations({ identifier: "Coverage" }) as any as S.Schema<Coverage>;
 export interface ReservationCoverageGroup {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Coverage?: Coverage;
 }
 export const ReservationCoverageGroup = S.suspend(() =>
@@ -2654,7 +2664,7 @@ export const ReservationCoverageGroups = S.Array(ReservationCoverageGroup);
 export interface ReservationUtilizationGroup {
   Key?: string;
   Value?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Utilization?: ReservationAggregates;
 }
 export const ReservationUtilizationGroup = S.suspend(() =>
@@ -2794,7 +2804,7 @@ export const AnalysisDetails = S.suspend(() =>
 }) as any as S.Schema<AnalysisDetails>;
 export interface ResultByTime {
   TimePeriod?: DateInterval;
-  Total?: { [key: string]: MetricValue };
+  Total?: { [key: string]: MetricValue | undefined };
   Groups?: Group[];
   Estimated?: boolean;
 }
@@ -2810,7 +2820,7 @@ export type ResultsByTime = ResultByTime[];
 export const ResultsByTime = S.Array(ResultByTime);
 export interface CostComparisonDriver {
   CostSelector?: Expression;
-  Metrics?: { [key: string]: ComparisonMetricValue };
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
   CostDrivers?: CostDriver[];
 }
 export const CostComparisonDriver = S.suspend(() =>
@@ -2955,7 +2965,7 @@ export const RecommendationDetailData = S.suspend(() =>
   identifier: "RecommendationDetailData",
 }) as any as S.Schema<RecommendationDetailData>;
 export interface SavingsPlansCoverage {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Coverage?: SavingsPlansCoverageData;
   TimePeriod?: DateInterval;
 }
@@ -3088,7 +3098,7 @@ export const GetCostAndUsageResponse = S.suspend(() =>
 }) as any as S.Schema<GetCostAndUsageResponse>;
 export interface GetCostAndUsageComparisonsResponse {
   CostAndUsageComparisons?: CostAndUsageComparison[];
-  TotalCostAndUsage?: { [key: string]: ComparisonMetricValue };
+  TotalCostAndUsage?: { [key: string]: ComparisonMetricValue | undefined };
   NextPageToken?: string;
 }
 export const GetCostAndUsageComparisonsResponse = S.suspend(() =>

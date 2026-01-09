@@ -860,11 +860,14 @@ export const SearchJobsRequest = S.suspend(() =>
 ).annotations({
   identifier: "SearchJobsRequest",
 }) as any as S.Schema<SearchJobsRequest>;
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1087,10 +1090,12 @@ export const AudioSelectorGroup = S.suspend(() =>
 ).annotations({
   identifier: "AudioSelectorGroup",
 }) as any as S.Schema<AudioSelectorGroup>;
-export type __mapOfAudioSelectorGroup = { [key: string]: AudioSelectorGroup };
+export type __mapOfAudioSelectorGroup = {
+  [key: string]: AudioSelectorGroup | undefined;
+};
 export const __mapOfAudioSelectorGroup = S.Record({
   key: S.String,
-  value: AudioSelectorGroup,
+  value: S.UndefinedOr(AudioSelectorGroup),
 });
 export type AudioDurationCorrection =
   | "DISABLED"
@@ -1639,10 +1644,10 @@ export const AudioSelector = S.suspend(() =>
 ).annotations({
   identifier: "AudioSelector",
 }) as any as S.Schema<AudioSelector>;
-export type __mapOfAudioSelector = { [key: string]: AudioSelector };
+export type __mapOfAudioSelector = { [key: string]: AudioSelector | undefined };
 export const __mapOfAudioSelector = S.Record({
   key: S.String,
-  value: AudioSelector,
+  value: S.UndefinedOr(AudioSelector),
 });
 export type AncillaryConvert608To708 = "UPCONVERT" | "DISABLED";
 export const AncillaryConvert608To708 = S.Literal("UPCONVERT", "DISABLED");
@@ -1897,10 +1902,12 @@ export const CaptionSelector = S.suspend(() =>
 ).annotations({
   identifier: "CaptionSelector",
 }) as any as S.Schema<CaptionSelector>;
-export type __mapOfCaptionSelector = { [key: string]: CaptionSelector };
+export type __mapOfCaptionSelector = {
+  [key: string]: CaptionSelector | undefined;
+};
 export const __mapOfCaptionSelector = S.Record({
   key: S.String,
-  value: CaptionSelector,
+  value: S.UndefinedOr(CaptionSelector),
 });
 export interface Rectangle {
   Height?: number;
@@ -1950,11 +1957,11 @@ export const DynamicAudioSelector = S.suspend(() =>
   identifier: "DynamicAudioSelector",
 }) as any as S.Schema<DynamicAudioSelector>;
 export type __mapOfDynamicAudioSelector = {
-  [key: string]: DynamicAudioSelector;
+  [key: string]: DynamicAudioSelector | undefined;
 };
 export const __mapOfDynamicAudioSelector = S.Record({
   key: S.String,
-  value: DynamicAudioSelector,
+  value: S.UndefinedOr(DynamicAudioSelector),
 });
 export type InputFilterEnable = "AUTO" | "DISABLE" | "FORCE";
 export const InputFilterEnable = S.Literal("AUTO", "DISABLE", "FORCE");
@@ -2089,7 +2096,7 @@ export const __listOfVideoOverlayInputClipping = S.Array(
   VideoOverlayInputClipping,
 );
 export interface VideoOverlayInput {
-  AudioSelectors?: { [key: string]: AudioSelector };
+  AudioSelectors?: { [key: string]: AudioSelector | undefined };
   FileInput?: string;
   InputClippings?: VideoOverlayInputClipping[];
   TimecodeSource?: InputTimecodeSource;
@@ -2274,14 +2281,14 @@ export const VideoSelector = S.suspend(() =>
 export interface InputTemplate {
   AdvancedInputFilter?: AdvancedInputFilter;
   AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
-  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup };
-  AudioSelectors?: { [key: string]: AudioSelector };
-  CaptionSelectors?: { [key: string]: CaptionSelector };
+  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup | undefined };
+  AudioSelectors?: { [key: string]: AudioSelector | undefined };
+  CaptionSelectors?: { [key: string]: CaptionSelector | undefined };
   Crop?: Rectangle;
   DeblockFilter?: InputDeblockFilter;
   DenoiseFilter?: InputDenoiseFilter;
   DolbyVisionMetadataXml?: string;
-  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector };
+  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector | undefined };
   FilterEnable?: InputFilterEnable;
   FilterStrength?: number;
   ImageInserter?: ImageInserter;
@@ -9072,15 +9079,15 @@ export const InputVideoGenerator = S.suspend(() =>
 export interface Input {
   AdvancedInputFilter?: AdvancedInputFilter;
   AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
-  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup };
-  AudioSelectors?: { [key: string]: AudioSelector };
-  CaptionSelectors?: { [key: string]: CaptionSelector };
+  AudioSelectorGroups?: { [key: string]: AudioSelectorGroup | undefined };
+  AudioSelectors?: { [key: string]: AudioSelector | undefined };
+  CaptionSelectors?: { [key: string]: CaptionSelector | undefined };
   Crop?: Rectangle;
   DeblockFilter?: InputDeblockFilter;
   DecryptionSettings?: InputDecryptionSettings;
   DenoiseFilter?: InputDenoiseFilter;
   DolbyVisionMetadataXml?: string;
-  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector };
+  DynamicAudioSelectors?: { [key: string]: DynamicAudioSelector | undefined };
   FileInput?: string;
   FilterEnable?: InputFilterEnable;
   FilterStrength?: number;
@@ -9291,7 +9298,7 @@ export interface Job {
   Status?: JobStatus;
   StatusUpdateInterval?: StatusUpdateInterval;
   Timing?: Timing;
-  UserMetadata?: { [key: string]: string };
+  UserMetadata?: { [key: string]: string | undefined };
   Warnings?: WarningGroup[];
 }
 export const Job = S.suspend(() =>
@@ -9573,7 +9580,7 @@ export interface CreateQueueRequest {
   PricingPlan?: PricingPlan;
   ReservationPlanSettings?: ReservationPlanSettings;
   Status?: QueueStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -9822,7 +9829,7 @@ export type __listOfEndpoint = Endpoint[];
 export const __listOfEndpoint = S.Array(Endpoint);
 export interface ResourceTags {
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ResourceTags = S.suspend(() =>
   S.Struct({
@@ -9856,7 +9863,7 @@ export interface CreateJobTemplateRequest {
   Queue?: string;
   Settings?: JobTemplateSettings;
   StatusUpdateInterval?: StatusUpdateInterval;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateJobTemplateRequest = S.suspend(() =>
   S.Struct({
@@ -10230,7 +10237,7 @@ export interface CreatePresetRequest {
   Description?: string;
   Name?: string;
   Settings?: PresetSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePresetRequest = S.suspend(() =>
   S.Struct({
@@ -10464,8 +10471,8 @@ export interface CreateJobRequest {
   Settings?: JobSettings;
   SimulateReservedQueue?: SimulateReservedQueue;
   StatusUpdateInterval?: StatusUpdateInterval;
-  Tags?: { [key: string]: string };
-  UserMetadata?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  UserMetadata?: { [key: string]: string | undefined };
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({

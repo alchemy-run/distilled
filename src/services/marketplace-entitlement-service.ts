@@ -143,11 +143,14 @@ export type GetEntitlementFilters = {
   [key in GetEntitlementFilterName]?: string[];
 };
 export const GetEntitlementFilters = S.partial(
-  S.Record({ key: GetEntitlementFilterName, value: FilterValueList }),
+  S.Record({
+    key: GetEntitlementFilterName,
+    value: S.UndefinedOr(FilterValueList),
+  }),
 );
 export interface GetEntitlementsRequest {
   ProductCode: string;
-  Filter?: { [key: string]: string[] };
+  Filter?: { [key: string]: string[] | undefined };
   NextToken?: string;
   MaxResults?: number;
 }

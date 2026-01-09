@@ -159,10 +159,10 @@ export const SupportDataSetType = S.Literal(
   "customer_support_contacts_data",
   "test_customer_support_contacts_data",
 );
-export type CustomerDefinedValues = { [key: string]: string };
+export type CustomerDefinedValues = { [key: string]: string | undefined };
 export const CustomerDefinedValues = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface StartSupportDataExportRequest {
   dataSetType: SupportDataSetType;
@@ -171,7 +171,7 @@ export interface StartSupportDataExportRequest {
   destinationS3BucketName: string;
   destinationS3Prefix?: string;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string };
+  customerDefinedValues?: { [key: string]: string | undefined };
 }
 export const StartSupportDataExportRequest = S.suspend(() =>
   S.Struct({
@@ -195,7 +195,7 @@ export interface GenerateDataSetRequest {
   destinationS3BucketName: string;
   destinationS3Prefix?: string;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string };
+  customerDefinedValues?: { [key: string]: string | undefined };
 }
 export const GenerateDataSetRequest = S.suspend(() =>
   S.Struct({

@@ -823,18 +823,18 @@ export const Runtime = S.Literal(
   "NODEJS_22",
 );
 export type RuntimeEnvironmentVariables = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const RuntimeEnvironmentVariables = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type RuntimeEnvironmentSecrets = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const RuntimeEnvironmentSecrets = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface CodeConfigurationValues {
   Runtime: Runtime;
@@ -842,10 +842,10 @@ export interface CodeConfigurationValues {
   StartCommand?: string | redacted.Redacted<string>;
   Port?: string;
   RuntimeEnvironmentVariables?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
   RuntimeEnvironmentSecrets?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
 }
 export const CodeConfigurationValues = S.suspend(() =>
@@ -890,12 +890,12 @@ export const CodeRepository = S.suspend(() =>
 }) as any as S.Schema<CodeRepository>;
 export interface ImageConfiguration {
   RuntimeEnvironmentVariables?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
   StartCommand?: string | redacted.Redacted<string>;
   Port?: string;
   RuntimeEnvironmentSecrets?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
 }
 export const ImageConfiguration = S.suspend(() =>

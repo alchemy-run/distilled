@@ -215,12 +215,14 @@ export const DialogAction = S.suspend(() =>
     subSlotToElicit: S.optional(ElicitSubSlot),
   }),
 ).annotations({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
-export type Slots = { [key: string]: Slot };
+export type Slots = { [key: string]: Slot | undefined };
 export const Slots = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<Slot, any> => Slot).annotations({
-    identifier: "Slot",
-  }),
+  value: S.UndefinedOr(
+    S.suspend((): S.Schema<Slot, any> => Slot).annotations({
+      identifier: "Slot",
+    }),
+  ),
 }) as any as S.Schema<Slots>;
 export type IntentState =
   | "Failed"
@@ -241,7 +243,7 @@ export type ConfirmationState = "Confirmed" | "Denied" | "None";
 export const ConfirmationState = S.Literal("Confirmed", "Denied", "None");
 export interface Intent {
   name: string;
-  slots?: { [key: string]: Slot };
+  slots?: { [key: string]: Slot | undefined };
   state?: IntentState;
   confirmationState?: ConfirmationState;
 }
@@ -263,16 +265,18 @@ export const ActiveContextTimeToLive = S.suspend(() =>
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
-  contextAttributes: { [key: string]: string | redacted.Redacted<string> };
+  contextAttributes: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const ActiveContext = S.suspend(() =>
   S.Struct({
@@ -285,26 +289,39 @@ export const ActiveContext = S.suspend(() =>
 }) as any as S.Schema<ActiveContext>;
 export type ActiveContextsList = ActiveContext[];
 export const ActiveContextsList = S.Array(ActiveContext);
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
-export type SlotHintsSlotMap = { [key: string]: RuntimeHintDetails };
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type SlotHintsSlotMap = {
+  [key: string]: RuntimeHintDetails | undefined;
+};
 export const SlotHintsSlotMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
-  ).annotations({ identifier: "RuntimeHintDetails" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
+    ).annotations({ identifier: "RuntimeHintDetails" }),
+  ),
 }) as any as S.Schema<SlotHintsSlotMap>;
 export type SlotHintsIntentMap = {
-  [key: string]: { [key: string]: RuntimeHintDetails };
+  [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 };
 export const SlotHintsIntentMap = S.Record({
   key: S.String,
-  value: S.suspend(() => SlotHintsSlotMap).annotations({
-    identifier: "SlotHintsSlotMap",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => SlotHintsSlotMap).annotations({
+      identifier: "SlotHintsSlotMap",
+    }),
+  ),
 });
 export interface RuntimeHints {
-  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails } };
+  slotHints?: {
+    [key: string]:
+      | { [key: string]: RuntimeHintDetails | undefined }
+      | undefined;
+  };
 }
 export const RuntimeHints = S.suspend(() =>
   S.Struct({ slotHints: S.optional(SlotHintsIntentMap) }),
@@ -313,7 +330,7 @@ export interface SessionState {
   dialogAction?: DialogAction;
   intent?: Intent;
   activeContexts?: ActiveContext[];
-  sessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
   originatingRequestId?: string;
   runtimeHints?: RuntimeHints;
 }
@@ -334,7 +351,7 @@ export interface RecognizeTextRequest {
   sessionId: string;
   text: string | redacted.Redacted<string>;
   sessionState?: SessionState;
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
 }
 export const RecognizeTextRequest = S.suspend(() =>
   S.Struct({
@@ -512,7 +529,7 @@ export const Message = S.suspend(() =>
 export type Messages = Message[];
 export const Messages = S.Array(Message);
 export interface ConfigurationEvent {
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
   responseContentType: string;
   sessionState?: SessionState;
   welcomeMessages?: Message[];
@@ -744,7 +761,7 @@ export interface RecognizeTextResponse {
   messages?: Message[];
   sessionState?: SessionState;
   interpretations?: Interpretation[];
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
   sessionId?: string;
   recognizedBotMember?: RecognizedBotMember;
 }
@@ -818,7 +835,7 @@ export interface Slot {
   value?: Value;
   shape?: Shape;
   values?: Slot[];
-  subSlots?: { [key: string]: Slot };
+  subSlots?: { [key: string]: Slot | undefined };
 }
 export const Slot = S.suspend(() =>
   S.Struct({
@@ -871,7 +888,7 @@ export const GetSessionResponse = S.suspend(() =>
 }) as any as S.Schema<GetSessionResponse>;
 export interface RuntimeHintDetails {
   runtimeHintValues?: RuntimeHintValue[];
-  subSlotHints?: { [key: string]: RuntimeHintDetails };
+  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
 }
 export const RuntimeHintDetails = S.suspend(() =>
   S.Struct({
@@ -912,7 +929,7 @@ export interface IntentResultEvent {
   inputMode?: InputMode;
   interpretations?: Interpretation[];
   sessionState?: SessionState;
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
   sessionId?: string;
   eventId?: string;
   recognizedBotMember?: RecognizedBotMember;
@@ -1261,7 +1278,7 @@ export interface PutSessionRequest {
   sessionId: string;
   messages?: Message[];
   sessionState: SessionState;
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
   responseContentType?: string;
 }
 export const PutSessionRequest = S.suspend(() =>

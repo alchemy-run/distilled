@@ -1100,12 +1100,15 @@ export const PutResourcePolicyResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutResourcePolicyResponse",
 }) as any as S.Schema<PutResourcePolicyResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RegisterStreamConsumerInput = S.suspend(() =>
   S.Struct({
@@ -1258,7 +1261,7 @@ export const StopStreamEncryptionResponse = S.suspend(() =>
   identifier: "StopStreamEncryptionResponse",
 }) as any as S.Schema<StopStreamEncryptionResponse>;
 export interface TagResourceInput {
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
   ResourceARN: string;
 }
 export const TagResourceInput = S.suspend(() =>
@@ -1540,7 +1543,7 @@ export const MinimumThroughputBillingCommitmentInput = S.suspend(() =>
 }) as any as S.Schema<MinimumThroughputBillingCommitmentInput>;
 export interface AddTagsToStreamInput {
   StreamName?: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
   StreamARN?: string;
 }
 export const AddTagsToStreamInput = S.suspend(() =>
@@ -1573,7 +1576,7 @@ export interface CreateStreamInput {
   StreamName: string;
   ShardCount?: number;
   StreamModeDetails?: StreamModeDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WarmThroughputMiBps?: number;
   MaxRecordSizeInKiB?: number;
 }

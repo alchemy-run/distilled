@@ -674,16 +674,16 @@ export const GetIdentityProviderRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetIdentityProviderRequest",
 }) as any as S.Schema<GetIdentityProviderRequest>;
-export type IdentityProviderDetails = { [key: string]: string };
+export type IdentityProviderDetails = { [key: string]: string | undefined };
 export const IdentityProviderDetails = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface UpdateIdentityProviderRequest {
   identityProviderArn: string;
   identityProviderName?: string | redacted.Redacted<string>;
   identityProviderType?: string;
-  identityProviderDetails?: { [key: string]: string };
+  identityProviderDetails?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const UpdateIdentityProviderRequest = S.suspend(() =>
@@ -1007,16 +1007,16 @@ export const ListNetworkSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListNetworkSettingsRequest",
 }) as any as S.Schema<ListNetworkSettingsRequest>;
-export type EncryptionContextMap = { [key: string]: string };
+export type EncryptionContextMap = { [key: string]: string | undefined };
 export const EncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CreatePortalRequest {
   displayName?: string | redacted.Redacted<string>;
   tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   clientToken?: string;
   authenticationType?: string;
   instanceType?: string;
@@ -2128,13 +2128,13 @@ export type LocalizedBrandingStringMap = {
   [key in Locale]?: LocalizedBrandingStrings;
 };
 export const LocalizedBrandingStringMap = S.partial(
-  S.Record({ key: Locale, value: LocalizedBrandingStrings }),
+  S.Record({ key: Locale, value: S.UndefinedOr(LocalizedBrandingStrings) }),
 );
 export interface BrandingConfigurationUpdateInput {
   logo?: IconImageInput;
   wallpaper?: WallpaperImageInput;
   favicon?: IconImageInput;
-  localizedStrings?: { [key: string]: LocalizedBrandingStrings };
+  localizedStrings?: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme?: ColorTheme;
   termsOfService?: string | redacted.Redacted<string>;
 }
@@ -2188,7 +2188,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateBrowserSettingsRequest {
   tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   browserPolicy?: string | redacted.Redacted<string>;
   clientToken?: string;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
@@ -2221,7 +2221,7 @@ export interface BrowserSettings {
   associatedPortalArns?: string[];
   browserPolicy?: string | redacted.Redacted<string>;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
 export const BrowserSettings = S.suspend(() =>
@@ -2252,7 +2252,7 @@ export interface DataProtectionSettings {
   description?: string | redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
 }
 export const DataProtectionSettings = S.suspend(() =>
   S.Struct({
@@ -2280,7 +2280,7 @@ export interface CreateIdentityProviderRequest {
   portalArn: string;
   identityProviderName: string | redacted.Redacted<string>;
   identityProviderType: string;
-  identityProviderDetails: { [key: string]: string };
+  identityProviderDetails: { [key: string]: string | undefined };
   clientToken?: string;
   tags?: Tag[];
 }
@@ -2309,7 +2309,7 @@ export interface IdentityProvider {
   identityProviderArn: string;
   identityProviderName?: string | redacted.Redacted<string>;
   identityProviderType?: string;
-  identityProviderDetails?: { [key: string]: string };
+  identityProviderDetails?: { [key: string]: string | undefined };
 }
 export const IdentityProvider = S.suspend(() =>
   S.Struct({
@@ -2334,7 +2334,7 @@ export interface CreateIpAccessSettingsRequest {
   description?: string | redacted.Redacted<string>;
   tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   ipRules: IpRule[];
   clientToken?: string;
 }
@@ -2368,7 +2368,7 @@ export interface IpAccessSettings {
   description?: string | redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
 }
 export const IpAccessSettings = S.suspend(() =>
   S.Struct({
@@ -2454,7 +2454,7 @@ export interface Portal {
   authenticationType?: string;
   ipAccessSettingsArn?: string;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   instanceType?: string;
   maxConcurrentSessions?: number;
 }
@@ -2580,7 +2580,7 @@ export interface SessionLogger {
   eventFilter?: EventFilter;
   logConfiguration?: LogConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   associatedPortalArns?: string[];
   displayName?: string | redacted.Redacted<string>;
   creationDate?: Date;
@@ -3005,7 +3005,7 @@ export interface BrandingConfiguration {
   logo: ImageMetadata;
   wallpaper: ImageMetadata;
   favicon: ImageMetadata;
-  localizedStrings: { [key: string]: LocalizedBrandingStrings };
+  localizedStrings: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme: ColorTheme;
   termsOfService?: string | redacted.Redacted<string>;
 }
@@ -3225,7 +3225,7 @@ export interface CreateSessionLoggerRequest {
   logConfiguration: LogConfiguration;
   displayName?: string | redacted.Redacted<string>;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   tags?: Tag[];
   clientToken?: string;
 }
@@ -3348,7 +3348,7 @@ export interface UserSettings {
   idleDisconnectTimeoutInMinutes?: number;
   cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   deepLinkAllowed?: string;
   toolbarConfiguration?: ToolbarConfiguration;
   brandingConfiguration?: BrandingConfiguration;
@@ -3400,7 +3400,7 @@ export interface BrandingConfigurationCreateInput {
   logo: IconImageInput;
   wallpaper?: WallpaperImageInput;
   favicon: IconImageInput;
-  localizedStrings: { [key: string]: LocalizedBrandingStrings };
+  localizedStrings: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme: ColorTheme;
   termsOfService?: string | redacted.Redacted<string>;
 }
@@ -3421,7 +3421,7 @@ export interface CreateDataProtectionSettingsRequest {
   description?: string | redacted.Redacted<string>;
   tags?: Tag[];
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
   clientToken?: string;
 }
@@ -3467,7 +3467,7 @@ export interface CreateUserSettingsRequest {
   clientToken?: string;
   cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
   customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string };
+  additionalEncryptionContext?: { [key: string]: string | undefined };
   deepLinkAllowed?: string;
   toolbarConfiguration?: ToolbarConfiguration;
   brandingConfigurationInput?: BrandingConfigurationCreateInput;

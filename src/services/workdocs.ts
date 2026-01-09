@@ -1717,8 +1717,11 @@ export const NotificationOptions = S.suspend(() =>
 ).annotations({
   identifier: "NotificationOptions",
 }) as any as S.Schema<NotificationOptions>;
-export type CustomMetadataMap = { [key: string]: string };
-export const CustomMetadataMap = S.Record({ key: S.String, value: S.String });
+export type CustomMetadataMap = { [key: string]: string | undefined };
+export const CustomMetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type EntityIdList = string[];
 export const EntityIdList = S.Array(S.String);
 export type UserStatusType = "ACTIVE" | "INACTIVE" | "PENDING";
@@ -1915,7 +1918,7 @@ export interface CreateCustomMetadataRequest {
   AuthenticationToken?: string | redacted.Redacted<string>;
   ResourceId: string;
   VersionId?: string;
-  CustomMetadata: { [key: string]: string };
+  CustomMetadata: { [key: string]: string | undefined };
 }
 export const CreateCustomMetadataRequest = S.suspend(() =>
   S.Struct({
@@ -2052,7 +2055,10 @@ export type DocumentThumbnailUrlMap = {
   [key in DocumentThumbnailType]?: string | redacted.Redacted<string>;
 };
 export const DocumentThumbnailUrlMap = S.partial(
-  S.Record({ key: DocumentThumbnailType, value: SensitiveString }),
+  S.Record({
+    key: DocumentThumbnailType,
+    value: S.UndefinedOr(SensitiveString),
+  }),
 );
 export type DocumentSourceType = "ORIGINAL" | "WITH_COMMENTS";
 export const DocumentSourceType = S.Literal("ORIGINAL", "WITH_COMMENTS");
@@ -2060,7 +2066,7 @@ export type DocumentSourceUrlMap = {
   [key in DocumentSourceType]?: string | redacted.Redacted<string>;
 };
 export const DocumentSourceUrlMap = S.partial(
-  S.Record({ key: DocumentSourceType, value: SensitiveString }),
+  S.Record({ key: DocumentSourceType, value: S.UndefinedOr(SensitiveString) }),
 );
 export interface DocumentVersionMetadata {
   Id?: string;
@@ -2074,8 +2080,8 @@ export interface DocumentVersionMetadata {
   ContentCreatedTimestamp?: Date;
   ContentModifiedTimestamp?: Date;
   CreatorId?: string;
-  Thumbnail?: { [key: string]: string | redacted.Redacted<string> };
-  Source?: { [key: string]: string | redacted.Redacted<string> };
+  Thumbnail?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Source?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const DocumentVersionMetadata = S.suspend(() =>
   S.Struct({
@@ -2134,7 +2140,7 @@ export const DocumentMetadata = S.suspend(() =>
 }) as any as S.Schema<DocumentMetadata>;
 export interface GetDocumentResponse {
   Metadata?: DocumentMetadata;
-  CustomMetadata?: { [key: string]: string };
+  CustomMetadata?: { [key: string]: string | undefined };
 }
 export const GetDocumentResponse = S.suspend(() =>
   S.Struct({
@@ -2146,7 +2152,7 @@ export const GetDocumentResponse = S.suspend(() =>
 }) as any as S.Schema<GetDocumentResponse>;
 export interface GetDocumentVersionResponse {
   Metadata?: DocumentVersionMetadata;
-  CustomMetadata?: { [key: string]: string };
+  CustomMetadata?: { [key: string]: string | undefined };
 }
 export const GetDocumentVersionResponse = S.suspend(() =>
   S.Struct({
@@ -2158,7 +2164,7 @@ export const GetDocumentVersionResponse = S.suspend(() =>
 }) as any as S.Schema<GetDocumentVersionResponse>;
 export interface GetFolderResponse {
   Metadata?: FolderMetadata;
-  CustomMetadata?: { [key: string]: string };
+  CustomMetadata?: { [key: string]: string | undefined };
 }
 export const GetFolderResponse = S.suspend(() =>
   S.Struct({
@@ -2546,8 +2552,11 @@ export const PermissionInfo = S.suspend(() =>
 }) as any as S.Schema<PermissionInfo>;
 export type PermissionInfoList = PermissionInfo[];
 export const PermissionInfoList = S.Array(PermissionInfo);
-export type SignedHeaderMap = { [key: string]: string };
-export const SignedHeaderMap = S.Record({ key: S.String, value: S.String });
+export type SignedHeaderMap = { [key: string]: string | undefined };
+export const SignedHeaderMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ShareResult {
   PrincipalId?: string;
   InviteePrincipalId?: string;
@@ -2612,7 +2621,7 @@ export type PrincipalList = Principal[];
 export const PrincipalList = S.Array(Principal);
 export interface UploadMetadata {
   UploadUrl?: string | redacted.Redacted<string>;
-  SignedHeaders?: { [key: string]: string };
+  SignedHeaders?: { [key: string]: string | undefined };
 }
 export const UploadMetadata = S.suspend(() =>
   S.Struct({

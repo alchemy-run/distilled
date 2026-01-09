@@ -1186,13 +1186,15 @@ export const CriterionAdditionalProperties = S.suspend(() =>
 ).annotations({
   identifier: "CriterionAdditionalProperties",
 }) as any as S.Schema<CriterionAdditionalProperties>;
-export type Criterion = { [key: string]: CriterionAdditionalProperties };
+export type Criterion = {
+  [key: string]: CriterionAdditionalProperties | undefined;
+};
 export const Criterion = S.Record({
   key: S.String,
-  value: CriterionAdditionalProperties,
+  value: S.UndefinedOr(CriterionAdditionalProperties),
 });
 export interface FindingCriteria {
-  criterion?: { [key: string]: CriterionAdditionalProperties };
+  criterion?: { [key: string]: CriterionAdditionalProperties | undefined };
 }
 export const FindingCriteria = S.suspend(() =>
   S.Struct({ criterion: S.optional(Criterion).pipe(T.JsonName("criterion")) }),
@@ -1522,11 +1524,14 @@ export const PutFindingsPublicationConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutFindingsPublicationConfigurationResponse",
 }) as any as S.Schema<PutFindingsPublicationConfigurationResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2265,7 +2270,7 @@ export interface CreateCustomDataIdentifierRequest {
   name?: string;
   regex?: string;
   severityLevels?: SeverityLevel[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCustomDataIdentifierRequest = S.suspend(() =>
   S.Struct({
@@ -2300,7 +2305,7 @@ export const CreateCustomDataIdentifierRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCustomDataIdentifierRequest>;
 export interface CreateMemberRequest {
   account?: AccountDetail;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMemberRequest = S.suspend(() =>
   S.Struct({
@@ -2390,7 +2395,7 @@ export interface GetCustomDataIdentifierResponse {
     occurrencesThreshold: number;
     severity: DataIdentifierSeverity;
   })[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCustomDataIdentifierResponse = S.suspend(() =>
   S.Struct({
@@ -2447,7 +2452,7 @@ export interface GetFindingsFilterResponse {
   id?: string;
   name?: string;
   position?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetFindingsFilterResponse = S.suspend(() =>
   S.Struct({
@@ -2517,7 +2522,7 @@ export interface GetMemberResponse {
   invitedAt?: Date;
   masterAccountId?: string;
   relationshipStatus?: RelationshipStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   updatedAt?: Date;
 }
 export const GetMemberResponse = S.suspend(() =>
@@ -2655,7 +2660,7 @@ export const ListInvitationsResponse = S.suspend(() =>
   identifier: "ListInvitationsResponse",
 }) as any as S.Schema<ListInvitationsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap).pipe(T.JsonName("tags")) }),
@@ -2978,11 +2983,11 @@ export const JobScheduleFrequency = S.suspend(() =>
   identifier: "JobScheduleFrequency",
 }) as any as S.Schema<JobScheduleFrequency>;
 export type BucketCriteria = {
-  [key: string]: BucketCriteriaAdditionalProperties;
+  [key: string]: BucketCriteriaAdditionalProperties | undefined;
 };
 export const BucketCriteria = S.Record({
   key: S.String,
-  value: BucketCriteriaAdditionalProperties,
+  value: S.UndefinedOr(BucketCriteriaAdditionalProperties),
 });
 export interface LastRunErrorStatus {
   code?: LastRunErrorStatusCode;
@@ -3281,7 +3286,7 @@ export interface FindingsFilterListItem {
   arn?: string;
   id?: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const FindingsFilterListItem = S.suspend(() =>
   S.Struct({
@@ -3323,7 +3328,7 @@ export interface Member {
   invitedAt?: Date;
   masterAccountId?: string;
   relationshipStatus?: RelationshipStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   updatedAt?: Date;
 }
 export const Member = S.suspend(() =>
@@ -3449,7 +3454,7 @@ export interface CreateAllowListRequest {
   criteria?: AllowListCriteria;
   description?: string;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAllowListRequest = S.suspend(() =>
   S.Struct({
@@ -3509,7 +3514,7 @@ export const CreateMemberResponse = S.suspend(() =>
   identifier: "CreateMemberResponse",
 }) as any as S.Schema<CreateMemberResponse>;
 export interface DescribeBucketsRequest {
-  criteria?: { [key: string]: BucketCriteriaAdditionalProperties };
+  criteria?: { [key: string]: BucketCriteriaAdditionalProperties | undefined };
   maxResults?: number;
   nextToken?: string;
   sortCriteria?: BucketSortCriteria;
@@ -3766,7 +3771,7 @@ export interface DescribeClassificationJobResponse {
   samplingPercentage?: number;
   scheduleFrequency?: JobScheduleFrequency;
   statistics?: Statistics;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   userPausedDetails?: UserPausedDetails;
 }
 export const DescribeClassificationJobResponse = S.suspend(() =>
@@ -3834,7 +3839,7 @@ export interface GetAllowListResponse {
   id?: string;
   name?: string;
   status?: AllowListStatus & { code: AllowListStatusCode };
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   updatedAt?: Date;
 }
 export const GetAllowListResponse = S.suspend(() =>
@@ -4286,10 +4291,12 @@ export const GroupCount = S.suspend(() =>
 ).annotations({ identifier: "GroupCount" }) as any as S.Schema<GroupCount>;
 export type __listOfGroupCount = GroupCount[];
 export const __listOfGroupCount = S.Array(GroupCount);
-export type SensitiveDataOccurrences = { [key: string]: DetectedDataDetails[] };
+export type SensitiveDataOccurrences = {
+  [key: string]: DetectedDataDetails[] | undefined;
+};
 export const SensitiveDataOccurrences = S.Record({
   key: S.String,
-  value: __listOfDetectedDataDetails,
+  value: S.UndefinedOr(__listOfDetectedDataDetails),
 });
 export type OriginType =
   | "SENSITIVE_DATA_DISCOVERY_JOB"
@@ -4331,7 +4338,7 @@ export interface CreateFindingsFilterRequest {
   findingCriteria?: FindingCriteria;
   name?: string;
   position?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFindingsFilterRequest = S.suspend(() =>
   S.Struct({
@@ -4459,7 +4466,9 @@ export const GetFindingStatisticsResponse = S.suspend(() =>
 export interface GetSensitiveDataOccurrencesResponse {
   error?: string;
   sensitiveDataOccurrences?: {
-    [key: string]: (DetectedDataDetails & { value: __stringMin1Max128 })[];
+    [key: string]:
+      | (DetectedDataDetails & { value: __stringMin1Max128 })[]
+      | undefined;
   };
   status?: RevealRequestStatus;
 }
@@ -5478,7 +5487,7 @@ export interface CreateClassificationJobRequest {
   s3JobDefinition?: S3JobDefinition;
   samplingPercentage?: number;
   scheduleFrequency?: JobScheduleFrequency;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateClassificationJobRequest = S.suspend(() =>
   S.Struct({

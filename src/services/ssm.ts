@@ -2996,16 +2996,19 @@ export const StartAssociationsOnceResult = S.suspend(() =>
 }) as any as S.Schema<StartAssociationsOnceResult>;
 export type AutomationParameterValueList = string[];
 export const AutomationParameterValueList = S.Array(S.String);
-export type AutomationParameterMap = { [key: string]: string[] };
+export type AutomationParameterMap = { [key: string]: string[] | undefined };
 export const AutomationParameterMap = S.Record({
   key: S.String,
-  value: AutomationParameterValueList,
+  value: S.UndefinedOr(AutomationParameterValueList),
 });
 export type TargetMapValueList = string[];
 export const TargetMapValueList = S.Array(S.String);
-export type TargetMap = { [key: string]: string[] };
-export const TargetMap = S.Record({ key: S.String, value: TargetMapValueList });
-export type TargetMaps = { [key: string]: string[] }[];
+export type TargetMap = { [key: string]: string[] | undefined };
+export const TargetMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(TargetMapValueList),
+});
+export type TargetMaps = { [key: string]: string[] | undefined }[];
 export const TargetMaps = S.Array(TargetMap);
 export type Accounts = string[];
 export const Accounts = S.Array(S.String);
@@ -3068,12 +3071,12 @@ export const TargetLocations = S.Array(TargetLocation);
 export interface StartAutomationExecutionRequest {
   DocumentName: string;
   DocumentVersion?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   ClientToken?: string;
   Mode?: ExecutionMode;
   TargetParameterName?: string;
   Targets?: Target[];
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   MaxConcurrency?: string;
   MaxErrors?: string;
   TargetLocations?: TargetLocation[];
@@ -3183,10 +3186,10 @@ export const UnlabelParameterVersionRequest = S.suspend(() =>
 }) as any as S.Schema<UnlabelParameterVersionRequest>;
 export type ParameterValueList = string[];
 export const ParameterValueList = S.Array(S.String);
-export type Parameters = { [key: string]: string[] };
+export type Parameters = { [key: string]: string[] | undefined };
 export const Parameters = S.Record({
   key: S.String,
-  value: ParameterValueList,
+  value: S.UndefinedOr(ParameterValueList),
 });
 export interface S3OutputLocation {
   OutputS3Region?: string;
@@ -3212,7 +3215,7 @@ export const InstanceAssociationOutputLocation = S.suspend(() =>
 }) as any as S.Schema<InstanceAssociationOutputLocation>;
 export interface UpdateAssociationRequest {
   AssociationId: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   DocumentVersion?: string;
   ScheduleExpression?: string;
   OutputLocation?: InstanceAssociationOutputLocation;
@@ -3230,7 +3233,7 @@ export interface UpdateAssociationRequest {
   TargetLocations?: TargetLocation[];
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   AlarmConfiguration?: AlarmConfiguration;
 }
 export const UpdateAssociationRequest = S.suspend(() =>
@@ -3439,11 +3442,11 @@ export const MaintenanceWindowTaskParameterValueExpression = S.suspend(() =>
   identifier: "MaintenanceWindowTaskParameterValueExpression",
 }) as any as S.Schema<MaintenanceWindowTaskParameterValueExpression>;
 export type MaintenanceWindowTaskParameters = {
-  [key: string]: MaintenanceWindowTaskParameterValueExpression;
+  [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
 };
 export const MaintenanceWindowTaskParameters = S.Record({
   key: S.String,
-  value: MaintenanceWindowTaskParameterValueExpression,
+  value: S.UndefinedOr(MaintenanceWindowTaskParameterValueExpression),
 });
 export interface CloudWatchOutputConfig {
   CloudWatchLogGroupName?: string;
@@ -3499,7 +3502,7 @@ export interface MaintenanceWindowRunCommandParameters {
   NotificationConfig?: NotificationConfig;
   OutputS3BucketName?: string;
   OutputS3KeyPrefix?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   ServiceRoleArn?: string;
   TimeoutSeconds?: number;
 }
@@ -3522,7 +3525,7 @@ export const MaintenanceWindowRunCommandParameters = S.suspend(() =>
 }) as any as S.Schema<MaintenanceWindowRunCommandParameters>;
 export interface MaintenanceWindowAutomationParameters {
   DocumentVersion?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
 }
 export const MaintenanceWindowAutomationParameters = S.suspend(() =>
   S.Struct({
@@ -3590,7 +3593,7 @@ export interface UpdateMaintenanceWindowTaskRequest {
   TaskArn?: string;
   ServiceRoleArn?: string;
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   };
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters;
   Priority?: number;
@@ -3673,10 +3676,12 @@ export const OpsItemDataValue = S.suspend(() =>
 ).annotations({
   identifier: "OpsItemDataValue",
 }) as any as S.Schema<OpsItemDataValue>;
-export type OpsItemOperationalData = { [key: string]: OpsItemDataValue };
+export type OpsItemOperationalData = {
+  [key: string]: OpsItemDataValue | undefined;
+};
 export const OpsItemOperationalData = S.Record({
   key: S.String,
-  value: OpsItemDataValue,
+  value: S.UndefinedOr(OpsItemDataValue),
 });
 export interface OpsItemNotification {
   Arn?: string;
@@ -3700,7 +3705,7 @@ export type RelatedOpsItems = RelatedOpsItem[];
 export const RelatedOpsItems = S.Array(RelatedOpsItem);
 export interface UpdateOpsItemRequest {
   Description?: string;
-  OperationalData?: { [key: string]: OpsItemDataValue };
+  OperationalData?: { [key: string]: OpsItemDataValue | undefined };
   OperationalDataToDelete?: string[];
   Notifications?: OpsItemNotification[];
   Priority?: number;
@@ -3766,11 +3771,14 @@ export const MetadataValue = S.suspend(() =>
 ).annotations({
   identifier: "MetadataValue",
 }) as any as S.Schema<MetadataValue>;
-export type MetadataMap = { [key: string]: MetadataValue };
-export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
+export type MetadataMap = { [key: string]: MetadataValue | undefined };
+export const MetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(MetadataValue),
+});
 export interface UpdateOpsMetadataRequest {
   OpsMetadataArn: string;
-  MetadataToUpdate?: { [key: string]: MetadataValue };
+  MetadataToUpdate?: { [key: string]: MetadataValue | undefined };
   KeysToDelete?: string[];
 }
 export const UpdateOpsMetadataRequest = S.suspend(() =>
@@ -4495,7 +4503,7 @@ export const RegistrationMetadataList = S.Array(RegistrationMetadataItem);
 export interface CreateAssociationBatchRequestEntry {
   Name: string;
   InstanceId?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   AutomationTargetParameterName?: string;
   DocumentVersion?: string;
   Targets?: Target[];
@@ -4511,7 +4519,7 @@ export interface CreateAssociationBatchRequestEntry {
   TargetLocations?: TargetLocation[];
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   AlarmConfiguration?: AlarmConfiguration;
 }
 export const CreateAssociationBatchRequestEntry = S.suspend(() =>
@@ -4900,7 +4908,7 @@ export const MaintenanceWindowExecutionStatus = S.Literal(
   "SKIPPED_OVERLAPPING",
 );
 export type MaintenanceWindowTaskParametersList = {
-  [key: string]: MaintenanceWindowTaskParameterValueExpression;
+  [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
 }[];
 export const MaintenanceWindowTaskParametersList = S.Array(
   MaintenanceWindowTaskParameters,
@@ -5116,10 +5124,10 @@ export const ComplianceExecutionSummary = S.suspend(() =>
 export interface Runbook {
   DocumentName: string;
   DocumentVersion?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   TargetParameterName?: string;
   Targets?: Target[];
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   MaxConcurrency?: string;
   MaxErrors?: string;
   TargetLocations?: TargetLocation[];
@@ -5139,10 +5147,10 @@ export const Runbook = S.suspend(() =>
 ).annotations({ identifier: "Runbook" }) as any as S.Schema<Runbook>;
 export type Runbooks = Runbook[];
 export const Runbooks = S.Array(Runbook);
-export type SessionManagerParameters = { [key: string]: string[] };
+export type SessionManagerParameters = { [key: string]: string[] | undefined };
 export const SessionManagerParameters = S.Record({
   key: S.String,
-  value: SessionManagerParameterValueList,
+  value: S.UndefinedOr(SessionManagerParameterValueList),
 });
 export interface AssociationStatus {
   Date: Date;
@@ -5942,7 +5950,7 @@ export interface GetMaintenanceWindowTaskResult {
   ServiceRoleArn?: string;
   TaskType?: MaintenanceWindowTaskType;
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   };
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters;
   Priority?: number;
@@ -5980,7 +5988,7 @@ export const GetMaintenanceWindowTaskResult = S.suspend(() =>
 }) as any as S.Schema<GetMaintenanceWindowTaskResult>;
 export interface GetOpsMetadataResult {
   ResourceId?: string;
-  Metadata?: { [key: string]: MetadataValue };
+  Metadata?: { [key: string]: MetadataValue | undefined };
   NextToken?: string;
 }
 export const GetOpsMetadataResult = S.suspend(() =>
@@ -6190,16 +6198,19 @@ export const ListDocumentsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListDocumentsRequest",
 }) as any as S.Schema<ListDocumentsRequest>;
-export type InventoryItemEntry = { [key: string]: string };
-export const InventoryItemEntry = S.Record({ key: S.String, value: S.String });
-export type InventoryItemEntryList = { [key: string]: string }[];
+export type InventoryItemEntry = { [key: string]: string | undefined };
+export const InventoryItemEntry = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type InventoryItemEntryList = { [key: string]: string | undefined }[];
 export const InventoryItemEntryList = S.Array(InventoryItemEntry);
 export interface ListInventoryEntriesResult {
   TypeName?: string;
   InstanceId?: string;
   SchemaVersion?: string;
   CaptureTime?: string;
-  Entries?: { [key: string]: string }[];
+  Entries?: { [key: string]: string | undefined }[];
   NextToken?: string;
 }
 export const ListInventoryEntriesResult = S.suspend(() =>
@@ -6449,7 +6460,7 @@ export const ResumeSessionResponse = S.suspend(() =>
 export interface SendAutomationSignalRequest {
   AutomationExecutionId: string;
   SignalType: SignalType;
-  Payload?: { [key: string]: string[] };
+  Payload?: { [key: string]: string[] | undefined };
 }
 export const SendAutomationSignalRequest = S.suspend(() =>
   S.Struct({
@@ -6485,7 +6496,7 @@ export interface SendCommandRequest {
   DocumentHashType?: DocumentHashType;
   TimeoutSeconds?: number;
   Comment?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   OutputS3Region?: string;
   OutputS3BucketName?: string;
   OutputS3KeyPrefix?: string;
@@ -6550,7 +6561,7 @@ export interface StartChangeRequestExecutionRequest {
   ScheduledTime?: Date;
   DocumentName: string;
   DocumentVersion?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   ChangeRequestName?: string;
   ClientToken?: string;
   AutoApprove?: boolean;
@@ -6592,7 +6603,7 @@ export interface StartSessionRequest {
   Target: string;
   DocumentName?: string;
   Reason?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
 }
 export const StartSessionRequest = S.suspend(() =>
   S.Struct({
@@ -6634,15 +6645,17 @@ export const UnlabelParameterVersionResult = S.suspend(() =>
 ).annotations({
   identifier: "UnlabelParameterVersionResult",
 }) as any as S.Schema<UnlabelParameterVersionResult>;
-export type AssociationStatusAggregatedCount = { [key: string]: number };
+export type AssociationStatusAggregatedCount = {
+  [key: string]: number | undefined;
+};
 export const AssociationStatusAggregatedCount = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface AssociationOverview {
   Status?: string;
   DetailedStatus?: string;
-  AssociationStatusAggregatedCount?: { [key: string]: number };
+  AssociationStatusAggregatedCount?: { [key: string]: number | undefined };
 }
 export const AssociationOverview = S.suspend(() =>
   S.Struct({
@@ -6678,7 +6691,7 @@ export interface AssociationDescription {
   Overview?: AssociationOverview;
   DocumentVersion?: string;
   AutomationTargetParameterName?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   AssociationId?: string;
   Targets?: Target[];
   ScheduleExpression?: string;
@@ -6695,7 +6708,7 @@ export interface AssociationDescription {
   TargetLocations?: TargetLocation[];
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   AlarmConfiguration?: AlarmConfiguration;
   TriggeredAlarms?: AlarmStateInformation[];
 }
@@ -6977,7 +6990,7 @@ export interface UpdateMaintenanceWindowTaskResult {
   TaskArn?: string;
   ServiceRoleArn?: string;
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   };
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters;
   Priority?: number;
@@ -7151,10 +7164,10 @@ export const InventoryGroupList = S.Array(
     identifier: "InventoryGroup",
   }),
 );
-export type OpsAggregatorValueMap = { [key: string]: string };
+export type OpsAggregatorValueMap = { [key: string]: string | undefined };
 export const OpsAggregatorValueMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type CommandStatus =
   | "Pending"
@@ -7179,21 +7192,21 @@ export const LastResourceDataSyncStatus = S.Literal(
   "Failed",
   "InProgress",
 );
-export type ComplianceItemDetails = { [key: string]: string };
+export type ComplianceItemDetails = { [key: string]: string | undefined };
 export const ComplianceItemDetails = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type InventoryItemContentContext = { [key: string]: string };
+export type InventoryItemContentContext = { [key: string]: string | undefined };
 export const InventoryItemContentContext = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AutomationExecutionInputs {
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   TargetParameterName?: string;
   Targets?: Target[];
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   TargetLocations?: TargetLocation[];
   TargetLocationsURL?: string;
 }
@@ -7654,7 +7667,7 @@ export interface MaintenanceWindowTask {
   Type?: MaintenanceWindowTaskType;
   Targets?: Target[];
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   };
   Priority?: number;
   LoggingInfo?: LoggingInfo;
@@ -7726,9 +7739,12 @@ export type PatchGroupPatchBaselineMappingList =
 export const PatchGroupPatchBaselineMappingList = S.Array(
   PatchGroupPatchBaselineMapping,
 );
-export type PatchPropertyEntry = { [key: string]: string };
-export const PatchPropertyEntry = S.Record({ key: S.String, value: S.String });
-export type PatchPropertiesList = { [key: string]: string }[];
+export type PatchPropertyEntry = { [key: string]: string | undefined };
+export const PatchPropertyEntry = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type PatchPropertiesList = { [key: string]: string | undefined }[];
 export const PatchPropertiesList = S.Array(PatchPropertyEntry);
 export interface Credentials {
   AccessKeyId: string;
@@ -7808,7 +7824,7 @@ export interface OpsItem {
   Version?: string;
   Title?: string;
   Source?: string;
-  OperationalData?: { [key: string]: OpsItemDataValue };
+  OperationalData?: { [key: string]: OpsItemDataValue | undefined };
   Category?: string;
   Severity?: string;
   ActualStartTime?: Date;
@@ -7853,7 +7869,7 @@ export interface OpsAggregator {
   AggregatorType?: string;
   TypeName?: string;
   AttributeName?: string;
-  Values?: { [key: string]: string };
+  Values?: { [key: string]: string | undefined };
   Filters?: OpsFilter[];
   Aggregators?: OpsAggregator[];
 }
@@ -7905,7 +7921,7 @@ export interface AssociationVersionInfo {
   CreatedDate?: Date;
   Name?: string;
   DocumentVersion?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   Targets?: Target[];
   ScheduleExpression?: string;
   OutputLocation?: InstanceAssociationOutputLocation;
@@ -7919,7 +7935,7 @@ export interface AssociationVersionInfo {
   TargetLocations?: TargetLocation[];
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
 }
 export const AssociationVersionInfo = S.suspend(() =>
   S.Struct({
@@ -7955,7 +7971,7 @@ export interface Command {
   DocumentVersion?: string;
   Comment?: string;
   ExpiresAfter?: Date;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   InstanceIds?: string[];
   Targets?: Target[];
   RequestedDateTime?: Date;
@@ -8120,7 +8136,7 @@ export interface ComplianceItemEntry {
   Title?: string;
   Severity: ComplianceSeverity;
   Status: ComplianceStatus;
-  Details?: { [key: string]: string };
+  Details?: { [key: string]: string | undefined };
 }
 export const ComplianceItemEntry = S.suspend(() =>
   S.Struct({
@@ -8140,8 +8156,8 @@ export interface InventoryItem {
   SchemaVersion: string;
   CaptureTime: string;
   ContentHash?: string;
-  Content?: { [key: string]: string }[];
-  Context?: { [key: string]: string };
+  Content?: { [key: string]: string | undefined }[];
+  Context?: { [key: string]: string | undefined };
 }
 export const InventoryItem = S.suspend(() =>
   S.Struct({
@@ -8228,7 +8244,7 @@ export interface CreateAssociationRequest {
   Name: string;
   DocumentVersion?: string;
   InstanceId?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
   Targets?: Target[];
   ScheduleExpression?: string;
   OutputLocation?: InstanceAssociationOutputLocation;
@@ -8243,7 +8259,7 @@ export interface CreateAssociationRequest {
   TargetLocations?: TargetLocation[];
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   Tags?: Tag[];
   AlarmConfiguration?: AlarmConfiguration;
 }
@@ -8295,7 +8311,7 @@ export const CreateDocumentResult = S.suspend(() =>
 export interface CreateOpsItemRequest {
   Description: string;
   OpsItemType?: string;
-  OperationalData?: { [key: string]: OpsItemDataValue };
+  OperationalData?: { [key: string]: OpsItemDataValue | undefined };
   Notifications?: OpsItemNotification[];
   Priority?: number;
   RelatedOpsItems?: RelatedOpsItem[];
@@ -8348,7 +8364,7 @@ export const CreateOpsItemRequest = S.suspend(() =>
 }) as any as S.Schema<CreateOpsItemRequest>;
 export interface CreateOpsMetadataRequest {
   ResourceId: string;
-  Metadata?: { [key: string]: MetadataValue };
+  Metadata?: { [key: string]: MetadataValue | undefined };
   Tags?: Tag[];
 }
 export const CreateOpsMetadataRequest = S.suspend(() =>
@@ -8416,12 +8432,15 @@ export const CreatePatchBaselineRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreatePatchBaselineRequest",
 }) as any as S.Schema<CreatePatchBaselineRequest>;
-export type NormalStringMap = { [key: string]: string };
-export const NormalStringMap = S.Record({ key: S.String, value: S.String });
+export type NormalStringMap = { [key: string]: string | undefined };
+export const NormalStringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface FailureDetails {
   FailureStage?: string;
   FailureType?: string;
-  Details?: { [key: string]: string[] };
+  Details?: { [key: string]: string[] | undefined };
 }
 export const FailureDetails = S.suspend(() =>
   S.Struct({
@@ -8460,13 +8479,13 @@ export interface StepExecution {
   ExecutionEndTime?: Date;
   StepStatus?: AutomationExecutionStatus;
   ResponseCode?: string;
-  Inputs?: { [key: string]: string };
-  Outputs?: { [key: string]: string[] };
+  Inputs?: { [key: string]: string | undefined };
+  Outputs?: { [key: string]: string[] | undefined };
   Response?: string;
   FailureMessage?: string;
   FailureDetails?: FailureDetails;
   StepExecutionId?: string;
-  OverriddenParameters?: { [key: string]: string[] };
+  OverriddenParameters?: { [key: string]: string[] | undefined };
   IsEnd?: boolean;
   NextStep?: string;
   IsCritical?: boolean;
@@ -8724,7 +8743,7 @@ export const DescribePatchGroupsResult = S.suspend(() =>
   identifier: "DescribePatchGroupsResult",
 }) as any as S.Schema<DescribePatchGroupsResult>;
 export interface DescribePatchPropertiesResult {
-  Properties?: { [key: string]: string }[];
+  Properties?: { [key: string]: string | undefined }[];
   NextToken?: string;
 }
 export const DescribePatchPropertiesResult = S.suspend(() =>
@@ -8832,7 +8851,7 @@ export interface GetMaintenanceWindowExecutionTaskResult {
   ServiceRole?: string;
   Type?: MaintenanceWindowTaskType;
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   }[];
   Priority?: number;
   MaxConcurrency?: string;
@@ -9045,7 +9064,7 @@ export interface RegisterTaskWithMaintenanceWindowRequest {
   ServiceRoleArn?: string;
   TaskType: MaintenanceWindowTaskType;
   TaskParameters?: {
-    [key: string]: MaintenanceWindowTaskParameterValueExpression;
+    [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined;
   };
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters;
   Priority?: number;
@@ -9440,7 +9459,7 @@ export interface AutomationExecutionMetadata {
   ExecutionEndTime?: Date;
   ExecutedBy?: string;
   LogFile?: string;
-  Outputs?: { [key: string]: string[] };
+  Outputs?: { [key: string]: string[] | undefined };
   Mode?: ExecutionMode;
   ParentAutomationExecutionId?: string;
   CurrentStepName?: string;
@@ -9448,7 +9467,7 @@ export interface AutomationExecutionMetadata {
   FailureMessage?: string;
   TargetParameterName?: string;
   Targets?: Target[];
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   ResolvedTargets?: ResolvedTargets;
   MaxConcurrency?: string;
   MaxErrors?: string;
@@ -9521,15 +9540,17 @@ export const EffectivePatch = S.suspend(() =>
 export type EffectivePatchList = EffectivePatch[];
 export const EffectivePatchList = S.Array(EffectivePatch);
 export type InstanceAssociationStatusAggregatedCount = {
-  [key: string]: number;
+  [key: string]: number | undefined;
 };
 export const InstanceAssociationStatusAggregatedCount = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface InstanceAggregatedAssociationOverview {
   DetailedStatus?: string;
-  InstanceAssociationStatusAggregatedCount?: { [key: string]: number };
+  InstanceAssociationStatusAggregatedCount?: {
+    [key: string]: number | undefined;
+  };
 }
 export const InstanceAggregatedAssociationOverview = S.suspend(() =>
   S.Struct({
@@ -9649,7 +9670,7 @@ export interface OpsItemSummary {
   Status?: OpsItemStatus;
   OpsItemId?: string;
   Title?: string;
-  OperationalData?: { [key: string]: OpsItemDataValue };
+  OperationalData?: { [key: string]: OpsItemDataValue | undefined };
   Category?: string;
   Severity?: string;
   OpsItemType?: string;
@@ -9794,7 +9815,7 @@ export interface Association {
   AssociationName?: string;
   ScheduleOffset?: number;
   Duration?: number;
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
 }
 export const Association = S.suspend(() =>
   S.Struct({
@@ -9830,7 +9851,7 @@ export interface ComplianceItem {
   Status?: ComplianceStatus;
   Severity?: ComplianceSeverity;
   ExecutionSummary?: ComplianceExecutionSummary;
-  Details?: { [key: string]: string };
+  Details?: { [key: string]: string | undefined };
 }
 export const ComplianceItem = S.suspend(() =>
   S.Struct({
@@ -9905,9 +9926,12 @@ export const DocumentIdentifierList = S.Array(
     identifier: "DocumentIdentifier",
   }),
 );
-export type NodeSummary = { [key: string]: string };
-export const NodeSummary = S.Record({ key: S.String, value: S.String });
-export type NodeSummaryList = { [key: string]: string }[];
+export type NodeSummary = { [key: string]: string | undefined };
+export const NodeSummary = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type NodeSummaryList = { [key: string]: string | undefined }[];
 export const NodeSummaryList = S.Array(NodeSummary);
 export interface OpsItemIdentity {
   Arn?: string;
@@ -10011,7 +10035,7 @@ export const S3OutputUrl = S.suspend(() =>
 ).annotations({ identifier: "S3OutputUrl" }) as any as S.Schema<S3OutputUrl>;
 export type StepPreviewMap = { [key in ImpactType]?: number };
 export const StepPreviewMap = S.partial(
-  S.Record({ key: ImpactType, value: S.Number }),
+  S.Record({ key: ImpactType, value: S.UndefinedOr(S.Number) }),
 );
 export interface TargetPreview {
   Count?: number;
@@ -10320,7 +10344,7 @@ export const ListDocumentsResult = S.suspend(() =>
   identifier: "ListDocumentsResult",
 }) as any as S.Schema<ListDocumentsResult>;
 export interface ListNodesSummaryResult {
-  Summary?: { [key: string]: string }[];
+  Summary?: { [key: string]: string | undefined }[];
   NextToken?: string;
 }
 export const ListNodesSummaryResult = S.suspend(() =>
@@ -10422,7 +10446,7 @@ export const SessionManagerOutputUrl = S.suspend(() =>
   identifier: "SessionManagerOutputUrl",
 }) as any as S.Schema<SessionManagerOutputUrl>;
 export interface AutomationExecutionPreview {
-  StepPreviews?: { [key: string]: number };
+  StepPreviews?: { [key: string]: number | undefined };
   Regions?: string[];
   TargetPreviews?: TargetPreview[];
   TotalAccounts?: number;
@@ -10602,8 +10626,8 @@ export interface AutomationExecution {
   AutomationExecutionStatus?: AutomationExecutionStatus;
   StepExecutions?: StepExecution[];
   StepExecutionsTruncated?: boolean;
-  Parameters?: { [key: string]: string[] };
-  Outputs?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
+  Outputs?: { [key: string]: string[] | undefined };
   FailureMessage?: string;
   Mode?: ExecutionMode;
   ParentAutomationExecutionId?: string;
@@ -10612,7 +10636,7 @@ export interface AutomationExecution {
   CurrentAction?: string;
   TargetParameterName?: string;
   Targets?: Target[];
-  TargetMaps?: { [key: string]: string[] }[];
+  TargetMaps?: { [key: string]: string[] | undefined }[];
   ResolvedTargets?: ResolvedTargets;
   MaxConcurrency?: string;
   MaxErrors?: string;
@@ -10628,7 +10652,7 @@ export interface AutomationExecution {
   OpsItemId?: string;
   AssociationId?: string;
   ChangeRequestName?: string;
-  Variables?: { [key: string]: string[] };
+  Variables?: { [key: string]: string[] | undefined };
 }
 export const AutomationExecution = S.suspend(() =>
   S.Struct({
@@ -10992,7 +11016,7 @@ export interface InventoryResultItem {
   SchemaVersion: string;
   CaptureTime?: string;
   ContentHash?: string;
-  Content: { [key: string]: string }[];
+  Content: { [key: string]: string | undefined }[];
 }
 export const InventoryResultItem = S.suspend(() =>
   S.Struct({
@@ -11029,18 +11053,23 @@ export const ListNodesResult = S.suspend(() =>
 ).annotations({
   identifier: "ListNodesResult",
 }) as any as S.Schema<ListNodesResult>;
-export type InventoryResultItemMap = { [key: string]: InventoryResultItem };
+export type InventoryResultItemMap = {
+  [key: string]: InventoryResultItem | undefined;
+};
 export const InventoryResultItemMap = S.Record({
   key: S.String,
-  value: InventoryResultItem,
+  value: S.UndefinedOr(InventoryResultItem),
 });
-export type OpsEntityItemEntry = { [key: string]: string };
-export const OpsEntityItemEntry = S.Record({ key: S.String, value: S.String });
-export type OpsEntityItemEntryList = { [key: string]: string }[];
+export type OpsEntityItemEntry = { [key: string]: string | undefined };
+export const OpsEntityItemEntry = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type OpsEntityItemEntryList = { [key: string]: string | undefined }[];
 export const OpsEntityItemEntryList = S.Array(OpsEntityItemEntry);
 export interface InventoryResultEntity {
   Id?: string;
-  Data?: { [key: string]: InventoryResultItem };
+  Data?: { [key: string]: InventoryResultItem | undefined };
 }
 export const InventoryResultEntity = S.suspend(() =>
   S.Struct({
@@ -11058,7 +11087,7 @@ export const InventoryResultEntityList = S.Array(
 );
 export interface OpsEntityItem {
   CaptureTime?: string;
-  Content?: { [key: string]: string }[];
+  Content?: { [key: string]: string | undefined }[];
 }
 export const OpsEntityItem = S.suspend(() =>
   S.Struct({
@@ -11080,14 +11109,14 @@ export const GetInventoryResult = S.suspend(() =>
 ).annotations({
   identifier: "GetInventoryResult",
 }) as any as S.Schema<GetInventoryResult>;
-export type OpsEntityItemMap = { [key: string]: OpsEntityItem };
+export type OpsEntityItemMap = { [key: string]: OpsEntityItem | undefined };
 export const OpsEntityItemMap = S.Record({
   key: S.String,
-  value: OpsEntityItem,
+  value: S.UndefinedOr(OpsEntityItem),
 });
 export interface OpsEntity {
   Id?: string;
-  Data?: { [key: string]: OpsEntityItem };
+  Data?: { [key: string]: OpsEntityItem | undefined };
 }
 export const OpsEntity = S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), Data: S.optional(OpsEntityItemMap) }),
@@ -12651,7 +12680,7 @@ export const describePatchProperties: {
   items: (
     input: DescribePatchPropertiesRequest,
   ) => stream.Stream<
-    { [key: string]: string },
+    { [key: string]: string | undefined },
     InternalServerError | CommonErrors,
     Creds | Rgn | HttpClient.HttpClient
   >;
@@ -16090,7 +16119,7 @@ export const listNodesSummary: {
   items: (
     input: ListNodesSummaryRequest,
   ) => stream.Stream<
-    { [key: string]: string },
+    { [key: string]: string | undefined },
     | InternalServerError
     | InvalidAggregatorException
     | InvalidFilter

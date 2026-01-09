@@ -184,13 +184,16 @@ export const GetPendingJobExecutionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetPendingJobExecutionsRequest",
 }) as any as S.Schema<GetPendingJobExecutionsRequest>;
-export type DetailsMap = { [key: string]: string };
-export const DetailsMap = S.Record({ key: S.String, value: S.String });
+export type DetailsMap = { [key: string]: string | undefined };
+export const DetailsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateJobExecutionRequest {
   jobId: string;
   thingName: string;
   status: JobExecutionStatus;
-  statusDetails?: { [key: string]: string };
+  statusDetails?: { [key: string]: string | undefined };
   stepTimeoutInMinutes?: number;
   expectedVersion?: number;
   includeJobExecutionState?: boolean;
@@ -223,7 +226,7 @@ export const UpdateJobExecutionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateJobExecutionRequest>;
 export interface StartNextPendingJobExecutionRequest {
   thingName: string;
-  statusDetails?: { [key: string]: string };
+  statusDetails?: { [key: string]: string | undefined };
   stepTimeoutInMinutes?: number;
 }
 export const StartNextPendingJobExecutionRequest = S.suspend(() =>
@@ -270,7 +273,7 @@ export interface JobExecution {
   jobId?: string;
   thingName?: string;
   status?: JobExecutionStatus;
-  statusDetails?: { [key: string]: string };
+  statusDetails?: { [key: string]: string | undefined };
   queuedAt?: number;
   startedAt?: number;
   lastUpdatedAt?: number;
@@ -317,15 +320,15 @@ export const JobExecutionSummary = S.suspend(() =>
 export type JobExecutionSummaryList = JobExecutionSummary[];
 export const JobExecutionSummaryList = S.Array(JobExecutionSummary);
 export type CommandExecutionParameterMap = {
-  [key: string]: CommandParameterValue;
+  [key: string]: CommandParameterValue | undefined;
 };
 export const CommandExecutionParameterMap = S.Record({
   key: S.String,
-  value: CommandParameterValue,
+  value: S.UndefinedOr(CommandParameterValue),
 });
 export interface JobExecutionState {
   status?: JobExecutionStatus;
-  statusDetails?: { [key: string]: string };
+  statusDetails?: { [key: string]: string | undefined };
   versionNumber?: number;
 }
 export const JobExecutionState = S.suspend(() =>
@@ -360,7 +363,7 @@ export const GetPendingJobExecutionsResponse = S.suspend(() =>
 export interface StartCommandExecutionRequest {
   targetArn: string;
   commandArn: string;
-  parameters?: { [key: string]: CommandParameterValue };
+  parameters?: { [key: string]: CommandParameterValue | undefined };
   executionTimeoutSeconds?: number;
   clientToken?: string;
 }

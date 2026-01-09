@@ -401,11 +401,14 @@ export const DeleteWhatsAppMessageMediaInput = S.suspend(() =>
 ).annotations({
   identifier: "DeleteWhatsAppMessageMediaInput",
 }) as any as S.Schema<DeleteWhatsAppMessageMediaInput>;
-export type Headers = { [key: string]: string };
-export const Headers = S.Record({ key: S.String, value: S.String });
+export type Headers = { [key: string]: string | undefined };
+export const Headers = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface S3PresignedUrl {
   url: string;
-  headers: { [key: string]: string };
+  headers: { [key: string]: string | undefined };
 }
 export const S3PresignedUrl = S.suspend(() =>
   S.Struct({ url: S.String, headers: Headers }),
@@ -465,8 +468,11 @@ export const SendWhatsAppMessageInput = S.suspend(() =>
 ).annotations({
   identifier: "SendWhatsAppMessageInput",
 }) as any as S.Schema<SendWhatsAppMessageInput>;
-export type Filter = { [key: string]: string };
-export const Filter = S.Record({ key: S.String, value: S.String });
+export type Filter = { [key: string]: string | undefined };
+export const Filter = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Tag {
   key: string;
   value?: string;
@@ -552,7 +558,7 @@ export interface ListWhatsAppTemplateLibraryInput {
   nextToken?: string;
   maxResults?: number;
   id: string;
-  filters?: { [key: string]: string };
+  filters?: { [key: string]: string | undefined };
 }
 export const ListWhatsAppTemplateLibraryInput = S.suspend(() =>
   S.Struct({
@@ -794,14 +800,17 @@ export const WhatsAppPhoneNumberDetail = S.suspend(() =>
 ).annotations({
   identifier: "WhatsAppPhoneNumberDetail",
 }) as any as S.Schema<WhatsAppPhoneNumberDetail>;
-export type MetaUrlWithSuffixExample = { [key: string]: string };
+export type MetaUrlWithSuffixExample = { [key: string]: string | undefined };
 export const MetaUrlWithSuffixExample = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type SupportedApp = { [key: string]: string };
-export const SupportedApp = S.Record({ key: S.String, value: S.String });
-export type SupportedApps = { [key: string]: string }[];
+export type SupportedApp = { [key: string]: string | undefined };
+export const SupportedApp = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type SupportedApps = { [key: string]: string | undefined }[];
 export const SupportedApps = S.Array(SupportedApp);
 export interface CreateWhatsAppMessageTemplateMediaOutput {
   metaHeaderHandle?: string;
@@ -906,10 +915,10 @@ export const GetWhatsAppMessageMediaInput = S.suspend(() =>
 export interface LibraryTemplateButtonInput {
   type?: string;
   phoneNumber?: string;
-  url?: { [key: string]: string };
+  url?: { [key: string]: string | undefined };
   otpType?: string;
   zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string }[];
+  supportedApps?: { [key: string]: string | undefined }[];
 }
 export const LibraryTemplateButtonInput = S.suspend(() =>
   S.Struct({
@@ -1043,7 +1052,7 @@ export interface LibraryTemplateButtonList {
   url?: string;
   otpType?: string;
   zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string }[];
+  supportedApps?: { [key: string]: string | undefined }[];
 }
 export const LibraryTemplateButtonList = S.suspend(() =>
   S.Struct({
@@ -1135,16 +1144,16 @@ export const LinkedWhatsAppBusinessAccountIdMetaData = S.suspend(() =>
   identifier: "LinkedWhatsAppBusinessAccountIdMetaData",
 }) as any as S.Schema<LinkedWhatsAppBusinessAccountIdMetaData>;
 export type LinkedAccountWithIncompleteSetup = {
-  [key: string]: LinkedWhatsAppBusinessAccountIdMetaData;
+  [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
 };
 export const LinkedAccountWithIncompleteSetup = S.Record({
   key: S.String,
-  value: LinkedWhatsAppBusinessAccountIdMetaData,
+  value: S.UndefinedOr(LinkedWhatsAppBusinessAccountIdMetaData),
 });
 export interface WhatsAppSignupCallbackResult {
   associateInProgressToken?: string | redacted.Redacted<string>;
   linkedAccountsWithIncompleteSetup?: {
-    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData;
+    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
   };
 }
 export const WhatsAppSignupCallbackResult = S.suspend(() =>

@@ -515,6 +515,27 @@ test(
   ),
 );
 
+test(
+  "tagResource drops undefined values in Tags map",
+  withFunction({ FunctionName: "lambda-test-undefined-tags" }, (func) =>
+    Effect.gen(function* () {
+      // Tag with an undefined value - should not fail
+      yield* tagResource({
+        Resource: func.FunctionArn,
+        Tags: {
+          Present: "value",
+          Absent: undefined,
+        } as { [key: string]: string | undefined },
+      });
+
+      // Verify only non-undefined tags are applied
+      const tags = yield* listTags({ Resource: func.FunctionArn });
+      expect(tags.Tags?.["Present"]).toEqual("value");
+      expect("Absent" in (tags.Tags ?? {})).toBe(false);
+    }),
+  ),
+);
+
 // ============================================================================
 // Create and Delete Function Test
 // ============================================================================

@@ -332,15 +332,18 @@ export interface DeleteProbeOutput {}
 export const DeleteProbeOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "DeleteProbeOutput",
 }) as any as S.Schema<DeleteProbeOutput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateMonitorProbeInput {
   sourceArn: string;
   destination: string;
   destinationPort?: number;
   protocol: Protocol;
   packetSize?: number;
-  probeTags?: { [key: string]: string };
+  probeTags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorProbeInput = S.suspend(() =>
   S.Struct({
@@ -375,7 +378,7 @@ export interface ProbeInput {
   destinationPort?: number;
   protocol: Protocol;
   packetSize?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ProbeInput = S.suspend(() =>
   S.Struct({
@@ -390,7 +393,7 @@ export const ProbeInput = S.suspend(() =>
 export type AddressFamily = "IPV4" | "IPV6";
 export const AddressFamily = S.Literal("IPV4", "IPV6");
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -399,7 +402,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -427,7 +430,7 @@ export interface CreateMonitorInput {
   probes?: CreateMonitorProbeInput[];
   aggregationPeriod?: number;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorInput = S.suspend(() =>
   S.Struct({
@@ -454,7 +457,7 @@ export interface UpdateMonitorOutput {
   monitorName: string;
   state: MonitorState;
   aggregationPeriod?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateMonitorOutput = S.suspend(() =>
   S.Struct({
@@ -471,7 +474,7 @@ export interface CreateProbeInput {
   monitorName: string;
   probe: ProbeInput;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateProbeInput = S.suspend(() =>
   S.Struct({
@@ -505,7 +508,7 @@ export interface GetProbeOutput {
   state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetProbeOutput = S.suspend(() =>
   S.Struct({
@@ -539,7 +542,7 @@ export interface UpdateProbeOutput {
   state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateProbeOutput = S.suspend(() =>
   S.Struct({
@@ -573,7 +576,7 @@ export interface Probe {
   state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Probe = S.suspend(() =>
   S.Struct({
@@ -599,7 +602,7 @@ export interface MonitorSummary {
   monitorName: string;
   state: MonitorState;
   aggregationPeriod?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const MonitorSummary = S.suspend(() =>
   S.Struct({
@@ -619,7 +622,7 @@ export interface CreateMonitorOutput {
   monitorName: string;
   state: MonitorState;
   aggregationPeriod?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorOutput = S.suspend(() =>
   S.Struct({
@@ -637,7 +640,7 @@ export interface GetMonitorOutput {
   monitorName: string;
   state: MonitorState;
   aggregationPeriod: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   probes?: Probe[];
   createdAt: Date;
   modifiedAt: Date;
@@ -678,7 +681,7 @@ export interface CreateProbeOutput {
   state?: ProbeState;
   createdAt?: Date;
   modifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateProbeOutput = S.suspend(() =>
   S.Struct({

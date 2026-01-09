@@ -292,9 +292,12 @@ export const PlacementStrategy = S.suspend(() =>
 }) as any as S.Schema<PlacementStrategy>;
 export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = S.Array(PlacementStrategy);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
-export type Tags = { [key: string]: string }[];
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Tags = { [key: string]: string | undefined }[];
 export const Tags = S.Array(TagMap);
 export interface EcsParameters {
   TaskDefinitionArn: string;
@@ -310,7 +313,7 @@ export interface EcsParameters {
   PlacementStrategy?: PlacementStrategy[];
   PropagateTags?: string;
   ReferenceId?: string;
-  Tags?: { [key: string]: string }[];
+  Tags?: { [key: string]: string | undefined }[];
 }
 export const EcsParameters = S.suspend(() =>
   S.Struct({

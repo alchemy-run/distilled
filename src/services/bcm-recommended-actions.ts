@@ -183,15 +183,18 @@ export const Feature = S.Literal(
 );
 export type NextSteps = string[];
 export const NextSteps = S.Array(S.String);
-export type Context = { [key: string]: string };
-export const Context = S.Record({ key: S.String, value: S.String });
+export type Context = { [key: string]: string | undefined };
+export const Context = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RecommendedAction {
   id?: string;
   type?: ActionType;
   accountId?: string;
   severity?: Severity;
   feature?: Feature;
-  context?: { [key: string]: string };
+  context?: { [key: string]: string | undefined };
   nextSteps?: string[];
   lastUpdatedTimeStamp?: string;
 }

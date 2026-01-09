@@ -1784,10 +1784,13 @@ export const CreateScheduledAuditRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateScheduledAuditRequest",
 }) as any as S.Schema<CreateScheduledAuditRequest>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AttributePayload {
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   merge?: boolean;
 }
 export const AttributePayload = S.suspend(() =>
@@ -6328,8 +6331,11 @@ export const HttpAction = S.suspend(() =>
     batchConfig: S.optional(BatchConfig),
   }),
 ).annotations({ identifier: "HttpAction" }) as any as S.Schema<HttpAction>;
-export type ClientProperties = { [key: string]: string };
-export const ClientProperties = S.Record({ key: S.String, value: S.String });
+export type ClientProperties = { [key: string]: string | undefined };
+export const ClientProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface KafkaActionHeader {
   key: string;
   value: string;
@@ -6346,7 +6352,7 @@ export interface KafkaAction {
   topic: string;
   key?: string;
   partition?: string;
-  clientProperties: { [key: string]: string };
+  clientProperties: { [key: string]: string | undefined };
   headers?: KafkaActionHeader[];
 }
 export const KafkaAction = S.suspend(() =>
@@ -6738,7 +6744,10 @@ export type AuditNotificationTargetConfigurations = {
   [key in AuditNotificationType]?: AuditNotificationTarget;
 };
 export const AuditNotificationTargetConfigurations = S.partial(
-  S.Record({ key: AuditNotificationType, value: AuditNotificationTarget }),
+  S.Record({
+    key: AuditNotificationType,
+    value: S.UndefinedOr(AuditNotificationTarget),
+  }),
 );
 export type ConfigName =
   | "CERT_AGE_THRESHOLD_IN_DAYS"
@@ -6749,11 +6758,11 @@ export const ConfigName = S.Literal(
 );
 export type CheckCustomConfiguration = { [key in ConfigName]?: string };
 export const CheckCustomConfiguration = S.partial(
-  S.Record({ key: ConfigName, value: S.String }),
+  S.Record({ key: ConfigName, value: S.UndefinedOr(S.String) }),
 );
 export interface AuditCheckConfiguration {
   enabled?: boolean;
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
 }
 export const AuditCheckConfiguration = S.suspend(() =>
   S.Struct({
@@ -6764,18 +6773,20 @@ export const AuditCheckConfiguration = S.suspend(() =>
   identifier: "AuditCheckConfiguration",
 }) as any as S.Schema<AuditCheckConfiguration>;
 export type AuditCheckConfigurations = {
-  [key: string]: AuditCheckConfiguration;
+  [key: string]: AuditCheckConfiguration | undefined;
 };
 export const AuditCheckConfigurations = S.Record({
   key: S.String,
-  value: AuditCheckConfiguration,
+  value: S.UndefinedOr(AuditCheckConfiguration),
 });
 export interface UpdateAccountAuditConfigurationRequest {
   roleArn?: string;
   auditNotificationTargetConfigurations?: {
-    [key: string]: AuditNotificationTarget;
+    [key: string]: AuditNotificationTarget | undefined;
   };
-  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration };
+  auditCheckConfigurations?: {
+    [key: string]: AuditCheckConfiguration | undefined;
+  };
 }
 export const UpdateAccountAuditConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -6836,13 +6847,16 @@ export const UpdateAuditSuppressionResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAuditSuppressionResponse",
 }) as any as S.Schema<UpdateAuditSuppressionResponse>;
-export type PublicKeyMap = { [key: string]: string };
-export const PublicKeyMap = S.Record({ key: S.String, value: S.String });
+export type PublicKeyMap = { [key: string]: string | undefined };
+export const PublicKeyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateAuthorizerRequest {
   authorizerName: string;
   authorizerFunctionArn?: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string };
+  tokenSigningPublicKeys?: { [key: string]: string | undefined };
   status?: AuthorizerStatus;
   enableCachingForHttp?: boolean;
 }
@@ -7247,10 +7261,10 @@ export const Configuration = S.suspend(() =>
 }) as any as S.Schema<Configuration>;
 export type EventConfigurations = { [key in EventType]?: Configuration };
 export const EventConfigurations = S.partial(
-  S.Record({ key: EventType, value: Configuration }),
+  S.Record({ key: EventType, value: S.UndefinedOr(Configuration) }),
 );
 export interface UpdateEventConfigurationsRequest {
-  eventConfigurations?: { [key: string]: Configuration };
+  eventConfigurations?: { [key: string]: Configuration | undefined };
 }
 export const UpdateEventConfigurationsRequest = S.suspend(() =>
   S.Struct({ eventConfigurations: S.optional(EventConfigurations) }).pipe(
@@ -7787,8 +7801,11 @@ export const UpdatePackageConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePackageConfigurationResponse",
 }) as any as S.Schema<UpdatePackageConfigurationResponse>;
-export type ResourceAttributes = { [key: string]: string };
-export const ResourceAttributes = S.Record({ key: S.String, value: S.String });
+export type ResourceAttributes = { [key: string]: string | undefined };
+export const ResourceAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface S3Location {
   bucket?: string;
   key?: string;
@@ -7813,7 +7830,7 @@ export interface UpdatePackageVersionRequest {
   packageName: string;
   versionName: string;
   description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   artifact?: PackageVersionArtifact;
   action?: PackageVersionAction;
   recipe?: string | redacted.Redacted<string>;
@@ -8088,7 +8105,7 @@ export const AlertTarget = S.suspend(() =>
 ).annotations({ identifier: "AlertTarget" }) as any as S.Schema<AlertTarget>;
 export type AlertTargets = { [key in AlertTargetType]?: AlertTarget };
 export const AlertTargets = S.partial(
-  S.Record({ key: AlertTargetType, value: AlertTarget }),
+  S.Record({ key: AlertTargetType, value: S.UndefinedOr(AlertTarget) }),
 );
 export interface MetricToRetain {
   metric: string;
@@ -8119,7 +8136,7 @@ export interface UpdateSecurityProfileRequest {
   securityProfileName: string;
   securityProfileDescription?: string;
   behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget };
+  alertTargets?: { [key: string]: AlertTarget | undefined };
   additionalMetricsToRetain?: string[];
   additionalMetricsToRetainV2?: MetricToRetain[];
   deleteBehaviors?: boolean;
@@ -8429,8 +8446,11 @@ export const ActionType = S.Literal(
 );
 export type Resources = string[];
 export const Resources = S.Array(S.String);
-export type DetailsMap = { [key: string]: string };
-export const DetailsMap = S.Record({ key: S.String, value: S.String });
+export type DetailsMap = { [key: string]: string | undefined };
+export const DetailsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CommandPayload {
   content?: Uint8Array;
   contentType?: string;
@@ -8440,8 +8460,11 @@ export const CommandPayload = S.suspend(() =>
 ).annotations({
   identifier: "CommandPayload",
 }) as any as S.Schema<CommandPayload>;
-export type ParameterMap = { [key: string]: string };
-export const ParameterMap = S.Record({ key: S.String, value: S.String });
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface MaintenanceWindow {
   startTime: string;
   durationInMinutes: number;
@@ -8485,19 +8508,22 @@ export const AwsJobTimeoutConfig = S.suspend(() =>
 ).annotations({
   identifier: "AwsJobTimeoutConfig",
 }) as any as S.Schema<AwsJobTimeoutConfig>;
-export type AdditionalParameterMap = { [key: string]: string };
+export type AdditionalParameterMap = { [key: string]: string | undefined };
 export const AdditionalParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AuthorizerDescription {
   authorizerName?: string;
   authorizerArn?: string;
   authorizerFunctionArn?: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string };
+  tokenSigningPublicKeys?: { [key: string]: string | undefined };
   status?: AuthorizerStatus;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -8613,12 +8639,15 @@ export const ResourceType = S.Literal(
   "IAM_ROLE",
   "ISSUER_CERTIFICATE",
 );
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface NonCompliantResource {
   resourceType?: ResourceType;
   resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: { [key: string]: string };
+  additionalInfo?: { [key: string]: string | undefined };
 }
 export const NonCompliantResource = S.suspend(() =>
   S.Struct({
@@ -8632,7 +8661,7 @@ export const NonCompliantResource = S.suspend(() =>
 export interface RelatedResource {
   resourceType?: ResourceType;
   resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: { [key: string]: string };
+  additionalInfo?: { [key: string]: string | undefined };
 }
 export const RelatedResource = S.suspend(() =>
   S.Struct({
@@ -8813,8 +8842,11 @@ export type S3FileUrlList = string[];
 export const S3FileUrlList = S.Array(S.String);
 export type TaskIdList = string[];
 export const TaskIdList = S.Array(S.String);
-export type Parameters = { [key: string]: string };
-export const Parameters = S.Record({ key: S.String, value: S.String });
+export type Parameters = { [key: string]: string | undefined };
+export const Parameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface LoggingOptionsPayload {
   roleArn: string;
   logLevel?: LogLevel;
@@ -8847,10 +8879,12 @@ export const LogEventConfiguration = S.suspend(() =>
 }) as any as S.Schema<LogEventConfiguration>;
 export type LogEventConfigurations = LogEventConfiguration[];
 export const LogEventConfigurations = S.Array(LogEventConfiguration);
-export type AuditCheckToActionsMapping = { [key: string]: string[] };
+export type AuditCheckToActionsMapping = {
+  [key: string]: string[] | undefined;
+};
 export const AuditCheckToActionsMapping = S.Record({
   key: S.String,
-  value: MitigationActionNameList,
+  value: S.UndefinedOr(MitigationActionNameList),
 });
 export interface AuthInfo {
   actionType?: ActionType;
@@ -8956,7 +8990,7 @@ export interface CancelJobExecutionRequest {
   thingName: string;
   force?: boolean;
   expectedVersion?: number;
-  statusDetails?: { [key: string]: string };
+  statusDetails?: { [key: string]: string | undefined };
 }
 export const CancelJobExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -8988,7 +9022,7 @@ export interface CreateAuthorizerRequest {
   authorizerName: string;
   authorizerFunctionArn: string;
   tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string };
+  tokenSigningPublicKeys?: { [key: string]: string | undefined };
   status?: AuthorizerStatus;
   tags?: Tag[];
   signingDisabled?: boolean;
@@ -9245,7 +9279,7 @@ export const CreateJobTemplateRequest = S.suspend(() =>
 export interface CreatePackageRequest {
   packageName: string;
   description?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreatePackageRequest = S.suspend(() =>
@@ -9274,10 +9308,10 @@ export interface CreatePackageVersionRequest {
   packageName: string;
   versionName: string;
   description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   artifact?: PackageVersionArtifact;
   recipe?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreatePackageVersionRequest = S.suspend(() =>
@@ -9798,7 +9832,7 @@ export interface DescribeSecurityProfileResponse {
   securityProfileArn?: string;
   securityProfileDescription?: string;
   behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget };
+  alertTargets?: { [key: string]: AlertTarget | undefined };
   additionalMetricsToRetain?: string[];
   additionalMetricsToRetainV2?: MetricToRetain[];
   version?: number;
@@ -9831,7 +9865,7 @@ export interface DescribeThingResponse {
   thingId?: string;
   thingArn?: string;
   thingTypeName?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   version?: number;
   billingGroupName?: string;
 }
@@ -10088,7 +10122,7 @@ export interface GetPackageVersionResponse {
   packageName?: string;
   versionName?: string;
   description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   artifact?: PackageVersionArtifact;
   status?: PackageVersionStatus;
   errorReason?: string;
@@ -10564,7 +10598,7 @@ export const RegisterCertificateWithoutCAResponse = S.suspend(() =>
 }) as any as S.Schema<RegisterCertificateWithoutCAResponse>;
 export interface RegisterThingRequest {
   templateBody: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const RegisterThingRequest = S.suspend(() =>
   S.Struct({ templateBody: S.String, parameters: S.optional(Parameters) }).pipe(
@@ -10909,7 +10943,7 @@ export interface UpdateSecurityProfileResponse {
   securityProfileArn?: string;
   securityProfileDescription?: string;
   behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget };
+  alertTargets?: { [key: string]: AlertTarget | undefined };
   additionalMetricsToRetain?: string[];
   additionalMetricsToRetainV2?: MetricToRetain[];
   version?: number;
@@ -10978,8 +11012,11 @@ export const AwsJobAbortCriteria = S.suspend(() =>
 }) as any as S.Schema<AwsJobAbortCriteria>;
 export type AwsJobAbortCriteriaList = AwsJobAbortCriteria[];
 export const AwsJobAbortCriteriaList = S.Array(AwsJobAbortCriteria);
-export type AttributesMap = { [key: string]: string };
-export const AttributesMap = S.Record({ key: S.String, value: S.String });
+export type AttributesMap = { [key: string]: string | undefined };
+export const AttributesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface HttpUrlDestinationConfiguration {
   confirmationUrl: string;
 }
@@ -11045,13 +11082,18 @@ export const ViolationEventType = S.Literal(
 );
 export type ThingGroupNameList = string[];
 export const ThingGroupNameList = S.Array(S.String);
-export type AuditCheckToReasonCodeFilter = { [key: string]: string[] };
+export type AuditCheckToReasonCodeFilter = {
+  [key: string]: string[] | undefined;
+};
 export const AuditCheckToReasonCodeFilter = S.Record({
   key: S.String,
-  value: ReasonForNonComplianceCodes,
+  value: S.UndefinedOr(ReasonForNonComplianceCodes),
 });
-export type HttpHeaders = { [key: string]: string };
-export const HttpHeaders = S.Record({ key: S.String, value: S.String });
+export type HttpHeaders = { [key: string]: string | undefined };
+export const HttpHeaders = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AwsJobAbortConfig {
   abortCriteriaList: AwsJobAbortCriteria[];
 }
@@ -11260,11 +11302,11 @@ export const StatusReason = S.suspend(() =>
   S.Struct({ reasonCode: S.String, reasonDescription: S.optional(S.String) }),
 ).annotations({ identifier: "StatusReason" }) as any as S.Schema<StatusReason>;
 export type CommandExecutionParameterMap = {
-  [key: string]: CommandParameterValue;
+  [key: string]: CommandParameterValue | undefined;
 };
 export const CommandExecutionParameterMap = S.Record({
   key: S.String,
-  value: CommandParameterValue,
+  value: S.UndefinedOr(CommandParameterValue),
 });
 export interface EffectivePolicy {
   policyName?: string;
@@ -11958,7 +12000,7 @@ export interface ThingAttribute {
   thingName?: string;
   thingTypeName?: string;
   thingArn?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   version?: number;
 }
 export const ThingAttribute = S.suspend(() =>
@@ -12070,7 +12112,7 @@ export interface ThingGroupDocument {
   thingGroupName?: string;
   thingGroupId?: string;
   thingGroupDescription?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   parentGroupNames?: string[];
 }
 export const ThingGroupDocument = S.suspend(() =>
@@ -12089,7 +12131,7 @@ export const ThingGroupDocumentList = S.Array(ThingGroupDocument);
 export interface AuditMitigationActionsTaskTarget {
   auditTaskId?: string;
   findingIds?: string[];
-  auditCheckToReasonCodeFilter?: { [key: string]: string[] };
+  auditCheckToReasonCodeFilter?: { [key: string]: string[] | undefined };
 }
 export const AuditMitigationActionsTaskTarget = S.suspend(() =>
   S.Struct({
@@ -12101,7 +12143,7 @@ export const AuditMitigationActionsTaskTarget = S.suspend(() =>
   identifier: "AuditMitigationActionsTaskTarget",
 }) as any as S.Schema<AuditMitigationActionsTaskTarget>;
 export interface HttpContext {
-  headers?: { [key: string]: string };
+  headers?: { [key: string]: string | undefined };
   queryString?: string;
 }
 export const HttpContext = S.suspend(() =>
@@ -12367,7 +12409,7 @@ export interface CreatePackageVersionResponse {
   packageName?: string;
   versionName?: string;
   description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   status?: PackageVersionStatus;
   errorReason?: string;
 }
@@ -12517,7 +12559,7 @@ export const DescribeDomainConfigurationResponse = S.suspend(() =>
   identifier: "DescribeDomainConfigurationResponse",
 }) as any as S.Schema<DescribeDomainConfigurationResponse>;
 export interface DescribeEventConfigurationsResponse {
-  eventConfigurations?: { [key: string]: Configuration };
+  eventConfigurations?: { [key: string]: Configuration | undefined };
   creationDate?: Date;
   lastModifiedDate?: Date;
 }
@@ -13179,7 +13221,7 @@ export const RegisterCACertificateResponse = S.suspend(() =>
 export interface StartAuditMitigationActionsTaskRequest {
   taskId: string;
   target: AuditMitigationActionsTaskTarget;
-  auditCheckToActionsMapping: { [key: string]: string[] };
+  auditCheckToActionsMapping: { [key: string]: string[] | undefined };
   clientRequestToken: string;
 }
 export const StartAuditMitigationActionsTaskRequest = S.suspend(() =>
@@ -13379,7 +13421,7 @@ export const ScheduledJobRollout = S.suspend(() =>
 export type ScheduledJobRolloutList = ScheduledJobRollout[];
 export const ScheduledJobRolloutList = S.Array(ScheduledJobRollout);
 export interface JobExecutionStatusDetails {
-  detailsMap?: { [key: string]: string };
+  detailsMap?: { [key: string]: string | undefined };
 }
 export const JobExecutionStatusDetails = S.suspend(() =>
   S.Struct({ detailsMap: S.optional(DetailsMap) }),
@@ -13524,16 +13566,16 @@ export const AwsJobExecutionsRolloutConfig = S.suspend(() =>
   identifier: "AwsJobExecutionsRolloutConfig",
 }) as any as S.Schema<AwsJobExecutionsRolloutConfig>;
 export type AuditMitigationActionsTaskStatistics = {
-  [key: string]: TaskStatisticsForAuditCheck;
+  [key: string]: TaskStatisticsForAuditCheck | undefined;
 };
 export const AuditMitigationActionsTaskStatistics = S.Record({
   key: S.String,
-  value: TaskStatisticsForAuditCheck,
+  value: S.UndefinedOr(TaskStatisticsForAuditCheck),
 });
-export type AuditDetails = { [key: string]: AuditCheckDetails };
+export type AuditDetails = { [key: string]: AuditCheckDetails | undefined };
 export const AuditDetails = S.Record({
   key: S.String,
-  value: AuditCheckDetails,
+  value: S.UndefinedOr(AuditCheckDetails),
 });
 export interface CACertificateDescription {
   certificateArn?: string;
@@ -13628,7 +13670,7 @@ export interface Job {
   namespaceId?: string;
   jobTemplateArn?: string;
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: { [key: string]: string };
+  documentParameters?: { [key: string]: string | undefined };
   isConcurrent?: boolean;
   schedulingConfig?: SchedulingConfig;
   scheduledJobRollouts?: ScheduledJobRollout[];
@@ -13692,11 +13734,11 @@ export const JobExecution = S.suspend(() =>
   }),
 ).annotations({ identifier: "JobExecution" }) as any as S.Schema<JobExecution>;
 export type CommandExecutionResultMap = {
-  [key: string]: CommandExecutionResult;
+  [key: string]: CommandExecutionResult | undefined;
 };
 export const CommandExecutionResultMap = S.Record({
   key: S.String,
-  value: CommandExecutionResult,
+  value: S.UndefinedOr(CommandExecutionResult),
 });
 export interface S3Destination {
   bucket?: string;
@@ -13761,7 +13803,7 @@ export interface OTAUpdateFile {
   fileVersion?: string;
   fileLocation?: FileLocation;
   codeSigning?: CodeSigning;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const OTAUpdateFile = S.suspend(() =>
   S.Struct({
@@ -13793,7 +13835,7 @@ export interface OTAUpdateInfo {
   awsIotJobId?: string;
   awsIotJobArn?: string;
   errorInfo?: ErrorInfo;
-  additionalParameters?: { [key: string]: string };
+  additionalParameters?: { [key: string]: string | undefined };
 }
 export const OTAUpdateInfo = S.suspend(() =>
   S.Struct({
@@ -13939,14 +13981,17 @@ export type TopicRuleDestinationSummaries = TopicRuleDestinationSummary[];
 export const TopicRuleDestinationSummaries = S.Array(
   TopicRuleDestinationSummary,
 );
-export type ResourceArns = { [key: string]: string };
-export const ResourceArns = S.Record({ key: S.String, value: S.String });
+export type ResourceArns = { [key: string]: string | undefined };
+export const ResourceArns = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ThingDocument {
   thingName?: string;
   thingId?: string;
   thingTypeName?: string;
   thingGroupNames?: string[];
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   shadow?: string;
   deviceDefender?: string;
   connectivity?: ThingConnectivity;
@@ -14000,7 +14045,7 @@ export interface CreateJobRequest {
   namespaceId?: string;
   jobTemplateArn?: string;
   jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: { [key: string]: string };
+  documentParameters?: { [key: string]: string | undefined };
   schedulingConfig?: SchedulingConfig;
   destinationPackageVersions?: string[];
 }
@@ -14049,7 +14094,7 @@ export interface CreateSecurityProfileRequest {
   securityProfileName: string;
   securityProfileDescription?: string;
   behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget };
+  alertTargets?: { [key: string]: AlertTarget | undefined };
   additionalMetricsToRetain?: string[];
   additionalMetricsToRetainV2?: MetricToRetain[];
   tags?: Tag[];
@@ -14129,9 +14174,11 @@ export const CreateTopicRuleDestinationResponse = S.suspend(() =>
 export interface DescribeAccountAuditConfigurationResponse {
   roleArn?: string;
   auditNotificationTargetConfigurations?: {
-    [key: string]: AuditNotificationTarget;
+    [key: string]: AuditNotificationTarget | undefined;
   };
-  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration };
+  auditCheckConfigurations?: {
+    [key: string]: AuditCheckConfiguration | undefined;
+  };
 }
 export const DescribeAccountAuditConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -14156,9 +14203,9 @@ export interface DescribeAuditMitigationActionsTaskResponse {
   taskStatus?: AuditMitigationActionsTaskStatus;
   startTime?: Date;
   endTime?: Date;
-  taskStatistics?: { [key: string]: TaskStatisticsForAuditCheck };
+  taskStatistics?: { [key: string]: TaskStatisticsForAuditCheck | undefined };
   target?: AuditMitigationActionsTaskTarget;
-  auditCheckToActionsMapping?: { [key: string]: string[] };
+  auditCheckToActionsMapping?: { [key: string]: string[] | undefined };
   actionsDefinition?: MitigationAction[];
 }
 export const DescribeAuditMitigationActionsTaskResponse = S.suspend(() =>
@@ -14180,7 +14227,7 @@ export interface DescribeAuditTaskResponse {
   taskStartTime?: Date;
   taskStatistics?: TaskStatistics;
   scheduledAuditName?: string;
-  auditDetails?: { [key: string]: AuditCheckDetails };
+  auditDetails?: { [key: string]: AuditCheckDetails | undefined };
 }
 export const DescribeAuditTaskResponse = S.suspend(() =>
   S.Struct({
@@ -14245,8 +14292,8 @@ export interface GetCommandExecutionResponse {
   targetArn?: string;
   status?: CommandExecutionStatus;
   statusReason?: StatusReason;
-  result?: { [key: string]: CommandExecutionResult };
-  parameters?: { [key: string]: CommandParameterValue };
+  result?: { [key: string]: CommandExecutionResult | undefined };
+  parameters?: { [key: string]: CommandParameterValue | undefined };
   executionTimeoutSeconds?: number;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -14365,7 +14412,7 @@ export const ListTopicRuleDestinationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTopicRuleDestinationsResponse>;
 export interface RegisterThingResponse {
   certificatePem?: string;
-  resourceArns?: { [key: string]: string };
+  resourceArns?: { [key: string]: string | undefined };
 }
 export const RegisterThingResponse = S.suspend(() =>
   S.Struct({
@@ -14580,7 +14627,7 @@ export interface CreateOTAUpdateRequest {
   awsJobTimeoutConfig?: AwsJobTimeoutConfig;
   files: OTAUpdateFile[];
   roleArn: string;
-  additionalParameters?: { [key: string]: string };
+  additionalParameters?: { [key: string]: string | undefined };
   tags?: Tag[];
 }
 export const CreateOTAUpdateRequest = S.suspend(() =>

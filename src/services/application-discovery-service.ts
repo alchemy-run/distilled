@@ -796,8 +796,11 @@ export const OrderByElement = S.suspend(() =>
 }) as any as S.Schema<OrderByElement>;
 export type OrderByList = OrderByElement[];
 export const OrderByList = S.Array(OrderByElement);
-export type SchemaStorageConfig = { [key: string]: string };
-export const SchemaStorageConfig = S.Record({ key: S.String, value: S.String });
+export type SchemaStorageConfig = { [key: string]: string | undefined };
+export const SchemaStorageConfig = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Tenancy = "DEDICATED" | "SHARED";
 export const Tenancy = S.Literal("DEDICATED", "SHARED");
 export type ExcludedInstanceTypes = string[];
@@ -1018,7 +1021,7 @@ export interface StartContinuousExportResponse {
   s3Bucket?: string;
   startTime?: Date;
   dataSource?: DataSource;
-  schemaStorageConfig?: { [key: string]: string };
+  schemaStorageConfig?: { [key: string]: string | undefined };
 }
 export const StartContinuousExportResponse = S.suspend(() =>
   S.Struct({
@@ -1176,12 +1179,16 @@ export type BatchDeleteImportDataErrorList = BatchDeleteImportDataError[];
 export const BatchDeleteImportDataErrorList = S.Array(
   BatchDeleteImportDataError,
 );
-export type DescribeConfigurationsAttribute = { [key: string]: string };
+export type DescribeConfigurationsAttribute = {
+  [key: string]: string | undefined;
+};
 export const DescribeConfigurationsAttribute = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type DescribeConfigurationsAttributes = { [key: string]: string }[];
+export type DescribeConfigurationsAttributes = {
+  [key: string]: string | undefined;
+}[];
 export const DescribeConfigurationsAttributes = S.Array(
   DescribeConfigurationsAttribute,
 );
@@ -1193,7 +1200,7 @@ export interface ContinuousExportDescription {
   startTime?: Date;
   stopTime?: Date;
   dataSource?: DataSource;
-  schemaStorageConfig?: { [key: string]: string };
+  schemaStorageConfig?: { [key: string]: string | undefined };
 }
 export const ContinuousExportDescription = S.suspend(() =>
   S.Struct({
@@ -1338,7 +1345,7 @@ export const BatchDeleteImportDataResponse = S.suspend(() =>
   identifier: "BatchDeleteImportDataResponse",
 }) as any as S.Schema<BatchDeleteImportDataResponse>;
 export interface DescribeConfigurationsResponse {
-  configurations?: { [key: string]: string }[];
+  configurations?: { [key: string]: string | undefined }[];
 }
 export const DescribeConfigurationsResponse = S.suspend(() =>
   S.Struct({
@@ -1571,9 +1578,12 @@ export const ConfigurationTagSet = S.Array(
     identifier: "ConfigurationTag",
   }),
 );
-export type Configuration = { [key: string]: string };
-export const Configuration = S.Record({ key: S.String, value: S.String });
-export type Configurations = { [key: string]: string }[];
+export type Configuration = { [key: string]: string | undefined };
+export const Configuration = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Configurations = { [key: string]: string | undefined }[];
 export const Configurations = S.Array(Configuration);
 export type ExportPreferences = {
   ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences;
@@ -1612,7 +1622,7 @@ export const DescribeTagsResponse = S.suspend(() =>
   identifier: "DescribeTagsResponse",
 }) as any as S.Schema<DescribeTagsResponse>;
 export interface ListConfigurationsResponse {
-  configurations?: { [key: string]: string }[];
+  configurations?: { [key: string]: string | undefined }[];
   nextToken?: string;
 }
 export const ListConfigurationsResponse = S.suspend(() =>
@@ -2689,7 +2699,7 @@ export const listConfigurations: {
   items: (
     input: ListConfigurationsRequest,
   ) => stream.Stream<
-    { [key: string]: string },
+    { [key: string]: string | undefined },
     | AuthorizationErrorException
     | HomeRegionNotSetException
     | InvalidParameterException

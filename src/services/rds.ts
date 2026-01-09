@@ -4928,10 +4928,10 @@ export type FeatureNameList = string[];
 export const FeatureNameList = S.Array(S.String);
 export type CACertificateIdentifiersList = string[];
 export const CACertificateIdentifiersList = S.Array(S.String);
-export type EncryptionContextMap = { [key: string]: string };
+export type EncryptionContextMap = { [key: string]: string | undefined };
 export const EncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type IntegrationStatus =
   | "creating"
@@ -6968,7 +6968,7 @@ export interface Integration {
   IntegrationName?: string;
   IntegrationArn?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Status?: IntegrationStatus;
   Tags?: Tag[];
   DataFilter?: string;
@@ -7683,7 +7683,7 @@ export interface CreateIntegrationMessage {
   TargetArn?: string;
   IntegrationName?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
   DataFilter?: string;
   Description?: string;

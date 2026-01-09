@@ -180,19 +180,24 @@ export const InvalidParameterDetail = S.suspend(() =>
 ).annotations({
   identifier: "InvalidParameterDetail",
 }) as any as S.Schema<InvalidParameterDetail>;
-export type InvalidParameterMap = { [key: string]: InvalidParameterDetail };
+export type InvalidParameterMap = {
+  [key: string]: InvalidParameterDetail | undefined;
+};
 export const InvalidParameterMap = S.Record({
   key: S.String,
-  value: InvalidParameterDetail,
+  value: S.UndefinedOr(InvalidParameterDetail),
 });
 export type BadRequestDetails = {
-  InvalidParameters: { [key: string]: InvalidParameterDetail };
+  InvalidParameters: { [key: string]: InvalidParameterDetail | undefined };
 };
 export const BadRequestDetails = S.Union(
   S.Struct({ InvalidParameters: InvalidParameterMap }),
 );
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 
 //# Errors
 export class BadRequestException extends S.TaggedError<BadRequestException>()(

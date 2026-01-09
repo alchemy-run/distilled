@@ -186,15 +186,18 @@ export const AttributeValue = S.Union(
   S.Struct({ BOOL: S.Boolean }),
   S.Struct({ SS: StringSetAttributeValue }),
 );
-export type Attributes = { [key: string]: AttributeValue };
-export const Attributes = S.Record({ key: S.String, value: AttributeValue });
+export type Attributes = { [key: string]: AttributeValue | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(AttributeValue),
+});
 export interface CreateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
   EmailAddress?: string | redacted.Redacted<string>;
   GivenName?: string | redacted.Redacted<string>;
   Surname?: string | redacted.Redacted<string>;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
   ClientToken?: string;
 }
 export const CreateUserRequest = S.suspend(() =>
@@ -573,7 +576,7 @@ export interface UpdateGroupRequest {
   SAMAccountName: string;
   GroupType?: GroupType;
   GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
   UpdateType?: UpdateType;
   ClientToken?: string;
 }
@@ -612,7 +615,7 @@ export interface UpdateUserRequest {
   EmailAddress?: string | redacted.Redacted<string>;
   GivenName?: string | redacted.Redacted<string>;
   Surname?: string | redacted.Redacted<string>;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
   UpdateType?: UpdateType;
   ClientToken?: string;
 }
@@ -677,7 +680,7 @@ export interface DescribeGroupResult {
   DistinguishedName?: string | redacted.Redacted<string>;
   GroupType?: GroupType;
   GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
 }
 export const DescribeGroupResult = S.suspend(() =>
   S.Struct({
@@ -704,7 +707,7 @@ export interface DescribeUserResult {
   GivenName?: string | redacted.Redacted<string>;
   Surname?: string | redacted.Redacted<string>;
   Enabled?: boolean;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
 }
 export const DescribeUserResult = S.suspend(() =>
   S.Struct({
@@ -806,7 +809,7 @@ export interface Group {
   DistinguishedName?: string | redacted.Redacted<string>;
   GroupType?: GroupType;
   GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
 }
 export const Group = S.suspend(() =>
   S.Struct({
@@ -829,7 +832,7 @@ export interface User {
   GivenName?: string | redacted.Redacted<string>;
   Surname?: string | redacted.Redacted<string>;
   Enabled?: boolean;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
 }
 export const User = S.suspend(() =>
   S.Struct({
@@ -851,7 +854,7 @@ export interface CreateGroupRequest {
   SAMAccountName: string;
   GroupType?: GroupType;
   GroupScope?: GroupScope;
-  OtherAttributes?: { [key: string]: AttributeValue };
+  OtherAttributes?: { [key: string]: AttributeValue | undefined };
   ClientToken?: string;
 }
 export const CreateGroupRequest = S.suspend(() =>

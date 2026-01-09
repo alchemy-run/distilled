@@ -1303,12 +1303,15 @@ export const UpdateChannelRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateChannelRequest",
 }) as any as S.Schema<UpdateChannelRequest>;
-export type ViewPropertiesMap = { [key: string]: string };
-export const ViewPropertiesMap = S.Record({ key: S.String, value: S.String });
+export type ViewPropertiesMap = { [key: string]: string | undefined };
+export const ViewPropertiesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RequestWidget {
   QueryStatement: string;
   QueryParameters?: string[];
-  ViewProperties: { [key: string]: string };
+  ViewProperties: { [key: string]: string | undefined };
 }
 export const RequestWidget = S.suspend(() =>
   S.Struct({
@@ -1607,7 +1610,10 @@ export type ListInsightsDataDimensions = {
   [key in ListInsightsDataDimensionKey]?: string;
 };
 export const ListInsightsDataDimensions = S.partial(
-  S.Record({ key: ListInsightsDataDimensionKey, value: S.String }),
+  S.Record({
+    key: ListInsightsDataDimensionKey,
+    value: S.UndefinedOr(S.String),
+  }),
 );
 export type Timestamps = Date[];
 export const Timestamps = S.Array(
@@ -1662,10 +1668,10 @@ export const InsightSelector = S.suspend(() =>
 }) as any as S.Schema<InsightSelector>;
 export type InsightSelectors = InsightSelector[];
 export const InsightSelectors = S.Array(InsightSelector);
-export type QueryParameterValues = { [key: string]: string };
+export type QueryParameterValues = { [key: string]: string | undefined };
 export const QueryParameterValues = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type DataResourceValues = string[];
 export const DataResourceValues = S.Array(S.String);
@@ -2003,7 +2009,7 @@ export const GetTrailStatusResponse = S.suspend(() =>
 export interface ListInsightsDataRequest {
   InsightSource: string;
   DataType: ListInsightsDataType;
-  Dimensions?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
   StartTime?: Date;
   EndTime?: Date;
   MaxResults?: number;
@@ -2192,7 +2198,7 @@ export const RestoreEventDataStoreResponse = S.suspend(() =>
 }) as any as S.Schema<RestoreEventDataStoreResponse>;
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
-  QueryParameterValues?: { [key: string]: string };
+  QueryParameterValues?: { [key: string]: string | undefined };
 }
 export const StartDashboardRefreshRequest = S.suspend(() =>
   S.Struct({
@@ -2312,7 +2318,7 @@ export interface Widget {
   QueryAlias?: string;
   QueryStatement?: string;
   QueryParameters?: string[];
-  ViewProperties?: { [key: string]: string };
+  ViewProperties?: { [key: string]: string | undefined };
 }
 export const Widget = S.suspend(() =>
   S.Struct({
@@ -2503,11 +2509,14 @@ export const QueryStatistics = S.suspend(() =>
 ).annotations({
   identifier: "QueryStatistics",
 }) as any as S.Schema<QueryStatistics>;
-export type QueryResultColumn = { [key: string]: string };
-export const QueryResultColumn = S.Record({ key: S.String, value: S.String });
-export type QueryResultRow = { [key: string]: string }[];
+export type QueryResultColumn = { [key: string]: string | undefined };
+export const QueryResultColumn = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type QueryResultRow = { [key: string]: string | undefined }[];
 export const QueryResultRow = S.Array(QueryResultColumn);
-export type QueryResultRows = { [key: string]: string }[][];
+export type QueryResultRows = { [key: string]: string | undefined }[][];
 export const QueryResultRows = S.Array(QueryResultRow);
 export interface Channel {
   ChannelArn?: string;
@@ -2938,7 +2947,7 @@ export const GetImportResponse = S.suspend(() =>
 export interface GetQueryResultsResponse {
   QueryStatus?: QueryStatus;
   QueryStatistics?: QueryStatistics;
-  QueryResultRows?: { [key: string]: string }[][];
+  QueryResultRows?: { [key: string]: string | undefined }[][];
   NextToken?: string;
   ErrorMessage?: string;
 }

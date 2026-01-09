@@ -3439,16 +3439,18 @@ export const StartFleetActionsInput = S.suspend(() =>
 }) as any as S.Schema<StartFleetActionsInput>;
 export type PlayerAttributeStringList = string[];
 export const PlayerAttributeStringList = S.Array(S.String);
-export type PlayerAttributeStringDoubleMap = { [key: string]: number };
+export type PlayerAttributeStringDoubleMap = {
+  [key: string]: number | undefined;
+};
 export const PlayerAttributeStringDoubleMap = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface AttributeValue {
   S?: string;
   N?: number;
   SL?: string[];
-  SDM?: { [key: string]: number };
+  SDM?: { [key: string]: number | undefined };
 }
 export const AttributeValue = S.suspend(() =>
   S.Struct({
@@ -3460,18 +3462,21 @@ export const AttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "AttributeValue",
 }) as any as S.Schema<AttributeValue>;
-export type PlayerAttributeMap = { [key: string]: AttributeValue };
+export type PlayerAttributeMap = { [key: string]: AttributeValue | undefined };
 export const PlayerAttributeMap = S.Record({
   key: S.String,
-  value: AttributeValue,
+  value: S.UndefinedOr(AttributeValue),
 });
-export type LatencyMap = { [key: string]: number };
-export const LatencyMap = S.Record({ key: S.String, value: S.Number });
+export type LatencyMap = { [key: string]: number | undefined };
+export const LatencyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface Player {
   PlayerId?: string | redacted.Redacted<string>;
-  PlayerAttributes?: { [key: string]: AttributeValue };
+  PlayerAttributes?: { [key: string]: AttributeValue | undefined };
   Team?: string;
-  LatencyInMs?: { [key: string]: number };
+  LatencyInMs?: { [key: string]: number | undefined };
 }
 export const Player = S.suspend(() =>
   S.Struct({
@@ -4654,8 +4659,11 @@ export const LaunchTemplateSpecification = S.suspend(() =>
 ).annotations({
   identifier: "LaunchTemplateSpecification",
 }) as any as S.Schema<LaunchTemplateSpecification>;
-export type PlayerDataMap = { [key: string]: string };
-export const PlayerDataMap = S.Record({ key: S.String, value: S.String });
+export type PlayerDataMap = { [key: string]: string | undefined };
+export const PlayerDataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type LocationUpdateStatus = "PENDING_UPDATE";
 export const LocationUpdateStatus = S.Literal("PENDING_UPDATE");
 export interface FleetUtilization {
@@ -5593,7 +5601,7 @@ export const CreateGameSessionQueueInput = S.suspend(() =>
 export interface CreatePlayerSessionsInput {
   GameSessionId?: string;
   PlayerIds?: string | redacted.Redacted<string>[];
-  PlayerDataMap?: { [key: string]: string };
+  PlayerDataMap?: { [key: string]: string | undefined };
 }
 export const CreatePlayerSessionsInput = S.suspend(() =>
   S.Struct({
@@ -7757,10 +7765,12 @@ export const InstanceCredentials = S.suspend(() =>
 }) as any as S.Schema<InstanceCredentials>;
 export type FleetCapacityList = FleetCapacity[];
 export const FleetCapacityList = S.Array(FleetCapacity);
-export type LocationalDeployments = { [key: string]: LocationalDeployment };
+export type LocationalDeployments = {
+  [key: string]: LocationalDeployment | undefined;
+};
 export const LocationalDeployments = S.Record({
   key: S.String,
-  value: LocationalDeployment,
+  value: S.UndefinedOr(LocationalDeployment),
 });
 export interface VpcPeeringConnection {
   FleetId?: string;
@@ -7971,7 +7981,7 @@ export const DescribeFleetCapacityOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeFleetCapacityOutput>;
 export interface DescribeFleetDeploymentOutput {
   FleetDeployment?: FleetDeployment;
-  LocationalDeployments?: { [key: string]: LocationalDeployment };
+  LocationalDeployments?: { [key: string]: LocationalDeployment | undefined };
 }
 export const DescribeFleetDeploymentOutput = S.suspend(() =>
   S.Struct({

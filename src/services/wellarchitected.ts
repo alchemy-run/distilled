@@ -464,14 +464,17 @@ export const CreateProfileShareInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateProfileShareInput",
 }) as any as S.Schema<CreateProfileShareInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateReviewTemplateInput {
   TemplateName?: string;
   Description?: string;
   Lenses?: string[];
   Notes?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientRequestToken?: string;
 }
 export const CreateReviewTemplateInput = S.suspend(() =>
@@ -1161,7 +1164,7 @@ export interface ImportLensInput {
   LensAlias?: string;
   JSONString?: string;
   ClientRequestToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ImportLensInput = S.suspend(() =>
   S.Struct({
@@ -1719,7 +1722,7 @@ export const ListWorkloadSharesInput = S.suspend(() =>
 }) as any as S.Schema<ListWorkloadSharesInput>;
 export interface TagResourceInput {
   WorkloadArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -1898,14 +1901,17 @@ export const ChoiceUpdate = S.suspend(() =>
     Notes: S.optional(S.String),
   }),
 ).annotations({ identifier: "ChoiceUpdate" }) as any as S.Schema<ChoiceUpdate>;
-export type ChoiceUpdates = { [key: string]: ChoiceUpdate };
-export const ChoiceUpdates = S.Record({ key: S.String, value: ChoiceUpdate });
+export type ChoiceUpdates = { [key: string]: ChoiceUpdate | undefined };
+export const ChoiceUpdates = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ChoiceUpdate),
+});
 export interface UpdateReviewTemplateAnswerInput {
   TemplateArn: string;
   LensAlias: string;
   QuestionId: string;
   SelectedChoices?: string[];
-  ChoiceUpdates?: { [key: string]: ChoiceUpdate };
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined };
   Notes?: string;
   IsApplicable?: boolean;
   Reason?: AnswerReason;
@@ -1936,13 +1942,16 @@ export const UpdateReviewTemplateAnswerInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateReviewTemplateAnswerInput",
 }) as any as S.Schema<UpdateReviewTemplateAnswerInput>;
-export type PillarNotes = { [key: string]: string };
-export const PillarNotes = S.Record({ key: S.String, value: S.String });
+export type PillarNotes = { [key: string]: string | undefined };
+export const PillarNotes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateReviewTemplateLensReviewInput {
   TemplateArn: string;
   LensAlias: string;
   LensNotes?: string;
-  PillarNotes?: { [key: string]: string };
+  PillarNotes?: { [key: string]: string | undefined };
 }
 export const UpdateReviewTemplateLensReviewInput = S.suspend(() =>
   S.Struct({
@@ -2294,7 +2303,7 @@ export interface CreateProfileInput {
   ProfileDescription?: string;
   ProfileQuestions?: ProfileQuestionUpdate[];
   ClientRequestToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateProfileInput = S.suspend(() =>
   S.Struct({
@@ -2360,7 +2369,7 @@ export interface CreateWorkloadInput {
   Lenses?: string[];
   Notes?: string;
   ClientRequestToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   DiscoveryConfig?: WorkloadDiscoveryConfig;
   Applications?: string[];
   ProfileArns?: string[];
@@ -2446,7 +2455,7 @@ export const ImportLensOutput = S.suspend(() =>
   identifier: "ImportLensOutput",
 }) as any as S.Schema<ImportLensOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -2534,7 +2543,7 @@ export interface Profile {
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ShareInvitationId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Profile = S.suspend(() =>
   S.Struct({
@@ -2562,7 +2571,7 @@ export type Question = "UNANSWERED" | "ANSWERED";
 export const Question = S.Literal("UNANSWERED", "ANSWERED");
 export type QuestionCounts = { [key in Question]?: number };
 export const QuestionCounts = S.partial(
-  S.Record({ key: Question, value: S.Number }),
+  S.Record({ key: Question, value: S.UndefinedOr(S.Number) }),
 );
 export type ReviewTemplateUpdateStatus = "CURRENT" | "LENS_NOT_CURRENT";
 export const ReviewTemplateUpdateStatus = S.Literal(
@@ -2573,12 +2582,12 @@ export interface ReviewTemplate {
   Description?: string;
   Lenses?: string[];
   Notes?: string;
-  QuestionCounts?: { [key: string]: number };
+  QuestionCounts?: { [key: string]: number | undefined };
   Owner?: string;
   UpdatedAt?: Date;
   TemplateArn?: string;
   TemplateName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   UpdateStatus?: ReviewTemplateUpdateStatus;
   ShareInvitationId?: string;
 }
@@ -2742,7 +2751,7 @@ export interface ReviewTemplatePillarReviewSummary {
   PillarId?: string;
   PillarName?: string;
   Notes?: string;
-  QuestionCounts?: { [key: string]: number };
+  QuestionCounts?: { [key: string]: number | undefined };
 }
 export const ReviewTemplatePillarReviewSummary = S.suspend(() =>
   S.Struct({
@@ -2768,7 +2777,7 @@ export interface ReviewTemplateLensReview {
   PillarReviewSummaries?: ReviewTemplatePillarReviewSummary[];
   UpdatedAt?: Date;
   Notes?: string;
-  QuestionCounts?: { [key: string]: number };
+  QuestionCounts?: { [key: string]: number | undefined };
   NextToken?: string;
 }
 export const ReviewTemplateLensReview = S.suspend(() =>
@@ -2808,7 +2817,9 @@ export const Risk = S.Literal(
   "NOT_APPLICABLE",
 );
 export type RiskCounts = { [key in Risk]?: number };
-export const RiskCounts = S.partial(S.Record({ key: Risk, value: S.Number }));
+export const RiskCounts = S.partial(
+  S.Record({ key: Risk, value: S.UndefinedOr(S.Number) }),
+);
 export interface WorkloadProfile {
   ProfileArn?: string;
   ProfileVersion?: string;
@@ -2857,16 +2868,16 @@ export interface Workload {
   Industry?: string;
   Notes?: string;
   ImprovementStatus?: WorkloadImprovementStatus;
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   PillarPriorities?: string[];
   Lenses?: string[];
   Owner?: string;
   ShareInvitationId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   DiscoveryConfig?: WorkloadDiscoveryConfig;
   Applications?: string[];
   Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number };
+  PrioritizedRiskCounts?: { [key: string]: number | undefined };
   JiraConfiguration?: WorkloadJiraConfigurationOutput;
 }
 export const Workload = S.suspend(() =>
@@ -2976,7 +2987,7 @@ export interface Lens {
   Description?: string;
   Owner?: string;
   ShareInvitationId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Lens = S.suspend(() =>
   S.Struct({
@@ -3086,9 +3097,9 @@ export interface LensReviewSummary {
   LensName?: string;
   LensStatus?: LensStatus;
   UpdatedAt?: Date;
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number };
+  PrioritizedRiskCounts?: { [key: string]: number | undefined };
 }
 export const LensReviewSummary = S.suspend(() =>
   S.Struct({
@@ -3132,10 +3143,10 @@ export interface WorkloadSummary {
   Owner?: string;
   UpdatedAt?: Date;
   Lenses?: string[];
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   ImprovementStatus?: WorkloadImprovementStatus;
   Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number };
+  PrioritizedRiskCounts?: { [key: string]: number | undefined };
 }
 export const WorkloadSummary = S.suspend(() =>
   S.Struct({
@@ -3714,7 +3725,7 @@ export interface UpdateAnswerInput {
   LensAlias: string;
   QuestionId: string;
   SelectedChoices?: string[];
-  ChoiceUpdates?: { [key: string]: ChoiceUpdate };
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined };
   Notes?: string;
   IsApplicable?: boolean;
   Reason?: AnswerReason;
@@ -3749,7 +3760,7 @@ export interface UpdateLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
   LensNotes?: string;
-  PillarNotes?: { [key: string]: string };
+  PillarNotes?: { [key: string]: string | undefined };
   JiraConfiguration?: JiraSelectedQuestionConfiguration;
 }
 export const UpdateLensReviewInput = S.suspend(() =>
@@ -3811,8 +3822,8 @@ export interface PillarReviewSummary {
   PillarId?: string;
   PillarName?: string;
   Notes?: string;
-  RiskCounts?: { [key: string]: number };
-  PrioritizedRiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
+  PrioritizedRiskCounts?: { [key: string]: number | undefined };
 }
 export const PillarReviewSummary = S.suspend(() =>
   S.Struct({
@@ -3851,7 +3862,7 @@ export type TemplateQuestions = ProfileTemplateQuestion[];
 export const TemplateQuestions = S.Array(ProfileTemplateQuestion);
 export type AccountSummary = { [key in CheckStatus]?: number };
 export const AccountSummary = S.partial(
-  S.Record({ key: CheckStatus, value: S.Number }),
+  S.Record({ key: CheckStatus, value: S.UndefinedOr(S.Number) }),
 );
 export interface ChoiceImprovementPlan {
   ChoiceId?: string;
@@ -3903,10 +3914,10 @@ export interface LensReview {
   JiraConfiguration?: JiraSelectedQuestionConfiguration;
   UpdatedAt?: Date;
   Notes?: string;
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   NextToken?: string;
   Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number };
+  PrioritizedRiskCounts?: { [key: string]: number | undefined };
 }
 export const LensReview = S.suspend(() =>
   S.Struct({
@@ -3984,7 +3995,7 @@ export interface CheckSummary {
   QuestionId?: string;
   ChoiceId?: string;
   Status?: CheckStatus;
-  AccountSummary?: { [key: string]: number };
+  AccountSummary?: { [key: string]: number | undefined };
 }
 export const CheckSummary = S.suspend(() =>
   S.Struct({
@@ -4359,7 +4370,7 @@ export type QuestionMetrics = QuestionMetric[];
 export const QuestionMetrics = S.Array(QuestionMetric);
 export interface PillarMetric {
   PillarId?: string;
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   Questions?: QuestionMetric[];
 }
 export const PillarMetric = S.suspend(() =>
@@ -4374,7 +4385,7 @@ export const PillarMetrics = S.Array(PillarMetric);
 export interface LensMetric {
   LensArn?: string;
   Pillars?: PillarMetric[];
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
 }
 export const LensMetric = S.suspend(() =>
   S.Struct({
@@ -4387,7 +4398,7 @@ export type LensMetrics = LensMetric[];
 export const LensMetrics = S.Array(LensMetric);
 export interface ConsolidatedReportMetric {
   MetricType?: MetricType;
-  RiskCounts?: { [key: string]: number };
+  RiskCounts?: { [key: string]: number | undefined };
   WorkloadId?: string;
   WorkloadName?: string;
   WorkloadArn?: string;

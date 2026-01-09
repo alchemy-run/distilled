@@ -543,10 +543,10 @@ export const AssociatedAlarm = S.suspend(() =>
 ).annotations({
   identifier: "AssociatedAlarm",
 }) as any as S.Schema<AssociatedAlarm>;
-export type AssociatedAlarmMap = { [key: string]: AssociatedAlarm };
+export type AssociatedAlarmMap = { [key: string]: AssociatedAlarm | undefined };
 export const AssociatedAlarmMap = S.Record({
   key: S.String,
-  value: AssociatedAlarm,
+  value: S.UndefinedOr(AssociatedAlarm),
 });
 export type AlarmCondition = "red" | "green";
 export const AlarmCondition = S.Literal("red", "green");
@@ -613,7 +613,7 @@ export interface UpdatePlanRequest {
   workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
 }
@@ -703,11 +703,11 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String, tags: Tags }).pipe(
@@ -793,7 +793,7 @@ export interface Plan {
   workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
   name: string;
@@ -947,7 +947,7 @@ export const ListPlansResponse = S.suspend(() =>
   identifier: "ListPlansResponse",
 }) as any as S.Schema<ListPlansResponse>;
 export interface ListTagsForResourceResponse {
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ resourceTags: S.optional(Tags) }),
@@ -1641,11 +1641,11 @@ export const GetPlanExecutionResponse = S.suspend(() =>
   identifier: "GetPlanExecutionResponse",
 }) as any as S.Schema<GetPlanExecutionResponse>;
 export type RegionAndRoutingControls = {
-  [key: string]: ArcRoutingControlState[];
+  [key: string]: ArcRoutingControlState[] | undefined;
 };
 export const RegionAndRoutingControls = S.Record({
   key: S.String,
-  value: ArcRoutingControlStates,
+  value: S.UndefinedOr(ArcRoutingControlStates),
 });
 export interface KubernetesScalingResource {
   namespace: string;
@@ -1665,7 +1665,9 @@ export interface ArcRoutingControlConfiguration {
   timeoutMinutes?: number;
   crossAccountRole?: string;
   externalId?: string;
-  regionAndRoutingControls: { [key: string]: ArcRoutingControlState[] };
+  regionAndRoutingControls: {
+    [key: string]: ArcRoutingControlState[] | undefined;
+  };
 }
 export const ArcRoutingControlConfiguration = S.suspend(() =>
   S.Struct({
@@ -1678,28 +1680,34 @@ export const ArcRoutingControlConfiguration = S.suspend(() =>
   identifier: "ArcRoutingControlConfiguration",
 }) as any as S.Schema<ArcRoutingControlConfiguration>;
 export type RegionalScalingResource = {
-  [key: string]: KubernetesScalingResource;
+  [key: string]: KubernetesScalingResource | undefined;
 };
 export const RegionalScalingResource = S.Record({
   key: S.String,
-  value: KubernetesScalingResource,
+  value: S.UndefinedOr(KubernetesScalingResource),
 });
 export type KubernetesScalingApplication = {
-  [key: string]: { [key: string]: KubernetesScalingResource };
+  [key: string]:
+    | { [key: string]: KubernetesScalingResource | undefined }
+    | undefined;
 };
 export const KubernetesScalingApplication = S.Record({
   key: S.String,
-  value: RegionalScalingResource,
+  value: S.UndefinedOr(RegionalScalingResource),
 });
 export type KubernetesScalingApps = {
-  [key: string]: { [key: string]: KubernetesScalingResource };
+  [key: string]:
+    | { [key: string]: KubernetesScalingResource | undefined }
+    | undefined;
 }[];
 export const KubernetesScalingApps = S.Array(KubernetesScalingApplication);
 export interface EksResourceScalingConfiguration {
   timeoutMinutes?: number;
   kubernetesResourceType: KubernetesResourceType;
   scalingResources?: {
-    [key: string]: { [key: string]: KubernetesScalingResource };
+    [key: string]:
+      | { [key: string]: KubernetesScalingResource | undefined }
+      | undefined;
   }[];
   eksClusters?: EksCluster[];
   ungraceful?: EksResourceScalingUngraceful;
@@ -1904,14 +1912,14 @@ export interface CreatePlanRequest {
   workflows: Workflow[];
   executionRole: string;
   recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm };
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
   primaryRegion?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePlanRequest = S.suspend(() =>
   S.Struct({

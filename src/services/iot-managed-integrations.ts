@@ -457,14 +457,17 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAccountAssociationRequest {
   ClientToken?: string;
   ConnectorDestinationId: string;
   Name?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAccountAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -777,7 +780,7 @@ export const ListConnectorDestinationsRequest = S.suspend(() =>
 export interface CreateCredentialLockerRequest {
   Name?: string | redacted.Redacted<string>;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCredentialLockerRequest = S.suspend(() =>
   S.Struct({
@@ -865,7 +868,7 @@ export interface CreateDestinationRequest {
   RoleArn: string;
   ClientToken?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -1387,8 +1390,11 @@ export const CapabilitySchemaItem = S.suspend(() =>
 }) as any as S.Schema<CapabilitySchemaItem>;
 export type CapabilitySchemas = CapabilitySchemaItem[];
 export const CapabilitySchemas = S.Array(CapabilitySchemaItem);
-export type MetaData = { [key: string]: string };
-export const MetaData = S.Record({ key: S.String, value: S.String });
+export type MetaData = { [key: string]: string | undefined };
+export const MetaData = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateManagedThingRequest {
   Identifier: string;
   Owner?: string | redacted.Redacted<string>;
@@ -1402,7 +1408,7 @@ export interface UpdateManagedThingRequest {
   Capabilities?: string;
   Classification?: string | redacted.Redacted<string>;
   HubNetworkMode?: HubNetworkMode;
-  MetaData?: { [key: string]: string };
+  MetaData?: { [key: string]: string | undefined };
 }
 export const UpdateManagedThingRequest = S.suspend(() =>
   S.Struct({
@@ -1649,7 +1655,7 @@ export interface CreateNotificationConfigurationRequest {
   EventType: EventType;
   DestinationName: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateNotificationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1945,7 +1951,7 @@ export interface CreateProvisioningProfileRequest {
   CaCertificate?: string | redacted.Redacted<string>;
   Name?: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateProvisioningProfileRequest = S.suspend(() =>
   S.Struct({
@@ -2179,10 +2185,10 @@ export const SecretsManager = S.suspend(() =>
 ).annotations({
   identifier: "SecretsManager",
 }) as any as S.Schema<SecretsManager>;
-export type CustomProtocolDetail = { [key: string]: string };
+export type CustomProtocolDetail = { [key: string]: string | undefined };
 export const CustomProtocolDetail = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type DisconnectReasonValue =
   | "AUTH_ERROR"
@@ -2262,7 +2268,7 @@ export const TokenEndpointAuthenticationScheme = S.Literal(
 export type RetryCriteriaFailureType = "FAILED" | "TIMED_OUT" | "ALL";
 export const RetryCriteriaFailureType = S.Literal("FAILED", "TIMED_OUT", "ALL");
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -2271,7 +2277,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2319,7 +2325,7 @@ export interface GetAccountAssociationResponse {
   Description?: string;
   Arn?: string;
   OAuthAuthorizationUrl: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetAccountAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -2457,7 +2463,7 @@ export interface GetCredentialLockerResponse {
   Arn?: string;
   Name?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetCredentialLockerResponse = S.suspend(() =>
   S.Struct({
@@ -2486,7 +2492,7 @@ export interface GetDestinationResponse {
   RoleArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDestinationResponse = S.suspend(() =>
   S.Struct({
@@ -2504,14 +2510,14 @@ export const GetDestinationResponse = S.suspend(() =>
 }) as any as S.Schema<GetDestinationResponse>;
 export interface StartDeviceDiscoveryRequest {
   DiscoveryType: DiscoveryType;
-  CustomProtocolDetail?: { [key: string]: string };
+  CustomProtocolDetail?: { [key: string]: string | undefined };
   ControllerIdentifier?: string;
   ConnectorAssociationIdentifier?: string;
   AccountAssociationId?: string;
   AuthenticationMaterial?: string | redacted.Redacted<string>;
   AuthenticationMaterialType?: DiscoveryAuthMaterialType;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartDeviceDiscoveryRequest = S.suspend(() =>
   S.Struct({
@@ -2547,7 +2553,7 @@ export interface GetDeviceDiscoveryResponse {
   ConnectorAssociationId?: string;
   AccountAssociationId?: string;
   FinishedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDeviceDiscoveryResponse = S.suspend(() =>
   S.Struct({
@@ -2671,8 +2677,8 @@ export interface GetManagedThingResponse {
   UpdatedAt?: Date;
   ActivatedAt?: Date;
   HubNetworkMode?: HubNetworkMode;
-  MetaData?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  MetaData?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetManagedThingResponse = S.suspend(() =>
   S.Struct({
@@ -2750,7 +2756,7 @@ export const GetManagedThingConnectivityDataResponse = S.suspend(() =>
 }) as any as S.Schema<GetManagedThingConnectivityDataResponse>;
 export interface GetManagedThingMetaDataResponse {
   ManagedThingId?: string;
-  MetaData?: { [key: string]: string };
+  MetaData?: { [key: string]: string | undefined };
 }
 export const GetManagedThingMetaDataResponse = S.suspend(() =>
   S.Struct({
@@ -2773,7 +2779,7 @@ export interface GetNotificationConfigurationResponse {
   DestinationName?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetNotificationConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -2927,7 +2933,7 @@ export interface GetProvisioningProfileResponse {
   ProvisioningType?: ProvisioningType;
   Id?: string;
   ClaimCertificate?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetProvisioningProfileResponse = S.suspend(() =>
   S.Struct({
@@ -3463,10 +3469,16 @@ export const SchemaVersionListItem = S.suspend(() =>
 }) as any as S.Schema<SchemaVersionListItem>;
 export type SchemaVersionList = SchemaVersionListItem[];
 export const SchemaVersionList = S.Array(SchemaVersionListItem);
-export type MatterCommands = { [key: string]: any };
-export const MatterCommands = S.Record({ key: S.String, value: S.Any });
-export type MatterEvents = { [key: string]: any };
-export const MatterEvents = S.Record({ key: S.String, value: S.Any });
+export type MatterCommands = { [key: string]: any | undefined };
+export const MatterCommands = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
+export type MatterEvents = { [key: string]: any | undefined };
+export const MatterEvents = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
 export interface CapabilityAction {
   name: string;
   ref?: string;
@@ -3768,7 +3780,7 @@ export interface CreateOtaTaskRequest {
   ClientToken?: string;
   OtaSchedulingConfig?: OtaTaskSchedulingConfig;
   OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateOtaTaskRequest = S.suspend(() =>
   S.Struct({
@@ -3814,7 +3826,7 @@ export interface GetOtaTaskResponse {
   OtaSchedulingConfig?: OtaTaskSchedulingConfig;
   OtaTaskExecutionRetryConfig?: OtaTaskExecutionRetryConfig;
   Status?: OtaStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetOtaTaskResponse = S.suspend(() =>
   S.Struct({
@@ -3878,8 +3890,8 @@ export const ListSchemaVersionsResponse = S.suspend(() =>
 export interface MatterCluster {
   id?: string;
   attributes?: any;
-  commands?: { [key: string]: any };
-  events?: { [key: string]: any };
+  commands?: { [key: string]: any | undefined };
+  events?: { [key: string]: any | undefined };
 }
 export const MatterCluster = S.suspend(() =>
   S.Struct({
@@ -4098,8 +4110,8 @@ export interface CreateManagedThingRequest {
   Capabilities?: string;
   ClientToken?: string;
   Classification?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
-  MetaData?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  MetaData?: { [key: string]: string | undefined };
 }
 export const CreateManagedThingRequest = S.suspend(() =>
   S.Struct({

@@ -1005,8 +1005,11 @@ export const CapabilityHealthReason = S.Literal(
 );
 export type CapabilityHealthReasonList = CapabilityHealthReason[];
 export const CapabilityHealthReasonList = S.Array(CapabilityHealthReason);
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DiscoveryData {
   publicIpAddresses: string[];
   privateIpAddresses: string[];
@@ -1110,7 +1113,7 @@ export const GetMinuteUsageResponse = S.suspend(() =>
   identifier: "GetMinuteUsageResponse",
 }) as any as S.Schema<GetMinuteUsageResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1119,7 +1122,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1160,7 +1163,7 @@ export interface GetConfigResponse {
   name: string;
   configType?: ConfigCapabilityType;
   configData: ConfigTypeData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetConfigResponse = S.suspend(() =>
   S.Struct({
@@ -1387,7 +1390,7 @@ export interface GetDataflowEndpointGroupResponse {
   dataflowEndpointGroupId?: string;
   dataflowEndpointGroupArn?: string;
   endpointsDetails?: EndpointDetails[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
 }
@@ -1426,7 +1429,7 @@ export interface CreateMissionProfileRequest {
   minimumViableContactDurationSeconds: number;
   dataflowEdges: string[][];
   trackingConfigArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
@@ -1464,7 +1467,7 @@ export interface GetMissionProfileResponse {
   minimumViableContactDurationSeconds?: number;
   dataflowEdges?: string[][];
   trackingConfigArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   streamsKmsKey?: KmsKey;
   streamsKmsRole?: string;
 }
@@ -1505,8 +1508,11 @@ export const ComponentVersion = S.suspend(() =>
 }) as any as S.Schema<ComponentVersion>;
 export type ComponentVersionList = ComponentVersion[];
 export const ComponentVersionList = S.Array(ComponentVersion);
-export type SignatureMap = { [key: string]: boolean };
-export const SignatureMap = S.Record({ key: S.String, value: S.Boolean });
+export type SignatureMap = { [key: string]: boolean | undefined };
+export const SignatureMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Boolean),
+});
 export type AngleUnits = "DEGREE_ANGLE" | "RADIAN";
 export const AngleUnits = S.Literal("DEGREE_ANGLE", "RADIAN");
 export interface AzElEphemerisFilter {
@@ -1655,7 +1661,7 @@ export const AgentDetails = S.suspend(() =>
 ).annotations({ identifier: "AgentDetails" }) as any as S.Schema<AgentDetails>;
 export interface AggregateStatus {
   status: AgentStatus;
-  signatureMap?: { [key: string]: boolean };
+  signatureMap?: { [key: string]: boolean | undefined };
 }
 export const AggregateStatus = S.suspend(() =>
   S.Struct({ status: AgentStatus, signatureMap: S.optional(SignatureMap) }),
@@ -1850,7 +1856,7 @@ export const AzElProgramTrackSettings = S.suspend(() =>
 export interface RegisterAgentRequest {
   discoveryData: DiscoveryData;
   agentDetails: AgentDetails;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const RegisterAgentRequest = S.suspend(() =>
   S.Struct({
@@ -1958,7 +1964,7 @@ export interface CreateDataflowEndpointGroupV2Request {
   endpoints: CreateEndpointDetails[];
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDataflowEndpointGroupV2Request = S.suspend(() =>
   S.Struct({
@@ -2179,7 +2185,7 @@ export interface ReserveContactRequest {
   startTime: Date;
   endTime: Date;
   groundStation: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   trackingOverrides?: TrackingOverrides;
 }
 export const ReserveContactRequest = S.suspend(() =>
@@ -2220,7 +2226,7 @@ export interface DescribeEphemerisResponse {
   creationTime?: Date;
   enabled?: boolean;
   name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   suppliedData?: EphemerisTypeDescription;
   invalidReason?: EphemerisInvalidReason;
   errorReasons?: EphemerisErrorReason[];
@@ -2265,7 +2271,7 @@ export interface ContactData {
   errorMessage?: string;
   maximumElevation?: Elevation;
   region?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   visibilityStartTime?: Date;
   visibilityEndTime?: Date;
   ephemeris?: EphemerisResponseData;
@@ -2325,7 +2331,7 @@ export const TimeAzElList = S.Array(TimeAzEl);
 export interface CreateConfigRequest {
   name: string;
   configData: ConfigTypeData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConfigRequest = S.suspend(() =>
   S.Struct({
@@ -2427,7 +2433,7 @@ export interface DescribeContactResponse {
   contactStatus?: ContactStatus;
   errorMessage?: string;
   maximumElevation?: Elevation;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   region?: string;
   dataflowList?: DataflowDetail[];
   visibilityStartTime?: Date;
@@ -2469,7 +2475,7 @@ export const DescribeContactResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeContactResponse>;
 export interface CreateDataflowEndpointGroupRequest {
   endpointDetails: EndpointDetails[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
 }
@@ -2518,7 +2524,7 @@ export interface CreateEphemerisRequest {
   name: string;
   kmsKeyArn?: string;
   ephemeris?: EphemerisData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateEphemerisRequest = S.suspend(() =>
   S.Struct({

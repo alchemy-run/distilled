@@ -1737,10 +1737,10 @@ export const StatisticSet = S.suspend(() =>
     Maximum: S.optional(S.Number),
   }),
 ).annotations({ identifier: "StatisticSet" }) as any as S.Schema<StatisticSet>;
-export type ContributorAttributes = { [key: string]: string };
+export type ContributorAttributes = { [key: string]: string | undefined };
 export const ContributorAttributes = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AlarmHistoryItem {
   AlarmName?: string;
@@ -1750,7 +1750,7 @@ export interface AlarmHistoryItem {
   HistoryItemType?: HistoryItemType;
   HistorySummary?: string;
   HistoryData?: string;
-  AlarmContributorAttributes?: { [key: string]: string };
+  AlarmContributorAttributes?: { [key: string]: string | undefined };
 }
 export const AlarmHistoryItem = S.suspend(() =>
   S.Struct({
@@ -1991,13 +1991,16 @@ export const MetricDatum = S.suspend(() =>
 ).annotations({ identifier: "MetricDatum" }) as any as S.Schema<MetricDatum>;
 export type MetricData = MetricDatum[];
 export const MetricData = S.Array(MetricDatum);
-export type EntityKeyAttributesMap = { [key: string]: string };
+export type EntityKeyAttributesMap = { [key: string]: string | undefined };
 export const EntityKeyAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type EntityAttributesMap = { [key: string]: string };
-export const EntityAttributesMap = S.Record({ key: S.String, value: S.String });
+export type EntityAttributesMap = { [key: string]: string | undefined };
+export const EntityAttributesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DeleteInsightRulesOutput {
   Failures?: PartialFailure[];
 }
@@ -2253,8 +2256,11 @@ export type InsightRuleContributorDatapoints =
 export const InsightRuleContributorDatapoints = S.Array(
   InsightRuleContributorDatapoint,
 );
-export type DatapointValueMap = { [key: string]: number };
-export const DatapointValueMap = S.Record({ key: S.String, value: S.Number });
+export type DatapointValueMap = { [key: string]: number | undefined };
+export const DatapointValueMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface ManagedRuleState {
   RuleName?: string;
   State?: string;
@@ -2265,8 +2271,8 @@ export const ManagedRuleState = S.suspend(() =>
   identifier: "ManagedRuleState",
 }) as any as S.Schema<ManagedRuleState>;
 export interface Entity {
-  KeyAttributes?: { [key: string]: string };
-  Attributes?: { [key: string]: string };
+  KeyAttributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -2276,7 +2282,7 @@ export const Entity = S.suspend(() =>
 ).annotations({ identifier: "Entity" }) as any as S.Schema<Entity>;
 export interface AlarmContributor {
   ContributorId?: string;
-  ContributorAttributes?: { [key: string]: string };
+  ContributorAttributes?: { [key: string]: string | undefined };
   StateReason?: string;
   StateTransitionedTimestamp?: Date;
 }
@@ -2318,7 +2324,7 @@ export interface Datapoint {
   Minimum?: number;
   Maximum?: number;
   Unit?: StandardUnit;
-  ExtendedStatistics?: { [key: string]: number };
+  ExtendedStatistics?: { [key: string]: number | undefined };
 }
 export const Datapoint = S.suspend(() =>
   S.Struct({

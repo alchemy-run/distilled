@@ -3395,8 +3395,11 @@ export const EnvironmentPlatform = S.suspend(() =>
 }) as any as S.Schema<EnvironmentPlatform>;
 export type EnvironmentPlatforms = EnvironmentPlatform[];
 export const EnvironmentPlatforms = S.Array(EnvironmentPlatform);
-export type ReportStatusCounts = { [key: string]: number };
-export const ReportStatusCounts = S.Record({ key: S.String, value: S.Number });
+export type ReportStatusCounts = { [key: string]: number | undefined };
+export const ReportStatusCounts = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface BatchGetBuildsOutput {
   builds?: Build[];
   buildsNotFound?: string[];
@@ -3525,7 +3528,7 @@ export const ListCuratedEnvironmentImagesOutput = S.suspend(() =>
 }) as any as S.Schema<ListCuratedEnvironmentImagesOutput>;
 export interface TestReportSummary {
   total: number;
-  statusCounts: { [key: string]: number };
+  statusCounts: { [key: string]: number | undefined };
   durationInNanoSeconds: number;
 }
 export const TestReportSummary = S.suspend(() =>

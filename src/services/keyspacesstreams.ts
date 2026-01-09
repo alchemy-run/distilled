@@ -238,16 +238,18 @@ export const KeyspacesCell = S.suspend(() =>
 ).annotations({
   identifier: "KeyspacesCell",
 }) as any as S.Schema<KeyspacesCell>;
-export type KeyspacesCells = { [key: string]: KeyspacesCell };
+export type KeyspacesCells = { [key: string]: KeyspacesCell | undefined };
 export const KeyspacesCells = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<KeyspacesCell, any> => KeyspacesCell,
-  ).annotations({ identifier: "KeyspacesCell" }),
+  value: S.UndefinedOr(
+    S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell).annotations({
+      identifier: "KeyspacesCell",
+    }),
+  ),
 });
 export interface KeyspacesRow {
-  valueCells?: { [key: string]: KeyspacesCell };
-  staticCells?: { [key: string]: KeyspacesCell };
+  valueCells?: { [key: string]: KeyspacesCell | undefined };
+  staticCells?: { [key: string]: KeyspacesCell | undefined };
   rowMetadata?: KeyspacesMetadata;
 }
 export const KeyspacesRow = S.suspend(() =>
@@ -303,12 +305,14 @@ export const KeyspacesCellMap = S.Array(
     (): S.Schema<KeyspacesCellMapDefinition, any> => KeyspacesCellMapDefinition,
   ).annotations({ identifier: "KeyspacesCellMapDefinition" }),
 ) as any as S.Schema<KeyspacesCellMap>;
-export type KeyspacesUdtMap = { [key: string]: KeyspacesCell };
+export type KeyspacesUdtMap = { [key: string]: KeyspacesCell | undefined };
 export const KeyspacesUdtMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<KeyspacesCell, any> => KeyspacesCell,
-  ).annotations({ identifier: "KeyspacesCell" }),
+  value: S.UndefinedOr(
+    S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell).annotations({
+      identifier: "KeyspacesCell",
+    }),
+  ),
 }) as any as S.Schema<KeyspacesUdtMap>;
 export interface Shard {
   shardId?: string;
@@ -998,7 +1002,7 @@ export type KeyspacesCellValue =
       uuidT?: never;
       varcharT?: never;
       varintT?: never;
-      udtT: { [key: string]: KeyspacesCell };
+      udtT: { [key: string]: KeyspacesCell | undefined };
     };
 export const KeyspacesCellValue = S.Union(
   S.Struct({ asciiT: S.String }),
@@ -1073,19 +1077,23 @@ export const GetStreamOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetStreamOutput",
 }) as any as S.Schema<GetStreamOutput>;
-export type KeyspacesKeysMap = { [key: string]: KeyspacesCellValue };
+export type KeyspacesKeysMap = {
+  [key: string]: KeyspacesCellValue | undefined;
+};
 export const KeyspacesKeysMap = S.Record({
   key: S.String,
-  value: S.suspend(() => KeyspacesCellValue).annotations({
-    identifier: "KeyspacesCellValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => KeyspacesCellValue).annotations({
+      identifier: "KeyspacesCellValue",
+    }),
+  ),
 });
 export interface Record {
   eventVersion?: string;
   createdAt?: Date;
   origin?: OriginType;
-  partitionKeys?: { [key: string]: KeyspacesCellValue };
-  clusteringKeys?: { [key: string]: KeyspacesCellValue };
+  partitionKeys?: { [key: string]: KeyspacesCellValue | undefined };
+  clusteringKeys?: { [key: string]: KeyspacesCellValue | undefined };
   newImage?: KeyspacesRow;
   oldImage?: KeyspacesRow;
   sequenceNumber?: string;

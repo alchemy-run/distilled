@@ -857,11 +857,14 @@ export const StopJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopJobRequest",
 }) as any as S.Schema<StopJobRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -915,10 +918,10 @@ export const UntagResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type EnvironmentVariables = { [key: string]: string };
+export type EnvironmentVariables = { [key: string]: string | undefined };
 export const EnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CustomRule {
   source: string;
@@ -940,7 +943,7 @@ export interface AutoBranchCreationConfig {
   stage?: Stage;
   framework?: string;
   enableAutoBuild?: boolean;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
@@ -994,7 +997,7 @@ export interface UpdateAppRequest {
   platform?: Platform;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
@@ -1064,7 +1067,7 @@ export interface UpdateBranchRequest {
   enableNotification?: boolean;
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
@@ -1194,8 +1197,11 @@ export const UpdateWebhookRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateWebhookRequest",
 }) as any as S.Schema<UpdateWebhookRequest>;
-export type FileMap = { [key: string]: string };
-export const FileMap = S.Record({ key: S.String, value: S.String });
+export type FileMap = { [key: string]: string | undefined };
+export const FileMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProductionBranch {
   lastDeployTime?: Date;
   status?: string;
@@ -1245,7 +1251,7 @@ export interface App {
   appId: string;
   appArn: string;
   name: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description: string;
   repository: string;
   platform: Platform;
@@ -1253,7 +1259,7 @@ export interface App {
   updateTime: Date;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  environmentVariables: { [key: string]: string };
+  environmentVariables: { [key: string]: string | undefined };
   defaultDomain: string;
   enableBranchAutoBuild: boolean;
   enableBranchAutoDeletion?: boolean;
@@ -1339,13 +1345,13 @@ export interface Branch {
   branchArn: string;
   branchName: string;
   description: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   stage: Stage;
   displayName: string;
   enableNotification: boolean;
   createTime: Date;
   updateTime: Date;
-  environmentVariables: { [key: string]: string };
+  environmentVariables: { [key: string]: string | undefined };
   enableAutoBuild: boolean;
   enableSkewProtection?: boolean;
   customDomains: string[];
@@ -1583,13 +1589,13 @@ export interface CreateAppRequest {
   iamServiceRoleArn?: string;
   oauthToken?: string | redacted.Redacted<string>;
   accessToken?: string | redacted.Redacted<string>;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
   basicAuthCredentials?: string | redacted.Redacted<string>;
   customRules?: CustomRule[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   buildSpec?: string | redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
@@ -1645,11 +1651,11 @@ export interface CreateBranchRequest {
   enableNotification?: boolean;
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   basicAuthCredentials?: string | redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   buildSpec?: string | redacted.Redacted<string>;
   ttl?: string;
   displayName?: string;
@@ -1699,7 +1705,7 @@ export const CreateBranchRequest = S.suspend(() =>
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
-  fileMap?: { [key: string]: string };
+  fileMap?: { [key: string]: string | undefined };
 }
 export const CreateDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1881,7 +1887,7 @@ export const ListJobsResult = S.suspend(() =>
   identifier: "ListJobsResult",
 }) as any as S.Schema<ListJobsResult>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
@@ -2027,13 +2033,19 @@ export const ListArtifactsResult = S.suspend(() =>
 ).annotations({
   identifier: "ListArtifactsResult",
 }) as any as S.Schema<ListArtifactsResult>;
-export type FileUploadUrls = { [key: string]: string };
-export const FileUploadUrls = S.Record({ key: S.String, value: S.String });
-export type Screenshots = { [key: string]: string };
-export const Screenshots = S.Record({ key: S.String, value: S.String });
+export type FileUploadUrls = { [key: string]: string | undefined };
+export const FileUploadUrls = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Screenshots = { [key: string]: string | undefined };
+export const Screenshots = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDeploymentResult {
   jobId?: string;
-  fileUploadUrls: { [key: string]: string };
+  fileUploadUrls: { [key: string]: string | undefined };
   zipUploadUrl: string;
 }
 export const CreateDeploymentResult = S.suspend(() =>
@@ -2070,7 +2082,7 @@ export interface Step {
   artifactsUrl?: string;
   testArtifactsUrl?: string;
   testConfigUrl?: string;
-  screenshots?: { [key: string]: string };
+  screenshots?: { [key: string]: string | undefined };
   statusReason?: string;
   context?: string;
 }

@@ -2407,8 +2407,11 @@ export const ReputationOptions = S.suspend(() =>
 ).annotations({
   identifier: "ReputationOptions",
 }) as any as S.Schema<ReputationOptions>;
-export type PolicyMap = { [key: string]: string };
-export const PolicyMap = S.Record({ key: S.String, value: S.String });
+export type PolicyMap = { [key: string]: string | undefined };
+export const PolicyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CustomVerificationEmailTemplate {
   TemplateName?: string;
   FromEmailAddress?: string;
@@ -2550,7 +2553,7 @@ export const DescribeConfigurationSetResponse = S.suspend(() =>
   identifier: "DescribeConfigurationSetResponse",
 }) as any as S.Schema<DescribeConfigurationSetResponse>;
 export interface GetIdentityPoliciesResponse {
-  Policies: { [key: string]: string };
+  Policies: { [key: string]: string | undefined };
 }
 export const GetIdentityPoliciesResponse = S.suspend(() =>
   S.Struct({ Policies: PolicyMap }).pipe(ns),
@@ -2750,31 +2753,33 @@ export const BulkEmailStatus = S.Literal(
   "TransientFailure",
   "Failed",
 );
-export type DkimAttributes = { [key: string]: IdentityDkimAttributes };
+export type DkimAttributes = {
+  [key: string]: IdentityDkimAttributes | undefined;
+};
 export const DkimAttributes = S.Record({
   key: S.String,
-  value: IdentityDkimAttributes,
+  value: S.UndefinedOr(IdentityDkimAttributes),
 });
 export type MailFromDomainAttributes = {
-  [key: string]: IdentityMailFromDomainAttributes;
+  [key: string]: IdentityMailFromDomainAttributes | undefined;
 };
 export const MailFromDomainAttributes = S.Record({
   key: S.String,
-  value: IdentityMailFromDomainAttributes,
+  value: S.UndefinedOr(IdentityMailFromDomainAttributes),
 });
 export type NotificationAttributes = {
-  [key: string]: IdentityNotificationAttributes;
+  [key: string]: IdentityNotificationAttributes | undefined;
 };
 export const NotificationAttributes = S.Record({
   key: S.String,
-  value: IdentityNotificationAttributes,
+  value: S.UndefinedOr(IdentityNotificationAttributes),
 });
 export type VerificationAttributes = {
-  [key: string]: IdentityVerificationAttributes;
+  [key: string]: IdentityVerificationAttributes | undefined;
 };
 export const VerificationAttributes = S.Record({
   key: S.String,
-  value: IdentityVerificationAttributes,
+  value: S.UndefinedOr(IdentityVerificationAttributes),
 });
 export interface BulkEmailDestinationStatus {
   Status?: BulkEmailStatus;
@@ -2853,7 +2858,7 @@ export const CreateReceiptRuleResponse = S.suspend(() =>
   identifier: "CreateReceiptRuleResponse",
 }) as any as S.Schema<CreateReceiptRuleResponse>;
 export interface GetIdentityDkimAttributesResponse {
-  DkimAttributes: { [key: string]: IdentityDkimAttributes };
+  DkimAttributes: { [key: string]: IdentityDkimAttributes | undefined };
 }
 export const GetIdentityDkimAttributesResponse = S.suspend(() =>
   S.Struct({ DkimAttributes: DkimAttributes }).pipe(ns),
@@ -2861,7 +2866,9 @@ export const GetIdentityDkimAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityDkimAttributesResponse",
 }) as any as S.Schema<GetIdentityDkimAttributesResponse>;
 export interface GetIdentityMailFromDomainAttributesResponse {
-  MailFromDomainAttributes: { [key: string]: IdentityMailFromDomainAttributes };
+  MailFromDomainAttributes: {
+    [key: string]: IdentityMailFromDomainAttributes | undefined;
+  };
 }
 export const GetIdentityMailFromDomainAttributesResponse = S.suspend(() =>
   S.Struct({ MailFromDomainAttributes: MailFromDomainAttributes }).pipe(ns),
@@ -2869,7 +2876,9 @@ export const GetIdentityMailFromDomainAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityMailFromDomainAttributesResponse",
 }) as any as S.Schema<GetIdentityMailFromDomainAttributesResponse>;
 export interface GetIdentityNotificationAttributesResponse {
-  NotificationAttributes: { [key: string]: IdentityNotificationAttributes };
+  NotificationAttributes: {
+    [key: string]: IdentityNotificationAttributes | undefined;
+  };
 }
 export const GetIdentityNotificationAttributesResponse = S.suspend(() =>
   S.Struct({ NotificationAttributes: NotificationAttributes }).pipe(ns),
@@ -2877,7 +2886,9 @@ export const GetIdentityNotificationAttributesResponse = S.suspend(() =>
   identifier: "GetIdentityNotificationAttributesResponse",
 }) as any as S.Schema<GetIdentityNotificationAttributesResponse>;
 export interface GetIdentityVerificationAttributesResponse {
-  VerificationAttributes: { [key: string]: IdentityVerificationAttributes };
+  VerificationAttributes: {
+    [key: string]: IdentityVerificationAttributes | undefined;
+  };
 }
 export const GetIdentityVerificationAttributesResponse = S.suspend(() =>
   S.Struct({ VerificationAttributes: VerificationAttributes }).pipe(ns),

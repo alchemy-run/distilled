@@ -1199,8 +1199,11 @@ export const CreditDetails = S.suspend(() =>
 ).annotations({
   identifier: "CreditDetails",
 }) as any as S.Schema<CreditDetails>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type FulfillmentDetails =
   | {
       DisbursementDetails: DisbursementDetails;
@@ -1244,7 +1247,7 @@ export interface BenefitApplicationSummary {
   Stage?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  BenefitApplicationDetails?: { [key: string]: string };
+  BenefitApplicationDetails?: { [key: string]: string | undefined };
   AssociatedResources?: string[];
 }
 export const BenefitApplicationSummary = S.suspend(() =>

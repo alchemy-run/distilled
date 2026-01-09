@@ -3188,7 +3188,7 @@ export type ImageTagList = string[];
 export const ImageTagList = S.Array(S.String);
 export type FindingSeverityCounts = { [key in FindingSeverity]?: number };
 export const FindingSeverityCounts = S.partial(
-  S.Record({ key: FindingSeverity, value: S.Number }),
+  S.Record({ key: FindingSeverity, value: S.UndefinedOr(S.Number) }),
 );
 export type LifecyclePolicyStorageClass = "ARCHIVE" | "STANDARD";
 export const LifecyclePolicyStorageClass = S.Literal("ARCHIVE", "STANDARD");
@@ -3248,7 +3248,7 @@ export const PutRegistryScanningConfigurationResponse = S.suspend(() =>
 export interface ImageScanFindingsSummary {
   imageScanCompletedAt?: Date;
   vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number };
+  findingSeverityCounts?: { [key: string]: number | undefined };
 }
 export const ImageScanFindingsSummary = S.suspend(() =>
   S.Struct({
@@ -3311,8 +3311,11 @@ export type TransitioningImageTotalCounts = TransitioningImageTotalCount[];
 export const TransitioningImageTotalCounts = S.Array(
   TransitioningImageTotalCount,
 );
-export type Annotations = { [key: string]: string };
-export const Annotations = S.Record({ key: S.String, value: S.String });
+export type Annotations = { [key: string]: string | undefined };
+export const Annotations = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CvssScore {
   baseScore?: number;
   scoringVector?: string;
@@ -3366,8 +3369,8 @@ export const Recommendation = S.suspend(() =>
 ).annotations({
   identifier: "Recommendation",
 }) as any as S.Schema<Recommendation>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface ImageDetail {
   registryId?: string;
   repositoryName?: string;
@@ -3453,7 +3456,7 @@ export interface ImageReferrer {
   mediaType: string;
   artifactType?: string;
   size: number;
-  annotations?: { [key: string]: string };
+  annotations?: { [key: string]: string | undefined };
   artifactStatus?: ArtifactStatus;
 }
 export const ImageReferrer = S.suspend(() =>
@@ -3622,7 +3625,7 @@ export const CvssScoreDetails = S.suspend(() =>
 export interface Resource {
   details?: ResourceDetails;
   id?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   type?: string;
 }
 export const Resource = S.suspend(() =>
@@ -3690,7 +3693,7 @@ export const EnhancedImageScanFindingList = S.Array(EnhancedImageScanFinding);
 export interface ImageScanFindings {
   imageScanCompletedAt?: Date;
   vulnerabilitySourceUpdatedAt?: Date;
-  findingSeverityCounts?: { [key: string]: number };
+  findingSeverityCounts?: { [key: string]: number | undefined };
   findings?: ImageScanFinding[];
   enhancedFindings?: EnhancedImageScanFinding[];
 }

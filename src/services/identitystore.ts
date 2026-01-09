@@ -488,8 +488,11 @@ export const Role = S.suspend(() =>
 ).annotations({ identifier: "Role" }) as any as S.Schema<Role>;
 export type Roles = Role[];
 export const Roles = S.Array(Role);
-export type Extensions = { [key: string]: any };
-export const Extensions = S.Record({ key: S.String, value: S.Any });
+export type Extensions = { [key: string]: any | undefined };
+export const Extensions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
 export type UserStatus = "ENABLED" | "DISABLED";
 export const UserStatus = S.Literal("ENABLED", "DISABLED");
 export interface GetGroupMembershipIdRequest {
@@ -680,7 +683,7 @@ export interface CreateUserRequest {
   Website?: string | redacted.Redacted<string>;
   Birthdate?: string | redacted.Redacted<string>;
   Roles?: Role[];
-  Extensions?: { [key: string]: any };
+  Extensions?: { [key: string]: any | undefined };
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
@@ -735,7 +738,7 @@ export interface DescribeUserResponse {
   CreatedBy?: string;
   UpdatedAt?: Date;
   UpdatedBy?: string;
-  Extensions?: { [key: string]: any };
+  Extensions?: { [key: string]: any | undefined };
 }
 export const DescribeUserResponse = S.suspend(() =>
   S.Struct({
@@ -828,7 +831,7 @@ export interface User {
   CreatedBy?: string;
   UpdatedAt?: Date;
   UpdatedBy?: string;
-  Extensions?: { [key: string]: any };
+  Extensions?: { [key: string]: any | undefined };
 }
 export const User = S.suspend(() =>
   S.Struct({

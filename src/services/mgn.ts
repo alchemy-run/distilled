@@ -287,12 +287,15 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateApplicationRequest {
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accountID?: string;
 }
 export const CreateApplicationRequest = S.suspend(() =>
@@ -523,7 +526,7 @@ export interface StartExportRequest {
   s3Bucket: string;
   s3Key: string;
   s3BucketOwner?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartExportRequest = S.suspend(() =>
   S.Struct({
@@ -649,30 +652,30 @@ export const SsmParameterStoreParameter = S.suspend(() =>
 export type SsmParameterStoreParameters = SsmParameterStoreParameter[];
 export const SsmParameterStoreParameters = S.Array(SsmParameterStoreParameter);
 export type SsmDocumentParameters = {
-  [key: string]: SsmParameterStoreParameter[];
+  [key: string]: SsmParameterStoreParameter[] | undefined;
 };
 export const SsmDocumentParameters = S.Record({
   key: S.String,
-  value: SsmParameterStoreParameters,
+  value: S.UndefinedOr(SsmParameterStoreParameters),
 });
 export type SsmExternalParameter = { dynamicPath: string };
 export const SsmExternalParameter = S.Union(
   S.Struct({ dynamicPath: S.String }),
 );
 export type SsmDocumentExternalParameters = {
-  [key: string]: SsmExternalParameter;
+  [key: string]: SsmExternalParameter | undefined;
 };
 export const SsmDocumentExternalParameters = S.Record({
   key: S.String,
-  value: SsmExternalParameter,
+  value: S.UndefinedOr(SsmExternalParameter),
 });
 export interface SsmDocument {
   actionName: string;
   ssmDocumentName: string;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] };
-  externalParameters?: { [key: string]: SsmExternalParameter };
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
 }
 export const SsmDocument = S.suspend(() =>
   S.Struct({
@@ -858,9 +861,9 @@ export interface CreateReplicationConfigurationTemplateRequest {
   bandwidthThrottling: number;
   dataPlaneRouting: string;
   createPublicIP: boolean;
-  stagingAreaTags: { [key: string]: string };
+  stagingAreaTags: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   internetProtocol?: string;
 }
 export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
@@ -910,7 +913,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
 }
@@ -1146,8 +1149,8 @@ export interface PutSourceServerActionRequest {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] };
-  externalParameters?: { [key: string]: SsmExternalParameter };
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
   description?: string;
   category?: string;
   accountID?: string;
@@ -1348,7 +1351,7 @@ export const UpdateSourceServerReplicationTypeRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateSourceServerReplicationTypeRequest>;
 export interface StartCutoverRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accountID?: string;
 }
 export const StartCutoverRequest = S.suspend(() =>
@@ -1371,7 +1374,7 @@ export const StartCutoverRequest = S.suspend(() =>
 }) as any as S.Schema<StartCutoverRequest>;
 export interface StartTestRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accountID?: string;
 }
 export const StartTestRequest = S.suspend(() =>
@@ -1394,7 +1397,7 @@ export const StartTestRequest = S.suspend(() =>
 }) as any as S.Schema<StartTestRequest>;
 export interface TerminateTargetInstancesRequest {
   sourceServerIDs: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accountID?: string;
 }
 export const TerminateTargetInstancesRequest = S.suspend(() =>
@@ -1462,7 +1465,7 @@ export const DescribeVcenterClientsRequest = S.suspend(() =>
 export interface CreateWaveRequest {
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accountID?: string;
 }
 export const CreateWaveRequest = S.suspend(() =>
@@ -1719,7 +1722,7 @@ export interface LaunchConfigurationTemplate {
   postLaunchActions?: PostLaunchActions;
   enableMapAutoTagging?: boolean;
   mapAutoTaggingMpeID?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   ec2LaunchTemplateID?: string;
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
@@ -1785,9 +1788,9 @@ export interface ReplicationConfigurationTemplate {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   internetProtocol?: string;
 }
 export const ReplicationConfigurationTemplate = S.suspend(() =>
@@ -1902,7 +1905,7 @@ export const ListWavesRequestFilters = S.suspend(() =>
   identifier: "ListWavesRequestFilters",
 }) as any as S.Schema<ListWavesRequestFilters>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1911,7 +1914,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1962,7 +1965,7 @@ export const ListApplicationsRequest = S.suspend(() =>
 export interface CreateConnectorRequest {
   name: string;
   ssmInstanceID: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   ssmCommandConfig?: ConnectorSsmCommandConfig;
 }
 export const CreateConnectorRequest = S.suspend(() =>
@@ -1989,7 +1992,7 @@ export interface Connector {
   name?: string;
   ssmInstanceID?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   ssmCommandConfig?: ConnectorSsmCommandConfig;
 }
 export const Connector = S.suspend(() =>
@@ -2051,7 +2054,7 @@ export const ListExportsRequest = S.suspend(() =>
 export interface StartImportRequest {
   clientToken?: string;
   s3BucketSource: S3BucketSource;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartImportRequest = S.suspend(() =>
   S.Struct({
@@ -2286,7 +2289,7 @@ export interface ReplicationConfiguration {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
 }
@@ -2351,8 +2354,8 @@ export interface SourceServerActionDocument {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] };
-  externalParameters?: { [key: string]: SsmExternalParameter };
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
   description?: string;
   category?: string;
 }
@@ -2389,7 +2392,7 @@ export interface UpdateReplicationConfigurationRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
   accountID?: string;
   internetProtocol?: string;
@@ -2493,7 +2496,7 @@ export interface Job {
   endDateTime?: string;
   status?: string;
   participatingServers?: ParticipatingServer[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Job = S.suspend(() =>
   S.Struct({
@@ -2611,7 +2614,7 @@ export interface Application {
   applicationAggregatedStatus?: ApplicationAggregatedStatus;
   creationDateTime?: string;
   lastModifiedDateTime?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   waveID?: string;
 }
 export const Application = S.suspend(() =>
@@ -2657,7 +2660,7 @@ export interface ExportTask {
   status?: string;
   progressPercentage?: number;
   summary?: ExportTaskSummary;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ExportTask = S.suspend(() =>
   S.Struct({
@@ -2735,7 +2738,7 @@ export interface ImportTask {
   status?: string;
   progressPercentage?: number;
   summary?: ImportTaskSummary;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ImportTask = S.suspend(() =>
   S.Struct({
@@ -3043,7 +3046,7 @@ export interface SourceServer {
   sourceServerID?: string;
   arn?: string;
   isArchived?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   launchedInstance?: LaunchedInstance;
   dataReplicationInfo?: DataReplicationInfo;
   lifeCycle?: LifeCycle;
@@ -3084,8 +3087,8 @@ export interface VcenterClient {
   vcenterUUID?: string;
   datacenterName?: string;
   lastSeenDatetime?: string;
-  sourceServerTags?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  sourceServerTags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const VcenterClient = S.suspend(() =>
   S.Struct({
@@ -3130,7 +3133,7 @@ export interface Wave {
   waveAggregatedStatus?: WaveAggregatedStatus;
   creationDateTime?: string;
   lastModifiedDateTime?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Wave = S.suspend(() =>
   S.Struct({
@@ -3211,7 +3214,7 @@ export interface CreateLaunchConfigurationTemplateRequest {
   postLaunchActions?: PostLaunchActions;
   enableMapAutoTagging?: boolean;
   mapAutoTaggingMpeID?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -3266,9 +3269,9 @@ export interface PutTemplateActionRequest {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] };
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
   operatingSystem?: string;
-  externalParameters?: { [key: string]: SsmExternalParameter };
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
   description?: string;
   category?: string;
 }
@@ -3449,9 +3452,9 @@ export interface TemplateActionDocument {
   active?: boolean;
   timeoutSeconds?: number;
   mustSucceedForCutover?: boolean;
-  parameters?: { [key: string]: SsmParameterStoreParameter[] };
+  parameters?: { [key: string]: SsmParameterStoreParameter[] | undefined };
   operatingSystem?: string;
-  externalParameters?: { [key: string]: SsmExternalParameter };
+  externalParameters?: { [key: string]: SsmExternalParameter | undefined };
   description?: string;
   category?: string;
 }

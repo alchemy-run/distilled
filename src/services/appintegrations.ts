@@ -416,11 +416,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -725,19 +728,22 @@ export type FolderList = string[];
 export const FolderList = S.Array(S.String);
 export type FieldsList = string[];
 export const FieldsList = S.Array(S.String);
-export type FieldsMap = { [key: string]: string[] };
-export const FieldsMap = S.Record({ key: S.String, value: FieldsList });
+export type FieldsMap = { [key: string]: string[] | undefined };
+export const FieldsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FieldsList),
+});
 export type ObjectConfiguration = {
-  [key: string]: { [key: string]: string[] };
+  [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
 export const ObjectConfiguration = S.Record({
   key: S.String,
-  value: FieldsMap,
+  value: S.UndefinedOr(FieldsMap),
 });
-export type ClientAssociationMetadata = { [key: string]: string };
+export type ClientAssociationMetadata = { [key: string]: string | undefined };
 export const ClientAssociationMetadata = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface EventFilter {
   Source: string;
@@ -751,7 +757,7 @@ export interface CreateEventIntegrationRequest {
   EventFilter: EventFilter;
   EventBridgeBus: string;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -785,7 +791,7 @@ export interface GetApplicationResponse {
   Publications?: Publication[];
   CreatedTime?: Date;
   LastModifiedTime?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Permissions?: string[];
   IsService?: boolean;
   InitializationTimeout?: number;
@@ -820,7 +826,7 @@ export const GetApplicationResponse = S.suspend(() =>
 }) as any as S.Schema<GetApplicationResponse>;
 export interface FileConfiguration {
   Folders: string[];
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
 }
 export const FileConfiguration = S.suspend(() =>
   S.Struct({ Folders: FolderList, Filters: S.optional(FieldsMap) }),
@@ -835,9 +841,11 @@ export interface GetDataIntegrationResponse {
   KmsKey?: string;
   SourceURI?: string;
   ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
+  ObjectConfiguration?: {
+    [key: string]: { [key: string]: string[] | undefined } | undefined;
+  };
 }
 export const GetDataIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -861,7 +869,7 @@ export interface GetEventIntegrationResponse {
   EventIntegrationArn?: string;
   EventBridgeBus?: string;
   EventFilter?: EventFilter;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEventIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -876,7 +884,7 @@ export const GetEventIntegrationResponse = S.suspend(() =>
   identifier: "GetEventIntegrationResponse",
 }) as any as S.Schema<GetEventIntegrationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -951,7 +959,7 @@ export interface EventIntegrationAssociation {
   EventIntegrationName?: string;
   ClientId?: string;
   EventBridgeRuleName?: string;
-  ClientAssociationMetadata?: { [key: string]: string };
+  ClientAssociationMetadata?: { [key: string]: string | undefined };
 }
 export const EventIntegrationAssociation = S.suspend(() =>
   S.Struct({
@@ -975,7 +983,7 @@ export interface EventIntegration {
   Description?: string;
   EventFilter?: EventFilter;
   EventBridgeBus?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EventIntegration = S.suspend(() =>
   S.Struct({
@@ -1001,7 +1009,7 @@ export interface CreateApplicationRequest {
   Subscriptions?: Subscription[];
   Publications?: Publication[];
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Permissions?: string[];
   IsService?: boolean;
   InitializationTimeout?: number;
@@ -1044,10 +1052,12 @@ export interface CreateDataIntegrationRequest {
   KmsKey: string;
   SourceURI?: string;
   ScheduleConfig?: ScheduleConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
+  ObjectConfiguration?: {
+    [key: string]: { [key: string]: string[] | undefined } | undefined;
+  };
 }
 export const CreateDataIntegrationRequest = S.suspend(() =>
   S.Struct({
@@ -1076,9 +1086,11 @@ export const CreateDataIntegrationRequest = S.suspend(() =>
 export interface CreateDataIntegrationAssociationRequest {
   DataIntegrationIdentifier: string;
   ClientId?: string;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
+  ObjectConfiguration?: {
+    [key: string]: { [key: string]: string[] | undefined } | undefined;
+  };
   DestinationURI?: string;
-  ClientAssociationMetadata?: { [key: string]: string };
+  ClientAssociationMetadata?: { [key: string]: string | undefined };
   ClientToken?: string;
   ExecutionConfiguration?: ExecutionConfiguration;
 }
@@ -1231,10 +1243,12 @@ export interface CreateDataIntegrationResponse {
   KmsKey?: string;
   SourceURI?: string;
   ScheduleConfiguration?: ScheduleConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: { [key: string]: { [key: string]: string[] } };
+  ObjectConfiguration?: {
+    [key: string]: { [key: string]: string[] | undefined } | undefined;
+  };
 }
 export const CreateDataIntegrationResponse = S.suspend(() =>
   S.Struct({

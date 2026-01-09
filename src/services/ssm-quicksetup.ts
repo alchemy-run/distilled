@@ -222,11 +222,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -326,14 +329,14 @@ export const UpdateServiceSettingsResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateServiceSettingsResponse",
 }) as any as S.Schema<UpdateServiceSettingsResponse>;
-export type ConfigurationParametersMap = { [key: string]: string };
+export type ConfigurationParametersMap = { [key: string]: string | undefined };
 export const ConfigurationParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ConfigurationDefinitionInput {
   Type: string;
-  Parameters: { [key: string]: string };
+  Parameters: { [key: string]: string | undefined };
   TypeVersion?: string;
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
@@ -376,7 +379,7 @@ export interface CreateConfigurationManagerInput {
   Name?: string;
   Description?: string;
   ConfigurationDefinitions: ConfigurationDefinitionInput[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConfigurationManagerInput = S.suspend(() =>
   S.Struct({
@@ -440,7 +443,7 @@ export interface UpdateConfigurationDefinitionInput {
   ManagerArn: string;
   Id: string;
   TypeVersion?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
 }
@@ -501,7 +504,7 @@ export const Status = S.Literal(
 );
 export interface ConfigurationDefinition {
   Type: string;
-  Parameters: { [key: string]: string };
+  Parameters: { [key: string]: string | undefined };
   TypeVersion?: string;
   LocalDeploymentExecutionRoleName?: string;
   LocalDeploymentAdministrationRoleArn?: string;
@@ -521,14 +524,17 @@ export const ConfigurationDefinition = S.suspend(() =>
 }) as any as S.Schema<ConfigurationDefinition>;
 export type ConfigurationDefinitionsList = ConfigurationDefinition[];
 export const ConfigurationDefinitionsList = S.Array(ConfigurationDefinition);
-export type StatusDetails = { [key: string]: string };
-export const StatusDetails = S.Record({ key: S.String, value: S.String });
+export type StatusDetails = { [key: string]: string | undefined };
+export const StatusDetails = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface StatusSummary {
   StatusType: StatusType;
   Status?: Status;
   StatusMessage?: string;
   LastUpdatedAt: Date;
-  StatusDetails?: { [key: string]: string };
+  StatusDetails?: { [key: string]: string | undefined };
 }
 export const StatusSummary = S.suspend(() =>
   S.Struct({
@@ -552,7 +558,7 @@ export interface ConfigurationSummary {
   Region?: string;
   Account?: string;
   CreatedAt?: Date;
-  FirstClassParameters?: { [key: string]: string };
+  FirstClassParameters?: { [key: string]: string | undefined };
   StatusSummaries?: StatusSummary[];
 }
 export const ConfigurationSummary = S.suspend(() =>
@@ -598,7 +604,7 @@ export interface GetConfigurationManagerOutput {
   LastModifiedAt?: Date;
   StatusSummaries?: StatusSummary[];
   ConfigurationDefinitions?: ConfigurationDefinition[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetConfigurationManagerOutput = S.suspend(() =>
   S.Struct({
@@ -645,7 +651,7 @@ export interface GetConfigurationOutput {
   CreatedAt?: Date;
   LastModifiedAt?: Date;
   StatusSummaries?: StatusSummary[];
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const GetConfigurationOutput = S.suspend(() =>
   S.Struct({
@@ -668,7 +674,7 @@ export interface ConfigurationDefinitionSummary {
   Id?: string;
   Type?: string;
   TypeVersion?: string;
-  FirstClassParameters?: { [key: string]: string };
+  FirstClassParameters?: { [key: string]: string | undefined };
 }
 export const ConfigurationDefinitionSummary = S.suspend(() =>
   S.Struct({

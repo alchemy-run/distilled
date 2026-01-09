@@ -1111,14 +1111,17 @@ export const ConfigurationList = S.Array(
     identifier: "Configuration",
   }),
 ) as any as S.Schema<ConfigurationList>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface BlockPublicAccessConfiguration {
   BlockPublicSecurityGroupRules?: boolean;
   PermittedPublicSecurityGroupRuleRanges?: PortRange[];
   Classification?: string;
   Configurations?: Configuration[];
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const BlockPublicAccessConfiguration = S.suspend(() =>
   S.Struct({
@@ -1825,7 +1828,7 @@ export interface Application {
   Name?: string;
   Version?: string;
   Args?: string[];
-  AdditionalInfo?: { [key: string]: string };
+  AdditionalInfo?: { [key: string]: string | undefined };
 }
 export const Application = S.suspend(() =>
   S.Struct({
@@ -1840,7 +1843,7 @@ export const ApplicationList = S.Array(Application);
 export interface Configuration {
   Classification?: string;
   Configurations?: Configuration[];
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
@@ -1921,10 +1924,10 @@ export const OutputNotebookS3LocationFromInput = S.suspend(() =>
 ).annotations({
   identifier: "OutputNotebookS3LocationFromInput",
 }) as any as S.Schema<OutputNotebookS3LocationFromInput>;
-export type EnvironmentVariablesMap = { [key: string]: string };
+export type EnvironmentVariablesMap = { [key: string]: string | undefined };
 export const EnvironmentVariablesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ComputeLimitsUnitType = "InstanceFleetUnits" | "Instances" | "VCPU";
 export const ComputeLimitsUnitType = S.Literal(
@@ -2209,7 +2212,7 @@ export interface StartNotebookExecutionInput {
   NotebookS3Location?: NotebookS3LocationFromInput;
   OutputNotebookS3Location?: OutputNotebookS3LocationFromInput;
   OutputNotebookFormat?: OutputNotebookFormat;
-  EnvironmentVariables?: { [key: string]: string };
+  EnvironmentVariables?: { [key: string]: string | undefined };
 }
 export const StartNotebookExecutionInput = S.suspend(() =>
   S.Struct({
@@ -2477,11 +2480,11 @@ export const ClusterTimeline = S.suspend(() =>
 ).annotations({
   identifier: "ClusterTimeline",
 }) as any as S.Schema<ClusterTimeline>;
-export type ErrorData = { [key: string]: string }[];
+export type ErrorData = { [key: string]: string | undefined }[];
 export const ErrorData = S.Array(StringMap);
 export interface ErrorDetail {
   ErrorCode?: string;
-  ErrorData?: { [key: string]: string }[];
+  ErrorData?: { [key: string]: string | undefined }[];
   ErrorMessage?: string;
 }
 export const ErrorDetail = S.suspend(() =>
@@ -2584,7 +2587,7 @@ export type SecurityConfigurationList = SecurityConfigurationSummary[];
 export const SecurityConfigurationList = S.Array(SecurityConfigurationSummary);
 export interface HadoopStepConfig {
   Jar?: string;
-  Properties?: { [key: string]: string };
+  Properties?: { [key: string]: string | undefined };
   MainClass?: string;
   Args?: string[];
 }
@@ -3114,8 +3117,11 @@ export const InstanceResizePolicy = S.suspend(() =>
 ).annotations({
   identifier: "InstanceResizePolicy",
 }) as any as S.Schema<InstanceResizePolicy>;
-export type LogTypesMap = { [key: string]: string[] };
-export const LogTypesMap = S.Record({ key: S.String, value: XmlStringList });
+export type LogTypesMap = { [key: string]: string[] | undefined };
+export const LogTypesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(XmlStringList),
+});
 export interface CancelStepsOutput {
   CancelStepsInfoList?: CancelStepsInfo[];
 }
@@ -3512,7 +3518,7 @@ export interface CloudWatchLogConfiguration {
   LogGroupName?: string;
   LogStreamNamePrefix?: string;
   EncryptionKeyArn?: string;
-  LogTypes?: { [key: string]: string[] };
+  LogTypes?: { [key: string]: string[] | undefined };
 }
 export const CloudWatchLogConfiguration = S.suspend(() =>
   S.Struct({
@@ -3625,7 +3631,7 @@ export interface NotebookExecution {
   NotebookS3Location?: NotebookS3LocationForOutput;
   OutputNotebookS3Location?: OutputNotebookS3LocationForOutput;
   OutputNotebookFormat?: OutputNotebookFormat;
-  EnvironmentVariables?: { [key: string]: string };
+  EnvironmentVariables?: { [key: string]: string | undefined };
 }
 export const NotebookExecution = S.suspend(() =>
   S.Struct({

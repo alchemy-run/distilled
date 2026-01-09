@@ -4240,8 +4240,13 @@ export const OpportunitySummaryView = S.suspend(() =>
 ).annotations({
   identifier: "OpportunitySummaryView",
 }) as any as S.Schema<OpportunitySummaryView>;
-export type AmountMap = { [key: string]: string | redacted.Redacted<string> };
-export const AmountMap = S.Record({ key: S.String, value: SensitiveString });
+export type AmountMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const AmountMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
 export interface Invitation {
   Message: string | redacted.Redacted<string>;
   Receiver: Receiver;
@@ -4454,7 +4459,9 @@ export interface AwsProductInsights {
   TotalAmount?: string | redacted.Redacted<string>;
   TotalOptimizedAmount?: string | redacted.Redacted<string>;
   TotalPotentialSavingsAmount?: string | redacted.Redacted<string>;
-  TotalAmountByCategory: { [key: string]: string | redacted.Redacted<string> };
+  TotalAmountByCategory: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   AwsProducts: AwsProductDetails[];
 }
 export const AwsProductInsights = S.suspend(() =>

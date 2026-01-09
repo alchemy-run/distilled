@@ -1751,11 +1751,14 @@ export const PutFileInput = S.suspend(() =>
     ),
   ),
 ).annotations({ identifier: "PutFileInput" }) as any as S.Schema<PutFileInput>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagsMap }).pipe(
@@ -2313,7 +2316,7 @@ export const CreatePullRequestInput = S.suspend(() =>
 export interface CreateRepositoryInput {
   repositoryName: string;
   repositoryDescription?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyId?: string;
 }
 export const CreateRepositoryInput = S.suspend(() =>
@@ -2438,8 +2441,11 @@ export const GetBranchOutput = S.suspend(() =>
 }) as any as S.Schema<GetBranchOutput>;
 export type CallerReactions = string[];
 export const CallerReactions = S.Array(S.String);
-export type ReactionCountsMap = { [key: string]: number };
-export const ReactionCountsMap = S.Record({ key: S.String, value: S.Number });
+export type ReactionCountsMap = { [key: string]: number | undefined };
+export const ReactionCountsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface Comment {
   commentId?: string;
   content?: string;
@@ -2450,7 +2456,7 @@ export interface Comment {
   deleted?: boolean;
   clientRequestToken?: string;
   callerReactions?: string[];
-  reactionCounts?: { [key: string]: number };
+  reactionCounts?: { [key: string]: number | undefined };
 }
 export const Comment = S.suspend(() =>
   S.Struct({
@@ -2716,7 +2722,7 @@ export const ListRepositoriesForApprovalRuleTemplateOutput = S.suspend(() =>
   identifier: "ListRepositoriesForApprovalRuleTemplateOutput",
 }) as any as S.Schema<ListRepositoriesForApprovalRuleTemplateOutput>;
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = S.suspend(() =>

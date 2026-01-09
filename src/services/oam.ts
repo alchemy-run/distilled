@@ -121,11 +121,14 @@ export type ResourceTypesInput = ResourceType[];
 export const ResourceTypesInput = S.Array(ResourceType);
 export type TagKeys = string[];
 export const TagKeys = S.Array(S.String);
-export type TagMapInput = { [key: string]: string };
-export const TagMapInput = S.Record({ key: S.String, value: S.String });
+export type TagMapInput = { [key: string]: string | undefined };
+export const TagMapInput = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateSinkInput {
   Name: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSinkInput = S.suspend(() =>
   S.Struct({ Name: S.String, Tags: S.optional(TagMapInput) }).pipe(
@@ -334,7 +337,7 @@ export const PutSinkPolicyInput = S.suspend(() =>
 }) as any as S.Schema<PutSinkPolicyInput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -437,8 +440,11 @@ export const UpdateLinkInput = S.suspend(() =>
 }) as any as S.Schema<UpdateLinkInput>;
 export type ResourceTypesOutput = string[];
 export const ResourceTypesOutput = S.Array(S.String);
-export type TagMapOutput = { [key: string]: string };
-export const TagMapOutput = S.Record({ key: S.String, value: S.String });
+export type TagMapOutput = { [key: string]: string | undefined };
+export const TagMapOutput = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetLinkOutput {
   Arn?: string;
   Id?: string;
@@ -446,7 +452,7 @@ export interface GetLinkOutput {
   LabelTemplate?: string;
   ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
 export const GetLinkOutput = S.suspend(() =>
@@ -467,7 +473,7 @@ export interface GetSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetSinkOutput = S.suspend(() =>
   S.Struct({
@@ -494,7 +500,7 @@ export const GetSinkPolicyOutput = S.suspend(() =>
   identifier: "GetSinkPolicyOutput",
 }) as any as S.Schema<GetSinkPolicyOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMapOutput) }),
@@ -522,7 +528,7 @@ export interface UpdateLinkOutput {
   LabelTemplate?: string;
   ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
 export const UpdateLinkOutput = S.suspend(() =>
@@ -595,7 +601,7 @@ export interface CreateLinkInput {
   LabelTemplate: string;
   ResourceTypes: ResourceType[];
   SinkIdentifier: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
 export const CreateLinkInput = S.suspend(() =>
@@ -622,7 +628,7 @@ export interface CreateSinkOutput {
   Arn?: string;
   Id?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSinkOutput = S.suspend(() =>
   S.Struct({
@@ -668,7 +674,7 @@ export interface CreateLinkOutput {
   LabelTemplate?: string;
   ResourceTypes?: string[];
   SinkArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   LinkConfiguration?: LinkConfiguration;
 }
 export const CreateLinkOutput = S.suspend(() =>

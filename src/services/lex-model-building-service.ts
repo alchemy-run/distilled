@@ -1878,10 +1878,10 @@ export const BotAliasMetadata = S.suspend(() =>
 }) as any as S.Schema<BotAliasMetadata>;
 export type BotAliasMetadataList = BotAliasMetadata[];
 export const BotAliasMetadataList = S.Array(BotAliasMetadata);
-export type ChannelConfigurationMap = { [key: string]: string };
+export type ChannelConfigurationMap = { [key: string]: string | undefined };
 export const ChannelConfigurationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface BotChannelAssociation {
   name?: string;
@@ -1890,7 +1890,7 @@ export interface BotChannelAssociation {
   botName?: string;
   createdDate?: Date;
   type?: ChannelType;
-  botConfiguration?: { [key: string]: string };
+  botConfiguration?: { [key: string]: string | undefined };
   status?: ChannelStatus;
   failureReason?: string;
 }
@@ -2025,7 +2025,7 @@ export interface GetBotChannelAssociationResponse {
   botName?: string;
   createdDate?: Date;
   type?: ChannelType;
-  botConfiguration?: { [key: string]: string };
+  botConfiguration?: { [key: string]: string | undefined };
   status?: ChannelStatus;
   failureReason?: string;
 }

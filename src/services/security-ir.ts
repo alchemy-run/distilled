@@ -650,8 +650,11 @@ export type OptInFeatureName = "Triage";
 export const OptInFeatureName = S.Literal("Triage");
 export type OrganizationalUnits = string[];
 export const OrganizationalUnits = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Watcher {
   email: string | redacted.Redacted<string>;
   name?: string | redacted.Redacted<string>;
@@ -774,7 +777,7 @@ export const MembershipAccountsConfigurationsUpdate = S.suspend(() =>
   identifier: "MembershipAccountsConfigurationsUpdate",
 }) as any as S.Schema<MembershipAccountsConfigurationsUpdate>;
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -783,7 +786,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -818,7 +821,7 @@ export interface CreateCaseRequest {
   threatActorIpAddresses?: ThreatActorIp[];
   impactedServices?: string[];
   impactedAwsRegions?: ImpactedAwsRegion[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCaseRequest = S.suspend(() =>
   S.Struct({
@@ -978,7 +981,7 @@ export interface CreateMembershipRequest {
   membershipName: string | redacted.Redacted<string>;
   incidentResponseTeam: IncidentResponder[];
   optInFeatures?: OptInFeature[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   coverEntireOrganization?: boolean;
 }
 export const CreateMembershipRequest = S.suspend(() =>

@@ -2520,10 +2520,12 @@ export const CustomResponseBody = S.suspend(() =>
 ).annotations({
   identifier: "CustomResponseBody",
 }) as any as S.Schema<CustomResponseBody>;
-export type CustomResponseBodies = { [key: string]: CustomResponseBody };
+export type CustomResponseBodies = {
+  [key: string]: CustomResponseBody | undefined;
+};
 export const CustomResponseBodies = S.Record({
   key: S.String,
-  value: CustomResponseBody,
+  value: S.UndefinedOr(CustomResponseBody),
 });
 export interface UpdateRuleGroupRequest {
   Name: string;
@@ -2533,7 +2535,7 @@ export interface UpdateRuleGroupRequest {
   Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   LockToken: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
 }
 export const UpdateRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2657,11 +2659,13 @@ export type RequestBody = {
 export const RequestBody = S.partial(
   S.Record({
     key: AssociatedResourceType,
-    value: RequestBodyAssociatedResourceTypeConfig,
+    value: S.UndefinedOr(RequestBodyAssociatedResourceTypeConfig),
   }),
 );
 export interface AssociationConfig {
-  RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig };
+  RequestBody?: {
+    [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined;
+  };
 }
 export const AssociationConfig = S.suspend(() =>
   S.Struct({ RequestBody: S.optional(RequestBody) }),
@@ -2709,7 +2713,7 @@ export interface UpdateWebACLRequest {
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig;
   LockToken: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
   TokenDomains?: string[];
@@ -3381,7 +3385,7 @@ export interface WebACL {
   PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[];
   ManagedByFirewallManager?: boolean;
   LabelNamespace?: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
   TokenDomains?: string[];
@@ -3771,7 +3775,7 @@ export interface RuleGroup {
   Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   LabelNamespace?: string;
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   AvailableLabels?: LabelSummary[];
   ConsumedLabels?: LabelSummary[];
 }
@@ -3967,10 +3971,10 @@ export const WebACLSummary = S.suspend(() =>
 }) as any as S.Schema<WebACLSummary>;
 export type WebACLSummaries = WebACLSummary[];
 export const WebACLSummaries = S.Array(WebACLSummary);
-export type VersionsToPublish = { [key: string]: VersionToPublish };
+export type VersionsToPublish = { [key: string]: VersionToPublish | undefined };
 export const VersionsToPublish = S.Record({
   key: S.String,
-  value: VersionToPublish,
+  value: S.UndefinedOr(VersionToPublish),
 });
 export interface AndStatement {
   Statements: Statement[];
@@ -4042,7 +4046,7 @@ export interface CreateRuleGroupRequest {
   Rules?: Rule[];
   VisibilityConfig: VisibilityConfig;
   Tags?: Tag[];
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
 }
 export const CreateRuleGroupRequest = S.suspend(() =>
   S.Struct({
@@ -4283,7 +4287,7 @@ export interface PutManagedRuleSetVersionsRequest {
   Id: string;
   LockToken: string;
   RecommendedVersion?: string;
-  VersionsToPublish?: { [key: string]: VersionToPublish };
+  VersionsToPublish?: { [key: string]: VersionToPublish | undefined };
 }
 export const PutManagedRuleSetVersionsRequest = S.suspend(() =>
   S.Struct({
@@ -4427,10 +4431,12 @@ export const PutManagedRuleSetVersionsResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutManagedRuleSetVersionsResponse",
 }) as any as S.Schema<PutManagedRuleSetVersionsResponse>;
-export type PublishedVersions = { [key: string]: ManagedRuleSetVersion };
+export type PublishedVersions = {
+  [key: string]: ManagedRuleSetVersion | undefined;
+};
 export const PublishedVersions = S.Record({
   key: S.String,
-  value: ManagedRuleSetVersion,
+  value: S.UndefinedOr(ManagedRuleSetVersion),
 });
 export interface HTTPHeader {
   Name?: string;
@@ -4528,7 +4534,7 @@ export interface ManagedRuleSet {
   Id: string;
   ARN: string;
   Description?: string;
-  PublishedVersions?: { [key: string]: ManagedRuleSetVersion };
+  PublishedVersions?: { [key: string]: ManagedRuleSetVersion | undefined };
   RecommendedVersion?: string;
   LabelNamespace?: string;
 }
@@ -4610,7 +4616,7 @@ export interface CreateWebACLRequest {
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig;
   Tags?: Tag[];
-  CustomResponseBodies?: { [key: string]: CustomResponseBody };
+  CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
   TokenDomains?: string[];

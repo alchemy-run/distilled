@@ -442,15 +442,18 @@ export const BatchDisassociateProjectAssetsRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchDisassociateProjectAssetsRequest",
 }) as any as S.Schema<BatchDisassociateProjectAssetsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAssetRequest {
   assetName: string;
   assetModelId: string;
   assetId?: string;
   assetExternalId?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   assetDescription?: string;
 }
 export const CreateAssetRequest = S.suspend(() =>
@@ -713,7 +716,7 @@ export interface CreateDashboardRequest {
   dashboardDescription?: string;
   dashboardDefinition: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDashboardRequest = S.suspend(() =>
   S.Struct({
@@ -741,7 +744,7 @@ export interface CreateProjectRequest {
   projectName: string;
   projectDescription?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -2507,7 +2510,7 @@ export const PutStorageConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<PutStorageConfigurationRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2849,14 +2852,16 @@ export const ComputationModelDataBindingValue = S.suspend(() =>
   identifier: "ComputationModelDataBindingValue",
 }) as any as S.Schema<ComputationModelDataBindingValue>;
 export type ComputationModelDataBinding = {
-  [key: string]: ComputationModelDataBindingValue;
+  [key: string]: ComputationModelDataBindingValue | undefined;
 };
 export const ComputationModelDataBinding = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<ComputationModelDataBindingValue, any> =>
-      ComputationModelDataBindingValue,
-  ).annotations({ identifier: "ComputationModelDataBindingValue" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<ComputationModelDataBindingValue, any> =>
+        ComputationModelDataBindingValue,
+    ).annotations({ identifier: "ComputationModelDataBindingValue" }),
+  ),
 });
 export interface UpdateComputationModelRequest {
   computationModelId: string;
@@ -2864,7 +2869,7 @@ export interface UpdateComputationModelRequest {
   computationModelDescription?: string;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: {
-    [key: string]: ComputationModelDataBindingValue;
+    [key: string]: ComputationModelDataBindingValue | undefined;
   };
   clientToken?: string;
 }
@@ -3798,7 +3803,7 @@ export interface DescribeComputationModelResponse {
   computationModelDescription?: string;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: {
-    [key: string]: ComputationModelDataBindingValue;
+    [key: string]: ComputationModelDataBindingValue | undefined;
   };
   computationModelCreationDate: Date;
   computationModelLastUpdateDate: Date;
@@ -4079,7 +4084,7 @@ export const ListProjectAssetsResponse = S.suspend(() =>
   identifier: "ListProjectAssetsResponse",
 }) as any as S.Schema<ListProjectAssetsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -4207,10 +4212,12 @@ export const PortalTypeEntry = S.suspend(() =>
 ).annotations({
   identifier: "PortalTypeEntry",
 }) as any as S.Schema<PortalTypeEntry>;
-export type PortalTypeConfiguration = { [key: string]: PortalTypeEntry };
+export type PortalTypeConfiguration = {
+  [key: string]: PortalTypeEntry | undefined;
+};
 export const PortalTypeConfiguration = S.Record({
   key: S.String,
-  value: PortalTypeEntry,
+  value: S.UndefinedOr(PortalTypeEntry),
 });
 export interface UpdatePortalRequest {
   portalId: string;
@@ -4223,7 +4230,7 @@ export interface UpdatePortalRequest {
   notificationSenderEmail?: string | redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry };
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
 }
 export const UpdatePortalRequest = S.suspend(() =>
   S.Struct({
@@ -4541,10 +4548,12 @@ export const CompositeModelProperty = S.suspend(() =>
 ).annotations({
   identifier: "CompositeModelProperty",
 }) as any as S.Schema<CompositeModelProperty>;
-export type ComputationModelExecutionSummary = { [key: string]: string };
+export type ComputationModelExecutionSummary = {
+  [key: string]: string | undefined;
+};
 export const ComputationModelExecutionSummary = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ExecutionStatus {
   state: ExecutionState;
@@ -4554,10 +4563,16 @@ export const ExecutionStatus = S.suspend(() =>
 ).annotations({
   identifier: "ExecutionStatus",
 }) as any as S.Schema<ExecutionStatus>;
-export type ExecutionResult = { [key: string]: string };
-export const ExecutionResult = S.Record({ key: S.String, value: S.String });
-export type ExecutionDetails = { [key: string]: string };
-export const ExecutionDetails = S.Record({ key: S.String, value: S.String });
+export type ExecutionResult = { [key: string]: string | undefined };
+export const ExecutionResult = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type ExecutionDetails = { [key: string]: string | undefined };
+export const ExecutionDetails = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GatewayCapabilitySummary {
   capabilityNamespace: string;
   capabilitySyncStatus: CapabilitySyncStatus;
@@ -5080,7 +5095,7 @@ export interface CreateAccessPolicyRequest {
   accessPolicyResource: Resource;
   accessPolicyPermission: Permission;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAccessPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -5120,7 +5135,7 @@ export interface CreateGatewayRequest {
   gatewayName: string;
   gatewayPlatform: GatewayPlatform;
   gatewayVersion?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -5148,12 +5163,12 @@ export interface CreatePortalRequest {
   clientToken?: string;
   portalLogoImageFile?: ImageFile;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   portalAuthMode?: AuthMode;
   notificationSenderEmail?: string | redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry };
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
 }
 export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
@@ -5307,7 +5322,7 @@ export const DescribeAssetPropertyResponse = S.suspend(() =>
 export interface DescribeComputationModelExecutionSummaryResponse {
   computationModelId: string;
   resolveTo?: ResolveTo;
-  computationModelExecutionSummary: { [key: string]: string };
+  computationModelExecutionSummary: { [key: string]: string | undefined };
 }
 export const DescribeComputationModelExecutionSummaryResponse = S.suspend(() =>
   S.Struct({
@@ -5341,8 +5356,8 @@ export interface DescribeExecutionResponse {
   executionStartTime: Date;
   executionEndTime?: Date;
   executionStatus: ExecutionStatus;
-  executionResult?: { [key: string]: string };
-  executionDetails?: { [key: string]: string };
+  executionResult?: { [key: string]: string | undefined };
+  executionDetails?: { [key: string]: string | undefined };
   executionEntityVersion?: string;
 }
 export const DescribeExecutionResponse = S.suspend(() =>
@@ -5405,7 +5420,7 @@ export interface DescribePortalResponse {
   notificationSenderEmail?: string | redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: PortalType;
-  portalTypeConfiguration?: { [key: string]: PortalTypeEntry };
+  portalTypeConfiguration?: { [key: string]: PortalTypeEntry | undefined };
 }
 export const DescribePortalResponse = S.suspend(() =>
   S.Struct({
@@ -6147,10 +6162,10 @@ export interface CreateComputationModelRequest {
   computationModelDescription?: string;
   computationModelConfiguration: ComputationModelConfiguration;
   computationModelDataBinding: {
-    [key: string]: ComputationModelDataBindingValue;
+    [key: string]: ComputationModelDataBindingValue | undefined;
   };
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateComputationModelRequest = S.suspend(() =>
   S.Struct({
@@ -6179,7 +6194,7 @@ export interface CreateDatasetRequest {
   datasetDescription?: string;
   datasetSource: DatasetSource;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -6637,7 +6652,7 @@ export interface CreateAssetModelRequest {
   assetModelHierarchies?: AssetModelHierarchyDefinition[];
   assetModelCompositeModels?: AssetModelCompositeModelDefinition[];
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAssetModelRequest = S.suspend(() =>
   S.Struct({

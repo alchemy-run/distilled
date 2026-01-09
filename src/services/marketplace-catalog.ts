@@ -2028,12 +2028,15 @@ export const OfferSetFilters = S.suspend(() =>
 ).annotations({
   identifier: "OfferSetFilters",
 }) as any as S.Schema<OfferSetFilters>;
-export type EntityDetails = { [key: string]: EntityDetail };
-export const EntityDetails = S.Record({ key: S.String, value: EntityDetail });
-export type Errors = { [key: string]: BatchDescribeErrorDetail };
+export type EntityDetails = { [key: string]: EntityDetail | undefined };
+export const EntityDetails = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(EntityDetail),
+});
+export type Errors = { [key: string]: BatchDescribeErrorDetail | undefined };
 export const Errors = S.Record({
   key: S.String,
-  value: BatchDescribeErrorDetail,
+  value: S.UndefinedOr(BatchDescribeErrorDetail),
 });
 export type EntityTypeFilters =
   | {
@@ -2127,8 +2130,8 @@ export const EntityTypeFilters = S.Union(
   S.Struct({ OfferSetFilters: OfferSetFilters }),
 );
 export interface BatchDescribeEntitiesResponse {
-  EntityDetails?: { [key: string]: EntityDetail };
-  Errors?: { [key: string]: BatchDescribeErrorDetail };
+  EntityDetails?: { [key: string]: EntityDetail | undefined };
+  Errors?: { [key: string]: BatchDescribeErrorDetail | undefined };
 }
 export const BatchDescribeEntitiesResponse = S.suspend(() =>
   S.Struct({

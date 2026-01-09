@@ -760,8 +760,11 @@ export const StopQueryWorkloadInsightsTopContributorsDataOutput = S.suspend(
 ).annotations({
   identifier: "StopQueryWorkloadInsightsTopContributorsDataOutput",
 }) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataOutput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type MetricUnit =
   | "Seconds"
   | "Microseconds"
@@ -846,7 +849,7 @@ export const ScopeStatus = S.Literal(
   "DEACTIVATED",
 );
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -855,7 +858,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -884,7 +887,7 @@ export interface CreateMonitorInput {
   remoteResources?: MonitorRemoteResource[];
   scopeArn: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorInput = S.suspend(() =>
   S.Struct({
@@ -915,7 +918,7 @@ export interface GetMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetMonitorOutput = S.suspend(() =>
   S.Struct({
@@ -939,7 +942,7 @@ export interface UpdateMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateMonitorOutput = S.suspend(() =>
   S.Struct({
@@ -976,7 +979,7 @@ export interface GetScopeOutput {
   status: ScopeStatus;
   scopeArn: string;
   targets: TargetResource[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetScopeOutput = S.suspend(() =>
   S.Struct({
@@ -993,7 +996,7 @@ export interface UpdateScopeOutput {
   scopeId: string;
   status: ScopeStatus;
   scopeArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateScopeOutput = S.suspend(() =>
   S.Struct({
@@ -1126,7 +1129,7 @@ export interface CreateMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMonitorOutput = S.suspend(() =>
   S.Struct({
@@ -1303,7 +1306,7 @@ export const GetQueryResultsMonitorTopContributorsOutput = S.suspend(() =>
 export interface CreateScopeInput {
   targets: TargetResource[];
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScopeInput = S.suspend(() =>
   S.Struct({
@@ -1327,7 +1330,7 @@ export interface CreateScopeOutput {
   scopeId: string;
   status: ScopeStatus;
   scopeArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScopeOutput = S.suspend(() =>
   S.Struct({

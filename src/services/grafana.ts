@@ -691,12 +691,15 @@ export type AllowedOrganizations = string[];
 export const AllowedOrganizations = S.Array(S.String);
 export type GrafanaVersionList = string[];
 export const GrafanaVersionList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type RoleValueList = string[];
 export const RoleValueList = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -717,7 +720,7 @@ export const ListVersionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListVersionsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -802,7 +805,7 @@ export interface WorkspaceDescription {
   licenseExpiration?: Date;
   freeTrialExpiration?: Date;
   authentication: AuthenticationSummary;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   vpcConfiguration?: VpcConfiguration;
   networkAccessControl?: NetworkAccessConfiguration;
   grafanaToken?: string;
@@ -902,7 +905,7 @@ export interface CreateWorkspaceRequest {
   workspaceOrganizationalUnits?: string[];
   workspaceRoleArn?: string | redacted.Redacted<string>;
   authenticationProviders: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   vpcConfiguration?: VpcConfiguration;
   configuration?: string;
   networkAccessControl?: NetworkAccessConfiguration;
@@ -1110,7 +1113,7 @@ export interface WorkspaceSummary {
   notificationDestinations?: string[];
   status: string;
   authentication: AuthenticationSummary;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   licenseType?: string;
   grafanaToken?: string;
 }

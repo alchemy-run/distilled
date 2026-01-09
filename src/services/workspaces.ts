@@ -2383,8 +2383,11 @@ export type DescribeWorkspacesPoolsFilters = DescribeWorkspacesPoolsFilter[];
 export const DescribeWorkspacesPoolsFilters = S.Array(
   DescribeWorkspacesPoolsFilter,
 );
-export type LoginMessage = { [key: string]: string };
-export const LoginMessage = S.Record({ key: S.String, value: S.String });
+export type LoginMessage = { [key: string]: string | undefined };
+export const LoginMessage = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface IosImportClientBrandingAttributes {
   Logo?: Uint8Array;
   Logo2x?: Uint8Array;
@@ -2392,7 +2395,7 @@ export interface IosImportClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string };
+  LoginMessage?: { [key: string]: string | undefined };
 }
 export const IosImportClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3594,7 +3597,7 @@ export interface DefaultClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string };
+  LoginMessage?: { [key: string]: string | undefined };
 }
 export const DefaultClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3614,7 +3617,7 @@ export interface IosClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string };
+  LoginMessage?: { [key: string]: string | undefined };
 }
 export const IosClientBrandingAttributes = S.suspend(() =>
   S.Struct({
@@ -3968,7 +3971,7 @@ export interface DefaultImportClientBrandingAttributes {
   SupportEmail?: string;
   SupportLink?: string;
   ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string };
+  LoginMessage?: { [key: string]: string | undefined };
 }
 export const DefaultImportClientBrandingAttributes = S.suspend(() =>
   S.Struct({

@@ -416,14 +416,17 @@ export const ResetGraphInput = S.suspend(() =>
 ).annotations({
   identifier: "ResetGraphInput",
 }) as any as S.Schema<ResetGraphInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RestoreGraphFromSnapshotInput {
   snapshotIdentifier: string;
   graphName: string;
   provisionedMemory?: number;
   deletionProtection?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   replicaCount?: number;
   publicConnectivity?: boolean;
 }
@@ -622,7 +625,7 @@ export const ListPrivateGraphEndpointsInput = S.suspend(() =>
 export interface CreateGraphSnapshotInput {
   graphIdentifier: string;
   snapshotName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateGraphSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -887,8 +890,11 @@ export const StartImportTaskInput = S.suspend(() =>
 ).annotations({
   identifier: "StartImportTaskInput",
 }) as any as S.Schema<StartImportTaskInput>;
-export type DocumentValuedMap = { [key: string]: any };
-export const DocumentValuedMap = S.Record({ key: S.String, value: S.Any });
+export type DocumentValuedMap = { [key: string]: any | undefined };
+export const DocumentValuedMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Any),
+});
 export type QueryState = "RUNNING" | "WAITING" | "CANCELLING";
 export const QueryState = S.Literal("RUNNING", "WAITING", "CANCELLING");
 export interface VectorSearchConfiguration {
@@ -988,7 +994,7 @@ export interface ExecuteQueryInput {
   graphIdentifier: string;
   queryString: string;
   language: QueryLanguage;
-  parameters?: { [key: string]: any };
+  parameters?: { [key: string]: any | undefined };
   planCache?: PlanCacheType;
   explainMode?: ExplainMode;
   queryTimeoutMilliseconds?: number;
@@ -1038,7 +1044,7 @@ export const GetQueryOutput = S.suspend(() =>
   identifier: "GetQueryOutput",
 }) as any as S.Schema<GetQueryOutput>;
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1047,7 +1053,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -1073,7 +1079,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceOutput>;
 export interface CreateGraphInput {
   graphName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   publicConnectivity?: boolean;
   kmsKeyIdentifier?: string;
   vectorSearchConfiguration?: VectorSearchConfiguration;
@@ -1850,7 +1856,7 @@ export const ListGraphSnapshotsOutput = S.suspend(() =>
 }) as any as S.Schema<ListGraphSnapshotsOutput>;
 export interface CreateGraphUsingImportTaskInput {
   graphName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   publicConnectivity?: boolean;
   kmsKeyIdentifier?: string;
   vectorSearchConfiguration?: VectorSearchConfiguration;
@@ -1915,28 +1921,30 @@ export const ExportFilterPropertyAttributes = S.suspend(() =>
   identifier: "ExportFilterPropertyAttributes",
 }) as any as S.Schema<ExportFilterPropertyAttributes>;
 export type ExportFilterPropertyMap = {
-  [key: string]: ExportFilterPropertyAttributes;
+  [key: string]: ExportFilterPropertyAttributes | undefined;
 };
 export const ExportFilterPropertyMap = S.Record({
   key: S.String,
-  value: ExportFilterPropertyAttributes,
+  value: S.UndefinedOr(ExportFilterPropertyAttributes),
 });
 export interface ExportFilterElement {
-  properties?: { [key: string]: ExportFilterPropertyAttributes };
+  properties?: { [key: string]: ExportFilterPropertyAttributes | undefined };
 }
 export const ExportFilterElement = S.suspend(() =>
   S.Struct({ properties: S.optional(ExportFilterPropertyMap) }),
 ).annotations({
   identifier: "ExportFilterElement",
 }) as any as S.Schema<ExportFilterElement>;
-export type ExportFilterPerLabelMap = { [key: string]: ExportFilterElement };
+export type ExportFilterPerLabelMap = {
+  [key: string]: ExportFilterElement | undefined;
+};
 export const ExportFilterPerLabelMap = S.Record({
   key: S.String,
-  value: ExportFilterElement,
+  value: S.UndefinedOr(ExportFilterElement),
 });
 export interface ExportFilter {
-  vertexFilter?: { [key: string]: ExportFilterElement };
-  edgeFilter?: { [key: string]: ExportFilterElement };
+  vertexFilter?: { [key: string]: ExportFilterElement | undefined };
+  edgeFilter?: { [key: string]: ExportFilterElement | undefined };
 }
 export const ExportFilter = S.suspend(() =>
   S.Struct({
@@ -2022,9 +2030,12 @@ export const ListImportTasksOutput = S.suspend(() =>
 ).annotations({
   identifier: "ListImportTasksOutput",
 }) as any as S.Schema<ListImportTasksOutput>;
-export type LongValuedMap = { [key: string]: number };
-export const LongValuedMap = S.Record({ key: S.String, value: S.Number });
-export type LongValuedMapList = { [key: string]: number }[];
+export type LongValuedMap = { [key: string]: number | undefined };
+export const LongValuedMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
+export type LongValuedMapList = { [key: string]: number | undefined }[];
 export const LongValuedMapList = S.Array(LongValuedMap);
 export interface NodeStructure {
   count?: number;
@@ -2065,8 +2076,8 @@ export interface GraphDataSummary {
   edgeLabels?: string[];
   numNodeProperties?: number;
   numEdgeProperties?: number;
-  nodeProperties?: { [key: string]: number }[];
-  edgeProperties?: { [key: string]: number }[];
+  nodeProperties?: { [key: string]: number | undefined }[];
+  edgeProperties?: { [key: string]: number | undefined }[];
   totalNodePropertyValues?: number;
   totalEdgePropertyValues?: number;
   nodeStructures?: NodeStructure[];
@@ -2170,7 +2181,7 @@ export interface StartExportTaskInput {
   kmsKeyIdentifier: string;
   parquetType?: ParquetType;
   exportFilter?: ExportFilter;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartExportTaskInput = S.suspend(() =>
   S.Struct({

@@ -1726,8 +1726,11 @@ export const GetVehicleRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetVehicleRequest",
 }) as any as S.Schema<GetVehicleRequest>;
-export type AttributesMap = { [key: string]: string };
-export const AttributesMap = S.Record({ key: S.String, value: S.String });
+export type AttributesMap = { [key: string]: string | undefined };
+export const AttributesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type TimeUnit = "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR";
 export const TimeUnit = S.Literal("MILLISECOND", "SECOND", "MINUTE", "HOUR");
 export interface TimePeriod {
@@ -1776,7 +1779,7 @@ export interface UpdateVehicleRequest {
   vehicleName: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   attributeUpdateMode?: UpdateMode;
   stateTemplatesToAdd?: StateTemplateAssociation[];
   stateTemplatesToRemove?: string[];
@@ -1942,7 +1945,7 @@ export interface CreateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   associationBehavior?: VehicleAssociationBehavior;
   tags?: Tag[];
   stateTemplates?: StateTemplateAssociation[];
@@ -1966,7 +1969,7 @@ export interface UpdateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   attributeUpdateMode?: UpdateMode;
   stateTemplatesToAdd?: StateTemplateAssociation[];
   stateTemplatesToRemove?: string[];
@@ -2792,7 +2795,7 @@ export interface GetVehicleResponse {
   arn?: string;
   modelManifestArn?: string;
   decoderManifestArn?: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   stateTemplates?: StateTemplateAssociation[];
   creationTime?: Date;
   lastModificationTime?: Date;
@@ -3042,7 +3045,7 @@ export interface VehicleSummary {
   decoderManifestArn: string;
   creationTime: Date;
   lastModificationTime: Date;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const VehicleSummary = S.suspend(() =>
   S.Struct({
@@ -3059,8 +3062,11 @@ export const VehicleSummary = S.suspend(() =>
 }) as any as S.Schema<VehicleSummary>;
 export type VehicleSummaries = VehicleSummary[];
 export const VehicleSummaries = S.Array(VehicleSummary);
-export type ModelSignalsMap = { [key: string]: string };
-export const ModelSignalsMap = S.Record({ key: S.String, value: S.String });
+export type ModelSignalsMap = { [key: string]: string | undefined };
+export const ModelSignalsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetVehicleStatusResponse {
   campaigns?: VehicleStatus[];
   nextToken?: string;
@@ -3241,7 +3247,7 @@ export const ListVehiclesResponse = S.suspend(() =>
 export interface CanDbcDefinition {
   networkInterface: string;
   canDbcFiles: Uint8Array[];
-  signalsMap?: { [key: string]: string };
+  signalsMap?: { [key: string]: string | undefined };
 }
 export const CanDbcDefinition = S.suspend(() =>
   S.Struct({
@@ -3603,7 +3609,7 @@ export interface CreateVehicleRequest {
   vehicleName: string;
   modelManifestArn: string;
   decoderManifestArn: string;
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
   associationBehavior?: VehicleAssociationBehavior;
   tags?: Tag[];
   stateTemplates?: StateTemplateAssociation[];

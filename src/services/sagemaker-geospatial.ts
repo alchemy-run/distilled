@@ -438,8 +438,8 @@ export const LandCoverSegmentationConfigInput = S.suspend(() =>
 ).annotations({
   identifier: "LandCoverSegmentationConfigInput",
 }) as any as S.Schema<LandCoverSegmentationConfigInput>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export type ImageSourceBandList = string[];
 export const ImageSourceBandList = S.Array(S.String);
 export type TemporalStatisticsListInput = string[];
@@ -447,7 +447,7 @@ export const TemporalStatisticsListInput = S.Array(S.String);
 export type ZonalStatisticsListInput = string[];
 export const ZonalStatisticsListInput = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -456,7 +456,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -828,7 +828,7 @@ export interface ListEarthObservationJobOutputConfig {
   DurationInSeconds: number;
   Status: string;
   OperationType: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListEarthObservationJobOutputConfig = S.suspend(() =>
   S.Struct({
@@ -878,7 +878,7 @@ export interface RasterDataCollectionMetadata {
   Description: string;
   DescriptionPageUrl?: string;
   SupportedFilters: Filter[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RasterDataCollectionMetadata = S.suspend(() =>
   S.Struct({
@@ -945,7 +945,7 @@ export interface ListVectorEnrichmentJobOutputConfig {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListVectorEnrichmentJobOutputConfig = S.suspend(() =>
   S.Struct({
@@ -1038,7 +1038,7 @@ export interface GetRasterDataCollectionOutput {
   DescriptionPageUrl: string;
   SupportedFilters: Filter[];
   ImageSourceBands: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetRasterDataCollectionOutput = S.suspend(() =>
   S.Struct({
@@ -1073,7 +1073,7 @@ export interface StartVectorEnrichmentJobInput {
   InputConfig: VectorEnrichmentJobInputConfig;
   JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartVectorEnrichmentJobInput = S.suspend(() =>
   S.Struct({
@@ -1111,7 +1111,7 @@ export interface GetVectorEnrichmentJobOutput {
   ErrorDetails?: VectorEnrichmentJobErrorDetails;
   ExportStatus?: string;
   ExportErrorDetails?: VectorEnrichmentJobExportErrorDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
@@ -1276,7 +1276,7 @@ export interface StartVectorEnrichmentJobOutput {
   InputConfig: VectorEnrichmentJobInputConfig;
   JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
@@ -1487,7 +1487,7 @@ export interface StartEarthObservationJobInput {
   InputConfig: InputConfigInput;
   JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartEarthObservationJobInput = S.suspend(() =>
   S.Struct({
@@ -1525,7 +1525,7 @@ export interface GetEarthObservationJobOutput {
   ErrorDetails?: EarthObservationJobErrorDetails;
   ExportStatus?: string;
   ExportErrorDetails?: ExportErrorDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
@@ -1573,7 +1573,7 @@ export interface StartEarthObservationJobOutput {
   InputConfig?: InputConfigOutput;
   JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const StartEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
@@ -1645,12 +1645,15 @@ export interface AssetValue {
 export const AssetValue = S.suspend(() =>
   S.Struct({ Href: S.optional(S.String) }),
 ).annotations({ identifier: "AssetValue" }) as any as S.Schema<AssetValue>;
-export type AssetsMap = { [key: string]: AssetValue };
-export const AssetsMap = S.Record({ key: S.String, value: AssetValue });
+export type AssetsMap = { [key: string]: AssetValue | undefined };
+export const AssetsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(AssetValue),
+});
 export interface ItemSource {
   Id: string;
   Geometry: Geometry;
-  Assets?: { [key: string]: AssetValue };
+  Assets?: { [key: string]: AssetValue | undefined };
   DateTime: Date;
   Properties?: Properties;
 }

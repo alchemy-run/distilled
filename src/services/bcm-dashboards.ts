@@ -520,10 +520,12 @@ export const GraphDisplayConfig = S.suspend(() =>
 ).annotations({
   identifier: "GraphDisplayConfig",
 }) as any as S.Schema<GraphDisplayConfig>;
-export type GraphDisplayConfigMap = { [key: string]: GraphDisplayConfig };
+export type GraphDisplayConfigMap = {
+  [key: string]: GraphDisplayConfig | undefined;
+};
 export const GraphDisplayConfigMap = S.Record({
   key: S.String,
-  value: GraphDisplayConfig,
+  value: S.UndefinedOr(GraphDisplayConfig),
 });
 export interface TableDisplayConfigStruct {}
 export const TableDisplayConfigStruct = S.suspend(() =>
@@ -532,7 +534,7 @@ export const TableDisplayConfigStruct = S.suspend(() =>
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
-  | { graph: { [key: string]: GraphDisplayConfig }; table?: never }
+  | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: never }
   | { graph?: never; table: TableDisplayConfigStruct };
 export const DisplayConfig = S.Union(
   S.Struct({ graph: GraphDisplayConfigMap }),

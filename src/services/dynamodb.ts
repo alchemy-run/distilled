@@ -990,7 +990,7 @@ export type AttributeValue =
       SS?: never;
       NS?: never;
       BS?: never;
-      M: { [key: string]: AttributeValue };
+      M: { [key: string]: AttributeValue | undefined };
       L?: never;
       NULL?: never;
       BOOL?: never;
@@ -1051,26 +1051,28 @@ export const AttributeValue = S.Union(
   S.Struct({ NULL: S.Boolean }),
   S.Struct({ BOOL: S.Boolean }),
 ) as any as S.Schema<AttributeValue>;
-export type Key = { [key: string]: AttributeValue };
+export type Key = { [key: string]: AttributeValue | undefined };
 export const Key = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
-export type ExpressionAttributeNameMap = { [key: string]: string };
+export type ExpressionAttributeNameMap = { [key: string]: string | undefined };
 export const ExpressionAttributeNameMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface GetItemInput {
   TableName: string;
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
   AttributesToGet?: string[];
   ConsistentRead?: boolean;
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
 }
 export const GetItemInput = S.suspend(() =>
   S.Struct({
@@ -1546,14 +1548,21 @@ export const Condition = S.suspend(() =>
     ComparisonOperator: ComparisonOperator,
   }),
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
-export type FilterConditionMap = { [key: string]: Condition };
-export const FilterConditionMap = S.Record({ key: S.String, value: Condition });
-export type ExpressionAttributeValueMap = { [key: string]: AttributeValue };
+export type FilterConditionMap = { [key: string]: Condition | undefined };
+export const FilterConditionMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Condition),
+});
+export type ExpressionAttributeValueMap = {
+  [key: string]: AttributeValue | undefined;
+};
 export const ExpressionAttributeValueMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
 export interface ScanInput {
   TableName: string;
@@ -1561,16 +1570,16 @@ export interface ScanInput {
   AttributesToGet?: string[];
   Limit?: number;
   Select?: Select;
-  ScanFilter?: { [key: string]: Condition };
+  ScanFilter?: { [key: string]: Condition | undefined };
   ConditionalOperator?: ConditionalOperator;
-  ExclusiveStartKey?: { [key: string]: AttributeValue };
+  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined };
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   TotalSegments?: number;
   Segment?: number;
   ProjectionExpression?: string;
   FilterExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ConsistentRead?: boolean;
 }
 export const ScanInput = S.suspend(() =>
@@ -1864,21 +1873,27 @@ export const TableCreationParameters = S.suspend(() =>
 }) as any as S.Schema<TableCreationParameters>;
 export type TableNameList = string[];
 export const TableNameList = S.Array(S.String);
-export type PutItemInputAttributeMap = { [key: string]: AttributeValue };
+export type PutItemInputAttributeMap = {
+  [key: string]: AttributeValue | undefined;
+};
 export const PutItemInputAttributeMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
-export type AttributeMap = { [key: string]: AttributeValue };
+export type AttributeMap = { [key: string]: AttributeValue | undefined };
 export const AttributeMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
-export type ItemList = { [key: string]: AttributeValue }[];
+export type ItemList = { [key: string]: AttributeValue | undefined }[];
 export const ItemList = S.Array(AttributeMap);
 export interface PointInTimeRecoverySpecification {
   PointInTimeRecoveryEnabled: boolean;
@@ -2001,7 +2016,7 @@ export const TimeToLiveSpecification = S.suspend(() =>
 ).annotations({
   identifier: "TimeToLiveSpecification",
 }) as any as S.Schema<TimeToLiveSpecification>;
-export type KeyList = { [key: string]: AttributeValue }[];
+export type KeyList = { [key: string]: AttributeValue | undefined }[];
 export const KeyList = S.Array(Key);
 export type CsvHeaderList = string[];
 export const CsvHeaderList = S.Array(S.String);
@@ -2776,22 +2791,24 @@ export const ExpectedAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "ExpectedAttributeValue",
 }) as any as S.Schema<ExpectedAttributeValue>;
-export type ExpectedAttributeMap = { [key: string]: ExpectedAttributeValue };
+export type ExpectedAttributeMap = {
+  [key: string]: ExpectedAttributeValue | undefined;
+};
 export const ExpectedAttributeMap = S.Record({
   key: S.String,
-  value: ExpectedAttributeValue,
+  value: S.UndefinedOr(ExpectedAttributeValue),
 });
 export interface PutItemInput {
   TableName: string;
-  Item: { [key: string]: AttributeValue };
-  Expected?: { [key: string]: ExpectedAttributeValue };
+  Item: { [key: string]: AttributeValue | undefined };
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
   ReturnValues?: ReturnValue;
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
   ConditionalOperator?: ConditionalOperator;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const PutItemInput = S.suspend(() =>
@@ -2857,10 +2874,12 @@ export const Capacity = S.suspend(() =>
     CapacityUnits: S.optional(S.Number),
   }),
 ).annotations({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
-export type SecondaryIndexesCapacityMap = { [key: string]: Capacity };
+export type SecondaryIndexesCapacityMap = {
+  [key: string]: Capacity | undefined;
+};
 export const SecondaryIndexesCapacityMap = S.Record({
   key: S.String,
-  value: Capacity,
+  value: S.UndefinedOr(Capacity),
 });
 export interface ConsumedCapacity {
   TableName?: string;
@@ -2868,8 +2887,8 @@ export interface ConsumedCapacity {
   ReadCapacityUnits?: number;
   WriteCapacityUnits?: number;
   Table?: Capacity;
-  LocalSecondaryIndexes?: { [key: string]: Capacity };
-  GlobalSecondaryIndexes?: { [key: string]: Capacity };
+  LocalSecondaryIndexes?: { [key: string]: Capacity | undefined };
+  GlobalSecondaryIndexes?: { [key: string]: Capacity | undefined };
 }
 export const ConsumedCapacity = S.suspend(() =>
   S.Struct({
@@ -2885,10 +2904,10 @@ export const ConsumedCapacity = S.suspend(() =>
   identifier: "ConsumedCapacity",
 }) as any as S.Schema<ConsumedCapacity>;
 export interface ScanOutput {
-  Items?: { [key: string]: AttributeValue }[];
+  Items?: { [key: string]: AttributeValue | undefined }[];
   Count?: number;
   ScannedCount?: number;
-  LastEvaluatedKey?: { [key: string]: AttributeValue };
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
 }
 export const ScanOutput = S.suspend(() =>
@@ -2987,11 +3006,11 @@ export const UpdateTimeToLiveInput = S.suspend(() =>
   identifier: "UpdateTimeToLiveInput",
 }) as any as S.Schema<UpdateTimeToLiveInput>;
 export interface KeysAndAttributes {
-  Keys: { [key: string]: AttributeValue }[];
+  Keys: { [key: string]: AttributeValue | undefined }[];
   AttributesToGet?: string[];
   ConsistentRead?: boolean;
   ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
 }
 export const KeysAndAttributes = S.suspend(() =>
   S.Struct({
@@ -3028,12 +3047,14 @@ export const ImportStatus = S.Literal(
   "CANCELLED",
   "FAILED",
 );
-export type MapAttributeValue = { [key: string]: AttributeValue };
+export type MapAttributeValue = { [key: string]: AttributeValue | undefined };
 export const MapAttributeValue = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 }) as any as S.Schema<MapAttributeValue>;
 export interface CsvOptions {
   Delimiter?: string;
@@ -3046,10 +3067,10 @@ export const CsvOptions = S.suspend(() =>
   }),
 ).annotations({ identifier: "CsvOptions" }) as any as S.Schema<CsvOptions>;
 export interface Get {
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
   ProjectionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
 }
 export const Get = S.suspend(() =>
   S.Struct({
@@ -3060,11 +3081,11 @@ export const Get = S.suspend(() =>
   }),
 ).annotations({ identifier: "Get" }) as any as S.Schema<Get>;
 export interface ConditionCheck {
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
   ConditionExpression: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const ConditionCheck = S.suspend(() =>
@@ -3082,11 +3103,11 @@ export const ConditionCheck = S.suspend(() =>
   identifier: "ConditionCheck",
 }) as any as S.Schema<ConditionCheck>;
 export interface Put {
-  Item: { [key: string]: AttributeValue };
+  Item: { [key: string]: AttributeValue | undefined };
   TableName: string;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const Put = S.suspend(() =>
@@ -3102,11 +3123,11 @@ export const Put = S.suspend(() =>
   }),
 ).annotations({ identifier: "Put" }) as any as S.Schema<Put>;
 export interface Delete {
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
   TableName: string;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const Delete = S.suspend(() =>
@@ -3122,12 +3143,12 @@ export const Delete = S.suspend(() =>
   }),
 ).annotations({ identifier: "Delete" }) as any as S.Schema<Delete>;
 export interface Update {
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
   UpdateExpression: string;
   TableName: string;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const Update = S.suspend(() =>
@@ -3319,10 +3340,12 @@ export const ReplicaGlobalSecondaryIndexAutoScalingUpdateList = S.Array(
 );
 export type ConsumedCapacityMultiple = ConsumedCapacity[];
 export const ConsumedCapacityMultiple = S.Array(ConsumedCapacity);
-export type BatchGetRequestMap = { [key: string]: KeysAndAttributes };
+export type BatchGetRequestMap = {
+  [key: string]: KeysAndAttributes | undefined;
+};
 export const BatchGetRequestMap = S.Record({
   key: S.String,
-  value: KeysAndAttributes,
+  value: S.UndefinedOr(KeysAndAttributes),
 });
 export interface FailureException {
   ExceptionName?: string;
@@ -3588,8 +3611,11 @@ export const ImportSummary = S.suspend(() =>
 }) as any as S.Schema<ImportSummary>;
 export type ImportSummaryList = ImportSummary[];
 export const ImportSummaryList = S.Array(ImportSummary);
-export type KeyConditions = { [key: string]: Condition };
-export const KeyConditions = S.Record({ key: S.String, value: Condition });
+export type KeyConditions = { [key: string]: Condition | undefined };
+export const KeyConditions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Condition),
+});
 export interface TransactGetItem {
   Get: Get;
 }
@@ -3656,10 +3682,12 @@ export const ReplicaSettingsUpdate = S.suspend(() =>
 }) as any as S.Schema<ReplicaSettingsUpdate>;
 export type ReplicaSettingsUpdateList = ReplicaSettingsUpdate[];
 export const ReplicaSettingsUpdateList = S.Array(ReplicaSettingsUpdate);
-export type AttributeUpdates = { [key: string]: AttributeValueUpdate };
+export type AttributeUpdates = {
+  [key: string]: AttributeValueUpdate | undefined;
+};
 export const AttributeUpdates = S.Record({
   key: S.String,
-  value: AttributeValueUpdate,
+  value: S.UndefinedOr(AttributeValueUpdate),
 });
 export interface GlobalSecondaryIndexUpdate {
   Update?: UpdateGlobalSecondaryIndexAction;
@@ -3716,13 +3744,13 @@ export const ReplicaAutoScalingUpdate = S.suspend(() =>
 export type ReplicaAutoScalingUpdateList = ReplicaAutoScalingUpdate[];
 export const ReplicaAutoScalingUpdateList = S.Array(ReplicaAutoScalingUpdate);
 export interface PutRequest {
-  Item: { [key: string]: AttributeValue };
+  Item: { [key: string]: AttributeValue | undefined };
 }
 export const PutRequest = S.suspend(() =>
   S.Struct({ Item: PutItemInputAttributeMap }),
 ).annotations({ identifier: "PutRequest" }) as any as S.Schema<PutRequest>;
 export interface DeleteRequest {
-  Key: { [key: string]: AttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
 }
 export const DeleteRequest = S.suspend(() =>
   S.Struct({ Key: Key }),
@@ -3732,7 +3760,7 @@ export const DeleteRequest = S.suspend(() =>
 export type PointInTimeRecoveryStatus = "ENABLED" | "DISABLED";
 export const PointInTimeRecoveryStatus = S.Literal("ENABLED", "DISABLED");
 export interface BatchGetItemInput {
-  RequestItems: { [key: string]: KeysAndAttributes };
+  RequestItems: { [key: string]: KeysAndAttributes | undefined };
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
 }
 export const BatchGetItemInput = S.suspend(() =>
@@ -3821,15 +3849,15 @@ export const CreateTableInput = S.suspend(() =>
 }) as any as S.Schema<CreateTableInput>;
 export interface DeleteItemInput {
   TableName: string;
-  Key: { [key: string]: AttributeValue };
-  Expected?: { [key: string]: ExpectedAttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
   ConditionalOperator?: ConditionalOperator;
   ReturnValues?: ReturnValue;
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const DeleteItemInput = S.suspend(() =>
@@ -4072,17 +4100,17 @@ export interface QueryInput {
   AttributesToGet?: string[];
   Limit?: number;
   ConsistentRead?: boolean;
-  KeyConditions?: { [key: string]: Condition };
-  QueryFilter?: { [key: string]: Condition };
+  KeyConditions?: { [key: string]: Condition | undefined };
+  QueryFilter?: { [key: string]: Condition | undefined };
   ConditionalOperator?: ConditionalOperator;
   ScanIndexForward?: boolean;
-  ExclusiveStartKey?: { [key: string]: AttributeValue };
+  ExclusiveStartKey?: { [key: string]: AttributeValue | undefined };
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ProjectionExpression?: string;
   FilterExpression?: string;
   KeyConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
 }
 export const QueryInput = S.suspend(() =>
   S.Struct({
@@ -4229,17 +4257,17 @@ export const UpdateGlobalTableInput = S.suspend(() =>
 }) as any as S.Schema<UpdateGlobalTableInput>;
 export interface UpdateItemInput {
   TableName: string;
-  Key: { [key: string]: AttributeValue };
-  AttributeUpdates?: { [key: string]: AttributeValueUpdate };
-  Expected?: { [key: string]: ExpectedAttributeValue };
+  Key: { [key: string]: AttributeValue | undefined };
+  AttributeUpdates?: { [key: string]: AttributeValueUpdate | undefined };
+  Expected?: { [key: string]: ExpectedAttributeValue | undefined };
   ConditionalOperator?: ConditionalOperator;
   ReturnValues?: ReturnValue;
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
   UpdateExpression?: string;
   ConditionExpression?: string;
-  ExpressionAttributeNames?: { [key: string]: string };
-  ExpressionAttributeValues?: { [key: string]: AttributeValue };
+  ExpressionAttributeNames?: { [key: string]: string | undefined };
+  ExpressionAttributeValues?: { [key: string]: AttributeValue | undefined };
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 }
 export const UpdateItemInput = S.suspend(() =>
@@ -4448,13 +4476,15 @@ export const CreateReplicationGroupMemberAction = S.suspend(() =>
 ).annotations({
   identifier: "CreateReplicationGroupMemberAction",
 }) as any as S.Schema<CreateReplicationGroupMemberAction>;
-export type BatchWriteItemRequestMap = { [key: string]: WriteRequest[] };
+export type BatchWriteItemRequestMap = {
+  [key: string]: WriteRequest[] | undefined;
+};
 export const BatchWriteItemRequestMap = S.Record({
   key: S.String,
-  value: WriteRequests,
+  value: S.UndefinedOr(WriteRequests),
 });
 export interface ItemResponse {
-  Item?: { [key: string]: AttributeValue };
+  Item?: { [key: string]: AttributeValue | undefined };
 }
 export const ItemResponse = S.suspend(() =>
   S.Struct({ Item: S.optional(AttributeMap) }),
@@ -4528,7 +4558,7 @@ export const ReplicaGlobalSecondaryIndexAutoScalingDescriptionList = S.Array(
   ReplicaGlobalSecondaryIndexAutoScalingDescription,
 );
 export interface BatchWriteItemInput {
-  RequestItems: { [key: string]: WriteRequest[] };
+  RequestItems: { [key: string]: WriteRequest[] | undefined };
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
   ReturnItemCollectionMetrics?: ReturnItemCollectionMetrics;
 }
@@ -4559,15 +4589,19 @@ export const CreateTableOutput = S.suspend(() =>
 ).annotations({
   identifier: "CreateTableOutput",
 }) as any as S.Schema<CreateTableOutput>;
-export type ItemCollectionKeyAttributeMap = { [key: string]: AttributeValue };
+export type ItemCollectionKeyAttributeMap = {
+  [key: string]: AttributeValue | undefined;
+};
 export const ItemCollectionKeyAttributeMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
 export interface ItemCollectionMetrics {
-  ItemCollectionKey?: { [key: string]: AttributeValue };
+  ItemCollectionKey?: { [key: string]: AttributeValue | undefined };
   SizeEstimateRangeGB?: number[];
 }
 export const ItemCollectionMetrics = S.suspend(() =>
@@ -4579,7 +4613,7 @@ export const ItemCollectionMetrics = S.suspend(() =>
   identifier: "ItemCollectionMetrics",
 }) as any as S.Schema<ItemCollectionMetrics>;
 export interface DeleteItemOutput {
-  Attributes?: { [key: string]: AttributeValue };
+  Attributes?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
   ItemCollectionMetrics?: ItemCollectionMetrics;
 }
@@ -4603,10 +4637,10 @@ export const DescribeContinuousBackupsOutput = S.suspend(() =>
   identifier: "DescribeContinuousBackupsOutput",
 }) as any as S.Schema<DescribeContinuousBackupsOutput>;
 export interface ExecuteStatementOutput {
-  Items?: { [key: string]: AttributeValue }[];
+  Items?: { [key: string]: AttributeValue | undefined }[];
   NextToken?: string;
   ConsumedCapacity?: ConsumedCapacity;
-  LastEvaluatedKey?: { [key: string]: AttributeValue };
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
 }
 export const ExecuteStatementOutput = S.suspend(() =>
   S.Struct({
@@ -4631,7 +4665,7 @@ export const ExecuteTransactionOutput = S.suspend(() =>
   identifier: "ExecuteTransactionOutput",
 }) as any as S.Schema<ExecuteTransactionOutput>;
 export interface GetItemOutput {
-  Item?: { [key: string]: AttributeValue };
+  Item?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
 }
 export const GetItemOutput = S.suspend(() =>
@@ -4651,10 +4685,10 @@ export const ImportTableOutput = S.suspend(() =>
   identifier: "ImportTableOutput",
 }) as any as S.Schema<ImportTableOutput>;
 export interface QueryOutput {
-  Items?: { [key: string]: AttributeValue }[];
+  Items?: { [key: string]: AttributeValue | undefined }[];
   Count?: number;
   ScannedCount?: number;
-  LastEvaluatedKey?: { [key: string]: AttributeValue };
+  LastEvaluatedKey?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
 }
 export const QueryOutput = S.suspend(() =>
@@ -4723,7 +4757,7 @@ export const UpdateGlobalTableSettingsInput = S.suspend(() =>
   identifier: "UpdateGlobalTableSettingsInput",
 }) as any as S.Schema<UpdateGlobalTableSettingsInput>;
 export interface UpdateItemOutput {
-  Attributes?: { [key: string]: AttributeValue };
+  Attributes?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
   ItemCollectionMetrics?: ItemCollectionMetrics;
 }
@@ -4837,7 +4871,7 @@ export const UpdateTableReplicaAutoScalingOutput = S.suspend(() =>
 export interface BatchStatementError {
   Code?: BatchStatementErrorCodeEnum;
   Message?: string;
-  Item?: { [key: string]: AttributeValue };
+  Item?: { [key: string]: AttributeValue | undefined };
 }
 export const BatchStatementError = S.suspend(() =>
   S.Struct({
@@ -4853,7 +4887,7 @@ export const ItemCollectionMetricsMultiple = S.Array(ItemCollectionMetrics);
 export interface BatchStatementResponse {
   Error?: BatchStatementError;
   TableName?: string;
-  Item?: { [key: string]: AttributeValue };
+  Item?: { [key: string]: AttributeValue | undefined };
 }
 export const BatchStatementResponse = S.suspend(() =>
   S.Struct({
@@ -4867,15 +4901,18 @@ export const BatchStatementResponse = S.suspend(() =>
 export type PartiQLBatchResponse = BatchStatementResponse[];
 export const PartiQLBatchResponse = S.Array(BatchStatementResponse);
 export type BatchGetResponseMap = {
-  [key: string]: { [key: string]: AttributeValue }[];
+  [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined;
 };
-export const BatchGetResponseMap = S.Record({ key: S.String, value: ItemList });
+export const BatchGetResponseMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ItemList),
+});
 export type ItemCollectionMetricsPerTable = {
-  [key: string]: ItemCollectionMetrics[];
+  [key: string]: ItemCollectionMetrics[] | undefined;
 };
 export const ItemCollectionMetricsPerTable = S.Record({
   key: S.String,
-  value: ItemCollectionMetricsMultiple,
+  value: S.UndefinedOr(ItemCollectionMetricsMultiple),
 });
 export interface ThrottlingReason {
   reason?: string;
@@ -4901,8 +4938,10 @@ export const BatchExecuteStatementOutput = S.suspend(() =>
   identifier: "BatchExecuteStatementOutput",
 }) as any as S.Schema<BatchExecuteStatementOutput>;
 export interface BatchGetItemOutput {
-  Responses?: { [key: string]: { [key: string]: AttributeValue }[] };
-  UnprocessedKeys?: { [key: string]: KeysAndAttributes };
+  Responses?: {
+    [key: string]: { [key: string]: AttributeValue | undefined }[] | undefined;
+  };
+  UnprocessedKeys?: { [key: string]: KeysAndAttributes | undefined };
   ConsumedCapacity?: ConsumedCapacity[];
 }
 export const BatchGetItemOutput = S.suspend(() =>
@@ -4915,8 +4954,10 @@ export const BatchGetItemOutput = S.suspend(() =>
   identifier: "BatchGetItemOutput",
 }) as any as S.Schema<BatchGetItemOutput>;
 export interface BatchWriteItemOutput {
-  UnprocessedItems?: { [key: string]: WriteRequest[] };
-  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] };
+  UnprocessedItems?: { [key: string]: WriteRequest[] | undefined };
+  ItemCollectionMetrics?: {
+    [key: string]: ItemCollectionMetrics[] | undefined;
+  };
   ConsumedCapacity?: ConsumedCapacity[];
 }
 export const BatchWriteItemOutput = S.suspend(() =>
@@ -4955,7 +4996,7 @@ export const DescribeTableReplicaAutoScalingOutput = S.suspend(() =>
   identifier: "DescribeTableReplicaAutoScalingOutput",
 }) as any as S.Schema<DescribeTableReplicaAutoScalingOutput>;
 export interface PutItemOutput {
-  Attributes?: { [key: string]: AttributeValue };
+  Attributes?: { [key: string]: AttributeValue | undefined };
   ConsumedCapacity?: ConsumedCapacity;
   ItemCollectionMetrics?: ItemCollectionMetrics;
 }
@@ -4970,7 +5011,9 @@ export const PutItemOutput = S.suspend(() =>
 }) as any as S.Schema<PutItemOutput>;
 export interface TransactWriteItemsOutput {
   ConsumedCapacity?: ConsumedCapacity[];
-  ItemCollectionMetrics?: { [key: string]: ItemCollectionMetrics[] };
+  ItemCollectionMetrics?: {
+    [key: string]: ItemCollectionMetrics[] | undefined;
+  };
 }
 export const TransactWriteItemsOutput = S.suspend(() =>
   S.Struct({
@@ -5049,7 +5092,7 @@ export const DescribeGlobalTableSettingsOutput = S.suspend(() =>
   identifier: "DescribeGlobalTableSettingsOutput",
 }) as any as S.Schema<DescribeGlobalTableSettingsOutput>;
 export interface CancellationReason {
-  Item?: { [key: string]: AttributeValue };
+  Item?: { [key: string]: AttributeValue | undefined };
   Code?: string;
   Message?: string;
 }
@@ -6955,7 +6998,7 @@ export const scan: {
   items: (
     input: ScanInput,
   ) => stream.Stream<
-    { [key: string]: AttributeValue },
+    { [key: string]: AttributeValue | undefined },
     | InternalServerError
     | InvalidEndpointException
     | ProvisionedThroughputExceededException
@@ -7101,7 +7144,7 @@ export const query: {
   items: (
     input: QueryInput,
   ) => stream.Stream<
-    { [key: string]: AttributeValue },
+    { [key: string]: AttributeValue | undefined },
     | InternalServerError
     | InvalidEndpointException
     | ProvisionedThroughputExceededException

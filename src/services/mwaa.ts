@@ -274,11 +274,14 @@ export const ListTagsForResourceInput = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -343,11 +346,11 @@ export const NetworkConfiguration = S.suspend(() =>
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
 export type AirflowConfigurationOptions = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const AirflowConfigurationOptions = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type EnvironmentList = string[];
 export const EnvironmentList = S.Array(S.String);
@@ -409,7 +412,7 @@ export const ListEnvironmentsOutput = S.suspend(() =>
   identifier: "ListEnvironmentsOutput",
 }) as any as S.Schema<ListEnvironmentsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -447,7 +450,7 @@ export interface UpdateEnvironmentInput {
   Name: string;
   ExecutionRoleArn?: string;
   AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
   AirflowVersion?: string;
   DagS3Path?: string;
@@ -564,7 +567,7 @@ export interface CreateEnvironmentInput {
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
   AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
   EnvironmentClass?: string;
   MaxWorkers?: number;
@@ -572,7 +575,7 @@ export interface CreateEnvironmentInput {
   AirflowVersion?: string;
   LoggingConfiguration?: LoggingConfigurationInput;
   WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WebserverAccessMode?: string;
   MinWorkers?: number;
   Schedulers?: number;
@@ -741,7 +744,7 @@ export interface Environment {
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
   AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string>;
+    [key: string]: string | redacted.Redacted<string> | undefined;
   };
   EnvironmentClass?: string;
   MaxWorkers?: number;
@@ -749,7 +752,7 @@ export interface Environment {
   LoggingConfiguration?: LoggingConfiguration;
   LastUpdate?: LastUpdate;
   WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   WebserverAccessMode?: string;
   MinWorkers?: number;
   Schedulers?: number;

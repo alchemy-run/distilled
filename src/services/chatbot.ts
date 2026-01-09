@@ -906,16 +906,18 @@ export type CustomActionAttachmentCriteriaList =
 export const CustomActionAttachmentCriteriaList = S.Array(
   CustomActionAttachmentCriteria,
 );
-export type CustomActionAttachmentVariables = { [key: string]: string };
+export type CustomActionAttachmentVariables = {
+  [key: string]: string | undefined;
+};
 export const CustomActionAttachmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CustomActionAttachment {
   NotificationType?: string;
   ButtonText?: string;
   Criteria?: CustomActionAttachmentCriteria[];
-  Variables?: { [key: string]: string };
+  Variables?: { [key: string]: string | undefined };
 }
 export const CustomActionAttachment = S.suspend(() =>
   S.Struct({

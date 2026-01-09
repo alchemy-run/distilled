@@ -422,11 +422,14 @@ export const PutRecommendationFeedbackResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutRecommendationFeedbackResponse",
 }) as any as S.Schema<PutRecommendationFeedbackResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -557,7 +560,7 @@ export const RepositoryAssociation = S.suspend(() =>
 }) as any as S.Schema<RepositoryAssociation>;
 export interface DisassociateRepositoryResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DisassociateRepositoryResponse = S.suspend(() =>
   S.Struct({
@@ -568,7 +571,7 @@ export const DisassociateRepositoryResponse = S.suspend(() =>
   identifier: "DisassociateRepositoryResponse",
 }) as any as S.Schema<DisassociateRepositoryResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -732,7 +735,7 @@ export const RuleTags = S.Array(S.String);
 export interface AssociateRepositoryRequest {
   Repository: Repository;
   ClientRequestToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KMSKeyDetails?: KMSKeyDetails;
 }
 export const AssociateRepositoryRequest = S.suspend(() =>
@@ -1013,7 +1016,7 @@ export type RecommendationSummaries = RecommendationSummary[];
 export const RecommendationSummaries = S.Array(RecommendationSummary);
 export interface AssociateRepositoryResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const AssociateRepositoryResponse = S.suspend(() =>
   S.Struct({
@@ -1057,7 +1060,7 @@ export const ListRecommendationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRecommendationsResponse>;
 export interface DescribeRepositoryAssociationResponse {
   RepositoryAssociation?: RepositoryAssociation;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeRepositoryAssociationResponse = S.suspend(() =>
   S.Struct({

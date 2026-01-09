@@ -644,10 +644,12 @@ export const ReplicationStatusType = S.suspend(() =>
 ).annotations({
   identifier: "ReplicationStatusType",
 }) as any as S.Schema<ReplicationStatusType>;
-export type ReplicationStatus = { [key: string]: ReplicationStatusType };
+export type ReplicationStatus = {
+  [key: string]: ReplicationStatusType | undefined;
+};
 export const ReplicationStatus = S.Record({
   key: S.String,
-  value: ReplicationStatusType,
+  value: S.UndefinedOr(ReplicationStatusType),
 });
 export interface Key {
   KeyArn: string;
@@ -666,7 +668,7 @@ export interface Key {
   DeriveKeyUsage?: string;
   MultiRegionKeyType?: string;
   PrimaryRegion?: string;
-  ReplicationStatus?: { [key: string]: ReplicationStatusType };
+  ReplicationStatus?: { [key: string]: ReplicationStatusType | undefined };
   UsingDefaultReplicationRegions?: boolean;
 }
 export const Key = S.suspend(() =>
@@ -748,17 +750,19 @@ export const StopKeyUsageOutput = S.suspend(() =>
   identifier: "StopKeyUsageOutput",
 }) as any as S.Schema<StopKeyUsageOutput>;
 export type OptionalBlocks = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const OptionalBlocks = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface KeyBlockHeaders {
   KeyModesOfUse?: KeyModesOfUse;
   KeyExportability?: string;
   KeyVersion?: string;
-  OptionalBlocks?: { [key: string]: string | redacted.Redacted<string> };
+  OptionalBlocks?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
 }
 export const KeyBlockHeaders = S.suspend(() =>
   S.Struct({

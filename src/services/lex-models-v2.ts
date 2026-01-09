@@ -1447,11 +1447,14 @@ export const StopBotRecommendationRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopBotRecommendationRequest",
 }) as any as S.Schema<StopBotRecommendationRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1596,11 +1599,11 @@ export const BotAliasLocaleSettings = S.suspend(() =>
   identifier: "BotAliasLocaleSettings",
 }) as any as S.Schema<BotAliasLocaleSettings>;
 export type BotAliasLocaleSettingsMap = {
-  [key: string]: BotAliasLocaleSettings;
+  [key: string]: BotAliasLocaleSettings | undefined;
 };
 export const BotAliasLocaleSettingsMap = S.Record({
   key: S.String,
-  value: BotAliasLocaleSettings,
+  value: S.UndefinedOr(BotAliasLocaleSettings),
 });
 export interface CloudWatchLogGroupLogDestination {
   cloudWatchLogGroupArn: string;
@@ -1698,7 +1701,9 @@ export interface UpdateBotAliasRequest {
   botAliasName: string;
   description?: string;
   botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings };
+  botAliasLocaleSettings?: {
+    [key: string]: BotAliasLocaleSettings | undefined;
+  };
   conversationLogSettings?: ConversationLogSettings;
   sentimentAnalysisSettings?: SentimentAnalysisSettings;
   botId: string;
@@ -2242,14 +2247,19 @@ export type PromptAttemptsSpecificationMap = {
   [key in PromptAttempt]?: PromptAttemptSpecification;
 };
 export const PromptAttemptsSpecificationMap = S.partial(
-  S.Record({ key: PromptAttempt, value: PromptAttemptSpecification }),
+  S.Record({
+    key: PromptAttempt,
+    value: S.UndefinedOr(PromptAttemptSpecification),
+  }),
 );
 export interface PromptSpecification {
   messageGroups: MessageGroup[];
   maxRetries: number;
   allowInterrupt?: boolean;
   messageSelectionStrategy?: MessageSelectionStrategy;
-  promptAttemptsSpecification?: { [key: string]: PromptAttemptSpecification };
+  promptAttemptsSpecification?: {
+    [key: string]: PromptAttemptSpecification | undefined;
+  };
 }
 export const PromptSpecification = S.suspend(() =>
   S.Struct({
@@ -2373,16 +2383,20 @@ export const SlotValueOverride = S.suspend(() =>
 ).annotations({
   identifier: "SlotValueOverride",
 }) as any as S.Schema<SlotValueOverride>;
-export type SlotValueOverrideMap = { [key: string]: SlotValueOverride };
+export type SlotValueOverrideMap = {
+  [key: string]: SlotValueOverride | undefined;
+};
 export const SlotValueOverrideMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<SlotValueOverride, any> => SlotValueOverride,
-  ).annotations({ identifier: "SlotValueOverride" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<SlotValueOverride, any> => SlotValueOverride,
+    ).annotations({ identifier: "SlotValueOverride" }),
+  ),
 });
 export interface IntentOverride {
   name?: string;
-  slots?: { [key: string]: SlotValueOverride };
+  slots?: { [key: string]: SlotValueOverride | undefined };
 }
 export const IntentOverride = S.suspend(() =>
   S.Struct({
@@ -2392,12 +2406,15 @@ export const IntentOverride = S.suspend(() =>
 ).annotations({
   identifier: "IntentOverride",
 }) as any as S.Schema<IntentOverride>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DialogState {
   dialogAction?: DialogAction;
   intent?: IntentOverride;
-  sessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
 }
 export const DialogState = S.suspend(() =>
   S.Struct({
@@ -2612,14 +2629,16 @@ export const Specifications = S.suspend(() =>
 ).annotations({
   identifier: "Specifications",
 }) as any as S.Schema<Specifications>;
-export type SubSlotSpecificationMap = { [key: string]: Specifications };
+export type SubSlotSpecificationMap = {
+  [key: string]: Specifications | undefined;
+};
 export const SubSlotSpecificationMap = S.Record({
   key: S.String,
-  value: Specifications,
+  value: S.UndefinedOr(Specifications),
 });
 export interface SubSlotSetting {
   expression?: string;
-  slotSpecifications?: { [key: string]: Specifications };
+  slotSpecifications?: { [key: string]: Specifications | undefined };
 }
 export const SubSlotSetting = S.suspend(() =>
   S.Struct({
@@ -4093,8 +4112,8 @@ export interface CreateBotRequest {
   roleArn: string;
   dataPrivacy: DataPrivacy;
   idleSessionTTLInSeconds: number;
-  botTags?: { [key: string]: string };
-  testBotAliasTags?: { [key: string]: string };
+  botTags?: { [key: string]: string | undefined };
+  testBotAliasTags?: { [key: string]: string | undefined };
   botType?: BotType;
   botMembers?: BotMember[];
   errorLogSettings?: ErrorLogSettings;
@@ -4541,8 +4560,8 @@ export interface BotImportSpecification {
   dataPrivacy: DataPrivacy;
   errorLogSettings?: ErrorLogSettings;
   idleSessionTTLInSeconds?: number;
-  botTags?: { [key: string]: string };
-  testBotAliasTags?: { [key: string]: string };
+  botTags?: { [key: string]: string | undefined };
+  testBotAliasTags?: { [key: string]: string | undefined };
 }
 export const BotImportSpecification = S.suspend(() =>
   S.Struct({
@@ -4607,7 +4626,7 @@ export interface TestSetImportResourceSpecification {
   storageLocation: TestSetStorageLocation;
   importInputLocation: TestSetImportInputLocation;
   modality: TestSetModality;
-  testSetTags?: { [key: string]: string };
+  testSetTags?: { [key: string]: string | undefined };
 }
 export const TestSetImportResourceSpecification = S.suspend(() =>
   S.Struct({
@@ -5792,7 +5811,7 @@ export const ListSlotTypesRequest = S.suspend(() =>
   identifier: "ListSlotTypesRequest",
 }) as any as S.Schema<ListSlotTypesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -6035,7 +6054,9 @@ export interface UpdateBotAliasResponse {
   botAliasName?: string;
   description?: string;
   botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings };
+  botAliasLocaleSettings?: {
+    [key: string]: BotAliasLocaleSettings | undefined;
+  };
   conversationLogSettings?: ConversationLogSettings;
   sentimentAnalysisSettings?: SentimentAnalysisSettings;
   botAliasStatus?: BotAliasStatus;
@@ -6414,10 +6435,10 @@ export const BotVersionLocaleDetails = S.suspend(() =>
 ).annotations({
   identifier: "BotVersionLocaleDetails",
 }) as any as S.Schema<BotVersionLocaleDetails>;
-export type ConditionKeyValueMap = { [key: string]: string };
+export type ConditionKeyValueMap = { [key: string]: string | undefined };
 export const ConditionKeyValueMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface TestSetDiscrepancyReportBotAliasTarget {
   botId: string;
@@ -6460,16 +6481,18 @@ export const ConversationLevelTestResultsFilterBy = S.suspend(() =>
   identifier: "ConversationLevelTestResultsFilterBy",
 }) as any as S.Schema<ConversationLevelTestResultsFilterBy>;
 export type BotVersionLocaleSpecification = {
-  [key: string]: BotVersionLocaleDetails;
+  [key: string]: BotVersionLocaleDetails | undefined;
 };
 export const BotVersionLocaleSpecification = S.Record({
   key: S.String,
-  value: BotVersionLocaleDetails,
+  value: S.UndefinedOr(BotVersionLocaleDetails),
 });
-export type ConditionMap = { [key: string]: { [key: string]: string } };
+export type ConditionMap = {
+  [key: string]: { [key: string]: string | undefined } | undefined;
+};
 export const ConditionMap = S.Record({
   key: S.String,
-  value: ConditionKeyValueMap,
+  value: S.UndefinedOr(ConditionKeyValueMap),
 });
 export interface TestSetDiscrepancyReportResourceTarget {
   botAliasTarget?: TestSetDiscrepancyReportBotAliasTarget;
@@ -6717,8 +6740,8 @@ export interface CreateBotResponse {
   idleSessionTTLInSeconds?: number;
   botStatus?: BotStatus;
   creationDateTime?: Date;
-  botTags?: { [key: string]: string };
-  testBotAliasTags?: { [key: string]: string };
+  botTags?: { [key: string]: string | undefined };
+  testBotAliasTags?: { [key: string]: string | undefined };
   botType?: BotType;
   botMembers?: BotMember[];
   errorLogSettings?: ErrorLogSettings;
@@ -6747,7 +6770,9 @@ export const CreateBotResponse = S.suspend(() =>
 export interface CreateBotVersionRequest {
   botId: string;
   description?: string;
-  botVersionLocaleSpecification: { [key: string]: BotVersionLocaleDetails };
+  botVersionLocaleSpecification: {
+    [key: string]: BotVersionLocaleDetails | undefined;
+  };
 }
 export const CreateBotVersionRequest = S.suspend(() =>
   S.Struct({
@@ -6796,7 +6821,9 @@ export interface CreateResourcePolicyStatementRequest {
   effect: Effect;
   principal: Principal[];
   action: string[];
-  condition?: { [key: string]: { [key: string]: string } };
+  condition?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   expectedRevisionId?: string;
 }
 export const CreateResourcePolicyStatementRequest = S.suspend(() =>
@@ -6852,7 +6879,9 @@ export interface DescribeBotAliasResponse {
   botAliasName?: string;
   description?: string;
   botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings };
+  botAliasLocaleSettings?: {
+    [key: string]: BotAliasLocaleSettings | undefined;
+  };
   conversationLogSettings?: ConversationLogSettings;
   sentimentAnalysisSettings?: SentimentAnalysisSettings;
   botAliasHistoryEvents?: BotAliasHistoryEvent[];
@@ -7700,7 +7729,9 @@ export interface CreateBotVersionResponse {
   botId?: string;
   description?: string;
   botVersion?: string;
-  botVersionLocaleSpecification?: { [key: string]: BotVersionLocaleDetails };
+  botVersionLocaleSpecification?: {
+    [key: string]: BotVersionLocaleDetails | undefined;
+  };
   botStatus?: BotStatus;
   creationDateTime?: Date;
 }
@@ -8143,7 +8174,7 @@ export interface StartTestSetGenerationRequest {
   storageLocation: TestSetStorageLocation;
   generationDataSource: TestSetGenerationDataSource;
   roleArn: string;
-  testSetTags?: { [key: string]: string };
+  testSetTags?: { [key: string]: string | undefined };
 }
 export const StartTestSetGenerationRequest = S.suspend(() =>
   S.Struct({
@@ -8576,11 +8607,13 @@ export interface CreateBotAliasRequest {
   botAliasName: string;
   description?: string;
   botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings };
+  botAliasLocaleSettings?: {
+    [key: string]: BotAliasLocaleSettings | undefined;
+  };
   conversationLogSettings?: ConversationLogSettings;
   sentimentAnalysisSettings?: SentimentAnalysisSettings;
   botId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateBotAliasRequest = S.suspend(() =>
   S.Struct({
@@ -8912,7 +8945,7 @@ export interface StartTestSetGenerationResponse {
   storageLocation?: TestSetStorageLocation;
   generationDataSource?: TestSetGenerationDataSource;
   roleArn?: string;
-  testSetTags?: { [key: string]: string };
+  testSetTags?: { [key: string]: string | undefined };
 }
 export const StartTestSetGenerationResponse = S.suspend(() =>
   S.Struct({
@@ -8950,13 +8983,15 @@ export interface CreateBotAliasResponse {
   botAliasName?: string;
   description?: string;
   botVersion?: string;
-  botAliasLocaleSettings?: { [key: string]: BotAliasLocaleSettings };
+  botAliasLocaleSettings?: {
+    [key: string]: BotAliasLocaleSettings | undefined;
+  };
   conversationLogSettings?: ConversationLogSettings;
   sentimentAnalysisSettings?: SentimentAnalysisSettings;
   botAliasStatus?: BotAliasStatus;
   botId?: string;
   creationDateTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateBotAliasResponse = S.suspend(() =>
   S.Struct({
@@ -9094,7 +9129,7 @@ export const StartBotRecommendationRequest = S.suspend(() =>
 export interface UserTurnSlotOutput {
   value?: string;
   values?: UserTurnSlotOutput[];
-  subSlots?: { [key: string]: UserTurnSlotOutput };
+  subSlots?: { [key: string]: UserTurnSlotOutput | undefined };
 }
 export const UserTurnSlotOutput = S.suspend(() =>
   S.Struct({
@@ -9117,7 +9152,7 @@ export type TestResultMatchStatusCountMap = {
   [key in TestResultMatchStatus]?: number;
 };
 export const TestResultMatchStatusCountMap = S.partial(
-  S.Record({ key: TestResultMatchStatus, value: S.Number }),
+  S.Record({ key: TestResultMatchStatus, value: S.UndefinedOr(S.Number) }),
 );
 export interface ConversationLevelIntentClassificationResultItem {
   intentName: string;
@@ -9154,8 +9189,8 @@ export const ConversationLevelSlotResolutionResults = S.Array(
 );
 export interface IntentClassificationTestResultItemCounts {
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number };
-  intentMatchResultCounts: { [key: string]: number };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  intentMatchResultCounts: { [key: string]: number | undefined };
 }
 export const IntentClassificationTestResultItemCounts = S.suspend(() =>
   S.Struct({
@@ -9166,18 +9201,22 @@ export const IntentClassificationTestResultItemCounts = S.suspend(() =>
 ).annotations({
   identifier: "IntentClassificationTestResultItemCounts",
 }) as any as S.Schema<IntentClassificationTestResultItemCounts>;
-export type UserTurnSlotOutputMap = { [key: string]: UserTurnSlotOutput };
+export type UserTurnSlotOutputMap = {
+  [key: string]: UserTurnSlotOutput | undefined;
+};
 export const UserTurnSlotOutputMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<UserTurnSlotOutput, any> => UserTurnSlotOutput,
-  ).annotations({ identifier: "UserTurnSlotOutput" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<UserTurnSlotOutput, any> => UserTurnSlotOutput,
+    ).annotations({ identifier: "UserTurnSlotOutput" }),
+  ),
 }) as any as S.Schema<UserTurnSlotOutputMap>;
 export interface OverallTestResultItem {
   multiTurnConversation: boolean;
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number };
-  endToEndResultCounts: { [key: string]: number };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  endToEndResultCounts: { [key: string]: number | undefined };
 }
 export const OverallTestResultItem = S.suspend(() =>
   S.Struct({
@@ -9291,8 +9330,8 @@ export const CreateIntentRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIntentRequest>;
 export interface SlotResolutionTestResultItemCounts {
   totalResultCount: number;
-  speechTranscriptionResultCounts?: { [key: string]: number };
-  slotMatchResultCounts: { [key: string]: number };
+  speechTranscriptionResultCounts?: { [key: string]: number | undefined };
+  slotMatchResultCounts: { [key: string]: number | undefined };
 }
 export const SlotResolutionTestResultItemCounts = S.suspend(() =>
   S.Struct({
@@ -9305,7 +9344,7 @@ export const SlotResolutionTestResultItemCounts = S.suspend(() =>
 }) as any as S.Schema<SlotResolutionTestResultItemCounts>;
 export interface UserTurnIntentOutput {
   name: string;
-  slots?: { [key: string]: UserTurnSlotOutput };
+  slots?: { [key: string]: UserTurnSlotOutput | undefined };
 }
 export const UserTurnIntentOutput = S.suspend(() =>
   S.Struct({ name: S.String, slots: S.optional(UserTurnSlotOutputMap) }),
@@ -9500,30 +9539,40 @@ export const AgentTurnResult = S.suspend(() =>
 ).annotations({
   identifier: "AgentTurnResult",
 }) as any as S.Schema<AgentTurnResult>;
-export type SlotHintsSlotMap = { [key: string]: RuntimeHintDetails };
+export type SlotHintsSlotMap = {
+  [key: string]: RuntimeHintDetails | undefined;
+};
 export const SlotHintsSlotMap = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
-  ).annotations({ identifier: "RuntimeHintDetails" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails,
+    ).annotations({ identifier: "RuntimeHintDetails" }),
+  ),
 }) as any as S.Schema<SlotHintsSlotMap>;
 export type SlotHintsIntentMap = {
-  [key: string]: { [key: string]: RuntimeHintDetails };
+  [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
 };
 export const SlotHintsIntentMap = S.Record({
   key: S.String,
-  value: S.suspend(() => SlotHintsSlotMap).annotations({
-    identifier: "SlotHintsSlotMap",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => SlotHintsSlotMap).annotations({
+      identifier: "SlotHintsSlotMap",
+    }),
+  ),
 });
 export interface RuntimeHints {
-  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails } };
+  slotHints?: {
+    [key: string]:
+      | { [key: string]: RuntimeHintDetails | undefined }
+      | undefined;
+  };
 }
 export const RuntimeHints = S.suspend(() =>
   S.Struct({ slotHints: S.optional(SlotHintsIntentMap) }),
 ).annotations({ identifier: "RuntimeHints" }) as any as S.Schema<RuntimeHints>;
 export interface InputSessionStateSpecification {
-  sessionAttributes?: { [key: string]: string };
+  sessionAttributes?: { [key: string]: string | undefined };
   activeContexts?: ActiveContext[];
   runtimeHints?: RuntimeHints;
 }
@@ -9538,7 +9587,7 @@ export const InputSessionStateSpecification = S.suspend(() =>
 }) as any as S.Schema<InputSessionStateSpecification>;
 export interface UserTurnInputSpecification {
   utteranceInput: UtteranceInputSpecification;
-  requestAttributes?: { [key: string]: string };
+  requestAttributes?: { [key: string]: string | undefined };
   sessionState?: InputSessionStateSpecification;
 }
 export const UserTurnInputSpecification = S.suspend(() =>
@@ -9608,7 +9657,7 @@ export const TestSetTurnResult = S.suspend(() =>
 }) as any as S.Schema<TestSetTurnResult>;
 export interface RuntimeHintDetails {
   runtimeHintValues?: RuntimeHintValue[];
-  subSlotHints?: { [key: string]: RuntimeHintDetails };
+  subSlotHints?: { [key: string]: RuntimeHintDetails | undefined };
 }
 export const RuntimeHintDetails = S.suspend(() =>
   S.Struct({

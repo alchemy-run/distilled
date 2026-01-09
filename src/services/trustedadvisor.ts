@@ -708,15 +708,18 @@ export type AccountRecommendationLifecycleSummaryList =
 export const AccountRecommendationLifecycleSummaryList = S.Array(
   AccountRecommendationLifecycleSummary,
 );
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface OrganizationRecommendationResourceSummary {
   id: string;
   arn: string;
   awsResourceId: string;
   regionCode: string;
   status: ResourceStatus;
-  metadata: { [key: string]: string };
+  metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
   exclusionStatus?: ExclusionStatus;
   accountId?: string;
@@ -792,7 +795,7 @@ export interface RecommendationResourceSummary {
   awsResourceId: string;
   regionCode: string;
   status: ResourceStatus;
-  metadata: { [key: string]: string };
+  metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
   exclusionStatus?: ExclusionStatus;
   recommendationArn: string;
@@ -953,7 +956,7 @@ export interface CheckSummary {
   pillars: RecommendationPillar[];
   awsServices: string[];
   source: RecommendationSource;
-  metadata: { [key: string]: string };
+  metadata: { [key: string]: string | undefined };
 }
 export const CheckSummary = S.suspend(() =>
   S.Struct({

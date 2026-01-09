@@ -408,15 +408,18 @@ export const UpdateLinkRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateLinkRequest",
 }) as any as S.Schema<UpdateLinkRequest>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateRequesterGatewayRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
   clientToken: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRequesterGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -502,7 +505,7 @@ export interface CreateOutboundExternalLinkRequest {
   attributes?: LinkAttributes;
   publicEndpoint: string;
   logSettings: LinkLogSettings;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateOutboundExternalLinkRequest = S.suspend(() =>
   S.Struct({
@@ -703,7 +706,7 @@ export interface CreateInboundExternalLinkRequest {
   gatewayId: string;
   attributes?: LinkAttributes;
   logSettings: LinkLogSettings;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateInboundExternalLinkRequest = S.suspend(() =>
   S.Struct({
@@ -878,7 +881,7 @@ export const ListResponderGatewaysResponse = S.suspend(() =>
   identifier: "ListResponderGatewaysResponse",
 }) as any as S.Schema<ListResponderGatewaysResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -887,7 +890,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1043,7 +1046,7 @@ export interface GetLinkResponse {
   pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logSettings?: LinkLogSettings;
 }
 export const GetLinkResponse = S.suspend(() =>
@@ -1162,7 +1165,7 @@ export interface GetRequesterGatewayResponse {
   subnetIds: string[];
   securityGroupIds: string[];
   gatewayId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   activeLinksCount?: number;
   totalLinksCount?: number;
 }
@@ -1228,7 +1231,7 @@ export interface GetOutboundExternalLinkResponse {
   publicEndpoint: string;
   createdAt?: Date;
   updatedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logSettings?: LinkLogSettings;
 }
 export const GetOutboundExternalLinkResponse = S.suspend(() =>
@@ -1259,7 +1262,7 @@ export interface GetResponderGatewayResponse {
   trustStoreConfiguration?: TrustStoreConfiguration;
   managedEndpointConfiguration?: ManagedEndpointConfiguration;
   gatewayId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   activeLinksCount?: number;
   totalLinksCount?: number;
   inboundLinksCount?: number;
@@ -1340,7 +1343,7 @@ export interface GetInboundExternalLinkResponse {
   attributes?: LinkAttributes;
   createdAt?: Date;
   updatedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logSettings?: LinkLogSettings;
 }
 export const GetInboundExternalLinkResponse = S.suspend(() =>
@@ -1371,7 +1374,7 @@ export interface ListLinksResponseStructure {
   pendingFlowModules?: ModuleConfiguration[];
   attributes?: LinkAttributes;
   linkId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListLinksResponseStructure = S.suspend(() =>
   S.Struct({
@@ -1412,7 +1415,7 @@ export interface CreateResponderGatewayRequest {
   managedEndpointConfiguration?: ManagedEndpointConfiguration;
   clientToken: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateResponderGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -1445,7 +1448,7 @@ export interface CreateLinkRequest {
   peerGatewayId: string;
   attributes?: LinkAttributes;
   httpResponderAllowed?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logSettings: LinkLogSettings;
 }
 export const CreateLinkRequest = S.suspend(() =>

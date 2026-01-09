@@ -344,11 +344,14 @@ export interface StopSuiteRunResponse {}
 export const StopSuiteRunResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopSuiteRunResponse",
 }) as any as S.Schema<StopSuiteRunResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -523,7 +526,7 @@ export interface GetSuiteDefinitionResponse {
   };
   createdAt?: Date;
   lastModifiedAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSuiteDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -548,7 +551,7 @@ export const GetSuiteRunReportResponse = S.suspend(() =>
   identifier: "GetSuiteRunReportResponse",
 }) as any as S.Schema<GetSuiteRunReportResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -559,7 +562,7 @@ export interface StartSuiteRunRequest {
   suiteDefinitionId: string;
   suiteDefinitionVersion?: string;
   suiteRunConfiguration?: SuiteRunConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartSuiteRunRequest = S.suspend(() =>
   S.Struct({
@@ -661,7 +664,7 @@ export type SuiteRunsList = SuiteRunInformation[];
 export const SuiteRunsList = S.Array(SuiteRunInformation);
 export interface CreateSuiteDefinitionRequest {
   suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateSuiteDefinitionRequest = S.suspend(() =>
@@ -863,7 +866,7 @@ export interface GetSuiteRunResponse {
   endTime?: Date;
   status?: SuiteRunStatus;
   errorReason?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSuiteRunResponse = S.suspend(() =>
   S.Struct({

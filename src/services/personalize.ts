@@ -975,19 +975,22 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type HyperParameters = { [key: string]: string };
-export const HyperParameters = S.Record({ key: S.String, value: S.String });
+export type HyperParameters = { [key: string]: string | undefined };
+export const HyperParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type RankingInfluenceType = "POPULARITY" | "FRESHNESS";
 export const RankingInfluenceType = S.Literal("POPULARITY", "FRESHNESS");
 export type RankingInfluence = { [key in RankingInfluenceType]?: number };
 export const RankingInfluence = S.partial(
-  S.Record({ key: RankingInfluenceType, value: S.Number }),
+  S.Record({ key: RankingInfluenceType, value: S.UndefinedOr(S.Number) }),
 );
 export interface CampaignConfig {
-  itemExplorationConfig?: { [key: string]: string };
+  itemExplorationConfig?: { [key: string]: string | undefined };
   enableMetadataWithRecommendations?: boolean;
   syncWithLatestSolutionVersion?: boolean;
-  rankingInfluence?: { [key: string]: number };
+  rankingInfluence?: { [key: string]: number | undefined };
 }
 export const CampaignConfig = S.suspend(() =>
   S.Struct({
@@ -1076,19 +1079,19 @@ export const UpdateMetricAttributionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMetricAttributionRequest>;
 export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
-export type ExcludedDatasetColumns = { [key: string]: string[] };
+export type ExcludedDatasetColumns = { [key: string]: string[] | undefined };
 export const ExcludedDatasetColumns = S.Record({
   key: S.String,
-  value: ColumnNamesList,
+  value: S.UndefinedOr(ColumnNamesList),
 });
-export type IncludedDatasetColumns = { [key: string]: string[] };
+export type IncludedDatasetColumns = { [key: string]: string[] | undefined };
 export const IncludedDatasetColumns = S.Record({
   key: S.String,
-  value: ColumnNamesList,
+  value: S.UndefinedOr(ColumnNamesList),
 });
 export interface TrainingDataConfig {
-  excludedDatasetColumns?: { [key: string]: string[] };
-  includedDatasetColumns?: { [key: string]: string[] };
+  excludedDatasetColumns?: { [key: string]: string[] | undefined };
+  includedDatasetColumns?: { [key: string]: string[] | undefined };
 }
 export const TrainingDataConfig = S.suspend(() =>
   S.Struct({
@@ -1099,7 +1102,7 @@ export const TrainingDataConfig = S.suspend(() =>
   identifier: "TrainingDataConfig",
 }) as any as S.Schema<TrainingDataConfig>;
 export interface RecommenderConfig {
-  itemExplorationConfig?: { [key: string]: string };
+  itemExplorationConfig?: { [key: string]: string | undefined };
   minRecommendationRequestsPerSecond?: number;
   trainingDataConfig?: TrainingDataConfig;
   enableMetadataWithRecommendations?: boolean;
@@ -1470,10 +1473,12 @@ export const FieldsForThemeGeneration = S.suspend(() =>
 ).annotations({
   identifier: "FieldsForThemeGeneration",
 }) as any as S.Schema<FieldsForThemeGeneration>;
-export type FeatureTransformationParameters = { [key: string]: string };
+export type FeatureTransformationParameters = {
+  [key: string]: string | undefined;
+};
 export const FeatureTransformationParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AutoMLConfig {
   metricName?: string;
@@ -1508,8 +1513,8 @@ export const BatchInferenceJobInput = S.suspend(() =>
   identifier: "BatchInferenceJobInput",
 }) as any as S.Schema<BatchInferenceJobInput>;
 export interface BatchInferenceJobConfig {
-  itemExplorationConfig?: { [key: string]: string };
-  rankingInfluence?: { [key: string]: number };
+  itemExplorationConfig?: { [key: string]: string | undefined };
+  rankingInfluence?: { [key: string]: number | undefined };
 }
 export const BatchInferenceJobConfig = S.suspend(() =>
   S.Struct({
@@ -1863,8 +1868,11 @@ export const DatasetSchema = S.suspend(() =>
 ).annotations({
   identifier: "DatasetSchema",
 }) as any as S.Schema<DatasetSchema>;
-export type Metrics = { [key: string]: number };
-export const Metrics = S.Record({ key: S.String, value: S.Number });
+export type Metrics = { [key: string]: number | undefined };
+export const Metrics = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface BatchInferenceJobSummary {
   batchInferenceJobArn?: string;
   jobName?: string;
@@ -2485,7 +2493,7 @@ export const DescribeSchemaResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeSchemaResponse>;
 export interface GetSolutionMetricsResponse {
   solutionVersionArn?: string;
-  metrics?: { [key: string]: number };
+  metrics?: { [key: string]: number | undefined };
 }
 export const GetSolutionMetricsResponse = S.suspend(() =>
   S.Struct({
@@ -2692,8 +2700,11 @@ export const AlgorithmImage = S.suspend(() =>
 ).annotations({
   identifier: "AlgorithmImage",
 }) as any as S.Schema<AlgorithmImage>;
-export type ResourceConfig = { [key: string]: string };
-export const ResourceConfig = S.Record({ key: S.String, value: S.String });
+export type ResourceConfig = { [key: string]: string | undefined };
+export const ResourceConfig = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CampaignUpdateSummary {
   solutionVersionArn?: string;
   minProvisionedTPS?: number;
@@ -2742,10 +2753,10 @@ export const DatasetUpdateSummary = S.suspend(() =>
 ).annotations({
   identifier: "DatasetUpdateSummary",
 }) as any as S.Schema<DatasetUpdateSummary>;
-export type FeaturizationParameters = { [key: string]: string };
+export type FeaturizationParameters = { [key: string]: string | undefined };
 export const FeaturizationParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RecommenderUpdateSummary {
   recommenderConfig?: RecommenderConfig;
@@ -2802,7 +2813,7 @@ export const SolutionUpdateSummary = S.suspend(() =>
   identifier: "SolutionUpdateSummary",
 }) as any as S.Schema<SolutionUpdateSummary>;
 export interface TunedHPOParams {
-  algorithmHyperParameters?: { [key: string]: string };
+  algorithmHyperParameters?: { [key: string]: string | undefined };
 }
 export const TunedHPOParams = S.suspend(() =>
   S.Struct({ algorithmHyperParameters: S.optional(HyperParameters) }),
@@ -2922,7 +2933,7 @@ export const Dataset = S.suspend(() =>
 export interface FeatureTransformation {
   name?: string;
   featureTransformationArn?: string;
-  defaultParameters?: { [key: string]: string };
+  defaultParameters?: { [key: string]: string | undefined };
   creationDateTime?: Date;
   lastUpdatedDateTime?: Date;
   status?: string;
@@ -2954,7 +2965,7 @@ export interface Recommender {
   status?: string;
   failureReason?: string;
   latestRecommenderUpdate?: RecommenderUpdateSummary;
-  modelMetrics?: { [key: string]: number };
+  modelMetrics?: { [key: string]: number | undefined };
 }
 export const Recommender = S.suspend(() =>
   S.Struct({
@@ -3006,8 +3017,8 @@ export const HPOConfig = S.suspend(() =>
 export interface SolutionConfig {
   eventValueThreshold?: string;
   hpoConfig?: HPOConfig;
-  algorithmHyperParameters?: { [key: string]: string };
-  featureTransformationParameters?: { [key: string]: string };
+  algorithmHyperParameters?: { [key: string]: string | undefined };
+  featureTransformationParameters?: { [key: string]: string | undefined };
   autoMLConfig?: AutoMLConfig;
   eventsConfig?: EventsConfig;
   optimizationObjective?: OptimizationObjective;
@@ -3280,9 +3291,9 @@ export interface Algorithm {
   name?: string;
   algorithmArn?: string;
   algorithmImage?: AlgorithmImage;
-  defaultHyperParameters?: { [key: string]: string };
+  defaultHyperParameters?: { [key: string]: string | undefined };
   defaultHyperParameterRanges?: DefaultHyperParameterRanges;
-  defaultResourceConfig?: { [key: string]: string };
+  defaultResourceConfig?: { [key: string]: string | undefined };
   trainingInputMode?: string;
   roleArn?: string;
   creationDateTime?: Date;

@@ -563,11 +563,14 @@ export interface StopCampaignResponse {}
 export const StopCampaignResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopCampaignResponse",
 }) as any as S.Schema<StopCampaignResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -956,9 +959,14 @@ export const TimeRange = S.suspend(() =>
 ).annotations({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export type TimeRangeList = TimeRange[];
 export const TimeRangeList = S.Array(TimeRange);
-export type DailyHours = { [key: string]: TimeRange[] };
-export const DailyHours = S.Record({ key: S.String, value: TimeRangeList });
-export type OpenHours = { dailyHours: { [key: string]: TimeRange[] } };
+export type DailyHours = { [key: string]: TimeRange[] | undefined };
+export const DailyHours = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(TimeRangeList),
+});
+export type OpenHours = {
+  dailyHours: { [key: string]: TimeRange[] | undefined };
+};
 export const OpenHours = S.Union(S.Struct({ dailyHours: DailyHours }));
 export interface RestrictedPeriod {
   name?: string;
@@ -1216,7 +1224,7 @@ export const GetInstanceCommunicationLimitsResponse = S.suspend(() =>
   identifier: "GetInstanceCommunicationLimitsResponse",
 }) as any as S.Schema<GetInstanceCommunicationLimitsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1383,7 +1391,7 @@ export interface Campaign {
   schedule?: Schedule;
   communicationTimeConfig?: CommunicationTimeConfig;
   communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Campaign = S.suspend(() =>
   S.Struct({
@@ -1467,15 +1475,21 @@ export const CampaignFilters = S.suspend(() =>
 ).annotations({
   identifier: "CampaignFilters",
 }) as any as S.Schema<CampaignFilters>;
-export type ObjectTypeNamesMap = { [key: string]: string };
-export const ObjectTypeNamesMap = S.Record({ key: S.String, value: S.String });
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type ObjectTypeNamesMap = { [key: string]: string | undefined };
+export const ObjectTypeNamesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SmsChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
-  templateParameters: { [key: string]: string };
+  templateParameters: { [key: string]: string | undefined };
 }
 export const SmsChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1491,7 +1505,7 @@ export interface EmailChannelSubtypeParameters {
   destinationEmailAddress: string | redacted.Redacted<string>;
   connectSourceEmailAddress?: string | redacted.Redacted<string>;
   templateArn?: string;
-  templateParameters: { [key: string]: string };
+  templateParameters: { [key: string]: string | undefined };
 }
 export const EmailChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1507,7 +1521,7 @@ export interface WhatsAppChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
-  templateParameters: { [key: string]: string };
+  templateParameters: { [key: string]: string | undefined };
 }
 export const WhatsAppChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
@@ -1622,7 +1636,7 @@ export const StartInstanceOnboardingJobResponse = S.suspend(() =>
 }) as any as S.Schema<StartInstanceOnboardingJobResponse>;
 export interface CustomerProfilesIntegrationSummary {
   domainArn: string;
-  objectTypeNames: { [key: string]: string };
+  objectTypeNames: { [key: string]: string | undefined };
 }
 export const CustomerProfilesIntegrationSummary = S.suspend(() =>
   S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
@@ -1647,7 +1661,7 @@ export const LambdaIntegrationSummary = S.suspend(() =>
 }) as any as S.Schema<LambdaIntegrationSummary>;
 export interface CustomerProfilesIntegrationConfig {
   domainArn: string;
-  objectTypeNames: { [key: string]: string };
+  objectTypeNames: { [key: string]: string | undefined };
 }
 export const CustomerProfilesIntegrationConfig = S.suspend(() =>
   S.Struct({ domainArn: S.String, objectTypeNames: ObjectTypeNamesMap }),
@@ -1732,7 +1746,7 @@ export const FailedProfileOutboundRequestList = S.Array(
 );
 export interface TelephonyChannelSubtypeParameters {
   destinationPhoneNumber: string | redacted.Redacted<string>;
-  attributes: { [key: string]: string };
+  attributes: { [key: string]: string | undefined };
   connectSourcePhoneNumber?: string;
   answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
   ringTimeout?: number;
@@ -1920,7 +1934,7 @@ export interface CreateCampaignRequest {
   schedule?: Schedule;
   communicationTimeConfig?: CommunicationTimeConfig;
   communicationLimitsOverride?: CommunicationLimitsConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -1977,7 +1991,7 @@ export const FailedRequestList = S.Array(FailedRequest);
 export interface CreateCampaignResponse {
   id?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCampaignResponse = S.suspend(() =>
   S.Struct({

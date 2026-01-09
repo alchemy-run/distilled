@@ -844,16 +844,16 @@ export const QueryObjectsInput = S.suspend(() =>
 ).annotations({
   identifier: "QueryObjectsInput",
 }) as any as S.Schema<QueryObjectsInput>;
-export type PipelineObjectMap = { [key: string]: PipelineObject };
+export type PipelineObjectMap = { [key: string]: PipelineObject | undefined };
 export const PipelineObjectMap = S.Record({
   key: S.String,
-  value: PipelineObject,
+  value: S.UndefinedOr(PipelineObject),
 });
 export interface TaskObject {
   taskId?: string;
   pipelineId?: string;
   attemptId?: string;
-  objects?: { [key: string]: PipelineObject };
+  objects?: { [key: string]: PipelineObject | undefined };
 }
 export const TaskObject = S.suspend(() =>
   S.Struct({

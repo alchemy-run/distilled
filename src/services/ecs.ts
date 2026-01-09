@@ -2128,14 +2128,14 @@ export const LogDriver = S.Literal(
   "splunk",
   "awsfirelens",
 );
-export type LogConfigurationOptionsMap = { [key: string]: string };
+export type LogConfigurationOptionsMap = { [key: string]: string | undefined };
 export const LogConfigurationOptionsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface LogConfiguration {
   logDriver: LogDriver;
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
   secretOptions?: Secret[];
 }
 export const LogConfiguration = S.suspend(() =>
@@ -3756,8 +3756,11 @@ export const HostEntry = S.suspend(() =>
 ).annotations({ identifier: "HostEntry" }) as any as S.Schema<HostEntry>;
 export type HostEntryList = HostEntry[];
 export const HostEntryList = S.Array(HostEntry);
-export type DockerLabelsMap = { [key: string]: string };
-export const DockerLabelsMap = S.Record({ key: S.String, value: S.String });
+export type DockerLabelsMap = { [key: string]: string | undefined };
+export const DockerLabelsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Ulimit {
   name: UlimitName;
   softLimit: number;
@@ -3795,14 +3798,16 @@ export const SystemControl = S.suspend(() =>
 }) as any as S.Schema<SystemControl>;
 export type SystemControls = SystemControl[];
 export const SystemControls = S.Array(SystemControl);
-export type FirelensConfigurationOptionsMap = { [key: string]: string };
+export type FirelensConfigurationOptionsMap = {
+  [key: string]: string | undefined;
+};
 export const FirelensConfigurationOptionsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface FirelensConfiguration {
   type: FirelensConfigurationType;
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
 }
 export const FirelensConfiguration = S.suspend(() =>
   S.Struct({
@@ -3847,7 +3852,7 @@ export interface ContainerDefinition {
   dockerSecurityOptions?: string[];
   interactive?: boolean;
   pseudoTerminal?: boolean;
-  dockerLabels?: { [key: string]: string };
+  dockerLabels?: { [key: string]: string | undefined };
   ulimits?: Ulimit[];
   logConfiguration?: LogConfiguration;
   healthCheck?: HealthCheck;
@@ -3914,14 +3919,17 @@ export const HostVolumeProperties = S.suspend(() =>
 ).annotations({
   identifier: "HostVolumeProperties",
 }) as any as S.Schema<HostVolumeProperties>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DockerVolumeConfiguration {
   scope?: Scope;
   autoprovision?: boolean;
   driver?: string;
-  driverOpts?: { [key: string]: string };
-  labels?: { [key: string]: string };
+  driverOpts?: { [key: string]: string | undefined };
+  labels?: { [key: string]: string | undefined };
 }
 export const DockerVolumeConfiguration = S.suspend(() =>
   S.Struct({

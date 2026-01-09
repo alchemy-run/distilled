@@ -539,8 +539,8 @@ export const CreateExportTaskRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateExportTaskRequest",
 }) as any as S.Schema<CreateExportTaskRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateLogAnomalyDetectorRequest {
   logGroupArnList: string[];
   detectorName?: string;
@@ -548,7 +548,7 @@ export interface CreateLogAnomalyDetectorRequest {
   filterPattern?: string;
   kmsKeyId?: string;
   anomalyVisibilityTime?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLogAnomalyDetectorRequest = S.suspend(() =>
   S.Struct({
@@ -576,7 +576,7 @@ export const CreateLogAnomalyDetectorRequest = S.suspend(() =>
 export interface CreateLogGroupRequest {
   logGroupName: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logGroupClass?: LogGroupClass;
   deletionProtectionEnabled?: boolean;
 }
@@ -2278,7 +2278,7 @@ export interface PutDeliverySourceRequest {
   name: string;
   resourceArn: string;
   logType: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutDeliverySourceRequest = S.suspend(() =>
   S.Struct({
@@ -2304,7 +2304,7 @@ export interface PutDestinationRequest {
   destinationName: string;
   targetArn: string;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -2606,7 +2606,7 @@ export const StopQueryRequest = S.suspend(() =>
 }) as any as S.Schema<StopQueryRequest>;
 export interface TagLogGroupRequest {
   logGroupName: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagLogGroupRequest = S.suspend(() =>
   S.Struct({ logGroupName: S.String, tags: Tags }).pipe(
@@ -2631,7 +2631,7 @@ export const TagLogGroupResponse = S.suspend(() =>
 }) as any as S.Schema<TagLogGroupResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
@@ -3427,7 +3427,7 @@ export interface CreateDeliveryRequest {
   recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDeliveryRequest = S.suspend(() =>
   S.Struct({
@@ -3530,7 +3530,7 @@ export interface Delivery {
   recordFields?: string[];
   fieldDelimiter?: string;
   s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Delivery = S.suspend(() =>
   S.Struct({
@@ -3559,7 +3559,7 @@ export interface DeliveryDestination {
   deliveryDestinationType?: DeliveryDestinationType;
   outputFormat?: OutputFormat;
   deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DeliveryDestination = S.suspend(() =>
   S.Struct({
@@ -3591,7 +3591,7 @@ export interface DeliverySource {
   resourceArns?: string[];
   service?: string;
   logType?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DeliverySource = S.suspend(() =>
   S.Struct({
@@ -3746,7 +3746,7 @@ export const ListLogGroupsForQueryResponse = S.suspend(() =>
   identifier: "ListLogGroupsForQueryResponse",
 }) as any as S.Schema<ListLogGroupsForQueryResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }).pipe(ns),
@@ -3754,7 +3754,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTagsLogGroupResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsLogGroupResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }).pipe(ns),
@@ -3810,7 +3810,7 @@ export interface PutDeliveryDestinationRequest {
   outputFormat?: OutputFormat;
   deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
   deliveryDestinationType?: DeliveryDestinationType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutDeliveryDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -4097,12 +4097,21 @@ export const OpenSearchResourceConfig = S.suspend(() =>
 ).annotations({
   identifier: "OpenSearchResourceConfig",
 }) as any as S.Schema<OpenSearchResourceConfig>;
-export type EntityKeyAttributes = { [key: string]: string };
-export const EntityKeyAttributes = S.Record({ key: S.String, value: S.String });
-export type EntityAttributes = { [key: string]: string };
-export const EntityAttributes = S.Record({ key: S.String, value: S.String });
-export type Dimensions = { [key: string]: string };
-export const Dimensions = S.Record({ key: S.String, value: S.String });
+export type EntityKeyAttributes = { [key: string]: string | undefined };
+export const EntityKeyAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type EntityAttributes = { [key: string]: string | undefined };
+export const EntityAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Dimensions = { [key: string]: string | undefined };
+export const Dimensions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ImportStatistics {
   bytesImported?: number;
 }
@@ -4244,7 +4253,7 @@ export interface MetricTransformation {
   metricNamespace: string;
   metricValue: string;
   defaultValue?: number;
-  dimensions?: { [key: string]: string };
+  dimensions?: { [key: string]: string | undefined };
   unit?: StandardUnit;
 }
 export const MetricTransformation = S.suspend(() =>
@@ -4420,8 +4429,11 @@ export const LogGroupField = S.suspend(() =>
 }) as any as S.Schema<LogGroupField>;
 export type LogGroupFieldList = LogGroupField[];
 export const LogGroupFieldList = S.Array(LogGroupField);
-export type LogRecord = { [key: string]: string };
-export const LogRecord = S.Record({ key: S.String, value: S.String });
+export type LogRecord = { [key: string]: string | undefined };
+export const LogRecord = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ResultField {
   field?: string;
   value?: string;
@@ -4572,8 +4584,8 @@ export const ResourceConfig = S.Union(
   S.Struct({ openSearchResourceConfig: OpenSearchResourceConfig }),
 );
 export interface Entity {
-  keyAttributes?: { [key: string]: string };
-  attributes?: { [key: string]: string };
+  keyAttributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined };
 }
 export const Entity = S.suspend(() =>
   S.Struct({
@@ -4672,7 +4684,7 @@ export interface CreateScheduledQueryRequest {
   scheduleEndTime?: number;
   executionRoleArn: string;
   state?: ScheduledQueryState;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScheduledQueryRequest = S.suspend(() =>
   S.Struct({
@@ -4945,7 +4957,7 @@ export const GetLogGroupFieldsResponse = S.suspend(() =>
   identifier: "GetLogGroupFieldsResponse",
 }) as any as S.Schema<GetLogGroupFieldsResponse>;
 export interface GetLogRecordResponse {
-  logRecord?: { [key: string]: string };
+  logRecord?: { [key: string]: string | undefined };
 }
 export const GetLogRecordResponse = S.suspend(() =>
   S.Struct({ logRecord: S.optional(LogRecord) }).pipe(ns),
@@ -5233,8 +5245,11 @@ export const ScheduledQueryDestination = S.suspend(() =>
 }) as any as S.Schema<ScheduledQueryDestination>;
 export type ScheduledQueryDestinationList = ScheduledQueryDestination[];
 export const ScheduledQueryDestinationList = S.Array(ScheduledQueryDestination);
-export type Histogram = { [key: string]: number };
-export const Histogram = S.Record({ key: S.String, value: S.Number });
+export type Histogram = { [key: string]: number | undefined };
+export const Histogram = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface LogEvent {
   timestamp?: number;
   message?: string;
@@ -5280,8 +5295,11 @@ export const SessionStreamingException = S.suspend(() =>
 ).annotations({
   identifier: "SessionStreamingException",
 }) as any as S.Schema<SessionStreamingException>;
-export type ExtractedValues = { [key: string]: string };
-export const ExtractedValues = S.Record({ key: S.String, value: S.String });
+export type ExtractedValues = { [key: string]: string | undefined };
+export const ExtractedValues = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ConfigurationTemplate {
   service?: string;
   logType?: string;
@@ -5394,7 +5412,7 @@ export const TriggerHistoryRecordList = S.Array(TriggerHistoryRecord);
 export interface MetricFilterMatchRecord {
   eventNumber?: number;
   eventMessage?: string;
-  extractedValues?: { [key: string]: string };
+  extractedValues?: { [key: string]: string | undefined };
 }
 export const MetricFilterMatchRecord = S.suspend(() =>
   S.Struct({
@@ -5515,8 +5533,11 @@ export const OpenSearchLifecyclePolicy = S.suspend(() =>
 ).annotations({
   identifier: "OpenSearchLifecyclePolicy",
 }) as any as S.Schema<OpenSearchLifecyclePolicy>;
-export type Enumerations = { [key: string]: number };
-export const Enumerations = S.Record({ key: S.String, value: S.Number });
+export type Enumerations = { [key: string]: number | undefined };
+export const Enumerations = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface LiveTailSessionMetadata {
   sampled?: boolean;
 }
@@ -5676,7 +5697,7 @@ export interface PatternToken {
   dynamicTokenPosition?: number;
   isDynamic?: boolean;
   tokenString?: string;
-  enumerations?: { [key: string]: number };
+  enumerations?: { [key: string]: number | undefined };
   inferredTokenName?: string;
 }
 export const PatternToken = S.suspend(() =>
@@ -5745,7 +5766,7 @@ export interface Anomaly {
   description: string;
   active: boolean;
   state: State;
-  histogram: { [key: string]: number };
+  histogram: { [key: string]: number | undefined };
   logSamples: LogEvent[];
   patternTokens: PatternToken[];
   logGroupArnList: string[];

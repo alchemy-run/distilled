@@ -185,7 +185,7 @@ export const FragmentSelectorType = S.Literal(
 );
 export type FormatConfig = { [key in FormatConfigKey]?: string };
 export const FormatConfig = S.partial(
-  S.Record({ key: FormatConfigKey, value: S.String }),
+  S.Record({ key: FormatConfigKey, value: S.UndefinedOr(S.String) }),
 );
 export interface GetImagesInput {
   StreamName?: string;
@@ -195,7 +195,7 @@ export interface GetImagesInput {
   EndTimestamp: Date;
   SamplingInterval?: number;
   Format: Format;
-  FormatConfig?: { [key: string]: string };
+  FormatConfig?: { [key: string]: string | undefined };
   WidthPixels?: number;
   HeightPixels?: number;
   MaxResults?: number;

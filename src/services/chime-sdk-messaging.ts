@@ -1442,17 +1442,19 @@ export const MessageAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "MessageAttributeValue",
 }) as any as S.Schema<MessageAttributeValue>;
-export type MessageAttributeMap = { [key: string]: MessageAttributeValue };
+export type MessageAttributeMap = {
+  [key: string]: MessageAttributeValue | undefined;
+};
 export const MessageAttributeMap = S.Record({
   key: S.String,
-  value: MessageAttributeValue,
+  value: S.UndefinedOr(MessageAttributeValue),
 });
 export interface ChannelMessageCallback {
   MessageId: string;
   Content?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
   PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   SubChannelId?: string;
   ContentType?: string | redacted.Redacted<string>;
 }
@@ -2070,7 +2072,7 @@ export interface ChannelMessage {
   Redacted?: boolean;
   Persistence?: ChannelMessagePersistenceType;
   Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   SubChannelId?: string;
   ContentType?: string | redacted.Redacted<string>;
   Target?: Target[];
@@ -2158,7 +2160,7 @@ export interface ChannelMessageSummary {
   Sender?: Identity;
   Redacted?: boolean;
   Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   ContentType?: string | redacted.Redacted<string>;
   Target?: Target[];
 }
@@ -2516,7 +2518,7 @@ export interface SendChannelMessageRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   ChimeBearer: string;
   PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   SubChannelId?: string;
   ContentType?: string | redacted.Redacted<string>;
   Target?: Target[];

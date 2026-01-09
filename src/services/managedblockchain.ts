@@ -585,11 +585,14 @@ export interface RejectInvitationOutput {}
 export const RejectInvitationOutput = S.suspend(() => S.Struct({})).annotations(
   { identifier: "RejectInvitationOutput" },
 ) as any as S.Schema<RejectInvitationOutput>;
-export type InputTagMap = { [key: string]: string };
-export const InputTagMap = S.Record({ key: S.String, value: S.String });
+export type InputTagMap = { [key: string]: string | undefined };
+export const InputTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -733,7 +736,7 @@ export const ThresholdComparator = S.Literal(
 export interface CreateAccessorInput {
   ClientRequestToken: string;
   AccessorType: AccessorType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NetworkType?: AccessorNetworkType;
 }
 export const CreateAccessorInput = S.suspend(() =>
@@ -760,7 +763,7 @@ export interface CreateNodeInput {
   NetworkId: string;
   MemberId?: string;
   NodeConfiguration: NodeConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateNodeInput = S.suspend(() =>
   S.Struct({
@@ -878,8 +881,11 @@ export const ProposalActions = S.suspend(() =>
 ).annotations({
   identifier: "ProposalActions",
 }) as any as S.Schema<ProposalActions>;
-export type OutputTagMap = { [key: string]: string };
-export const OutputTagMap = S.Record({ key: S.String, value: S.String });
+export type OutputTagMap = { [key: string]: string | undefined };
+export const OutputTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Accessor {
   Id?: string;
   Type?: AccessorType;
@@ -887,7 +893,7 @@ export interface Accessor {
   Status?: AccessorStatus;
   CreationDate?: Date;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NetworkType?: AccessorNetworkType;
 }
 export const Accessor = S.suspend(() =>
@@ -915,7 +921,7 @@ export interface Proposal {
   YesVoteCount?: number;
   NoVoteCount?: number;
   OutstandingVoteCount?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
 export const Proposal = S.suspend(() =>
@@ -1140,7 +1146,7 @@ export interface MemberConfiguration {
   Description?: string;
   FrameworkConfiguration: MemberFrameworkConfiguration;
   LogPublishingConfiguration?: MemberLogPublishingConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KmsKeyArn?: string;
 }
 export const MemberConfiguration = S.suspend(() =>
@@ -1164,7 +1170,7 @@ export interface CreateNetworkInput {
   FrameworkConfiguration?: NetworkFrameworkConfiguration;
   VotingPolicy: VotingPolicy;
   MemberConfiguration: MemberConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateNetworkInput = S.suspend(() =>
   S.Struct({
@@ -1204,7 +1210,7 @@ export interface CreateProposalInput {
   MemberId: string;
   Actions: ProposalActions;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateProposalInput = S.suspend(() =>
   S.Struct({
@@ -1328,7 +1334,7 @@ export const ListProposalVotesOutput = S.suspend(() =>
   identifier: "ListProposalVotesOutput",
 }) as any as S.Schema<ListProposalVotesOutput>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(OutputTagMap) }),
@@ -1503,7 +1509,7 @@ export interface Member {
   LogPublishingConfiguration?: MemberLogPublishingConfiguration;
   Status?: MemberStatus;
   CreationDate?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Arn?: string;
   KmsKeyArn?: string;
 }
@@ -1533,7 +1539,7 @@ export interface Network {
   VotingPolicy?: VotingPolicy;
   Status?: NetworkStatus;
   CreationDate?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
 export const Network = S.suspend(() =>
@@ -1563,7 +1569,7 @@ export interface Node {
   StateDB?: StateDBType;
   Status?: NodeStatus;
   CreationDate?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Arn?: string;
   KmsKeyArn?: string;
 }

@@ -197,11 +197,14 @@ export const AssociateResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "AssociateResourceResponse",
 }) as any as S.Schema<AssociateResourceResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateGroupRequest {
   Name: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({ Name: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -556,7 +559,7 @@ export const StopCanaryResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopCanaryResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -661,16 +664,16 @@ export const CanaryScheduleInput = S.suspend(() =>
 ).annotations({
   identifier: "CanaryScheduleInput",
 }) as any as S.Schema<CanaryScheduleInput>;
-export type EnvironmentVariablesMap = { [key: string]: string };
+export type EnvironmentVariablesMap = { [key: string]: string | undefined };
 export const EnvironmentVariablesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CanaryRunConfigInput {
   TimeoutInSeconds?: number;
   MemoryInMB?: number;
   ActiveTracing?: boolean;
-  EnvironmentVariables?: { [key: string]: string };
+  EnvironmentVariables?: { [key: string]: string | undefined };
   EphemeralStorage?: number;
 }
 export const CanaryRunConfigInput = S.suspend(() =>
@@ -1003,7 +1006,7 @@ export interface Canary {
   BrowserConfigs?: BrowserConfig[];
   EngineConfigs?: EngineConfig[];
   VisualReferences?: VisualReferenceOutput[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ArtifactConfig?: ArtifactConfigOutput;
   DryRunConfig?: DryRunConfigOutput;
 }
@@ -1045,7 +1048,7 @@ export interface Group {
   Id?: string;
   Name?: string;
   Arn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedTime?: Date;
   LastModifiedTime?: Date;
 }
@@ -1108,7 +1111,7 @@ export const ListGroupsResponse = S.suspend(() =>
   identifier: "ListGroupsResponse",
 }) as any as S.Schema<ListGroupsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1236,7 +1239,7 @@ export interface CreateCanaryRequest {
   ResourcesToReplicateTags?: ResourceToTag[];
   ProvisionedResourceCleanup?: ProvisionedResourceCleanupSetting;
   BrowserConfigs?: BrowserConfig[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ArtifactConfig?: ArtifactConfigInput;
 }
 export const CreateCanaryRequest = S.suspend(() =>

@@ -691,10 +691,10 @@ export const ClinicalNoteGenerationStatus = S.Literal(
   "FAILED",
   "COMPLETED",
 );
-export type KMSEncryptionContextMap = { [key: string]: string };
+export type KMSEncryptionContextMap = { [key: string]: string | undefined };
 export const KMSEncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ClinicalNoteGenerationSettings {
   OutputBucketName: string;
@@ -733,7 +733,7 @@ export const ClinicalNoteGenerationResult = S.suspend(() =>
   identifier: "ClinicalNoteGenerationResult",
 }) as any as S.Schema<ClinicalNoteGenerationResult>;
 export interface MedicalScribeEncryptionSettings {
-  KmsEncryptionContext?: { [key: string]: string };
+  KmsEncryptionContext?: { [key: string]: string | undefined };
   KmsKeyId: string;
 }
 export const MedicalScribeEncryptionSettings = S.suspend(() =>
@@ -1696,10 +1696,12 @@ export type MedicalScribeTranscriptItemList = MedicalScribeTranscriptItem[];
 export const MedicalScribeTranscriptItemList = S.Array(
   MedicalScribeTranscriptItem,
 );
-export type MatchedCategoryDetails = { [key: string]: PointsOfInterest };
+export type MatchedCategoryDetails = {
+  [key: string]: PointsOfInterest | undefined;
+};
 export const MatchedCategoryDetails = S.Record({
   key: S.String,
-  value: PointsOfInterest,
+  value: S.UndefinedOr(PointsOfInterest),
 });
 export interface MedicalScribeTranscriptSegment {
   SegmentId?: string;
@@ -1725,7 +1727,7 @@ export const MedicalScribeTranscriptSegment = S.suspend(() =>
 }) as any as S.Schema<MedicalScribeTranscriptSegment>;
 export interface CategoryEvent {
   MatchedCategories?: string[];
-  MatchedDetails?: { [key: string]: PointsOfInterest };
+  MatchedDetails?: { [key: string]: PointsOfInterest | undefined };
 }
 export const CategoryEvent = S.suspend(() =>
   S.Struct({

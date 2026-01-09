@@ -275,11 +275,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -390,7 +393,7 @@ export interface CreateScanRequest {
   scanName: string;
   scanType?: ScanType;
   analysisType?: AnalysisType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScanRequest = S.suspend(() =>
   S.Struct({
@@ -448,7 +451,7 @@ export const GetScanResponse = S.suspend(() =>
   identifier: "GetScanResponse",
 }) as any as S.Schema<GetScanResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -483,8 +486,11 @@ export type ScansWithMostOpenCriticalFindings = ScanNameWithFindingNum[];
 export const ScansWithMostOpenCriticalFindings = S.Array(
   ScanNameWithFindingNum,
 );
-export type RequestHeaderMap = { [key: string]: string };
-export const RequestHeaderMap = S.Record({ key: S.String, value: S.String });
+export type RequestHeaderMap = { [key: string]: string | undefined };
+export const RequestHeaderMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface FindingMetricsValuePerSeverity {
   info?: number;
   low?: number;
@@ -567,7 +573,7 @@ export const CreateScanResponse = S.suspend(() =>
 }) as any as S.Schema<CreateScanResponse>;
 export interface CreateUploadUrlResponse {
   s3Url: string | redacted.Redacted<string>;
-  requestHeaders: { [key: string]: string };
+  requestHeaders: { [key: string]: string | undefined };
   codeArtifactId: string;
 }
 export const CreateUploadUrlResponse = S.suspend(() =>

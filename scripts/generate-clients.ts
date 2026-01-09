@@ -582,8 +582,10 @@ const shapeToTsType = (
 
       case "map": {
         // For maps, get the value type and return a record type
+        // Include | undefined to allow users to pass objects with undefined values
+        // (which are dropped during serialization)
         const valueType = yield* shapeToTsType(shape.value.target);
-        return `{ [key: string]: ${valueType} }`;
+        return `{ [key: string]: ${valueType} | undefined }`;
       }
 
       case "union":
@@ -1208,7 +1210,7 @@ function computeOutputIntersection(
         new Set(visited),
       );
       if (valueIntersection) {
-        return `{ [key: string]: ${valueIntersection} }`;
+        return `{ [key: string]: (${valueIntersection}) | undefined }`;
       }
     }
     return null;
@@ -2179,14 +2181,15 @@ const convertShapeToSchema: (
                       const valueTsType = yield* shapeToTsType(s.value.target);
 
                       // Wrap in S.partial if key is an enum (AWS returns partial maps)
-                      let recordExpr = `S.Record({key: ${wrappedKey}, value: ${wrappedValue}})${sparsePipe}`;
+                      // Wrap value with S.UndefinedOr to allow undefined values (which are dropped during serialization)
+                      let recordExpr = `S.Record({key: ${wrappedKey}, value: S.UndefinedOr(${wrappedValue})})${sparsePipe}`;
                       let typeAlias: string;
                       if (isKeyEnum) {
                         recordExpr = `S.partial(${recordExpr})`;
                         // Use mapped type with optional values for enum keys
                         typeAlias = `export type ${schemaName} = { [key in ${keyTargetName}]?: ${valueTsType} };`;
                       } else {
-                        typeAlias = `export type ${schemaName} = { [key: string]: ${valueTsType} };`;
+                        typeAlias = `export type ${schemaName} = { [key: string]: ${valueTsType} | undefined };`;
                       }
 
                       const schemaDef = isCyclic
@@ -2682,9 +2685,10 @@ const generateClient = Effect.fn(function* (
                       itemType = "unknown";
                     } else if (memberShape.type === "map") {
                       // Maps are inlined - get the value type
+                      // Include | undefined to allow users to pass objects with undefined values
                       const valueTarget = memberShape.value.target;
                       if (smithyPrimitiveToTs[valueTarget]) {
-                        itemType = `{ [key: string]: ${smithyPrimitiveToTs[valueTarget]} }`;
+                        itemType = `{ [key: string]: ${smithyPrimitiveToTs[valueTarget]} | undefined }`;
                       } else {
                         const [, valueShape] = yield* findShape(valueTarget);
                         const valueName = formatName(valueTarget);
@@ -2695,9 +2699,9 @@ const generateClient = Effect.fn(function* (
                           valueShape.type === "float" ||
                           valueShape.type === "double"
                         ) {
-                          itemType = `{ [key: string]: ${smithyPrimitiveToTs[`smithy.api#${valueShape.type.charAt(0).toUpperCase() + valueShape.type.slice(1)}`] || valueName} }`;
+                          itemType = `{ [key: string]: ${smithyPrimitiveToTs[`smithy.api#${valueShape.type.charAt(0).toUpperCase() + valueShape.type.slice(1)}`] || valueName} | undefined }`;
                         } else {
-                          itemType = `{ [key: string]: ${valueName} }`;
+                          itemType = `{ [key: string]: ${valueName} | undefined }`;
                         }
                       }
                     } else if (memberShape.type === "list") {

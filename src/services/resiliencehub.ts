@@ -214,8 +214,11 @@ export type String255List = string[];
 export const String255List = S.Array(S.String);
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateRecommendationTemplateRequest {
   recommendationIds?: string[];
   format?: TemplateFormat;
@@ -223,7 +226,7 @@ export interface CreateRecommendationTemplateRequest {
   assessmentArn: string;
   name: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   bucketName?: string;
 }
 export const CreateRecommendationTemplateRequest = S.suspend(() =>
@@ -1238,7 +1241,7 @@ export interface StartAppAssessmentRequest {
   appVersion: string;
   assessmentName: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartAppAssessmentRequest = S.suspend(() =>
   S.Struct({
@@ -1303,7 +1306,7 @@ export const StartResourceGroupingRecommendationTaskRequest = S.suspend(() =>
 }) as any as S.Schema<StartResourceGroupingRecommendationTaskRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1423,14 +1426,14 @@ export const UpdateAppRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAppRequest>;
 export type AdditionalInfoValueList = string[];
 export const AdditionalInfoValueList = S.Array(S.String);
-export type AdditionalInfoMap = { [key: string]: string[] };
+export type AdditionalInfoMap = { [key: string]: string[] | undefined };
 export const AdditionalInfoMap = S.Record({
   key: S.String,
-  value: AdditionalInfoValueList,
+  value: S.UndefinedOr(AdditionalInfoValueList),
 });
 export interface UpdateAppVersionRequest {
   appArn: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const UpdateAppVersionRequest = S.suspend(() =>
   S.Struct({
@@ -1454,7 +1457,7 @@ export interface UpdateAppVersionAppComponentRequest {
   id: string;
   name?: string;
   type?: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const UpdateAppVersionAppComponentRequest = S.suspend(() =>
   S.Struct({
@@ -1485,7 +1488,7 @@ export interface UpdateAppVersionResourceRequest {
   awsAccountId?: string;
   resourceType?: string;
   appComponents?: string[];
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
   excluded?: boolean;
 }
 export const UpdateAppVersionResourceRequest = S.suspend(() =>
@@ -1526,7 +1529,7 @@ export const FailurePolicy = S.suspend(() =>
 }) as any as S.Schema<FailurePolicy>;
 export type DisruptionPolicy = { [key in DisruptionType]?: FailurePolicy };
 export const DisruptionPolicy = S.partial(
-  S.Record({ key: DisruptionType, value: FailurePolicy }),
+  S.Record({ key: DisruptionType, value: S.UndefinedOr(FailurePolicy) }),
 );
 export interface UpdateResiliencyPolicyRequest {
   policyArn: string;
@@ -1534,7 +1537,7 @@ export interface UpdateResiliencyPolicyRequest {
   policyDescription?: string;
   dataLocationConstraint?: DataLocationConstraint;
   tier?: ResiliencyPolicyTier;
-  policy?: { [key: string]: FailurePolicy };
+  policy?: { [key: string]: FailurePolicy | undefined };
 }
 export const UpdateResiliencyPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -1696,7 +1699,7 @@ export interface AppComponent {
   name: string;
   type: string;
   id?: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const AppComponent = S.suspend(() =>
   S.Struct({
@@ -1734,7 +1737,7 @@ export interface PhysicalResource {
   physicalResourceId: PhysicalResourceId;
   resourceType: string;
   appComponents?: AppComponent[];
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
   excluded?: boolean;
   sourceType?: ResourceSourceType;
   parentResourceName?: string;
@@ -1808,7 +1811,7 @@ export interface RecommendationTemplate {
   name: string;
   startTime?: Date;
   endTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   needsReplacements?: boolean;
 }
 export const RecommendationTemplate = S.suspend(() =>
@@ -1842,9 +1845,9 @@ export interface ResiliencyPolicy {
   dataLocationConstraint?: DataLocationConstraint;
   tier?: ResiliencyPolicyTier;
   estimatedCostTier?: EstimatedCostTier;
-  policy?: { [key: string]: FailurePolicy };
+  policy?: { [key: string]: FailurePolicy | undefined };
   creationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ResiliencyPolicy = S.suspend(() =>
   S.Struct({
@@ -1908,7 +1911,7 @@ export interface CreateAppRequest {
   name: string;
   description?: string;
   policyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
   assessmentSchedule?: AppAssessmentScheduleType;
   permissionModel?: PermissionModel;
@@ -1944,7 +1947,7 @@ export interface CreateAppVersionAppComponentRequest {
   id?: string;
   name: string;
   type: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
   clientToken?: string;
 }
 export const CreateAppVersionAppComponentRequest = S.suspend(() =>
@@ -1977,7 +1980,7 @@ export interface CreateAppVersionResourceRequest {
   awsAccountId?: string;
   resourceType: string;
   appComponents: string[];
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
   clientToken?: string;
 }
 export const CreateAppVersionResourceRequest = S.suspend(() =>
@@ -2072,7 +2075,7 @@ export const DeleteResiliencyPolicyResponse = S.suspend(() =>
 export interface DescribeAppVersionResponse {
   appArn: string;
   appVersion: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const DescribeAppVersionResponse = S.suspend(() =>
   S.Struct({
@@ -2320,7 +2323,7 @@ export const ListSuggestedResiliencyPoliciesResponse = S.suspend(() =>
   identifier: "ListSuggestedResiliencyPoliciesResponse",
 }) as any as S.Schema<ListSuggestedResiliencyPoliciesResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -2413,7 +2416,7 @@ export const Cost = S.suspend(() =>
 ).annotations({ identifier: "Cost" }) as any as S.Schema<Cost>;
 export type DisruptionResiliencyScore = { [key in DisruptionType]?: number };
 export const DisruptionResiliencyScore = S.partial(
-  S.Record({ key: DisruptionType, value: S.Number }),
+  S.Record({ key: DisruptionType, value: S.UndefinedOr(S.Number) }),
 );
 export type ResiliencyScoreType = "Compliance" | "Test" | "Alarm" | "Sop";
 export const ResiliencyScoreType = S.Literal(
@@ -2444,13 +2447,15 @@ export type ScoringComponentResiliencyScores = {
 export const ScoringComponentResiliencyScores = S.partial(
   S.Record({
     key: ResiliencyScoreType,
-    value: ScoringComponentResiliencyScore,
+    value: S.UndefinedOr(ScoringComponentResiliencyScore),
   }),
 );
 export interface ResiliencyScore {
   score: number;
-  disruptionScore: { [key: string]: number };
-  componentScore?: { [key: string]: ScoringComponentResiliencyScore };
+  disruptionScore: { [key: string]: number | undefined };
+  componentScore?: {
+    [key: string]: ScoringComponentResiliencyScore | undefined;
+  };
 }
 export const ResiliencyScore = S.suspend(() =>
   S.Struct({
@@ -2493,7 +2498,7 @@ export type AssessmentCompliance = {
   [key in DisruptionType]?: DisruptionCompliance;
 };
 export const AssessmentCompliance = S.partial(
-  S.Record({ key: DisruptionType, value: DisruptionCompliance }),
+  S.Record({ key: DisruptionType, value: S.UndefinedOr(DisruptionCompliance) }),
 );
 export interface ResourceError {
   logicalResourceId?: string;
@@ -2561,7 +2566,7 @@ export interface AppAssessment {
   invoker: AssessmentInvoker;
   cost?: Cost;
   resiliencyScore?: ResiliencyScore;
-  compliance?: { [key: string]: DisruptionCompliance };
+  compliance?: { [key: string]: DisruptionCompliance | undefined };
   complianceStatus?: ComplianceStatus;
   assessmentStatus: AssessmentStatus;
   startTime?: Date;
@@ -2570,7 +2575,7 @@ export interface AppAssessment {
   assessmentName?: string;
   assessmentArn: string;
   policy?: ResiliencyPolicy;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   resourceErrorsDetails?: ResourceErrorsDetails;
   versionName?: string;
   driftStatus?: DriftStatus;
@@ -2668,7 +2673,7 @@ export interface App {
   lastAppComplianceEvaluationTime?: Date;
   resiliencyScore?: number;
   lastResiliencyScoreEvaluationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   assessmentSchedule?: AppAssessmentScheduleType;
   permissionModel?: PermissionModel;
   eventSubscriptions?: EventSubscription[];
@@ -2718,7 +2723,7 @@ export const UpdateAppResponse = S.suspend(() =>
 export interface UpdateAppVersionResponse {
   appArn: string;
   appVersion: string;
-  additionalInfo?: { [key: string]: string[] };
+  additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const UpdateAppVersionResponse = S.suspend(() =>
   S.Struct({
@@ -2880,9 +2885,9 @@ export interface ComplianceDrift {
   appId?: string;
   appVersion?: string;
   expectedReferenceId?: string;
-  expectedValue?: { [key: string]: DisruptionCompliance };
+  expectedValue?: { [key: string]: DisruptionCompliance | undefined };
   actualReferenceId?: string;
-  actualValue?: { [key: string]: DisruptionCompliance };
+  actualValue?: { [key: string]: DisruptionCompliance | undefined };
   diffType?: DifferenceType;
 }
 export const ComplianceDrift = S.suspend(() =>
@@ -2944,7 +2949,7 @@ export const AppAssessmentSummaryList = S.Array(AppAssessmentSummary);
 export interface AppComponentCompliance {
   cost?: Cost;
   appComponentName?: string;
-  compliance?: { [key: string]: DisruptionCompliance };
+  compliance?: { [key: string]: DisruptionCompliance | undefined };
   message?: string;
   status?: ComplianceStatus;
   resiliencyScore?: ResiliencyScore;
@@ -3289,9 +3294,9 @@ export interface CreateResiliencyPolicyRequest {
   policyDescription?: string;
   dataLocationConstraint?: DataLocationConstraint;
   tier: ResiliencyPolicyTier;
-  policy: { [key: string]: FailurePolicy };
+  policy: { [key: string]: FailurePolicy | undefined };
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateResiliencyPolicyRequest = S.suspend(() =>
   S.Struct({
@@ -3810,7 +3815,10 @@ export type RecommendationCompliance = {
   [key in DisruptionType]?: RecommendationDisruptionCompliance;
 };
 export const RecommendationCompliance = S.partial(
-  S.Record({ key: DisruptionType, value: RecommendationDisruptionCompliance }),
+  S.Record({
+    key: DisruptionType,
+    value: S.UndefinedOr(RecommendationDisruptionCompliance),
+  }),
 );
 export interface BatchUpdateRecommendationStatusResponse {
   appArn: string;
@@ -3841,9 +3849,9 @@ export const ListAlarmRecommendationsResponse = S.suspend(() =>
 export interface ConfigRecommendation {
   cost?: Cost;
   appComponentName?: string;
-  compliance?: { [key: string]: DisruptionCompliance };
+  compliance?: { [key: string]: DisruptionCompliance | undefined };
   recommendationCompliance?: {
-    [key: string]: RecommendationDisruptionCompliance;
+    [key: string]: RecommendationDisruptionCompliance | undefined;
   };
   optimizationType: ConfigRecommendationOptimizationType;
   name: string;

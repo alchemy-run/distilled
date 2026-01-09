@@ -298,11 +298,14 @@ export const AssociateFacesRequest = S.suspend(() =>
 ).annotations({
   identifier: "AssociateFacesRequest",
 }) as any as S.Schema<AssociateFacesRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateCollectionRequest {
   CollectionId: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCollectionRequest = S.suspend(() =>
   S.Struct({ CollectionId: S.String, Tags: S.optional(TagMap) }).pipe(
@@ -315,7 +318,7 @@ export interface CreateProjectRequest {
   ProjectName: string;
   Feature?: CustomizationFeature;
   AutoUpdate?: ProjectAutoUpdate;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -1177,7 +1180,7 @@ export const StopStreamProcessorResponse = S.suspend(() =>
 }) as any as S.Schema<StopStreamProcessorResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagMap }).pipe(
@@ -1575,7 +1578,7 @@ export interface CopyProjectVersionRequest {
   DestinationProjectArn: string;
   VersionName: string;
   OutputConfig: OutputConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KmsKeyId?: string;
 }
 export const CopyProjectVersionRequest = S.suspend(() =>
@@ -1839,7 +1842,7 @@ export const ListDatasetEntriesResponse = S.suspend(() =>
   identifier: "ListDatasetEntriesResponse",
 }) as any as S.Schema<ListDatasetEntriesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -3077,7 +3080,7 @@ export interface CreateDatasetRequest {
   DatasetSource?: DatasetSource;
   DatasetType: DatasetType;
   ProjectArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -3097,7 +3100,7 @@ export interface CreateProjectVersionRequest {
   OutputConfig: OutputConfig;
   TrainingData?: TrainingData;
   TestingData?: TestingData;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   KmsKeyId?: string;
   VersionDescription?: string;
   FeatureConfig?: CustomizationFeatureConfig;
@@ -3125,7 +3128,7 @@ export interface CreateStreamProcessorRequest {
   Name: string;
   Settings: StreamProcessorSettings;
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NotificationChannel?: StreamProcessorNotificationChannel;
   KmsKeyId?: string;
   RegionsOfInterest?: RegionOfInterest[];

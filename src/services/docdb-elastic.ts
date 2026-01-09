@@ -129,8 +129,11 @@ export const ApplyPendingMaintenanceActionInput = S.suspend(() =>
 ).annotations({
   identifier: "ApplyPendingMaintenanceActionInput",
 }) as any as S.Schema<ApplyPendingMaintenanceActionInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateClusterInput {
   clusterName: string;
   authType: string;
@@ -143,7 +146,7 @@ export interface CreateClusterInput {
   kmsKeyId?: string;
   clientToken?: string;
   preferredMaintenanceWindow?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   backupRetentionPeriod?: number;
   preferredBackupWindow?: string;
   shardInstanceCount?: number;
@@ -181,7 +184,7 @@ export const CreateClusterInput = S.suspend(() =>
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateClusterSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -376,7 +379,7 @@ export interface RestoreClusterFromSnapshotInput {
   vpcSecurityGroupIds?: string[];
   subnetIds?: string[];
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   shardCapacity?: number;
   shardInstanceCount?: number;
 }
@@ -442,7 +445,7 @@ export const StopClusterInput = S.suspend(() =>
 }) as any as S.Schema<StopClusterInput>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -580,7 +583,7 @@ export interface CopyClusterSnapshotInput {
   targetSnapshotName: string;
   kmsKeyId?: string;
   copyTags?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CopyClusterSnapshotInput = S.suspend(() =>
   S.Struct({
@@ -737,7 +740,7 @@ export const ListPendingMaintenanceActionsOutput = S.suspend(() =>
   identifier: "ListPendingMaintenanceActionsOutput",
 }) as any as S.Schema<ListPendingMaintenanceActionsOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),

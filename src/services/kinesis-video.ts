@@ -538,12 +538,15 @@ export const TagResourceOutput = S.suspend(() =>
 ).annotations({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
-export type ResourceTags = { [key: string]: string };
-export const ResourceTags = S.Record({ key: S.String, value: S.String });
+export type ResourceTags = { [key: string]: string | undefined };
+export const ResourceTags = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagStreamInput {
   StreamARN?: string;
   StreamName?: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagStreamInput = S.suspend(() =>
   S.Struct({
@@ -893,7 +896,7 @@ export interface CreateStreamInput {
   MediaType?: string;
   KmsKeyId?: string;
   DataRetentionInHours?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   StreamStorageConfiguration?: StreamStorageConfiguration;
 }
 export const CreateStreamInput = S.suspend(() =>
@@ -930,7 +933,7 @@ export const ImageGenerationDestinationConfig = S.suspend(() =>
 }) as any as S.Schema<ImageGenerationDestinationConfig>;
 export type FormatConfig = { [key in FormatConfigKey]?: string };
 export const FormatConfig = S.partial(
-  S.Record({ key: FormatConfigKey, value: S.String }),
+  S.Record({ key: FormatConfigKey, value: S.UndefinedOr(S.String) }),
 );
 export interface ImageGenerationConfiguration {
   Status: ConfigurationStatus;
@@ -938,7 +941,7 @@ export interface ImageGenerationConfiguration {
   DestinationConfig: ImageGenerationDestinationConfig;
   SamplingInterval: number;
   Format: Format;
-  FormatConfig?: { [key: string]: string };
+  FormatConfig?: { [key: string]: string | undefined };
   WidthPixels?: number;
   HeightPixels?: number;
 }
@@ -1102,7 +1105,7 @@ export const ListStreamsInput = S.suspend(() =>
 }) as any as S.Schema<ListStreamsInput>;
 export interface ListTagsForResourceOutput {
   NextToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({
@@ -1114,7 +1117,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface ListTagsForStreamOutput {
   NextToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForStreamOutput = S.suspend(() =>
   S.Struct({

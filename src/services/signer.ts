@@ -510,11 +510,14 @@ export const SignPayloadRequest = S.suspend(() =>
 ).annotations({
   identifier: "SignPayloadRequest",
 }) as any as S.Schema<SignPayloadRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -587,8 +590,11 @@ export const SignatureValidityPeriod = S.suspend(() =>
 ).annotations({
   identifier: "SignatureValidityPeriod",
 }) as any as S.Schema<SignatureValidityPeriod>;
-export type SigningParameters = { [key: string]: string };
-export const SigningParameters = S.Record({ key: S.String, value: S.String });
+export type SigningParameters = { [key: string]: string | undefined };
+export const SigningParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type EncryptionAlgorithm = "RSA" | "ECDSA";
 export const EncryptionAlgorithm = S.Literal("RSA", "ECDSA");
 export type HashAlgorithm = "SHA1" | "SHA256";
@@ -610,7 +616,7 @@ export const GetRevocationStatusResponse = S.suspend(() =>
   identifier: "GetRevocationStatusResponse",
 }) as any as S.Schema<GetRevocationStatusResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -843,10 +849,10 @@ export interface SigningProfile {
   signatureValidityPeriod?: SignatureValidityPeriod;
   platformId?: string;
   platformDisplayName?: string;
-  signingParameters?: { [key: string]: string };
+  signingParameters?: { [key: string]: string | undefined };
   status?: SigningProfileStatus;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SigningProfile = S.suspend(() =>
   S.Struct({
@@ -879,8 +885,11 @@ export const SigningPlatformOverrides = S.suspend(() =>
 ).annotations({
   identifier: "SigningPlatformOverrides",
 }) as any as S.Schema<SigningPlatformOverrides>;
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Destination {
   s3?: S3Destination;
 }
@@ -897,11 +906,11 @@ export interface GetSigningProfileResponse {
   platformDisplayName?: string;
   signatureValidityPeriod?: SignatureValidityPeriod;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string };
+  signingParameters?: { [key: string]: string | undefined };
   status?: SigningProfileStatus;
   statusReason?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSigningProfileResponse = S.suspend(() =>
   S.Struct({
@@ -978,8 +987,8 @@ export interface PutSigningProfileRequest {
   signatureValidityPeriod?: SignatureValidityPeriod;
   platformId: string;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  signingParameters?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutSigningProfileRequest = S.suspend(() =>
   S.Struct({
@@ -1006,7 +1015,7 @@ export const PutSigningProfileRequest = S.suspend(() =>
 export interface SignPayloadResponse {
   jobId?: string;
   jobOwner?: string;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
   signature?: Uint8Array;
 }
 export const SignPayloadResponse = S.suspend(() =>
@@ -1055,7 +1064,7 @@ export interface DescribeSigningJobResponse {
   profileName?: string;
   profileVersion?: string;
   overrides?: SigningPlatformOverrides;
-  signingParameters?: { [key: string]: string };
+  signingParameters?: { [key: string]: string | undefined };
   createdAt?: Date;
   completedAt?: Date;
   signatureExpiresAt?: Date;

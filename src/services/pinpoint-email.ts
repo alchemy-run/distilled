@@ -1934,10 +1934,10 @@ export const BlacklistEntry = S.suspend(() =>
 }) as any as S.Schema<BlacklistEntry>;
 export type BlacklistEntries = BlacklistEntry[];
 export const BlacklistEntries = S.Array(BlacklistEntry);
-export type BlacklistReport = { [key: string]: BlacklistEntry[] };
+export type BlacklistReport = { [key: string]: BlacklistEntry[] | undefined };
 export const BlacklistReport = S.Record({
   key: S.String,
-  value: BlacklistEntries,
+  value: S.UndefinedOr(BlacklistEntries),
 });
 export interface OverallVolume {
   VolumeStatistics?: VolumeStatistics;
@@ -2014,7 +2014,7 @@ export const CreateDeliverabilityTestReportRequest = S.suspend(() =>
   identifier: "CreateDeliverabilityTestReportRequest",
 }) as any as S.Schema<CreateDeliverabilityTestReportRequest>;
 export interface GetBlacklistReportsResponse {
-  BlacklistReport: { [key: string]: BlacklistEntry[] };
+  BlacklistReport: { [key: string]: BlacklistEntry[] | undefined };
 }
 export const GetBlacklistReportsResponse = S.suspend(() =>
   S.Struct({ BlacklistReport: BlacklistReport }),

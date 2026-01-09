@@ -351,12 +351,15 @@ export const DeleteScraperLoggingConfigurationResponse = S.suspend(() =>
 ).annotations({
   identifier: "DeleteScraperLoggingConfigurationResponse",
 }) as any as S.Schema<DeleteScraperLoggingConfigurationResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateWorkspaceRequest {
   alias?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
@@ -620,10 +623,10 @@ export type AnomalyDetectorConfiguration = {
 export const AnomalyDetectorConfiguration = S.Union(
   S.Struct({ randomCutForest: RandomCutForestConfiguration }),
 );
-export type PrometheusMetricLabelMap = { [key: string]: string };
+export type PrometheusMetricLabelMap = { [key: string]: string | undefined };
 export const PrometheusMetricLabelMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface PutAnomalyDetectorRequest {
   workspaceId: string;
@@ -631,7 +634,7 @@ export interface PutAnomalyDetectorRequest {
   evaluationIntervalInSeconds?: number;
   missingDataAction?: AnomalyDetectorMissingDataAction;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const PutAnomalyDetectorRequest = S.suspend(() =>
@@ -947,7 +950,7 @@ export interface CreateRuleGroupsNamespaceRequest {
   name: string;
   data: Uint8Array;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRuleGroupsNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -1180,14 +1183,17 @@ export const DeleteResourcePolicyResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export type FilterValues = string[];
 export const FilterValues = S.Array(S.String);
-export type ScraperFilters = { [key: string]: string[] };
-export const ScraperFilters = S.Record({ key: S.String, value: FilterValues });
+export type ScraperFilters = { [key: string]: string[] | undefined };
+export const ScraperFilters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(FilterValues),
+});
 export type SecurityGroupIds = string[];
 export const SecurityGroupIds = S.Array(S.String);
 export type SubnetIds = string[];
 export const SubnetIds = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1196,7 +1202,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1237,7 +1243,7 @@ export const DeleteScraperResponse = S.suspend(() =>
   identifier: "DeleteScraperResponse",
 }) as any as S.Schema<DeleteScraperResponse>;
 export interface ListScrapersRequest {
-  filters?: { [key: string]: string[] };
+  filters?: { [key: string]: string[] | undefined };
   nextToken?: string;
   maxResults?: number;
 }
@@ -1306,7 +1312,7 @@ export interface PutRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutRuleGroupsNamespaceResponse = S.suspend(() =>
   S.Struct({
@@ -1389,8 +1395,11 @@ export const LimitsPerLabelSetEntry = S.suspend(() =>
 ).annotations({
   identifier: "LimitsPerLabelSetEntry",
 }) as any as S.Schema<LimitsPerLabelSetEntry>;
-export type LabelSet = { [key: string]: string };
-export const LabelSet = S.Record({ key: S.String, value: S.String });
+export type LabelSet = { [key: string]: string | undefined };
+export const LabelSet = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Source =
   | { eksConfiguration: EksConfiguration; vpcConfiguration?: never }
   | { eksConfiguration?: never; vpcConfiguration: VpcConfiguration };
@@ -1406,7 +1415,7 @@ export interface ScraperDescription {
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   statusReason?: string;
   scrapeConfiguration: ScrapeConfiguration;
   source: Source;
@@ -1462,7 +1471,7 @@ export interface WorkspaceDescription {
   status: WorkspaceStatus;
   prometheusEndpoint?: string;
   createdAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const WorkspaceDescription = S.suspend(() =>
@@ -1485,7 +1494,7 @@ export interface WorkspaceSummary {
   arn: string;
   status: WorkspaceStatus;
   createdAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const WorkspaceSummary = S.suspend(() =>
@@ -1538,11 +1547,11 @@ export interface AnomalyDetectorDescription {
   evaluationIntervalInSeconds?: number;
   missingDataAction?: AnomalyDetectorMissingDataAction;
   configuration?: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AnomalyDetectorDescription = S.suspend(() =>
   S.Struct({
@@ -1568,7 +1577,7 @@ export interface AnomalyDetectorSummary {
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const AnomalyDetectorSummary = S.suspend(() =>
   S.Struct({
@@ -1637,7 +1646,7 @@ export interface RuleGroupsNamespaceDescription {
   data: Uint8Array;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const RuleGroupsNamespaceDescription = S.suspend(() =>
   S.Struct({
@@ -1658,7 +1667,7 @@ export interface RuleGroupsNamespaceSummary {
   status: RuleGroupsNamespaceStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const RuleGroupsNamespaceSummary = S.suspend(() =>
   S.Struct({
@@ -1678,7 +1687,7 @@ export const RuleGroupsNamespaceSummaryList = S.Array(
 );
 export interface LimitsPerLabelSet {
   limits: LimitsPerLabelSetEntry;
-  labelSet: { [key: string]: string };
+  labelSet: { [key: string]: string | undefined };
 }
 export const LimitsPerLabelSet = S.suspend(() =>
   S.Struct({ limits: LimitsPerLabelSetEntry, labelSet: LabelSet }),
@@ -1687,8 +1696,11 @@ export const LimitsPerLabelSet = S.suspend(() =>
 }) as any as S.Schema<LimitsPerLabelSet>;
 export type LimitsPerLabelSetList = LimitsPerLabelSet[];
 export const LimitsPerLabelSetList = S.Array(LimitsPerLabelSet);
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateScraperRequest {
   alias?: string;
   scrapeConfiguration: ScrapeConfiguration;
@@ -1696,7 +1708,7 @@ export interface CreateScraperRequest {
   destination: Destination;
   roleConfiguration?: RoleConfiguration;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScraperRequest = S.suspend(() =>
   S.Struct({
@@ -1732,7 +1744,7 @@ export interface UpdateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UpdateScraperResponse = S.suspend(() =>
   S.Struct({
@@ -1745,7 +1757,7 @@ export const UpdateScraperResponse = S.suspend(() =>
   identifier: "UpdateScraperResponse",
 }) as any as S.Schema<UpdateScraperResponse>;
 export interface ComponentConfig {
-  options?: { [key: string]: string };
+  options?: { [key: string]: string | undefined };
 }
 export const ComponentConfig = S.suspend(() =>
   S.Struct({ options: S.optional(StringMap) }),
@@ -1785,7 +1797,7 @@ export interface CreateWorkspaceResponse {
   workspaceId: string;
   arn: string;
   status: WorkspaceStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const CreateWorkspaceResponse = S.suspend(() =>
@@ -1839,7 +1851,7 @@ export interface PutAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const PutAnomalyDetectorResponse = S.suspend(() =>
   S.Struct({
@@ -1933,7 +1945,7 @@ export interface CreateRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRuleGroupsNamespaceResponse = S.suspend(() =>
   S.Struct({
@@ -2010,7 +2022,7 @@ export interface ScraperSummary {
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   statusReason?: string;
   source: Source;
   destination: Destination;
@@ -2054,7 +2066,7 @@ export interface CreateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateScraperResponse = S.suspend(() =>
   S.Struct({
@@ -2107,9 +2119,9 @@ export interface CreateAnomalyDetectorRequest {
   evaluationIntervalInSeconds?: number;
   missingDataAction?: AnomalyDetectorMissingDataAction;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string };
+  labels?: { [key: string]: string | undefined };
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAnomalyDetectorRequest = S.suspend(() =>
   S.Struct({
@@ -2173,7 +2185,7 @@ export interface CreateAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAnomalyDetectorResponse = S.suspend(() =>
   S.Struct({

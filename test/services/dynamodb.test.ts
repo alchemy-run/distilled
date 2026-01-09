@@ -261,6 +261,50 @@ test(
 );
 
 test(
+  "getItem drops undefined values in ExpressionAttributeNames map",
+  Effect.gen(function* () {
+    const tableName = TEST_TABLE_NAME;
+
+    // Put an item
+    yield* putItem({
+      TableName: tableName,
+      Item: {
+        pk: { S: "user#undefined-test" },
+        sk: { S: "profile" },
+        name: { S: "Test User" },
+      },
+    });
+
+    // Get with ExpressionAttributeNames containing undefined - should not fail
+    const result = yield* getItem({
+      TableName: tableName,
+      Key: {
+        pk: { S: "user#undefined-test" },
+        sk: { S: "profile" },
+      },
+      ProjectionExpression: "#name",
+      ExpressionAttributeNames: {
+        "#name": "name",
+        "#unused": undefined,
+      } as { [key: string]: string | undefined },
+    });
+
+    expect(result.Item).toBeDefined();
+    const name = result.Item?.name as { S: string } | undefined;
+    expect(name?.S).toEqual("Test User");
+
+    // Cleanup
+    yield* deleteItem({
+      TableName: tableName,
+      Key: {
+        pk: { S: "user#undefined-test" },
+        sk: { S: "profile" },
+      },
+    });
+  }),
+);
+
+test(
   "deleteItem",
   Effect.gen(function* () {
     const tableName = TEST_TABLE_NAME;

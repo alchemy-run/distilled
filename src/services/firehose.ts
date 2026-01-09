@@ -739,15 +739,15 @@ export const SchemaConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "SchemaConfiguration",
 }) as any as S.Schema<SchemaConfiguration>;
-export type ColumnToJsonKeyMappings = { [key: string]: string };
+export type ColumnToJsonKeyMappings = { [key: string]: string | undefined };
 export const ColumnToJsonKeyMappings = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface OpenXJsonSerDe {
   ConvertDotsInJsonKeysToUnderscores?: boolean;
   CaseInsensitive?: boolean;
-  ColumnToJsonKeyMappings?: { [key: string]: string };
+  ColumnToJsonKeyMappings?: { [key: string]: string | undefined };
 }
 export const OpenXJsonSerDe = S.suspend(() =>
   S.Struct({

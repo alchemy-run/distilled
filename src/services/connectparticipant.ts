@@ -594,10 +594,10 @@ export const ParticipantRole = S.Literal(
   "CUSTOM_BOT",
   "SUPERVISOR",
 );
-export type UploadMetadataSignedHeaders = { [key: string]: string };
+export type UploadMetadataSignedHeaders = { [key: string]: string | undefined };
 export const UploadMetadataSignedHeaders = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface View {
   Id?: string;
@@ -618,7 +618,7 @@ export const View = S.suspend(() =>
 export interface UploadMetadata {
   Url?: string;
   UrlExpiry?: string;
-  HeadersToInclude?: { [key: string]: string };
+  HeadersToInclude?: { [key: string]: string | undefined };
 }
 export const UploadMetadata = S.suspend(() =>
   S.Struct({

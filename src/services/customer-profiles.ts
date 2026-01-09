@@ -322,8 +322,11 @@ export const BatchGetProfileRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchGetProfileRequest",
 }) as any as S.Schema<BatchGetProfileRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
@@ -332,7 +335,7 @@ export interface CreateDomainLayoutRequest {
   IsDefault?: boolean;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainLayoutRequest = S.suspend(() =>
   S.Struct({
@@ -364,7 +367,7 @@ export interface CreateEventStreamRequest {
   DomainName: string;
   Uri: string;
   EventStreamName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventStreamRequest = S.suspend(() =>
   S.Struct({
@@ -2107,7 +2110,7 @@ export const StopUploadJobResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopUploadJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2411,7 +2414,7 @@ export interface UpdateDomainRequest {
   Matching?: MatchingRequest;
   RuleBasedMatching?: RuleBasedMatchingRequest;
   DataStore?: DataStoreRequest;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -2735,8 +2738,11 @@ export const Address = S.suspend(() =>
     PostalCode: S.optional(S.String),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type StringDimensionType =
   | "INCLUSIVE"
   | "EXCLUSIVE"
@@ -2882,10 +2888,12 @@ export const AttributeDimension = S.suspend(() =>
 ).annotations({
   identifier: "AttributeDimension",
 }) as any as S.Schema<AttributeDimension>;
-export type CustomAttributes = { [key: string]: AttributeDimension };
+export type CustomAttributes = {
+  [key: string]: AttributeDimension | undefined;
+};
 export const CustomAttributes = S.Record({
   key: S.String,
-  value: AttributeDimension,
+  value: S.UndefinedOr(AttributeDimension),
 });
 export type ProfileTypeDimensionType = "INCLUSIVE" | "EXCLUSIVE";
 export const ProfileTypeDimensionType = S.Literal("INCLUSIVE", "EXCLUSIVE");
@@ -2924,7 +2932,7 @@ export interface ProfileAttributes {
   ShippingAddress?: AddressDimension;
   MailingAddress?: AddressDimension;
   BillingAddress?: AddressDimension;
-  Attributes?: { [key: string]: AttributeDimension };
+  Attributes?: { [key: string]: AttributeDimension | undefined };
   ProfileType?: ProfileTypeDimension;
 }
 export const ProfileAttributes = S.suspend(() =>
@@ -3034,17 +3042,19 @@ export const CalculatedAttributeDimension = S.suspend(() =>
   identifier: "CalculatedAttributeDimension",
 }) as any as S.Schema<CalculatedAttributeDimension>;
 export type CalculatedCustomAttributes = {
-  [key: string]: CalculatedAttributeDimension;
+  [key: string]: CalculatedAttributeDimension | undefined;
 };
 export const CalculatedCustomAttributes = S.Record({
   key: S.String,
-  value: CalculatedAttributeDimension,
+  value: S.UndefinedOr(CalculatedAttributeDimension),
 });
 export type Dimension =
   | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: never }
   | {
       ProfileAttributes?: never;
-      CalculatedAttributes: { [key: string]: CalculatedAttributeDimension };
+      CalculatedAttributes: {
+        [key: string]: CalculatedAttributeDimension | undefined;
+      };
     };
 export const Dimension = S.Union(
   S.Struct({
@@ -3134,8 +3144,11 @@ export const IdentityResolutionJobStatus = S.Literal(
   "PARTIAL_SUCCESS",
   "FAILED",
 );
-export type RecommenderContext = { [key: string]: string };
-export const RecommenderContext = S.Record({ key: S.String, value: S.String });
+export type RecommenderContext = { [key: string]: string | undefined };
+export const RecommenderContext = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type RecommenderStatus =
   | "PENDING"
   | "IN_PROGRESS"
@@ -3193,8 +3206,11 @@ export const ObjectFilter = S.suspend(() =>
 ).annotations({ identifier: "ObjectFilter" }) as any as S.Schema<ObjectFilter>;
 export type MatchIdList = string[];
 export const MatchIdList = S.Array(S.String);
-export type ObjectTypeNames = { [key: string]: string };
-export const ObjectTypeNames = S.Record({ key: S.String, value: S.String });
+export type ObjectTypeNames = { [key: string]: string | undefined };
+export const ObjectTypeNames = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AdditionalSearchKey {
   KeyName: string;
   Values: string[];
@@ -3234,8 +3250,11 @@ export const UpdateAddress = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAddress",
 }) as any as S.Schema<UpdateAddress>;
-export type UpdateAttributes = { [key: string]: string };
-export const UpdateAttributes = S.Record({ key: S.String, value: S.String });
+export type UpdateAttributes = { [key: string]: string | undefined };
+export const UpdateAttributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Type = "ALL" | "ANY" | "NONE";
 export const Type = S.Literal("ALL", "ANY", "NONE");
 export type FieldContentType =
@@ -3352,7 +3371,7 @@ export interface CreateDomainLayoutResponse {
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
   Version: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedAt: Date;
   LastUpdatedAt?: Date;
 }
@@ -3374,7 +3393,7 @@ export const CreateDomainLayoutResponse = S.suspend(() =>
 }) as any as S.Schema<CreateDomainLayoutResponse>;
 export interface CreateEventStreamResponse {
   EventStreamArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventStreamResponse = S.suspend(() =>
   S.Struct({ EventStreamArn: S.String, Tags: S.optional(TagMap) }),
@@ -3545,7 +3564,7 @@ export interface GetDomainLayoutResponse {
   Version: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDomainLayoutResponse = S.suspend(() =>
   S.Struct({
@@ -3579,19 +3598,21 @@ export const DomainObjectTypeField = S.suspend(() =>
 ).annotations({
   identifier: "DomainObjectTypeField",
 }) as any as S.Schema<DomainObjectTypeField>;
-export type DomainObjectTypeFields = { [key: string]: DomainObjectTypeField };
+export type DomainObjectTypeFields = {
+  [key: string]: DomainObjectTypeField | undefined;
+};
 export const DomainObjectTypeFields = S.Record({
   key: S.String,
-  value: DomainObjectTypeField,
+  value: S.UndefinedOr(DomainObjectTypeField),
 });
 export interface GetDomainObjectTypeResponse {
   ObjectTypeName: string;
   Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields?: { [key: string]: DomainObjectTypeField };
+  Fields?: { [key: string]: DomainObjectTypeField | undefined };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -3615,7 +3636,7 @@ export interface GetEventTriggerResponse {
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -3638,8 +3659,8 @@ export interface GetIntegrationResponse {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
-  ObjectTypeNames?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  ObjectTypeNames?: { [key: string]: string | undefined };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
@@ -3702,8 +3723,11 @@ export const ObjectTypeField = S.suspend(() =>
 ).annotations({
   identifier: "ObjectTypeField",
 }) as any as S.Schema<ObjectTypeField>;
-export type FieldMap = { [key: string]: ObjectTypeField };
-export const FieldMap = S.Record({ key: S.String, value: ObjectTypeField });
+export type FieldMap = { [key: string]: ObjectTypeField | undefined };
+export const FieldMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ObjectTypeField),
+});
 export interface ObjectTypeKey {
   StandardIdentifiers?: StandardIdentifier[];
   FieldNames?: string[];
@@ -3718,8 +3742,11 @@ export const ObjectTypeKey = S.suspend(() =>
 }) as any as S.Schema<ObjectTypeKey>;
 export type ObjectTypeKeyList = ObjectTypeKey[];
 export const ObjectTypeKeyList = S.Array(ObjectTypeKey);
-export type KeyMap = { [key: string]: ObjectTypeKey[] };
-export const KeyMap = S.Record({ key: S.String, value: ObjectTypeKeyList });
+export type KeyMap = { [key: string]: ObjectTypeKey[] | undefined };
+export const KeyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ObjectTypeKeyList),
+});
 export interface GetProfileObjectTypeResponse {
   ObjectTypeName: string;
   Description: string | redacted.Redacted<string>;
@@ -3730,11 +3757,11 @@ export interface GetProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxAvailableProfileObjectCount?: number;
   MaxProfileObjectCount?: number;
-  Fields?: { [key: string]: ObjectTypeField };
-  Keys?: { [key: string]: ObjectTypeKey[] };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -3762,8 +3789,8 @@ export interface GetProfileObjectTypeTemplateResponse {
   SourceObject?: string;
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
-  Fields?: { [key: string]: ObjectTypeField };
-  Keys?: { [key: string]: ObjectTypeKey[] };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
 }
 export const GetProfileObjectTypeTemplateResponse = S.suspend(() =>
   S.Struct({
@@ -3782,7 +3809,7 @@ export interface GetProfileRecommendationsRequest {
   DomainName: string;
   ProfileId: string;
   RecommenderName: string;
-  Context?: { [key: string]: string };
+  Context?: { [key: string]: string | undefined };
   MaxResults?: number;
 }
 export const GetProfileRecommendationsRequest = S.suspend(() =>
@@ -3825,7 +3852,7 @@ export interface GetSegmentDefinitionResponse {
   SegmentGroups?: SegmentGroup;
   SegmentDefinitionArn: string;
   CreatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SegmentSqlQuery?: string | redacted.Redacted<string>;
   SegmentType?: SegmentType;
 }
@@ -3936,8 +3963,8 @@ export interface ListIntegrationItem {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
-  ObjectTypeNames?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  ObjectTypeNames?: { [key: string]: string | undefined };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
@@ -4018,7 +4045,7 @@ export const ListRuleBasedMatchesResponse = S.suspend(() =>
   identifier: "ListRuleBasedMatchesResponse",
 }) as any as S.Schema<ListRuleBasedMatchesResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -4105,7 +4132,7 @@ export interface UpdateCalculatedAttributeDefinitionResponse {
   UseHistoricalData?: boolean;
   Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -4193,7 +4220,7 @@ export interface UpdateDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateDomainResponse = S.suspend(() =>
   S.Struct({
@@ -4221,7 +4248,7 @@ export interface UpdateDomainLayoutResponse {
   Version?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateDomainLayoutResponse = S.suspend(() =>
   S.Struct({
@@ -4248,7 +4275,7 @@ export interface UpdateEventTriggerResponse {
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -4302,7 +4329,7 @@ export interface UpdateProfileRequest {
   ShippingAddress?: UpdateAddress;
   MailingAddress?: UpdateAddress;
   BillingAddress?: UpdateAddress;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   PartyTypeString?: string | redacted.Redacted<string>;
   GenderString?: string | redacted.Redacted<string>;
   ProfileType?: ProfileType;
@@ -4362,10 +4389,10 @@ export type EventStreamDestinationStatus = "HEALTHY" | "UNHEALTHY";
 export const EventStreamDestinationStatus = S.Literal("HEALTHY", "UNHEALTHY");
 export type QueryResult = "PRESENT" | "ABSENT";
 export const QueryResult = S.Literal("PRESENT", "ABSENT");
-export type AttributeSourceIdMap = { [key: string]: string };
+export type AttributeSourceIdMap = { [key: string]: string | undefined };
 export const AttributeSourceIdMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type MarketoConnectorOperator =
   | "PROJECTION"
@@ -4611,8 +4638,8 @@ export type BatchGetProfileErrorList = BatchGetProfileError[];
 export const BatchGetProfileErrorList = S.Array(BatchGetProfileError);
 export interface DetectedProfileObjectType {
   SourceLastUpdatedTimestampFormat?: string;
-  Fields?: { [key: string]: ObjectTypeField };
-  Keys?: { [key: string]: ObjectTypeKey[] };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
 }
 export const DetectedProfileObjectType = S.suspend(() =>
   S.Struct({
@@ -4735,7 +4762,7 @@ export interface Profile {
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   FoundByItems?: FoundByKeyValue[];
   PartyTypeString?: string | redacted.Redacted<string>;
   GenderString?: string | redacted.Redacted<string>;
@@ -4829,7 +4856,7 @@ export interface ListCalculatedAttributeDefinitionItem {
   LastUpdatedAt?: Date;
   UseHistoricalData?: boolean;
   Status?: ReadinessStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListCalculatedAttributeDefinitionItem = S.suspend(() =>
   S.Struct({
@@ -4881,7 +4908,7 @@ export interface LayoutItem {
   DisplayName: string;
   IsDefault?: boolean;
   LayoutType: LayoutType;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedAt: Date;
   LastUpdatedAt: Date;
 }
@@ -4904,7 +4931,7 @@ export interface DomainObjectTypesListItem {
   Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DomainObjectTypesListItem = S.suspend(() =>
   S.Struct({
@@ -4923,7 +4950,7 @@ export interface ListDomainItem {
   DomainName: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListDomainItem = S.suspend(() =>
   S.Struct({
@@ -4943,7 +4970,7 @@ export interface EventTriggerSummaryItem {
   Description?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EventTriggerSummaryItem = S.suspend(() =>
   S.Struct({
@@ -5079,7 +5106,7 @@ export interface ListProfileObjectTypeItem {
   LastUpdatedAt?: Date;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListProfileObjectTypeItem = S.suspend(() =>
   S.Struct({
@@ -5136,7 +5163,7 @@ export interface RecommenderSummary {
   Description?: string | redacted.Redacted<string>;
   Status?: RecommenderStatus;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   FailureReason?: string;
   LatestRecommenderUpdate?: RecommenderUpdate;
 }
@@ -5164,7 +5191,7 @@ export interface SegmentDefinitionItem {
   Description?: string | redacted.Redacted<string>;
   SegmentDefinitionArn?: string;
   CreatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SegmentType?: SegmentType;
 }
 export const SegmentDefinitionItem = S.suspend(() =>
@@ -5259,7 +5286,7 @@ export interface FieldSourceProfileIds {
   ShippingAddress?: string;
   MailingAddress?: string;
   BillingAddress?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   ProfileType?: string;
   EngagementPreferences?: string;
 }
@@ -5347,7 +5374,7 @@ export const ConnectorOperator = S.suspend(() =>
 }) as any as S.Schema<ConnectorOperator>;
 export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string };
 export const TaskPropertiesMap = S.partial(
-  S.Record({ key: OperatorPropertiesKeys, value: S.String }),
+  S.Record({ key: OperatorPropertiesKeys, value: S.UndefinedOr(S.String) }),
 );
 export interface BatchGetCalculatedAttributeForProfileRequest {
   CalculatedAttributeName: string;
@@ -5401,7 +5428,7 @@ export interface CreateProfileRequest {
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   PartyTypeString?: string | redacted.Redacted<string>;
   GenderString?: string | redacted.Redacted<string>;
   ProfileType?: ProfileType;
@@ -5465,7 +5492,7 @@ export const CreateSegmentEstimateResponse = S.suspend(() =>
 export interface CreateUploadJobRequest {
   DomainName: string;
   DisplayName: string;
-  Fields: { [key: string]: ObjectTypeField };
+  Fields: { [key: string]: ObjectTypeField | undefined };
   UniqueKey: string;
   DataExpiry?: number;
 }
@@ -5559,13 +5586,15 @@ export const FilterAttributeDimension = S.suspend(() =>
 ).annotations({
   identifier: "FilterAttributeDimension",
 }) as any as S.Schema<FilterAttributeDimension>;
-export type AttributeMap = { [key: string]: FilterAttributeDimension };
+export type AttributeMap = {
+  [key: string]: FilterAttributeDimension | undefined;
+};
 export const AttributeMap = S.Record({
   key: S.String,
-  value: FilterAttributeDimension,
+  value: S.UndefinedOr(FilterAttributeDimension),
 });
 export interface FilterDimension {
-  Attributes: { [key: string]: FilterAttributeDimension };
+  Attributes: { [key: string]: FilterAttributeDimension | undefined };
 }
 export const FilterDimension = S.suspend(() =>
   S.Struct({ Attributes: AttributeMap }),
@@ -5603,7 +5632,7 @@ export interface GetCalculatedAttributeDefinitionResponse {
   UseHistoricalData?: boolean;
   Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -5635,7 +5664,7 @@ export interface GetDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetDomainResponse = S.suspend(() =>
   S.Struct({
@@ -5661,7 +5690,7 @@ export interface GetEventStreamResponse {
   State: EventStreamState;
   StoppedSince?: Date;
   DestinationDetails: EventStreamDestinationDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetEventStreamResponse = S.suspend(() =>
   S.Struct({
@@ -5721,7 +5750,7 @@ export interface GetUploadJobResponse {
   StatusReason?: StatusReason;
   CreatedAt?: Date;
   CompletedAt?: Date;
-  Fields?: { [key: string]: ObjectTypeField };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
   UniqueKey?: string;
   ResultsSummary?: ResultsSummary;
   DataExpiry?: number;
@@ -6007,8 +6036,8 @@ export interface PutDomainObjectTypeRequest {
   ObjectTypeName: string;
   Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields: { [key: string]: DomainObjectTypeField };
-  Tags?: { [key: string]: string };
+  Fields: { [key: string]: DomainObjectTypeField | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PutDomainObjectTypeRequest = S.suspend(() =>
   S.Struct({
@@ -6046,9 +6075,9 @@ export interface PutProfileObjectTypeRequest {
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
-  Fields?: { [key: string]: ObjectTypeField };
-  Keys?: { [key: string]: ObjectTypeKey[] };
-  Tags?: { [key: string]: string };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PutProfileObjectTypeRequest = S.suspend(() =>
   S.Struct({
@@ -6184,7 +6213,7 @@ export interface Task {
   ConnectorOperator?: ConnectorOperator;
   DestinationField?: string;
   SourceFields: string[];
-  TaskProperties?: { [key: string]: string };
+  TaskProperties?: { [key: string]: string | undefined };
   TaskType: TaskType;
 }
 export const Task = S.suspend(() =>
@@ -6295,7 +6324,7 @@ export const GetObjectTypeAttributeStatisticsPercentiles = S.suspend(() =>
 }) as any as S.Schema<GetObjectTypeAttributeStatisticsPercentiles>;
 export type Metrics = { [key in TrainingMetricName]?: number };
 export const Metrics = S.partial(
-  S.Record({ key: TrainingMetricName, value: S.Number }),
+  S.Record({ key: TrainingMetricName, value: S.UndefinedOr(S.Number) }),
 );
 export interface AppflowIntegrationWorkflowAttributes {
   SourceConnectorType: SourceConnectorType;
@@ -6391,7 +6420,7 @@ export const GetObjectTypeAttributeStatisticsStats = S.suspend(() =>
 }) as any as S.Schema<GetObjectTypeAttributeStatisticsStats>;
 export interface TrainingMetrics {
   Time?: Date;
-  Metrics?: { [key: string]: number };
+  Metrics?: { [key: string]: number | undefined };
 }
 export const TrainingMetrics = S.suspend(() =>
   S.Struct({
@@ -6440,7 +6469,7 @@ export interface EventStreamSummary {
   State: EventStreamState;
   StoppedSince?: Date;
   DestinationSummary?: DestinationSummary;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const EventStreamSummary = S.suspend(() =>
   S.Struct({
@@ -6493,7 +6522,7 @@ export interface CreateDomainRequest {
   Matching?: MatchingRequest;
   RuleBasedMatching?: RuleBasedMatchingRequest;
   DataStore?: DataStoreRequest;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainRequest = S.suspend(() =>
   S.Struct({
@@ -6526,7 +6555,7 @@ export interface CreateEventTriggerRequest {
   EventTriggerConditions: EventTriggerCondition[];
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventTriggerRequest = S.suspend(() =>
   S.Struct({
@@ -6560,7 +6589,7 @@ export interface CreateIntegrationWorkflowRequest {
   IntegrationConfig: IntegrationConfig;
   ObjectTypeName: string;
   RoleArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateIntegrationWorkflowRequest = S.suspend(() =>
   S.Struct({
@@ -6600,7 +6629,7 @@ export interface CreateRecommenderRequest {
   RecommenderRecipeName: RecommenderRecipeName;
   RecommenderConfig?: RecommenderConfig;
   Description?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRecommenderRequest = S.suspend(() =>
   S.Struct({
@@ -6689,7 +6718,7 @@ export interface GetRecommenderResponse {
   FailureReason?: string;
   LatestRecommenderUpdate?: RecommenderUpdate;
   TrainingMetrics?: TrainingMetrics[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetRecommenderResponse = S.suspend(() =>
   S.Struct({
@@ -6784,10 +6813,10 @@ export interface PutDomainObjectTypeResponse {
   ObjectTypeName?: string;
   Description?: string | redacted.Redacted<string>;
   EncryptionKey?: string;
-  Fields?: { [key: string]: DomainObjectTypeField };
+  Fields?: { [key: string]: DomainObjectTypeField | undefined };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PutDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -6812,11 +6841,11 @@ export interface PutProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
-  Fields?: { [key: string]: ObjectTypeField };
-  Keys?: { [key: string]: ObjectTypeKey[] };
+  Fields?: { [key: string]: ObjectTypeField | undefined };
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PutProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
@@ -6851,7 +6880,7 @@ export interface CatalogItem {
   CreatedAt?: Date;
   UpdatedAt?: Date;
   Price?: string | redacted.Redacted<string>;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const CatalogItem = S.suspend(() =>
   S.Struct({
@@ -6947,7 +6976,7 @@ export interface CreateDomainResponse {
   DataStore?: DataStoreResponse;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainResponse = S.suspend(() =>
   S.Struct({
@@ -6974,7 +7003,7 @@ export interface CreateEventTriggerResponse {
   EventTriggerLimits?: EventTriggerLimits;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventTriggerResponse = S.suspend(() =>
   S.Struct({
@@ -7002,7 +7031,7 @@ export const CreateIntegrationWorkflowResponse = S.suspend(() =>
 }) as any as S.Schema<CreateIntegrationWorkflowResponse>;
 export interface CreateRecommenderResponse {
   RecommenderArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRecommenderResponse = S.suspend(() =>
   S.Struct({ RecommenderArn: S.String, Tags: S.optional(TagMap) }),
@@ -7021,8 +7050,8 @@ export interface PutIntegrationRequest {
   DomainName: string;
   Uri?: string;
   ObjectTypeName?: string;
-  ObjectTypeNames?: { [key: string]: string };
-  Tags?: { [key: string]: string };
+  ObjectTypeNames?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined };
   FlowDefinition?: FlowDefinition;
   RoleArn?: string;
   EventTriggerNames?: string[];
@@ -7062,7 +7091,7 @@ export interface CreateCalculatedAttributeDefinitionRequest {
   Filter?: Filter;
   Statistic: Statistic;
   UseHistoricalData?: boolean;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCalculatedAttributeDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -7100,8 +7129,8 @@ export interface PutIntegrationResponse {
   ObjectTypeName?: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string };
-  ObjectTypeNames?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
+  ObjectTypeNames?: { [key: string]: string | undefined };
   WorkflowId?: string;
   IsUnstructured?: boolean;
   RoleArn?: string;
@@ -7139,7 +7168,7 @@ export interface CreateCalculatedAttributeDefinitionResponse {
   UseHistoricalData?: boolean;
   Status?: ReadinessStatus;
   Readiness?: Readiness;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -7167,7 +7196,7 @@ export interface CreateSegmentDefinitionRequest {
   Description?: string | redacted.Redacted<string>;
   SegmentGroups?: SegmentGroup;
   SegmentSqlQuery?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSegmentDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -7200,7 +7229,7 @@ export interface CreateSegmentDefinitionResponse {
   Description?: string | redacted.Redacted<string>;
   CreatedAt?: Date;
   SegmentDefinitionArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({

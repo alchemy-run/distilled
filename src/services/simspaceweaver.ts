@@ -378,8 +378,11 @@ export const StopClockOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<StopClockOutput>;
 export type LaunchCommandList = string[];
 export const LaunchCommandList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface S3Location {
   BucketName: string;
   ObjectKey: string;
@@ -405,7 +408,7 @@ export const LaunchOverrides = S.suspend(() =>
   identifier: "LaunchOverrides",
 }) as any as S.Schema<LaunchOverrides>;
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -414,7 +417,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -444,7 +447,7 @@ export interface StartSimulationInput {
   RoleArn: string;
   SchemaS3Location?: S3Location;
   MaximumDuration?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   SnapshotS3Location?: S3Location;
 }
 export const StartSimulationInput = S.suspend(() =>

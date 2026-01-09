@@ -461,8 +461,8 @@ export interface S3Location {
 export const S3Location = S.suspend(() =>
   S.Struct({ S3Bucket: S.optional(S.String), S3Key: S.optional(S.String) }),
 ).annotations({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateApplicationRequest {
   Name?: string;
   DisplayName?: string;
@@ -474,7 +474,7 @@ export interface CreateApplicationRequest {
   Platforms?: PlatformType[];
   InstanceFamilies?: string[];
   AppBlockArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationRequest = S.suspend(() =>
   S.Struct({
@@ -499,7 +499,7 @@ export interface CreateExportImageTaskRequest {
   ImageName?: string;
   AmiName?: string;
   IamRoleArn?: string;
-  TagSpecifications?: { [key: string]: string };
+  TagSpecifications?: { [key: string]: string | undefined };
   AmiDescription?: string;
 }
 export const CreateExportImageTaskRequest = S.suspend(() =>
@@ -575,7 +575,7 @@ export interface CreateImageBuilderRequest {
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
   AppstreamAgentVersion?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AccessEndpoints?: AccessEndpoint[];
   RootVolumeConfig?: VolumeConfig;
   SoftwaresToInstall?: string[];
@@ -643,7 +643,7 @@ export interface CreateUpdatedImageRequest {
   newImageName?: string;
   newImageDescription?: string;
   newImageDisplayName?: string;
-  newImageTags?: { [key: string]: string };
+  newImageTags?: { [key: string]: string | undefined };
   dryRun?: boolean;
 }
 export const CreateUpdatedImageRequest = S.suspend(() =>
@@ -1509,7 +1509,7 @@ export const StopImageBuilderRequest = S.suspend(() =>
 }) as any as S.Schema<StopImageBuilderRequest>;
 export interface TagResourceRequest {
   ResourceArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(Tags) }).pipe(
@@ -1992,8 +1992,11 @@ export type ApplicationFleetAssociationList = ApplicationFleetAssociation[];
 export const ApplicationFleetAssociationList = S.Array(
   ApplicationFleetAssociation,
 );
-export type Metadata = { [key: string]: string };
-export const Metadata = S.Record({ key: S.String, value: S.String });
+export type Metadata = { [key: string]: string | undefined };
+export const Metadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Application {
   Name?: string;
   DisplayName?: string;
@@ -2001,7 +2004,7 @@ export interface Application {
   LaunchPath?: string;
   LaunchParameters?: string;
   Enabled?: boolean;
-  Metadata?: { [key: string]: string };
+  Metadata?: { [key: string]: string | undefined };
   WorkingDirectory?: string;
   Description?: string;
   Arn?: string;
@@ -2380,7 +2383,7 @@ export interface CreateAppBlockRequest {
   DisplayName?: string;
   SourceS3Location?: S3Location;
   SetupScriptDetails?: ScriptDetails;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   PostSetupScriptDetails?: ScriptDetails;
   PackagingType?: PackagingType;
 }
@@ -2404,7 +2407,7 @@ export interface CreateAppBlockBuilderRequest {
   Name?: string;
   Description?: string;
   DisplayName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Platform?: AppBlockBuilderPlatformType;
   InstanceType?: string;
   VpcConfig?: VpcConfig;
@@ -2496,7 +2499,7 @@ export interface CreateFleetRequest {
   DisplayName?: string;
   EnableDefaultInternetAccess?: boolean;
   DomainJoinInfo?: DomainJoinInfo;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   IdleDisconnectTimeoutInSeconds?: number;
   IamRoleArn?: string;
   StreamView?: StreamView;
@@ -2556,7 +2559,7 @@ export interface CreateImportedImageRequest {
   IamRoleArn?: string;
   Description?: string;
   DisplayName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   RuntimeValidationConfig?: RuntimeValidationConfig;
   AgentSoftwareVersion?: AgentSoftwareVersion;
   AppCatalogConfig?: ApplicationConfig[];
@@ -2589,7 +2592,7 @@ export interface CreateStackRequest {
   FeedbackURL?: string;
   UserSettings?: UserSetting[];
   ApplicationSettings?: ApplicationSettings;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AccessEndpoints?: AccessEndpoint[];
   EmbedHostDomains?: string[];
   StreamingExperienceSettings?: StreamingExperienceSettings;
@@ -2789,7 +2792,7 @@ export interface ExportImageTask {
   AmiDescription?: string;
   State?: ExportImageTaskState;
   AmiId?: string;
-  TagSpecifications?: { [key: string]: string };
+  TagSpecifications?: { [key: string]: string | undefined };
   ErrorDetails?: ErrorDetails[];
 }
 export const ExportImageTask = S.suspend(() =>
@@ -2855,7 +2858,7 @@ export const ListExportImageTasksRequest = S.suspend(() =>
   identifier: "ListExportImageTasksRequest",
 }) as any as S.Schema<ListExportImageTasksRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),

@@ -120,12 +120,12 @@ export const CreateCrossAccountAuthorizationRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateCrossAccountAuthorizationRequest",
 }) as any as S.Schema<CreateCrossAccountAuthorizationRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateReadinessCheckRequest {
   ReadinessCheckName?: string;
   ResourceSetName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateReadinessCheckRequest = S.suspend(() =>
   S.Struct({
@@ -150,7 +150,7 @@ export const CreateReadinessCheckRequest = S.suspend(() =>
 export interface CreateRecoveryGroupRequest {
   Cells?: string[];
   RecoveryGroupName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRecoveryGroupRequest = S.suspend(() =>
   S.Struct({
@@ -651,7 +651,7 @@ export const ListTagsForResourcesRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourcesRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -871,7 +871,7 @@ export const __listOfCrossAccountAuthorization = S.Array(S.String);
 export interface CreateCellRequest {
   CellName?: string;
   Cells?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCellRequest = S.suspend(() =>
   S.Struct({
@@ -907,7 +907,7 @@ export interface CreateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -927,7 +927,7 @@ export interface CreateRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -946,7 +946,7 @@ export interface GetCellResponse {
   CellName?: string;
   Cells?: string[];
   ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetCellResponse = S.suspend(() =>
   S.Struct({
@@ -965,7 +965,7 @@ export interface GetReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -985,7 +985,7 @@ export interface GetRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1036,7 +1036,7 @@ export interface GetResourceSetResponse {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetResourceSetResponse = S.suspend(() =>
   S.Struct({
@@ -1064,7 +1064,7 @@ export const ListCrossAccountAuthorizationsResponse = S.suspend(() =>
   identifier: "ListCrossAccountAuthorizationsResponse",
 }) as any as S.Schema<ListCrossAccountAuthorizationsResponse>;
 export interface ListTagsForResourcesResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourcesResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
@@ -1076,7 +1076,7 @@ export interface UpdateCellResponse {
   CellName?: string;
   Cells?: string[];
   ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateCellResponse = S.suspend(() =>
   S.Struct({
@@ -1095,7 +1095,7 @@ export interface UpdateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateReadinessCheckResponse = S.suspend(() =>
   S.Struct({
@@ -1115,7 +1115,7 @@ export interface UpdateRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateRecoveryGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1134,7 +1134,7 @@ export interface UpdateResourceSetResponse {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateResourceSetResponse = S.suspend(() =>
   S.Struct({
@@ -1214,7 +1214,7 @@ export interface CellOutput {
   CellName?: string;
   Cells?: string[];
   ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CellOutput = S.suspend(() =>
   S.Struct({
@@ -1233,7 +1233,7 @@ export interface ReadinessCheckOutput {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ReadinessCheckOutput = S.suspend(() =>
   S.Struct({
@@ -1255,7 +1255,7 @@ export interface RecoveryGroupOutput {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RecoveryGroupOutput = S.suspend(() =>
   S.Struct({
@@ -1276,7 +1276,7 @@ export interface ResourceSetOutput {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ResourceSetOutput = S.suspend(() =>
   S.Struct({
@@ -1312,7 +1312,7 @@ export interface CreateCellResponse {
   CellName?: string;
   Cells?: string[];
   ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCellResponse = S.suspend(() =>
   S.Struct({
@@ -1490,7 +1490,7 @@ export interface CreateResourceSetRequest {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateResourceSetRequest = S.suspend(() =>
   S.Struct({
@@ -1516,7 +1516,7 @@ export interface CreateResourceSetResponse {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateResourceSetResponse = S.suspend(() =>
   S.Struct({

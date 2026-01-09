@@ -373,13 +373,16 @@ export const CreateDocumentationVersionRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateDocumentationVersionRequest",
 }) as any as S.Schema<CreateDocumentationVersionRequest>;
-export type MapOfStringToString = { [key: string]: string };
-export const MapOfStringToString = S.Record({ key: S.String, value: S.String });
+export type MapOfStringToString = { [key: string]: string | undefined };
+export const MapOfStringToString = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDomainNameAccessAssociationRequest {
   domainNameArn: string;
   accessAssociationSourceType: AccessAssociationSourceType;
   accessAssociationSource: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainNameAccessAssociationRequest = S.suspend(() =>
   S.Struct({
@@ -511,7 +514,7 @@ export interface CreateRestApiRequest {
   apiKeySource?: ApiKeySourceType;
   endpointConfiguration?: EndpointConfiguration;
   policy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   disableExecuteApiEndpoint?: boolean;
   securityPolicy?: SecurityPolicy;
   endpointAccessMode?: EndpointAccessMode;
@@ -571,7 +574,7 @@ export interface CreateVpcLinkRequest {
   name: string;
   description?: string;
   targetArns: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateVpcLinkRequest = S.suspend(() =>
   S.Struct({
@@ -1281,7 +1284,7 @@ export const FlushStageCacheResponse = S.suspend(() =>
 }) as any as S.Schema<FlushStageCacheResponse>;
 export interface GenerateClientCertificateRequest {
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GenerateClientCertificateRequest = S.suspend(() =>
   S.Struct({
@@ -1748,7 +1751,7 @@ export interface GetExportRequest {
   restApiId: string;
   stageName: string;
   exportType: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   accepts?: string;
 }
 export const GetExportRequest = S.suspend(() =>
@@ -2142,7 +2145,7 @@ export interface GetSdkRequest {
   restApiId: string;
   stageName: string;
   sdkType: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const GetSdkRequest = S.suspend(() =>
   S.Struct({
@@ -2478,7 +2481,7 @@ export const ImportDocumentationPartsRequest = S.suspend(() =>
 }) as any as S.Schema<ImportDocumentationPartsRequest>;
 export interface ImportRestApiRequest {
   failOnWarnings?: boolean;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   body: T.StreamingInputBody;
 }
 export const ImportRestApiRequest = S.suspend(() =>
@@ -2503,8 +2506,8 @@ export interface PutGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
   statusCode?: string;
-  responseParameters?: { [key: string]: string };
-  responseTemplates?: { [key: string]: string };
+  responseParameters?: { [key: string]: string | undefined };
+  responseTemplates?: { [key: string]: string | undefined };
 }
 export const PutGatewayResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2535,8 +2538,8 @@ export interface PutIntegrationResponseRequest {
   httpMethod: string;
   statusCode: string;
   selectionPattern?: string;
-  responseParameters?: { [key: string]: string };
-  responseTemplates?: { [key: string]: string };
+  responseParameters?: { [key: string]: string | undefined };
+  responseTemplates?: { [key: string]: string | undefined };
   contentHandling?: ContentHandlingStrategy;
 }
 export const PutIntegrationResponseRequest = S.suspend(() =>
@@ -2565,18 +2568,18 @@ export const PutIntegrationResponseRequest = S.suspend(() =>
 ).annotations({
   identifier: "PutIntegrationResponseRequest",
 }) as any as S.Schema<PutIntegrationResponseRequest>;
-export type MapOfStringToBoolean = { [key: string]: boolean };
+export type MapOfStringToBoolean = { [key: string]: boolean | undefined };
 export const MapOfStringToBoolean = S.Record({
   key: S.String,
-  value: S.Boolean,
+  value: S.UndefinedOr(S.Boolean),
 });
 export interface PutMethodResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  responseParameters?: { [key: string]: boolean };
-  responseModels?: { [key: string]: string };
+  responseParameters?: { [key: string]: boolean | undefined };
+  responseModels?: { [key: string]: string | undefined };
 }
 export const PutMethodResponseRequest = S.suspend(() =>
   S.Struct({
@@ -2606,7 +2609,7 @@ export interface PutRestApiRequest {
   restApiId: string;
   mode?: PutMode;
   failOnWarnings?: boolean;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
   body: T.StreamingInputBody;
 }
 export const PutRestApiRequest = S.suspend(() =>
@@ -2660,7 +2663,7 @@ export const RejectDomainNameAccessAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<RejectDomainNameAccessAssociationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2683,10 +2686,10 @@ export interface TagResourceResponse {}
 export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
-export type MapOfStringToList = { [key: string]: string[] };
+export type MapOfStringToList = { [key: string]: string[] | undefined };
 export const MapOfStringToList = S.Record({
   key: S.String,
-  value: ListOfString,
+  value: S.UndefinedOr(ListOfString),
 });
 export interface TestInvokeMethodRequest {
   restApiId: string;
@@ -2694,10 +2697,10 @@ export interface TestInvokeMethodRequest {
   httpMethod: string;
   pathWithQueryString?: string;
   body?: string;
-  headers?: { [key: string]: string };
-  multiValueHeaders?: { [key: string]: string[] };
+  headers?: { [key: string]: string | undefined };
+  multiValueHeaders?: { [key: string]: string[] | undefined };
   clientCertificateId?: string;
-  stageVariables?: { [key: string]: string };
+  stageVariables?: { [key: string]: string | undefined };
 }
 export const TestInvokeMethodRequest = S.suspend(() =>
   S.Struct({
@@ -3322,7 +3325,7 @@ export type ListOfStageKeys = StageKey[];
 export const ListOfStageKeys = S.Array(StageKey);
 export interface DeploymentCanarySettings {
   percentTraffic?: number;
-  stageVariableOverrides?: { [key: string]: string };
+  stageVariableOverrides?: { [key: string]: string | undefined };
   useStageCache?: boolean;
 }
 export const DeploymentCanarySettings = S.suspend(() =>
@@ -3374,7 +3377,7 @@ export const ApiStatus = S.Literal(
 export interface CanarySettings {
   percentTraffic?: number;
   deploymentId?: string;
-  stageVariableOverrides?: { [key: string]: string };
+  stageVariableOverrides?: { [key: string]: string | undefined };
   useStageCache?: boolean;
 }
 export const CanarySettings = S.suspend(() =>
@@ -3418,7 +3421,7 @@ export interface ApiKey {
   createdDate?: Date;
   lastUpdatedDate?: Date;
   stageKeys?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ApiKey = S.suspend(() =>
   S.Struct({
@@ -3488,7 +3491,7 @@ export interface ClientCertificate {
   pemEncodedCertificate?: string;
   createdDate?: Date;
   expirationDate?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ClientCertificate = S.suspend(() =>
   S.Struct({
@@ -3516,23 +3519,25 @@ export const MethodSnapshot = S.suspend(() =>
 ).annotations({
   identifier: "MethodSnapshot",
 }) as any as S.Schema<MethodSnapshot>;
-export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot };
+export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
 export const MapOfMethodSnapshot = S.Record({
   key: S.String,
-  value: MethodSnapshot,
+  value: S.UndefinedOr(MethodSnapshot),
 });
 export type PathToMapOfMethodSnapshot = {
-  [key: string]: { [key: string]: MethodSnapshot };
+  [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
 };
 export const PathToMapOfMethodSnapshot = S.Record({
   key: S.String,
-  value: MapOfMethodSnapshot,
+  value: S.UndefinedOr(MapOfMethodSnapshot),
 });
 export interface Deployment {
   id?: string;
   description?: string;
   createdDate?: Date;
-  apiSummary?: { [key: string]: { [key: string]: MethodSnapshot } };
+  apiSummary?: {
+    [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
+  };
 }
 export const Deployment = S.suspend(() =>
   S.Struct({
@@ -3596,7 +3601,7 @@ export interface DomainNameAccessAssociation {
   domainNameArn?: string;
   accessAssociationSourceType?: AccessAssociationSourceType;
   accessAssociationSource?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const DomainNameAccessAssociation = S.suspend(() =>
   S.Struct({
@@ -3645,7 +3650,7 @@ export interface DomainName {
   domainNameStatusMessage?: string;
   securityPolicy?: SecurityPolicy;
   endpointAccessMode?: EndpointAccessMode;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   mutualTlsAuthentication?: MutualTlsAuthentication;
   ownershipVerificationCertificateArn?: string;
   managementPolicy?: string;
@@ -3686,8 +3691,8 @@ export const ListOfDomainName = S.Array(DomainName);
 export interface GatewayResponse {
   responseType?: GatewayResponseType;
   statusCode?: string;
-  responseParameters?: { [key: string]: string };
-  responseTemplates?: { [key: string]: string };
+  responseParameters?: { [key: string]: string | undefined };
+  responseTemplates?: { [key: string]: string | undefined };
   defaultResponse?: boolean;
 }
 export const GatewayResponse = S.suspend(() =>
@@ -3741,8 +3746,8 @@ export type ListOfRequestValidator = RequestValidator[];
 export const ListOfRequestValidator = S.Array(RequestValidator);
 export interface MethodResponse {
   statusCode?: string;
-  responseParameters?: { [key: string]: boolean };
-  responseModels?: { [key: string]: string };
+  responseParameters?: { [key: string]: boolean | undefined };
+  responseModels?: { [key: string]: string | undefined };
 }
 export const MethodResponse = S.suspend(() =>
   S.Struct({
@@ -3753,16 +3758,16 @@ export const MethodResponse = S.suspend(() =>
 ).annotations({
   identifier: "MethodResponse",
 }) as any as S.Schema<MethodResponse>;
-export type MapOfMethodResponse = { [key: string]: MethodResponse };
+export type MapOfMethodResponse = { [key: string]: MethodResponse | undefined };
 export const MapOfMethodResponse = S.Record({
   key: S.String,
-  value: MethodResponse,
+  value: S.UndefinedOr(MethodResponse),
 });
 export interface IntegrationResponse {
   statusCode?: string;
   selectionPattern?: string;
-  responseParameters?: { [key: string]: string };
-  responseTemplates?: { [key: string]: string };
+  responseParameters?: { [key: string]: string | undefined };
+  responseTemplates?: { [key: string]: string | undefined };
   contentHandling?: ContentHandlingStrategy;
 }
 export const IntegrationResponse = S.suspend(() =>
@@ -3776,10 +3781,12 @@ export const IntegrationResponse = S.suspend(() =>
 ).annotations({
   identifier: "IntegrationResponse",
 }) as any as S.Schema<IntegrationResponse>;
-export type MapOfIntegrationResponse = { [key: string]: IntegrationResponse };
+export type MapOfIntegrationResponse = {
+  [key: string]: IntegrationResponse | undefined;
+};
 export const MapOfIntegrationResponse = S.Record({
   key: S.String,
-  value: IntegrationResponse,
+  value: S.UndefinedOr(IntegrationResponse),
 });
 export interface TlsConfig {
   insecureSkipVerification?: boolean;
@@ -3794,14 +3801,14 @@ export interface Integration {
   connectionType?: ConnectionType;
   connectionId?: string;
   credentials?: string;
-  requestParameters?: { [key: string]: string };
-  requestTemplates?: { [key: string]: string };
+  requestParameters?: { [key: string]: string | undefined };
+  requestTemplates?: { [key: string]: string | undefined };
   passthroughBehavior?: string;
   contentHandling?: ContentHandlingStrategy;
   timeoutInMillis?: number;
   cacheNamespace?: string;
   cacheKeyParameters?: string[];
-  integrationResponses?: { [key: string]: IntegrationResponse };
+  integrationResponses?: { [key: string]: IntegrationResponse | undefined };
   tlsConfig?: TlsConfig;
   responseTransferMode?: ResponseTransferMode;
   integrationTarget?: string;
@@ -3834,9 +3841,9 @@ export interface Method {
   apiKeyRequired?: boolean;
   requestValidatorId?: string;
   operationName?: string;
-  requestParameters?: { [key: string]: boolean };
-  requestModels?: { [key: string]: string };
-  methodResponses?: { [key: string]: MethodResponse };
+  requestParameters?: { [key: string]: boolean | undefined };
+  requestModels?: { [key: string]: string | undefined };
+  methodResponses?: { [key: string]: MethodResponse | undefined };
   methodIntegration?: Integration;
   authorizationScopes?: string[];
 }
@@ -3855,14 +3862,17 @@ export const Method = S.suspend(() =>
     authorizationScopes: S.optional(ListOfString),
   }),
 ).annotations({ identifier: "Method" }) as any as S.Schema<Method>;
-export type MapOfMethod = { [key: string]: Method };
-export const MapOfMethod = S.Record({ key: S.String, value: Method });
+export type MapOfMethod = { [key: string]: Method | undefined };
+export const MapOfMethod = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Method),
+});
 export interface Resource {
   id?: string;
   parentId?: string;
   pathPart?: string;
   path?: string;
-  resourceMethods?: { [key: string]: Method };
+  resourceMethods?: { [key: string]: Method | undefined };
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -3887,7 +3897,7 @@ export interface RestApi {
   apiKeySource?: ApiKeySourceType;
   endpointConfiguration?: EndpointConfiguration;
   policy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   disableExecuteApiEndpoint?: boolean;
   rootResourceId?: string;
   securityPolicy?: SecurityPolicy;
@@ -4007,10 +4017,10 @@ export const MethodSetting = S.suspend(() =>
 ).annotations({
   identifier: "MethodSetting",
 }) as any as S.Schema<MethodSetting>;
-export type MapOfMethodSettings = { [key: string]: MethodSetting };
+export type MapOfMethodSettings = { [key: string]: MethodSetting | undefined };
 export const MapOfMethodSettings = S.Record({
   key: S.String,
-  value: MethodSetting,
+  value: S.UndefinedOr(MethodSetting),
 });
 export interface AccessLogSettings {
   format?: string;
@@ -4032,14 +4042,14 @@ export interface Stage {
   cacheClusterEnabled?: boolean;
   cacheClusterSize?: CacheClusterSize;
   cacheClusterStatus?: CacheClusterStatus;
-  methodSettings?: { [key: string]: MethodSetting };
-  variables?: { [key: string]: string };
+  methodSettings?: { [key: string]: MethodSetting | undefined };
+  variables?: { [key: string]: string | undefined };
   documentationVersion?: string;
   accessLogSettings?: AccessLogSettings;
   canarySettings?: CanarySettings;
   tracingEnabled?: boolean;
   webAclArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   createdDate?: Date;
   lastUpdatedDate?: Date;
 }
@@ -4084,15 +4094,17 @@ export const UsagePlanKey = S.suspend(() =>
 ).annotations({ identifier: "UsagePlanKey" }) as any as S.Schema<UsagePlanKey>;
 export type ListOfUsagePlanKey = UsagePlanKey[];
 export const ListOfUsagePlanKey = S.Array(UsagePlanKey);
-export type MapOfApiStageThrottleSettings = { [key: string]: ThrottleSettings };
+export type MapOfApiStageThrottleSettings = {
+  [key: string]: ThrottleSettings | undefined;
+};
 export const MapOfApiStageThrottleSettings = S.Record({
   key: S.String,
-  value: ThrottleSettings,
+  value: S.UndefinedOr(ThrottleSettings),
 });
 export interface ApiStage {
   apiId?: string;
   stage?: string;
-  throttle?: { [key: string]: ThrottleSettings };
+  throttle?: { [key: string]: ThrottleSettings | undefined };
 }
 export const ApiStage = S.suspend(() =>
   S.Struct({
@@ -4111,7 +4123,7 @@ export interface UsagePlan {
   throttle?: ThrottleSettings;
   quota?: QuotaSettings;
   productCode?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const UsagePlan = S.suspend(() =>
   S.Struct({
@@ -4134,7 +4146,7 @@ export interface VpcLink {
   targetArns?: string[];
   status?: VpcLinkStatus;
   statusMessage?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const VpcLink = S.suspend(() =>
   S.Struct({
@@ -4157,7 +4169,7 @@ export interface CreateApiKeyRequest {
   value?: string;
   stageKeys?: StageKey[];
   customerId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateApiKeyRequest = S.suspend(() =>
   S.Struct({
@@ -4189,7 +4201,7 @@ export interface CreateDeploymentRequest {
   description?: string;
   cacheClusterEnabled?: boolean;
   cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string };
+  variables?: { [key: string]: string | undefined };
   canarySettings?: DeploymentCanarySettings;
   tracingEnabled?: boolean;
 }
@@ -4253,7 +4265,7 @@ export interface CreateDomainNameRequest {
   regionalCertificateName?: string;
   regionalCertificateArn?: string;
   endpointConfiguration?: EndpointConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   securityPolicy?: SecurityPolicy;
   endpointAccessMode?: EndpointAccessMode;
   mutualTlsAuthentication?: MutualTlsAuthenticationInput;
@@ -4299,11 +4311,11 @@ export interface CreateStageRequest {
   description?: string;
   cacheClusterEnabled?: boolean;
   cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string };
+  variables?: { [key: string]: string | undefined };
   documentationVersion?: string;
   canarySettings?: CanarySettings;
   tracingEnabled?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateStageRequest = S.suspend(() =>
   S.Struct({
@@ -4538,7 +4550,7 @@ export const Stages = S.suspend(() =>
   S.Struct({ item: S.optional(ListOfStage) }),
 ).annotations({ identifier: "Stages" }) as any as S.Schema<Stages>;
 export interface Tags {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Tags = S.suspend(() =>
   S.Struct({ tags: S.optional(MapOfStringToString) }),
@@ -4607,8 +4619,8 @@ export interface PutIntegrationRequest {
   connectionType?: ConnectionType;
   connectionId?: string;
   credentials?: string;
-  requestParameters?: { [key: string]: string };
-  requestTemplates?: { [key: string]: string };
+  requestParameters?: { [key: string]: string | undefined };
+  requestTemplates?: { [key: string]: string | undefined };
   passthroughBehavior?: string;
   cacheNamespace?: string;
   cacheKeyParameters?: string[];
@@ -4666,8 +4678,8 @@ export interface PutMethodRequest {
   authorizerId?: string;
   apiKeyRequired?: boolean;
   operationName?: string;
-  requestParameters?: { [key: string]: boolean };
-  requestModels?: { [key: string]: string };
+  requestParameters?: { [key: string]: boolean | undefined };
+  requestModels?: { [key: string]: string | undefined };
   requestValidatorId?: string;
   authorizationScopes?: string[];
 }
@@ -4703,12 +4715,12 @@ export const PutMethodRequest = S.suspend(() =>
 export interface TestInvokeAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  headers?: { [key: string]: string };
-  multiValueHeaders?: { [key: string]: string[] };
+  headers?: { [key: string]: string | undefined };
+  multiValueHeaders?: { [key: string]: string[] | undefined };
   pathWithQueryString?: string;
   body?: string;
-  stageVariables?: { [key: string]: string };
-  additionalContext?: { [key: string]: string };
+  stageVariables?: { [key: string]: string | undefined };
+  additionalContext?: { [key: string]: string | undefined };
 }
 export const TestInvokeAuthorizerRequest = S.suspend(() =>
   S.Struct({
@@ -4739,8 +4751,8 @@ export const TestInvokeAuthorizerRequest = S.suspend(() =>
 export interface TestInvokeMethodResponse {
   status?: number;
   body?: string;
-  headers?: { [key: string]: string };
-  multiValueHeaders?: { [key: string]: string[] };
+  headers?: { [key: string]: string | undefined };
+  multiValueHeaders?: { [key: string]: string[] | undefined };
   log?: string;
   latency?: number;
 }
@@ -4777,15 +4789,18 @@ export type ListOfLong = number[];
 export const ListOfLong = S.Array(S.Number);
 export type ListOfUsage = number[][];
 export const ListOfUsage = S.Array(ListOfLong);
-export type MapOfKeyUsages = { [key: string]: number[][] };
-export const MapOfKeyUsages = S.Record({ key: S.String, value: ListOfUsage });
+export type MapOfKeyUsages = { [key: string]: number[][] | undefined };
+export const MapOfKeyUsages = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ListOfUsage),
+});
 export interface CreateUsagePlanRequest {
   name: string;
   description?: string;
   apiStages?: ApiStage[];
   throttle?: ThrottleSettings;
   quota?: QuotaSettings;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateUsagePlanRequest = S.suspend(() =>
   S.Struct({
@@ -4812,7 +4827,7 @@ export interface Usage {
   usagePlanId?: string;
   startDate?: string;
   endDate?: string;
-  items?: { [key: string]: number[][] };
+  items?: { [key: string]: number[][] | undefined };
   position?: string;
 }
 export const Usage = S.suspend(() =>
@@ -4830,8 +4845,8 @@ export interface TestInvokeAuthorizerResponse {
   latency?: number;
   principalId?: string;
   policy?: string;
-  authorization?: { [key: string]: string[] };
-  claims?: { [key: string]: string };
+  authorization?: { [key: string]: string[] | undefined };
+  claims?: { [key: string]: string | undefined };
 }
 export const TestInvokeAuthorizerResponse = S.suspend(() =>
   S.Struct({

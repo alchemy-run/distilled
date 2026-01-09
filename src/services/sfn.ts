@@ -1211,11 +1211,11 @@ export const DescribeStateMachineAliasOutput = S.suspend(() =>
 export type VariableNameList = string | redacted.Redacted<string>[];
 export const VariableNameList = S.Array(SensitiveString);
 export type VariableReferences = {
-  [key: string]: string | redacted.Redacted<string>[];
+  [key: string]: string | redacted.Redacted<string>[] | undefined;
 };
 export const VariableReferences = S.Record({
   key: S.String,
-  value: VariableNameList,
+  value: S.UndefinedOr(VariableNameList),
 });
 export interface DescribeStateMachineForExecutionOutput {
   stateMachineArn: string;
@@ -1229,7 +1229,9 @@ export interface DescribeStateMachineForExecutionOutput {
   label?: string;
   revisionId?: string;
   encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: { [key: string]: string | redacted.Redacted<string>[] };
+  variableReferences?: {
+    [key: string]: string | redacted.Redacted<string>[] | undefined;
+  };
 }
 export const DescribeStateMachineForExecutionOutput = S.suspend(() =>
   S.Struct({
@@ -1830,7 +1832,9 @@ export interface DescribeStateMachineOutput {
   revisionId?: string;
   description?: string | redacted.Redacted<string>;
   encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: { [key: string]: string | redacted.Redacted<string>[] };
+  variableReferences?: {
+    [key: string]: string | redacted.Redacted<string>[] | undefined;
+  };
 }
 export const DescribeStateMachineOutput = S.suspend(() =>
   S.Struct({
@@ -2440,11 +2444,11 @@ export const TestExecutionStatus = S.Literal(
   "CAUGHT_ERROR",
 );
 export type AssignedVariables = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const AssignedVariables = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface AssignedVariablesDetails {
   truncated?: boolean;
@@ -2536,7 +2540,9 @@ export interface StateExitedEventDetails {
   name: string;
   output?: string | redacted.Redacted<string>;
   outputDetails?: HistoryEventExecutionDataDetails;
-  assignedVariables?: { [key: string]: string | redacted.Redacted<string> };
+  assignedVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   assignedVariablesDetails?: AssignedVariablesDetails;
 }
 export const StateExitedEventDetails = S.suspend(() =>

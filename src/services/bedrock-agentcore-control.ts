@@ -408,15 +408,18 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
   name: string | redacted.Redacted<string>;
   agentRuntimeVersion?: string;
   description?: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -759,10 +762,10 @@ export const LifecycleConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LifecycleConfiguration",
 }) as any as S.Schema<LifecycleConfiguration>;
-export type EnvironmentVariablesMap = { [key: string]: string };
+export type EnvironmentVariablesMap = { [key: string]: string | undefined };
 export const EnvironmentVariablesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface UpdateAgentRuntimeRequest {
   agentRuntimeId: string;
@@ -774,7 +777,7 @@ export interface UpdateAgentRuntimeRequest {
   requestHeaderConfiguration?: RequestHeaderConfiguration;
   protocolConfiguration?: ProtocolConfiguration;
   lifecycleConfiguration?: LifecycleConfiguration;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const UpdateAgentRuntimeRequest = S.suspend(() =>
@@ -874,7 +877,7 @@ export const ListAgentRuntimeVersionsRequest = S.suspend(() =>
 export interface CreateApiKeyCredentialProviderRequest {
   name: string;
   apiKey: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateApiKeyCredentialProviderRequest = S.suspend(() =>
   S.Struct({
@@ -1600,7 +1603,7 @@ export type RequiredProperties = string[];
 export const RequiredProperties = S.Array(S.String);
 export interface SchemaDefinition {
   type: SchemaType;
-  properties?: { [key: string]: SchemaDefinition };
+  properties?: { [key: string]: SchemaDefinition | undefined };
   required?: string[];
   items?: SchemaDefinition;
   description?: string;
@@ -1796,11 +1799,11 @@ export const CredentialProviderType = S.Literal(
 export type OAuthScopes = string[];
 export const OAuthScopes = S.Array(S.String);
 export type OAuthCustomParameters = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const OAuthCustomParameters = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export type OAuthGrantType = "CLIENT_CREDENTIALS" | "AUTHORIZATION_CODE";
 export const OAuthGrantType = S.Literal(
@@ -1810,7 +1813,9 @@ export const OAuthGrantType = S.Literal(
 export interface OAuthCredentialProvider {
   providerArn: string;
   scopes: string[];
-  customParameters?: { [key: string]: string | redacted.Redacted<string> };
+  customParameters?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   grantType?: OAuthGrantType;
   defaultReturnUrl?: string;
 }
@@ -2833,7 +2838,7 @@ export const ListPoliciesRequest = S.suspend(() =>
 export interface CreateWorkloadIdentityRequest {
   name: string;
   allowedResourceOauth2ReturnUrls?: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkloadIdentityRequest = S.suspend(() =>
   S.Struct({
@@ -3195,7 +3200,7 @@ export const GetTokenVaultResponse = S.suspend(() =>
   identifier: "GetTokenVaultResponse",
 }) as any as S.Schema<GetTokenVaultResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -3233,7 +3238,7 @@ export const SetTokenVaultCMKRequest = S.suspend(() =>
 }) as any as S.Schema<SetTokenVaultCMKRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3479,7 +3484,7 @@ export interface CreateCodeInterpreterRequest {
   executionRoleArn?: string;
   networkConfiguration: CodeInterpreterNetworkConfiguration;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCodeInterpreterRequest = S.suspend(() =>
   S.Struct({
@@ -4887,7 +4892,7 @@ export interface GetAgentRuntimeResponse {
   workloadIdentityDetails?: WorkloadIdentityDetails;
   agentRuntimeArtifact?: AgentRuntimeArtifact;
   protocolConfiguration?: ProtocolConfiguration;
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
   authorizerConfiguration?: AuthorizerConfiguration;
   requestHeaderConfiguration?: RequestHeaderConfiguration;
 }
@@ -4958,7 +4963,7 @@ export interface CreateBrowserRequest {
   recording?: RecordingConfig;
   browserSigning?: BrowserSigningConfigInput;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateBrowserRequest = S.suspend(() =>
   S.Struct({
@@ -5330,7 +5335,7 @@ export interface CreateGatewayRequest {
   interceptorConfigurations?: GatewayInterceptorConfiguration[];
   policyEngineConfiguration?: GatewayPolicyEngineConfiguration;
   exceptionLevel?: ExceptionLevel;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateGatewayRequest = S.suspend(() =>
   S.Struct({
@@ -5910,7 +5915,7 @@ export interface CreateOauth2CredentialProviderRequest {
   name: string;
   credentialProviderVendor: CredentialProviderVendorType;
   oauth2ProviderConfigInput: Oauth2ProviderConfigInput;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateOauth2CredentialProviderRequest = S.suspend(() =>
   S.Struct({
@@ -5956,12 +5961,14 @@ export const CreateOnlineEvaluationConfigResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateOnlineEvaluationConfigResponse",
 }) as any as S.Schema<CreateOnlineEvaluationConfigResponse>;
-export type SchemaProperties = { [key: string]: SchemaDefinition };
+export type SchemaProperties = { [key: string]: SchemaDefinition | undefined };
 export const SchemaProperties = S.Record({
   key: S.String,
-  value: S.suspend(
-    (): S.Schema<SchemaDefinition, any> => SchemaDefinition,
-  ).annotations({ identifier: "SchemaDefinition" }),
+  value: S.UndefinedOr(
+    S.suspend(
+      (): S.Schema<SchemaDefinition, any> => SchemaDefinition,
+    ).annotations({ identifier: "SchemaDefinition" }),
+  ),
 }) as any as S.Schema<SchemaProperties>;
 export interface ModifyMemoryStrategyInput {
   memoryStrategyId: string;
@@ -6238,8 +6245,8 @@ export interface CreateAgentRuntimeRequest {
   requestHeaderConfiguration?: RequestHeaderConfiguration;
   protocolConfiguration?: ProtocolConfiguration;
   lifecycleConfiguration?: LifecycleConfiguration;
-  environmentVariables?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAgentRuntimeRequest = S.suspend(() =>
   S.Struct({
@@ -6532,7 +6539,7 @@ export interface CreateMemoryInput {
   memoryExecutionRoleArn?: string;
   eventExpiryDuration: number;
   memoryStrategies?: MemoryStrategyInput[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMemoryInput = S.suspend(() =>
   S.Struct({

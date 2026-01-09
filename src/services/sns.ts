@@ -251,13 +251,16 @@ export const ConfirmSubscriptionInput = S.suspend(() =>
 ).annotations({
   identifier: "ConfirmSubscriptionInput",
 }) as any as S.Schema<ConfirmSubscriptionInput>;
-export type MapStringToString = { [key: string]: string };
-export const MapStringToString = S.Record({ key: S.String, value: S.String });
+export type MapStringToString = { [key: string]: string | undefined };
+export const MapStringToString = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreatePlatformEndpointInput {
   PlatformApplicationArn: string;
   Token: string;
   CustomUserData?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const CreatePlatformEndpointInput = S.suspend(() =>
   S.Struct({
@@ -770,7 +773,7 @@ export const RemovePermissionResponse = S.suspend(() =>
 }) as any as S.Schema<RemovePermissionResponse>;
 export interface SetEndpointAttributesInput {
   EndpointArn: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const SetEndpointAttributesInput = S.suspend(() =>
   S.Struct({ EndpointArn: S.String, Attributes: MapStringToString }).pipe(
@@ -795,7 +798,7 @@ export const SetEndpointAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<SetEndpointAttributesResponse>;
 export interface SetPlatformApplicationAttributesInput {
   PlatformApplicationArn: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const SetPlatformApplicationAttributesInput = S.suspend(() =>
   S.Struct({
@@ -822,7 +825,7 @@ export const SetPlatformApplicationAttributesResponse = S.suspend(() =>
   identifier: "SetPlatformApplicationAttributesResponse",
 }) as any as S.Schema<SetPlatformApplicationAttributesResponse>;
 export interface SetSMSAttributesInput {
-  attributes: { [key: string]: string };
+  attributes: { [key: string]: string | undefined };
 }
 export const SetSMSAttributesInput = S.suspend(() =>
   S.Struct({ attributes: MapStringToString }).pipe(
@@ -1013,8 +1016,11 @@ export const VerifySMSSandboxPhoneNumberResult = S.suspend(() =>
 ).annotations({
   identifier: "VerifySMSSandboxPhoneNumberResult",
 }) as any as S.Schema<VerifySMSSandboxPhoneNumberResult>;
-export type TopicAttributesMap = { [key: string]: string };
-export const TopicAttributesMap = S.Record({ key: S.String, value: S.String });
+export type TopicAttributesMap = { [key: string]: string | undefined };
+export const TopicAttributesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type PhoneNumberList = string | redacted.Redacted<string>[];
 export const PhoneNumberList = S.Array(SensitiveString);
 export interface MessageAttributeValue {
@@ -1031,19 +1037,23 @@ export const MessageAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "MessageAttributeValue",
 }) as any as S.Schema<MessageAttributeValue>;
-export type MessageAttributeMap = { [key: string]: MessageAttributeValue };
+export type MessageAttributeMap = {
+  [key: string]: MessageAttributeValue | undefined;
+};
 export const MessageAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
-  value: MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
-    identifier: "MessageAttributeValue",
-  }),
+  value: S.UndefinedOr(
+    MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
+      identifier: "MessageAttributeValue",
+    }),
+  ),
 });
 export interface PublishBatchRequestEntry {
   Id: string;
   Message: string;
   Subject?: string;
   MessageStructure?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -1062,10 +1072,10 @@ export const PublishBatchRequestEntry = S.suspend(() =>
 }) as any as S.Schema<PublishBatchRequestEntry>;
 export type PublishBatchRequestEntryList = PublishBatchRequestEntry[];
 export const PublishBatchRequestEntryList = S.Array(PublishBatchRequestEntry);
-export type SubscriptionAttributesMap = { [key: string]: string };
+export type SubscriptionAttributesMap = { [key: string]: string | undefined };
 export const SubscriptionAttributesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CheckIfPhoneNumberIsOptedOutResponse {
   isOptedOut?: boolean;
@@ -1086,7 +1096,7 @@ export const ConfirmSubscriptionResponse = S.suspend(() =>
 export interface CreatePlatformApplicationInput {
   Name: string;
   Platform: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const CreatePlatformApplicationInput = S.suspend(() =>
   S.Struct({
@@ -1117,7 +1127,7 @@ export const CreateEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<CreateEndpointResponse>;
 export interface CreateTopicInput {
   Name: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   Tags?: Tag[];
   DataProtectionPolicy?: string;
 }
@@ -1150,7 +1160,7 @@ export const GetDataProtectionPolicyResponse = S.suspend(() =>
   identifier: "GetDataProtectionPolicyResponse",
 }) as any as S.Schema<GetDataProtectionPolicyResponse>;
 export interface GetEndpointAttributesResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetEndpointAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1158,7 +1168,7 @@ export const GetEndpointAttributesResponse = S.suspend(() =>
   identifier: "GetEndpointAttributesResponse",
 }) as any as S.Schema<GetEndpointAttributesResponse>;
 export interface GetPlatformApplicationAttributesResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetPlatformApplicationAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1166,7 +1176,7 @@ export const GetPlatformApplicationAttributesResponse = S.suspend(() =>
   identifier: "GetPlatformApplicationAttributesResponse",
 }) as any as S.Schema<GetPlatformApplicationAttributesResponse>;
 export interface GetSMSAttributesResponse {
-  attributes?: { [key: string]: string };
+  attributes?: { [key: string]: string | undefined };
 }
 export const GetSMSAttributesResponse = S.suspend(() =>
   S.Struct({ attributes: S.optional(MapStringToString) }).pipe(ns),
@@ -1174,7 +1184,7 @@ export const GetSMSAttributesResponse = S.suspend(() =>
   identifier: "GetSMSAttributesResponse",
 }) as any as S.Schema<GetSMSAttributesResponse>;
 export interface GetSubscriptionAttributesResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetSubscriptionAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(SubscriptionAttributesMap) }).pipe(ns),
@@ -1182,7 +1192,7 @@ export const GetSubscriptionAttributesResponse = S.suspend(() =>
   identifier: "GetSubscriptionAttributesResponse",
 }) as any as S.Schema<GetSubscriptionAttributesResponse>;
 export interface GetTopicAttributesResponse {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetTopicAttributesResponse = S.suspend(() =>
   S.Struct({ Attributes: S.optional(TopicAttributesMap) }).pipe(ns),
@@ -1265,7 +1275,7 @@ export interface SubscribeInput {
   TopicArn: string;
   Protocol: string;
   Endpoint?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   ReturnSubscriptionArn?: boolean;
 }
 export const SubscribeInput = S.suspend(() =>
@@ -1302,7 +1312,7 @@ export const SMSSandboxPhoneNumberVerificationStatus = S.Literal(
 );
 export interface Endpoint {
   EndpointArn?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -1336,7 +1346,7 @@ export type PhoneNumberInformationList = PhoneNumberInformation[];
 export const PhoneNumberInformationList = S.Array(PhoneNumberInformation);
 export interface PlatformApplication {
   PlatformApplicationArn?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const PlatformApplication = S.suspend(() =>
   S.Struct({
@@ -1465,7 +1475,7 @@ export interface PublishInput {
   Message: string;
   Subject?: string;
   MessageStructure?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }

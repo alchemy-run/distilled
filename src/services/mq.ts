@@ -114,14 +114,17 @@ export type DataReplicationMode = "NONE" | "CRDR";
 export const DataReplicationMode = S.Literal("NONE", "CRDR");
 export type PromoteMode = "SWITCHOVER" | "FAILOVER";
 export const PromoteMode = S.Literal("SWITCHOVER", "FAILOVER");
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateConfigurationRequest {
   AuthenticationStrategy?: AuthenticationStrategy;
   EngineType?: EngineType;
   EngineVersion?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -147,7 +150,7 @@ export const CreateConfigurationRequest = S.suspend(() =>
 }) as any as S.Schema<CreateConfigurationRequest>;
 export interface CreateTagsRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({
@@ -867,7 +870,7 @@ export interface CreateBrokerRequest {
   SecurityGroups?: string[];
   StorageType?: BrokerStorageType;
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Users?: User[];
   DataReplicationMode?: DataReplicationMode;
   DataReplicationPrimaryBrokerArn?: string;
@@ -966,7 +969,7 @@ export interface DescribeConfigurationResponse {
     Revision: number;
   };
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -1030,7 +1033,7 @@ export const ListConfigurationRevisionsResponse = S.suspend(() =>
   identifier: "ListConfigurationRevisionsResponse",
 }) as any as S.Schema<ListConfigurationRevisionsResponse>;
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -1340,7 +1343,7 @@ export interface Configuration {
   Id?: string;
   LatestRevision?: ConfigurationRevision;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const Configuration = S.suspend(() =>
   S.Struct({
@@ -1661,7 +1664,7 @@ export interface DescribeBrokerResponse {
   SecurityGroups?: string[];
   StorageType?: BrokerStorageType;
   SubnetIds?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Users?: (UserSummary & { Username: string })[];
   DataReplicationMetadata?: DataReplicationMetadataOutput & {
     DataReplicationRole: string;

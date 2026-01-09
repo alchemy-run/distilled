@@ -286,8 +286,11 @@ export const BatchGetRumMetricDefinitionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "BatchGetRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchGetRumMetricDefinitionsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type Pages = string[];
 export const Pages = S.Array(S.String);
 export type FavoritePages = string[];
@@ -347,7 +350,7 @@ export interface CreateAppMonitorRequest {
   Name: string;
   Domain?: string;
   DomainList?: string[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   AppMonitorConfiguration?: AppMonitorConfiguration;
   CwLogEnabled?: boolean;
   CustomEvents?: CustomEvents;
@@ -533,13 +536,16 @@ export const PutRumMetricsDestinationResponse = S.suspend(() =>
 ).annotations({
   identifier: "PutRumMetricsDestinationResponse",
 }) as any as S.Schema<PutRumMetricsDestinationResponse>;
-export type DimensionKeysMap = { [key: string]: string };
-export const DimensionKeysMap = S.Record({ key: S.String, value: S.String });
+export type DimensionKeysMap = { [key: string]: string | undefined };
+export const DimensionKeysMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface MetricDefinitionRequest {
   Name: string;
   ValueKey?: string;
   UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string };
+  DimensionKeys?: { [key: string]: string | undefined };
   EventPattern?: string;
   Namespace?: string;
 }
@@ -650,7 +656,7 @@ export type QueryFilters = QueryFilter[];
 export const QueryFilters = S.Array(QueryFilter);
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagMap }),
@@ -692,7 +698,7 @@ export const PutRumEventsResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<PutRumEventsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -830,7 +836,7 @@ export interface MetricDefinition {
   Name: string;
   ValueKey?: string;
   UnitLabel?: string;
-  DimensionKeys?: { [key: string]: string };
+  DimensionKeys?: { [key: string]: string | undefined };
   EventPattern?: string;
   Namespace?: string;
 }
@@ -1012,7 +1018,7 @@ export interface AppMonitor {
   Id?: string;
   Created?: string;
   LastModified?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   State?: string;
   AppMonitorConfiguration?: AppMonitorConfiguration;
   DataStorage?: DataStorage;

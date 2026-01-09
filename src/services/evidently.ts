@@ -419,14 +419,14 @@ export const MetricGoalConfig = S.suspend(() =>
 }) as any as S.Schema<MetricGoalConfig>;
 export type MetricGoalConfigList = MetricGoalConfig[];
 export const MetricGoalConfigList = S.Array(MetricGoalConfig);
-export type TreatmentToWeightMap = { [key: string]: number };
+export type TreatmentToWeightMap = { [key: string]: number | undefined };
 export const TreatmentToWeightMap = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface OnlineAbConfig {
   controlTreatmentName?: string;
-  treatmentWeights?: { [key: string]: number };
+  treatmentWeights?: { [key: string]: number | undefined };
 }
 export const OnlineAbConfig = S.suspend(() =>
   S.Struct({
@@ -688,8 +688,11 @@ export const VariationConfig = S.suspend(() =>
 }) as any as S.Schema<VariationConfig>;
 export type VariationConfigsList = VariationConfig[];
 export const VariationConfigsList = S.Array(VariationConfig);
-export type EntityOverrideMap = { [key: string]: string };
-export const EntityOverrideMap = S.Record({ key: S.String, value: S.String });
+export type EntityOverrideMap = { [key: string]: string | undefined };
+export const EntityOverrideMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateFeatureRequest {
   project: string;
   feature: string;
@@ -698,7 +701,7 @@ export interface UpdateFeatureRequest {
   addOrUpdateVariations?: VariationConfig[];
   removeVariations?: string[];
   defaultVariation?: string;
-  entityOverrides?: { [key: string]: string };
+  entityOverrides?: { [key: string]: string | undefined };
 }
 export const UpdateFeatureRequest = S.suspend(() =>
   S.Struct({
@@ -826,12 +829,15 @@ export const MetricMonitorConfig = S.suspend(() =>
 }) as any as S.Schema<MetricMonitorConfig>;
 export type MetricMonitorConfigList = MetricMonitorConfig[];
 export const MetricMonitorConfigList = S.Array(MetricMonitorConfig);
-export type GroupToWeightMap = { [key: string]: number };
-export const GroupToWeightMap = S.Record({ key: S.String, value: S.Number });
+export type GroupToWeightMap = { [key: string]: number | undefined };
+export const GroupToWeightMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface SegmentOverride {
   segment: string;
   evaluationOrder: number;
-  weights: { [key: string]: number };
+  weights: { [key: string]: number | undefined };
 }
 export const SegmentOverride = S.suspend(() =>
   S.Struct({
@@ -846,7 +852,7 @@ export type SegmentOverridesList = SegmentOverride[];
 export const SegmentOverridesList = S.Array(SegmentOverride);
 export interface ScheduledSplitConfig {
   startTime: Date;
-  groupWeights: { [key: string]: number };
+  groupWeights: { [key: string]: number | undefined };
   segmentOverrides?: SegmentOverride[];
 }
 export const ScheduledSplitConfig = S.suspend(() =>
@@ -1004,13 +1010,16 @@ export const StopLaunchRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopLaunchRequest",
 }) as any as S.Schema<StopLaunchRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateSegmentRequest {
   name: string;
   pattern: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSegmentRequest = S.suspend(() =>
   S.Struct({
@@ -1198,15 +1207,15 @@ export const ExperimentExecution = S.suspend(() =>
 ).annotations({
   identifier: "ExperimentExecution",
 }) as any as S.Schema<ExperimentExecution>;
-export type FeatureToVariationMap = { [key: string]: string };
+export type FeatureToVariationMap = { [key: string]: string | undefined };
 export const FeatureToVariationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface Treatment {
   name: string;
   description?: string;
-  featureVariations?: { [key: string]: string };
+  featureVariations?: { [key: string]: string | undefined };
 }
 export const Treatment = S.suspend(() =>
   S.Struct({
@@ -1249,7 +1258,7 @@ export type MetricGoalsList = MetricGoal[];
 export const MetricGoalsList = S.Array(MetricGoal);
 export interface OnlineAbDefinition {
   controlTreatmentName?: string;
-  treatmentWeights?: { [key: string]: number };
+  treatmentWeights?: { [key: string]: number | undefined };
 }
 export const OnlineAbDefinition = S.suspend(() =>
   S.Struct({
@@ -1277,7 +1286,7 @@ export interface Experiment {
   segment?: string;
   type: string;
   onlineAbDefinition?: OnlineAbDefinition;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Experiment = S.suspend(() =>
   S.Struct({
@@ -1322,7 +1331,7 @@ export const LaunchExecution = S.suspend(() =>
 export interface LaunchGroup {
   name: string;
   description?: string;
-  featureVariations: { [key: string]: string };
+  featureVariations: { [key: string]: string | undefined };
 }
 export const LaunchGroup = S.suspend(() =>
   S.Struct({
@@ -1345,7 +1354,7 @@ export type MetricMonitorList = MetricMonitor[];
 export const MetricMonitorList = S.Array(MetricMonitor);
 export interface ScheduledSplit {
   startTime: Date;
-  groupWeights?: { [key: string]: number };
+  groupWeights?: { [key: string]: number | undefined };
   segmentOverrides?: SegmentOverride[];
 }
 export const ScheduledSplit = S.suspend(() =>
@@ -1382,7 +1391,7 @@ export interface Launch {
   randomizationSalt?: string;
   type: string;
   scheduledSplitsDefinition?: ScheduledSplitsLaunchDefinition;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Launch = S.suspend(() =>
   S.Struct({
@@ -1414,7 +1423,7 @@ export interface Segment {
   description?: string;
   experimentCount?: number;
   launchCount?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Segment = S.suspend(() =>
   S.Struct({
@@ -1432,7 +1441,7 @@ export const Segment = S.suspend(() =>
 export type SegmentList = Segment[];
 export const SegmentList = S.Array(Segment);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1441,7 +1450,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1477,7 +1486,7 @@ export interface CreateProjectRequest {
   description?: string;
   dataDelivery?: ProjectDataDeliveryConfig;
   appConfigResource?: ProjectAppConfigResourceConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateProjectRequest = S.suspend(() =>
   S.Struct({
@@ -1614,7 +1623,7 @@ export interface Project {
   activeExperimentCount?: number;
   dataDelivery?: ProjectDataDelivery;
   appConfigResource?: ProjectAppConfigResource;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Project = S.suspend(() =>
   S.Struct({
@@ -1738,8 +1747,8 @@ export interface Feature {
   variations: Variation[];
   defaultVariation?: string;
   evaluationRules?: EvaluationRule[];
-  tags?: { [key: string]: string };
-  entityOverrides?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  entityOverrides?: { [key: string]: string | undefined };
 }
 export const Feature = S.suspend(() =>
   S.Struct({
@@ -1839,7 +1848,7 @@ export interface ProjectSummary {
   activeLaunchCount?: number;
   experimentCount?: number;
   activeExperimentCount?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ProjectSummary = S.suspend(() =>
   S.Struct({
@@ -1907,7 +1916,7 @@ export interface FeatureSummary {
   evaluationStrategy: string;
   evaluationRules?: EvaluationRule[];
   defaultVariation?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const FeatureSummary = S.suspend(() =>
   S.Struct({
@@ -1987,7 +1996,7 @@ export interface CreateExperimentRequest {
   samplingRate?: number;
   onlineAbConfig?: OnlineAbConfig;
   segment?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateExperimentRequest = S.suspend(() =>
   S.Struct({
@@ -2037,8 +2046,8 @@ export interface CreateFeatureRequest {
   description?: string;
   variations: VariationConfig[];
   defaultVariation?: string;
-  tags?: { [key: string]: string };
-  entityOverrides?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  entityOverrides?: { [key: string]: string | undefined };
 }
 export const CreateFeatureRequest = S.suspend(() =>
   S.Struct({
@@ -2189,7 +2198,7 @@ export interface CreateLaunchRequest {
   metricMonitors?: MetricMonitorConfig[];
   groups: LaunchGroupConfig[];
   randomizationSalt?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLaunchRequest = S.suspend(() =>
   S.Struct({

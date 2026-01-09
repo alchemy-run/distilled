@@ -851,11 +851,14 @@ export const CredentialSummary = S.suspend(() =>
 }) as any as S.Schema<CredentialSummary>;
 export type CredentialSummaries = CredentialSummary[];
 export const CredentialSummaries = S.Array(CredentialSummary);
-export type InstancePropertyMap = { [key: string]: string };
-export const InstancePropertyMap = S.Record({ key: S.String, value: S.String });
+export type InstancePropertyMap = { [key: string]: string | undefined };
+export const InstancePropertyMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InstanceProperty {
   seenAt?: Date;
-  properties?: { [key: string]: string };
+  properties?: { [key: string]: string | undefined };
   failed?: boolean;
 }
 export const InstanceProperty = S.suspend(() =>

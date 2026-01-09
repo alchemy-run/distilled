@@ -480,15 +480,18 @@ export const ListAudienceGenerationJobsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAudienceGenerationJobsRequest",
 }) as any as S.Schema<ListAudienceGenerationJobsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateAudienceModelRequest {
   trainingDataStartTime?: Date;
   trainingDataEndTime?: Date;
   name: string;
   trainingDatasetArn: string;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description?: string;
 }
 export const CreateAudienceModelRequest = S.suspend(() =>
@@ -2041,10 +2044,16 @@ export const MLInputChannelStatus = S.Literal(
   "DELETE_FAILED",
   "INACTIVE",
 );
-export type HyperParameters = { [key: string]: string };
-export const HyperParameters = S.Record({ key: S.String, value: S.String });
-export type Environment = { [key: string]: string };
-export const Environment = S.Record({ key: S.String, value: S.String });
+export type HyperParameters = { [key: string]: string | undefined };
+export const HyperParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Environment = { [key: string]: string | undefined };
+export const Environment = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ResourceConfig {
   instanceCount?: number;
   instanceType: InstanceType;
@@ -2133,10 +2142,10 @@ export const InferenceContainerExecutionParameters = S.suspend(() =>
 ).annotations({
   identifier: "InferenceContainerExecutionParameters",
 }) as any as S.Schema<InferenceContainerExecutionParameters>;
-export type InferenceEnvironmentMap = { [key: string]: string };
+export type InferenceEnvironmentMap = { [key: string]: string | undefined };
 export const InferenceEnvironmentMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type TrainedModelInferenceJobStatus =
   | "CREATE_PENDING"
@@ -2160,7 +2169,7 @@ export const TrainedModelInferenceJobStatus = S.Literal(
 export type TrainingDatasetStatus = "ACTIVE";
 export const TrainingDatasetStatus = S.Literal("ACTIVE");
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -2169,7 +2178,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2251,7 +2260,7 @@ export interface GetAudienceModelResponse {
   status: AudienceModelStatus;
   statusDetails?: StatusDetails;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description?: string;
 }
 export const GetAudienceModelResponse = S.suspend(() =>
@@ -2288,7 +2297,7 @@ export interface GetConfiguredAudienceModelResponse {
   sharedAudienceMetrics: SharedAudienceMetrics[];
   minMatchingSeedSize?: number;
   audienceSizeConfig?: AudienceSizeConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
 }
 export const GetConfiguredAudienceModelResponse = S.suspend(() =>
@@ -2377,7 +2386,7 @@ export interface GetConfiguredModelAlgorithmResponse {
   inferenceContainerConfig?: InferenceContainerConfig;
   roleArn: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const GetConfiguredModelAlgorithmResponse = S.suspend(() =>
@@ -2575,7 +2584,7 @@ export interface GetConfiguredModelAlgorithmAssociationResponse {
   name: string;
   privacyConfiguration?: PrivacyConfiguration;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetConfiguredModelAlgorithmAssociationResponse = S.suspend(() =>
   S.Struct({
@@ -2840,8 +2849,8 @@ export interface CreateTrainedModelRequest {
   membershipIdentifier: string;
   name: string;
   configuredModelAlgorithmAssociationArn: string;
-  hyperparameters?: { [key: string]: string };
-  environment?: { [key: string]: string };
+  hyperparameters?: { [key: string]: string | undefined };
+  environment?: { [key: string]: string | undefined };
   resourceConfig: ResourceConfig;
   stoppingCondition?: StoppingCondition;
   incrementalTrainingDataChannels?: IncrementalTrainingDataChannel[];
@@ -2849,7 +2858,7 @@ export interface CreateTrainedModelRequest {
   trainingInputMode?: TrainingInputMode;
   description?: string;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateTrainedModelRequest = S.suspend(() =>
   S.Struct({
@@ -3037,13 +3046,13 @@ export interface GetTrainedModelInferenceJobResponse {
   statusDetails?: StatusDetails;
   description?: string;
   inferenceContainerImageDigest?: string;
-  environment?: { [key: string]: string };
+  environment?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
   metricsStatus?: MetricsStatus;
   metricsStatusDetails?: string;
   logsStatus?: LogsStatus;
   logsStatusDetails?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetTrainedModelInferenceJobResponse = S.suspend(() =>
   S.Struct({
@@ -3146,7 +3155,7 @@ export interface GetTrainingDatasetResponse {
   trainingData: Dataset[];
   status: TrainingDatasetStatus;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description?: string;
 }
 export const GetTrainingDatasetResponse = S.suspend(() =>
@@ -3655,12 +3664,15 @@ export const TrainingDatasetSummary = S.suspend(() =>
 }) as any as S.Schema<TrainingDatasetSummary>;
 export type TrainingDatasetList = TrainingDatasetSummary[];
 export const TrainingDatasetList = S.Array(TrainingDatasetSummary);
-export type ParameterMap = { [key: string]: string };
-export const ParameterMap = S.Record({ key: S.String, value: S.String });
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProtectedQuerySQLParameters {
   queryString?: string;
   analysisTemplateArn?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const ProtectedQuerySQLParameters = S.suspend(() =>
   S.Struct({
@@ -3671,10 +3683,13 @@ export const ProtectedQuerySQLParameters = S.suspend(() =>
 ).annotations({
   identifier: "ProtectedQuerySQLParameters",
 }) as any as S.Schema<ProtectedQuerySQLParameters>;
-export type SparkProperties = { [key: string]: string };
-export const SparkProperties = S.Record({ key: S.String, value: S.String });
+export type SparkProperties = { [key: string]: string | undefined };
+export const SparkProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type WorkerComputeConfigurationProperties = {
-  spark: { [key: string]: string };
+  spark: { [key: string]: string | undefined };
 };
 export const WorkerComputeConfigurationProperties = S.Union(
   S.Struct({ spark: SparkProperties }),
@@ -3819,7 +3834,7 @@ export interface CreateConfiguredAudienceModelRequest {
   sharedAudienceMetrics: SharedAudienceMetrics[];
   minMatchingSeedSize?: number;
   audienceSizeConfig?: AudienceSizeConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   childResourceTagOnCreatePolicy?: TagOnCreatePolicy;
 }
 export const CreateConfiguredAudienceModelRequest = S.suspend(() =>
@@ -3864,7 +3879,7 @@ export interface CreateConfiguredModelAlgorithmRequest {
   roleArn: string;
   trainingContainerConfig?: ContainerConfig;
   inferenceContainerConfig?: InferenceContainerConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const CreateConfiguredModelAlgorithmRequest = S.suspend(() =>
@@ -3989,10 +4004,10 @@ export interface GetTrainedModelResponse {
   trainingContainerImageDigest?: string;
   createTime: Date;
   updateTime: Date;
-  hyperparameters?: { [key: string]: string };
-  environment?: { [key: string]: string };
+  hyperparameters?: { [key: string]: string | undefined };
+  environment?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   dataChannels: ModelTrainingDataChannel[];
 }
 export const GetTrainedModelResponse = S.suspend(() =>
@@ -4089,9 +4104,9 @@ export interface StartTrainedModelInferenceJobRequest {
   dataSource: ModelInferenceDataSource;
   description?: string;
   containerExecutionParameters?: InferenceContainerExecutionParameters;
-  environment?: { [key: string]: string };
+  environment?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartTrainedModelInferenceJobRequest = S.suspend(() =>
   S.Struct({
@@ -4216,7 +4231,7 @@ export interface GetAudienceGenerationJobResponse {
   collaborationId?: string;
   metrics?: AudienceQualityMetrics;
   startedBy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   protectedQueryIdentifier?: string;
 }
 export const GetAudienceGenerationJobResponse = S.suspend(() =>
@@ -4264,7 +4279,7 @@ export interface CreateMLInputChannelRequest {
   retentionInDays: number;
   description?: string;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMLInputChannelRequest = S.suspend(() =>
   S.Struct({
@@ -4313,7 +4328,7 @@ export interface CreateTrainingDatasetRequest {
   name: string;
   roleArn: string;
   trainingData: Dataset[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description?: string;
 }
 export const CreateTrainingDatasetRequest = S.suspend(() =>
@@ -4343,7 +4358,7 @@ export interface StartAudienceGenerationJobRequest {
   includeSeedInOutput?: boolean;
   collaborationId?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartAudienceGenerationJobRequest = S.suspend(() =>
   S.Struct({
@@ -4387,7 +4402,7 @@ export interface GetMLInputChannelResponse {
   numberOfFiles?: number;
   sizeInGb?: number;
   kmsKeyArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetMLInputChannelResponse = S.suspend(() =>
   S.Struct({
@@ -4438,7 +4453,7 @@ export interface CreateConfiguredModelAlgorithmAssociationRequest {
   name: string;
   description?: string;
   privacyConfiguration?: PrivacyConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConfiguredModelAlgorithmAssociationRequest = S.suspend(() =>
   S.Struct({

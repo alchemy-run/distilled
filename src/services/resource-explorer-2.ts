@@ -457,11 +457,14 @@ export const SearchInput = S.suspend(() =>
     ),
   ),
 ).annotations({ identifier: "SearchInput" }) as any as S.Schema<SearchInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceInput {
   resourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -511,7 +514,7 @@ export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceOutput>;
 export interface CreateIndexInput {
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateIndexInput = S.suspend(() =>
   S.Struct({
@@ -747,7 +750,7 @@ export interface GetIndexOutput {
   ReplicatingTo?: string[];
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetIndexOutput = S.suspend(() =>
   S.Struct({
@@ -813,7 +816,7 @@ export const ListServiceViewsOutput = S.suspend(() =>
   identifier: "ListServiceViewsOutput",
 }) as any as S.Schema<ListServiceViewsOutput>;
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -893,7 +896,7 @@ export interface CreateViewInput {
   IncludedProperties?: IncludedProperty[];
   Scope?: string;
   Filters?: SearchFilter;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateViewInput = S.suspend(() =>
   S.Struct({
@@ -936,7 +939,7 @@ export const View = S.suspend(() =>
 ).annotations({ identifier: "View" }) as any as S.Schema<View>;
 export interface GetViewOutput {
   View?: View;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetViewOutput = S.suspend(() =>
   S.Struct({ View: S.optional(View), Tags: S.optional(TagMap) }),

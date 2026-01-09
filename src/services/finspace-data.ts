@@ -715,16 +715,22 @@ export const ResetUserPasswordRequest = S.suspend(() =>
 ).annotations({
   identifier: "ResetUserPasswordRequest",
 }) as any as S.Schema<ResetUserPasswordRequest>;
-export type SourceParams = { [key: string]: string };
-export const SourceParams = S.Record({ key: S.String, value: S.String });
-export type FormatParams = { [key: string]: string };
-export const FormatParams = S.Record({ key: S.String, value: S.String });
+export type SourceParams = { [key: string]: string | undefined };
+export const SourceParams = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type FormatParams = { [key: string]: string | undefined };
+export const FormatParams = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateChangesetRequest {
   clientToken?: string;
   datasetId: string;
   changesetId: string;
-  sourceParams: { [key: string]: string };
-  formatParams: { [key: string]: string };
+  sourceParams: { [key: string]: string | undefined };
+  formatParams: { [key: string]: string | undefined };
 }
 export const UpdateChangesetRequest = S.suspend(() =>
   S.Struct({
@@ -1003,8 +1009,8 @@ export interface CreateChangesetRequest {
   clientToken?: string;
   datasetId: string;
   changeType: ChangeType;
-  sourceParams: { [key: string]: string };
-  formatParams: { [key: string]: string };
+  sourceParams: { [key: string]: string | undefined };
+  formatParams: { [key: string]: string | undefined };
 }
 export const CreateChangesetRequest = S.suspend(() =>
   S.Struct({
@@ -1228,10 +1234,10 @@ export const ResourcePermission = S.suspend(() =>
 }) as any as S.Schema<ResourcePermission>;
 export type ResourcePermissionsList = ResourcePermission[];
 export const ResourcePermissionsList = S.Array(ResourcePermission);
-export type S3DestinationFormatOptions = { [key: string]: string };
+export type S3DestinationFormatOptions = { [key: string]: string | undefined };
 export const S3DestinationFormatOptions = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ErrorCategory =
   | "VALIDATION"
@@ -1267,7 +1273,7 @@ export const PermissionGroupParams = S.suspend(() =>
 export interface DataViewDestinationTypeParams {
   destinationType: string;
   s3DestinationExportFileFormat?: ExportFileFormat;
-  s3DestinationExportFileFormatOptions?: { [key: string]: string };
+  s3DestinationExportFileFormatOptions?: { [key: string]: string | undefined };
 }
 export const DataViewDestinationTypeParams = S.suspend(() =>
   S.Struct({
@@ -1344,8 +1350,8 @@ export interface ChangesetSummary {
   changesetArn?: string;
   datasetId?: string;
   changeType?: ChangeType;
-  sourceParams?: { [key: string]: string };
-  formatParams?: { [key: string]: string };
+  sourceParams?: { [key: string]: string | undefined };
+  formatParams?: { [key: string]: string | undefined };
   createTime?: number;
   status?: IngestionStatus;
   errorInfo?: ChangesetErrorInfo;
@@ -1563,8 +1569,8 @@ export interface GetChangesetResponse {
   changesetArn?: string;
   datasetId?: string;
   changeType?: ChangeType;
-  sourceParams?: { [key: string]: string };
-  formatParams?: { [key: string]: string };
+  sourceParams?: { [key: string]: string | undefined };
+  formatParams?: { [key: string]: string | undefined };
   createTime?: number;
   status?: IngestionStatus;
   errorInfo?: ChangesetErrorInfo;

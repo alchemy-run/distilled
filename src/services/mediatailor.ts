@@ -974,12 +974,15 @@ export const ListSourceLocationsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListSourceLocationsRequest",
 }) as any as S.Schema<ListSourceLocationsRequest>;
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateVodSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VodSourceName: string;
 }
 export const CreateVodSourceRequest = S.suspend(() =>
@@ -1352,11 +1355,11 @@ export const CdnConfiguration = S.suspend(() =>
   identifier: "CdnConfiguration",
 }) as any as S.Schema<CdnConfiguration>;
 export type ConfigurationAliasesRequest = {
-  [key: string]: { [key: string]: string };
+  [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export const ConfigurationAliasesRequest = S.Record({
   key: S.String,
-  value: __mapOf__string,
+  value: S.UndefinedOr(__mapOf__string),
 });
 export interface DashConfigurationForPut {
   MpdLocation?: string;
@@ -1426,7 +1429,7 @@ export const ConfigureLogsForPlaybackConfigurationRequest = S.suspend(() =>
   identifier: "ConfigureLogsForPlaybackConfigurationRequest",
 }) as any as S.Schema<ConfigureLogsForPlaybackConfigurationRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -1435,7 +1438,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1487,7 +1490,7 @@ export interface UpdateChannelResponse {
   LastModifiedTime?: Date;
   Outputs?: ResponseOutputItem[];
   PlaybackMode?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Tier?: string;
   TimeShiftConfiguration?: TimeShiftConfiguration;
   Audiences?: string[];
@@ -1697,7 +1700,7 @@ export interface CreateLiveSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   LiveSourceName: string;
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateLiveSourceRequest = S.suspend(() =>
   S.Struct({
@@ -1728,7 +1731,7 @@ export interface DescribeLiveSourceResponse {
   LastModifiedTime?: Date;
   LiveSourceName?: string;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeLiveSourceResponse = S.suspend(() =>
   S.Struct({
@@ -1752,7 +1755,7 @@ export interface UpdateLiveSourceResponse {
   LastModifiedTime?: Date;
   LiveSourceName?: string;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateLiveSourceResponse = S.suspend(() =>
   S.Struct({
@@ -1815,7 +1818,7 @@ export const TrafficShapingTpsConfiguration = S.suspend(() =>
   identifier: "TrafficShapingTpsConfiguration",
 }) as any as S.Schema<TrafficShapingTpsConfiguration>;
 export interface PrefetchRetrieval {
-  DynamicVariables?: { [key: string]: string };
+  DynamicVariables?: { [key: string]: string | undefined };
   EndTime: Date;
   StartTime?: Date;
   TrafficShapingType?: TrafficShapingType;
@@ -1847,7 +1850,7 @@ export const RecurringConsumption = S.suspend(() =>
   identifier: "RecurringConsumption",
 }) as any as S.Schema<RecurringConsumption>;
 export interface RecurringRetrieval {
-  DynamicVariables?: { [key: string]: string };
+  DynamicVariables?: { [key: string]: string | undefined };
   DelayAfterAvailEndSeconds?: number;
   TrafficShapingType?: TrafficShapingType;
   TrafficShapingRetrievalWindow?: TrafficShapingRetrievalWindow;
@@ -1913,7 +1916,7 @@ export interface DescribeSourceLocationResponse {
   LastModifiedTime?: Date;
   SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeSourceLocationResponse = S.suspend(() =>
   S.Struct({
@@ -1945,7 +1948,7 @@ export interface UpdateSourceLocationResponse {
   LastModifiedTime?: Date;
   SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateSourceLocationResponse = S.suspend(() =>
   S.Struct({
@@ -1974,7 +1977,7 @@ export interface CreateVodSourceResponse {
   HttpPackageConfigurations?: HttpPackageConfiguration[];
   LastModifiedTime?: Date;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VodSourceName?: string;
 }
 export const CreateVodSourceResponse = S.suspend(() =>
@@ -1998,7 +2001,7 @@ export interface UpdateVodSourceResponse {
   HttpPackageConfigurations?: HttpPackageConfiguration[];
   LastModifiedTime?: Date;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VodSourceName?: string;
 }
 export const UpdateVodSourceResponse = S.suspend(() =>
@@ -2101,7 +2104,7 @@ export interface Channel {
   LastModifiedTime?: Date;
   Outputs: ResponseOutputItem[];
   PlaybackMode: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Tier: string;
   LogConfiguration: LogConfigurationForChannel;
   Audiences?: string[];
@@ -2154,7 +2157,7 @@ export interface LiveSource {
   LastModifiedTime?: Date;
   LiveSourceName: string;
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const LiveSource = S.suspend(() =>
   S.Struct({
@@ -2180,11 +2183,11 @@ export const ManifestProcessingRules = S.suspend(() =>
   identifier: "ManifestProcessingRules",
 }) as any as S.Schema<ManifestProcessingRules>;
 export type ConfigurationAliasesResponse = {
-  [key: string]: { [key: string]: string };
+  [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export const ConfigurationAliasesResponse = S.Record({
   key: S.String,
-  value: __mapOf__string,
+  value: S.UndefinedOr(__mapOf__string),
 });
 export interface DashConfiguration {
   ManifestEndpointPrefix?: string;
@@ -2224,12 +2227,15 @@ export const LogConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "LogConfiguration",
 }) as any as S.Schema<LogConfiguration>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface HttpRequest {
   Method?: Method;
   Body?: string;
-  Headers?: { [key: string]: string };
+  Headers?: { [key: string]: string | undefined };
   CompressRequest?: CompressionMethod;
 }
 export const HttpRequest = S.suspend(() =>
@@ -2253,7 +2259,9 @@ export interface PlaybackConfiguration {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string } };
+  ConfigurationAliases?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
@@ -2266,7 +2274,7 @@ export interface PlaybackConfiguration {
   PlaybackEndpointPrefix?: string;
   SessionInitializationEndpointPrefix?: string;
   SlateAdUrl?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TranscodeProfileName?: string;
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
@@ -2337,7 +2345,7 @@ export interface SourceLocation {
   LastModifiedTime?: Date;
   SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const SourceLocation = S.suspend(() =>
   S.Struct({
@@ -2378,7 +2386,7 @@ export interface VodSource {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   LastModifiedTime?: Date;
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VodSourceName: string;
 }
 export const VodSource = S.suspend(() =>
@@ -2431,7 +2439,7 @@ export interface CreateChannelRequest {
   FillerSlate?: SlateSource;
   Outputs: RequestOutputItem[];
   PlaybackMode: PlaybackMode;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Tier?: Tier;
   TimeShiftConfiguration?: TimeShiftConfiguration;
   Audiences?: string[];
@@ -2468,7 +2476,7 @@ export interface DescribeChannelResponse {
   LastModifiedTime?: Date;
   Outputs?: ResponseOutputItem[];
   PlaybackMode?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Tier?: string;
   LogConfiguration: LogConfigurationForChannel;
   TimeShiftConfiguration?: TimeShiftConfiguration;
@@ -2544,7 +2552,7 @@ export interface CreateLiveSourceResponse {
   LastModifiedTime?: Date;
   LiveSourceName?: string;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateLiveSourceResponse = S.suspend(() =>
   S.Struct({
@@ -2578,7 +2586,9 @@ export interface GetPlaybackConfigurationResponse {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string } };
+  ConfigurationAliases?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
@@ -2593,7 +2603,7 @@ export interface GetPlaybackConfigurationResponse {
   PlaybackEndpointPrefix?: string;
   SessionInitializationEndpointPrefix?: string;
   SlateAdUrl?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TranscodeProfileName?: string;
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
@@ -2697,7 +2707,7 @@ export interface CreateSourceLocationRequest {
   HttpConfiguration: HttpConfiguration;
   SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
   SourceLocationName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSourceLocationRequest = S.suspend(() =>
   S.Struct({
@@ -2743,7 +2753,7 @@ export interface DescribeVodSourceResponse {
   HttpPackageConfigurations?: HttpPackageConfiguration[];
   LastModifiedTime?: Date;
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   VodSourceName?: string;
 }
 export const DescribeVodSourceResponse = S.suspend(() =>
@@ -2837,7 +2847,7 @@ export interface CreateChannelResponse {
   LastModifiedTime?: Date;
   Outputs?: ResponseOutputItem[];
   PlaybackMode?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Tier?: string;
   TimeShiftConfiguration?: TimeShiftConfiguration;
   Audiences?: string[];
@@ -2949,7 +2959,9 @@ export interface PutPlaybackConfigurationRequest {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string } };
+  ConfigurationAliases?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   DashConfiguration?: DashConfigurationForPut;
   InsertionMode?: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration;
@@ -2957,7 +2969,7 @@ export interface PutPlaybackConfigurationRequest {
   Name: string;
   PersonalizationThresholdSeconds?: number;
   SlateAdUrl?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TranscodeProfileName?: string;
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
@@ -3028,7 +3040,7 @@ export interface CreateSourceLocationResponse {
   LastModifiedTime?: Date;
   SegmentDeliveryConfigurations?: SegmentDeliveryConfiguration[];
   SourceLocationName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSourceLocationResponse = S.suspend(() =>
   S.Struct({
@@ -3090,7 +3102,9 @@ export interface PutPlaybackConfigurationResponse {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: { [key: string]: { [key: string]: string } };
+  ConfigurationAliases?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
@@ -3105,7 +3119,7 @@ export interface PutPlaybackConfigurationResponse {
   PlaybackEndpointPrefix?: string;
   SessionInitializationEndpointPrefix?: string;
   SlateAdUrl?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TranscodeProfileName?: string;
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;

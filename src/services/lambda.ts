@@ -1708,14 +1708,14 @@ export const VpcConfig = S.suspend(() =>
   }),
 ).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export type EnvironmentVariables = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const EnvironmentVariables = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface Environment {
-  Variables?: { [key: string]: string | redacted.Redacted<string> };
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const Environment = S.suspend(() =>
   S.Struct({ Variables: S.optional(EnvironmentVariables) }),
@@ -2354,13 +2354,13 @@ export const GetAliasRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetAliasRequest",
 }) as any as S.Schema<GetAliasRequest>;
-export type AdditionalVersionWeights = { [key: string]: number };
+export type AdditionalVersionWeights = { [key: string]: number | undefined };
 export const AdditionalVersionWeights = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface AliasRoutingConfiguration {
-  AdditionalVersionWeights?: { [key: string]: number };
+  AdditionalVersionWeights?: { [key: string]: number | undefined };
 }
 export const AliasRoutingConfiguration = S.suspend(() =>
   S.Struct({ AdditionalVersionWeights: S.optional(AdditionalVersionWeights) }),
@@ -2969,8 +2969,8 @@ export const FunctionEventInvokeConfig = S.suspend(() =>
 }) as any as S.Schema<FunctionEventInvokeConfig>;
 export type FunctionEventInvokeConfigList = FunctionEventInvokeConfig[];
 export const FunctionEventInvokeConfigList = S.Array(FunctionEventInvokeConfig);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CapacityProviderVpcConfig {
   SubnetIds: string[];
   SecurityGroupIds: string[];
@@ -3039,10 +3039,10 @@ export type EndpointLists = string[];
 export const EndpointLists = S.Array(S.String);
 export type Endpoints = { [key in EndPointType]?: string[] };
 export const Endpoints = S.partial(
-  S.Record({ key: EndPointType, value: EndpointLists }),
+  S.Record({ key: EndPointType, value: S.UndefinedOr(EndpointLists) }),
 );
 export interface SelfManagedEventSource {
-  Endpoints?: { [key: string]: string[] };
+  Endpoints?: { [key: string]: string[] | undefined };
 }
 export const SelfManagedEventSource = S.suspend(() =>
   S.Struct({ Endpoints: S.optional(Endpoints) }),
@@ -3193,7 +3193,7 @@ export const EnvironmentError = S.suspend(() =>
   identifier: "EnvironmentError",
 }) as any as S.Schema<EnvironmentError>;
 export interface EnvironmentResponse {
-  Variables?: { [key: string]: string | redacted.Redacted<string> };
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined };
   Error?: EnvironmentError;
 }
 export const EnvironmentResponse = S.suspend(() =>
@@ -3647,7 +3647,7 @@ export const ListFunctionEventInvokeConfigsResponse = S.suspend(() =>
   identifier: "ListFunctionEventInvokeConfigsResponse",
 }) as any as S.Schema<ListFunctionEventInvokeConfigsResponse>;
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
@@ -3696,7 +3696,7 @@ export const StopDurableExecutionResponse = S.suspend(() =>
 }) as any as S.Schema<StopDurableExecutionResponse>;
 export interface TagResourceRequest {
   Resource: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3751,7 +3751,7 @@ export interface CreateCodeSigningConfigRequest {
   Description?: string;
   AllowedPublishers: AllowedPublishers;
   CodeSigningPolicies?: CodeSigningPolicies;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCodeSigningConfigRequest = S.suspend(() =>
   S.Struct({
@@ -4655,7 +4655,7 @@ export interface CreateCapacityProviderRequest {
   InstanceRequirements?: InstanceRequirements;
   CapacityProviderScalingConfig?: CapacityProviderScalingConfig;
   KmsKeyArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateCapacityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -4737,7 +4737,7 @@ export interface CreateFunctionRequest {
   Environment?: Environment;
   KMSKeyArn?: string;
   TracingConfig?: TracingConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Layers?: string[];
   FileSystemConfigs?: FileSystemConfig[];
   ImageConfig?: ImageConfig;
@@ -4841,7 +4841,7 @@ export const ListProvisionedConcurrencyConfigsResponse = S.suspend(() =>
 export interface GetFunctionResponse {
   Configuration?: FunctionConfiguration;
   Code?: FunctionCodeLocation;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TagsError?: TagsError;
   Concurrency?: Concurrency;
 }
@@ -5360,7 +5360,7 @@ export interface CreateEventSourceMappingRequest {
   MaximumRecordAgeInSeconds?: number;
   BisectBatchOnFunctionError?: boolean;
   MaximumRetryAttempts?: number;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   TumblingWindowInSeconds?: number;
   Topics?: string[];
   Queues?: string[];

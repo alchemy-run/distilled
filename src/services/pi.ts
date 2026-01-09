@@ -429,15 +429,15 @@ export const DimensionGroup = S.suspend(() =>
 ).annotations({
   identifier: "DimensionGroup",
 }) as any as S.Schema<DimensionGroup>;
-export type MetricQueryFilterMap = { [key: string]: string };
+export type MetricQueryFilterMap = { [key: string]: string | undefined };
 export const MetricQueryFilterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface MetricQuery {
   Metric: string;
   GroupBy?: DimensionGroup;
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
 }
 export const MetricQuery = S.suspend(() =>
   S.Struct({
@@ -486,7 +486,7 @@ export interface DescribeDimensionKeysRequest {
   GroupBy: DimensionGroup;
   AdditionalMetrics?: string[];
   PartitionBy?: DimensionGroup;
-  Filter?: { [key: string]: string };
+  Filter?: { [key: string]: string | undefined };
   MaxResults?: number;
   NextToken?: string;
 }
@@ -689,10 +689,10 @@ export const FeatureMetadata = S.suspend(() =>
 ).annotations({
   identifier: "FeatureMetadata",
 }) as any as S.Schema<FeatureMetadata>;
-export type FeatureMetadataMap = { [key: string]: FeatureMetadata };
+export type FeatureMetadataMap = { [key: string]: FeatureMetadata | undefined };
 export const FeatureMetadataMap = S.Record({
   key: S.String,
-  value: FeatureMetadata,
+  value: S.UndefinedOr(FeatureMetadata),
 });
 export interface Recommendation {
   RecommendationId?: string;
@@ -720,7 +720,7 @@ export type DimensionDetailList = DimensionDetail[];
 export const DimensionDetailList = S.Array(DimensionDetail);
 export interface GetResourceMetadataResponse {
   Identifier?: string;
-  Features?: { [key: string]: FeatureMetadata };
+  Features?: { [key: string]: FeatureMetadata | undefined };
 }
 export const GetResourceMetadataResponse = S.suspend(() =>
   S.Struct({
@@ -730,16 +730,19 @@ export const GetResourceMetadataResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetResourceMetadataResponse",
 }) as any as S.Schema<GetResourceMetadataResponse>;
-export type DimensionMap = { [key: string]: string };
-export const DimensionMap = S.Record({ key: S.String, value: S.String });
-export type AdditionalMetricsMap = { [key: string]: number };
+export type DimensionMap = { [key: string]: string | undefined };
+export const DimensionMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type AdditionalMetricsMap = { [key: string]: number | undefined };
 export const AdditionalMetricsMap = S.Record({
   key: S.String,
-  value: S.Number,
+  value: S.UndefinedOr(S.Number),
 });
 export interface ResponseResourceMetricKey {
   Metric: string;
-  Dimensions?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
 }
 export const ResponseResourceMetricKey = S.suspend(() =>
   S.Struct({ Metric: S.String, Dimensions: S.optional(DimensionMap) }),
@@ -773,7 +776,7 @@ export const DimensionGroupDetail = S.suspend(() =>
 export type DimensionGroupDetailList = DimensionGroupDetail[];
 export const DimensionGroupDetailList = S.Array(DimensionGroupDetail);
 export interface ResponsePartitionKey {
-  Dimensions: { [key: string]: string };
+  Dimensions: { [key: string]: string | undefined };
 }
 export const ResponsePartitionKey = S.suspend(() =>
   S.Struct({ Dimensions: DimensionMap }),
@@ -783,9 +786,9 @@ export const ResponsePartitionKey = S.suspend(() =>
 export type ResponsePartitionKeyList = ResponsePartitionKey[];
 export const ResponsePartitionKeyList = S.Array(ResponsePartitionKey);
 export interface DimensionKeyDescription {
-  Dimensions?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
   Total?: number;
-  AdditionalMetrics?: { [key: string]: number };
+  AdditionalMetrics?: { [key: string]: number | undefined };
   Partitions?: number[];
 }
 export const DimensionKeyDescription = S.suspend(() =>
@@ -848,8 +851,11 @@ export const DescribeDimensionKeysResponse = S.suspend(() =>
 ).annotations({
   identifier: "DescribeDimensionKeysResponse",
 }) as any as S.Schema<DescribeDimensionKeysResponse>;
-export type DescriptiveMap = { [key: string]: string };
-export const DescriptiveMap = S.Record({ key: S.String, value: S.String });
+export type DescriptiveMap = { [key: string]: string | undefined };
+export const DescriptiveMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetResourceMetricsResponse {
   AlignedStartTime?: Date;
   AlignedEndTime?: Date;
@@ -885,8 +891,8 @@ export const ListAvailableResourceDimensionsResponse = S.suspend(() =>
 export interface PerformanceInsightsMetric {
   Metric?: string;
   DisplayName?: string;
-  Dimensions?: { [key: string]: string };
-  Filter?: { [key: string]: string };
+  Dimensions?: { [key: string]: string | undefined };
+  Filter?: { [key: string]: string | undefined };
   Value?: number;
 }
 export const PerformanceInsightsMetric = S.suspend(() =>

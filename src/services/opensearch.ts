@@ -2368,13 +2368,16 @@ export const UpdateVpcEndpointRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateVpcEndpointRequest",
 }) as any as S.Schema<UpdateVpcEndpointRequest>;
-export type AdvancedOptions = { [key: string]: string };
-export const AdvancedOptions = S.Record({ key: S.String, value: S.String });
+export type AdvancedOptions = { [key: string]: string | undefined };
+export const AdvancedOptions = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpgradeDomainRequest {
   DomainName: string;
   TargetVersion: string;
   PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string };
+  AdvancedOptions?: { [key: string]: string | undefined };
 }
 export const UpgradeDomainRequest = S.suspend(() =>
   S.Struct({
@@ -2621,8 +2624,11 @@ export type MasterNodeStatus = "Available" | "UnAvailable";
 export const MasterNodeStatus = S.Literal("Available", "UnAvailable");
 export type DomainHealth = "Red" | "Yellow" | "Green" | "NotAvailable";
 export const DomainHealth = S.Literal("Red", "Yellow", "Green", "NotAvailable");
-export type EndpointsMap = { [key: string]: string };
-export const EndpointsMap = S.Record({ key: S.String, value: S.String });
+export type EndpointsMap = { [key: string]: string | undefined };
+export const EndpointsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ZoneAwarenessConfig {
   AvailabilityZoneCount?: number;
 }
@@ -2729,7 +2735,7 @@ export const LogPublishingOption = S.suspend(() =>
 }) as any as S.Schema<LogPublishingOption>;
 export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
 export const LogPublishingOptions = S.partial(
-  S.Record({ key: LogType, value: LogPublishingOption }),
+  S.Record({ key: LogType, value: S.UndefinedOr(LogPublishingOption) }),
 );
 export type DeploymentStatus =
   | "PENDING_UPDATE"
@@ -3087,7 +3093,7 @@ export interface DomainStatus {
   Deleted?: boolean;
   Endpoint?: string;
   EndpointV2?: string;
-  Endpoints?: { [key: string]: string };
+  Endpoints?: { [key: string]: string | undefined };
   DomainEndpointV2HostedZoneId?: string;
   Processing?: boolean;
   UpgradeProcessing?: boolean;
@@ -3101,8 +3107,8 @@ export interface DomainStatus {
   CognitoOptions?: CognitoOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  AdvancedOptions?: { [key: string]: string | undefined };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   ServiceSoftwareOptions?: ServiceSoftwareOptions;
   DomainEndpointOptions?: DomainEndpointOptions;
   AdvancedSecurityOptions?: AdvancedSecurityOptions;
@@ -4097,10 +4103,10 @@ export interface UpdateDomainConfigRequest {
   SnapshotOptions?: SnapshotOptions;
   VPCOptions?: VPCOptions;
   CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string };
+  AdvancedOptions?: { [key: string]: string | undefined };
   AccessPolicies?: string;
   IPAddressType?: IPAddressType;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   DomainEndpointOptions?: DomainEndpointOptions;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
@@ -5165,7 +5171,7 @@ export const NodeToNodeEncryptionOptionsStatus = S.suspend(() =>
   identifier: "NodeToNodeEncryptionOptionsStatus",
 }) as any as S.Schema<NodeToNodeEncryptionOptionsStatus>;
 export interface AdvancedOptionsStatus {
-  Options: { [key: string]: string };
+  Options: { [key: string]: string | undefined };
   Status: OptionStatus;
 }
 export const AdvancedOptionsStatus = S.suspend(() =>
@@ -5174,7 +5180,7 @@ export const AdvancedOptionsStatus = S.suspend(() =>
   identifier: "AdvancedOptionsStatus",
 }) as any as S.Schema<AdvancedOptionsStatus>;
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption };
+  Options?: { [key: string]: LogPublishingOption | undefined };
   Status?: OptionStatus;
 }
 export const LogPublishingOptionsStatus = S.suspend(() =>
@@ -5376,7 +5382,7 @@ export interface UpgradeDomainResponse {
   DomainName?: string;
   TargetVersion?: string;
   PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string };
+  AdvancedOptions?: { [key: string]: string | undefined };
   ChangeProgressDetails?: ChangeProgressDetails;
 }
 export const UpgradeDomainResponse = S.suspend(() =>
@@ -5638,8 +5644,8 @@ export interface CreateDomainRequest {
   CognitoOptions?: CognitoOptions;
   EncryptionAtRestOptions?: EncryptionAtRestOptions;
   NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption };
+  AdvancedOptions?: { [key: string]: string | undefined };
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
   DomainEndpointOptions?: DomainEndpointOptions;
   AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
   IdentityCenterOptions?: IdentityCenterOptionsInput;
@@ -5932,10 +5938,13 @@ export const Limits = S.suspend(() =>
     AdditionalLimits: S.optional(AdditionalLimitList),
   }),
 ).annotations({ identifier: "Limits" }) as any as S.Schema<Limits>;
-export type LimitsByRole = { [key: string]: Limits };
-export const LimitsByRole = S.Record({ key: S.String, value: Limits });
+export type LimitsByRole = { [key: string]: Limits | undefined };
+export const LimitsByRole = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Limits),
+});
 export interface DescribeInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits };
+  LimitsByRole?: { [key: string]: Limits | undefined };
 }
 export const DescribeInstanceTypeLimitsResponse = S.suspend(() =>
   S.Struct({ LimitsByRole: S.optional(LimitsByRole) }).pipe(ns),

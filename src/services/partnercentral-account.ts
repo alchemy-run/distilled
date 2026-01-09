@@ -970,7 +970,7 @@ export type ConnectionTypeDetailMap = {
   [key in ConnectionType]?: ConnectionTypeDetail;
 };
 export const ConnectionTypeDetailMap = S.partial(
-  S.Record({ key: ConnectionType, value: ConnectionTypeDetail }),
+  S.Record({ key: ConnectionType, value: S.UndefinedOr(ConnectionTypeDetail) }),
 );
 export interface CancelConnectionResponse {
   Catalog: string;
@@ -978,7 +978,7 @@ export interface CancelConnectionResponse {
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail | undefined };
 }
 export const CancelConnectionResponse = S.suspend(() =>
   S.Struct({
@@ -1279,7 +1279,7 @@ export interface Connection {
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail | undefined };
 }
 export const Connection = S.suspend(() =>
   S.Struct({
@@ -1627,7 +1627,10 @@ export type ConnectionTypeSummaryMap = {
   [key in ConnectionType]?: ConnectionTypeSummary;
 };
 export const ConnectionTypeSummaryMap = S.partial(
-  S.Record({ key: ConnectionType, value: ConnectionTypeSummary }),
+  S.Record({
+    key: ConnectionType,
+    value: S.UndefinedOr(ConnectionTypeSummary),
+  }),
 );
 export type ValidationExceptionReason =
   | "REQUEST_VALIDATION_FAILED"
@@ -1642,7 +1645,7 @@ export interface ConnectionSummary {
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: { [key: string]: ConnectionTypeSummary };
+  ConnectionTypes: { [key: string]: ConnectionTypeSummary | undefined };
 }
 export const ConnectionSummary = S.suspend(() =>
   S.Struct({
@@ -1710,7 +1713,7 @@ export interface GetConnectionResponse {
   Arn: string;
   OtherParticipantAccountId: string;
   UpdatedAt: Date;
-  ConnectionTypes: { [key: string]: ConnectionTypeDetail };
+  ConnectionTypes: { [key: string]: ConnectionTypeDetail | undefined };
 }
 export const GetConnectionResponse = S.suspend(() =>
   S.Struct({

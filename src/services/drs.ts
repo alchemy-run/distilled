@@ -292,11 +292,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type TagsMap = { [key: string]: string };
-export const TagsMap = S.Record({ key: S.String, value: S.String });
+export type TagsMap = { [key: string]: string | undefined };
+export const TagsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -612,7 +615,7 @@ export const UpdateFailbackReplicationConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateFailbackReplicationConfigurationResponse>;
 export interface StartFailbackLaunchRequest {
   recoveryInstanceIDs: string[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartFailbackLaunchRequest = S.suspend(() =>
   S.Struct({
@@ -684,7 +687,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
@@ -782,7 +785,7 @@ export interface CreateSourceNetworkRequest {
   vpcID: string;
   originAccountID: string;
   originRegion: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSourceNetworkRequest = S.suspend(() =>
   S.Struct({
@@ -1059,7 +1062,7 @@ export const DescribeJobsRequestFilters = S.suspend(() =>
 export interface LaunchConfigurationTemplate {
   launchConfigurationTemplateID?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -1116,8 +1119,8 @@ export interface ReplicationConfigurationTemplate {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
@@ -1260,7 +1263,7 @@ export const StartRecoveryRequestSourceServers = S.Array(
 );
 export interface CreateExtendedSourceServerRequest {
   sourceServerArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateExtendedSourceServerRequest = S.suspend(() =>
   S.Struct({ sourceServerArn: S.String, tags: S.optional(TagsMap) }).pipe(
@@ -1302,7 +1305,7 @@ export const ListLaunchActionsRequest = S.suspend(() =>
   identifier: "ListLaunchActionsRequest",
 }) as any as S.Schema<ListLaunchActionsRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagsMap) }),
@@ -1333,7 +1336,7 @@ export const DescribeJobsRequest = S.suspend(() =>
   identifier: "DescribeJobsRequest",
 }) as any as S.Schema<DescribeJobsRequest>;
 export interface CreateLaunchConfigurationTemplateRequest {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   launchDisposition?: string;
   targetInstanceTypeRightSizingMethod?: string;
   copyPrivateIp?: boolean;
@@ -1435,10 +1438,12 @@ export const LaunchActionParameter = S.suspend(() =>
 ).annotations({
   identifier: "LaunchActionParameter",
 }) as any as S.Schema<LaunchActionParameter>;
-export type LaunchActionParameters = { [key: string]: LaunchActionParameter };
+export type LaunchActionParameters = {
+  [key: string]: LaunchActionParameter | undefined;
+};
 export const LaunchActionParameters = S.Record({
   key: S.String,
-  value: LaunchActionParameter,
+  value: S.UndefinedOr(LaunchActionParameter),
 });
 export interface LaunchAction {
   actionId?: string;
@@ -1449,7 +1454,7 @@ export interface LaunchAction {
   order?: number;
   actionVersion?: string;
   optional?: boolean;
-  parameters?: { [key: string]: LaunchActionParameter };
+  parameters?: { [key: string]: LaunchActionParameter | undefined };
   description?: string;
   category?: string;
 }
@@ -1543,7 +1548,7 @@ export interface Job {
   endDateTime?: string;
   status?: string;
   participatingServers?: ParticipatingServer[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   participatingResources?: ParticipatingResource[];
 }
 export const Job = S.suspend(() =>
@@ -1580,9 +1585,9 @@ export interface CreateReplicationConfigurationTemplateRequest {
   bandwidthThrottling: number;
   dataPlaneRouting: string;
   createPublicIP: boolean;
-  stagingAreaTags: { [key: string]: string };
+  stagingAreaTags: { [key: string]: string | undefined };
   pitPolicy: PITPolicyRule[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   autoReplicateNewDisks?: boolean;
 }
 export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
@@ -1695,7 +1700,7 @@ export interface SourceNetwork {
   sourceNetworkID?: string;
   sourceVpcID?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   replicationStatus?: string;
   replicationStatusDetails?: string | redacted.Redacted<string>;
   cfnStackName?: string | redacted.Redacted<string>;
@@ -1732,7 +1737,7 @@ export const StopSourceNetworkReplicationResponse = S.suspend(() =>
 export interface StartSourceNetworkRecoveryRequest {
   sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntry[];
   deployAsNew?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartSourceNetworkRecoveryRequest = S.suspend(() =>
   S.Struct({
@@ -1845,7 +1850,7 @@ export interface ReplicationConfiguration {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
@@ -2118,7 +2123,7 @@ export const SourceCloudProperties = S.suspend(() =>
 export interface SourceServer {
   sourceServerID?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   recoveryInstanceId?: string;
   lastLaunchResult?: string;
   dataReplicationInfo?: DataReplicationInfo;
@@ -2215,7 +2220,7 @@ export interface UpdateReplicationConfigurationRequest {
   bandwidthThrottling?: number;
   dataPlaneRouting?: string;
   createPublicIP?: boolean;
-  stagingAreaTags?: { [key: string]: string };
+  stagingAreaTags?: { [key: string]: string | undefined };
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
@@ -2256,7 +2261,7 @@ export const UpdateReplicationConfigurationRequest = S.suspend(() =>
 export interface StartRecoveryRequest {
   sourceServers: StartRecoveryRequestSourceServer[];
   isDrill?: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartRecoveryRequest = S.suspend(() =>
   S.Struct({
@@ -2279,7 +2284,7 @@ export const StartRecoveryRequest = S.suspend(() =>
 export interface StagingSourceServer {
   hostname?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StagingSourceServer = S.suspend(() =>
   S.Struct({
@@ -2345,7 +2350,7 @@ export interface PutLaunchActionRequest {
   name: string;
   actionVersion: string;
   category: string;
-  parameters?: { [key: string]: LaunchActionParameter };
+  parameters?: { [key: string]: LaunchActionParameter | undefined };
   description: string;
 }
 export const PutLaunchActionRequest = S.suspend(() =>
@@ -2489,7 +2494,7 @@ export interface PutLaunchActionResponse {
   order?: number;
   actionVersion?: string;
   optional?: boolean;
-  parameters?: { [key: string]: LaunchActionParameter };
+  parameters?: { [key: string]: LaunchActionParameter | undefined };
   description?: string;
   category?: string;
 }
@@ -2559,8 +2564,11 @@ export const RecoveryInstanceFailback = S.suspend(() =>
 ).annotations({
   identifier: "RecoveryInstanceFailback",
 }) as any as S.Schema<RecoveryInstanceFailback>;
-export type VolumeToSizeMap = { [key: string]: number };
-export const VolumeToSizeMap = S.Record({ key: S.String, value: S.Number });
+export type VolumeToSizeMap = { [key: string]: number | undefined };
+export const VolumeToSizeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface SourceNetworkData {
   sourceNetworkID?: string;
   sourceVpc?: string;
@@ -2640,8 +2648,11 @@ export const RecoveryInstanceDisk = S.suspend(() =>
 }) as any as S.Schema<RecoveryInstanceDisk>;
 export type RecoveryInstanceDisks = RecoveryInstanceDisk[];
 export const RecoveryInstanceDisks = S.Array(RecoveryInstanceDisk);
-export type ConversionMap = { [key: string]: string };
-export const ConversionMap = S.Record({ key: S.String, value: S.String });
+export type ConversionMap = { [key: string]: string | undefined };
+export const ConversionMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProductCode {
   productCodeId?: string;
   productCodeMode?: string;
@@ -2677,16 +2688,16 @@ export const RecoveryInstanceProperties = S.suspend(() =>
   identifier: "RecoveryInstanceProperties",
 }) as any as S.Schema<RecoveryInstanceProperties>;
 export type VolumeToConversionMap = {
-  [key: string]: { [key: string]: string };
+  [key: string]: { [key: string]: string | undefined } | undefined;
 };
 export const VolumeToConversionMap = S.Record({
   key: S.String,
-  value: ConversionMap,
+  value: S.UndefinedOr(ConversionMap),
 });
-export type VolumeToProductCodes = { [key: string]: ProductCode[] };
+export type VolumeToProductCodes = { [key: string]: ProductCode[] | undefined };
 export const VolumeToProductCodes = S.Record({
   key: S.String,
-  value: ProductCodes,
+  value: S.UndefinedOr(ProductCodes),
 });
 export interface RecoveryInstanceDataReplicationInitiationStep {
   name?: string;
@@ -2703,12 +2714,14 @@ export const RecoveryInstanceDataReplicationInitiationSteps = S.Array(
   RecoveryInstanceDataReplicationInitiationStep,
 );
 export interface ConversionProperties {
-  volumeToConversionMap?: { [key: string]: { [key: string]: string } };
+  volumeToConversionMap?: {
+    [key: string]: { [key: string]: string | undefined } | undefined;
+  };
   rootVolumeName?: string;
   forceUefi?: boolean;
   dataTimestamp?: string;
-  volumeToVolumeSize?: { [key: string]: number };
-  volumeToProductCodes?: { [key: string]: ProductCode[] };
+  volumeToVolumeSize?: { [key: string]: number | undefined };
+  volumeToProductCodes?: { [key: string]: ProductCode[] | undefined };
 }
 export const ConversionProperties = S.suspend(() =>
   S.Struct({
@@ -2811,7 +2824,7 @@ export interface RecoveryInstance {
   recoveryInstanceID?: string;
   sourceServerID?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   failback?: RecoveryInstanceFailback;
   dataReplicationInfo?: RecoveryInstanceDataReplicationInfo;
   recoveryInstanceProperties?: RecoveryInstanceProperties;

@@ -87,7 +87,10 @@ export function bindInputToRequest(
       Object.assign(request.query, value);
     } else if (prefixHeaders !== undefined && typeof value === "object") {
       for (const [k, v] of Object.entries(value as Record<string, string>)) {
-        request.headers[`${prefixHeaders}${k}`] = v;
+        // Skip undefined values (allowed in schema for user convenience, dropped on wire)
+        if (v !== undefined) {
+          request.headers[`${prefixHeaders}${k}`] = v;
+        }
       }
     } else if (isPayload) {
       payloadValue = value;

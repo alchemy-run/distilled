@@ -240,13 +240,16 @@ export const ContainerProvider = S.suspend(() =>
 ).annotations({
   identifier: "ContainerProvider",
 }) as any as S.Schema<ContainerProvider>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
   clientToken: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   securityConfigurationId?: string;
 }
 export const CreateVirtualClusterRequest = S.suspend(() =>
@@ -658,7 +661,7 @@ export const ListVirtualClustersRequest = S.suspend(() =>
 }) as any as S.Schema<ListVirtualClustersRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -870,7 +873,7 @@ export interface JobRun {
   finishedAt?: Date;
   stateDetails?: string;
   failureReason?: FailureReason;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   retryPolicyConfiguration?: RetryPolicyConfiguration;
   retryPolicyExecution?: RetryPolicyExecution;
 }
@@ -961,19 +964,21 @@ export const TemplateParameterConfiguration = S.suspend(() =>
   identifier: "TemplateParameterConfiguration",
 }) as any as S.Schema<TemplateParameterConfiguration>;
 export type TemplateParameterConfigurationMap = {
-  [key: string]: TemplateParameterConfiguration;
+  [key: string]: TemplateParameterConfiguration | undefined;
 };
 export const TemplateParameterConfigurationMap = S.Record({
   key: S.String,
-  value: TemplateParameterConfiguration,
+  value: S.UndefinedOr(TemplateParameterConfiguration),
 });
 export interface JobTemplateData {
   executionRoleArn: string;
   releaseLabel: string;
   configurationOverrides?: ParametricConfigurationOverrides;
   jobDriver: JobDriver;
-  parameterConfiguration?: { [key: string]: TemplateParameterConfiguration };
-  jobTags?: { [key: string]: string };
+  parameterConfiguration?: {
+    [key: string]: TemplateParameterConfiguration | undefined;
+  };
+  jobTags?: { [key: string]: string | undefined };
 }
 export const JobTemplateData = S.suspend(() =>
   S.Struct({
@@ -993,7 +998,7 @@ export interface JobTemplate {
   arn?: string;
   createdAt?: Date;
   createdBy?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobTemplateData: JobTemplateData;
   kmsKeyArn?: string;
   decryptionError?: string;
@@ -1043,7 +1048,7 @@ export interface Endpoint {
   subnetIds?: string[];
   stateDetails?: string;
   failureReason?: FailureReason;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Endpoint = S.suspend(() =>
   S.Struct({
@@ -1162,7 +1167,7 @@ export interface SecurityConfiguration {
   createdAt?: Date;
   createdBy?: string;
   securityConfigurationData?: SecurityConfigurationData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const SecurityConfiguration = S.suspend(() =>
   S.Struct({
@@ -1186,7 +1191,7 @@ export interface VirtualCluster {
   state?: VirtualClusterState;
   containerProvider?: ContainerProvider;
   createdAt?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   securityConfigurationId?: string;
 }
 export const VirtualCluster = S.suspend(() =>
@@ -1205,10 +1210,10 @@ export const VirtualCluster = S.suspend(() =>
 }) as any as S.Schema<VirtualCluster>;
 export type VirtualClusters = VirtualCluster[];
 export const VirtualClusters = S.Array(VirtualCluster);
-export type TemplateParameterInputMap = { [key: string]: string };
+export type TemplateParameterInputMap = { [key: string]: string | undefined };
 export const TemplateParameterInputMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CancelJobRunResponse {
   id?: string;
@@ -1310,7 +1315,7 @@ export const ListSecurityConfigurationsResponse = S.suspend(() =>
   identifier: "ListSecurityConfigurationsResponse",
 }) as any as S.Schema<ListSecurityConfigurationsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1331,10 +1336,10 @@ export const ListVirtualClustersResponse = S.suspend(() =>
 }) as any as S.Schema<ListVirtualClustersResponse>;
 export type Credentials = { token: string | redacted.Redacted<string> };
 export const Credentials = S.Union(S.Struct({ token: SensitiveString }));
-export type SensitivePropertiesMap = { [key: string]: string };
+export type SensitivePropertiesMap = { [key: string]: string | undefined };
 export const SensitivePropertiesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface DescribeJobTemplateResponse {
   jobTemplate?: JobTemplate;
@@ -1382,9 +1387,9 @@ export interface StartJobRunRequest {
   releaseLabel?: string;
   jobDriver?: JobDriver;
   configurationOverrides?: ConfigurationOverrides;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   jobTemplateId?: string;
-  jobTemplateParameters?: { [key: string]: string };
+  jobTemplateParameters?: { [key: string]: string | undefined };
   retryPolicyConfiguration?: RetryPolicyConfiguration;
 }
 export const StartJobRunRequest = S.suspend(() =>
@@ -1418,7 +1423,7 @@ export const StartJobRunRequest = S.suspend(() =>
 }) as any as S.Schema<StartJobRunRequest>;
 export interface Configuration {
   classification: string;
-  properties?: { [key: string]: string };
+  properties?: { [key: string]: string | undefined };
   configurations?: Configuration[];
 }
 export const Configuration = S.suspend(() =>
@@ -1443,7 +1448,7 @@ export interface CreateManagedEndpointRequest {
   certificateArn?: string;
   configurationOverrides?: ConfigurationOverrides;
   clientToken: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateManagedEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -1508,7 +1513,7 @@ export interface CreateJobTemplateRequest {
   name: string;
   clientToken: string;
   jobTemplateData: JobTemplateData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const CreateJobTemplateRequest = S.suspend(() =>
@@ -1568,7 +1573,7 @@ export interface CreateSecurityConfigurationRequest {
   name: string;
   containerProvider?: ContainerProvider;
   securityConfigurationData: SecurityConfigurationData;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSecurityConfigurationRequest = S.suspend(() =>
   S.Struct({

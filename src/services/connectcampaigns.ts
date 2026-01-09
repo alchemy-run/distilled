@@ -396,11 +396,14 @@ export interface StopCampaignResponse {}
 export const StopCampaignResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "StopCampaignResponse",
 }) as any as S.Schema<StopCampaignResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -600,7 +603,7 @@ export const GetCampaignStateResponse = S.suspend(() =>
   identifier: "GetCampaignStateResponse",
 }) as any as S.Schema<GetCampaignStateResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -671,8 +674,11 @@ export const InstanceIdFilter = S.suspend(() =>
 ).annotations({
   identifier: "InstanceIdFilter",
 }) as any as S.Schema<InstanceIdFilter>;
-export type Attributes = { [key: string]: string };
-export const Attributes = S.Record({ key: S.String, value: S.String });
+export type Attributes = { [key: string]: string | undefined };
+export const Attributes = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Campaign {
   id: string;
   arn: string;
@@ -680,7 +686,7 @@ export interface Campaign {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const Campaign = S.suspend(() =>
   S.Struct({
@@ -763,7 +769,7 @@ export interface DialRequest {
   clientToken: string;
   phoneNumber: string | redacted.Redacted<string>;
   expirationTime: Date;
-  attributes: { [key: string]: string };
+  attributes: { [key: string]: string | undefined };
 }
 export const DialRequest = S.suspend(() =>
   S.Struct({
@@ -780,7 +786,7 @@ export interface CreateCampaignRequest {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCampaignRequest = S.suspend(() =>
   S.Struct({
@@ -897,7 +903,7 @@ export const StartInstanceOnboardingJobResponse = S.suspend(() =>
 export interface CreateCampaignResponse {
   id?: string;
   arn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCampaignResponse = S.suspend(() =>
   S.Struct({

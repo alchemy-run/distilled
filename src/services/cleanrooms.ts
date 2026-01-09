@@ -1177,14 +1177,17 @@ export const UpdateCollaborationChangeRequestInput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateCollaborationChangeRequestInput",
 }) as any as S.Schema<UpdateCollaborationChangeRequestInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateConfiguredAudienceModelAssociationInput {
   membershipIdentifier: string;
   configuredAudienceModelArn: string;
   configuredAudienceModelAssociationName: string;
   manageResourcePolicies: boolean;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   description?: string;
 }
 export const CreateConfiguredAudienceModelAssociationInput = S.suspend(() =>
@@ -1331,7 +1334,7 @@ export interface CreateConfiguredTableAssociationInput {
   membershipIdentifier: string;
   configuredTableIdentifier: string;
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConfiguredTableAssociationInput = S.suspend(() =>
   S.Struct({
@@ -3096,7 +3099,7 @@ export const ProtectedJobWorkerComputeType = S.Literal("CR.1X", "CR.4X");
 export type WorkerComputeType = "CR.1X" | "CR.4X";
 export const WorkerComputeType = S.Literal("CR.1X", "CR.4X");
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -3105,7 +3108,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -3658,10 +3661,12 @@ export const ApprovalStatusDetails = S.suspend(() =>
 ).annotations({
   identifier: "ApprovalStatusDetails",
 }) as any as S.Schema<ApprovalStatusDetails>;
-export type ApprovalStatuses = { [key: string]: ApprovalStatusDetails };
+export type ApprovalStatuses = {
+  [key: string]: ApprovalStatusDetails | undefined;
+};
 export const ApprovalStatuses = S.Record({
   key: S.String,
-  value: ApprovalStatusDetails,
+  value: S.UndefinedOr(ApprovalStatusDetails),
 });
 export interface CollaborationChangeRequest {
   id: string;
@@ -3671,7 +3676,7 @@ export interface CollaborationChangeRequest {
   status: ChangeRequestStatus;
   isAutoApproved: boolean;
   changes: Change[];
-  approvals?: { [key: string]: ApprovalStatusDetails };
+  approvals?: { [key: string]: ApprovalStatusDetails | undefined };
 }
 export const CollaborationChangeRequest = S.suspend(() =>
   S.Struct({
@@ -3908,7 +3913,7 @@ export interface CreateIdMappingTableInput {
   name: string;
   description?: string;
   inputReferenceConfig: IdMappingTableInputReferenceConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   kmsKeyArn?: string;
 }
 export const CreateIdMappingTableInput = S.suspend(() =>
@@ -3996,7 +4001,7 @@ export const PopulateIdMappingTableOutput = S.suspend(() =>
 export interface CreateIdNamespaceAssociationInput {
   membershipIdentifier: string;
   inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   name: string;
   description?: string;
   idMappingConfig?: IdMappingConfig;
@@ -4352,12 +4357,15 @@ export const UpdateProtectedJobOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateProtectedJobOutput",
 }) as any as S.Schema<UpdateProtectedJobOutput>;
-export type ParameterMap = { [key: string]: string };
-export const ParameterMap = S.Record({ key: S.String, value: S.String });
+export type ParameterMap = { [key: string]: string | undefined };
+export const ParameterMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ProtectedQuerySQLParameters {
   queryString?: string;
   analysisTemplateArn?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const ProtectedQuerySQLParameters = S.suspend(() =>
   S.Struct({
@@ -4557,10 +4565,13 @@ export const DifferentialPrivacyParameters = S.suspend(() =>
 ).annotations({
   identifier: "DifferentialPrivacyParameters",
 }) as any as S.Schema<DifferentialPrivacyParameters>;
-export type SparkProperties = { [key: string]: string };
-export const SparkProperties = S.Record({ key: S.String, value: S.String });
+export type SparkProperties = { [key: string]: string | undefined };
+export const SparkProperties = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type WorkerComputeConfigurationProperties = {
-  spark: { [key: string]: string };
+  spark: { [key: string]: string | undefined };
 };
 export const WorkerComputeConfigurationProperties = S.Union(
   S.Struct({ spark: SparkProperties }),
@@ -5026,7 +5037,7 @@ export interface CollaborationChangeRequestSummary {
   status: ChangeRequestStatus;
   isAutoApproved: boolean;
   changes: Change[];
-  approvals?: { [key: string]: ApprovalStatusDetails };
+  approvals?: { [key: string]: ApprovalStatusDetails | undefined };
 }
 export const CollaborationChangeRequestSummary = S.suspend(() =>
   S.Struct({
@@ -6130,7 +6141,7 @@ export interface CreateCollaborationInput {
   dataEncryptionMetadata?: DataEncryptionMetadata;
   queryLogStatus: CollaborationQueryLogStatus;
   jobLogStatus?: CollaborationJobLogStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   creatorPaymentConfiguration?: PaymentConfiguration;
   analyticsEngine?: AnalyticsEngine;
   autoApprovedChangeRequestTypes?: AutoApprovedChangeType[];
@@ -6262,7 +6273,7 @@ export interface CreateMembershipInput {
   collaborationIdentifier: string;
   queryLogStatus: MembershipQueryLogStatus;
   jobLogStatus?: MembershipJobLogStatus;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   defaultResultConfiguration?: MembershipProtectedQueryResultConfiguration;
   defaultJobResultConfiguration?: MembershipProtectedJobResultConfiguration;
   paymentConfiguration?: MembershipPaymentConfiguration;
@@ -6334,7 +6345,7 @@ export interface CreatePrivacyBudgetTemplateInput {
   autoRefresh?: PrivacyBudgetTemplateAutoRefresh;
   privacyBudgetType: PrivacyBudgetType;
   parameters: PrivacyBudgetTemplateParametersInput;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePrivacyBudgetTemplateInput = S.suspend(() =>
   S.Struct({
@@ -6436,7 +6447,7 @@ export interface CreateAnalysisTemplateInput {
   name: string;
   format: AnalysisFormat;
   source: AnalysisSource;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   analysisParameters?: AnalysisParameter[];
   schema?: AnalysisSchema;
   errorMessageConfiguration?: ErrorMessageConfiguration;
@@ -6528,7 +6539,7 @@ export interface CreateConfiguredTableInput {
   allowedColumns: string[];
   analysisMethod: AnalysisMethod;
   selectedAnalysisMethods?: SelectedAnalysisMethod[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConfiguredTableInput = S.suspend(() =>
   S.Struct({

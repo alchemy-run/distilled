@@ -383,8 +383,11 @@ export const ArchiveFindingsResponse = S.suspend(() =>
 ).annotations({
   identifier: "ArchiveFindingsResponse",
 }) as any as S.Schema<ArchiveFindingsResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateIPSetRequest {
   DetectorId: string;
   Name?: string;
@@ -392,7 +395,7 @@ export interface CreateIPSetRequest {
   Location?: string;
   Activate?: boolean;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ExpectedBucketOwner?: string;
 }
 export const CreateIPSetRequest = S.suspend(() =>
@@ -464,7 +467,7 @@ export interface CreateThreatEntitySetRequest {
   ExpectedBucketOwner?: string;
   Activate?: boolean;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateThreatEntitySetRequest = S.suspend(() =>
   S.Struct({
@@ -504,7 +507,7 @@ export interface CreateThreatIntelSetRequest {
   Location?: string;
   Activate?: boolean;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ExpectedBucketOwner?: string;
 }
 export const CreateThreatIntelSetRequest = S.suspend(() =>
@@ -546,7 +549,7 @@ export interface CreateTrustedEntitySetRequest {
   ExpectedBucketOwner?: string;
   Activate?: boolean;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateTrustedEntitySetRequest = S.suspend(() =>
   S.Struct({
@@ -1271,10 +1274,13 @@ export const Condition = S.suspend(() =>
     NotMatches: S.optional(NotMatches).pipe(T.JsonName("notMatches")),
   }),
 ).annotations({ identifier: "Condition" }) as any as S.Schema<Condition>;
-export type Criterion = { [key: string]: Condition };
-export const Criterion = S.Record({ key: S.String, value: Condition });
+export type Criterion = { [key: string]: Condition | undefined };
+export const Criterion = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Condition),
+});
 export interface FindingCriteria {
-  Criterion?: { [key: string]: Condition };
+  Criterion?: { [key: string]: Condition | undefined };
 }
 export const FindingCriteria = S.suspend(() =>
   S.Struct({ Criterion: S.optional(Criterion).pipe(T.JsonName("criterion")) }),
@@ -2084,7 +2090,7 @@ export const StopMonitoringMembersRequest = S.suspend(() =>
 }) as any as S.Schema<StopMonitoringMembersRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -3097,7 +3103,7 @@ export interface CreatePublishingDestinationRequest {
   DestinationType?: DestinationType;
   DestinationProperties?: DestinationProperties;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePublishingDestinationRequest = S.suspend(() =>
   S.Struct({
@@ -3216,7 +3222,7 @@ export interface DescribePublishingDestinationResponse {
   Status: PublishingStatus;
   PublishingFailureStartTimestamp: number;
   DestinationProperties: DestinationProperties;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribePublishingDestinationResponse = S.suspend(() =>
   S.Struct({
@@ -3257,7 +3263,7 @@ export interface GetFilterResponse {
   Action: FilterAction;
   Rank?: number;
   FindingCriteria: FindingCriteria;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetFilterResponse = S.suspend(() =>
   S.Struct({
@@ -3278,7 +3284,7 @@ export interface GetIPSetResponse {
   Format: IpSetFormat;
   Location: string;
   Status: IpSetStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ExpectedBucketOwner?: string;
 }
 export const GetIPSetResponse = S.suspend(() =>
@@ -3319,11 +3325,11 @@ export const ScanCondition = S.suspend(() =>
 }) as any as S.Schema<ScanCondition>;
 export type ScanCriterion = { [key in ScanCriterionKey]?: ScanCondition };
 export const ScanCriterion = S.partial(
-  S.Record({ key: ScanCriterionKey, value: ScanCondition }),
+  S.Record({ key: ScanCriterionKey, value: S.UndefinedOr(ScanCondition) }),
 );
 export interface ScanResourceCriteria {
-  Include?: { [key: string]: ScanCondition };
-  Exclude?: { [key: string]: ScanCondition };
+  Include?: { [key: string]: ScanCondition | undefined };
+  Exclude?: { [key: string]: ScanCondition | undefined };
 }
 export const ScanResourceCriteria = S.suspend(() =>
   S.Struct({
@@ -3336,14 +3342,18 @@ export const ScanResourceCriteria = S.suspend(() =>
 export interface GetMalwareScanSettingsResponse {
   ScanResourceCriteria?: ScanResourceCriteria & {
     Include: {
-      [key: string]: ScanCondition & {
-        MapEquals: (ScanConditionPair & { Key: TagKey })[];
-      };
+      [key: string]:
+        | (ScanCondition & {
+            MapEquals: (ScanConditionPair & { Key: TagKey })[];
+          })
+        | undefined;
     };
     Exclude: {
-      [key: string]: ScanCondition & {
-        MapEquals: (ScanConditionPair & { Key: TagKey })[];
-      };
+      [key: string]:
+        | (ScanCondition & {
+            MapEquals: (ScanConditionPair & { Key: TagKey })[];
+          })
+        | undefined;
     };
   };
   EbsSnapshotPreservation?: EbsSnapshotPreservation;
@@ -3366,7 +3376,7 @@ export interface GetThreatEntitySetResponse {
   Location: string;
   ExpectedBucketOwner?: string;
   Status: ThreatEntitySetStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ErrorDetails?: string;
@@ -3397,7 +3407,7 @@ export interface GetThreatIntelSetResponse {
   Format: ThreatIntelSetFormat;
   Location: string;
   Status: ThreatIntelSetStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   ExpectedBucketOwner?: string;
 }
 export const GetThreatIntelSetResponse = S.suspend(() =>
@@ -3420,7 +3430,7 @@ export interface GetTrustedEntitySetResponse {
   Location: string;
   ExpectedBucketOwner?: string;
   Status: TrustedEntitySetStatus;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ErrorDetails?: string;
@@ -3669,7 +3679,7 @@ export const ListMembersResponse = S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap).pipe(T.JsonName("tags")) }),
@@ -4218,7 +4228,7 @@ export interface CreateMalwareProtectionPlanRequest {
   Role?: string;
   ProtectedResource?: CreateProtectedResource;
   Actions?: MalwareProtectionPlanActions;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateMalwareProtectionPlanRequest = S.suspend(() =>
   S.Struct({
@@ -4307,7 +4317,7 @@ export interface GetMalwareProtectionPlanResponse {
   CreatedAt?: Date;
   Status?: MalwareProtectionPlanStatus;
   StatusReasons?: MalwareProtectionPlanStatusReason[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetMalwareProtectionPlanResponse = S.suspend(() =>
   S.Struct({
@@ -4657,8 +4667,11 @@ export type DetectorAdditionalConfigurationResults =
 export const DetectorAdditionalConfigurationResults = S.Array(
   DetectorAdditionalConfigurationResult,
 );
-export type CountBySeverity = { [key: string]: number };
-export const CountBySeverity = S.Record({ key: S.String, value: S.Number });
+export type CountBySeverity = { [key: string]: number | undefined };
+export const CountBySeverity = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface AccountStatistics {
   AccountId?: string;
   LastGeneratedAt?: Date;
@@ -4935,7 +4948,7 @@ export const DetectorFeatureConfigurationsResults = S.Array(
   DetectorFeatureConfigurationResult,
 );
 export interface FindingStatistics {
-  CountBySeverity?: { [key: string]: number };
+  CountBySeverity?: { [key: string]: number | undefined };
   GroupedByAccount?: AccountStatistics[];
   GroupedByDate?: DateStatistics[];
   GroupedByFindingType?: FindingTypeStatistics[];
@@ -5292,7 +5305,7 @@ export interface CreateDetectorRequest {
   ClientToken?: string;
   FindingPublishingFrequency?: FindingPublishingFrequency;
   DataSources?: DataSourceConfigurations;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Features?: DetectorFeatureConfiguration[];
 }
 export const CreateDetectorRequest = S.suspend(() =>
@@ -5333,7 +5346,7 @@ export interface CreateFilterRequest {
   Rank?: number;
   FindingCriteria?: FindingCriteria;
   ClientToken?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateFilterRequest = S.suspend(() =>
   S.Struct({
@@ -6738,8 +6751,11 @@ export const RemoteAccountDetails = S.suspend(() =>
 ).annotations({
   identifier: "RemoteAccountDetails",
 }) as any as S.Schema<RemoteAccountDetails>;
-export type AffectedResources = { [key: string]: string };
-export const AffectedResources = S.Record({ key: S.String, value: S.String });
+export type AffectedResources = { [key: string]: string | undefined };
+export const AffectedResources = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface LocalPortDetails {
   Port?: number;
   PortName?: string;
@@ -7831,7 +7847,7 @@ export interface GetDetectorResponse {
       };
     };
   };
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   Features?: DetectorFeatureConfigurationResult[];
 }
 export const GetDetectorResponse = S.suspend(() =>
@@ -7990,11 +8006,11 @@ export const ScanResultDetails = S.suspend(() =>
 }) as any as S.Schema<ScanResultDetails>;
 export type CountByResourceType = { [key in ResourceType]?: number };
 export const CountByResourceType = S.partial(
-  S.Record({ key: ResourceType, value: S.Number }),
+  S.Record({ key: ResourceType, value: S.UndefinedOr(S.Number) }),
 );
 export type CountByCoverageStatus = { [key in CoverageStatus]?: number };
 export const CountByCoverageStatus = S.partial(
-  S.Record({ key: CoverageStatus, value: S.Number }),
+  S.Record({ key: CoverageStatus, value: S.UndefinedOr(S.Number) }),
 );
 export interface AccessControlList {
   AllowsPublicReadAccess?: boolean;
@@ -8068,10 +8084,12 @@ export const AnomalyObject = S.suspend(() =>
 ).annotations({
   identifier: "AnomalyObject",
 }) as any as S.Schema<AnomalyObject>;
-export type AnomalyUnusualBehaviorFeature = { [key: string]: AnomalyObject };
+export type AnomalyUnusualBehaviorFeature = {
+  [key: string]: AnomalyObject | undefined;
+};
 export const AnomalyUnusualBehaviorFeature = S.Record({
   key: S.String,
-  value: AnomalyObject,
+  value: S.UndefinedOr(AnomalyObject),
 });
 export interface Account {
   Uid?: string;
@@ -8366,7 +8384,7 @@ export interface AwsApiCallAction {
   RemoteIpDetails?: RemoteIpDetails;
   ServiceName?: string;
   RemoteAccountDetails?: RemoteAccountDetails;
-  AffectedResources?: { [key: string]: string };
+  AffectedResources?: { [key: string]: string | undefined };
 }
 export const AwsApiCallAction = S.suspend(() =>
   S.Struct({
@@ -8449,8 +8467,8 @@ export const Scan = S.suspend(() =>
 export type Scans = Scan[];
 export const Scans = S.Array(Scan);
 export interface CoverageStatistics {
-  CountByResourceType?: { [key: string]: number };
-  CountByCoverageStatus?: { [key: string]: number };
+  CountByResourceType?: { [key: string]: number | undefined };
+  CountByCoverageStatus?: { [key: string]: number | undefined };
 }
 export const CoverageStatistics = S.suspend(() =>
   S.Struct({
@@ -8502,10 +8520,12 @@ export const ScanThreatName = S.suspend(() =>
 }) as any as S.Schema<ScanThreatName>;
 export type ScanThreatNames = ScanThreatName[];
 export const ScanThreatNames = S.Array(ScanThreatName);
-export type Behavior = { [key: string]: { [key: string]: AnomalyObject } };
+export type Behavior = {
+  [key: string]: { [key: string]: AnomalyObject | undefined } | undefined;
+};
 export const Behavior = S.Record({
   key: S.String,
-  value: AnomalyUnusualBehaviorFeature,
+  value: S.UndefinedOr(AnomalyUnusualBehaviorFeature),
 });
 export interface User {
   Name?: string;
@@ -8700,7 +8720,9 @@ export const ThreatDetectedByName = S.suspend(() =>
   identifier: "ThreatDetectedByName",
 }) as any as S.Schema<ThreatDetectedByName>;
 export interface AnomalyUnusual {
-  Behavior?: { [key: string]: { [key: string]: AnomalyObject } };
+  Behavior?: {
+    [key: string]: { [key: string]: AnomalyObject | undefined } | undefined;
+  };
 }
 export const AnomalyUnusual = S.suspend(() =>
   S.Struct({ Behavior: S.optional(Behavior).pipe(T.JsonName("behavior")) }),
@@ -8819,10 +8841,12 @@ export const ScanDetections = S.suspend(() =>
 ).annotations({
   identifier: "ScanDetections",
 }) as any as S.Schema<ScanDetections>;
-export type AnomalyProfileFeatures = { [key: string]: AnomalyObject[] };
+export type AnomalyProfileFeatures = {
+  [key: string]: AnomalyObject[] | undefined;
+};
 export const AnomalyProfileFeatures = S.Record({
   key: S.String,
-  value: AnomalyProfileFeatureObjects,
+  value: S.UndefinedOr(AnomalyProfileFeatureObjects),
 });
 export interface ResourceData {
   S3Bucket?: S3Bucket;
@@ -8961,11 +8985,11 @@ export const EbsVolumeScanDetails = S.suspend(() =>
   identifier: "EbsVolumeScanDetails",
 }) as any as S.Schema<EbsVolumeScanDetails>;
 export type AnomalyProfiles = {
-  [key: string]: { [key: string]: AnomalyObject[] };
+  [key: string]: { [key: string]: AnomalyObject[] | undefined } | undefined;
 };
 export const AnomalyProfiles = S.Record({
   key: S.String,
-  value: AnomalyProfileFeatures,
+  value: S.UndefinedOr(AnomalyProfileFeatures),
 });
 export interface ResourceV2 {
   Uid?: string;
@@ -9066,7 +9090,9 @@ export const Resource = S.suspend(() =>
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export interface Anomaly {
-  Profiles?: { [key: string]: { [key: string]: AnomalyObject[] } };
+  Profiles?: {
+    [key: string]: { [key: string]: AnomalyObject[] | undefined } | undefined;
+  };
   Unusual?: AnomalyUnusual;
 }
 export const Anomaly = S.suspend(() =>

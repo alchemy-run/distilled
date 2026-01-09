@@ -226,12 +226,17 @@ export const DescribeIdentityPoolInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeIdentityPoolInput",
 }) as any as S.Schema<DescribeIdentityPoolInput>;
-export type LoginsMap = { [key: string]: string | redacted.Redacted<string> };
-export const LoginsMap = S.Record({ key: S.String, value: SensitiveString });
+export type LoginsMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const LoginsMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(SensitiveString),
+});
 export interface GetIdInput {
   AccountId?: string;
   IdentityPoolId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const GetIdInput = S.suspend(() =>
   S.Struct({
@@ -270,7 +275,7 @@ export const GetIdentityPoolRolesInput = S.suspend(() =>
 }) as any as S.Schema<GetIdentityPoolRolesInput>;
 export interface GetOpenIdTokenInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const GetOpenIdTokenInput = S.suspend(() =>
   S.Struct({ IdentityId: S.String, Logins: S.optional(LoginsMap) }).pipe(
@@ -423,13 +428,16 @@ export const MergeDeveloperIdentitiesInput = S.suspend(() =>
 ).annotations({
   identifier: "MergeDeveloperIdentitiesInput",
 }) as any as S.Schema<MergeDeveloperIdentitiesInput>;
-export type PrincipalTags = { [key: string]: string };
-export const PrincipalTags = S.Record({ key: S.String, value: S.String });
+export type PrincipalTags = { [key: string]: string | undefined };
+export const PrincipalTags = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface SetPrincipalTagAttributeMapInput {
   IdentityPoolId: string;
   IdentityProviderName: string;
   UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string };
+  PrincipalTags?: { [key: string]: string | undefined };
 }
 export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
   S.Struct({
@@ -451,14 +459,14 @@ export const SetPrincipalTagAttributeMapInput = S.suspend(() =>
 ).annotations({
   identifier: "SetPrincipalTagAttributeMapInput",
 }) as any as S.Schema<SetPrincipalTagAttributeMapInput>;
-export type IdentityPoolTagsType = { [key: string]: string };
+export type IdentityPoolTagsType = { [key: string]: string | undefined };
 export const IdentityPoolTagsType = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface TagResourceInput {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: IdentityPoolTagsType }).pipe(
@@ -515,7 +523,7 @@ export const UnlinkDeveloperIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<UnlinkDeveloperIdentityResponse>;
 export interface UnlinkIdentityInput {
   IdentityId: string;
-  Logins: { [key: string]: string | redacted.Redacted<string> };
+  Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
   LoginsToRemove: string[];
 }
 export const UnlinkIdentityInput = S.suspend(() =>
@@ -568,8 +576,11 @@ export const UntagResourceResponse = S.suspend(() =>
 ).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type IdentityProviders = { [key: string]: string };
-export const IdentityProviders = S.Record({ key: S.String, value: S.String });
+export type IdentityProviders = { [key: string]: string | undefined };
+export const IdentityProviders = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CognitoIdentityProvider {
   ProviderName?: string;
   ClientId?: string;
@@ -591,12 +602,12 @@ export interface IdentityPool {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
   AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string };
+  SupportedLoginProviders?: { [key: string]: string | undefined };
   DeveloperProviderName?: string;
   OpenIdConnectProviderARNs?: string[];
   CognitoIdentityProviders?: CognitoIdentityProvider[];
   SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string };
+  IdentityPoolTags?: { [key: string]: string | undefined };
 }
 export const IdentityPool = S.suspend(() =>
   S.Struct({
@@ -644,8 +655,11 @@ export type IdentitiesList = IdentityDescription[];
 export const IdentitiesList = S.Array(IdentityDescription);
 export type DeveloperUserIdentifierList = string[];
 export const DeveloperUserIdentifierList = S.Array(S.String);
-export type RolesMap = { [key: string]: string };
-export const RolesMap = S.Record({ key: S.String, value: S.String });
+export type RolesMap = { [key: string]: string | undefined };
+export const RolesMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type RoleMappingType = "Token" | "Rules";
 export const RoleMappingType = S.Literal("Token", "Rules");
 export type AmbiguousRoleResolutionType = "AuthenticatedRole" | "Deny";
@@ -657,12 +671,12 @@ export interface CreateIdentityPoolInput {
   IdentityPoolName: string;
   AllowUnauthenticatedIdentities: boolean;
   AllowClassicFlow?: boolean;
-  SupportedLoginProviders?: { [key: string]: string };
+  SupportedLoginProviders?: { [key: string]: string | undefined };
   DeveloperProviderName?: string;
   OpenIdConnectProviderARNs?: string[];
   CognitoIdentityProviders?: CognitoIdentityProvider[];
   SamlProviderARNs?: string[];
-  IdentityPoolTags?: { [key: string]: string };
+  IdentityPoolTags?: { [key: string]: string | undefined };
 }
 export const CreateIdentityPoolInput = S.suspend(() =>
   S.Struct({
@@ -691,7 +705,7 @@ export const CreateIdentityPoolInput = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityPoolInput>;
 export interface GetCredentialsForIdentityInput {
   IdentityId: string;
-  Logins?: { [key: string]: string | redacted.Redacted<string> };
+  Logins?: { [key: string]: string | redacted.Redacted<string> | undefined };
   CustomRoleArn?: string;
 }
 export const GetCredentialsForIdentityInput = S.suspend(() =>
@@ -768,12 +782,15 @@ export const RoleMapping = S.suspend(() =>
     RulesConfiguration: S.optional(RulesConfigurationType),
   }),
 ).annotations({ identifier: "RoleMapping" }) as any as S.Schema<RoleMapping>;
-export type RoleMappingMap = { [key: string]: RoleMapping };
-export const RoleMappingMap = S.Record({ key: S.String, value: RoleMapping });
+export type RoleMappingMap = { [key: string]: RoleMapping | undefined };
+export const RoleMappingMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(RoleMapping),
+});
 export interface GetIdentityPoolRolesResponse {
   IdentityPoolId?: string;
-  Roles?: { [key: string]: string };
-  RoleMappings?: { [key: string]: RoleMapping };
+  Roles?: { [key: string]: string | undefined };
+  RoleMappings?: { [key: string]: RoleMapping | undefined };
 }
 export const GetIdentityPoolRolesResponse = S.suspend(() =>
   S.Struct({
@@ -799,8 +816,8 @@ export const GetOpenIdTokenResponse = S.suspend(() =>
 export interface GetOpenIdTokenForDeveloperIdentityInput {
   IdentityPoolId: string;
   IdentityId?: string;
-  Logins: { [key: string]: string | redacted.Redacted<string> };
-  PrincipalTags?: { [key: string]: string };
+  Logins: { [key: string]: string | redacted.Redacted<string> | undefined };
+  PrincipalTags?: { [key: string]: string | undefined };
   TokenDuration?: number;
 }
 export const GetOpenIdTokenForDeveloperIdentityInput = S.suspend(() =>
@@ -828,7 +845,7 @@ export interface GetPrincipalTagAttributeMapResponse {
   IdentityPoolId?: string;
   IdentityProviderName?: string;
   UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string };
+  PrincipalTags?: { [key: string]: string | undefined };
 }
 export const GetPrincipalTagAttributeMapResponse = S.suspend(() =>
   S.Struct({
@@ -855,7 +872,7 @@ export const ListIdentitiesResponse = S.suspend(() =>
   identifier: "ListIdentitiesResponse",
 }) as any as S.Schema<ListIdentitiesResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(IdentityPoolTagsType) }).pipe(ns),
@@ -888,7 +905,7 @@ export interface SetPrincipalTagAttributeMapResponse {
   IdentityPoolId?: string;
   IdentityProviderName?: string;
   UseDefaults?: boolean;
-  PrincipalTags?: { [key: string]: string };
+  PrincipalTags?: { [key: string]: string | undefined };
 }
 export const SetPrincipalTagAttributeMapResponse = S.suspend(() =>
   S.Struct({
@@ -992,8 +1009,8 @@ export const GetCredentialsForIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<GetCredentialsForIdentityResponse>;
 export interface SetIdentityPoolRolesInput {
   IdentityPoolId: string;
-  Roles: { [key: string]: string };
-  RoleMappings?: { [key: string]: RoleMapping };
+  Roles: { [key: string]: string | undefined };
+  RoleMappings?: { [key: string]: RoleMapping | undefined };
 }
 export const SetIdentityPoolRolesInput = S.suspend(() =>
   S.Struct({

@@ -3646,11 +3646,11 @@ export const HybridSettingsDescription = S.suspend(() =>
   identifier: "HybridSettingsDescription",
 }) as any as S.Schema<HybridSettingsDescription>;
 export type DirectoryConfigurationSettingRequestDetailedStatus = {
-  [key: string]: DirectoryConfigurationStatus;
+  [key: string]: DirectoryConfigurationStatus | undefined;
 };
 export const DirectoryConfigurationSettingRequestDetailedStatus = S.Record({
   key: S.String,
-  value: DirectoryConfigurationStatus,
+  value: S.UndefinedOr(DirectoryConfigurationStatus),
 });
 export interface UpdateValue {
   OSUpdateSettings?: OSUpdateSettings;
@@ -3761,7 +3761,9 @@ export interface SettingEntry {
   AppliedValue?: string;
   RequestedValue?: string;
   RequestStatus?: DirectoryConfigurationStatus;
-  RequestDetailedStatus?: { [key: string]: DirectoryConfigurationStatus };
+  RequestDetailedStatus?: {
+    [key: string]: DirectoryConfigurationStatus | undefined;
+  };
   RequestStatusMessage?: string;
   LastUpdatedDateTime?: Date;
   LastRequestedDateTime?: Date;

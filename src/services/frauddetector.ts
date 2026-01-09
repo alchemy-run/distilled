@@ -1548,11 +1548,11 @@ export const PutOutcomeResult = S.suspend(() =>
   identifier: "PutOutcomeResult",
 }) as any as S.Schema<PutOutcomeResult>;
 export type EventVariableMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const EventVariableMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
 export interface Entity {
   entityType: string;
@@ -1567,7 +1567,9 @@ export interface SendEventRequest {
   eventId: string;
   eventTypeName: string;
   eventTimestamp: string;
-  eventVariables: { [key: string]: string | redacted.Redacted<string> };
+  eventVariables: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   assignedLabel?: string;
   labelTimestamp?: string;
   entities: Entity[];
@@ -2274,10 +2276,13 @@ export const GetListElementsResult = S.suspend(() =>
 ).annotations({
   identifier: "GetListElementsResult",
 }) as any as S.Schema<GetListElementsResult>;
-export type LabelMapper = { [key: string]: string[] };
-export const LabelMapper = S.Record({ key: S.String, value: ListOfStrings });
+export type LabelMapper = { [key: string]: string[] | undefined };
+export const LabelMapper = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ListOfStrings),
+});
 export interface LabelSchema {
-  labelMapper?: { [key: string]: string[] };
+  labelMapper?: { [key: string]: string[] | undefined };
   unlabeledEventsTreatment?: UnlabeledEventsTreatment;
 }
 export const LabelSchema = S.suspend(() =>
@@ -2481,15 +2486,15 @@ export const ModelEndpointDataBlob = S.suspend(() =>
 ).annotations({
   identifier: "ModelEndpointDataBlob",
 }) as any as S.Schema<ModelEndpointDataBlob>;
-export type JsonKeyToVariableMap = { [key: string]: string };
+export type JsonKeyToVariableMap = { [key: string]: string | undefined };
 export const JsonKeyToVariableMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type CsvIndexToVariableMap = { [key: string]: string };
+export type CsvIndexToVariableMap = { [key: string]: string | undefined };
 export const CsvIndexToVariableMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface BatchGetVariableError {
   name?: string;
@@ -2638,11 +2643,11 @@ export const EntityType = S.suspend(() =>
 export type EntityTypeList = EntityType[];
 export const EntityTypeList = S.Array(EntityType);
 export type ExternalModelEndpointDataBlobMap = {
-  [key: string]: ModelEndpointDataBlob;
+  [key: string]: ModelEndpointDataBlob | undefined;
 };
 export const ExternalModelEndpointDataBlobMap = S.Record({
   key: S.String,
-  value: ModelEndpointDataBlob,
+  value: S.UndefinedOr(ModelEndpointDataBlob),
 });
 export interface EventVariableSummary {
   name?: string | redacted.Redacted<string>;
@@ -2686,8 +2691,8 @@ export type EvaluatedRuleList = EvaluatedRule[];
 export const EvaluatedRuleList = S.Array(EvaluatedRule);
 export interface ModelOutputConfiguration {
   format: ModelOutputDataFormat;
-  jsonKeyToVariableMap?: { [key: string]: string };
-  csvIndexToVariableMap?: { [key: string]: string };
+  jsonKeyToVariableMap?: { [key: string]: string | undefined };
+  csvIndexToVariableMap?: { [key: string]: string | undefined };
 }
 export const ModelOutputConfiguration = S.suspend(() =>
   S.Struct({
@@ -2931,8 +2936,12 @@ export interface GetEventPredictionRequest {
   eventTypeName: string;
   entities: Entity[];
   eventTimestamp: string;
-  eventVariables: { [key: string]: string | redacted.Redacted<string> };
-  externalModelEndpointDataBlobs?: { [key: string]: ModelEndpointDataBlob };
+  eventVariables: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
+  externalModelEndpointDataBlobs?: {
+    [key: string]: ModelEndpointDataBlob | undefined;
+  };
 }
 export const GetEventPredictionRequest = S.suspend(() =>
   S.Struct({
@@ -3071,14 +3080,17 @@ export const PutExternalModelResult = S.suspend(() =>
   identifier: "PutExternalModelResult",
 }) as any as S.Schema<PutExternalModelResult>;
 export type EventAttributeMap = {
-  [key: string]: string | redacted.Redacted<string>;
+  [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export const EventAttributeMap = S.Record({
   key: S.String,
-  value: SensitiveString,
+  value: S.UndefinedOr(SensitiveString),
 });
-export type MapOfStrings = { [key: string]: string };
-export const MapOfStrings = S.Record({ key: S.String, value: S.String });
+export type MapOfStrings = { [key: string]: string | undefined };
+export const MapOfStrings = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface IngestedEventStatistics {
   numberOfEvents?: number;
   eventDataSizeInBytes?: number;
@@ -3117,7 +3129,9 @@ export interface Event {
   eventId?: string;
   eventTypeName?: string;
   eventTimestamp?: string;
-  eventVariables?: { [key: string]: string | redacted.Redacted<string> };
+  eventVariables?: {
+    [key: string]: string | redacted.Redacted<string> | undefined;
+  };
   currentLabel?: string;
   labelTimestamp?: string;
   entities?: Entity[];
@@ -3136,8 +3150,8 @@ export const Event = S.suspend(() =>
 export interface EvaluatedExternalModel {
   modelEndpoint?: string;
   useEventVariables?: boolean;
-  inputVariables?: { [key: string]: string };
-  outputVariables?: { [key: string]: string };
+  inputVariables?: { [key: string]: string | undefined };
+  outputVariables?: { [key: string]: string | undefined };
 }
 export const EvaluatedExternalModel = S.suspend(() =>
   S.Struct({
@@ -3575,8 +3589,11 @@ export const TrainingResult = S.suspend(() =>
 ).annotations({
   identifier: "TrainingResult",
 }) as any as S.Schema<TrainingResult>;
-export type ModelPredictionMap = { [key: string]: number };
-export const ModelPredictionMap = S.Record({ key: S.String, value: S.Number });
+export type ModelPredictionMap = { [key: string]: number | undefined };
+export const ModelPredictionMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export interface ExternalModelSummary {
   modelEndpoint?: string;
   modelSource?: ModelSource;
@@ -3589,10 +3606,10 @@ export const ExternalModelSummary = S.suspend(() =>
 ).annotations({
   identifier: "ExternalModelSummary",
 }) as any as S.Schema<ExternalModelSummary>;
-export type ExternalModelPredictionMap = { [key: string]: string };
+export type ExternalModelPredictionMap = { [key: string]: string | undefined };
 export const ExternalModelPredictionMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ModelVersionEvaluation {
   outputVariableName?: string;
@@ -3636,7 +3653,7 @@ export const ATITrainingMetricsValue = S.suspend(() =>
 }) as any as S.Schema<ATITrainingMetricsValue>;
 export interface ModelScores {
   modelVersion?: ModelVersion;
-  scores?: { [key: string]: number };
+  scores?: { [key: string]: number | undefined };
 }
 export const ModelScores = S.suspend(() =>
   S.Struct({
@@ -3648,7 +3665,7 @@ export type ListOfModelScores = ModelScores[];
 export const ListOfModelScores = S.Array(ModelScores);
 export interface ExternalModelOutputs {
   externalModel?: ExternalModelSummary;
-  outputs?: { [key: string]: string };
+  outputs?: { [key: string]: string | undefined };
 }
 export const ExternalModelOutputs = S.suspend(() =>
   S.Struct({

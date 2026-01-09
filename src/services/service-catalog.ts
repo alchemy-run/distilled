@@ -525,10 +525,10 @@ export const CreateConstraintInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateConstraintInput",
 }) as any as S.Schema<CreateConstraintInput>;
-export type ProvisioningArtifactInfo = { [key: string]: string };
+export type ProvisioningArtifactInfo = { [key: string]: string | undefined };
 export const ProvisioningArtifactInfo = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ProvisioningArtifactType =
   | "CLOUD_FORMATION_TEMPLATE"
@@ -548,7 +548,7 @@ export const ProvisioningArtifactType = S.Literal(
 export interface ProvisioningArtifactProperties {
   Name?: string;
   Description?: string;
-  Info?: { [key: string]: string };
+  Info?: { [key: string]: string | undefined };
   Type?: ProvisioningArtifactType;
   DisableTemplateValidation?: boolean;
 }
@@ -1574,12 +1574,15 @@ export type ProductViewFilterValues = string[];
 export const ProductViewFilterValues = S.Array(S.String);
 export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] };
 export const ProductViewFilters = S.partial(
-  S.Record({ key: ProductViewFilterBy, value: ProductViewFilterValues }),
+  S.Record({
+    key: ProductViewFilterBy,
+    value: S.UndefinedOr(ProductViewFilterValues),
+  }),
 );
 export interface SearchProductsAsAdminInput {
   AcceptLanguage?: string;
   PortfolioId?: string;
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
   SortBy?: ProductViewSortBy;
   SortOrder?: SortOrder;
   PageToken?: string;
@@ -1801,12 +1804,12 @@ export type ServiceActionDefinitionMap = {
   [key in ServiceActionDefinitionKey]?: string;
 };
 export const ServiceActionDefinitionMap = S.partial(
-  S.Record({ key: ServiceActionDefinitionKey, value: S.String }),
+  S.Record({ key: ServiceActionDefinitionKey, value: S.UndefinedOr(S.String) }),
 );
 export interface UpdateServiceActionInput {
   Id: string;
   Name?: string;
-  Definition?: { [key: string]: string };
+  Definition?: { [key: string]: string | undefined };
   Description?: string;
   AcceptLanguage?: string;
 }
@@ -1859,9 +1862,14 @@ export type SourceProvisioningArtifactPropertiesMap = {
   [key in ProvisioningArtifactPropertyName]?: string;
 };
 export const SourceProvisioningArtifactPropertiesMap = S.partial(
-  S.Record({ key: ProvisioningArtifactPropertyName, value: S.String }),
+  S.Record({
+    key: ProvisioningArtifactPropertyName,
+    value: S.UndefinedOr(S.String),
+  }),
 );
-export type SourceProvisioningArtifactProperties = { [key: string]: string }[];
+export type SourceProvisioningArtifactProperties = {
+  [key: string]: string | undefined;
+}[];
 export const SourceProvisioningArtifactProperties = S.Array(
   SourceProvisioningArtifactPropertiesMap,
 );
@@ -1924,10 +1932,10 @@ export const ShareStatus = S.Literal(
   "COMPLETED_WITH_ERRORS",
   "ERROR",
 );
-export type ExecutionParameterMap = { [key: string]: string[] };
+export type ExecutionParameterMap = { [key: string]: string[] | undefined };
 export const ExecutionParameterMap = S.Record({
   key: S.String,
-  value: ExecutionParameterValueList,
+  value: S.UndefinedOr(ExecutionParameterValueList),
 });
 export interface PortfolioDetail {
   Id?: string;
@@ -2198,7 +2206,7 @@ export type ProvisionedProductFilters = {
 export const ProvisionedProductFilters = S.partial(
   S.Record({
     key: ProvisionedProductViewFilterBy,
-    value: ProvisionedProductViewFilterValues,
+    value: S.UndefinedOr(ProvisionedProductViewFilterValues),
   }),
 );
 export interface UpdateProvisioningPreferences {
@@ -2225,7 +2233,7 @@ export const UpdateProvisioningPreferences = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisioningPreferences>;
 export type ProvisionedProductProperties = { [key in PropertyKey]?: string };
 export const ProvisionedProductProperties = S.partial(
-  S.Record({ key: PropertyKey, value: S.String }),
+  S.Record({ key: PropertyKey, value: S.UndefinedOr(S.String) }),
 );
 export interface BatchAssociateServiceActionWithProvisioningArtifactInput {
   ServiceActionAssociations: ServiceActionAssociation[];
@@ -2247,7 +2255,9 @@ export interface CopyProductInput {
   SourceProductArn: string;
   TargetProductId?: string;
   TargetProductName?: string;
-  SourceProvisioningArtifactIdentifiers?: { [key: string]: string }[];
+  SourceProvisioningArtifactIdentifiers?: {
+    [key: string]: string | undefined;
+  }[];
   CopyOptions?: CopyOption[];
   IdempotencyToken: string;
 }
@@ -2347,7 +2357,7 @@ export const CreateProvisionedProductPlanInput = S.suspend(() =>
 export interface CreateServiceActionInput {
   Name: string;
   DefinitionType: ServiceActionDefinitionType;
-  Definition: { [key: string]: string };
+  Definition: { [key: string]: string | undefined };
   Description?: string;
   AcceptLanguage?: string;
   IdempotencyToken: string;
@@ -2520,7 +2530,7 @@ export interface ExecuteProvisionedProductServiceActionInput {
   ServiceActionId: string;
   ExecuteToken: string;
   AcceptLanguage?: string;
-  Parameters?: { [key: string]: string[] };
+  Parameters?: { [key: string]: string[] | undefined };
 }
 export const ExecuteProvisionedProductServiceActionInput = S.suspend(() =>
   S.Struct({
@@ -2795,7 +2805,7 @@ export const ScanProvisionedProductsOutput = S.suspend(() =>
 }) as any as S.Schema<ScanProvisionedProductsOutput>;
 export interface SearchProductsInput {
   AcceptLanguage?: string;
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
   PageSize?: number;
   SortBy?: ProductViewSortBy;
   SortOrder?: SortOrder;
@@ -2830,7 +2840,7 @@ export const SearchProductsAsAdminOutput = S.suspend(() =>
 export interface SearchProvisionedProductsInput {
   AcceptLanguage?: string;
   AccessLevelFilter?: AccessLevelFilter;
-  Filters?: { [key: string]: string[] };
+  Filters?: { [key: string]: string[] | undefined };
   SortBy?: string;
   SortOrder?: SortOrder;
   PageSize?: number;
@@ -2948,7 +2958,7 @@ export const UpdateProvisionedProductInput = S.suspend(() =>
 export interface UpdateProvisionedProductPropertiesInput {
   AcceptLanguage?: string;
   ProvisionedProductId: string;
-  ProvisionedProductProperties: { [key: string]: string };
+  ProvisionedProductProperties: { [key: string]: string | undefined };
   IdempotencyToken: string;
 }
 export const UpdateProvisionedProductPropertiesInput = S.suspend(() =>
@@ -2965,7 +2975,7 @@ export const UpdateProvisionedProductPropertiesInput = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisionedProductPropertiesInput>;
 export interface UpdateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string };
+  Info?: { [key: string]: string | undefined };
   Status?: Status;
 }
 export const UpdateProvisioningArtifactOutput = S.suspend(() =>
@@ -2979,7 +2989,7 @@ export const UpdateProvisioningArtifactOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisioningArtifactOutput>;
 export interface ServiceActionDetail {
   ServiceActionSummary?: ServiceActionSummary;
-  Definition?: { [key: string]: string };
+  Definition?: { [key: string]: string | undefined };
 }
 export const ServiceActionDetail = S.suspend(() =>
   S.Struct({
@@ -3131,7 +3141,7 @@ export interface ProvisioningArtifactSummary {
   Name?: string;
   Description?: string;
   CreatedTime?: Date;
-  ProvisioningArtifactMetadata?: { [key: string]: string };
+  ProvisioningArtifactMetadata?: { [key: string]: string | undefined };
 }
 export const ProvisioningArtifactSummary = S.suspend(() =>
   S.Struct({
@@ -3454,7 +3464,7 @@ export const CreateProvisionedProductPlanOutput = S.suspend(() =>
 }) as any as S.Schema<CreateProvisionedProductPlanOutput>;
 export interface CreateProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string };
+  Info?: { [key: string]: string | undefined };
   Status?: Status;
 }
 export const CreateProvisioningArtifactOutput = S.suspend(() =>
@@ -3776,7 +3786,7 @@ export const UpdateProvisionedProductOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateProvisionedProductOutput>;
 export interface UpdateProvisionedProductPropertiesOutput {
   ProvisionedProductId?: string;
-  ProvisionedProductProperties?: { [key: string]: string };
+  ProvisionedProductProperties?: { [key: string]: string | undefined };
   RecordId?: string;
   Status?: RecordStatus;
 }
@@ -3958,7 +3968,7 @@ export const DescribePortfolioShareStatusOutput = S.suspend(() =>
 }) as any as S.Schema<DescribePortfolioShareStatusOutput>;
 export interface DescribeProvisioningArtifactOutput {
   ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string };
+  Info?: { [key: string]: string | undefined };
   Status?: Status;
   ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
 }
@@ -4069,11 +4079,11 @@ export const ResourceChange = S.suspend(() =>
 export type ResourceChanges = ResourceChange[];
 export const ResourceChanges = S.Array(ResourceChange);
 export type ProductViewAggregations = {
-  [key: string]: ProductViewAggregationValue[];
+  [key: string]: ProductViewAggregationValue[] | undefined;
 };
 export const ProductViewAggregations = S.Record({
   key: S.String,
-  value: ProductViewAggregationValues,
+  value: S.UndefinedOr(ProductViewAggregationValues),
 });
 export interface CreateProductOutput {
   ProductViewDetail?: ProductViewDetail;
@@ -4123,7 +4133,9 @@ export const DescribeProvisionedProductPlanOutput = S.suspend(() =>
 }) as any as S.Schema<DescribeProvisionedProductPlanOutput>;
 export interface SearchProductsOutput {
   ProductViewSummaries?: ProductViewSummary[];
-  ProductViewAggregations?: { [key: string]: ProductViewAggregationValue[] };
+  ProductViewAggregations?: {
+    [key: string]: ProductViewAggregationValue[] | undefined;
+  };
   NextPageToken?: string;
 }
 export const SearchProductsOutput = S.suspend(() =>

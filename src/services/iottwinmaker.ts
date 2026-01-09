@@ -198,13 +198,16 @@ export const CancelMetadataTransferJobRequest = S.suspend(() =>
 ).annotations({
   identifier: "CancelMetadataTransferJobRequest",
 }) as any as S.Schema<CancelMetadataTransferJobRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateSyncJobRequest {
   workspaceId: string;
   syncSource: string;
   syncRole: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSyncJobRequest = S.suspend(() =>
   S.Struct({
@@ -233,7 +236,7 @@ export interface CreateWorkspaceRequest {
   description?: string;
   s3Location?: string;
   role?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
@@ -688,7 +691,7 @@ export const ListWorkspacesRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkspacesRequest>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagMap }).pipe(
@@ -786,7 +789,7 @@ export interface DataValue {
   longValue?: number;
   stringValue?: string;
   listValue?: DataValue[];
-  mapValue?: { [key: string]: DataValue };
+  mapValue?: { [key: string]: DataValue | undefined };
   relationshipValue?: RelationshipValue;
   expression?: string;
 }
@@ -809,8 +812,11 @@ export const DataValue = S.suspend(() =>
     expression: S.optional(S.String),
   }),
 ).annotations({ identifier: "DataValue" }) as any as S.Schema<DataValue>;
-export type Configuration = { [key: string]: string };
-export const Configuration = S.Record({ key: S.String, value: S.String });
+export type Configuration = { [key: string]: string | undefined };
+export const Configuration = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface PropertyDefinitionRequest {
   dataType?: DataType;
   isRequiredInEntity?: boolean;
@@ -818,7 +824,7 @@ export interface PropertyDefinitionRequest {
   isStoredExternally?: boolean;
   isTimeSeries?: boolean;
   defaultValue?: DataValue;
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
   displayName?: string;
 }
 export const PropertyDefinitionRequest = S.suspend(() =>
@@ -836,11 +842,11 @@ export const PropertyDefinitionRequest = S.suspend(() =>
   identifier: "PropertyDefinitionRequest",
 }) as any as S.Schema<PropertyDefinitionRequest>;
 export type PropertyDefinitionsRequest = {
-  [key: string]: PropertyDefinitionRequest;
+  [key: string]: PropertyDefinitionRequest | undefined;
 };
 export const PropertyDefinitionsRequest = S.Record({
   key: S.String,
-  value: PropertyDefinitionRequest,
+  value: S.UndefinedOr(PropertyDefinitionRequest),
 });
 export type RequiredProperties = string[];
 export const RequiredProperties = S.Array(S.String);
@@ -878,10 +884,10 @@ export const FunctionRequest = S.suspend(() =>
 ).annotations({
   identifier: "FunctionRequest",
 }) as any as S.Schema<FunctionRequest>;
-export type FunctionsRequest = { [key: string]: FunctionRequest };
+export type FunctionsRequest = { [key: string]: FunctionRequest | undefined };
 export const FunctionsRequest = S.Record({
   key: S.String,
-  value: FunctionRequest,
+  value: S.UndefinedOr(FunctionRequest),
 });
 export type PropertyNames = string[];
 export const PropertyNames = S.Array(S.String);
@@ -897,10 +903,12 @@ export const PropertyGroupRequest = S.suspend(() =>
 ).annotations({
   identifier: "PropertyGroupRequest",
 }) as any as S.Schema<PropertyGroupRequest>;
-export type PropertyGroupsRequest = { [key: string]: PropertyGroupRequest };
+export type PropertyGroupsRequest = {
+  [key: string]: PropertyGroupRequest | undefined;
+};
 export const PropertyGroupsRequest = S.Record({
   key: S.String,
-  value: PropertyGroupRequest,
+  value: S.UndefinedOr(PropertyGroupRequest),
 });
 export interface CompositeComponentTypeRequest {
   componentTypeId?: string;
@@ -911,23 +919,27 @@ export const CompositeComponentTypeRequest = S.suspend(() =>
   identifier: "CompositeComponentTypeRequest",
 }) as any as S.Schema<CompositeComponentTypeRequest>;
 export type CompositeComponentTypesRequest = {
-  [key: string]: CompositeComponentTypeRequest;
+  [key: string]: CompositeComponentTypeRequest | undefined;
 };
 export const CompositeComponentTypesRequest = S.Record({
   key: S.String,
-  value: CompositeComponentTypeRequest,
+  value: S.UndefinedOr(CompositeComponentTypeRequest),
 });
 export interface UpdateComponentTypeRequest {
   workspaceId: string;
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest };
+  propertyDefinitions?: {
+    [key: string]: PropertyDefinitionRequest | undefined;
+  };
   extendsFrom?: string[];
-  functions?: { [key: string]: FunctionRequest };
-  propertyGroups?: { [key: string]: PropertyGroupRequest };
+  functions?: { [key: string]: FunctionRequest | undefined };
+  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined };
   componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest };
+  compositeComponentTypes?: {
+    [key: string]: CompositeComponentTypeRequest | undefined;
+  };
 }
 export const UpdateComponentTypeRequest = S.suspend(() =>
   S.Struct({
@@ -978,15 +990,18 @@ export const UpdatePricingPlanRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePricingPlanRequest",
 }) as any as S.Schema<UpdatePricingPlanRequest>;
-export type SceneMetadataMap = { [key: string]: string };
-export const SceneMetadataMap = S.Record({ key: S.String, value: S.String });
+export type SceneMetadataMap = { [key: string]: string | undefined };
+export const SceneMetadataMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface UpdateSceneRequest {
   workspaceId: string;
   sceneId: string;
   contentLocation?: string;
   description?: string;
   capabilities?: string[];
-  sceneMetadata?: { [key: string]: string };
+  sceneMetadata?: { [key: string]: string | undefined };
 }
 export const UpdateSceneRequest = S.suspend(() =>
   S.Struct({
@@ -1138,8 +1153,8 @@ export interface CreateSceneRequest {
   contentLocation: string;
   description?: string;
   capabilities?: string[];
-  tags?: { [key: string]: string };
-  sceneMetadata?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  sceneMetadata?: { [key: string]: string | undefined };
 }
 export const CreateSceneRequest = S.suspend(() =>
   S.Struct({
@@ -1574,7 +1589,7 @@ export const ListSyncResourcesRequest = S.suspend(() =>
   identifier: "ListSyncResourcesRequest",
 }) as any as S.Schema<ListSyncResourcesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   nextToken?: string;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
@@ -1683,10 +1698,10 @@ export const PropertyRequest = S.suspend(() =>
 ).annotations({
   identifier: "PropertyRequest",
 }) as any as S.Schema<PropertyRequest>;
-export type PropertyRequests = { [key: string]: PropertyRequest };
+export type PropertyRequests = { [key: string]: PropertyRequest | undefined };
 export const PropertyRequests = S.Record({
   key: S.String,
-  value: PropertyRequest,
+  value: S.UndefinedOr(PropertyRequest),
 });
 export interface ComponentPropertyGroupRequest {
   groupType?: string;
@@ -1703,16 +1718,16 @@ export const ComponentPropertyGroupRequest = S.suspend(() =>
   identifier: "ComponentPropertyGroupRequest",
 }) as any as S.Schema<ComponentPropertyGroupRequest>;
 export type ComponentPropertyGroupRequests = {
-  [key: string]: ComponentPropertyGroupRequest;
+  [key: string]: ComponentPropertyGroupRequest | undefined;
 };
 export const ComponentPropertyGroupRequests = S.Record({
   key: S.String,
-  value: ComponentPropertyGroupRequest,
+  value: S.UndefinedOr(ComponentPropertyGroupRequest),
 });
 export interface CompositeComponentRequest {
   description?: string;
-  properties?: { [key: string]: PropertyRequest };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest };
+  properties?: { [key: string]: PropertyRequest | undefined };
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined };
 }
 export const CompositeComponentRequest = S.suspend(() =>
   S.Struct({
@@ -1738,8 +1753,10 @@ export interface ComponentUpdateRequest {
   updateType?: string;
   description?: string;
   componentTypeId?: string;
-  propertyUpdates?: { [key: string]: PropertyRequest };
-  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest };
+  propertyUpdates?: { [key: string]: PropertyRequest | undefined };
+  propertyGroupUpdates?: {
+    [key: string]: ComponentPropertyGroupRequest | undefined;
+  };
 }
 export const ComponentUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -1755,8 +1772,10 @@ export const ComponentUpdateRequest = S.suspend(() =>
 export interface CompositeComponentUpdateRequest {
   updateType?: string;
   description?: string;
-  propertyUpdates?: { [key: string]: PropertyRequest };
-  propertyGroupUpdates?: { [key: string]: ComponentPropertyGroupRequest };
+  propertyUpdates?: { [key: string]: PropertyRequest | undefined };
+  propertyGroupUpdates?: {
+    [key: string]: ComponentPropertyGroupRequest | undefined;
+  };
 }
 export const CompositeComponentUpdateRequest = S.suspend(() =>
   S.Struct({
@@ -1769,11 +1788,11 @@ export const CompositeComponentUpdateRequest = S.suspend(() =>
   identifier: "CompositeComponentUpdateRequest",
 }) as any as S.Schema<CompositeComponentUpdateRequest>;
 export type CompositeComponentsMapRequest = {
-  [key: string]: CompositeComponentRequest;
+  [key: string]: CompositeComponentRequest | undefined;
 };
 export const CompositeComponentsMapRequest = S.Record({
   key: S.String,
-  value: CompositeComponentRequest,
+  value: S.UndefinedOr(CompositeComponentRequest),
 });
 export interface ColumnDescription {
   name?: string;
@@ -1829,10 +1848,10 @@ export const TabularConditions = S.suspend(() =>
 ).annotations({
   identifier: "TabularConditions",
 }) as any as S.Schema<TabularConditions>;
-export type GeneratedSceneMetadataMap = { [key: string]: string };
+export type GeneratedSceneMetadataMap = { [key: string]: string | undefined };
 export const GeneratedSceneMetadataMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface SceneError {
   code?: string;
@@ -1860,7 +1879,7 @@ export interface PropertyDefinitionResponse {
   isFinal: boolean;
   isInherited: boolean;
   defaultValue?: DataValue;
-  configuration?: { [key: string]: string };
+  configuration?: { [key: string]: string | undefined };
   displayName?: string;
 }
 export const PropertyDefinitionResponse = S.suspend(() =>
@@ -1965,27 +1984,32 @@ export const WorkspaceSummary = S.suspend(() =>
 export type WorkspaceSummaries = WorkspaceSummary[];
 export const WorkspaceSummaries = S.Array(WorkspaceSummary);
 export type ComponentUpdatesMapRequest = {
-  [key: string]: ComponentUpdateRequest;
+  [key: string]: ComponentUpdateRequest | undefined;
 };
 export const ComponentUpdatesMapRequest = S.Record({
   key: S.String,
-  value: ComponentUpdateRequest,
+  value: S.UndefinedOr(ComponentUpdateRequest),
 });
 export type CompositeComponentUpdatesMapRequest = {
-  [key: string]: CompositeComponentUpdateRequest;
+  [key: string]: CompositeComponentUpdateRequest | undefined;
 };
 export const CompositeComponentUpdatesMapRequest = S.Record({
   key: S.String,
-  value: CompositeComponentUpdateRequest,
+  value: S.UndefinedOr(CompositeComponentUpdateRequest),
 });
-export type ExternalIdProperty = { [key: string]: string };
-export const ExternalIdProperty = S.Record({ key: S.String, value: S.String });
-export type DataValueMap = { [key: string]: DataValue };
+export type ExternalIdProperty = { [key: string]: string | undefined };
+export const ExternalIdProperty = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type DataValueMap = { [key: string]: DataValue | undefined };
 export const DataValueMap = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<DataValue, any> => DataValue).annotations({
-    identifier: "DataValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend((): S.Schema<DataValue, any> => DataValue).annotations({
+      identifier: "DataValue",
+    }),
+  ),
 }) as any as S.Schema<DataValueMap>;
 export interface CreateSceneResponse {
   arn: string;
@@ -2074,8 +2098,8 @@ export interface GetSceneResponse {
   updateDateTime: Date;
   description?: string;
   capabilities?: string[];
-  sceneMetadata?: { [key: string]: string };
-  generatedSceneMetadata?: { [key: string]: string };
+  sceneMetadata?: { [key: string]: string | undefined };
+  generatedSceneMetadata?: { [key: string]: string | undefined };
   error?: SceneError;
 }
 export const GetSceneResponse = S.suspend(() =>
@@ -2170,9 +2194,9 @@ export interface UpdateEntityRequest {
   entityId: string;
   entityName?: string;
   description?: string;
-  componentUpdates?: { [key: string]: ComponentUpdateRequest };
+  componentUpdates?: { [key: string]: ComponentUpdateRequest | undefined };
   compositeComponentUpdates?: {
-    [key: string]: CompositeComponentUpdateRequest;
+    [key: string]: CompositeComponentUpdateRequest | undefined;
   };
   parentEntityUpdate?: ParentEntityUpdateRequest;
 }
@@ -2204,7 +2228,7 @@ export const UpdateEntityRequest = S.suspend(() =>
 export interface EntityPropertyReference {
   componentName?: string;
   componentPath?: string;
-  externalIdProperty?: { [key: string]: string };
+  externalIdProperty?: { [key: string]: string | undefined };
   entityId?: string;
   propertyName: string;
 }
@@ -2276,28 +2300,30 @@ export const PropertyValueEntry = S.suspend(() =>
 export type Entries = PropertyValueEntry[];
 export const Entries = S.Array(PropertyValueEntry);
 export type PropertyDefinitionsResponse = {
-  [key: string]: PropertyDefinitionResponse;
+  [key: string]: PropertyDefinitionResponse | undefined;
 };
 export const PropertyDefinitionsResponse = S.Record({
   key: S.String,
-  value: PropertyDefinitionResponse,
+  value: S.UndefinedOr(PropertyDefinitionResponse),
 });
-export type FunctionsResponse = { [key: string]: FunctionResponse };
+export type FunctionsResponse = { [key: string]: FunctionResponse | undefined };
 export const FunctionsResponse = S.Record({
   key: S.String,
-  value: FunctionResponse,
+  value: S.UndefinedOr(FunctionResponse),
 });
-export type PropertyGroupsResponse = { [key: string]: PropertyGroupResponse };
+export type PropertyGroupsResponse = {
+  [key: string]: PropertyGroupResponse | undefined;
+};
 export const PropertyGroupsResponse = S.Record({
   key: S.String,
-  value: PropertyGroupResponse,
+  value: S.UndefinedOr(PropertyGroupResponse),
 });
 export type CompositeComponentTypesResponse = {
-  [key: string]: CompositeComponentTypeResponse;
+  [key: string]: CompositeComponentTypeResponse | undefined;
 };
 export const CompositeComponentTypesResponse = S.Record({
   key: S.String,
-  value: CompositeComponentTypeResponse,
+  value: S.UndefinedOr(CompositeComponentTypeResponse),
 });
 export interface ComponentTypeSummary {
   arn: string;
@@ -2388,18 +2414,20 @@ export const ComponentPropertyGroupResponse = S.suspend(() =>
   identifier: "ComponentPropertyGroupResponse",
 }) as any as S.Schema<ComponentPropertyGroupResponse>;
 export type ComponentPropertyGroupResponses = {
-  [key: string]: ComponentPropertyGroupResponse;
+  [key: string]: ComponentPropertyGroupResponse | undefined;
 };
 export const ComponentPropertyGroupResponses = S.Record({
   key: S.String,
-  value: ComponentPropertyGroupResponse,
+  value: S.UndefinedOr(ComponentPropertyGroupResponse),
 });
 export interface ComponentSummary {
   componentName: string;
   componentTypeId: string;
   definedIn?: string;
   description?: string;
-  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse };
+  propertyGroups?: {
+    [key: string]: ComponentPropertyGroupResponse | undefined;
+  };
   status: Status;
   syncSource?: string;
   componentPath?: string;
@@ -2418,10 +2446,12 @@ export const ComponentSummary = S.suspend(() =>
 ).annotations({
   identifier: "ComponentSummary",
 }) as any as S.Schema<ComponentSummary>;
-export type CompositeComponentResponse = { [key: string]: ComponentSummary };
+export type CompositeComponentResponse = {
+  [key: string]: ComponentSummary | undefined;
+};
 export const CompositeComponentResponse = S.Record({
   key: S.String,
-  value: ComponentSummary,
+  value: S.UndefinedOr(ComponentSummary),
 });
 export interface BatchPutPropertyValuesRequest {
   workspaceId: string;
@@ -2470,19 +2500,23 @@ export interface GetComponentTypeResponse {
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionResponse };
+  propertyDefinitions?: {
+    [key: string]: PropertyDefinitionResponse | undefined;
+  };
   extendsFrom?: string[];
-  functions?: { [key: string]: FunctionResponse };
+  functions?: { [key: string]: FunctionResponse | undefined };
   creationDateTime: Date;
   updateDateTime: Date;
   arn: string;
   isAbstract?: boolean;
   isSchemaInitialized?: boolean;
   status?: Status;
-  propertyGroups?: { [key: string]: PropertyGroupResponse };
+  propertyGroups?: { [key: string]: PropertyGroupResponse | undefined };
   syncSource?: string;
   componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeResponse };
+  compositeComponentTypes?: {
+    [key: string]: CompositeComponentTypeResponse | undefined;
+  };
 }
 export const GetComponentTypeResponse = S.suspend(() =>
   S.Struct({
@@ -2612,8 +2646,8 @@ export const UpdateEntityResponse = S.suspend(() =>
 export interface ComponentRequest {
   description?: string;
   componentTypeId?: string;
-  properties?: { [key: string]: PropertyRequest };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest };
+  properties?: { [key: string]: PropertyRequest | undefined };
+  propertyGroups?: { [key: string]: ComponentPropertyGroupRequest | undefined };
 }
 export const ComponentRequest = S.suspend(() =>
   S.Struct({
@@ -2648,21 +2682,27 @@ export const PropertyResponse = S.suspend(() =>
 ).annotations({
   identifier: "PropertyResponse",
 }) as any as S.Schema<PropertyResponse>;
-export type ComponentsMapRequest = { [key: string]: ComponentRequest };
+export type ComponentsMapRequest = {
+  [key: string]: ComponentRequest | undefined;
+};
 export const ComponentsMapRequest = S.Record({
   key: S.String,
-  value: ComponentRequest,
+  value: S.UndefinedOr(ComponentRequest),
 });
-export type PropertyTableValue = { [key: string]: DataValue };
+export type PropertyTableValue = { [key: string]: DataValue | undefined };
 export const PropertyTableValue = S.Record({
   key: S.String,
-  value: S.suspend((): S.Schema<DataValue, any> => DataValue).annotations({
-    identifier: "DataValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend((): S.Schema<DataValue, any> => DataValue).annotations({
+      identifier: "DataValue",
+    }),
+  ),
 });
-export type TabularPropertyValue = { [key: string]: DataValue }[];
+export type TabularPropertyValue = { [key: string]: DataValue | undefined }[];
 export const TabularPropertyValue = S.Array(PropertyTableValue);
-export type TabularPropertyValues = { [key: string]: DataValue }[][];
+export type TabularPropertyValues = {
+  [key: string]: DataValue | undefined;
+}[][];
 export const TabularPropertyValues = S.Array(TabularPropertyValue);
 export type ComponentSummaries = ComponentSummary[];
 export const ComponentSummaries = S.Array(ComponentSummary);
@@ -2686,23 +2726,27 @@ export const SyncResourceSummary = S.suspend(() =>
 }) as any as S.Schema<SyncResourceSummary>;
 export type SyncResourceSummaries = SyncResourceSummary[];
 export const SyncResourceSummaries = S.Array(SyncResourceSummary);
-export type PropertyResponses = { [key: string]: PropertyResponse };
+export type PropertyResponses = { [key: string]: PropertyResponse | undefined };
 export const PropertyResponses = S.Record({
   key: S.String,
-  value: PropertyResponse,
+  value: S.UndefinedOr(PropertyResponse),
 });
 export interface CreateComponentTypeRequest {
   workspaceId: string;
   isSingleton?: boolean;
   componentTypeId: string;
   description?: string;
-  propertyDefinitions?: { [key: string]: PropertyDefinitionRequest };
+  propertyDefinitions?: {
+    [key: string]: PropertyDefinitionRequest | undefined;
+  };
   extendsFrom?: string[];
-  functions?: { [key: string]: FunctionRequest };
-  tags?: { [key: string]: string };
-  propertyGroups?: { [key: string]: PropertyGroupRequest };
+  functions?: { [key: string]: FunctionRequest | undefined };
+  tags?: { [key: string]: string | undefined };
+  propertyGroups?: { [key: string]: PropertyGroupRequest | undefined };
   componentTypeName?: string;
-  compositeComponentTypes?: { [key: string]: CompositeComponentTypeRequest };
+  compositeComponentTypes?: {
+    [key: string]: CompositeComponentTypeRequest | undefined;
+  };
 }
 export const CreateComponentTypeRequest = S.suspend(() =>
   S.Struct({
@@ -2738,10 +2782,12 @@ export interface CreateEntityRequest {
   entityId?: string;
   entityName: string;
   description?: string;
-  components?: { [key: string]: ComponentRequest };
-  compositeComponents?: { [key: string]: CompositeComponentRequest };
+  components?: { [key: string]: ComponentRequest | undefined };
+  compositeComponents?: {
+    [key: string]: CompositeComponentRequest | undefined;
+  };
   parentEntityId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateEntityRequest = S.suspend(() =>
   S.Struct({
@@ -2821,11 +2867,13 @@ export interface ComponentResponse {
   componentTypeId?: string;
   status?: Status;
   definedIn?: string;
-  properties?: { [key: string]: PropertyResponse };
-  propertyGroups?: { [key: string]: ComponentPropertyGroupResponse };
+  properties?: { [key: string]: PropertyResponse | undefined };
+  propertyGroups?: {
+    [key: string]: ComponentPropertyGroupResponse | undefined;
+  };
   syncSource?: string;
   areAllPropertiesReturned?: boolean;
-  compositeComponents?: { [key: string]: ComponentSummary };
+  compositeComponents?: { [key: string]: ComponentSummary | undefined };
   areAllCompositeComponentsReturned?: boolean;
 }
 export const ComponentResponse = S.suspend(() =>
@@ -2859,15 +2907,17 @@ export const PropertyLatestValue = S.suspend(() =>
 }) as any as S.Schema<PropertyLatestValue>;
 export type Values = PropertyValue[];
 export const Values = S.Array(PropertyValue);
-export type ComponentsMap = { [key: string]: ComponentResponse };
+export type ComponentsMap = { [key: string]: ComponentResponse | undefined };
 export const ComponentsMap = S.Record({
   key: S.String,
-  value: ComponentResponse,
+  value: S.UndefinedOr(ComponentResponse),
 });
-export type PropertyLatestValueMap = { [key: string]: PropertyLatestValue };
+export type PropertyLatestValueMap = {
+  [key: string]: PropertyLatestValue | undefined;
+};
 export const PropertyLatestValueMap = S.Record({
   key: S.String,
-  value: PropertyLatestValue,
+  value: S.UndefinedOr(PropertyLatestValue),
 });
 export interface PropertyValueHistory {
   entityPropertyReference: EntityPropertyReference;
@@ -2936,7 +2986,7 @@ export interface GetEntityResponse {
   status: Status;
   workspaceId: string;
   description?: string;
-  components?: { [key: string]: ComponentResponse };
+  components?: { [key: string]: ComponentResponse | undefined };
   parentEntityId: string;
   hasChildEntities: boolean;
   creationDateTime: Date;
@@ -2964,9 +3014,9 @@ export const GetEntityResponse = S.suspend(() =>
   identifier: "GetEntityResponse",
 }) as any as S.Schema<GetEntityResponse>;
 export interface GetPropertyValueResponse {
-  propertyValues?: { [key: string]: PropertyLatestValue };
+  propertyValues?: { [key: string]: PropertyLatestValue | undefined };
   nextToken?: string;
-  tabularPropertyValues?: { [key: string]: DataValue }[][];
+  tabularPropertyValues?: { [key: string]: DataValue | undefined }[][];
 }
 export const GetPropertyValueResponse = S.suspend(() =>
   S.Struct({

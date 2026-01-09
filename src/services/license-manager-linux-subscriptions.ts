@@ -246,11 +246,11 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -330,8 +330,11 @@ export const UpdateServiceSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateServiceSettingsRequest",
 }) as any as S.Schema<UpdateServiceSettingsRequest>;
-export type StringMap = { [key: string]: string };
-export const StringMap = S.Record({ key: S.String, value: S.String });
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetRegisteredSubscriptionProviderResponse {
   SubscriptionProviderArn?: string;
   SubscriptionProviderSource?: string;
@@ -356,7 +359,7 @@ export interface GetServiceSettingsResponse {
   LinuxSubscriptionsDiscovery?: string;
   LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
   Status?: string;
-  StatusMessage?: { [key: string]: string };
+  StatusMessage?: { [key: string]: string | undefined };
   HomeRegions?: string[];
 }
 export const GetServiceSettingsResponse = S.suspend(() =>
@@ -399,7 +402,7 @@ export const ListLinuxSubscriptionInstancesRequest = S.suspend(() =>
   identifier: "ListLinuxSubscriptionInstancesRequest",
 }) as any as S.Schema<ListLinuxSubscriptionInstancesRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -409,7 +412,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface RegisterSubscriptionProviderRequest {
   SubscriptionProviderSource: string;
   SecretArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const RegisterSubscriptionProviderRequest = S.suspend(() =>
   S.Struct({
@@ -436,7 +439,7 @@ export interface UpdateServiceSettingsResponse {
   LinuxSubscriptionsDiscovery?: string;
   LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
   Status?: string;
-  StatusMessage?: { [key: string]: string };
+  StatusMessage?: { [key: string]: string | undefined };
   HomeRegions?: string[];
 }
 export const UpdateServiceSettingsResponse = S.suspend(() =>

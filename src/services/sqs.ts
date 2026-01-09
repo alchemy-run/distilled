@@ -418,12 +418,12 @@ export type QueueAttributeMap = { [key in QueueAttributeName]?: string };
 export const QueueAttributeMap = S.partial(
   S.Record({
     key: QueueAttributeName.pipe(T.XmlName("Name")),
-    value: S.String.pipe(T.XmlName("Value")),
+    value: S.UndefinedOr(S.String.pipe(T.XmlName("Value"))),
   }),
 );
 export interface SetQueueAttributesRequest {
   QueueUrl: string;
-  Attributes: { [key: string]: string };
+  Attributes: { [key: string]: string | undefined };
 }
 export const SetQueueAttributesRequest = S.suspend(() =>
   S.Struct({
@@ -460,14 +460,14 @@ export const StartMessageMoveTaskRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartMessageMoveTaskRequest",
 }) as any as S.Schema<StartMessageMoveTaskRequest>;
-export type TagMap = { [key: string]: string };
+export type TagMap = { [key: string]: string | undefined };
 export const TagMap = S.Record({
   key: S.String.pipe(T.XmlName("Key")),
-  value: S.String.pipe(T.XmlName("Value")),
+  value: S.UndefinedOr(S.String.pipe(T.XmlName("Value"))),
 });
 export interface TagQueueRequest {
   QueueUrl: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagQueueRequest = S.suspend(() =>
   S.Struct({
@@ -566,12 +566,16 @@ export const MessageAttributeValue = S.suspend(() =>
 ).annotations({
   identifier: "MessageAttributeValue",
 }) as any as S.Schema<MessageAttributeValue>;
-export type MessageBodyAttributeMap = { [key: string]: MessageAttributeValue };
+export type MessageBodyAttributeMap = {
+  [key: string]: MessageAttributeValue | undefined;
+};
 export const MessageBodyAttributeMap = S.Record({
   key: S.String.pipe(T.XmlName("Name")),
-  value: MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
-    identifier: "MessageAttributeValue",
-  }),
+  value: S.UndefinedOr(
+    MessageAttributeValue.pipe(T.XmlName("Value")).annotations({
+      identifier: "MessageAttributeValue",
+    }),
+  ),
 });
 export interface MessageSystemAttributeValue {
   StringValue?: string;
@@ -603,17 +607,21 @@ export type MessageBodySystemAttributeMap = {
 export const MessageBodySystemAttributeMap = S.partial(
   S.Record({
     key: MessageSystemAttributeNameForSends.pipe(T.XmlName("Name")),
-    value: MessageSystemAttributeValue.pipe(T.XmlName("Value")).annotations({
-      identifier: "MessageSystemAttributeValue",
-    }),
+    value: S.UndefinedOr(
+      MessageSystemAttributeValue.pipe(T.XmlName("Value")).annotations({
+        identifier: "MessageSystemAttributeValue",
+      }),
+    ),
   }),
 );
 export interface SendMessageBatchRequestEntry {
   Id: string;
   MessageBody: string;
   DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
+  MessageSystemAttributes?: {
+    [key: string]: MessageSystemAttributeValue | undefined;
+  };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -667,8 +675,8 @@ export const ChangeMessageVisibilityBatchRequest = S.suspend(() =>
 }) as any as S.Schema<ChangeMessageVisibilityBatchRequest>;
 export interface CreateQueueRequest {
   QueueName: string;
-  Attributes?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
@@ -702,7 +710,7 @@ export const DeleteMessageBatchRequest = S.suspend(() =>
   identifier: "DeleteMessageBatchRequest",
 }) as any as S.Schema<DeleteMessageBatchRequest>;
 export interface GetQueueAttributesResult {
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
 }
 export const GetQueueAttributesResult = S.suspend(() =>
   S.Struct({
@@ -750,7 +758,7 @@ export const ListQueuesResult = S.suspend(() =>
   identifier: "ListQueuesResult",
 }) as any as S.Schema<ListQueuesResult>;
 export interface ListQueueTagsResult {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListQueueTagsResult = S.suspend(() =>
   S.Struct({
@@ -840,8 +848,10 @@ export interface SendMessageRequest {
   QueueUrl: string;
   MessageBody: string;
   DelaySeconds?: number;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
-  MessageSystemAttributes?: { [key: string]: MessageSystemAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
+  MessageSystemAttributes?: {
+    [key: string]: MessageSystemAttributeValue | undefined;
+  };
   MessageDeduplicationId?: string;
   MessageGroupId?: string;
 }
@@ -872,7 +882,7 @@ export type MessageSystemAttributeMap = {
 export const MessageSystemAttributeMap = S.partial(
   S.Record({
     key: MessageSystemAttributeName.pipe(T.XmlName("Name")),
-    value: S.String.pipe(T.XmlName("Value")),
+    value: S.UndefinedOr(S.String.pipe(T.XmlName("Value"))),
   }),
 );
 export interface ChangeMessageVisibilityBatchResultEntry {
@@ -923,9 +933,9 @@ export interface Message {
   ReceiptHandle?: string;
   MD5OfBody?: string;
   Body?: string;
-  Attributes?: { [key: string]: string };
+  Attributes?: { [key: string]: string | undefined };
   MD5OfMessageAttributes?: string;
-  MessageAttributes?: { [key: string]: MessageAttributeValue };
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
 }
 export const Message = S.suspend(() =>
   S.Struct({

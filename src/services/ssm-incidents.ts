@@ -546,11 +546,14 @@ export const PutResourcePolicyInput = S.suspend(() =>
 ).annotations({
   identifier: "PutResourcePolicyInput",
 }) as any as S.Schema<PutResourcePolicyInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -691,7 +694,7 @@ export interface IncidentTemplate {
   summary?: string;
   dedupeString?: string;
   notificationTargets?: NotificationTargetItem[];
-  incidentTags?: { [key: string]: string };
+  incidentTags?: { [key: string]: string | undefined };
 }
 export const IncidentTemplate = S.suspend(() =>
   S.Struct({
@@ -803,8 +806,11 @@ export const RelatedItemsUpdate = S.Union(
   S.Struct({ itemToAdd: RelatedItem }),
   S.Struct({ itemToRemove: ItemIdentifier }),
 );
-export type TagMapUpdate = { [key: string]: string };
-export const TagMapUpdate = S.Record({ key: S.String, value: S.String });
+export type TagMapUpdate = { [key: string]: string | undefined };
+export const TagMapUpdate = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateTimelineEventInput {
   clientToken?: string;
   incidentRecordArn: string;
@@ -836,27 +842,29 @@ export const CreateTimelineEventInput = S.suspend(() =>
 }) as any as S.Schema<CreateTimelineEventInput>;
 export type SsmParameterValues = string[];
 export const SsmParameterValues = S.Array(S.String);
-export type SsmParameters = { [key: string]: string[] };
+export type SsmParameters = { [key: string]: string[] | undefined };
 export const SsmParameters = S.Record({
   key: S.String,
-  value: SsmParameterValues,
+  value: S.UndefinedOr(SsmParameterValues),
 });
 export type DynamicSsmParameterValue = { variable: string };
 export const DynamicSsmParameterValue = S.Union(
   S.Struct({ variable: S.String }),
 );
-export type DynamicSsmParameters = { [key: string]: DynamicSsmParameterValue };
+export type DynamicSsmParameters = {
+  [key: string]: DynamicSsmParameterValue | undefined;
+};
 export const DynamicSsmParameters = S.Record({
   key: S.String,
-  value: DynamicSsmParameterValue,
+  value: S.UndefinedOr(DynamicSsmParameterValue),
 });
 export interface SsmAutomation {
   roleArn: string;
   documentName: string;
   documentVersion?: string;
   targetAccount?: string;
-  parameters?: { [key: string]: string[] };
-  dynamicParameters?: { [key: string]: DynamicSsmParameterValue };
+  parameters?: { [key: string]: string[] | undefined };
+  dynamicParameters?: { [key: string]: DynamicSsmParameterValue | undefined };
 }
 export const SsmAutomation = S.suspend(() =>
   S.Struct({
@@ -950,7 +958,7 @@ export const ListReplicationSetsOutput = S.suspend(() =>
   identifier: "ListReplicationSetsOutput",
 }) as any as S.Schema<ListReplicationSetsOutput>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1045,7 +1053,7 @@ export interface UpdateResponsePlanInput {
   chatChannel?: ChatChannel;
   engagements?: string[];
   actions?: Action[];
-  incidentTemplateTags?: { [key: string]: string };
+  incidentTemplateTags?: { [key: string]: string | undefined };
   integrations?: Integration[];
 }
 export const UpdateResponsePlanInput = S.suspend(() =>
@@ -1121,10 +1129,10 @@ export type BatchGetIncidentFindingsErrorList = BatchGetIncidentFindingsError[];
 export const BatchGetIncidentFindingsErrorList = S.Array(
   BatchGetIncidentFindingsError,
 );
-export type RegionMapInput = { [key: string]: RegionMapInputValue };
+export type RegionMapInput = { [key: string]: RegionMapInputValue | undefined };
 export const RegionMapInput = S.Record({
   key: S.String,
-  value: RegionMapInputValue,
+  value: S.UndefinedOr(RegionMapInputValue),
 });
 export interface ResourcePolicy {
   policyDocument: string;
@@ -1224,9 +1232,9 @@ export const UpdateReplicationSetAction = S.Union(
 export type UpdateActionList = UpdateReplicationSetAction[];
 export const UpdateActionList = S.Array(UpdateReplicationSetAction);
 export interface CreateReplicationSetInput {
-  regions: { [key: string]: RegionMapInputValue };
+  regions: { [key: string]: RegionMapInputValue | undefined };
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateReplicationSetInput = S.suspend(() =>
   S.Struct({
@@ -1491,8 +1499,11 @@ export const FindingDetails = S.Union(
   S.Struct({ codeDeployDeployment: CodeDeployDeployment }),
   S.Struct({ cloudFormationStackUpdate: CloudFormationStackUpdate }),
 );
-export type RegionInfoMap = { [key: string]: RegionInfo };
-export const RegionInfoMap = S.Record({ key: S.String, value: RegionInfo });
+export type RegionInfoMap = { [key: string]: RegionInfo | undefined };
+export const RegionInfoMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(RegionInfo),
+});
 export interface Finding {
   id: string;
   creationTime: Date;
@@ -1511,7 +1522,7 @@ export type FindingList = Finding[];
 export const FindingList = S.Array(Finding);
 export interface ReplicationSet {
   arn?: string;
-  regionMap: { [key: string]: RegionInfo };
+  regionMap: { [key: string]: RegionInfo | undefined };
   status: string;
   deletionProtected: boolean;
   createdTime: Date;
@@ -1553,7 +1564,7 @@ export interface CreateResponsePlanInput {
   chatChannel?: ChatChannel;
   engagements?: string[];
   actions?: Action[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   integrations?: Integration[];
 }
 export const CreateResponsePlanInput = S.suspend(() =>

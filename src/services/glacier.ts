@@ -844,8 +844,11 @@ export const UploadMultipartPartInput = S.suspend(() =>
 }) as any as S.Schema<UploadMultipartPartInput>;
 export type NotificationEventList = string[];
 export const NotificationEventList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ActionCode = "ArchiveRetrieval" | "InventoryRetrieval" | "Select";
 export const ActionCode = S.Literal(
   "ArchiveRetrieval",
@@ -1030,8 +1033,11 @@ export const Grant = S.suspend(() =>
 ).annotations({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export type AccessControlPolicyList = Grant[];
 export const AccessControlPolicyList = S.Array(Grant);
-export type Hashmap = { [key: string]: string };
-export const Hashmap = S.Record({ key: S.String, value: S.String });
+export type Hashmap = { [key: string]: string | undefined };
+export const Hashmap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type StorageClass = "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA";
 export const StorageClass = S.Literal(
   "STANDARD",
@@ -1044,8 +1050,8 @@ export interface S3Location {
   Encryption?: Encryption;
   CannedACL?: CannedACL;
   AccessControlList?: Grant[];
-  Tagging?: { [key: string]: string };
-  UserMetadata?: { [key: string]: string };
+  Tagging?: { [key: string]: string | undefined };
+  UserMetadata?: { [key: string]: string | undefined };
   StorageClass?: StorageClass;
 }
 export const S3Location = S.suspend(() =>
@@ -1165,7 +1171,7 @@ export const VaultNotificationConfig = S.suspend(() =>
 export interface AddTagsToVaultInput {
   accountId: string;
   vaultName: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const AddTagsToVaultInput = S.suspend(() =>
   S.Struct({
@@ -1368,7 +1374,7 @@ export const ListJobsOutput = S.suspend(() =>
   identifier: "ListJobsOutput",
 }) as any as S.Schema<ListJobsOutput>;
 export interface ListTagsForVaultOutput {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForVaultOutput = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(ns),

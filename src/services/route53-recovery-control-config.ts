@@ -144,16 +144,18 @@ export type NetworkType = "IPV4" | "DUALSTACK";
 export const NetworkType = S.Literal("IPV4", "DUALSTACK");
 export type __listOf__string = string[];
 export const __listOf__string = S.Array(S.String);
-export type __mapOf__stringMin0Max256PatternS = { [key: string]: string };
+export type __mapOf__stringMin0Max256PatternS = {
+  [key: string]: string | undefined;
+};
 export const __mapOf__stringMin0Max256PatternS = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface CreateControlPanelRequest {
   ClientToken?: string;
   ClusterArn?: string;
   ControlPanelName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateControlPanelRequest = S.suspend(() =>
   S.Struct({
@@ -523,7 +525,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -778,7 +780,7 @@ export const GatingRuleUpdate = S.suspend(() =>
 export interface CreateClusterRequest {
   ClientToken?: string;
   ClusterName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   NetworkType?: NetworkType;
 }
 export const CreateClusterRequest = S.suspend(() =>
@@ -873,7 +875,7 @@ export const ListRoutingControlsResponse = S.suspend(() =>
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__stringMin0Max256PatternS) }),
@@ -1031,7 +1033,7 @@ export interface CreateSafetyRuleRequest {
   AssertionRule?: NewAssertionRule;
   ClientToken?: string;
   GatingRule?: NewGatingRule;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateSafetyRuleRequest = S.suspend(() =>
   S.Struct({

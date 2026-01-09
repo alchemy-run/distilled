@@ -2089,14 +2089,14 @@ export const ResourceServerScopeDetails = S.suspend(() =>
   identifier: "ResourceServerScopeDetails",
 }) as any as S.Schema<ResourceServerScopeDetails>;
 export type ResourceServerScopes = {
-  [key: string]: ResourceServerScopeDetails;
+  [key: string]: ResourceServerScopeDetails | undefined;
 };
 export const ResourceServerScopes = S.Record({
   key: S.String,
-  value: ResourceServerScopeDetails,
+  value: S.UndefinedOr(ResourceServerScopeDetails),
 });
 export interface ResourceServerConfig {
-  Scopes?: { [key: string]: ResourceServerScopeDetails };
+  Scopes?: { [key: string]: ResourceServerScopeDetails | undefined };
 }
 export const ResourceServerConfig = S.suspend(() =>
   S.Struct({ Scopes: S.optional(ResourceServerScopes) }),

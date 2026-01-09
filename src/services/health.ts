@@ -341,9 +341,12 @@ export const EventTypeCategory = S.Literal(
 );
 export type EventTypeCategoryList2 = EventTypeCategory[];
 export const EventTypeCategoryList2 = S.Array(EventTypeCategory);
-export type TagSet = { [key: string]: string };
-export const TagSet = S.Record({ key: S.String, value: S.String });
-export type TagFilter = { [key: string]: string }[];
+export type TagSet = { [key: string]: string | undefined };
+export const TagSet = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type TagFilter = { [key: string]: string | undefined }[];
 export const TagFilter = S.Array(TagSet);
 export type EventStatusCode = "open" | "closed" | "upcoming";
 export const EventStatusCode = S.Literal("open", "closed", "upcoming");
@@ -366,7 +369,7 @@ export interface EventFilter {
   entityArns?: string[];
   entityValues?: string[];
   eventTypeCategories?: EventTypeCategory[];
-  tags?: { [key: string]: string }[];
+  tags?: { [key: string]: string | undefined }[];
   eventStatusCodes?: EventStatusCode[];
   personas?: EventPersona[];
 }
@@ -624,7 +627,7 @@ export interface EntityFilter {
   entityArns?: string[];
   entityValues?: string[];
   lastUpdatedTimes?: DateTimeRange[];
-  tags?: { [key: string]: string }[];
+  tags?: { [key: string]: string | undefined }[];
   statusCodes?: EntityStatusCode[];
 }
 export const EntityFilter = S.suspend(() =>
@@ -695,13 +698,16 @@ export const EventDescription = S.suspend(() =>
 ).annotations({
   identifier: "EventDescription",
 }) as any as S.Schema<EventDescription>;
-export type EventMetadata = { [key: string]: string };
-export const EventMetadata = S.Record({ key: S.String, value: S.String });
+export type EventMetadata = { [key: string]: string | undefined };
+export const EventMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface OrganizationEventDetails {
   awsAccountId?: string;
   event?: Event;
   eventDescription?: EventDescription;
-  eventMetadata?: { [key: string]: string };
+  eventMetadata?: { [key: string]: string | undefined };
 }
 export const OrganizationEventDetails = S.suspend(() =>
   S.Struct({
@@ -782,12 +788,12 @@ export const DescribeEventsResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeEventsResponse>;
 export type EntityStatuses = { [key in EntityStatusCode]?: number };
 export const EntityStatuses = S.partial(
-  S.Record({ key: EntityStatusCode, value: S.Number }),
+  S.Record({ key: EntityStatusCode, value: S.UndefinedOr(S.Number) }),
 );
 export interface AccountEntityAggregate {
   accountId?: string;
   count?: number;
-  statuses?: { [key: string]: number };
+  statuses?: { [key: string]: number | undefined };
 }
 export const AccountEntityAggregate = S.suspend(() =>
   S.Struct({
@@ -824,7 +830,7 @@ export const DescribeAffectedEntitiesForOrganizationFailedSet = S.Array(
 export interface EntityAggregate {
   eventArn?: string;
   count?: number;
-  statuses?: { [key: string]: number };
+  statuses?: { [key: string]: number | undefined };
 }
 export const EntityAggregate = S.suspend(() =>
   S.Struct({
@@ -840,7 +846,7 @@ export const EntityAggregateList = S.Array(EntityAggregate);
 export interface OrganizationEntityAggregate {
   eventArn?: string;
   count?: number;
-  statuses?: { [key: string]: number };
+  statuses?: { [key: string]: number | undefined };
   accounts?: AccountEntityAggregate[];
 }
 export const OrganizationEntityAggregate = S.suspend(() =>
@@ -874,7 +880,7 @@ export const EventAggregateList = S.Array(EventAggregate);
 export interface EventDetails {
   event?: Event;
   eventDescription?: EventDescription;
-  eventMetadata?: { [key: string]: string };
+  eventMetadata?: { [key: string]: string | undefined };
 }
 export const EventDetails = S.suspend(() =>
   S.Struct({
@@ -939,8 +945,11 @@ export const EventType = S.suspend(() =>
 ).annotations({ identifier: "EventType" }) as any as S.Schema<EventType>;
 export type EventTypeList = EventType[];
 export const EventTypeList = S.Array(EventType);
-export type EntityMetadata = { [key: string]: string };
-export const EntityMetadata = S.Record({ key: S.String, value: S.String });
+export type EntityMetadata = { [key: string]: string | undefined };
+export const EntityMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface AffectedEntity {
   entityArn?: string;
   eventArn?: string;
@@ -949,8 +958,8 @@ export interface AffectedEntity {
   awsAccountId?: string;
   lastUpdatedTime?: Date;
   statusCode?: EntityStatusCode;
-  tags?: { [key: string]: string };
-  entityMetadata?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  entityMetadata?: { [key: string]: string | undefined };
 }
 export const AffectedEntity = S.suspend(() =>
   S.Struct({

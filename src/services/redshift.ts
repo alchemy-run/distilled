@@ -3904,10 +3904,10 @@ export type ImportTablesInProgress = string[];
 export const ImportTablesInProgress = S.Array(S.String);
 export type ImportTablesNotStarted = string[];
 export const ImportTablesNotStarted = S.Array(S.String);
-export type EncryptionContextMap = { [key: string]: string };
+export type EncryptionContextMap = { [key: string]: string | undefined };
 export const EncryptionContextMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ScheduledSnapshotTimeList = Date[];
 export const ScheduledSnapshotTimeList = S.Array(
@@ -5342,7 +5342,7 @@ export interface CreateIntegrationMessage {
   IntegrationName?: string;
   KMSKeyId?: string;
   TagList?: Tag[];
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Description?: string;
 }
 export const CreateIntegrationMessage = S.suspend(() =>
@@ -6406,7 +6406,7 @@ export interface Integration {
   CreateTime?: Date;
   Description?: string;
   KMSKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string };
+  AdditionalEncryptionContext?: { [key: string]: string | undefined };
   Tags?: Tag[];
 }
 export const Integration = S.suspend(() =>

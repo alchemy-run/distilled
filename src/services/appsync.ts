@@ -340,13 +340,16 @@ export const CreateApiKeyRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateApiKeyRequest",
 }) as any as S.Schema<CreateApiKeyRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDomainNameRequest {
   domainName: string;
   certificateArn: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDomainNameRequest = S.suspend(() =>
   S.Struct({
@@ -1527,7 +1530,7 @@ export const StartSchemaMergeRequest = S.suspend(() =>
 }) as any as S.Schema<StartSchemaMergeRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2440,14 +2443,17 @@ export const ApiKey = S.suspend(() =>
 ).annotations({ identifier: "ApiKey" }) as any as S.Schema<ApiKey>;
 export type ApiKeys = ApiKey[];
 export const ApiKeys = S.Array(ApiKey);
-export type MapOfStringToString = { [key: string]: string };
-export const MapOfStringToString = S.Record({ key: S.String, value: S.String });
+export type MapOfStringToString = { [key: string]: string | undefined };
+export const MapOfStringToString = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Api {
   apiId?: string;
   name?: string;
   ownerContact?: string;
-  tags?: { [key: string]: string };
-  dns?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  dns?: { [key: string]: string | undefined };
   apiArn?: string;
   created?: Date;
   xrayEnabled?: boolean;
@@ -2476,7 +2482,7 @@ export interface ChannelNamespace {
   subscribeAuthModes?: AuthMode[];
   publishAuthModes?: AuthMode[];
   codeHandlers?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   channelNamespaceArn?: string;
   created?: Date;
   lastModified?: Date;
@@ -2540,7 +2546,7 @@ export interface DomainNameConfig {
   certificateArn?: string;
   appsyncDomainName?: string;
   hostedZoneId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   domainNameArn?: string;
 }
 export const DomainNameConfig = S.suspend(() =>
@@ -2600,13 +2606,13 @@ export interface GraphqlApi {
   userPoolConfig?: UserPoolConfig;
   openIDConnectConfig?: OpenIDConnectConfig;
   arn?: string;
-  uris?: { [key: string]: string };
-  tags?: { [key: string]: string };
+  uris?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined };
   additionalAuthenticationProviders?: AdditionalAuthenticationProvider[];
   xrayEnabled?: boolean;
   wafWebAclArn?: string;
   lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
-  dns?: { [key: string]: string };
+  dns?: { [key: string]: string | undefined };
   visibility?: GraphQLApiVisibility;
   apiType?: GraphQLApiType;
   mergedApiExecutionRoleArn?: string;
@@ -2702,10 +2708,10 @@ export const Type = S.suspend(() =>
 ).annotations({ identifier: "Type" }) as any as S.Schema<Type>;
 export type TypeList = Type[];
 export const TypeList = S.Array(Type);
-export type EnvironmentVariableMap = { [key: string]: string };
+export type EnvironmentVariableMap = { [key: string]: string | undefined };
 export const EnvironmentVariableMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface RdsDataApiConfig {
   resourceArn: string;
@@ -2895,7 +2901,7 @@ export const GetDomainNameResponse = S.suspend(() =>
   identifier: "GetDomainNameResponse",
 }) as any as S.Schema<GetDomainNameResponse>;
 export interface GetGraphqlApiEnvironmentVariablesResponse {
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
 }
 export const GetGraphqlApiEnvironmentVariablesResponse = S.suspend(() =>
   S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
@@ -3082,7 +3088,7 @@ export const ListResolversByFunctionResponse = S.suspend(() =>
   identifier: "ListResolversByFunctionResponse",
 }) as any as S.Schema<ListResolversByFunctionResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }).pipe(ns),
@@ -3115,7 +3121,7 @@ export const ListTypesByAssociationResponse = S.suspend(() =>
 }) as any as S.Schema<ListTypesByAssociationResponse>;
 export interface PutGraphqlApiEnvironmentVariablesRequest {
   apiId: string;
-  environmentVariables: { [key: string]: string };
+  environmentVariables: { [key: string]: string | undefined };
 }
 export const PutGraphqlApiEnvironmentVariablesRequest = S.suspend(() =>
   S.Struct({
@@ -3446,7 +3452,7 @@ export interface CreateGraphqlApiRequest {
   authenticationType: AuthenticationType;
   userPoolConfig?: UserPoolConfig;
   openIDConnectConfig?: OpenIDConnectConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   additionalAuthenticationProviders?: AdditionalAuthenticationProvider[];
   xrayEnabled?: boolean;
   lambdaAuthorizerConfig?: LambdaAuthorizerConfig;
@@ -3601,7 +3607,7 @@ export const ListSourceApiAssociationsResponse = S.suspend(() =>
   identifier: "ListSourceApiAssociationsResponse",
 }) as any as S.Schema<ListSourceApiAssociationsResponse>;
 export interface PutGraphqlApiEnvironmentVariablesResponse {
-  environmentVariables?: { [key: string]: string };
+  environmentVariables?: { [key: string]: string | undefined };
 }
 export const PutGraphqlApiEnvironmentVariablesResponse = S.suspend(() =>
   S.Struct({ environmentVariables: S.optional(EnvironmentVariableMap) }).pipe(
@@ -3627,7 +3633,7 @@ export const StartDataSourceIntrospectionResponse = S.suspend(() =>
 export interface CreateApiRequest {
   name: string;
   ownerContact?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   eventConfig: EventConfig;
 }
 export const CreateApiRequest = S.suspend(() =>
@@ -3784,7 +3790,7 @@ export interface CreateChannelNamespaceRequest {
   subscribeAuthModes?: AuthMode[];
   publishAuthModes?: AuthMode[];
   codeHandlers?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   handlerConfigs?: HandlerConfigs;
 }
 export const CreateChannelNamespaceRequest = S.suspend(() =>

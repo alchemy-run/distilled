@@ -784,13 +784,16 @@ export const ListDataLakeDatasetsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListDataLakeDatasetsRequest",
 }) as any as S.Schema<ListDataLakeDatasetsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDataLakeNamespaceRequest = S.suspend(() =>
   S.Struct({
@@ -919,7 +922,7 @@ export interface CreateInstanceRequest {
   instanceDescription?: string;
   kmsKeyArn?: string;
   webAppDnsDomain?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateInstanceRequest = S.suspend(() =>
@@ -1419,7 +1422,7 @@ export const ListDataIntegrationFlowExecutionsResponse = S.suspend(() =>
   identifier: "ListDataIntegrationFlowExecutionsResponse",
 }) as any as S.Schema<ListDataIntegrationFlowExecutionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -1462,7 +1465,7 @@ export const SendDataIntegrationEventRequest = S.suspend(() =>
 }) as any as S.Schema<SendDataIntegrationEventRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1702,7 +1705,7 @@ export interface CreateDataLakeDatasetRequest {
   schema?: DataLakeDatasetSchema;
   description?: string;
   partitionSpec?: DataLakeDatasetPartitionSpec;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDataLakeDatasetRequest = S.suspend(() =>
   S.Struct({
@@ -1759,7 +1762,7 @@ export interface CreateDataIntegrationFlowRequest {
   sources: DataIntegrationFlowSource[];
   transformation: DataIntegrationFlowTransformation;
   target: DataIntegrationFlowTarget;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDataIntegrationFlowRequest = S.suspend(() =>
   S.Struct({

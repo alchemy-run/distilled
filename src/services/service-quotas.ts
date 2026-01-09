@@ -550,15 +550,15 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export type ExcludedQuotaList = string[];
 export const ExcludedQuotaList = S.Array(S.String);
-export type ExclusionList = { [key: string]: string[] };
+export type ExclusionList = { [key: string]: string[] | undefined };
 export const ExclusionList = S.Record({
   key: S.String,
-  value: ExcludedQuotaList,
+  value: S.UndefinedOr(ExcludedQuotaList),
 });
 export interface UpdateAutoManagementRequest {
   OptInType?: OptInType;
   NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] };
+  ExclusionList?: { [key: string]: string[] | undefined };
 }
 export const UpdateAutoManagementRequest = S.suspend(() =>
   S.Struct({
@@ -577,15 +577,17 @@ export const UpdateAutoManagementResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateAutoManagementResponse",
 }) as any as S.Schema<UpdateAutoManagementResponse>;
-export type MetricDimensionsMapDefinition = { [key: string]: string };
+export type MetricDimensionsMapDefinition = {
+  [key: string]: string | undefined;
+};
 export const MetricDimensionsMapDefinition = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface MetricInfo {
   MetricNamespace?: string;
   MetricName?: string;
-  MetricDimensions?: { [key: string]: string };
+  MetricDimensions?: { [key: string]: string | undefined };
   MetricStatisticRecommendation?: string;
 }
 export const MetricInfo = S.suspend(() =>
@@ -896,7 +898,7 @@ export interface StartAutoManagementRequest {
   OptInLevel: OptInLevel;
   OptInType: OptInType;
   NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] };
+  ExclusionList?: { [key: string]: string[] | undefined };
 }
 export const StartAutoManagementRequest = S.suspend(() =>
   S.Struct({
@@ -943,10 +945,10 @@ export const QuotaInfo = S.suspend(() =>
 ).annotations({ identifier: "QuotaInfo" }) as any as S.Schema<QuotaInfo>;
 export type QuotaInfoList = QuotaInfo[];
 export const QuotaInfoList = S.Array(QuotaInfo);
-export type ExclusionQuotaList = { [key: string]: QuotaInfo[] };
+export type ExclusionQuotaList = { [key: string]: QuotaInfo[] | undefined };
 export const ExclusionQuotaList = S.Record({
   key: S.String,
-  value: QuotaInfoList,
+  value: S.UndefinedOr(QuotaInfoList),
 });
 export interface QuotaUtilizationInfo {
   QuotaCode?: string;
@@ -993,7 +995,7 @@ export interface GetAutoManagementConfigurationResponse {
   OptInType?: OptInType;
   NotificationArn?: string;
   OptInStatus?: OptInStatus;
-  ExclusionList?: { [key: string]: QuotaInfo[] };
+  ExclusionList?: { [key: string]: QuotaInfo[] | undefined };
 }
 export const GetAutoManagementConfigurationResponse = S.suspend(() =>
   S.Struct({

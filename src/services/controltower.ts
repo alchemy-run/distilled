@@ -379,12 +379,15 @@ export const GetLandingZoneOperationInput = S.suspend(() =>
 ).annotations({
   identifier: "GetLandingZoneOperationInput",
 }) as any as S.Schema<GetLandingZoneOperationInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateLandingZoneInput {
   version: string;
   remediationTypes?: RemediationType[];
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   manifest?: any;
 }
 export const CreateLandingZoneInput = S.suspend(() =>
@@ -522,7 +525,7 @@ export const ListTagsForResourceInput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -763,7 +766,7 @@ export interface EnableBaselineInput {
   parameters?: EnabledBaselineParameter[];
   baselineIdentifier: string;
   targetIdentifier: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const EnableBaselineInput = S.suspend(() =>
   S.Struct({
@@ -837,7 +840,7 @@ export const ResetEnabledBaselineOutput = S.suspend(() =>
 export interface EnableControlInput {
   controlIdentifier: string;
   targetIdentifier: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   parameters?: EnabledControlParameter[];
 }
 export const EnableControlInput = S.suspend(() =>
@@ -959,7 +962,7 @@ export const ResetLandingZoneOutput = S.suspend(() =>
   identifier: "ResetLandingZoneOutput",
 }) as any as S.Schema<ResetLandingZoneOutput>;
 export interface ListTagsForResourceOutput {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: TagMap }),

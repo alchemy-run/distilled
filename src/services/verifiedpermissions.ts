@@ -323,7 +323,7 @@ export type AttributeValue =
       long?: never;
       string?: never;
       set?: never;
-      record: { [key: string]: AttributeValue };
+      record: { [key: string]: AttributeValue | undefined };
       ipaddr?: never;
       decimal?: never;
       datetime?: never;
@@ -397,26 +397,33 @@ export const AttributeValue = S.Union(
   S.Struct({ datetime: SensitiveString }),
   S.Struct({ duration: SensitiveString }),
 ) as any as S.Schema<AttributeValue>;
-export type ContextMap = { [key: string]: AttributeValue };
+export type ContextMap = { [key: string]: AttributeValue | undefined };
 export const ContextMap = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
 export type ContextDefinition =
-  | { contextMap: { [key: string]: AttributeValue }; cedarJson?: never }
+  | {
+      contextMap: { [key: string]: AttributeValue | undefined };
+      cedarJson?: never;
+    }
   | { contextMap?: never; cedarJson: string | redacted.Redacted<string> };
 export const ContextDefinition = S.Union(
   S.Struct({ contextMap: ContextMap }),
   S.Struct({ cedarJson: SensitiveString }),
 );
-export type EntityAttributes = { [key: string]: AttributeValue };
+export type EntityAttributes = { [key: string]: AttributeValue | undefined };
 export const EntityAttributes = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 });
 export type ParentList = EntityIdentifier[];
 export const ParentList = S.Array(EntityIdentifier);
@@ -487,7 +494,7 @@ export type CedarTagValue =
       long?: never;
       string?: never;
       set?: never;
-      record: { [key: string]: CedarTagValue };
+      record: { [key: string]: CedarTagValue | undefined };
       ipaddr?: never;
       decimal?: never;
       datetime?: never;
@@ -561,18 +568,18 @@ export const CedarTagValue = S.Union(
   S.Struct({ datetime: SensitiveString }),
   S.Struct({ duration: SensitiveString }),
 ) as any as S.Schema<CedarTagValue>;
-export type EntityCedarTags = { [key: string]: CedarTagValue };
+export type EntityCedarTags = { [key: string]: CedarTagValue | undefined };
 export const EntityCedarTags = S.Record({
   key: S.String,
-  value: S.suspend(() => CedarTagValue).annotations({
-    identifier: "CedarTagValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => CedarTagValue).annotations({ identifier: "CedarTagValue" }),
+  ),
 });
 export interface EntityItem {
   identifier: EntityIdentifier;
-  attributes?: { [key: string]: AttributeValue };
+  attributes?: { [key: string]: AttributeValue | undefined };
   parents?: EntityIdentifier[];
-  tags?: { [key: string]: CedarTagValue };
+  tags?: { [key: string]: CedarTagValue | undefined };
 }
 export const EntityItem = S.suspend(() =>
   S.Struct({
@@ -751,8 +758,11 @@ export const ListPolicyTemplatesInput = S.suspend(() =>
 }) as any as S.Schema<ListPolicyTemplatesInput>;
 export type PolicyType = "STATIC" | "TEMPLATE_LINKED";
 export const PolicyType = S.Literal("STATIC", "TEMPLATE_LINKED");
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type CedarVersion = "CEDAR_2" | "CEDAR_4";
 export const CedarVersion = S.Literal("CEDAR_2", "CEDAR_4");
 export interface BatchIsAuthorizedInputItem {
@@ -830,7 +840,7 @@ export const PolicyEffect = S.Literal("Permit", "Forbid");
 export type ClientIds = string | redacted.Redacted<string>[];
 export const ClientIds = S.Array(SensitiveString);
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -839,7 +849,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagMap }).pipe(
@@ -857,7 +867,7 @@ export interface CreatePolicyStoreInput {
   validationSettings: ValidationSettings;
   description?: string | redacted.Redacted<string>;
   deletionProtection?: DeletionProtection;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreatePolicyStoreInput = S.suspend(() =>
   S.Struct({
@@ -881,7 +891,7 @@ export interface GetPolicyStoreOutput {
   description?: string | redacted.Redacted<string>;
   deletionProtection?: DeletionProtection;
   cedarVersion?: CedarVersion;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetPolicyStoreOutput = S.suspend(() =>
   S.Struct({
@@ -1439,12 +1449,14 @@ export const TemplateLinkedPolicyDefinitionDetail = S.suspend(() =>
 ).annotations({
   identifier: "TemplateLinkedPolicyDefinitionDetail",
 }) as any as S.Schema<TemplateLinkedPolicyDefinitionDetail>;
-export type RecordAttribute = { [key: string]: AttributeValue };
+export type RecordAttribute = { [key: string]: AttributeValue | undefined };
 export const RecordAttribute = S.Record({
   key: S.String,
-  value: S.suspend(() => AttributeValue).annotations({
-    identifier: "AttributeValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => AttributeValue).annotations({
+      identifier: "AttributeValue",
+    }),
+  ),
 }) as any as S.Schema<RecordAttribute>;
 export interface OpenIdConnectAccessTokenConfiguration {
   principalIdClaim?: string | redacted.Redacted<string>;
@@ -1607,12 +1619,14 @@ export const UpdateOpenIdConnectTokenSelection = S.Union(
     identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration,
   }),
 );
-export type CedarTagRecordAttribute = { [key: string]: CedarTagValue };
+export type CedarTagRecordAttribute = {
+  [key: string]: CedarTagValue | undefined;
+};
 export const CedarTagRecordAttribute = S.Record({
   key: S.String,
-  value: S.suspend(() => CedarTagValue).annotations({
-    identifier: "CedarTagValue",
-  }),
+  value: S.UndefinedOr(
+    S.suspend(() => CedarTagValue).annotations({ identifier: "CedarTagValue" }),
+  ),
 }) as any as S.Schema<CedarTagRecordAttribute>;
 export interface BatchIsAuthorizedWithTokenOutput {
   principal?: EntityIdentifier;

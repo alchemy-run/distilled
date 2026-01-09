@@ -994,11 +994,11 @@ export const ActionTypeEnum = S.Literal(
   "jwt-validation",
 );
 export type AuthenticateOidcActionAuthenticationRequestExtraParams = {
-  [key: string]: string;
+  [key: string]: string | undefined;
 };
 export const AuthenticateOidcActionAuthenticationRequestExtraParams = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type AuthenticateOidcActionConditionalBehaviorEnum =
   | "deny"
@@ -1019,7 +1019,7 @@ export interface AuthenticateOidcActionConfig {
   SessionCookieName?: string;
   Scope?: string;
   SessionTimeout?: number;
-  AuthenticationRequestExtraParams?: { [key: string]: string };
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
   OnUnauthenticatedRequest?: AuthenticateOidcActionConditionalBehaviorEnum;
   UseExistingClientSecret?: boolean;
 }
@@ -1046,10 +1046,10 @@ export const AuthenticateOidcActionConfig = S.suspend(() =>
   identifier: "AuthenticateOidcActionConfig",
 }) as any as S.Schema<AuthenticateOidcActionConfig>;
 export type AuthenticateCognitoActionAuthenticationRequestExtraParams = {
-  [key: string]: string;
+  [key: string]: string | undefined;
 };
 export const AuthenticateCognitoActionAuthenticationRequestExtraParams =
-  S.Record({ key: S.String, value: S.String });
+  S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export type AuthenticateCognitoActionConditionalBehaviorEnum =
   | "deny"
   | "allow"
@@ -1066,7 +1066,7 @@ export interface AuthenticateCognitoActionConfig {
   SessionCookieName?: string;
   Scope?: string;
   SessionTimeout?: number;
-  AuthenticationRequestExtraParams?: { [key: string]: string };
+  AuthenticationRequestExtraParams?: { [key: string]: string | undefined };
   OnUnauthenticatedRequest?: AuthenticateCognitoActionConditionalBehaviorEnum;
 }
 export const AuthenticateCognitoActionConfig = S.suspend(() =>

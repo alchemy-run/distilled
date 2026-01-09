@@ -833,10 +833,12 @@ export const UpdateSecretVersionStageResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateSecretVersionStageResponse>;
 export type KmsKeyIdListType = string[];
 export const KmsKeyIdListType = S.Array(S.String);
-export type SecretVersionsToStagesMapType = { [key: string]: string[] };
+export type SecretVersionsToStagesMapType = {
+  [key: string]: string[] | undefined;
+};
 export const SecretVersionsToStagesMapType = S.Record({
   key: S.String,
-  value: SecretVersionStagesType,
+  value: S.UndefinedOr(SecretVersionStagesType),
 });
 export interface SecretListEntry {
   ARN?: string;
@@ -855,7 +857,7 @@ export interface SecretListEntry {
   DeletedDate?: Date;
   NextRotationDate?: Date;
   Tags?: Tag[];
-  SecretVersionsToStages?: { [key: string]: string[] };
+  SecretVersionsToStages?: { [key: string]: string[] | undefined };
   OwningService?: string;
   CreatedDate?: Date;
   PrimaryRegion?: string;
@@ -967,7 +969,7 @@ export interface DescribeSecretResponse {
   DeletedDate?: Date;
   NextRotationDate?: Date;
   Tags?: Tag[];
-  VersionIdsToStages?: { [key: string]: string[] };
+  VersionIdsToStages?: { [key: string]: string[] | undefined };
   OwningService?: string;
   CreatedDate?: Date;
   PrimaryRegion?: string;

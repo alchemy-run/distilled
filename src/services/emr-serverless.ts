@@ -237,10 +237,12 @@ export const InitialCapacityConfig = S.suspend(() =>
 ).annotations({
   identifier: "InitialCapacityConfig",
 }) as any as S.Schema<InitialCapacityConfig>;
-export type InitialCapacityConfigMap = { [key: string]: InitialCapacityConfig };
+export type InitialCapacityConfigMap = {
+  [key: string]: InitialCapacityConfig | undefined;
+};
 export const InitialCapacityConfigMap = S.Record({
   key: S.String,
-  value: InitialCapacityConfig,
+  value: S.UndefinedOr(InitialCapacityConfig),
 });
 export interface MaximumAllowedResources {
   cpu: string;
@@ -305,11 +307,11 @@ export const WorkerTypeSpecificationInput = S.suspend(() =>
   identifier: "WorkerTypeSpecificationInput",
 }) as any as S.Schema<WorkerTypeSpecificationInput>;
 export type WorkerTypeSpecificationInputMap = {
-  [key: string]: WorkerTypeSpecificationInput;
+  [key: string]: WorkerTypeSpecificationInput | undefined;
 };
 export const WorkerTypeSpecificationInputMap = S.Record({
   key: S.String,
-  value: WorkerTypeSpecificationInput,
+  value: S.UndefinedOr(WorkerTypeSpecificationInput),
 });
 export interface InteractiveConfiguration {
   studioEnabled?: boolean;
@@ -355,14 +357,17 @@ export const ManagedPersistenceMonitoringConfiguration = S.suspend(() =>
 }) as any as S.Schema<ManagedPersistenceMonitoringConfiguration>;
 export type LogTypeList = string[];
 export const LogTypeList = S.Array(S.String);
-export type LogTypeMap = { [key: string]: string[] };
-export const LogTypeMap = S.Record({ key: S.String, value: LogTypeList });
+export type LogTypeMap = { [key: string]: string[] | undefined };
+export const LogTypeMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(LogTypeList),
+});
 export interface CloudWatchLoggingConfiguration {
   enabled: boolean;
   logGroupName?: string;
   logStreamNamePrefix?: string;
   encryptionKeyArn?: string;
-  logTypes?: { [key: string]: string[] };
+  logTypes?: { [key: string]: string[] | undefined };
 }
 export const CloudWatchLoggingConfiguration = S.suspend(() =>
   S.Struct({
@@ -403,10 +408,13 @@ export const MonitoringConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "MonitoringConfiguration",
 }) as any as S.Schema<MonitoringConfiguration>;
-export type EncryptionContext = { [key: string]: string };
-export const EncryptionContext = S.Record({ key: S.String, value: S.String });
+export type EncryptionContext = { [key: string]: string | undefined };
+export const EncryptionContext = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DiskEncryptionConfiguration {
-  encryptionContext?: { [key: string]: string };
+  encryptionContext?: { [key: string]: string | undefined };
   encryptionKeyArn?: string;
 }
 export const DiskEncryptionConfiguration = S.suspend(() =>
@@ -452,14 +460,16 @@ export const JobLevelCostAllocationConfiguration = S.suspend(() =>
 export interface UpdateApplicationRequest {
   applicationId: string;
   clientToken: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig };
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
   maximumCapacity?: MaximumAllowedResources;
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput };
+  workerTypeSpecifications?: {
+    [key: string]: WorkerTypeSpecificationInput | undefined;
+  };
   interactiveConfiguration?: InteractiveConfiguration;
   releaseLabel?: string;
   runtimeConfiguration?: Configuration[];
@@ -745,8 +755,11 @@ export const ListJobRunAttemptsRequest = S.suspend(() =>
 }) as any as S.Schema<ListJobRunAttemptsRequest>;
 export type PolicyArnList = string[];
 export const PolicyArnList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface JobRunExecutionIamPolicy {
   policy?: string;
   policyArns?: string[];
@@ -786,7 +799,7 @@ export const RetryPolicy = S.suspend(() =>
 export type EntryPointArguments = string | redacted.Redacted<string>[];
 export const EntryPointArguments = S.Array(SensitiveString);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -795,7 +808,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -836,11 +849,11 @@ export const WorkerTypeSpecification = S.suspend(() =>
   identifier: "WorkerTypeSpecification",
 }) as any as S.Schema<WorkerTypeSpecification>;
 export type WorkerTypeSpecificationMap = {
-  [key: string]: WorkerTypeSpecification;
+  [key: string]: WorkerTypeSpecification | undefined;
 };
 export const WorkerTypeSpecificationMap = S.Record({
   key: S.String,
-  value: WorkerTypeSpecification,
+  value: S.UndefinedOr(WorkerTypeSpecification),
 });
 export interface IdentityCenterConfiguration {
   identityCenterInstanceArn?: string;
@@ -864,17 +877,19 @@ export interface Application {
   type: string;
   state: string;
   stateDetails?: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig };
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
   maximumCapacity?: MaximumAllowedResources;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfiguration;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecification };
+  workerTypeSpecifications?: {
+    [key: string]: WorkerTypeSpecification | undefined;
+  };
   runtimeConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
   diskEncryptionConfiguration?: DiskEncryptionConfiguration;
@@ -939,10 +954,10 @@ export const GetDashboardForJobRunResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetDashboardForJobRunResponse",
 }) as any as S.Schema<GetDashboardForJobRunResponse>;
-export type SensitivePropertiesMap = { [key: string]: string };
+export type SensitivePropertiesMap = { [key: string]: string | undefined };
 export const SensitivePropertiesMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface SparkSubmit {
   entryPoint: string | redacted.Redacted<string>;
@@ -970,7 +985,7 @@ export const Hive = S.suspend(() =>
 ).annotations({ identifier: "Hive" }) as any as S.Schema<Hive>;
 export interface Configuration {
   classification: string;
-  properties?: { [key: string]: string };
+  properties?: { [key: string]: string | undefined };
   configurations?: Configuration[];
 }
 export const Configuration = S.suspend(() =>
@@ -1125,7 +1140,7 @@ export interface StartJobRunRequest {
   executionIamPolicy?: JobRunExecutionIamPolicy;
   jobDriver?: JobDriver;
   configurationOverrides?: ConfigurationOverrides;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   executionTimeoutMinutes?: number;
   name?: string;
   mode?: string;
@@ -1218,7 +1233,7 @@ export interface JobRun {
   releaseLabel: string;
   configurationOverrides?: ConfigurationOverrides;
   jobDriver: JobDriver;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   totalResourceUtilization?: TotalResourceUtilization;
   networkConfiguration?: NetworkConfiguration;
   totalExecutionDurationSeconds?: number;
@@ -1274,15 +1289,17 @@ export interface CreateApplicationRequest {
   releaseLabel: string;
   type: string;
   clientToken: string;
-  initialCapacity?: { [key: string]: InitialCapacityConfig };
+  initialCapacity?: { [key: string]: InitialCapacityConfig | undefined };
   maximumCapacity?: MaximumAllowedResources;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   autoStartConfiguration?: AutoStartConfig;
   autoStopConfiguration?: AutoStopConfig;
   networkConfiguration?: NetworkConfiguration;
   architecture?: string;
   imageConfiguration?: ImageConfigurationInput;
-  workerTypeSpecifications?: { [key: string]: WorkerTypeSpecificationInput };
+  workerTypeSpecifications?: {
+    [key: string]: WorkerTypeSpecificationInput | undefined;
+  };
   runtimeConfiguration?: Configuration[];
   monitoringConfiguration?: MonitoringConfiguration;
   diskEncryptionConfiguration?: DiskEncryptionConfiguration;

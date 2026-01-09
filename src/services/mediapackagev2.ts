@@ -163,13 +163,16 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateChannelGroupRequest {
   ChannelGroupName: string;
   ClientToken?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelGroupRequest = S.suspend(() =>
   S.Struct({
@@ -1557,7 +1560,7 @@ export const HarvesterScheduleConfiguration = S.suspend(() =>
   identifier: "HarvesterScheduleConfiguration",
 }) as any as S.Schema<HarvesterScheduleConfiguration>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap).pipe(T.JsonName("tags")) }),
@@ -1566,7 +1569,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1597,7 +1600,7 @@ export interface CreateChannelGroupResponse {
   ModifiedAt: Date;
   ETag?: string;
   Description?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1621,7 +1624,7 @@ export interface GetChannelGroupResponse {
   ModifiedAt: Date;
   Description?: string;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetChannelGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1645,7 +1648,7 @@ export interface UpdateChannelGroupResponse {
   ModifiedAt: Date;
   Description?: string;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdateChannelGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1669,7 +1672,7 @@ export interface CreateChannelRequest {
   Description?: string;
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -1721,7 +1724,7 @@ export interface UpdateChannelResponse {
   IngestEndpoints?: IngestEndpoint[];
   InputType?: InputType;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
 }
@@ -1913,7 +1916,7 @@ export interface UpdateOriginEndpointResponse {
   MssManifests?: GetMssManifestConfiguration[];
   ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   DashManifests?: GetDashManifestConfiguration[];
 }
 export const UpdateOriginEndpointResponse = S.suspend(() =>
@@ -2090,7 +2093,7 @@ export interface GetHarvestJobResponse {
   Status: HarvestJobStatus;
   ErrorMessage?: string;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetHarvestJobResponse = S.suspend(() =>
   S.Struct({
@@ -2226,7 +2229,7 @@ export interface CreateChannelResponse {
   IngestEndpoints?: IngestEndpoint[];
   InputType?: InputType;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
 }
@@ -2259,7 +2262,7 @@ export interface GetChannelResponse {
   IngestEndpoints?: IngestEndpoint[];
   InputType?: InputType;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
   InputSwitchConfiguration?: InputSwitchConfiguration;
   OutputHeaderConfiguration?: OutputHeaderConfiguration;
 }
@@ -2309,7 +2312,7 @@ export interface GetOriginEndpointResponse {
   MssManifests?: GetMssManifestConfiguration[];
   ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetOriginEndpointResponse = S.suspend(() =>
   S.Struct({
@@ -2347,7 +2350,7 @@ export interface CreateHarvestJobRequest {
   Destination: Destination;
   ClientToken?: string;
   HarvestJobName?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateHarvestJobRequest = S.suspend(() =>
   S.Struct({
@@ -2525,7 +2528,7 @@ export interface CreateHarvestJobResponse {
   Status: HarvestJobStatus;
   ErrorMessage?: string;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateHarvestJobResponse = S.suspend(() =>
   S.Struct({
@@ -2562,7 +2565,7 @@ export interface CreateOriginEndpointRequest {
   DashManifests?: CreateDashManifestConfiguration[];
   MssManifests?: CreateMssManifestConfiguration[];
   ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateOriginEndpointRequest = S.suspend(() =>
   S.Struct({
@@ -2618,7 +2621,7 @@ export interface CreateOriginEndpointResponse {
   MssManifests?: GetMssManifestConfiguration[];
   ForceEndpointErrorConfiguration?: ForceEndpointErrorConfiguration;
   ETag?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateOriginEndpointResponse = S.suspend(() =>
   S.Struct({

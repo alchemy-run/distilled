@@ -1144,8 +1144,11 @@ export const ExplainabilityConfig = S.suspend(() =>
 ).annotations({
   identifier: "ExplainabilityConfig",
 }) as any as S.Schema<ExplainabilityConfig>;
-export type TrainingParameters = { [key: string]: string };
-export const TrainingParameters = S.Record({ key: S.String, value: S.String });
+export type TrainingParameters = { [key: string]: string | undefined };
+export const TrainingParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface EvaluationParameters {
   NumberOfBacktestWindows?: number;
   BackTestWindowOffset?: number;
@@ -2027,10 +2030,16 @@ export const WhatIfForecastSummary = S.suspend(() =>
 }) as any as S.Schema<WhatIfForecastSummary>;
 export type WhatIfForecasts = WhatIfForecastSummary[];
 export const WhatIfForecasts = S.Array(WhatIfForecastSummary);
-export type Transformations = { [key: string]: string };
-export const Transformations = S.Record({ key: S.String, value: S.String });
-export type Configuration = { [key: string]: string[] };
-export const Configuration = S.Record({ key: S.String, value: Values });
+export type Transformations = { [key: string]: string | undefined };
+export const Transformations = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Configuration = { [key: string]: string[] | undefined };
+export const Configuration = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Values),
+});
 export interface CategoricalParameterRange {
   Name: string;
   Values: string[];
@@ -2194,7 +2203,7 @@ export const CreateWhatIfForecastRequest = S.suspend(() =>
 }) as any as S.Schema<CreateWhatIfForecastRequest>;
 export interface AttributeConfig {
   AttributeName: string;
-  Transformations: { [key: string]: string };
+  Transformations: { [key: string]: string | undefined };
 }
 export const AttributeConfig = S.suspend(() =>
   S.Struct({ AttributeName: S.String, Transformations: Transformations }),
@@ -2205,7 +2214,7 @@ export type AttributeConfigs = AttributeConfig[];
 export const AttributeConfigs = S.Array(AttributeConfig);
 export interface AdditionalDataset {
   Name: string;
-  Configuration?: { [key: string]: string[] };
+  Configuration?: { [key: string]: string[] | undefined };
 }
 export const AdditionalDataset = S.suspend(() =>
   S.Struct({ Name: S.String, Configuration: S.optional(Configuration) }),
@@ -2494,10 +2503,12 @@ export const MetricResult = S.suspend(() =>
 ).annotations({ identifier: "MetricResult" }) as any as S.Schema<MetricResult>;
 export type MetricResults = MetricResult[];
 export const MetricResults = S.Array(MetricResult);
-export type FeaturizationMethodParameters = { [key: string]: string };
+export type FeaturizationMethodParameters = {
+  [key: string]: string | undefined;
+};
 export const FeaturizationMethodParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface HyperParameterTuningJobConfig {
   ParameterRanges?: ParameterRanges;
@@ -2507,8 +2518,11 @@ export const HyperParameterTuningJobConfig = S.suspend(() =>
 ).annotations({
   identifier: "HyperParameterTuningJobConfig",
 }) as any as S.Schema<HyperParameterTuningJobConfig>;
-export type FieldStatistics = { [key: string]: Statistics };
-export const FieldStatistics = S.Record({ key: S.String, value: Statistics });
+export type FieldStatistics = { [key: string]: Statistics | undefined };
+export const FieldStatistics = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(Statistics),
+});
 export interface DatasetImportJobSummary {
   DatasetImportJobArn?: string;
   DatasetImportJobName?: string;
@@ -2575,7 +2589,7 @@ export type PredictorMonitorEvaluations = PredictorMonitorEvaluation[];
 export const PredictorMonitorEvaluations = S.Array(PredictorMonitorEvaluation);
 export interface FeaturizationMethod {
   FeaturizationMethodName: FeaturizationMethodName;
-  FeaturizationMethodParameters?: { [key: string]: string };
+  FeaturizationMethodParameters?: { [key: string]: string | undefined };
 }
 export const FeaturizationMethod = S.suspend(() =>
   S.Struct({
@@ -2696,7 +2710,7 @@ export interface DescribeDatasetImportJobResponse {
   GeolocationFormat?: string;
   DataSource?: DataSource;
   EstimatedTimeRemainingInMinutes?: number;
-  FieldStatistics?: { [key: string]: Statistics };
+  FieldStatistics?: { [key: string]: Statistics | undefined };
   DataSize?: number;
   Status?: string;
   Message?: string;
@@ -2877,7 +2891,7 @@ export interface CreatePredictorRequest {
   PerformAutoML?: boolean;
   AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
   PerformHPO?: boolean;
-  TrainingParameters?: { [key: string]: string };
+  TrainingParameters?: { [key: string]: string | undefined };
   EvaluationParameters?: EvaluationParameters;
   HPOConfig?: HyperParameterTuningJobConfig;
   InputDataConfig: InputDataConfig;
@@ -2953,7 +2967,7 @@ export interface DescribePredictorResponse {
   PerformAutoML?: boolean;
   AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
   PerformHPO?: boolean;
-  TrainingParameters?: { [key: string]: string };
+  TrainingParameters?: { [key: string]: string | undefined };
   EvaluationParameters?: EvaluationParameters;
   HPOConfig?: HyperParameterTuningJobConfig;
   InputDataConfig?: InputDataConfig;

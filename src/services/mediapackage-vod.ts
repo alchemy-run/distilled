@@ -383,10 +383,13 @@ export const EgressAccessLogs = S.suspend(() =>
 ).annotations({
   identifier: "EgressAccessLogs",
 }) as any as S.Schema<EgressAccessLogs>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type AdMarkers = "NONE" | "SCTE35_ENHANCED" | "PASSTHROUGH";
 export const AdMarkers = S.Literal("NONE", "SCTE35_ENHANCED", "PASSTHROUGH");
 export type ManifestLayout = "FULL" | "COMPACT";
@@ -426,7 +429,7 @@ export interface CreateAssetRequest {
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAssetRequest = S.suspend(() =>
   S.Struct({
@@ -453,7 +456,7 @@ export interface CreatePackagingGroupRequest {
   Authorization?: Authorization;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePackagingGroupRequest = S.suspend(() =>
   S.Struct({
@@ -864,7 +867,7 @@ export interface DescribePackagingConfigurationResponse {
     };
   };
   PackagingGroupId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({
@@ -900,7 +903,7 @@ export interface DescribePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -923,7 +926,7 @@ export const DescribePackagingGroupResponse = S.suspend(() =>
   identifier: "DescribePackagingGroupResponse",
 }) as any as S.Schema<DescribePackagingGroupResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
@@ -932,7 +935,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -966,7 +969,7 @@ export interface UpdatePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const UpdatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1014,7 +1017,7 @@ export interface AssetShallow {
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const AssetShallow = S.suspend(() =>
   S.Struct({
@@ -1039,7 +1042,7 @@ export interface PackagingConfiguration {
   Id?: string;
   MssPackage?: MssPackage;
   PackagingGroupId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PackagingConfiguration = S.suspend(() =>
   S.Struct({
@@ -1074,7 +1077,7 @@ export interface PackagingGroup {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const PackagingGroup = S.suspend(() =>
   S.Struct({
@@ -1108,7 +1111,7 @@ export interface ConfigureLogsResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ConfigureLogsResponse = S.suspend(() =>
   S.Struct({
@@ -1136,7 +1139,7 @@ export interface CreateAssetResponse {
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAssetResponse = S.suspend(() =>
   S.Struct({
@@ -1165,7 +1168,7 @@ export interface CreatePackagingGroupResponse {
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
   Id?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
@@ -1193,7 +1196,7 @@ export interface DescribeAssetResponse {
   ResourceId?: string;
   SourceArn?: string;
   SourceRoleArn?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DescribeAssetResponse = S.suspend(() =>
   S.Struct({
@@ -1321,7 +1324,7 @@ export interface CreatePackagingConfigurationRequest {
   Id?: string;
   MssPackage?: MssPackage;
   PackagingGroupId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePackagingConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1414,7 +1417,7 @@ export interface CreatePackagingConfigurationResponse {
     };
   };
   PackagingGroupId?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreatePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({

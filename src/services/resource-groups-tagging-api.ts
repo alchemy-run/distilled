@@ -313,8 +313,11 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type TagValuesOutputList = string[];
 export const TagValuesOutputList = S.Array(S.String);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface GetResourcesInput {
   PaginationToken?: string;
   TagFilters?: TagFilter[];
@@ -374,7 +377,7 @@ export const GetTagValuesOutput = S.suspend(() =>
 }) as any as S.Schema<GetTagValuesOutput>;
 export interface TagResourcesInput {
   ResourceARNList: string[];
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourcesInput = S.suspend(() =>
   S.Struct({ ResourceARNList: ResourceARNListForTagUntag, Tags: TagMap }).pipe(
@@ -473,13 +476,13 @@ export const FailureInfo = S.suspend(() =>
     ErrorMessage: S.optional(S.String),
   }),
 ).annotations({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
-export type FailedResourcesMap = { [key: string]: FailureInfo };
+export type FailedResourcesMap = { [key: string]: FailureInfo | undefined };
 export const FailedResourcesMap = S.Record({
   key: S.String,
-  value: FailureInfo,
+  value: S.UndefinedOr(FailureInfo),
 });
 export interface TagResourcesOutput {
-  FailedResourcesMap?: { [key: string]: FailureInfo };
+  FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
 }
 export const TagResourcesOutput = S.suspend(() =>
   S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),
@@ -487,7 +490,7 @@ export const TagResourcesOutput = S.suspend(() =>
   identifier: "TagResourcesOutput",
 }) as any as S.Schema<TagResourcesOutput>;
 export interface UntagResourcesOutput {
-  FailedResourcesMap?: { [key: string]: FailureInfo };
+  FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
 }
 export const UntagResourcesOutput = S.suspend(() =>
   S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),

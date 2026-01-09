@@ -3107,14 +3107,17 @@ export const RenewOfferingResult = S.suspend(() =>
 ).annotations({
   identifier: "RenewOfferingResult",
 }) as any as S.Schema<RenewOfferingResult>;
-export type TestParameters = { [key: string]: string };
-export const TestParameters = S.Record({ key: S.String, value: S.String });
+export type TestParameters = { [key: string]: string | undefined };
+export const TestParameters = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ScheduleRunTest {
   type: TestType;
   testPackageArn?: string;
   testSpecArn?: string;
   filter?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const ScheduleRunTest = S.suspend(() =>
   S.Struct({
@@ -3308,7 +3311,7 @@ export const UpdateVPCEConfigurationResult = S.suspend(() =>
 }) as any as S.Schema<UpdateVPCEConfigurationResult>;
 export type PurchasedDevicesMap = { [key in DevicePlatform]?: number };
 export const PurchasedDevicesMap = S.partial(
-  S.Record({ key: DevicePlatform, value: S.Number }),
+  S.Record({ key: DevicePlatform, value: S.UndefinedOr(S.Number) }),
 );
 export interface TrialMinutes {
   total?: number;
@@ -3317,8 +3320,11 @@ export interface TrialMinutes {
 export const TrialMinutes = S.suspend(() =>
   S.Struct({ total: S.optional(S.Number), remaining: S.optional(S.Number) }),
 ).annotations({ identifier: "TrialMinutes" }) as any as S.Schema<TrialMinutes>;
-export type MaxSlotMap = { [key: string]: number };
-export const MaxSlotMap = S.Record({ key: S.String, value: S.Number });
+export type MaxSlotMap = { [key: string]: number | undefined };
+export const MaxSlotMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.Number),
+});
 export type ArtifactType =
   | "UNKNOWN"
   | "SCREENSHOT"
@@ -3439,11 +3445,11 @@ export const CreateRemoteAccessSessionConfiguration = S.suspend(() =>
 }) as any as S.Schema<CreateRemoteAccessSessionConfiguration>;
 export interface AccountSettings {
   awsAccountNumber?: string;
-  unmeteredDevices?: { [key: string]: number };
-  unmeteredRemoteAccessDevices?: { [key: string]: number };
+  unmeteredDevices?: { [key: string]: number | undefined };
+  unmeteredRemoteAccessDevices?: { [key: string]: number | undefined };
   maxJobTimeoutMinutes?: number;
   trialMinutes?: TrialMinutes;
-  maxSlots?: { [key: string]: number };
+  maxSlots?: { [key: string]: number | undefined };
   defaultJobTimeoutMinutes?: number;
   skipAppResign?: boolean;
 }
@@ -3806,10 +3812,10 @@ export const ScheduleRunResult = S.suspend(() =>
 ).annotations({
   identifier: "ScheduleRunResult",
 }) as any as S.Schema<ScheduleRunResult>;
-export type OfferingStatusMap = { [key: string]: OfferingStatus };
+export type OfferingStatusMap = { [key: string]: OfferingStatus | undefined };
 export const OfferingStatusMap = S.Record({
   key: S.String,
-  value: OfferingStatus,
+  value: S.UndefinedOr(OfferingStatus),
 });
 export type Offerings = Offering[];
 export const Offerings = S.Array(Offering);
@@ -3838,8 +3844,8 @@ export const GetJobResult = S.suspend(() =>
   S.Struct({ job: S.optional(Job) }).pipe(ns),
 ).annotations({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
 export interface GetOfferingStatusResult {
-  current?: { [key: string]: OfferingStatus };
-  nextPeriod?: { [key: string]: OfferingStatus };
+  current?: { [key: string]: OfferingStatus | undefined };
+  nextPeriod?: { [key: string]: OfferingStatus | undefined };
   nextToken?: string;
 }
 export const GetOfferingStatusResult = S.suspend(() =>
@@ -3967,7 +3973,7 @@ export type UniqueProblemsByExecutionResultMap = {
   [key in ExecutionResult]?: UniqueProblem[];
 };
 export const UniqueProblemsByExecutionResultMap = S.partial(
-  S.Record({ key: ExecutionResult, value: UniqueProblems }),
+  S.Record({ key: ExecutionResult, value: S.UndefinedOr(UniqueProblems) }),
 );
 export interface GetDevicePoolCompatibilityResult {
   compatibleDevices?: DevicePoolCompatibilityResult[];
@@ -3982,7 +3988,7 @@ export const GetDevicePoolCompatibilityResult = S.suspend(() =>
   identifier: "GetDevicePoolCompatibilityResult",
 }) as any as S.Schema<GetDevicePoolCompatibilityResult>;
 export interface ListUniqueProblemsResult {
-  uniqueProblems?: { [key: string]: UniqueProblem[] };
+  uniqueProblems?: { [key: string]: UniqueProblem[] | undefined };
   nextToken?: string;
 }
 export const ListUniqueProblemsResult = S.suspend(() =>

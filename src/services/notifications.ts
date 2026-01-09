@@ -763,13 +763,16 @@ export const ListManagedNotificationEventsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListManagedNotificationEventsRequest",
 }) as any as S.Schema<ListManagedNotificationEventsRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateNotificationConfigurationRequest {
   name: string;
   description: string;
   aggregationDuration?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateNotificationConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -1117,7 +1120,7 @@ export const NotificationsAccessForOrganization = S.suspend(() =>
 export type OrganizationalUnits = string[];
 export const OrganizationalUnits = S.Array(S.String);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1126,7 +1129,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
@@ -1164,15 +1167,17 @@ export const EventRuleStatusSummary = S.suspend(() =>
 ).annotations({
   identifier: "EventRuleStatusSummary",
 }) as any as S.Schema<EventRuleStatusSummary>;
-export type StatusSummaryByRegion = { [key: string]: EventRuleStatusSummary };
+export type StatusSummaryByRegion = {
+  [key: string]: EventRuleStatusSummary | undefined;
+};
 export const StatusSummaryByRegion = S.Record({
   key: S.String,
-  value: EventRuleStatusSummary,
+  value: S.UndefinedOr(EventRuleStatusSummary),
 });
 export interface UpdateEventRuleResponse {
   arn: string;
   notificationConfigurationArn: string;
-  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary | undefined };
 }
 export const UpdateEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1192,7 +1197,7 @@ export interface GetEventRuleResponse {
   eventPattern: string;
   regions: string[];
   managedRules: string[];
-  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary | undefined };
 }
 export const GetEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1359,7 +1364,7 @@ export interface EventRuleStructure {
   eventPattern: string;
   regions: string[];
   managedRules: string[];
-  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary | undefined };
 }
 export const EventRuleStructure = S.suspend(() =>
   S.Struct({
@@ -1716,7 +1721,7 @@ export const SourceEventMetadataSummary = S.suspend(() =>
 export interface CreateEventRuleResponse {
   arn: string;
   notificationConfigurationArn: string;
-  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary };
+  statusSummaryByRegion: { [key: string]: EventRuleStatusSummary | undefined };
 }
 export const CreateEventRuleResponse = S.suspend(() =>
   S.Struct({
@@ -1827,8 +1832,11 @@ export const NotificationEventSummary = S.suspend(() =>
 ).annotations({
   identifier: "NotificationEventSummary",
 }) as any as S.Schema<NotificationEventSummary>;
-export type TextByLocale = { [key: string]: string };
-export const TextByLocale = S.Record({ key: S.String, value: S.String });
+export type TextByLocale = { [key: string]: string | undefined };
+export const TextByLocale = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ManagedNotificationChildEventOverview {
   arn: string;
   managedNotificationConfigurationArn: string;
@@ -1859,7 +1867,7 @@ export const ManagedNotificationChildEvents = S.Array(
 export interface TextPartValue {
   type: string;
   displayText?: string;
-  textByLocale?: { [key: string]: string };
+  textByLocale?: { [key: string]: string | undefined };
   url?: string;
 }
 export const TextPartValue = S.suspend(() =>
@@ -1872,8 +1880,11 @@ export const TextPartValue = S.suspend(() =>
 ).annotations({
   identifier: "TextPartValue",
 }) as any as S.Schema<TextPartValue>;
-export type TextParts = { [key: string]: TextPartValue };
-export const TextParts = S.Record({ key: S.String, value: TextPartValue });
+export type TextParts = { [key: string]: TextPartValue | undefined };
+export const TextParts = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(TextPartValue),
+});
 export interface ManagedNotificationEvent {
   schemaVersion: string;
   id: string;
@@ -1886,7 +1897,7 @@ export interface ManagedNotificationEvent {
   aggregationSummary?: AggregationSummary;
   startTime?: Date;
   endTime?: Date;
-  textParts: { [key: string]: TextPartValue };
+  textParts: { [key: string]: TextPartValue | undefined };
   organizationalUnitId?: string;
 }
 export const ManagedNotificationEvent = S.suspend(() =>
@@ -1922,7 +1933,7 @@ export interface NotificationEventSchema {
   aggregationSummary?: AggregationSummary;
   startTime?: Date;
   endTime?: Date;
-  textParts: { [key: string]: TextPartValue };
+  textParts: { [key: string]: TextPartValue | undefined };
   media: MediaElement[];
   organizationalUnitId?: string;
 }
@@ -2054,7 +2065,7 @@ export interface ManagedNotificationChildEvent {
   aggregateManagedNotificationEventArn: string;
   startTime?: Date;
   endTime?: Date;
-  textParts: { [key: string]: TextPartValue };
+  textParts: { [key: string]: TextPartValue | undefined };
   organizationalUnitId?: string;
   aggregationDetail?: AggregationDetail;
 }

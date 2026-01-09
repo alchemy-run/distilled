@@ -311,8 +311,11 @@ export const PutClusterPolicyInput = S.suspend(() =>
 ).annotations({
   identifier: "PutClusterPolicyInput",
 }) as any as S.Schema<PutClusterPolicyInput>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type ClusterStatus =
   | "CREATING"
   | "ACTIVE"
@@ -337,7 +340,7 @@ export const ClusterStatus = S.Literal(
   "PENDING_DELETE",
 );
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -346,7 +349,7 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface TagResourceInput {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = S.suspend(() =>
   S.Struct({
@@ -372,7 +375,7 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface CreateClusterInput {
   deletionProtectionEnabled?: boolean;
   kmsEncryptionKey?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
   multiRegionProperties?: MultiRegionProperties;
   policy?: string;
@@ -551,7 +554,7 @@ export interface GetClusterOutput {
   creationTime: Date;
   deletionProtectionEnabled: boolean;
   multiRegionProperties?: MultiRegionProperties;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   encryptionDetails?: EncryptionDetails;
   endpoint?: string;
 }

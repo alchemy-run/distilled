@@ -1103,8 +1103,11 @@ export const CategoryInput = S.suspend(() =>
 }) as any as S.Schema<CategoryInput>;
 export type CategoryListInput = CategoryInput[];
 export const CategoryListInput = S.Array(CategoryInput);
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export type AppStatus = "PUBLISHED" | "DRAFT" | "DELETED";
 export const AppStatus = S.Literal("PUBLISHED", "DRAFT", "DELETED");
 export type AppRequiredCapability =
@@ -1143,8 +1146,8 @@ export const Category = S.suspend(() =>
 ).annotations({ identifier: "Category" }) as any as S.Schema<Category>;
 export type CategoriesList = Category[];
 export const CategoriesList = S.Array(Category);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface PermissionInput {
   action: Action;
   principal: string;
@@ -1299,7 +1302,7 @@ export const ListCategoriesOutput = S.suspend(() =>
   identifier: "ListCategoriesOutput",
 }) as any as S.Schema<ListCategoriesOutput>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1308,7 +1311,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceARN: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1469,8 +1472,11 @@ export const ConversationMessage = S.suspend(() =>
 }) as any as S.Schema<ConversationMessage>;
 export type MessageList = ConversationMessage[];
 export const MessageList = S.Array(ConversationMessage);
-export type PresignedUrlFields = { [key: string]: string };
-export const PresignedUrlFields = S.Record({ key: S.String, value: S.String });
+export type PresignedUrlFields = { [key: string]: string | undefined };
+export const PresignedUrlFields = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface LibraryItemMember {
   libraryItemId: string;
   appId: string;
@@ -1543,7 +1549,7 @@ export const UserType = S.Literal("owner", "user");
 export interface CreatePresignedUrlOutput {
   fileId: string;
   presignedUrl: string;
-  presignedUrlFields: { [key: string]: string };
+  presignedUrlFields: { [key: string]: string | undefined };
   presignedUrlExpiration: Date;
 }
 export const CreatePresignedUrlOutput = S.suspend(() =>
@@ -1644,7 +1650,7 @@ export interface StartQAppSessionInput {
   appVersion: number;
   initialValues?: CardValue[];
   sessionId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartQAppSessionInput = S.suspend(() =>
   S.Struct({
@@ -2017,8 +2023,11 @@ export const AppDefinition = S.suspend(() =>
 ).annotations({
   identifier: "AppDefinition",
 }) as any as S.Schema<AppDefinition>;
-export type CardStatusMap = { [key: string]: CardStatus };
-export const CardStatusMap = S.Record({ key: S.String, value: CardStatus });
+export type CardStatusMap = { [key: string]: CardStatus | undefined };
+export const CardStatusMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(CardStatus),
+});
 export interface PredictAppDefinition {
   title: string;
   description?: string;
@@ -2074,7 +2083,7 @@ export interface GetQAppSessionOutput {
   appVersion?: number;
   latestPublishedAppVersion?: number;
   status: ExecutionStatus;
-  cardStatus: { [key: string]: CardStatus };
+  cardStatus: { [key: string]: CardStatus | undefined };
   userIsHost?: boolean;
 }
 export const GetQAppSessionOutput = S.suspend(() =>
@@ -2105,7 +2114,7 @@ export interface CreateQAppInput {
   title: string;
   description?: string;
   appDefinition: AppDefinitionInput;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateQAppInput = S.suspend(() =>
   S.Struct({

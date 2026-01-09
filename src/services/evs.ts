@@ -323,8 +323,11 @@ export type SecurityGroups = string[];
 export const SecurityGroups = S.Array(S.String);
 export type RouteServerPeeringList = string[];
 export const RouteServerPeeringList = S.Array(S.String);
-export type RequestTagMap = { [key: string]: string };
-export const RequestTagMap = S.Record({ key: S.String, value: S.String });
+export type RequestTagMap = { [key: string]: string | undefined };
+export const RequestTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ServiceAccessSecurityGroups {
   securityGroups?: string[];
 }
@@ -498,7 +501,7 @@ export type VlanList = Vlan[];
 export const VlanList = S.Array(Vlan);
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -676,8 +679,11 @@ export const InitialVlanInfo = S.suspend(() =>
 ).annotations({
   identifier: "InitialVlanInfo",
 }) as any as S.Schema<InitialVlanInfo>;
-export type ResponseTagMap = { [key: string]: string };
-export const ResponseTagMap = S.Record({ key: S.String, value: S.String });
+export type ResponseTagMap = { [key: string]: string | undefined };
+export const ResponseTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface InitialVlans {
   vmkManagement: InitialVlanInfo;
   vmManagement: InitialVlanInfo;
@@ -722,7 +728,7 @@ export const ValidationExceptionReason = S.Literal(
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = S.Array(EnvironmentSummary);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -733,7 +739,7 @@ export interface CreateEnvironmentRequest {
   clientToken?: string;
   environmentName?: string;
   kmsKeyId?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   serviceAccessSecurityGroups?: ServiceAccessSecurityGroups;
   vpcId: string;
   serviceAccessSubnetId: string;

@@ -191,13 +191,13 @@ export const UpdatePreferencesRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdatePreferencesRequest",
 }) as any as S.Schema<UpdatePreferencesRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateBillEstimateRequest {
   billScenarioId: string;
   name: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateBillEstimateRequest = S.suspend(() =>
   S.Struct({
@@ -292,7 +292,7 @@ export const ListBillEstimateInputCommitmentModificationsRequest = S.suspend(
 export interface CreateBillScenarioRequest {
   name: string;
   clientToken?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   groupSharingPreference?: GroupSharingPreferenceEnum;
   costCategoryGroupSharingPreferenceArn?: string;
 }
@@ -470,7 +470,7 @@ export interface CreateWorkloadEstimateRequest {
   name: string;
   clientToken?: string;
   rateType?: WorkloadEstimateRateType;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkloadEstimateRequest = S.suspend(() =>
   S.Struct({
@@ -880,7 +880,7 @@ export const BatchUpdateWorkloadEstimateUsageEntries = S.Array(
   BatchUpdateWorkloadEstimateUsageEntry,
 );
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -889,7 +889,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ arn: S.String, tags: Tags }).pipe(
@@ -938,14 +938,16 @@ export const CostDifference = S.suspend(() =>
 ).annotations({
   identifier: "CostDifference",
 }) as any as S.Schema<CostDifference>;
-export type ServiceCostDifferenceMap = { [key: string]: CostDifference };
+export type ServiceCostDifferenceMap = {
+  [key: string]: CostDifference | undefined;
+};
 export const ServiceCostDifferenceMap = S.Record({
   key: S.String,
-  value: CostDifference,
+  value: S.UndefinedOr(CostDifference),
 });
 export interface BillEstimateCostSummary {
   totalCostDifference?: CostDifference;
-  serviceCostDifferences?: { [key: string]: CostDifference };
+  serviceCostDifferences?: { [key: string]: CostDifference | undefined };
 }
 export const BillEstimateCostSummary = S.suspend(() =>
   S.Struct({

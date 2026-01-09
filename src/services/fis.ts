@@ -581,11 +581,14 @@ export const StopExperimentRequest = S.suspend(() =>
 ).annotations({
   identifier: "StopExperimentRequest",
 }) as any as S.Schema<StopExperimentRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -877,18 +880,20 @@ export type ExperimentTemplateTargetFilterList =
 export const ExperimentTemplateTargetFilterList = S.Array(
   ExperimentTemplateTargetFilter,
 );
-export type ExperimentTemplateTargetParameterMap = { [key: string]: string };
+export type ExperimentTemplateTargetParameterMap = {
+  [key: string]: string | undefined;
+};
 export const ExperimentTemplateTargetParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ExperimentTemplateTarget {
   resourceType?: string;
   resourceArns?: string[];
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   filters?: ExperimentTemplateTargetFilter[];
   selectionMode?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const ExperimentTemplateTarget = S.suspend(() =>
   S.Struct({
@@ -903,27 +908,31 @@ export const ExperimentTemplateTarget = S.suspend(() =>
   identifier: "ExperimentTemplateTarget",
 }) as any as S.Schema<ExperimentTemplateTarget>;
 export type ExperimentTemplateTargetMap = {
-  [key: string]: ExperimentTemplateTarget;
+  [key: string]: ExperimentTemplateTarget | undefined;
 };
 export const ExperimentTemplateTargetMap = S.Record({
   key: S.String,
-  value: ExperimentTemplateTarget,
+  value: S.UndefinedOr(ExperimentTemplateTarget),
 });
-export type ExperimentTemplateActionParameterMap = { [key: string]: string };
+export type ExperimentTemplateActionParameterMap = {
+  [key: string]: string | undefined;
+};
 export const ExperimentTemplateActionParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type ExperimentTemplateActionTargetMap = { [key: string]: string };
+export type ExperimentTemplateActionTargetMap = {
+  [key: string]: string | undefined;
+};
 export const ExperimentTemplateActionTargetMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ExperimentTemplateAction {
   actionId?: string;
   description?: string;
-  parameters?: { [key: string]: string };
-  targets?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
+  targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
 export const ExperimentTemplateAction = S.suspend(() =>
@@ -938,11 +947,11 @@ export const ExperimentTemplateAction = S.suspend(() =>
   identifier: "ExperimentTemplateAction",
 }) as any as S.Schema<ExperimentTemplateAction>;
 export type ExperimentTemplateActionMap = {
-  [key: string]: ExperimentTemplateAction;
+  [key: string]: ExperimentTemplateAction | undefined;
 };
 export const ExperimentTemplateActionMap = S.Record({
   key: S.String,
-  value: ExperimentTemplateAction,
+  value: S.UndefinedOr(ExperimentTemplateAction),
 });
 export interface ExperimentTemplateStopCondition {
   source?: string;
@@ -1065,13 +1074,13 @@ export interface ExperimentTemplate {
   id?: string;
   arn?: string;
   description?: string;
-  targets?: { [key: string]: ExperimentTemplateTarget };
-  actions?: { [key: string]: ExperimentTemplateAction };
+  targets?: { [key: string]: ExperimentTemplateTarget | undefined };
+  actions?: { [key: string]: ExperimentTemplateAction | undefined };
   stopConditions?: ExperimentTemplateStopCondition[];
   creationTime?: Date;
   lastUpdateTime?: Date;
   roleArn?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logConfiguration?: ExperimentTemplateLogConfiguration;
   experimentOptions?: ExperimentTemplateExperimentOptions;
   targetAccountConfigurationsCount?: number;
@@ -1118,7 +1127,7 @@ export const GetTargetAccountConfigurationResponse = S.suspend(() =>
   identifier: "GetTargetAccountConfigurationResponse",
 }) as any as S.Schema<GetTargetAccountConfigurationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(TagMap) }),
@@ -1129,7 +1138,7 @@ export interface StartExperimentRequest {
   clientToken: string;
   experimentTemplateId: string;
   experimentOptions?: StartExperimentExperimentOptionsInput;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartExperimentRequest = S.suspend(() =>
   S.Struct({
@@ -1213,18 +1222,20 @@ export const ExperimentTargetFilter = S.suspend(() =>
 }) as any as S.Schema<ExperimentTargetFilter>;
 export type ExperimentTargetFilterList = ExperimentTargetFilter[];
 export const ExperimentTargetFilterList = S.Array(ExperimentTargetFilter);
-export type ExperimentTargetParameterMap = { [key: string]: string };
+export type ExperimentTargetParameterMap = {
+  [key: string]: string | undefined;
+};
 export const ExperimentTargetParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface ExperimentTarget {
   resourceType?: string;
   resourceArns?: string[];
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   filters?: ExperimentTargetFilter[];
   selectionMode?: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const ExperimentTarget = S.suspend(() =>
   S.Struct({
@@ -1238,20 +1249,24 @@ export const ExperimentTarget = S.suspend(() =>
 ).annotations({
   identifier: "ExperimentTarget",
 }) as any as S.Schema<ExperimentTarget>;
-export type ExperimentTargetMap = { [key: string]: ExperimentTarget };
+export type ExperimentTargetMap = {
+  [key: string]: ExperimentTarget | undefined;
+};
 export const ExperimentTargetMap = S.Record({
   key: S.String,
-  value: ExperimentTarget,
+  value: S.UndefinedOr(ExperimentTarget),
 });
-export type ExperimentActionParameterMap = { [key: string]: string };
+export type ExperimentActionParameterMap = {
+  [key: string]: string | undefined;
+};
 export const ExperimentActionParameterMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
-export type ExperimentActionTargetMap = { [key: string]: string };
+export type ExperimentActionTargetMap = { [key: string]: string | undefined };
 export const ExperimentActionTargetMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type ExperimentActionStartAfterList = string[];
 export const ExperimentActionStartAfterList = S.Array(S.String);
@@ -1291,8 +1306,8 @@ export const ExperimentActionState = S.suspend(() =>
 export interface ExperimentAction {
   actionId?: string;
   description?: string;
-  parameters?: { [key: string]: string };
-  targets?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
+  targets?: { [key: string]: string | undefined };
   startAfter?: string[];
   state?: ExperimentActionState;
   startTime?: Date;
@@ -1312,10 +1327,12 @@ export const ExperimentAction = S.suspend(() =>
 ).annotations({
   identifier: "ExperimentAction",
 }) as any as S.Schema<ExperimentAction>;
-export type ExperimentActionMap = { [key: string]: ExperimentAction };
+export type ExperimentActionMap = {
+  [key: string]: ExperimentAction | undefined;
+};
 export const ExperimentActionMap = S.Record({
   key: S.String,
-  value: ExperimentAction,
+  value: S.UndefinedOr(ExperimentAction),
 });
 export interface ExperimentStopCondition {
   source?: string;
@@ -1505,13 +1522,13 @@ export interface Experiment {
   experimentTemplateId?: string;
   roleArn?: string;
   state?: ExperimentState;
-  targets?: { [key: string]: ExperimentTarget };
-  actions?: { [key: string]: ExperimentAction };
+  targets?: { [key: string]: ExperimentTarget | undefined };
+  actions?: { [key: string]: ExperimentAction | undefined };
   stopConditions?: ExperimentStopCondition[];
   creationTime?: Date;
   startTime?: Date;
   endTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logConfiguration?: ExperimentLogConfiguration;
   experimentOptions?: ExperimentOptions;
   targetAccountConfigurationsCount?: number;
@@ -1595,10 +1612,10 @@ export const ExperimentTemplateTargetFilterInputList = S.Array(
 export interface UpdateExperimentTemplateTargetInput {
   resourceType: string;
   resourceArns?: string[];
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   filters?: ExperimentTemplateTargetInputFilter[];
   selectionMode: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const UpdateExperimentTemplateTargetInput = S.suspend(() =>
   S.Struct({
@@ -1615,8 +1632,8 @@ export const UpdateExperimentTemplateTargetInput = S.suspend(() =>
 export interface UpdateExperimentTemplateActionInputItem {
   actionId?: string;
   description?: string;
-  parameters?: { [key: string]: string };
-  targets?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
+  targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
 export const UpdateExperimentTemplateActionInputItem = S.suspend(() =>
@@ -1666,14 +1683,17 @@ export interface ActionTarget {
 export const ActionTarget = S.suspend(() =>
   S.Struct({ resourceType: S.optional(S.String) }),
 ).annotations({ identifier: "ActionTarget" }) as any as S.Schema<ActionTarget>;
-export type ActionTargetMap = { [key: string]: ActionTarget };
-export const ActionTargetMap = S.Record({ key: S.String, value: ActionTarget });
+export type ActionTargetMap = { [key: string]: ActionTarget | undefined };
+export const ActionTargetMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(ActionTarget),
+});
 export interface ActionSummary {
   id?: string;
   arn?: string;
   description?: string;
-  targets?: { [key: string]: ActionTarget };
-  tags?: { [key: string]: string };
+  targets?: { [key: string]: ActionTarget | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const ActionSummary = S.suspend(() =>
   S.Struct({
@@ -1694,7 +1714,7 @@ export interface ExperimentSummary {
   experimentTemplateId?: string;
   state?: ExperimentState;
   creationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   experimentOptions?: ExperimentOptions;
 }
 export const ExperimentSummary = S.suspend(() =>
@@ -1737,7 +1757,7 @@ export interface ExperimentTemplateSummary {
   description?: string;
   creationTime?: Date;
   lastUpdateTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ExperimentTemplateSummary = S.suspend(() =>
   S.Struct({
@@ -1787,18 +1807,18 @@ export const TargetResourceTypeSummary = S.suspend(() =>
 export type TargetResourceTypeSummaryList = TargetResourceTypeSummary[];
 export const TargetResourceTypeSummaryList = S.Array(TargetResourceTypeSummary);
 export type UpdateExperimentTemplateTargetInputMap = {
-  [key: string]: UpdateExperimentTemplateTargetInput;
+  [key: string]: UpdateExperimentTemplateTargetInput | undefined;
 };
 export const UpdateExperimentTemplateTargetInputMap = S.Record({
   key: S.String,
-  value: UpdateExperimentTemplateTargetInput,
+  value: S.UndefinedOr(UpdateExperimentTemplateTargetInput),
 });
 export type UpdateExperimentTemplateActionInputMap = {
-  [key: string]: UpdateExperimentTemplateActionInputItem;
+  [key: string]: UpdateExperimentTemplateActionInputItem | undefined;
 };
 export const UpdateExperimentTemplateActionInputMap = S.Record({
   key: S.String,
-  value: UpdateExperimentTemplateActionInputItem,
+  value: S.UndefinedOr(UpdateExperimentTemplateActionInputItem),
 });
 export type SafetyLeverStatus = "disengaged" | "engaged" | "engaging";
 export const SafetyLeverStatus = S.Literal("disengaged", "engaged", "engaging");
@@ -1910,8 +1930,10 @@ export interface UpdateExperimentTemplateRequest {
   id: string;
   description?: string;
   stopConditions?: UpdateExperimentTemplateStopConditionInput[];
-  targets?: { [key: string]: UpdateExperimentTemplateTargetInput };
-  actions?: { [key: string]: UpdateExperimentTemplateActionInputItem };
+  targets?: { [key: string]: UpdateExperimentTemplateTargetInput | undefined };
+  actions?: {
+    [key: string]: UpdateExperimentTemplateActionInputItem | undefined;
+  };
   roleArn?: string;
   logConfiguration?: UpdateExperimentTemplateLogConfigurationInput;
   experimentOptions?: UpdateExperimentTemplateExperimentOptionsInput;
@@ -1980,10 +2002,10 @@ export const UpdateSafetyLeverStateResponse = S.suspend(() =>
 export interface CreateExperimentTemplateTargetInput {
   resourceType: string;
   resourceArns?: string[];
-  resourceTags?: { [key: string]: string };
+  resourceTags?: { [key: string]: string | undefined };
   filters?: ExperimentTemplateTargetInputFilter[];
   selectionMode: string;
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
 }
 export const CreateExperimentTemplateTargetInput = S.suspend(() =>
   S.Struct({
@@ -2000,8 +2022,8 @@ export const CreateExperimentTemplateTargetInput = S.suspend(() =>
 export interface CreateExperimentTemplateActionInput {
   actionId: string;
   description?: string;
-  parameters?: { [key: string]: string };
-  targets?: { [key: string]: string };
+  parameters?: { [key: string]: string | undefined };
+  targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
 export const CreateExperimentTemplateActionInput = S.suspend(() =>
@@ -2015,24 +2037,24 @@ export const CreateExperimentTemplateActionInput = S.suspend(() =>
 ).annotations({
   identifier: "CreateExperimentTemplateActionInput",
 }) as any as S.Schema<CreateExperimentTemplateActionInput>;
-export type TargetInformationMap = { [key: string]: string };
+export type TargetInformationMap = { [key: string]: string | undefined };
 export const TargetInformationMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export type CreateExperimentTemplateTargetInputMap = {
-  [key: string]: CreateExperimentTemplateTargetInput;
+  [key: string]: CreateExperimentTemplateTargetInput | undefined;
 };
 export const CreateExperimentTemplateTargetInputMap = S.Record({
   key: S.String,
-  value: CreateExperimentTemplateTargetInput,
+  value: S.UndefinedOr(CreateExperimentTemplateTargetInput),
 });
 export type CreateExperimentTemplateActionInputMap = {
-  [key: string]: CreateExperimentTemplateActionInput;
+  [key: string]: CreateExperimentTemplateActionInput | undefined;
 };
 export const CreateExperimentTemplateActionInputMap = S.Record({
   key: S.String,
-  value: CreateExperimentTemplateActionInput,
+  value: S.UndefinedOr(CreateExperimentTemplateActionInput),
 });
 export interface CreateExperimentTemplateReportConfigurationInput {
   outputs?: ExperimentTemplateReportConfigurationOutputsInput;
@@ -2055,7 +2077,7 @@ export const CreateExperimentTemplateReportConfigurationInput = S.suspend(() =>
 export interface ResolvedTarget {
   resourceType?: string;
   targetName?: string;
-  targetInformation?: { [key: string]: string };
+  targetInformation?: { [key: string]: string | undefined };
 }
 export const ResolvedTarget = S.suspend(() =>
   S.Struct({
@@ -2096,10 +2118,10 @@ export interface CreateExperimentTemplateRequest {
   clientToken: string;
   description: string;
   stopConditions: CreateExperimentTemplateStopConditionInput[];
-  targets?: { [key: string]: CreateExperimentTemplateTargetInput };
-  actions: { [key: string]: CreateExperimentTemplateActionInput };
+  targets?: { [key: string]: CreateExperimentTemplateTargetInput | undefined };
+  actions: { [key: string]: CreateExperimentTemplateActionInput | undefined };
   roleArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   logConfiguration?: CreateExperimentTemplateLogConfigurationInput;
   experimentOptions?: CreateExperimentTemplateExperimentOptionsInput;
   experimentReportConfiguration?: CreateExperimentTemplateReportConfigurationInput;
@@ -2161,25 +2183,25 @@ export const UpdateExperimentTemplateResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateExperimentTemplateResponse",
 }) as any as S.Schema<UpdateExperimentTemplateResponse>;
-export type ActionParameterMap = { [key: string]: ActionParameter };
+export type ActionParameterMap = { [key: string]: ActionParameter | undefined };
 export const ActionParameterMap = S.Record({
   key: S.String,
-  value: ActionParameter,
+  value: S.UndefinedOr(ActionParameter),
 });
 export type TargetResourceTypeParameterMap = {
-  [key: string]: TargetResourceTypeParameter;
+  [key: string]: TargetResourceTypeParameter | undefined;
 };
 export const TargetResourceTypeParameterMap = S.Record({
   key: S.String,
-  value: TargetResourceTypeParameter,
+  value: S.UndefinedOr(TargetResourceTypeParameter),
 });
 export interface Action {
   id?: string;
   arn?: string;
   description?: string;
-  parameters?: { [key: string]: ActionParameter };
-  targets?: { [key: string]: ActionTarget };
-  tags?: { [key: string]: string };
+  parameters?: { [key: string]: ActionParameter | undefined };
+  targets?: { [key: string]: ActionTarget | undefined };
+  tags?: { [key: string]: string | undefined };
 }
 export const Action = S.suspend(() =>
   S.Struct({
@@ -2194,7 +2216,7 @@ export const Action = S.suspend(() =>
 export interface TargetResourceType {
   resourceType?: string;
   description?: string;
-  parameters?: { [key: string]: TargetResourceTypeParameter };
+  parameters?: { [key: string]: TargetResourceTypeParameter | undefined };
 }
 export const TargetResourceType = S.suspend(() =>
   S.Struct({

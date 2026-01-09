@@ -130,13 +130,13 @@ export type __integerMin1Max100 = number;
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface CreateWorkerConfigurationRequest {
   description?: string;
   name: string;
   propertiesFileContent: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateWorkerConfigurationRequest = S.suspend(() =>
   S.Struct({
@@ -419,7 +419,7 @@ export const ListWorkerConfigurationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkerConfigurationsRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -467,10 +467,10 @@ export interface UntagResourceResponse {}
 export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type ConnectorConfiguration = { [key: string]: string };
+export type ConnectorConfiguration = { [key: string]: string | undefined };
 export const ConnectorConfiguration = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface KafkaClusterClientAuthentication {
   authenticationType: string;
@@ -497,10 +497,12 @@ export const WorkerConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "WorkerConfiguration",
 }) as any as S.Schema<WorkerConfiguration>;
-export type ConnectorConfigurationUpdate = { [key: string]: string };
+export type ConnectorConfigurationUpdate = {
+  [key: string]: string | undefined;
+};
 export const ConnectorConfigurationUpdate = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface DeleteConnectorResponse {
   connectorArn?: string;
@@ -539,7 +541,7 @@ export const DeleteWorkerConfigurationResponse = S.suspend(() =>
   identifier: "DeleteWorkerConfigurationResponse",
 }) as any as S.Schema<DeleteWorkerConfigurationResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -1100,7 +1102,7 @@ export interface CreateCustomPluginRequest {
   description?: string;
   location: CustomPluginLocation;
   name: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCustomPluginRequest = S.suspend(() =>
   S.Struct({
@@ -1147,9 +1149,9 @@ export interface DescribeConnectorOperationResponse {
   connectorOperationType?: string;
   operationSteps?: ConnectorOperationStep[];
   originWorkerSetting?: WorkerSetting;
-  originConnectorConfiguration?: { [key: string]: string };
+  originConnectorConfiguration?: { [key: string]: string | undefined };
   targetWorkerSetting?: WorkerSetting;
-  targetConnectorConfiguration?: { [key: string]: string };
+  targetConnectorConfiguration?: { [key: string]: string | undefined };
   errorInfo?: StateDescription;
   creationTime?: Date;
   endTime?: Date;
@@ -1333,7 +1335,7 @@ export const CapacityUpdate = S.suspend(() =>
 }) as any as S.Schema<CapacityUpdate>;
 export interface CreateConnectorRequest {
   capacity: Capacity;
-  connectorConfiguration: { [key: string]: string };
+  connectorConfiguration: { [key: string]: string | undefined };
   connectorDescription?: string;
   connectorName: string;
   kafkaCluster: KafkaCluster;
@@ -1345,7 +1347,7 @@ export interface CreateConnectorRequest {
   plugins: Plugin[];
   serviceExecutionRoleArn: string;
   workerConfiguration?: WorkerConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConnectorRequest = S.suspend(() =>
   S.Struct({
@@ -1394,7 +1396,7 @@ export const CreateCustomPluginResponse = S.suspend(() =>
 }) as any as S.Schema<CreateCustomPluginResponse>;
 export interface UpdateConnectorRequest {
   capacity?: CapacityUpdate;
-  connectorConfiguration?: { [key: string]: string };
+  connectorConfiguration?: { [key: string]: string | undefined };
   connectorArn: string;
   currentVersion: string;
 }
@@ -1434,7 +1436,7 @@ export const CreateConnectorResponse = S.suspend(() =>
 export interface DescribeConnectorResponse {
   capacity?: CapacityDescription;
   connectorArn?: string;
-  connectorConfiguration?: { [key: string]: string };
+  connectorConfiguration?: { [key: string]: string | undefined };
   connectorDescription?: string;
   connectorName?: string;
   connectorState?: string;

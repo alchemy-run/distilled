@@ -1281,13 +1281,16 @@ export type ResponseConfigurations = {
   [key in ResponseConfigurationType]?: ResponseConfiguration;
 };
 export const ResponseConfigurations = S.partial(
-  S.Record({ key: ResponseConfigurationType, value: ResponseConfiguration }),
+  S.Record({
+    key: ResponseConfigurationType,
+    value: S.UndefinedOr(ResponseConfiguration),
+  }),
 );
 export interface UpdateChatResponseConfigurationRequest {
   applicationId: string;
   chatResponseConfigurationId: string;
   displayName?: string;
-  responseConfigurations: { [key: string]: ResponseConfiguration };
+  responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
   clientToken?: string;
 }
 export const UpdateChatResponseConfigurationRequest = S.suspend(() =>
@@ -2382,15 +2385,17 @@ export const StringAttributeValueBoostingLevel = S.Literal(
   "FIVE",
 );
 export type StringAttributeValueBoosting = {
-  [key: string]: StringAttributeValueBoostingLevel;
+  [key: string]: StringAttributeValueBoostingLevel | undefined;
 };
 export const StringAttributeValueBoosting = S.Record({
   key: S.String,
-  value: StringAttributeValueBoostingLevel,
+  value: S.UndefinedOr(StringAttributeValueBoostingLevel),
 });
 export interface StringAttributeBoostingConfiguration {
   boostingLevel: DocumentAttributeBoostingLevel;
-  attributeValueBoosting?: { [key: string]: StringAttributeValueBoostingLevel };
+  attributeValueBoosting?: {
+    [key: string]: StringAttributeValueBoostingLevel | undefined;
+  };
 }
 export const StringAttributeBoostingConfiguration = S.suspend(() =>
   S.Struct({
@@ -2454,16 +2459,18 @@ export const DocumentAttributeBoostingConfiguration = S.Union(
   }),
 );
 export type DocumentAttributeBoostingOverrideMap = {
-  [key: string]: DocumentAttributeBoostingConfiguration;
+  [key: string]: DocumentAttributeBoostingConfiguration | undefined;
 };
 export const DocumentAttributeBoostingOverrideMap = S.Record({
   key: S.String,
-  value: DocumentAttributeBoostingConfiguration,
+  value: S.UndefinedOr(DocumentAttributeBoostingConfiguration),
 });
 export interface NativeIndexConfiguration {
   indexId: string;
   version?: number;
-  boostingOverride?: { [key: string]: DocumentAttributeBoostingConfiguration };
+  boostingOverride?: {
+    [key: string]: DocumentAttributeBoostingConfiguration | undefined;
+  };
 }
 export const NativeIndexConfiguration = S.suspend(() =>
   S.Struct({
@@ -3831,15 +3838,15 @@ export const ActionExecutionPayloadField = S.suspend(() =>
   identifier: "ActionExecutionPayloadField",
 }) as any as S.Schema<ActionExecutionPayloadField>;
 export type ActionExecutionPayload = {
-  [key: string]: ActionExecutionPayloadField;
+  [key: string]: ActionExecutionPayloadField | undefined;
 };
 export const ActionExecutionPayload = S.Record({
   key: S.String,
-  value: ActionExecutionPayloadField,
+  value: S.UndefinedOr(ActionExecutionPayloadField),
 });
 export interface ActionExecutionEvent {
   pluginId: string;
-  payload: { [key: string]: ActionExecutionPayloadField };
+  payload: { [key: string]: ActionExecutionPayloadField | undefined };
   payloadFieldNameSeparator: string;
 }
 export const ActionExecutionEvent = S.suspend(() =>
@@ -3851,13 +3858,13 @@ export const ActionExecutionEvent = S.suspend(() =>
 ).annotations({
   identifier: "ActionExecutionEvent",
 }) as any as S.Schema<ActionExecutionEvent>;
-export type AuthorizationResponseMap = { [key: string]: string };
+export type AuthorizationResponseMap = { [key: string]: string | undefined };
 export const AuthorizationResponseMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: S.UndefinedOr(S.String),
 });
 export interface AuthChallengeResponseEvent {
-  responseMap: { [key: string]: string };
+  responseMap: { [key: string]: string | undefined };
 }
 export const AuthChallengeResponseEvent = S.suspend(() =>
   S.Struct({ responseMap: AuthorizationResponseMap }),
@@ -3999,7 +4006,7 @@ export const ChatInputStream = T.InputEventStream(
   ),
 ) as any as S.Schema<stream.Stream<ChatInputStream, Error, never>>;
 export interface AuthChallengeResponse {
-  responseMap: { [key: string]: string };
+  responseMap: { [key: string]: string | undefined };
 }
 export const AuthChallengeResponse = S.suspend(() =>
   S.Struct({ responseMap: AuthorizationResponseMap }),
@@ -4057,7 +4064,7 @@ export const AppliedCreatorModeConfiguration = S.suspend(() =>
   identifier: "AppliedCreatorModeConfiguration",
 }) as any as S.Schema<AppliedCreatorModeConfiguration>;
 export interface ChatResponseConfigurationDetail {
-  responseConfigurations?: { [key: string]: ResponseConfiguration };
+  responseConfigurations?: { [key: string]: ResponseConfiguration | undefined };
   responseConfigurationSummary?: string;
   status?: ChatResponseConfigurationStatus;
   error?: ErrorDetail;
@@ -5095,7 +5102,7 @@ export type AttachmentsInput = AttachmentInput[];
 export const AttachmentsInput = S.Array(AttachmentInput);
 export interface ActionExecution {
   pluginId: string;
-  payload: { [key: string]: ActionExecutionPayloadField };
+  payload: { [key: string]: ActionExecutionPayloadField | undefined };
   payloadFieldNameSeparator: string;
 }
 export const ActionExecution = S.suspend(() =>
@@ -5225,7 +5232,7 @@ export interface CreateChatResponseConfigurationRequest {
   applicationId: string;
   displayName: string;
   clientToken?: string;
-  responseConfigurations: { [key: string]: ResponseConfiguration };
+  responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
   tags?: Tag[];
 }
 export const CreateChatResponseConfigurationRequest = S.suspend(() =>
@@ -5752,10 +5759,12 @@ export const ActionReviewPayloadField = S.suspend(() =>
 ).annotations({
   identifier: "ActionReviewPayloadField",
 }) as any as S.Schema<ActionReviewPayloadField>;
-export type ActionReviewPayload = { [key: string]: ActionReviewPayloadField };
+export type ActionReviewPayload = {
+  [key: string]: ActionReviewPayloadField | undefined;
+};
 export const ActionReviewPayload = S.Record({
   key: S.String,
-  value: ActionReviewPayloadField,
+  value: S.UndefinedOr(ActionReviewPayloadField),
 });
 export interface ActionReviewEvent {
   conversationId?: string;
@@ -5763,7 +5772,7 @@ export interface ActionReviewEvent {
   systemMessageId?: string;
   pluginId?: string;
   pluginType?: PluginType;
-  payload?: { [key: string]: ActionReviewPayloadField };
+  payload?: { [key: string]: ActionReviewPayloadField | undefined };
   payloadFieldNameSeparator?: string;
 }
 export const ActionReviewEvent = S.suspend(() =>
@@ -5986,7 +5995,7 @@ export const ChatOutput = S.suspend(() =>
 export interface ActionReview {
   pluginId?: string;
   pluginType?: PluginType;
-  payload?: { [key: string]: ActionReviewPayloadField };
+  payload?: { [key: string]: ActionReviewPayloadField | undefined };
   payloadFieldNameSeparator?: string;
 }
 export const ActionReview = S.suspend(() =>

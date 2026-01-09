@@ -1689,13 +1689,13 @@ export const ResetDeploymentsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ResetDeploymentsRequest",
 }) as any as S.Schema<ResetDeploymentsRequest>;
-export type Tags = { [key: string]: string };
-export const Tags = S.Record({ key: S.String, value: S.String });
+export type Tags = { [key: string]: string | undefined };
+export const Tags = S.Record({ key: S.String, value: S.UndefinedOr(S.String) });
 export interface StartBulkDeploymentRequest {
   AmznClientToken?: string;
   ExecutionRoleArn?: string;
   InputFileUri?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartBulkDeploymentRequest = S.suspend(() =>
   S.Struct({
@@ -1748,7 +1748,7 @@ export const StopBulkDeploymentResponse = S.suspend(() =>
 }) as any as S.Schema<StopBulkDeploymentResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -2065,12 +2065,15 @@ export type LoggerType = "FileSystem" | "AWSCloudWatch";
 export const LoggerType = S.Literal("FileSystem", "AWSCloudWatch");
 export type Telemetry = "On" | "Off";
 export const Telemetry = S.Literal("On", "Off");
-export type __mapOf__string = { [key: string]: string };
-export const __mapOf__string = S.Record({ key: S.String, value: S.String });
+export type __mapOf__string = { [key: string]: string | undefined };
+export const __mapOf__string = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface Connector {
   ConnectorArn?: string;
   Id?: string;
-  Parameters?: { [key: string]: string };
+  Parameters?: { [key: string]: string | undefined };
 }
 export const Connector = S.suspend(() =>
   S.Struct({
@@ -2205,7 +2208,7 @@ export interface FunctionConfigurationEnvironment {
   AccessSysfs?: boolean;
   Execution?: FunctionExecutionConfig;
   ResourceAccessPolicies?: ResourceAccessPolicy[];
-  Variables?: { [key: string]: string };
+  Variables?: { [key: string]: string | undefined };
 }
 export const FunctionConfigurationEnvironment = S.suspend(() =>
   S.Struct({
@@ -2534,7 +2537,7 @@ export interface CreateConnectorDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ConnectorDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateConnectorDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2561,7 +2564,7 @@ export interface CreateCoreDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: CoreDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateCoreDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2628,7 +2631,7 @@ export interface CreateDeviceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: DeviceDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDeviceDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2683,7 +2686,7 @@ export interface CreateFunctionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: FunctionDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateFunctionDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2710,7 +2713,7 @@ export interface CreateGroupRequest {
   AmznClientToken?: string;
   InitialVersion?: GroupVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
@@ -2761,7 +2764,7 @@ export interface CreateLoggerDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: LoggerDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateLoggerDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2816,7 +2819,7 @@ export interface CreateResourceDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: ResourceDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateResourceDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2857,7 +2860,7 @@ export interface CreateSubscriptionDefinitionRequest {
   AmznClientToken?: string;
   InitialVersion?: SubscriptionDefinitionVersion;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateSubscriptionDefinitionRequest = S.suspend(() =>
   S.Struct({
@@ -2950,7 +2953,7 @@ export interface GetConnectorDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetConnectorDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -2996,7 +2999,7 @@ export interface GetCoreDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetCoreDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3072,7 +3075,7 @@ export interface GetDeviceDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetDeviceDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3122,7 +3125,7 @@ export interface GetFunctionDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetFunctionDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3177,7 +3180,7 @@ export interface GetGroupResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetGroupResponse = S.suspend(() =>
   S.Struct({
@@ -3247,7 +3250,7 @@ export interface GetLoggerDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetLoggerDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3296,7 +3299,7 @@ export interface GetResourceDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetResourceDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3357,7 +3360,7 @@ export interface GetSubscriptionDefinitionResponse {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetSubscriptionDefinitionResponse = S.suspend(() =>
   S.Struct({
@@ -3408,7 +3411,7 @@ export interface DefinitionInformation {
   LatestVersion?: string;
   LatestVersionArn?: string;
   Name?: string;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const DefinitionInformation = S.suspend(() =>
   S.Struct({
@@ -3601,7 +3604,7 @@ export const ListSubscriptionDefinitionVersionsResponse = S.suspend(() =>
   identifier: "ListSubscriptionDefinitionVersionsResponse",
 }) as any as S.Schema<ListSubscriptionDefinitionVersionsResponse>;
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(Tags) }),
@@ -4091,7 +4094,7 @@ export interface GetBulkDeploymentStatusResponse {
   CreatedAt?: string;
   ErrorDetails?: ErrorDetail[];
   ErrorMessage?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetBulkDeploymentStatusResponse = S.suspend(() =>
   S.Struct({

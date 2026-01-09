@@ -466,11 +466,14 @@ export const StartLendingAnalysisRequest = S.suspend(() =>
 ).annotations({
   identifier: "StartLendingAnalysisRequest",
 }) as any as S.Schema<StartLendingAnalysisRequest>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface TagResourceRequest {
   ResourceARN: string;
-  Tags: { [key: string]: string };
+  Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
@@ -567,7 +570,7 @@ export interface CreateAdapterRequest {
   Description?: string;
   FeatureTypes: FeatureType[];
   AutoUpdate?: AutoUpdate;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAdapterRequest = S.suspend(() =>
   S.Struct({
@@ -589,7 +592,7 @@ export interface CreateAdapterVersionRequest {
   DatasetConfig: AdapterVersionDatasetConfig;
   KMSKeyId?: string;
   OutputConfig: OutputConfig;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const CreateAdapterVersionRequest = S.suspend(() =>
   S.Struct({
@@ -612,7 +615,7 @@ export interface GetAdapterResponse {
   Description?: string;
   FeatureTypes?: FeatureType[];
   AutoUpdate?: AutoUpdate;
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetAdapterResponse = S.suspend(() =>
   S.Struct({
@@ -991,7 +994,7 @@ export const GetExpenseAnalysisResponse = S.suspend(() =>
   identifier: "GetExpenseAnalysisResponse",
 }) as any as S.Schema<GetExpenseAnalysisResponse>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }),
@@ -1347,7 +1350,7 @@ export interface GetAdapterVersionResponse {
   KMSKeyId?: string;
   OutputConfig?: OutputConfig;
   EvaluationMetrics?: AdapterVersionEvaluationMetric[];
-  Tags?: { [key: string]: string };
+  Tags?: { [key: string]: string | undefined };
 }
 export const GetAdapterVersionResponse = S.suspend(() =>
   S.Struct({

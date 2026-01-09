@@ -532,13 +532,16 @@ export interface SseConfig {
 export const SseConfig = S.suspend(() =>
   S.Struct({ type: S.String, keyArn: S.optional(S.String) }),
 ).annotations({ identifier: "SseConfig" }) as any as S.Schema<SseConfig>;
-export type TagMap = { [key: string]: string };
-export const TagMap = S.Record({ key: S.String, value: S.String });
+export type TagMap = { [key: string]: string | undefined };
+export const TagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateReferenceStoreRequest {
   name: string;
   description?: string;
   sseConfig?: SseConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
 }
 export const CreateReferenceStoreRequest = S.suspend(() =>
@@ -715,7 +718,7 @@ export interface CreateRunCacheRequest {
   description?: string;
   name?: string;
   requestId: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   cacheBucketOwnerId?: string;
 }
 export const CreateRunCacheRequest = S.suspend(() =>
@@ -833,7 +836,7 @@ export interface CreateRunGroupRequest {
   maxCpus?: number;
   maxRuns?: number;
   maxDuration?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   requestId: string;
   maxGpus?: number;
 }
@@ -967,7 +970,7 @@ export interface StartRunRequest {
   storageCapacity?: number;
   outputUri: string;
   logLevel?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   requestId: string;
   retentionMode?: string;
   storageType?: string;
@@ -1256,7 +1259,7 @@ export interface CreateMultipartReadSetUploadRequest {
   referenceArn?: string;
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateMultipartReadSetUploadRequest = S.suspend(() =>
   S.Struct({
@@ -1583,7 +1586,7 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
@@ -1677,7 +1680,7 @@ export interface CreateVariantStoreRequest {
   reference: ReferenceItem;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   sseConfig?: SseConfig;
 }
 export const CreateVariantStoreRequest = S.suspend(() =>
@@ -1875,10 +1878,12 @@ export const WorkflowParameter = S.suspend(() =>
 ).annotations({
   identifier: "WorkflowParameter",
 }) as any as S.Schema<WorkflowParameter>;
-export type WorkflowParameterTemplate = { [key: string]: WorkflowParameter };
+export type WorkflowParameterTemplate = {
+  [key: string]: WorkflowParameter | undefined;
+};
 export const WorkflowParameterTemplate = S.Record({
   key: S.String,
-  value: WorkflowParameter,
+  value: S.UndefinedOr(WorkflowParameter),
 });
 export interface RegistryMapping {
   upstreamRegistryUrl?: string;
@@ -1958,11 +1963,11 @@ export interface CreateWorkflowVersionRequest {
   description?: string;
   engine?: string;
   main?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter };
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
   requestId: string;
   storageType?: string;
   storageCapacity?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   workflowBucketOwnerId?: string;
   containerRegistryMap?: ContainerRegistryMap;
   containerRegistryMapUri?: string;
@@ -2151,8 +2156,11 @@ export const AnnotationImportItemSource = S.suspend(() =>
 }) as any as S.Schema<AnnotationImportItemSource>;
 export type AnnotationImportItemSources = AnnotationImportItemSource[];
 export const AnnotationImportItemSources = S.Array(AnnotationImportItemSource);
-export type AnnotationFieldMap = { [key: string]: string };
-export const AnnotationFieldMap = S.Record({ key: S.String, value: S.String });
+export type AnnotationFieldMap = { [key: string]: string | undefined };
+export const AnnotationFieldMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface ListAnnotationImportJobsFilter {
   status?: string;
   storeName?: string;
@@ -2210,7 +2218,7 @@ export interface StartReferenceImportJobSourceItem {
   sourceFile: string;
   name: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartReferenceImportJobSourceItem = S.suspend(() =>
   S.Struct({
@@ -2476,16 +2484,22 @@ export const ListAnnotationImportJobsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAnnotationImportJobsRequest",
 }) as any as S.Schema<ListAnnotationImportJobsRequest>;
-export type FormatToHeader = { [key: string]: string };
-export const FormatToHeader = S.Record({ key: S.String, value: S.String });
-export type SchemaItem = { [key: string]: string };
-export const SchemaItem = S.Record({ key: S.String, value: S.String });
-export type Schema = { [key: string]: string }[];
+export type FormatToHeader = { [key: string]: string | undefined };
+export const FormatToHeader = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type SchemaItem = { [key: string]: string | undefined };
+export const SchemaItem = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
+export type Schema = { [key: string]: string | undefined }[];
 export const Schema = S.Array(SchemaItem);
 export interface TsvStoreOptions {
   annotationType?: string;
-  formatToHeader?: { [key: string]: string };
-  schema?: { [key: string]: string }[];
+  formatToHeader?: { [key: string]: string | undefined };
+  schema?: { [key: string]: string | undefined }[];
 }
 export const TsvStoreOptions = S.suspend(() =>
   S.Struct({
@@ -2510,7 +2524,7 @@ export interface GetAnnotationStoreResponse {
   sseConfig: SseConfig;
   creationTime: Date;
   updateTime: Date;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
   storeOptions?: StoreOptions;
   storeFormat?: string;
   statusMessage: string;
@@ -2599,8 +2613,8 @@ export const ListAnnotationStoresRequest = S.suspend(() =>
 }) as any as S.Schema<ListAnnotationStoresRequest>;
 export interface TsvVersionOptions {
   annotationType?: string;
-  formatToHeader?: { [key: string]: string };
-  schema?: { [key: string]: string }[];
+  formatToHeader?: { [key: string]: string | undefined };
+  schema?: { [key: string]: string | undefined }[];
 }
 export const TsvVersionOptions = S.suspend(() =>
   S.Struct({
@@ -2625,7 +2639,7 @@ export interface GetAnnotationStoreVersionResponse {
   description: string;
   creationTime: Date;
   updateTime: Date;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
   versionOptions?: VersionOptions;
   statusMessage: string;
   versionSizeBytes: number;
@@ -2857,7 +2871,7 @@ export interface CreateRunCacheResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRunCacheResponse = S.suspend(() =>
   S.Struct({
@@ -2879,7 +2893,7 @@ export interface GetRunCacheResponse {
   id?: string;
   name?: string;
   status?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const GetRunCacheResponse = S.suspend(() =>
   S.Struct({
@@ -2900,7 +2914,7 @@ export const GetRunCacheResponse = S.suspend(() =>
 export interface CreateRunGroupResponse {
   arn?: string;
   id?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateRunGroupResponse = S.suspend(() =>
   S.Struct({
@@ -2919,7 +2933,7 @@ export interface GetRunGroupResponse {
   maxRuns?: number;
   maxDuration?: number;
   creationTime?: Date;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   maxGpus?: number;
 }
 export const GetRunGroupResponse = S.suspend(() =>
@@ -2941,7 +2955,7 @@ export interface StartRunResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   uuid?: string;
   runOutputUri?: string;
 }
@@ -2961,7 +2975,7 @@ export interface CreateSequenceStoreRequest {
   name: string;
   description?: string;
   sseConfig?: SseConfig;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   clientToken?: string;
   fallbackLocation?: string;
   eTagAlgorithmFamily?: string;
@@ -3099,7 +3113,7 @@ export interface CreateMultipartReadSetUploadResponse {
   referenceArn: string;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   creationTime: Date;
 }
 export const CreateMultipartReadSetUploadResponse = S.suspend(() =>
@@ -3391,7 +3405,7 @@ export const ListSharesRequest = S.suspend(() =>
   identifier: "ListSharesRequest",
 }) as any as S.Schema<ListSharesRequest>;
 export interface ListTagsForResourceResponse {
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: TagMap }),
@@ -3403,7 +3417,7 @@ export interface StartVariantImportRequest {
   roleArn: string;
   items: VariantImportItemSource[];
   runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const StartVariantImportRequest = S.suspend(() =>
   S.Struct({
@@ -3478,7 +3492,7 @@ export interface GetVariantStoreResponse {
   sseConfig: SseConfig;
   creationTime: Date;
   updateTime: Date;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
   statusMessage: string;
   storeSizeBytes: number;
 }
@@ -3560,7 +3574,7 @@ export interface CreateWorkflowVersionResponse {
   workflowId?: string;
   versionName?: string;
   status?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   uuid?: string;
 }
 export const CreateWorkflowVersionResponse = S.suspend(() =>
@@ -3575,8 +3589,11 @@ export const CreateWorkflowVersionResponse = S.suspend(() =>
 ).annotations({
   identifier: "CreateWorkflowVersionResponse",
 }) as any as S.Schema<CreateWorkflowVersionResponse>;
-export type WorkflowMetadata = { [key: string]: string };
-export const WorkflowMetadata = S.Record({ key: S.String, value: S.String });
+export type WorkflowMetadata = { [key: string]: string | undefined };
+export const WorkflowMetadata = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DefinitionRepositoryDetails {
   connectionArn?: string;
   fullRepositoryId?: string;
@@ -3606,14 +3623,14 @@ export interface GetWorkflowVersionResponse {
   digest?: string;
   engine?: string;
   main?: string;
-  metadata?: { [key: string]: string };
-  parameterTemplate?: { [key: string]: WorkflowParameter };
+  metadata?: { [key: string]: string | undefined };
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
   status?: string;
   statusMessage?: string;
   storageType?: string;
   storageCapacity?: number;
   type?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   uuid?: string;
   workflowBucketOwnerId?: string;
   containerRegistryMap?: ContainerRegistryMap;
@@ -3696,7 +3713,7 @@ export interface ImportReferenceSourceItem {
   statusMessage?: string;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   referenceId?: string;
 }
 export const ImportReferenceSourceItem = S.suspend(() =>
@@ -3764,8 +3781,11 @@ export const RunGroupListItem = S.suspend(() =>
 }) as any as S.Schema<RunGroupListItem>;
 export type RunGroupList = RunGroupListItem[];
 export const RunGroupList = S.Array(RunGroupListItem);
-export type RunResourceDigests = { [key: string]: string };
-export const RunResourceDigests = S.Record({ key: S.String, value: S.String });
+export type RunResourceDigests = { [key: string]: string | undefined };
+export const RunResourceDigests = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface RunLogLocation {
   engineLogStream?: string;
   runLogStream?: string;
@@ -3897,7 +3917,7 @@ export interface ImportReadSetSourceItem {
   referenceArn?: string;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   readSetId?: string;
 }
 export const ImportReadSetSourceItem = S.suspend(() =>
@@ -3930,7 +3950,7 @@ export interface MultipartReadSetUploadListItem {
   referenceArn: string;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   creationTime: Date;
 }
 export const MultipartReadSetUploadListItem = S.suspend(() =>
@@ -3963,7 +3983,7 @@ export interface StartReadSetImportJobSourceItem {
   referenceArn?: string;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const StartReadSetImportJobSourceItem = S.suspend(() =>
   S.Struct({
@@ -4112,7 +4132,7 @@ export interface WorkflowListItem {
   type?: string;
   digest?: string;
   creationTime?: Date;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
 }
 export const WorkflowListItem = S.suspend(() =>
   S.Struct({
@@ -4139,7 +4159,7 @@ export interface WorkflowVersionListItem {
   type?: string;
   digest?: string;
   creationTime?: Date;
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string | undefined };
 }
 export const WorkflowVersionListItem = S.suspend(() =>
   S.Struct({
@@ -4208,7 +4228,7 @@ export interface GetAnnotationImportResponse {
   items: AnnotationImportItemDetail[];
   runLeftNormalization: boolean;
   formatOptions: FormatOptions;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const GetAnnotationImportResponse = S.suspend(() =>
   S.Struct({
@@ -4234,7 +4254,7 @@ export interface CreateAnnotationStoreVersionRequest {
   versionName: string;
   description?: string;
   versionOptions?: VersionOptions;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateAnnotationStoreVersionRequest = S.suspend(() =>
   S.Struct({
@@ -4350,13 +4370,13 @@ export interface GetRunResponse {
   storageCapacity?: number;
   outputUri?: string;
   logLevel?: string;
-  resourceDigests?: { [key: string]: string };
+  resourceDigests?: { [key: string]: string | undefined };
   startedBy?: string;
   creationTime?: Date;
   startTime?: Date;
   stopTime?: Date;
   statusMessage?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   accelerators?: string;
   retentionMode?: string;
   failureReason?: string;
@@ -4772,7 +4792,7 @@ export interface GetVariantImportResponse {
   completionTime?: Date;
   items: VariantImportItemDetail[];
   runLeftNormalization: boolean;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const GetVariantImportResponse = S.suspend(() =>
   S.Struct({
@@ -4798,9 +4818,9 @@ export interface CreateWorkflowRequest {
   definitionZip?: Uint8Array;
   definitionUri?: string;
   main?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter };
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
   storageCapacity?: number;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   requestId: string;
   accelerators?: string;
   storageType?: string;
@@ -4859,12 +4879,12 @@ export interface GetWorkflowResponse {
   definition?: string;
   main?: string;
   digest?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter };
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
   storageCapacity?: number;
   creationTime?: Date;
   statusMessage?: string;
-  tags?: { [key: string]: string };
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
+  metadata?: { [key: string]: string | undefined };
   accelerators?: string;
   storageType?: string;
   uuid?: string;
@@ -4936,7 +4956,7 @@ export interface AnnotationImportJobItem {
   updateTime: Date;
   completionTime?: Date;
   runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const AnnotationImportJobItem = S.suspend(() =>
   S.Struct({
@@ -5261,7 +5281,7 @@ export interface VariantImportJobItem {
   updateTime: Date;
   completionTime?: Date;
   runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const VariantImportJobItem = S.suspend(() =>
   S.Struct({
@@ -5319,7 +5339,7 @@ export interface StartAnnotationImportRequest {
   versionName?: string;
   formatOptions?: FormatOptions;
   runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string };
+  annotationFields?: { [key: string]: string | undefined };
 }
 export const StartAnnotationImportRequest = S.suspend(() =>
   S.Struct({
@@ -5359,7 +5379,7 @@ export interface CreateAnnotationStoreRequest {
   reference?: ReferenceItem;
   name?: string;
   description?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   versionName?: string;
   sseConfig?: SseConfig;
   storeFormat: string;
@@ -5582,7 +5602,7 @@ export interface CreateWorkflowResponse {
   arn?: string;
   id?: string;
   status?: string;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   uuid?: string;
 }
 export const CreateWorkflowResponse = S.suspend(() =>

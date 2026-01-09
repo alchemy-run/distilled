@@ -287,8 +287,11 @@ export const RebootDbClusterInput = S.suspend(() =>
 ).annotations({
   identifier: "RebootDbClusterInput",
 }) as any as S.Schema<RebootDbClusterInput>;
-export type RequestTagMap = { [key: string]: string };
-export const RequestTagMap = S.Record({ key: S.String, value: S.String });
+export type RequestTagMap = { [key: string]: string | undefined };
+export const RequestTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface CreateDbInstanceInput {
   name: string;
   username?: string | redacted.Redacted<string>;
@@ -304,7 +307,7 @@ export interface CreateDbInstanceInput {
   dbParameterGroupIdentifier?: string;
   deploymentType?: DeploymentType;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
   port?: number;
   networkType?: NetworkType;
 }
@@ -520,7 +523,7 @@ export const DataFusionRuntimeType = S.Literal(
 );
 export interface TagResourceRequest {
   resourceArn: string;
-  tags: { [key: string]: string };
+  tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
@@ -1205,8 +1208,11 @@ export const GetDbParameterGroupOutput = S.suspend(() =>
 ).annotations({
   identifier: "GetDbParameterGroupOutput",
 }) as any as S.Schema<GetDbParameterGroupOutput>;
-export type ResponseTagMap = { [key: string]: string };
-export const ResponseTagMap = S.Record({ key: S.String, value: S.String });
+export type ResponseTagMap = { [key: string]: string | undefined };
+export const ResponseTagMap = S.Record({
+  key: S.String,
+  value: S.UndefinedOr(S.String),
+});
 export interface DbClusterSummary {
   id: string;
   name: string;
@@ -1332,7 +1338,7 @@ export const DbParameterGroupSummary = S.suspend(() =>
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
 export const DbParameterGroupSummaryList = S.Array(DbParameterGroupSummary);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
   S.Struct({ tags: S.optional(ResponseTagMap) }),
@@ -1357,7 +1363,7 @@ export interface CreateDbClusterInput {
   deploymentType?: ClusterDeploymentType;
   failoverMode?: FailoverMode;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDbClusterInput = S.suspend(() =>
   S.Struct({
@@ -1443,7 +1449,7 @@ export interface CreateDbParameterGroupInput {
   name: string;
   description?: string;
   parameters?: Parameters;
-  tags?: { [key: string]: string };
+  tags?: { [key: string]: string | undefined };
 }
 export const CreateDbParameterGroupInput = S.suspend(() =>
   S.Struct({
