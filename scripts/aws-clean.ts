@@ -12,6 +12,9 @@
  * - API Gateway REST APIs
  * - API Gateway V2 HTTP/WebSocket APIs
  * - AppSync GraphQL APIs (with resolvers and data sources)
+ * - EC2 instances
+ * - Elastic IPs
+ * - Network interfaces
  * - VPCs (with dependencies: subnets, internet gateways, NAT gateways, route tables, security groups)
  * - IAM roles (optionally, with --iam flag)
  *
@@ -60,18 +63,24 @@ import { deleteTable, listTables } from "../src/services/dynamodb.ts";
 import {
   deleteInternetGateway,
   deleteNatGateway,
+  deleteNetworkInterface,
   deleteRouteTable,
   deleteSecurityGroup,
   deleteSubnet,
   deleteVpc,
+  describeAddresses,
+  describeInstances,
   describeInternetGateways,
   describeNatGateways,
+  describeNetworkInterfaces,
   describeRouteTables,
   describeSecurityGroups,
   describeSubnets,
   describeVpcs,
   detachInternetGateway,
   disassociateRouteTable,
+  releaseAddress,
+  terminateInstances,
 } from "../src/services/ec2.ts";
 import {
   deleteCluster,
@@ -668,6 +677,184 @@ const cleanDynamoDB = Effect.gen(function* () {
 });
 
 // ============================================================================
+// EC2 Instances Cleanup
+// ============================================================================
+
+const cleanEC2Instances = Effect.gen(function* () {
+  const { dryRun, prefix } = yield* getConfig;
+  yield* log("💻", "Cleaning EC2 instances...");
+
+  // Collect all instances (manual pagination)
+  const toTerminate: Array<{ instanceId: string; nameTag: string }> = [];
+  let nextToken: string | undefined;
+
+  do {
+    const result = yield* describeInstances({ NextToken: nextToken });
+
+    for (const reservation of result.Reservations ?? []) {
+      for (const instance of reservation.Instances ?? []) {
+        if (!instance.InstanceId) continue;
+
+        // Skip terminated instances
+        if (instance.State?.Name === "terminated") continue;
+
+        // Check prefix against instance name tag
+        const nameTag =
+          instance.Tags?.find((t) => t.Key === "Name")?.Value ?? "";
+        if (
+          !matchesPrefix(prefix, nameTag) &&
+          !matchesPrefix(prefix, instance.InstanceId)
+        )
+          continue;
+
+        toTerminate.push({ instanceId: instance.InstanceId, nameTag });
+      }
+    }
+
+    nextToken = result.NextToken;
+  } while (nextToken);
+
+  if (toTerminate.length === 0) {
+    yield* log("  ✓", "No EC2 instances to terminate");
+    return;
+  }
+
+  // Terminate all collected instances
+  const instanceIds = toTerminate.map((i) => i.instanceId);
+
+  if (dryRun) {
+    for (const instance of toTerminate) {
+      yield* log(
+        "  📋",
+        `Would terminate instance: ${instance.instanceId} (${instance.nameTag})`,
+      );
+    }
+  } else {
+    yield* log(
+      "  🗑️",
+      `Terminating ${instanceIds.length} instances: ${instanceIds.join(", ")}`,
+    );
+    yield* terminateInstances({ InstanceIds: instanceIds });
+  }
+
+  yield* log("  ✓", `Processed ${toTerminate.length} EC2 instances`);
+});
+
+// ============================================================================
+// Elastic IPs Cleanup
+// ============================================================================
+
+const cleanElasticIPs = Effect.gen(function* () {
+  const { dryRun, prefix } = yield* getConfig;
+  yield* log("🌐", "Cleaning Elastic IPs...");
+
+  // Get all addresses (no pagination for DescribeAddresses)
+  const result = yield* describeAddresses({});
+
+  const toRelease = (result.Addresses ?? []).filter((addr) => {
+    if (!addr.AllocationId) return false;
+
+    // Check prefix against name tag or allocation ID
+    const nameTag = addr.Tags?.find((t) => t.Key === "Name")?.Value ?? "";
+    return (
+      matchesPrefix(prefix, nameTag) ||
+      matchesPrefix(prefix, addr.AllocationId) ||
+      matchesPrefix(prefix, addr.PublicIp)
+    );
+  });
+
+  if (toRelease.length === 0) {
+    yield* log("  ✓", "No Elastic IPs to release");
+    return;
+  }
+
+  // Release all collected addresses
+  for (const addr of toRelease) {
+    if (!addr.AllocationId) continue;
+
+    const nameTag = addr.Tags?.find((t) => t.Key === "Name")?.Value ?? "";
+    const display = nameTag || addr.PublicIp || addr.AllocationId;
+
+    if (dryRun) {
+      yield* log("  📋", `Would release Elastic IP: ${display}`);
+    } else {
+      yield* log("  🗑️", `Releasing Elastic IP: ${display}`);
+      yield* releaseAddress({ AllocationId: addr.AllocationId });
+    }
+  }
+
+  yield* log("  ✓", `Processed ${toRelease.length} Elastic IPs`);
+});
+
+// ============================================================================
+// Network Interfaces Cleanup
+// ============================================================================
+
+const cleanNetworkInterfaces = Effect.gen(function* () {
+  const { dryRun, prefix } = yield* getConfig;
+  yield* log("🔌", "Cleaning Network Interfaces...");
+
+  // Collect all network interfaces (manual pagination)
+  const toDelete: Array<{ networkInterfaceId: string; description: string }> =
+    [];
+  let nextToken: string | undefined;
+
+  do {
+    const result = yield* describeNetworkInterfaces({ NextToken: nextToken });
+
+    for (const eni of result.NetworkInterfaces ?? []) {
+      if (!eni.NetworkInterfaceId) continue;
+
+      // Skip attached interfaces (can't delete while attached)
+      if (eni.Attachment?.Status === "attached") continue;
+
+      // Check prefix against name tag or description
+      const nameTag = eni.TagSet?.find((t) => t.Key === "Name")?.Value ?? "";
+      const description = eni.Description ?? "";
+
+      if (
+        !matchesPrefix(prefix, nameTag) &&
+        !matchesPrefix(prefix, description) &&
+        !matchesPrefix(prefix, eni.NetworkInterfaceId)
+      )
+        continue;
+
+      toDelete.push({
+        networkInterfaceId: eni.NetworkInterfaceId,
+        description: nameTag || description || eni.NetworkInterfaceId,
+      });
+    }
+
+    nextToken = result.NextToken;
+  } while (nextToken);
+
+  if (toDelete.length === 0) {
+    yield* log("  ✓", "No Network Interfaces to delete");
+    return;
+  }
+
+  // Delete all collected network interfaces
+  for (const eni of toDelete) {
+    if (dryRun) {
+      yield* log(
+        "  📋",
+        `Would delete Network Interface: ${eni.networkInterfaceId} (${eni.description})`,
+      );
+    } else {
+      yield* log(
+        "  🗑️",
+        `Deleting Network Interface: ${eni.networkInterfaceId} (${eni.description})`,
+      );
+      yield* deleteNetworkInterface({
+        NetworkInterfaceId: eni.networkInterfaceId,
+      });
+    }
+  }
+
+  yield* log("  ✓", `Processed ${toDelete.length} Network Interfaces`);
+});
+
+// ============================================================================
 // VPC Cleanup (most complex due to dependencies)
 // ============================================================================
 
@@ -933,6 +1120,10 @@ const cleanCommand = Command.make(
       yield* cleanAPIGateway;
       yield* cleanAPIGatewayV2;
       yield* cleanAppSync;
+      // EC2 resources must be cleaned before VPC
+      yield* cleanEC2Instances;
+      yield* cleanElasticIPs;
+      yield* cleanNetworkInterfaces;
       yield* cleanVPC;
       yield* cleanIAM;
 
