@@ -13,6 +13,9 @@
   ],
   "scripts": {
     "aws:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/aws-clean.ts",
+    "explore": "DISTILLED_AWS_DEBUG=1 bun run scripts/explore-service.ts",
+    "find:notfound": "DISTILLED_AWS_DEBUG=1 bun run scripts/find-not-found.ts",
+    "topology:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
     "build:clean": "bun run install:clean && bun run build",
     "bump": "bun run ./scripts/bump.ts",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",

@@ -1,0 +1,3717 @@
+[
+  {
+    "description": "Delete TransitGateway while TransitGatewayPeeringAttachment exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayPeeringAttachment",
+        "inputs": {
+          "TransitGatewayAttachmentId": {
+            "$placeholder": {
+              "name": "TransitGatewayAttachmentId",
+              "type": "TransitGatewayAttachmentId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGateway while TransitGatewayVpcAttachment exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayVpcAttachment",
+        "inputs": {
+          "TransitGatewayAttachmentId": {
+            "$placeholder": {
+              "name": "TransitGatewayAttachmentId",
+              "type": "TransitGatewayAttachmentId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while TransitGatewayVpcAttachment exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayVpcAttachment",
+        "inputs": {
+          "TransitGatewayAttachmentId": {
+            "$placeholder": {
+              "name": "TransitGatewayAttachmentId",
+              "type": "TransitGatewayAttachmentId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Subnet while TransitGatewayVpcAttachment exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayVpcAttachment",
+        "inputs": {
+          "TransitGatewayAttachmentId": {
+            "$placeholder": {
+              "name": "TransitGatewayAttachmentId",
+              "type": "TransitGatewayAttachmentId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while VpcPeeringConnection exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createVpcPeeringConnection",
+        "inputs": {
+          "PeerRegion": {
+            "$placeholder": {
+              "name": "PeerRegion",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          },
+          "PeerVpcId": {
+            "$placeholder": {
+              "name": "PeerVpcId",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpcpeeringconnection"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpcPeeringConnection",
+        "inputs": {
+          "VpcPeeringConnectionId": {
+            "$ref": "vpcpeeringconnection.VpcPeeringConnection.VpcPeeringConnectionId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete IpamPool while IpamPoolCidr exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamScope",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipamscope"
+      },
+      {
+        "call": "createIpamPool",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          },
+          "AddressFamily": {
+            "$placeholder": {
+              "name": "AddressFamily",
+              "type": "AddressFamily"
+            }
+          }
+        },
+        "as": "ipampool"
+      },
+      {
+        "call": "deleteIpamPool",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deprovisionIpamPoolCidr",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPool",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamScope",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Ipam while IpamByoasn exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      },
+      {
+        "call": "disassociateIpamByoasn",
+        "inputs": {
+          "Asn": {
+            "$placeholder": {
+              "name": "Asn",
+              "type": "String"
+            }
+          },
+          "Cidr": {
+            "$placeholder": {
+              "name": "Cidr",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "call": "deprovisionIpamByoasn",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          },
+          "Asn": {
+            "$placeholder": {
+              "name": "Asn",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while RouteTable exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createRouteTable",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "routetable"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteTable",
+        "inputs": {
+          "RouteTableId": {
+            "$ref": "routetable.RouteTable.RouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGateway while TransitGatewayMulticastDomain exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaymulticastdomain"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayMulticastDomainId": {
+            "$ref": "transitgatewaymulticastdomain.TransitGatewayMulticastDomain.TransitGatewayMulticastDomainId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGateway while TransitGatewayPolicyTable exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayPolicyTable",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaypolicytable"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayPolicyTable",
+        "inputs": {
+          "TransitGatewayPolicyTableId": {
+            "$ref": "transitgatewaypolicytable.TransitGatewayPolicyTable.TransitGatewayPolicyTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGateway while TransitGatewayRouteTable exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewayroutetable"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Subnet while NetworkInterface exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createNetworkInterface",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "networkinterface"
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while CarrierGateway exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createCarrierGateway",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "carriergateway"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteCarrierGateway",
+        "inputs": {
+          "CarrierGatewayId": {
+            "$ref": "carriergateway.CarrierGateway.CarrierGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete CoipPool while CoipCidr exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayroutetable"
+      },
+      {
+        "call": "createCoipPool",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        },
+        "as": "coippool"
+      },
+      {
+        "call": "deleteCoipPool",
+        "inputs": {
+          "CoipPoolId": {
+            "$ref": "coippool.CoipPool.CoipPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteCoipCidr",
+        "inputs": {
+          "Cidr": {
+            "$placeholder": {
+              "name": "Cidr",
+              "type": "String"
+            }
+          },
+          "CoipPoolId": {
+            "$ref": "coippool.CoipPool.CoipPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteCoipPool",
+        "inputs": {
+          "CoipPoolId": {
+            "$ref": "coippool.CoipPool.CoipPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayRouteTable while CoipPool exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayroutetable"
+      },
+      {
+        "call": "createCoipPool",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        },
+        "as": "coippool"
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteCoipPool",
+        "inputs": {
+          "CoipPoolId": {
+            "$ref": "coippool.CoipPool.CoipPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while EgressOnlyInternetGateway exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createEgressOnlyInternetGateway",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "egressonlyinternetgateway"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteEgressOnlyInternetGateway",
+        "inputs": {
+          "EgressOnlyInternetGatewayId": {
+            "$ref": "egressonlyinternetgateway.EgressOnlyInternetGateway.EgressOnlyInternetGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Image while ImageUsageReport exists",
+    "steps": [
+      {
+        "call": "registerImage",
+        "inputs": {
+          "Name": {
+            "$placeholder": {
+              "name": "Name",
+              "type": "String"
+            }
+          }
+        },
+        "as": "image"
+      },
+      {
+        "call": "deregisterImage",
+        "inputs": {
+          "ImageId": {
+            "$ref": "image.Image.ImageId"
+          }
+        }
+      },
+      {
+        "call": "deleteImageUsageReport",
+        "inputs": {
+          "ReportId": {
+            "$placeholder": {
+              "name": "ReportId",
+              "type": "ImageUsageReportId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deregisterImage",
+        "inputs": {
+          "ImageId": {
+            "$ref": "image.Image.ImageId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Subnet while InstanceConnectEndpoint exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createInstanceConnectEndpoint",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "instanceconnectendpoint"
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteInstanceConnectEndpoint",
+        "inputs": {
+          "InstanceConnectEndpointId": {
+            "$ref": "instanceconnectendpoint.InstanceConnectEndpoint.InstanceConnectEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Ipam while IpamExternalResourceVerificationToken exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamExternalResourceVerificationToken",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipamexternalresourceverificationtoken"
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamExternalResourceVerificationToken",
+        "inputs": {
+          "IpamExternalResourceVerificationTokenId": {
+            "$ref": "ipamexternalresourceverificationtoken.IpamExternalResourceVerificationToken.IpamExternalResourceVerificationTokenId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Ipam while IpamPolicy exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamPolicy",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipampolicy"
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPolicy",
+        "inputs": {
+          "IpamPolicyId": {
+            "$ref": "ipampolicy.IpamPolicy.IpamPolicyId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete IpamScope while IpamPool exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamScope",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipamscope"
+      },
+      {
+        "call": "createIpamPool",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          },
+          "AddressFamily": {
+            "$placeholder": {
+              "name": "AddressFamily",
+              "type": "AddressFamily"
+            }
+          }
+        },
+        "as": "ipampool"
+      },
+      {
+        "call": "deleteIpamScope",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPool",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamScope",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Ipam while IpamPrefixListResolver exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamPrefixListResolver",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          },
+          "AddressFamily": {
+            "$placeholder": {
+              "name": "AddressFamily",
+              "type": "AddressFamily"
+            }
+          }
+        },
+        "as": "ipamprefixlistresolver"
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPrefixListResolver",
+        "inputs": {
+          "IpamPrefixListResolverId": {
+            "$ref": "ipamprefixlistresolver.IpamPrefixListResolver.IpamPrefixListResolverId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete IpamPrefixListResolver while IpamPrefixListResolverTarget exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamPrefixListResolver",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          },
+          "AddressFamily": {
+            "$placeholder": {
+              "name": "AddressFamily",
+              "type": "AddressFamily"
+            }
+          }
+        },
+        "as": "ipamprefixlistresolver"
+      },
+      {
+        "call": "createIpamPrefixListResolverTarget",
+        "inputs": {
+          "IpamPrefixListResolverId": {
+            "$ref": "ipamprefixlistresolver.IpamPrefixListResolver.IpamPrefixListResolverId"
+          },
+          "PrefixListId": {
+            "$placeholder": {
+              "name": "PrefixListId",
+              "type": "String"
+            }
+          },
+          "PrefixListRegion": {
+            "$placeholder": {
+              "name": "PrefixListRegion",
+              "type": "String"
+            }
+          },
+          "TrackLatestVersion": {
+            "$placeholder": {
+              "name": "TrackLatestVersion",
+              "type": "Boolean"
+            }
+          }
+        },
+        "as": "ipamprefixlistresolvertarget"
+      },
+      {
+        "call": "deleteIpamPrefixListResolver",
+        "inputs": {
+          "IpamPrefixListResolverId": {
+            "$ref": "ipamprefixlistresolver.IpamPrefixListResolver.IpamPrefixListResolverId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPrefixListResolverTarget",
+        "inputs": {
+          "IpamPrefixListResolverTargetId": {
+            "$ref": "ipamprefixlistresolvertarget.IpamPrefixListResolverTarget.IpamPrefixListResolverTargetId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPrefixListResolver",
+        "inputs": {
+          "IpamPrefixListResolverId": {
+            "$ref": "ipamprefixlistresolver.IpamPrefixListResolver.IpamPrefixListResolverId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Ipam while IpamScope exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamScope",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipamscope"
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamScope",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayRouteTable while LocalGatewayRoute exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayroutetable"
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRoute",
+        "inputs": {
+          "DestinationCidrBlock": {
+            "$placeholder": {
+              "name": "DestinationCidrBlock",
+              "type": "String"
+            }
+          },
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayRouteTable while LocalGatewayRouteTableVirtualInterfaceGroupAssociation exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayroutetable"
+      },
+      {
+        "call": "createLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          },
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$placeholder": {
+              "name": "LocalGatewayVirtualInterfaceGroupId",
+              "type": "LocalGatewayVirtualInterfaceGroupId"
+            }
+          }
+        },
+        "as": "localgatewayroutetablevirtualinterfacegroupassociation"
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId": {
+            "$ref": "localgatewayroutetablevirtualinterfacegroupassociation.LocalGatewayRouteTableVirtualInterfaceGroupAssociation.LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayVirtualInterfaceGroup while LocalGatewayRouteTableVirtualInterfaceGroupAssociation exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayvirtualinterfacegroup"
+      },
+      {
+        "call": "createLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$placeholder": {
+              "name": "LocalGatewayRouteTableId",
+              "type": "LocalGatewayRoutetableId"
+            }
+          },
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          }
+        },
+        "as": "localgatewayroutetablevirtualinterfacegroupassociation"
+      },
+      {
+        "call": "deleteLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId": {
+            "$ref": "localgatewayroutetablevirtualinterfacegroupassociation.LocalGatewayRouteTableVirtualInterfaceGroupAssociation.LocalGatewayRouteTableVirtualInterfaceGroupAssociationId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayRouteTable while LocalGatewayRouteTableVpcAssociation exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayroutetable"
+      },
+      {
+        "call": "createLocalGatewayRouteTableVpcAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          },
+          "VpcId": {
+            "$placeholder": {
+              "name": "VpcId",
+              "type": "VpcId"
+            }
+          }
+        },
+        "as": "localgatewayroutetablevpcassociation"
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTableVpcAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableVpcAssociationId": {
+            "$ref": "localgatewayroutetablevpcassociation.LocalGatewayRouteTableVpcAssociation.LocalGatewayRouteTableVpcAssociationId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTable",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$ref": "localgatewayroutetable.LocalGatewayRouteTable.LocalGatewayRouteTableId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while LocalGatewayRouteTableVpcAssociation exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createLocalGatewayRouteTableVpcAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableId": {
+            "$placeholder": {
+              "name": "LocalGatewayRouteTableId",
+              "type": "LocalGatewayRoutetableId"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "localgatewayroutetablevpcassociation"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayRouteTableVpcAssociation",
+        "inputs": {
+          "LocalGatewayRouteTableVpcAssociationId": {
+            "$ref": "localgatewayroutetablevpcassociation.LocalGatewayRouteTableVpcAssociation.LocalGatewayRouteTableVpcAssociationId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete LocalGatewayVirtualInterfaceGroup while LocalGatewayVirtualInterface exists",
+    "steps": [
+      {
+        "call": "createLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayId": {
+            "$placeholder": {
+              "name": "LocalGatewayId",
+              "type": "LocalGatewayId"
+            }
+          }
+        },
+        "as": "localgatewayvirtualinterfacegroup"
+      },
+      {
+        "call": "createLocalGatewayVirtualInterface",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          },
+          "OutpostLagId": {
+            "$placeholder": {
+              "name": "OutpostLagId",
+              "type": "OutpostLagId"
+            }
+          },
+          "Vlan": {
+            "$placeholder": {
+              "name": "Vlan",
+              "type": "Integer"
+            }
+          },
+          "LocalAddress": {
+            "$placeholder": {
+              "name": "LocalAddress",
+              "type": "String"
+            }
+          },
+          "PeerAddress": {
+            "$placeholder": {
+              "name": "PeerAddress",
+              "type": "String"
+            }
+          }
+        },
+        "as": "localgatewayvirtualinterface"
+      },
+      {
+        "call": "deleteLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayVirtualInterface",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceId": {
+            "$ref": "localgatewayvirtualinterface.LocalGatewayVirtualInterface.LocalGatewayVirtualInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteLocalGatewayVirtualInterfaceGroup",
+        "inputs": {
+          "LocalGatewayVirtualInterfaceGroupId": {
+            "$ref": "localgatewayvirtualinterfacegroup.LocalGatewayVirtualInterfaceGroup.LocalGatewayVirtualInterfaceGroupId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while NetworkAcl exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createNetworkAcl",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "networkacl"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkAcl",
+        "inputs": {
+          "NetworkAclId": {
+            "$ref": "networkacl.NetworkAcl.NetworkAclId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkAcl while NetworkAclEntry exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createNetworkAcl",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "networkacl"
+      },
+      {
+        "call": "deleteNetworkAcl",
+        "inputs": {
+          "NetworkAclId": {
+            "$ref": "networkacl.NetworkAcl.NetworkAclId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkAclEntry",
+        "inputs": {
+          "NetworkAclId": {
+            "$ref": "networkacl.NetworkAcl.NetworkAclId"
+          },
+          "RuleNumber": {
+            "$placeholder": {
+              "name": "RuleNumber",
+              "type": "Integer"
+            }
+          },
+          "Egress": {
+            "$placeholder": {
+              "name": "Egress",
+              "type": "Boolean"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkAcl",
+        "inputs": {
+          "NetworkAclId": {
+            "$ref": "networkacl.NetworkAcl.NetworkAclId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInterface while NetworkInterfacePermission exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createNetworkInterface",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "networkinterface"
+      },
+      {
+        "call": "createNetworkInterfacePermission",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          },
+          "Permission": {
+            "$placeholder": {
+              "name": "Permission",
+              "type": "InterfacePermissionType"
+            }
+          }
+        },
+        "as": "networkinterfacepermission"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInterfacePermission",
+        "inputs": {
+          "NetworkInterfacePermissionId": {
+            "$ref": "networkinterfacepermission.NetworkInterfacePermission.NetworkInterfacePermissionId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete RouteTable while Route exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createRouteTable",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "routetable"
+      },
+      {
+        "call": "deleteRouteTable",
+        "inputs": {
+          "RouteTableId": {
+            "$ref": "routetable.RouteTable.RouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteRoute",
+        "inputs": {
+          "RouteTableId": {
+            "$ref": "routetable.RouteTable.RouteTableId"
+          },
+          "DestinationCidrBlock": {
+            "$placeholder": {
+              "name": "DestinationCidrBlock",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteRouteTable",
+        "inputs": {
+          "RouteTableId": {
+            "$ref": "routetable.RouteTable.RouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete RouteServer while RouteServerEndpoint exists",
+    "steps": [
+      {
+        "call": "createRouteServer",
+        "inputs": {
+          "AmazonSideAsn": {
+            "$placeholder": {
+              "name": "AmazonSideAsn",
+              "type": "Long"
+            }
+          }
+        },
+        "as": "routeserver"
+      },
+      {
+        "call": "createRouteServerEndpoint",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          },
+          "SubnetId": {
+            "$placeholder": {
+              "name": "SubnetId",
+              "type": "SubnetId"
+            }
+          }
+        },
+        "as": "routeserverendpoint"
+      },
+      {
+        "call": "deleteRouteServer",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServerEndpoint",
+        "inputs": {
+          "RouteServerEndpointId": {
+            "$ref": "routeserverendpoint.RouteServerEndpoint.RouteServerEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServer",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Subnet while RouteServerEndpoint exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createRouteServerEndpoint",
+        "inputs": {
+          "RouteServerId": {
+            "$placeholder": {
+              "name": "RouteServerId",
+              "type": "RouteServerId"
+            }
+          },
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "routeserverendpoint"
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServerEndpoint",
+        "inputs": {
+          "RouteServerEndpointId": {
+            "$ref": "routeserverendpoint.RouteServerEndpoint.RouteServerEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete RouteServerEndpoint while RouteServerPeer exists",
+    "steps": [
+      {
+        "call": "createRouteServer",
+        "inputs": {
+          "AmazonSideAsn": {
+            "$placeholder": {
+              "name": "AmazonSideAsn",
+              "type": "Long"
+            }
+          }
+        },
+        "as": "routeserver"
+      },
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createRouteServerEndpoint",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          },
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "routeserverendpoint"
+      },
+      {
+        "call": "createRouteServerPeer",
+        "inputs": {
+          "RouteServerEndpointId": {
+            "$ref": "routeserverendpoint.RouteServerEndpoint.RouteServerEndpointId"
+          },
+          "PeerAddress": {
+            "$placeholder": {
+              "name": "PeerAddress",
+              "type": "String"
+            }
+          },
+          "BgpOptions": {
+            "$placeholder": {
+              "name": "BgpOptions",
+              "type": "RouteServerBgpOptionsRequest"
+            }
+          }
+        },
+        "as": "routeserverpeer"
+      },
+      {
+        "call": "deleteRouteServerEndpoint",
+        "inputs": {
+          "RouteServerEndpointId": {
+            "$ref": "routeserverendpoint.RouteServerEndpoint.RouteServerEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServerPeer",
+        "inputs": {
+          "RouteServerPeerId": {
+            "$ref": "routeserverpeer.RouteServerPeer.RouteServerPeerId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServerEndpoint",
+        "inputs": {
+          "RouteServerEndpointId": {
+            "$ref": "routeserverendpoint.RouteServerEndpoint.RouteServerEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "disassociateRouteServer",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteRouteServer",
+        "inputs": {
+          "RouteServerId": {
+            "$ref": "routeserver.RouteServer.RouteServerId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while Subnet exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Subnet while SubnetCidrReservation exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createSubnetCidrReservation",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          },
+          "Cidr": {
+            "$placeholder": {
+              "name": "Cidr",
+              "type": "String"
+            }
+          },
+          "ReservationType": {
+            "$placeholder": {
+              "name": "ReservationType",
+              "type": "SubnetCidrReservationType"
+            }
+          }
+        },
+        "as": "subnetcidrreservation"
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnetCidrReservation",
+        "inputs": {
+          "SubnetCidrReservationId": {
+            "$ref": "subnetcidrreservation.SubnetCidrReservation.SubnetCidrReservationId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TrafficMirrorFilter while TrafficMirrorFilterRule exists",
+    "steps": [
+      {
+        "call": "createTrafficMirrorFilter",
+        "as": "trafficmirrorfilter"
+      },
+      {
+        "call": "createTrafficMirrorFilterRule",
+        "inputs": {
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          },
+          "TrafficDirection": {
+            "$placeholder": {
+              "name": "TrafficDirection",
+              "type": "TrafficDirection"
+            }
+          },
+          "RuleNumber": {
+            "$placeholder": {
+              "name": "RuleNumber",
+              "type": "Integer"
+            }
+          },
+          "RuleAction": {
+            "$placeholder": {
+              "name": "RuleAction",
+              "type": "TrafficMirrorRuleAction"
+            }
+          },
+          "DestinationCidrBlock": {
+            "$placeholder": {
+              "name": "DestinationCidrBlock",
+              "type": "String"
+            }
+          },
+          "SourceCidrBlock": {
+            "$placeholder": {
+              "name": "SourceCidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "trafficmirrorfilterrule"
+      },
+      {
+        "call": "deleteTrafficMirrorFilter",
+        "inputs": {
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorFilterRule",
+        "inputs": {
+          "TrafficMirrorFilterRuleId": {
+            "$ref": "trafficmirrorfilterrule.TrafficMirrorFilterRule.TrafficMirrorFilterRuleId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorFilter",
+        "inputs": {
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInterface while TrafficMirrorSession exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createNetworkInterface",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "networkinterface"
+      },
+      {
+        "call": "createTrafficMirrorSession",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          },
+          "TrafficMirrorTargetId": {
+            "$placeholder": {
+              "name": "TrafficMirrorTargetId",
+              "type": "TrafficMirrorTargetId"
+            }
+          },
+          "TrafficMirrorFilterId": {
+            "$placeholder": {
+              "name": "TrafficMirrorFilterId",
+              "type": "TrafficMirrorFilterId"
+            }
+          },
+          "SessionNumber": {
+            "$placeholder": {
+              "name": "SessionNumber",
+              "type": "Integer"
+            }
+          }
+        },
+        "as": "trafficmirrorsession"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorSession",
+        "inputs": {
+          "TrafficMirrorSessionId": {
+            "$ref": "trafficmirrorsession.TrafficMirrorSession.TrafficMirrorSessionId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TrafficMirrorTarget while TrafficMirrorSession exists",
+    "steps": [
+      {
+        "call": "createTrafficMirrorTarget",
+        "as": "trafficmirrortarget"
+      },
+      {
+        "call": "createTrafficMirrorSession",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$placeholder": {
+              "name": "NetworkInterfaceId",
+              "type": "NetworkInterfaceId"
+            }
+          },
+          "TrafficMirrorTargetId": {
+            "$ref": "trafficmirrortarget.TrafficMirrorTarget.TrafficMirrorTargetId"
+          },
+          "TrafficMirrorFilterId": {
+            "$placeholder": {
+              "name": "TrafficMirrorFilterId",
+              "type": "TrafficMirrorFilterId"
+            }
+          },
+          "SessionNumber": {
+            "$placeholder": {
+              "name": "SessionNumber",
+              "type": "Integer"
+            }
+          }
+        },
+        "as": "trafficmirrorsession"
+      },
+      {
+        "call": "deleteTrafficMirrorTarget",
+        "inputs": {
+          "TrafficMirrorTargetId": {
+            "$ref": "trafficmirrortarget.TrafficMirrorTarget.TrafficMirrorTargetId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorSession",
+        "inputs": {
+          "TrafficMirrorSessionId": {
+            "$ref": "trafficmirrorsession.TrafficMirrorSession.TrafficMirrorSessionId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorTarget",
+        "inputs": {
+          "TrafficMirrorTargetId": {
+            "$ref": "trafficmirrortarget.TrafficMirrorTarget.TrafficMirrorTargetId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TrafficMirrorFilter while TrafficMirrorSession exists",
+    "steps": [
+      {
+        "call": "createTrafficMirrorFilter",
+        "as": "trafficmirrorfilter"
+      },
+      {
+        "call": "createTrafficMirrorSession",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$placeholder": {
+              "name": "NetworkInterfaceId",
+              "type": "NetworkInterfaceId"
+            }
+          },
+          "TrafficMirrorTargetId": {
+            "$placeholder": {
+              "name": "TrafficMirrorTargetId",
+              "type": "TrafficMirrorTargetId"
+            }
+          },
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          },
+          "SessionNumber": {
+            "$placeholder": {
+              "name": "SessionNumber",
+              "type": "Integer"
+            }
+          }
+        },
+        "as": "trafficmirrorsession"
+      },
+      {
+        "call": "deleteTrafficMirrorFilter",
+        "inputs": {
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorSession",
+        "inputs": {
+          "TrafficMirrorSessionId": {
+            "$ref": "trafficmirrorsession.TrafficMirrorSession.TrafficMirrorSessionId"
+          }
+        }
+      },
+      {
+        "call": "deleteTrafficMirrorFilter",
+        "inputs": {
+          "TrafficMirrorFilterId": {
+            "$ref": "trafficmirrorfilter.TrafficMirrorFilter.TrafficMirrorFilterId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGateway while TransitGatewayMeteringPolicy exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayMeteringPolicy",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaymeteringpolicy"
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayMeteringPolicy",
+        "inputs": {
+          "TransitGatewayMeteringPolicyId": {
+            "$ref": "transitgatewaymeteringpolicy.TransitGatewayMeteringPolicy.TransitGatewayMeteringPolicyId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayMeteringPolicy while TransitGatewayMeteringPolicyEntry exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayMeteringPolicy",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaymeteringpolicy"
+      },
+      {
+        "call": "deleteTransitGatewayMeteringPolicy",
+        "inputs": {
+          "TransitGatewayMeteringPolicyId": {
+            "$ref": "transitgatewaymeteringpolicy.TransitGatewayMeteringPolicy.TransitGatewayMeteringPolicyId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayMeteringPolicyEntry",
+        "inputs": {
+          "TransitGatewayMeteringPolicyId": {
+            "$ref": "transitgatewaymeteringpolicy.TransitGatewayMeteringPolicy.TransitGatewayMeteringPolicyId"
+          },
+          "PolicyRuleNumber": {
+            "$placeholder": {
+              "name": "PolicyRuleNumber",
+              "type": "Integer"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayMeteringPolicy",
+        "inputs": {
+          "TransitGatewayMeteringPolicyId": {
+            "$ref": "transitgatewaymeteringpolicy.TransitGatewayMeteringPolicy.TransitGatewayMeteringPolicyId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayRouteTable while TransitGatewayPrefixListReference exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewayroutetable"
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayPrefixListReference",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          },
+          "PrefixListId": {
+            "$placeholder": {
+              "name": "PrefixListId",
+              "type": "PrefixListResourceId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayRouteTable while TransitGatewayRoute exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewayroutetable"
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRoute",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          },
+          "DestinationCidrBlock": {
+            "$placeholder": {
+              "name": "DestinationCidrBlock",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayRouteTable while TransitGatewayRouteTableAnnouncement exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewayroutetable"
+      },
+      {
+        "call": "createTransitGatewayRouteTableAnnouncement",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          },
+          "PeeringAttachmentId": {
+            "$placeholder": {
+              "name": "PeeringAttachmentId",
+              "type": "TransitGatewayAttachmentId"
+            }
+          }
+        },
+        "as": "transitgatewayroutetableannouncement"
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRouteTableAnnouncement",
+        "inputs": {
+          "TransitGatewayRouteTableAnnouncementId": {
+            "$ref": "transitgatewayroutetableannouncement.TransitGatewayRouteTableAnnouncement.TransitGatewayRouteTableAnnouncementId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGatewayRouteTable",
+        "inputs": {
+          "TransitGatewayRouteTableId": {
+            "$ref": "transitgatewayroutetable.TransitGatewayRouteTable.TransitGatewayRouteTableId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete VerifiedAccessGroup while VerifiedAccessEndpoint exists",
+    "steps": [
+      {
+        "call": "createVerifiedAccessInstance",
+        "as": "verifiedaccessinstance"
+      },
+      {
+        "call": "createVerifiedAccessGroup",
+        "inputs": {
+          "VerifiedAccessInstanceId": {
+            "$ref": "verifiedaccessinstance.VerifiedAccessInstance.VerifiedAccessInstanceId"
+          }
+        },
+        "as": "verifiedaccessgroup"
+      },
+      {
+        "call": "createVerifiedAccessEndpoint",
+        "inputs": {
+          "VerifiedAccessGroupId": {
+            "$ref": "verifiedaccessgroup.VerifiedAccessGroup.VerifiedAccessGroupId"
+          },
+          "EndpointType": {
+            "$placeholder": {
+              "name": "EndpointType",
+              "type": "VerifiedAccessEndpointType"
+            }
+          },
+          "AttachmentType": {
+            "$placeholder": {
+              "name": "AttachmentType",
+              "type": "VerifiedAccessEndpointAttachmentType"
+            }
+          }
+        },
+        "as": "verifiedaccessendpoint"
+      },
+      {
+        "call": "deleteVerifiedAccessGroup",
+        "inputs": {
+          "VerifiedAccessGroupId": {
+            "$ref": "verifiedaccessgroup.VerifiedAccessGroup.VerifiedAccessGroupId"
+          }
+        }
+      },
+      {
+        "call": "deleteVerifiedAccessEndpoint",
+        "inputs": {
+          "VerifiedAccessEndpointId": {
+            "$ref": "verifiedaccessendpoint.VerifiedAccessEndpoint.VerifiedAccessEndpointId"
+          }
+        }
+      },
+      {
+        "call": "deleteVerifiedAccessGroup",
+        "inputs": {
+          "VerifiedAccessGroupId": {
+            "$ref": "verifiedaccessgroup.VerifiedAccessGroup.VerifiedAccessGroupId"
+          }
+        }
+      },
+      {
+        "call": "deleteVerifiedAccessInstance",
+        "inputs": {
+          "VerifiedAccessInstanceId": {
+            "$ref": "verifiedaccessinstance.VerifiedAccessInstance.VerifiedAccessInstanceId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete VerifiedAccessInstance while VerifiedAccessGroup exists",
+    "steps": [
+      {
+        "call": "createVerifiedAccessInstance",
+        "as": "verifiedaccessinstance"
+      },
+      {
+        "call": "createVerifiedAccessGroup",
+        "inputs": {
+          "VerifiedAccessInstanceId": {
+            "$ref": "verifiedaccessinstance.VerifiedAccessInstance.VerifiedAccessInstanceId"
+          }
+        },
+        "as": "verifiedaccessgroup"
+      },
+      {
+        "call": "deleteVerifiedAccessInstance",
+        "inputs": {
+          "VerifiedAccessInstanceId": {
+            "$ref": "verifiedaccessinstance.VerifiedAccessInstance.VerifiedAccessInstanceId"
+          }
+        }
+      },
+      {
+        "call": "deleteVerifiedAccessGroup",
+        "inputs": {
+          "VerifiedAccessGroupId": {
+            "$ref": "verifiedaccessgroup.VerifiedAccessGroup.VerifiedAccessGroupId"
+          }
+        }
+      },
+      {
+        "call": "deleteVerifiedAccessInstance",
+        "inputs": {
+          "VerifiedAccessInstanceId": {
+            "$ref": "verifiedaccessinstance.VerifiedAccessInstance.VerifiedAccessInstanceId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete Vpc while VpcEncryptionControl exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createVpcEncryptionControl",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "vpcencryptioncontrol"
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpcEncryptionControl",
+        "inputs": {
+          "VpcEncryptionControlId": {
+            "$ref": "vpcencryptioncontrol.VpcEncryptionControl.VpcEncryptionControlId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete CustomerGateway while VpnConnection exists",
+    "steps": [
+      {
+        "call": "createCustomerGateway",
+        "inputs": {
+          "Type": {
+            "$placeholder": {
+              "name": "Type",
+              "type": "GatewayType"
+            }
+          }
+        },
+        "as": "customergateway"
+      },
+      {
+        "call": "createVpnConnection",
+        "inputs": {
+          "CustomerGatewayId": {
+            "$ref": "customergateway.CustomerGateway.CustomerGatewayId"
+          },
+          "Type": {
+            "$placeholder": {
+              "name": "Type",
+              "type": "String"
+            }
+          },
+          "TransitGatewayId": {
+            "$placeholder": {
+              "name": "TransitGatewayId",
+              "type": "TransitGatewayId"
+            }
+          }
+        },
+        "as": "vpnconnection"
+      },
+      {
+        "call": "deleteCustomerGateway",
+        "inputs": {
+          "CustomerGatewayId": {
+            "$ref": "customergateway.CustomerGateway.CustomerGatewayId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpnConnection",
+        "inputs": {
+          "VpnConnectionId": {
+            "$ref": "vpnconnection.VpnConnection.VpnConnectionId"
+          }
+        }
+      },
+      {
+        "call": "deleteCustomerGateway",
+        "inputs": {
+          "CustomerGatewayId": {
+            "$ref": "customergateway.CustomerGateway.CustomerGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete VpnConnection while VpnConnectionRoute exists",
+    "steps": [
+      {
+        "call": "createCustomerGateway",
+        "inputs": {
+          "Type": {
+            "$placeholder": {
+              "name": "Type",
+              "type": "GatewayType"
+            }
+          }
+        },
+        "as": "customergateway"
+      },
+      {
+        "call": "createVpnConnection",
+        "inputs": {
+          "CustomerGatewayId": {
+            "$ref": "customergateway.CustomerGateway.CustomerGatewayId"
+          },
+          "Type": {
+            "$placeholder": {
+              "name": "Type",
+              "type": "String"
+            }
+          },
+          "TransitGatewayId": {
+            "$placeholder": {
+              "name": "TransitGatewayId",
+              "type": "TransitGatewayId"
+            }
+          }
+        },
+        "as": "vpnconnection"
+      },
+      {
+        "call": "deleteVpnConnection",
+        "inputs": {
+          "VpnConnectionId": {
+            "$ref": "vpnconnection.VpnConnection.VpnConnectionId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpnConnectionRoute",
+        "inputs": {
+          "DestinationCidrBlock": {
+            "$placeholder": {
+              "name": "DestinationCidrBlock",
+              "type": "String"
+            }
+          },
+          "VpnConnectionId": {
+            "$ref": "vpnconnection.VpnConnection.VpnConnectionId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpnConnection",
+        "inputs": {
+          "VpnConnectionId": {
+            "$ref": "vpnconnection.VpnConnection.VpnConnectionId"
+          }
+        }
+      },
+      {
+        "call": "deleteCustomerGateway",
+        "inputs": {
+          "CustomerGatewayId": {
+            "$ref": "customergateway.CustomerGateway.CustomerGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInsightsAccessScope while NetworkInsightsAccessScopeAnalysis exists",
+    "steps": [
+      {
+        "call": "createNetworkInsightsAccessScope",
+        "inputs": {
+          "ClientToken": {
+            "$placeholder": {
+              "name": "ClientToken",
+              "type": "String"
+            }
+          }
+        },
+        "as": "networkinsightsaccessscope"
+      },
+      {
+        "call": "startNetworkInsightsAccessScopeAnalysis",
+        "inputs": {
+          "NetworkInsightsAccessScopeId": {
+            "$ref": "networkinsightsaccessscope.NetworkInsightsAccessScope.NetworkInsightsAccessScopeId"
+          },
+          "ClientToken": {
+            "$placeholder": {
+              "name": "ClientToken",
+              "type": "String"
+            }
+          }
+        },
+        "as": "networkinsightsaccessscopeanalysis"
+      },
+      {
+        "call": "deleteNetworkInsightsAccessScope",
+        "inputs": {
+          "NetworkInsightsAccessScopeId": {
+            "$ref": "networkinsightsaccessscope.NetworkInsightsAccessScope.NetworkInsightsAccessScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInsightsAccessScopeAnalysis",
+        "inputs": {
+          "NetworkInsightsAccessScopeAnalysisId": {
+            "$placeholder": {
+              "name": "NetworkInsightsAccessScopeAnalysisId",
+              "type": "NetworkInsightsAccessScopeAnalysisId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInsightsAccessScope",
+        "inputs": {
+          "NetworkInsightsAccessScopeId": {
+            "$ref": "networkinsightsaccessscope.NetworkInsightsAccessScope.NetworkInsightsAccessScopeId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInsightsPath while NetworkInsightsAnalysis exists",
+    "steps": [
+      {
+        "call": "createNetworkInsightsPath",
+        "inputs": {
+          "Source": {
+            "$placeholder": {
+              "name": "Source",
+              "type": "NetworkInsightsResourceId"
+            }
+          },
+          "Protocol": {
+            "$placeholder": {
+              "name": "Protocol",
+              "type": "Protocol"
+            }
+          },
+          "ClientToken": {
+            "$placeholder": {
+              "name": "ClientToken",
+              "type": "String"
+            }
+          }
+        },
+        "as": "networkinsightspath"
+      },
+      {
+        "call": "startNetworkInsightsAnalysis",
+        "inputs": {
+          "NetworkInsightsPathId": {
+            "$ref": "networkinsightspath.NetworkInsightsPath.NetworkInsightsPathId"
+          },
+          "ClientToken": {
+            "$placeholder": {
+              "name": "ClientToken",
+              "type": "String"
+            }
+          }
+        },
+        "as": "networkinsightsanalysis"
+      },
+      {
+        "call": "deleteNetworkInsightsPath",
+        "inputs": {
+          "NetworkInsightsPathId": {
+            "$ref": "networkinsightspath.NetworkInsightsPath.NetworkInsightsPathId"
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInsightsAnalysis",
+        "inputs": {
+          "NetworkInsightsAnalysisId": {
+            "$placeholder": {
+              "name": "NetworkInsightsAnalysisId",
+              "type": "NetworkInsightsAnalysisId"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteNetworkInsightsPath",
+        "inputs": {
+          "NetworkInsightsPathId": {
+            "$ref": "networkinsightspath.NetworkInsightsPath.NetworkInsightsPathId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete IpamPool while PublicIpv4PoolCidr exists",
+    "steps": [
+      {
+        "call": "createIpam",
+        "inputs": {
+          "MeteredAccount": {
+            "$placeholder": {
+              "name": "MeteredAccount",
+              "type": "IpamMeteredAccount"
+            }
+          }
+        },
+        "as": "ipam"
+      },
+      {
+        "call": "createIpamScope",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        },
+        "as": "ipamscope"
+      },
+      {
+        "call": "createIpamPool",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          },
+          "AddressFamily": {
+            "$placeholder": {
+              "name": "AddressFamily",
+              "type": "AddressFamily"
+            }
+          }
+        },
+        "as": "ipampool"
+      },
+      {
+        "call": "deleteIpamPool",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deprovisionPublicIpv4PoolCidr",
+        "inputs": {
+          "PoolId": {
+            "$placeholder": {
+              "name": "PoolId",
+              "type": "Ipv4PoolEc2Id"
+            }
+          },
+          "Cidr": {
+            "$placeholder": {
+              "name": "Cidr",
+              "type": "String"
+            }
+          }
+        }
+      },
+      {
+        "call": "deleteIpamPool",
+        "inputs": {
+          "IpamPoolId": {
+            "$ref": "ipampool.IpamPool.IpamPoolId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpamScope",
+        "inputs": {
+          "IpamScopeId": {
+            "$ref": "ipamscope.IpamScope.IpamScopeId"
+          }
+        }
+      },
+      {
+        "call": "deleteIpam",
+        "inputs": {
+          "IpamId": {
+            "$ref": "ipam.Ipam.IpamId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayMulticastDomain while TransitGatewayMulticastGroupMembers exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaymulticastdomain"
+      },
+      {
+        "call": "deleteTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayMulticastDomainId": {
+            "$ref": "transitgatewaymulticastdomain.TransitGatewayMulticastDomain.TransitGatewayMulticastDomainId"
+          }
+        }
+      },
+      {
+        "call": "deregisterTransitGatewayMulticastGroupMembers"
+      },
+      {
+        "call": "deleteTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayMulticastDomainId": {
+            "$ref": "transitgatewaymulticastdomain.TransitGatewayMulticastDomain.TransitGatewayMulticastDomainId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInterface while TransitGatewayMulticastGroupMembers exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createNetworkInterface",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "networkinterface"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deregisterTransitGatewayMulticastGroupMembers"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete TransitGatewayMulticastDomain while TransitGatewayMulticastGroupSources exists",
+    "steps": [
+      {
+        "call": "createTransitGateway",
+        "as": "transitgateway"
+      },
+      {
+        "call": "createTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        },
+        "as": "transitgatewaymulticastdomain"
+      },
+      {
+        "call": "deleteTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayMulticastDomainId": {
+            "$ref": "transitgatewaymulticastdomain.TransitGatewayMulticastDomain.TransitGatewayMulticastDomainId"
+          }
+        }
+      },
+      {
+        "call": "deregisterTransitGatewayMulticastGroupSources"
+      },
+      {
+        "call": "deleteTransitGatewayMulticastDomain",
+        "inputs": {
+          "TransitGatewayMulticastDomainId": {
+            "$ref": "transitgatewaymulticastdomain.TransitGatewayMulticastDomain.TransitGatewayMulticastDomainId"
+          }
+        }
+      },
+      {
+        "call": "deleteTransitGateway",
+        "inputs": {
+          "TransitGatewayId": {
+            "$ref": "transitgateway.TransitGateway.TransitGatewayId"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "description": "Delete NetworkInterface while TransitGatewayMulticastGroupSources exists",
+    "steps": [
+      {
+        "call": "createVpc",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          }
+        },
+        "as": "vpc"
+      },
+      {
+        "call": "createSubnet",
+        "inputs": {
+          "CidrBlock": {
+            "$placeholder": {
+              "name": "CidrBlock",
+              "type": "String"
+            }
+          },
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        },
+        "as": "subnet"
+      },
+      {
+        "call": "createNetworkInterface",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        },
+        "as": "networkinterface"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deregisterTransitGatewayMulticastGroupSources"
+      },
+      {
+        "call": "deleteNetworkInterface",
+        "inputs": {
+          "NetworkInterfaceId": {
+            "$ref": "networkinterface.NetworkInterface.NetworkInterfaceId"
+          }
+        }
+      },
+      {
+        "call": "deleteSubnet",
+        "inputs": {
+          "SubnetId": {
+            "$ref": "subnet.Subnet.SubnetId"
+          }
+        }
+      },
+      {
+        "call": "deleteVpc",
+        "inputs": {
+          "VpcId": {
+            "$ref": "vpc.Vpc.VpcId"
+          }
+        }
+      }
+    ]
+  }
+]

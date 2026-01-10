@@ -12210,12 +12210,12 @@ export const deleteBucketLifecycle: (
   input: DeleteBucketLifecycleRequest,
 ) => effect.Effect<
   DeleteBucketLifecycleResponse,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketLifecycleRequest,
   output: DeleteBucketLifecycleResponse,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see
@@ -12252,12 +12252,12 @@ export const deleteBucketMetadataConfiguration: (
   input: DeleteBucketMetadataConfigurationRequest,
 ) => effect.Effect<
   DeleteBucketMetadataConfigurationResponse,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketMetadataConfigurationRequest,
   output: DeleteBucketMetadataConfigurationResponse,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * We recommend that you delete your S3 Metadata configurations by using the V2
@@ -12300,12 +12300,12 @@ export const deleteBucketMetadataTableConfiguration: (
   input: DeleteBucketMetadataTableConfigurationRequest,
 ) => effect.Effect<
   DeleteBucketMetadataTableConfigurationResponse,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBucketMetadataTableConfigurationRequest,
   output: DeleteBucketMetadataTableConfigurationResponse,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * This operation is not supported for directory buckets.
@@ -13190,12 +13190,12 @@ export const getBucketAbac: (
   input: GetBucketAbacRequest,
 ) => effect.Effect<
   GetBucketAbacOutput,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketAbacRequest,
   output: GetBucketAbacOutput,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * This operation is not supported for directory buckets.
@@ -17671,12 +17671,12 @@ export const getBucketMetadataConfiguration: (
   input: GetBucketMetadataConfigurationRequest,
 ) => effect.Effect<
   GetBucketMetadataConfigurationOutput,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketMetadataConfigurationRequest,
   output: GetBucketMetadataConfigurationOutput,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * We recommend that you retrieve your S3 Metadata configurations by using the V2
@@ -17718,12 +17718,12 @@ export const getBucketMetadataTableConfiguration: (
   input: GetBucketMetadataTableConfigurationRequest,
 ) => effect.Effect<
   GetBucketMetadataTableConfigurationOutput,
-  CommonErrors,
+  NoSuchBucket | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBucketMetadataTableConfigurationRequest,
   output: GetBucketMetadataTableConfigurationOutput,
-  errors: [],
+  errors: [NoSuchBucket],
 }));
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,

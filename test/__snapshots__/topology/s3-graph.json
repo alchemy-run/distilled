@@ -1,0 +1,4313 @@
+{
+  "resources": {
+    "MultipartUpload": {
+      "identifier": null,
+      "operations": {
+        "create": "createMultipartUpload",
+        "read": null,
+        "list": "listMultipartUploads",
+        "update": ["completeMultipartUpload"],
+        "detach": [],
+        "delete": "abortMultipartUpload"
+      }
+    },
+    "Object": {
+      "identifier": null,
+      "operations": {
+        "create": "copyObject",
+        "read": "getObject",
+        "list": "listObjects",
+        "update": ["putObject", "renameObject", "restoreObject"],
+        "detach": [],
+        "delete": "deleteObject"
+      }
+    },
+    "Bucket": {
+      "identifier": null,
+      "operations": {
+        "create": "createBucket",
+        "read": "headBucket",
+        "list": "listBuckets",
+        "update": [],
+        "detach": [],
+        "delete": "deleteBucket"
+      }
+    },
+    "BucketMetadataConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": "createBucketMetadataConfiguration",
+        "read": "getBucketMetadataConfiguration",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": "deleteBucketMetadataConfiguration"
+      }
+    },
+    "BucketMetadataTableConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": "createBucketMetadataTableConfiguration",
+        "read": "getBucketMetadataTableConfiguration",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": "deleteBucketMetadataTableConfiguration"
+      }
+    },
+    "Session": {
+      "identifier": null,
+      "operations": {
+        "create": "createSession",
+        "read": null,
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketAnalyticsConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketAnalyticsConfiguration",
+        "list": "listBucketAnalyticsConfigurations",
+        "update": ["putBucketAnalyticsConfiguration"],
+        "detach": [],
+        "delete": "deleteBucketAnalyticsConfiguration"
+      }
+    },
+    "BucketCors": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketCors",
+        "list": null,
+        "update": ["putBucketCors"],
+        "detach": [],
+        "delete": "deleteBucketCors"
+      }
+    },
+    "BucketEncryption": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketEncryption",
+        "list": null,
+        "update": ["putBucketEncryption"],
+        "detach": [],
+        "delete": "deleteBucketEncryption"
+      }
+    },
+    "BucketIntelligentTieringConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketIntelligentTieringConfiguration",
+        "list": "listBucketIntelligentTieringConfigurations",
+        "update": ["putBucketIntelligentTieringConfiguration"],
+        "detach": [],
+        "delete": "deleteBucketIntelligentTieringConfiguration"
+      }
+    },
+    "BucketInventoryConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketInventoryConfiguration",
+        "list": "listBucketInventoryConfigurations",
+        "update": ["putBucketInventoryConfiguration"],
+        "detach": [],
+        "delete": "deleteBucketInventoryConfiguration"
+      }
+    },
+    "BucketLifecycle": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": "deleteBucketLifecycle"
+      }
+    },
+    "BucketMetricsConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketMetricsConfiguration",
+        "list": "listBucketMetricsConfigurations",
+        "update": ["putBucketMetricsConfiguration"],
+        "detach": [],
+        "delete": "deleteBucketMetricsConfiguration"
+      }
+    },
+    "BucketOwnershipControls": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketOwnershipControls",
+        "list": null,
+        "update": ["putBucketOwnershipControls"],
+        "detach": [],
+        "delete": "deleteBucketOwnershipControls"
+      }
+    },
+    "BucketPolicy": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketPolicy",
+        "list": null,
+        "update": ["putBucketPolicy"],
+        "detach": [],
+        "delete": "deleteBucketPolicy"
+      }
+    },
+    "BucketReplication": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketReplication",
+        "list": null,
+        "update": ["putBucketReplication"],
+        "detach": [],
+        "delete": "deleteBucketReplication"
+      }
+    },
+    "BucketTagging": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketTagging",
+        "list": null,
+        "update": ["putBucketTagging"],
+        "detach": [],
+        "delete": "deleteBucketTagging"
+      }
+    },
+    "BucketWebsite": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketWebsite",
+        "list": null,
+        "update": ["putBucketWebsite"],
+        "detach": [],
+        "delete": "deleteBucketWebsite"
+      }
+    },
+    "ObjectTagging": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectTagging",
+        "list": null,
+        "update": ["putObjectTagging"],
+        "detach": [],
+        "delete": "deleteObjectTagging"
+      }
+    },
+    "PublicAccessBlock": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getPublicAccessBlock",
+        "list": null,
+        "update": ["putPublicAccessBlock"],
+        "detach": [],
+        "delete": "deletePublicAccessBlock"
+      }
+    },
+    "BucketAbac": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketAbac",
+        "list": null,
+        "update": ["putBucketAbac"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketAccelerateConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketAccelerateConfiguration",
+        "list": null,
+        "update": ["putBucketAccelerateConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketAcl": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketAcl",
+        "list": null,
+        "update": ["putBucketAcl"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketLifecycleConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketLifecycleConfiguration",
+        "list": null,
+        "update": ["putBucketLifecycleConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketLocation": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketLocation",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketLogging": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketLogging",
+        "list": null,
+        "update": ["putBucketLogging"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketNotificationConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketNotificationConfiguration",
+        "list": null,
+        "update": ["putBucketNotificationConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketPolicyStatus": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketPolicyStatus",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketRequestPayment": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketRequestPayment",
+        "list": null,
+        "update": ["putBucketRequestPayment"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketVersioning": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getBucketVersioning",
+        "list": null,
+        "update": ["putBucketVersioning"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectAcl": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectAcl",
+        "list": null,
+        "update": ["putObjectAcl"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectAttributes": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectAttributes",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectLegalHold": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectLegalHold",
+        "list": null,
+        "update": ["putObjectLegalHold"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectLockConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectLockConfiguration",
+        "list": null,
+        "update": ["putObjectLockConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectRetention": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectRetention",
+        "list": null,
+        "update": ["putObjectRetention"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectTorrent": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": "getObjectTorrent",
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "DirectoryBuckets": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": "listDirectoryBuckets",
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectVersions": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": "listObjectVersions",
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectsV2": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": "listObjectsV2",
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "ObjectContent": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": "selectObjectContent",
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketMetadataInventoryTableConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": null,
+        "update": ["updateBucketMetadataInventoryTableConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "BucketMetadataJournalTableConfiguration": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": null,
+        "update": ["updateBucketMetadataJournalTableConfiguration"],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "Part": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": "listParts",
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "PartCopy": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    },
+    "GetObjectResponse": {
+      "identifier": null,
+      "operations": {
+        "create": null,
+        "read": null,
+        "list": null,
+        "update": [],
+        "detach": [],
+        "delete": null
+      }
+    }
+  },
+  "operations": {
+    "abortMultipartUpload": {
+      "resource": "MultipartUpload",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "UploadId": {
+          "required": true,
+          "type": "MultipartUploadId",
+          "references": "Upload"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "IfMatchInitiatedTime": {
+          "required": false,
+          "type": "IfMatchInitiatedTime"
+        }
+      },
+      "outputs": ["RequestCharged"]
+    },
+    "completeMultipartUpload": {
+      "resource": "MultipartUpload",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "MultipartUpload": {
+          "required": false,
+          "type": "CompletedMultipartUpload"
+        },
+        "UploadId": {
+          "required": true,
+          "type": "MultipartUploadId",
+          "references": "Upload"
+        },
+        "ChecksumCRC32": {
+          "required": false,
+          "type": "ChecksumCRC32"
+        },
+        "ChecksumCRC32C": {
+          "required": false,
+          "type": "ChecksumCRC32C"
+        },
+        "ChecksumCRC64NVME": {
+          "required": false,
+          "type": "ChecksumCRC64NVME"
+        },
+        "ChecksumSHA1": {
+          "required": false,
+          "type": "ChecksumSHA1"
+        },
+        "ChecksumSHA256": {
+          "required": false,
+          "type": "ChecksumSHA256"
+        },
+        "ChecksumType": {
+          "required": false,
+          "type": "ChecksumType"
+        },
+        "MpuObjectSize": {
+          "required": false,
+          "type": "MpuObjectSize"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        }
+      },
+      "outputs": [
+        "Location",
+        "Bucket",
+        "Key",
+        "Expiration",
+        "ETag",
+        "ChecksumCRC32",
+        "ChecksumCRC32C",
+        "ChecksumCRC64NVME",
+        "ChecksumSHA1",
+        "ChecksumSHA256",
+        "ChecksumType",
+        "ServerSideEncryption",
+        "VersionId",
+        "SSEKMSKeyId",
+        "BucketKeyEnabled",
+        "RequestCharged"
+      ]
+    },
+    "copyObject": {
+      "resource": "Object",
+      "type": "create",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "ObjectCannedACL"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CacheControl": {
+          "required": false,
+          "type": "CacheControl"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ContentDisposition": {
+          "required": false,
+          "type": "ContentDisposition"
+        },
+        "ContentEncoding": {
+          "required": false,
+          "type": "ContentEncoding"
+        },
+        "ContentLanguage": {
+          "required": false,
+          "type": "ContentLanguage"
+        },
+        "ContentType": {
+          "required": false,
+          "type": "ContentType"
+        },
+        "CopySource": {
+          "required": true,
+          "type": "CopySource"
+        },
+        "CopySourceIfMatch": {
+          "required": false,
+          "type": "CopySourceIfMatch"
+        },
+        "CopySourceIfModifiedSince": {
+          "required": false,
+          "type": "CopySourceIfModifiedSince"
+        },
+        "CopySourceIfNoneMatch": {
+          "required": false,
+          "type": "CopySourceIfNoneMatch"
+        },
+        "CopySourceIfUnmodifiedSince": {
+          "required": false,
+          "type": "CopySourceIfUnmodifiedSince"
+        },
+        "Expires": {
+          "required": false,
+          "type": "Expires"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "Metadata": {
+          "required": false,
+          "type": "Metadata"
+        },
+        "MetadataDirective": {
+          "required": false,
+          "type": "MetadataDirective"
+        },
+        "TaggingDirective": {
+          "required": false,
+          "type": "TaggingDirective"
+        },
+        "ServerSideEncryption": {
+          "required": false,
+          "type": "ServerSideEncryption"
+        },
+        "StorageClass": {
+          "required": false,
+          "type": "StorageClass"
+        },
+        "WebsiteRedirectLocation": {
+          "required": false,
+          "type": "WebsiteRedirectLocation"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "SSEKMSKeyId": {
+          "required": false,
+          "type": "SSEKMSKeyId"
+        },
+        "SSEKMSEncryptionContext": {
+          "required": false,
+          "type": "SSEKMSEncryptionContext"
+        },
+        "BucketKeyEnabled": {
+          "required": false,
+          "type": "BucketKeyEnabled"
+        },
+        "CopySourceSSECustomerAlgorithm": {
+          "required": false,
+          "type": "CopySourceSSECustomerAlgorithm"
+        },
+        "CopySourceSSECustomerKey": {
+          "required": false,
+          "type": "CopySourceSSECustomerKey"
+        },
+        "CopySourceSSECustomerKeyMD5": {
+          "required": false,
+          "type": "CopySourceSSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "Tagging": {
+          "required": false,
+          "type": "TaggingHeader"
+        },
+        "ObjectLockMode": {
+          "required": false,
+          "type": "ObjectLockMode"
+        },
+        "ObjectLockRetainUntilDate": {
+          "required": false,
+          "type": "ObjectLockRetainUntilDate"
+        },
+        "ObjectLockLegalHoldStatus": {
+          "required": false,
+          "type": "ObjectLockLegalHoldStatus"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ExpectedSourceBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "CopyObjectResult",
+        "Expiration",
+        "CopySourceVersionId",
+        "VersionId",
+        "ServerSideEncryption",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "SSEKMSEncryptionContext",
+        "BucketKeyEnabled",
+        "RequestCharged"
+      ]
+    },
+    "createBucket": {
+      "resource": "Bucket",
+      "type": "create",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "BucketCannedACL"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CreateBucketConfiguration": {
+          "required": false,
+          "type": "CreateBucketConfiguration"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWrite": {
+          "required": false,
+          "type": "GrantWrite"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "ObjectLockEnabledForBucket": {
+          "required": false,
+          "type": "ObjectLockEnabledForBucket"
+        },
+        "ObjectOwnership": {
+          "required": false,
+          "type": "ObjectOwnership"
+        }
+      },
+      "outputs": ["Location", "BucketArn"]
+    },
+    "createBucketMetadataConfiguration": {
+      "resource": "BucketMetadataConfiguration",
+      "type": "create",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "MetadataConfiguration": {
+          "required": true,
+          "type": "MetadataConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "createBucketMetadataTableConfiguration": {
+      "resource": "BucketMetadataTableConfiguration",
+      "type": "create",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "MetadataTableConfiguration": {
+          "required": true,
+          "type": "MetadataTableConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "createMultipartUpload": {
+      "resource": "MultipartUpload",
+      "type": "create",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "ObjectCannedACL"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CacheControl": {
+          "required": false,
+          "type": "CacheControl"
+        },
+        "ContentDisposition": {
+          "required": false,
+          "type": "ContentDisposition"
+        },
+        "ContentEncoding": {
+          "required": false,
+          "type": "ContentEncoding"
+        },
+        "ContentLanguage": {
+          "required": false,
+          "type": "ContentLanguage"
+        },
+        "ContentType": {
+          "required": false,
+          "type": "ContentType"
+        },
+        "Expires": {
+          "required": false,
+          "type": "Expires"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "Metadata": {
+          "required": false,
+          "type": "Metadata"
+        },
+        "ServerSideEncryption": {
+          "required": false,
+          "type": "ServerSideEncryption"
+        },
+        "StorageClass": {
+          "required": false,
+          "type": "StorageClass"
+        },
+        "WebsiteRedirectLocation": {
+          "required": false,
+          "type": "WebsiteRedirectLocation"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "SSEKMSKeyId": {
+          "required": false,
+          "type": "SSEKMSKeyId"
+        },
+        "SSEKMSEncryptionContext": {
+          "required": false,
+          "type": "SSEKMSEncryptionContext"
+        },
+        "BucketKeyEnabled": {
+          "required": false,
+          "type": "BucketKeyEnabled"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "Tagging": {
+          "required": false,
+          "type": "TaggingHeader"
+        },
+        "ObjectLockMode": {
+          "required": false,
+          "type": "ObjectLockMode"
+        },
+        "ObjectLockRetainUntilDate": {
+          "required": false,
+          "type": "ObjectLockRetainUntilDate"
+        },
+        "ObjectLockLegalHoldStatus": {
+          "required": false,
+          "type": "ObjectLockLegalHoldStatus"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ChecksumType": {
+          "required": false,
+          "type": "ChecksumType"
+        }
+      },
+      "outputs": [
+        "AbortDate",
+        "AbortRuleId",
+        "Bucket",
+        "Key",
+        "UploadId",
+        "ServerSideEncryption",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "SSEKMSEncryptionContext",
+        "BucketKeyEnabled",
+        "RequestCharged",
+        "ChecksumAlgorithm",
+        "ChecksumType"
+      ]
+    },
+    "createSession": {
+      "resource": "Session",
+      "type": "create",
+      "inputs": {
+        "SessionMode": {
+          "required": false,
+          "type": "SessionMode"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ServerSideEncryption": {
+          "required": false,
+          "type": "ServerSideEncryption"
+        },
+        "SSEKMSKeyId": {
+          "required": false,
+          "type": "SSEKMSKeyId"
+        },
+        "SSEKMSEncryptionContext": {
+          "required": false,
+          "type": "SSEKMSEncryptionContext"
+        },
+        "BucketKeyEnabled": {
+          "required": false,
+          "type": "BucketKeyEnabled"
+        }
+      },
+      "outputs": [
+        "ServerSideEncryption",
+        "SSEKMSKeyId",
+        "SSEKMSEncryptionContext",
+        "BucketKeyEnabled",
+        "Credentials"
+      ]
+    },
+    "deleteBucket": {
+      "resource": "Bucket",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketAnalyticsConfiguration": {
+      "resource": "BucketAnalyticsConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "AnalyticsId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketCors": {
+      "resource": "BucketCors",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketEncryption": {
+      "resource": "BucketEncryption",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketIntelligentTieringConfiguration": {
+      "resource": "BucketIntelligentTieringConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "IntelligentTieringId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketInventoryConfiguration": {
+      "resource": "BucketInventoryConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "InventoryId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketLifecycle": {
+      "resource": "BucketLifecycle",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketMetadataConfiguration": {
+      "resource": "BucketMetadataConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketMetadataTableConfiguration": {
+      "resource": "BucketMetadataTableConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketMetricsConfiguration": {
+      "resource": "BucketMetricsConfiguration",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "MetricsId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketOwnershipControls": {
+      "resource": "BucketOwnershipControls",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketPolicy": {
+      "resource": "BucketPolicy",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketReplication": {
+      "resource": "BucketReplication",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketTagging": {
+      "resource": "BucketTagging",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteBucketWebsite": {
+      "resource": "BucketWebsite",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "deleteObject": {
+      "resource": "Object",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "MFA": {
+          "required": false,
+          "type": "MFA"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "BypassGovernanceRetention": {
+          "required": false,
+          "type": "BypassGovernanceRetention"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfMatchLastModifiedTime": {
+          "required": false,
+          "type": "IfMatchLastModifiedTime"
+        },
+        "IfMatchSize": {
+          "required": false,
+          "type": "IfMatchSize"
+        }
+      },
+      "outputs": ["DeleteMarker", "VersionId", "RequestCharged"]
+    },
+    "deleteObjectTagging": {
+      "resource": "ObjectTagging",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["VersionId"]
+    },
+    "deleteObjects": {
+      "resource": "Objects",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Delete": {
+          "required": true,
+          "type": "Delete"
+        },
+        "MFA": {
+          "required": false,
+          "type": "MFA"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "BypassGovernanceRetention": {
+          "required": false,
+          "type": "BypassGovernanceRetention"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        }
+      },
+      "outputs": ["Deleted", "RequestCharged", "Errors"]
+    },
+    "deletePublicAccessBlock": {
+      "resource": "PublicAccessBlock",
+      "type": "delete",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "getBucketAbac": {
+      "resource": "BucketAbac",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["AbacStatus"]
+    },
+    "getBucketAccelerateConfiguration": {
+      "resource": "BucketAccelerateConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        }
+      },
+      "outputs": ["Status", "RequestCharged"]
+    },
+    "getBucketAcl": {
+      "resource": "BucketAcl",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Owner", "Grants"]
+    },
+    "getBucketAnalyticsConfiguration": {
+      "resource": "BucketAnalyticsConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "AnalyticsId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["AnalyticsConfiguration"]
+    },
+    "getBucketCors": {
+      "resource": "BucketCors",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["CORSRules"]
+    },
+    "getBucketEncryption": {
+      "resource": "BucketEncryption",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["ServerSideEncryptionConfiguration"]
+    },
+    "getBucketIntelligentTieringConfiguration": {
+      "resource": "BucketIntelligentTieringConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "IntelligentTieringId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["IntelligentTieringConfiguration"]
+    },
+    "getBucketInventoryConfiguration": {
+      "resource": "BucketInventoryConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "InventoryId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["InventoryConfiguration"]
+    },
+    "getBucketLifecycleConfiguration": {
+      "resource": "BucketLifecycleConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Rules", "TransitionDefaultMinimumObjectSize"]
+    },
+    "getBucketLocation": {
+      "resource": "BucketLocation",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["LocationConstraint"]
+    },
+    "getBucketLogging": {
+      "resource": "BucketLogging",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["LoggingEnabled"]
+    },
+    "getBucketMetadataConfiguration": {
+      "resource": "BucketMetadataConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["GetBucketMetadataConfigurationResult"]
+    },
+    "getBucketMetadataTableConfiguration": {
+      "resource": "BucketMetadataTableConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["GetBucketMetadataTableConfigurationResult"]
+    },
+    "getBucketMetricsConfiguration": {
+      "resource": "BucketMetricsConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "MetricsId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["MetricsConfiguration"]
+    },
+    "getBucketNotificationConfiguration": {
+      "resource": "BucketNotificationConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "TopicConfigurations",
+        "QueueConfigurations",
+        "LambdaFunctionConfigurations",
+        "EventBridgeConfiguration"
+      ]
+    },
+    "getBucketOwnershipControls": {
+      "resource": "BucketOwnershipControls",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["OwnershipControls"]
+    },
+    "getBucketPolicy": {
+      "resource": "BucketPolicy",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Policy"]
+    },
+    "getBucketPolicyStatus": {
+      "resource": "BucketPolicyStatus",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["PolicyStatus"]
+    },
+    "getBucketReplication": {
+      "resource": "BucketReplication",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["ReplicationConfiguration"]
+    },
+    "getBucketRequestPayment": {
+      "resource": "BucketRequestPayment",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Payer"]
+    },
+    "getBucketTagging": {
+      "resource": "BucketTagging",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["TagSet"]
+    },
+    "getBucketVersioning": {
+      "resource": "BucketVersioning",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Status", "MFADelete"]
+    },
+    "getBucketWebsite": {
+      "resource": "BucketWebsite",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "RedirectAllRequestsTo",
+        "IndexDocument",
+        "ErrorDocument",
+        "RoutingRules"
+      ]
+    },
+    "getObject": {
+      "resource": "Object",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfModifiedSince": {
+          "required": false,
+          "type": "IfModifiedSince"
+        },
+        "IfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "IfUnmodifiedSince": {
+          "required": false,
+          "type": "IfUnmodifiedSince"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "Range": {
+          "required": false,
+          "type": "Range"
+        },
+        "ResponseCacheControl": {
+          "required": false,
+          "type": "ResponseCacheControl"
+        },
+        "ResponseContentDisposition": {
+          "required": false,
+          "type": "ResponseContentDisposition"
+        },
+        "ResponseContentEncoding": {
+          "required": false,
+          "type": "ResponseContentEncoding"
+        },
+        "ResponseContentLanguage": {
+          "required": false,
+          "type": "ResponseContentLanguage"
+        },
+        "ResponseContentType": {
+          "required": false,
+          "type": "ResponseContentType"
+        },
+        "ResponseExpires": {
+          "required": false,
+          "type": "ResponseExpires"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "PartNumber": {
+          "required": false,
+          "type": "PartNumber"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ChecksumMode": {
+          "required": false,
+          "type": "ChecksumMode"
+        }
+      },
+      "outputs": [
+        "Body",
+        "DeleteMarker",
+        "AcceptRanges",
+        "Expiration",
+        "Restore",
+        "LastModified",
+        "ContentLength",
+        "ETag",
+        "ChecksumCRC32",
+        "ChecksumCRC32C",
+        "ChecksumCRC64NVME",
+        "ChecksumSHA1",
+        "ChecksumSHA256",
+        "ChecksumType",
+        "MissingMeta",
+        "VersionId",
+        "CacheControl",
+        "ContentDisposition",
+        "ContentEncoding",
+        "ContentLanguage",
+        "ContentRange",
+        "ContentType",
+        "Expires",
+        "WebsiteRedirectLocation",
+        "ServerSideEncryption",
+        "Metadata",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "BucketKeyEnabled",
+        "StorageClass",
+        "RequestCharged",
+        "ReplicationStatus",
+        "PartsCount",
+        "TagCount",
+        "ObjectLockMode",
+        "ObjectLockRetainUntilDate",
+        "ObjectLockLegalHoldStatus"
+      ]
+    },
+    "getObjectAcl": {
+      "resource": "ObjectAcl",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Owner", "Grants", "RequestCharged"]
+    },
+    "getObjectAttributes": {
+      "resource": "ObjectAttributes",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "MaxParts": {
+          "required": false,
+          "type": "MaxParts"
+        },
+        "PartNumberMarker": {
+          "required": false,
+          "type": "PartNumberMarker"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ObjectAttributes": {
+          "required": true,
+          "type": "ObjectAttributesList"
+        }
+      },
+      "outputs": [
+        "DeleteMarker",
+        "LastModified",
+        "VersionId",
+        "RequestCharged",
+        "ETag",
+        "Checksum",
+        "ObjectParts",
+        "StorageClass",
+        "ObjectSize"
+      ]
+    },
+    "getObjectLegalHold": {
+      "resource": "ObjectLegalHold",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["LegalHold"]
+    },
+    "getObjectLockConfiguration": {
+      "resource": "ObjectLockConfiguration",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["ObjectLockConfiguration"]
+    },
+    "getObjectRetention": {
+      "resource": "ObjectRetention",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Retention"]
+    },
+    "getObjectTagging": {
+      "resource": "ObjectTagging",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        }
+      },
+      "outputs": ["VersionId", "TagSet"]
+    },
+    "getObjectTorrent": {
+      "resource": "ObjectTorrent",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Body", "RequestCharged"]
+    },
+    "getPublicAccessBlock": {
+      "resource": "PublicAccessBlock",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["PublicAccessBlockConfiguration"]
+    },
+    "headBucket": {
+      "resource": "Bucket",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "BucketArn",
+        "BucketLocationType",
+        "BucketLocationName",
+        "BucketRegion",
+        "AccessPointAlias"
+      ]
+    },
+    "headObject": {
+      "resource": "Object",
+      "type": "read",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfModifiedSince": {
+          "required": false,
+          "type": "IfModifiedSince"
+        },
+        "IfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "IfUnmodifiedSince": {
+          "required": false,
+          "type": "IfUnmodifiedSince"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "Range": {
+          "required": false,
+          "type": "Range"
+        },
+        "ResponseCacheControl": {
+          "required": false,
+          "type": "ResponseCacheControl"
+        },
+        "ResponseContentDisposition": {
+          "required": false,
+          "type": "ResponseContentDisposition"
+        },
+        "ResponseContentEncoding": {
+          "required": false,
+          "type": "ResponseContentEncoding"
+        },
+        "ResponseContentLanguage": {
+          "required": false,
+          "type": "ResponseContentLanguage"
+        },
+        "ResponseContentType": {
+          "required": false,
+          "type": "ResponseContentType"
+        },
+        "ResponseExpires": {
+          "required": false,
+          "type": "ResponseExpires"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "PartNumber": {
+          "required": false,
+          "type": "PartNumber"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ChecksumMode": {
+          "required": false,
+          "type": "ChecksumMode"
+        }
+      },
+      "outputs": [
+        "DeleteMarker",
+        "AcceptRanges",
+        "Expiration",
+        "Restore",
+        "ArchiveStatus",
+        "LastModified",
+        "ContentLength",
+        "ChecksumCRC32",
+        "ChecksumCRC32C",
+        "ChecksumCRC64NVME",
+        "ChecksumSHA1",
+        "ChecksumSHA256",
+        "ChecksumType",
+        "ETag",
+        "MissingMeta",
+        "VersionId",
+        "CacheControl",
+        "ContentDisposition",
+        "ContentEncoding",
+        "ContentLanguage",
+        "ContentType",
+        "ContentRange",
+        "Expires",
+        "WebsiteRedirectLocation",
+        "ServerSideEncryption",
+        "Metadata",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "BucketKeyEnabled",
+        "StorageClass",
+        "RequestCharged",
+        "ReplicationStatus",
+        "PartsCount",
+        "TagCount",
+        "ObjectLockMode",
+        "ObjectLockRetainUntilDate",
+        "ObjectLockLegalHoldStatus"
+      ]
+    },
+    "listBucketAnalyticsConfigurations": {
+      "resource": "BucketAnalyticsConfiguration",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "ContinuationToken",
+        "NextContinuationToken",
+        "AnalyticsConfigurationList"
+      ]
+    },
+    "listBucketIntelligentTieringConfigurations": {
+      "resource": "BucketIntelligentTieringConfiguration",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "ContinuationToken",
+        "NextContinuationToken",
+        "IntelligentTieringConfigurationList"
+      ]
+    },
+    "listBucketInventoryConfigurations": {
+      "resource": "BucketInventoryConfiguration",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "ContinuationToken",
+        "InventoryConfigurationList",
+        "IsTruncated",
+        "NextContinuationToken"
+      ]
+    },
+    "listBucketMetricsConfigurations": {
+      "resource": "BucketMetricsConfiguration",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "ContinuationToken",
+        "NextContinuationToken",
+        "MetricsConfigurationList"
+      ]
+    },
+    "listBuckets": {
+      "resource": "Bucket",
+      "type": "list",
+      "inputs": {
+        "MaxBuckets": {
+          "required": false,
+          "type": "MaxBuckets"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "Prefix": {
+          "required": false,
+          "type": "Prefix"
+        },
+        "BucketRegion": {
+          "required": false,
+          "type": "BucketRegion"
+        }
+      },
+      "outputs": ["Buckets", "Owner", "ContinuationToken", "Prefix"]
+    },
+    "listDirectoryBuckets": {
+      "resource": "DirectoryBuckets",
+      "type": "list",
+      "inputs": {
+        "ContinuationToken": {
+          "required": false,
+          "type": "DirectoryBucketToken"
+        },
+        "MaxDirectoryBuckets": {
+          "required": false,
+          "type": "MaxDirectoryBuckets"
+        }
+      },
+      "outputs": ["Buckets", "ContinuationToken"]
+    },
+    "listMultipartUploads": {
+      "resource": "MultipartUpload",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Delimiter": {
+          "required": false,
+          "type": "Delimiter"
+        },
+        "EncodingType": {
+          "required": false,
+          "type": "EncodingType"
+        },
+        "KeyMarker": {
+          "required": false,
+          "type": "KeyMarker"
+        },
+        "MaxUploads": {
+          "required": false,
+          "type": "MaxUploads"
+        },
+        "Prefix": {
+          "required": false,
+          "type": "Prefix"
+        },
+        "UploadIdMarker": {
+          "required": false,
+          "type": "UploadIdMarker"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        }
+      },
+      "outputs": [
+        "Bucket",
+        "KeyMarker",
+        "UploadIdMarker",
+        "NextKeyMarker",
+        "Prefix",
+        "Delimiter",
+        "NextUploadIdMarker",
+        "MaxUploads",
+        "IsTruncated",
+        "Uploads",
+        "CommonPrefixes",
+        "EncodingType",
+        "RequestCharged"
+      ]
+    },
+    "listObjectVersions": {
+      "resource": "ObjectVersions",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Delimiter": {
+          "required": false,
+          "type": "Delimiter"
+        },
+        "EncodingType": {
+          "required": false,
+          "type": "EncodingType"
+        },
+        "KeyMarker": {
+          "required": false,
+          "type": "KeyMarker"
+        },
+        "MaxKeys": {
+          "required": false,
+          "type": "MaxKeys"
+        },
+        "Prefix": {
+          "required": false,
+          "type": "Prefix"
+        },
+        "VersionIdMarker": {
+          "required": false,
+          "type": "VersionIdMarker"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "OptionalObjectAttributes": {
+          "required": false,
+          "type": "OptionalObjectAttributesList"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "KeyMarker",
+        "VersionIdMarker",
+        "NextKeyMarker",
+        "NextVersionIdMarker",
+        "Versions",
+        "DeleteMarkers",
+        "Name",
+        "Prefix",
+        "Delimiter",
+        "MaxKeys",
+        "CommonPrefixes",
+        "EncodingType",
+        "RequestCharged"
+      ]
+    },
+    "listObjects": {
+      "resource": "Object",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Delimiter": {
+          "required": false,
+          "type": "Delimiter"
+        },
+        "EncodingType": {
+          "required": false,
+          "type": "EncodingType"
+        },
+        "Marker": {
+          "required": false,
+          "type": "Marker"
+        },
+        "MaxKeys": {
+          "required": false,
+          "type": "MaxKeys"
+        },
+        "Prefix": {
+          "required": false,
+          "type": "Prefix"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "OptionalObjectAttributes": {
+          "required": false,
+          "type": "OptionalObjectAttributesList"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "Marker",
+        "NextMarker",
+        "Contents",
+        "Name",
+        "Prefix",
+        "Delimiter",
+        "MaxKeys",
+        "CommonPrefixes",
+        "EncodingType",
+        "RequestCharged"
+      ]
+    },
+    "listObjectsV2": {
+      "resource": "ObjectsV2",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Delimiter": {
+          "required": false,
+          "type": "Delimiter"
+        },
+        "EncodingType": {
+          "required": false,
+          "type": "EncodingType"
+        },
+        "MaxKeys": {
+          "required": false,
+          "type": "MaxKeys"
+        },
+        "Prefix": {
+          "required": false,
+          "type": "Prefix"
+        },
+        "ContinuationToken": {
+          "required": false,
+          "type": "Token"
+        },
+        "FetchOwner": {
+          "required": false,
+          "type": "FetchOwner"
+        },
+        "StartAfter": {
+          "required": false,
+          "type": "StartAfter"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "OptionalObjectAttributes": {
+          "required": false,
+          "type": "OptionalObjectAttributesList"
+        }
+      },
+      "outputs": [
+        "IsTruncated",
+        "Contents",
+        "Name",
+        "Prefix",
+        "Delimiter",
+        "MaxKeys",
+        "CommonPrefixes",
+        "EncodingType",
+        "KeyCount",
+        "ContinuationToken",
+        "NextContinuationToken",
+        "StartAfter",
+        "RequestCharged"
+      ]
+    },
+    "listParts": {
+      "resource": "Part",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "MaxParts": {
+          "required": false,
+          "type": "MaxParts"
+        },
+        "PartNumberMarker": {
+          "required": false,
+          "type": "PartNumberMarker"
+        },
+        "UploadId": {
+          "required": true,
+          "type": "MultipartUploadId",
+          "references": "Upload"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        }
+      },
+      "outputs": [
+        "AbortDate",
+        "AbortRuleId",
+        "Bucket",
+        "Key",
+        "UploadId",
+        "PartNumberMarker",
+        "NextPartNumberMarker",
+        "MaxParts",
+        "IsTruncated",
+        "Parts",
+        "Initiator",
+        "Owner",
+        "StorageClass",
+        "RequestCharged",
+        "ChecksumAlgorithm",
+        "ChecksumType"
+      ]
+    },
+    "putBucketAbac": {
+      "resource": "BucketAbac",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "AbacStatus": {
+          "required": true,
+          "type": "AbacStatus"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketAccelerateConfiguration": {
+      "resource": "BucketAccelerateConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "AccelerateConfiguration": {
+          "required": true,
+          "type": "AccelerateConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketAcl": {
+      "resource": "BucketAcl",
+      "type": "update",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "BucketCannedACL"
+        },
+        "AccessControlPolicy": {
+          "required": false,
+          "type": "AccessControlPolicy"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWrite": {
+          "required": false,
+          "type": "GrantWrite"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketAnalyticsConfiguration": {
+      "resource": "BucketAnalyticsConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "AnalyticsId"
+        },
+        "AnalyticsConfiguration": {
+          "required": true,
+          "type": "AnalyticsConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketCors": {
+      "resource": "BucketCors",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CORSConfiguration": {
+          "required": true,
+          "type": "CORSConfiguration"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketEncryption": {
+      "resource": "BucketEncryption",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ServerSideEncryptionConfiguration": {
+          "required": true,
+          "type": "ServerSideEncryptionConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketIntelligentTieringConfiguration": {
+      "resource": "BucketIntelligentTieringConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "IntelligentTieringId"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "IntelligentTieringConfiguration": {
+          "required": true,
+          "type": "IntelligentTieringConfiguration"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketInventoryConfiguration": {
+      "resource": "BucketInventoryConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "InventoryId"
+        },
+        "InventoryConfiguration": {
+          "required": true,
+          "type": "InventoryConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketLifecycleConfiguration": {
+      "resource": "BucketLifecycleConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "LifecycleConfiguration": {
+          "required": false,
+          "type": "BucketLifecycleConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "TransitionDefaultMinimumObjectSize": {
+          "required": false,
+          "type": "TransitionDefaultMinimumObjectSize"
+        }
+      },
+      "outputs": ["TransitionDefaultMinimumObjectSize"]
+    },
+    "putBucketLogging": {
+      "resource": "BucketLogging",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "BucketLoggingStatus": {
+          "required": true,
+          "type": "BucketLoggingStatus"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketMetricsConfiguration": {
+      "resource": "BucketMetricsConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Id": {
+          "required": true,
+          "type": "MetricsId"
+        },
+        "MetricsConfiguration": {
+          "required": true,
+          "type": "MetricsConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketNotificationConfiguration": {
+      "resource": "BucketNotificationConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "NotificationConfiguration": {
+          "required": true,
+          "type": "NotificationConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "SkipDestinationValidation": {
+          "required": false,
+          "type": "SkipValidation"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketOwnershipControls": {
+      "resource": "BucketOwnershipControls",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "OwnershipControls": {
+          "required": true,
+          "type": "OwnershipControls"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketPolicy": {
+      "resource": "BucketPolicy",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ConfirmRemoveSelfBucketAccess": {
+          "required": false,
+          "type": "ConfirmRemoveSelfBucketAccess"
+        },
+        "Policy": {
+          "required": true,
+          "type": "Policy"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketReplication": {
+      "resource": "BucketReplication",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ReplicationConfiguration": {
+          "required": true,
+          "type": "ReplicationConfiguration"
+        },
+        "Token": {
+          "required": false,
+          "type": "ObjectLockToken"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketRequestPayment": {
+      "resource": "BucketRequestPayment",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "RequestPaymentConfiguration": {
+          "required": true,
+          "type": "RequestPaymentConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketTagging": {
+      "resource": "BucketTagging",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "Tagging": {
+          "required": true,
+          "type": "Tagging"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketVersioning": {
+      "resource": "BucketVersioning",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "MFA": {
+          "required": false,
+          "type": "MFA"
+        },
+        "VersioningConfiguration": {
+          "required": true,
+          "type": "VersioningConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putBucketWebsite": {
+      "resource": "BucketWebsite",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "WebsiteConfiguration": {
+          "required": true,
+          "type": "WebsiteConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "putObject": {
+      "resource": "Object",
+      "type": "update",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "ObjectCannedACL"
+        },
+        "Body": {
+          "required": false,
+          "type": "StreamingBlob"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CacheControl": {
+          "required": false,
+          "type": "CacheControl"
+        },
+        "ContentDisposition": {
+          "required": false,
+          "type": "ContentDisposition"
+        },
+        "ContentEncoding": {
+          "required": false,
+          "type": "ContentEncoding"
+        },
+        "ContentLanguage": {
+          "required": false,
+          "type": "ContentLanguage"
+        },
+        "ContentLength": {
+          "required": false,
+          "type": "ContentLength"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ContentType": {
+          "required": false,
+          "type": "ContentType"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ChecksumCRC32": {
+          "required": false,
+          "type": "ChecksumCRC32"
+        },
+        "ChecksumCRC32C": {
+          "required": false,
+          "type": "ChecksumCRC32C"
+        },
+        "ChecksumCRC64NVME": {
+          "required": false,
+          "type": "ChecksumCRC64NVME"
+        },
+        "ChecksumSHA1": {
+          "required": false,
+          "type": "ChecksumSHA1"
+        },
+        "ChecksumSHA256": {
+          "required": false,
+          "type": "ChecksumSHA256"
+        },
+        "Expires": {
+          "required": false,
+          "type": "Expires"
+        },
+        "IfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "IfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "WriteOffsetBytes": {
+          "required": false,
+          "type": "WriteOffsetBytes"
+        },
+        "Metadata": {
+          "required": false,
+          "type": "Metadata"
+        },
+        "ServerSideEncryption": {
+          "required": false,
+          "type": "ServerSideEncryption"
+        },
+        "StorageClass": {
+          "required": false,
+          "type": "StorageClass"
+        },
+        "WebsiteRedirectLocation": {
+          "required": false,
+          "type": "WebsiteRedirectLocation"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "SSEKMSKeyId": {
+          "required": false,
+          "type": "SSEKMSKeyId"
+        },
+        "SSEKMSEncryptionContext": {
+          "required": false,
+          "type": "SSEKMSEncryptionContext"
+        },
+        "BucketKeyEnabled": {
+          "required": false,
+          "type": "BucketKeyEnabled"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "Tagging": {
+          "required": false,
+          "type": "TaggingHeader"
+        },
+        "ObjectLockMode": {
+          "required": false,
+          "type": "ObjectLockMode"
+        },
+        "ObjectLockRetainUntilDate": {
+          "required": false,
+          "type": "ObjectLockRetainUntilDate"
+        },
+        "ObjectLockLegalHoldStatus": {
+          "required": false,
+          "type": "ObjectLockLegalHoldStatus"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "Expiration",
+        "ETag",
+        "ChecksumCRC32",
+        "ChecksumCRC32C",
+        "ChecksumCRC64NVME",
+        "ChecksumSHA1",
+        "ChecksumSHA256",
+        "ChecksumType",
+        "ServerSideEncryption",
+        "VersionId",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "SSEKMSEncryptionContext",
+        "BucketKeyEnabled",
+        "Size",
+        "RequestCharged"
+      ]
+    },
+    "putObjectAcl": {
+      "resource": "ObjectAcl",
+      "type": "update",
+      "inputs": {
+        "ACL": {
+          "required": false,
+          "type": "ObjectCannedACL"
+        },
+        "AccessControlPolicy": {
+          "required": false,
+          "type": "AccessControlPolicy"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "GrantFullControl": {
+          "required": false,
+          "type": "GrantFullControl"
+        },
+        "GrantRead": {
+          "required": false,
+          "type": "GrantRead"
+        },
+        "GrantReadACP": {
+          "required": false,
+          "type": "GrantReadACP"
+        },
+        "GrantWrite": {
+          "required": false,
+          "type": "GrantWrite"
+        },
+        "GrantWriteACP": {
+          "required": false,
+          "type": "GrantWriteACP"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["RequestCharged"]
+    },
+    "putObjectLegalHold": {
+      "resource": "ObjectLegalHold",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "LegalHold": {
+          "required": false,
+          "type": "ObjectLockLegalHold"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["RequestCharged"]
+    },
+    "putObjectLockConfiguration": {
+      "resource": "ObjectLockConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ObjectLockConfiguration": {
+          "required": false,
+          "type": "ObjectLockConfiguration"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "Token": {
+          "required": false,
+          "type": "ObjectLockToken"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["RequestCharged"]
+    },
+    "putObjectRetention": {
+      "resource": "ObjectRetention",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "Retention": {
+          "required": false,
+          "type": "ObjectLockRetention"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "BypassGovernanceRetention": {
+          "required": false,
+          "type": "BypassGovernanceRetention"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["RequestCharged"]
+    },
+    "putObjectTagging": {
+      "resource": "ObjectTagging",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "Tagging": {
+          "required": true,
+          "type": "Tagging"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        }
+      },
+      "outputs": ["VersionId"]
+    },
+    "putPublicAccessBlock": {
+      "resource": "PublicAccessBlock",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "PublicAccessBlockConfiguration": {
+          "required": true,
+          "type": "PublicAccessBlockConfiguration"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "renameObject": {
+      "resource": "Object",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "RenameSource": {
+          "required": true,
+          "type": "RenameSource"
+        },
+        "DestinationIfMatch": {
+          "required": false,
+          "type": "IfMatch"
+        },
+        "DestinationIfNoneMatch": {
+          "required": false,
+          "type": "IfNoneMatch"
+        },
+        "DestinationIfModifiedSince": {
+          "required": false,
+          "type": "IfModifiedSince"
+        },
+        "DestinationIfUnmodifiedSince": {
+          "required": false,
+          "type": "IfUnmodifiedSince"
+        },
+        "SourceIfMatch": {
+          "required": false,
+          "type": "RenameSourceIfMatch"
+        },
+        "SourceIfNoneMatch": {
+          "required": false,
+          "type": "RenameSourceIfNoneMatch"
+        },
+        "SourceIfModifiedSince": {
+          "required": false,
+          "type": "RenameSourceIfModifiedSince"
+        },
+        "SourceIfUnmodifiedSince": {
+          "required": false,
+          "type": "RenameSourceIfUnmodifiedSince"
+        },
+        "ClientToken": {
+          "required": false,
+          "type": "ClientToken"
+        }
+      },
+      "outputs": []
+    },
+    "restoreObject": {
+      "resource": "Object",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "RestoreRequest": {
+          "required": false,
+          "type": "RestoreRequest"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["RequestCharged", "RestoreOutputPath"]
+    },
+    "selectObjectContent": {
+      "resource": "ObjectContent",
+      "type": "list",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "Expression": {
+          "required": true,
+          "type": "Expression"
+        },
+        "ExpressionType": {
+          "required": true,
+          "type": "ExpressionType"
+        },
+        "RequestProgress": {
+          "required": false,
+          "type": "RequestProgress"
+        },
+        "InputSerialization": {
+          "required": true,
+          "type": "InputSerialization"
+        },
+        "OutputSerialization": {
+          "required": true,
+          "type": "OutputSerialization"
+        },
+        "ScanRange": {
+          "required": false,
+          "type": "ScanRange"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": ["Payload"]
+    },
+    "updateBucketMetadataInventoryTableConfiguration": {
+      "resource": "BucketMetadataInventoryTableConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "InventoryTableConfiguration": {
+          "required": true,
+          "type": "InventoryTableConfigurationUpdates"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "updateBucketMetadataJournalTableConfiguration": {
+      "resource": "BucketMetadataJournalTableConfiguration",
+      "type": "update",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "JournalTableConfiguration": {
+          "required": true,
+          "type": "JournalTableConfigurationUpdates"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": []
+    },
+    "uploadPart": {
+      "resource": "Part",
+      "type": "action",
+      "inputs": {
+        "Body": {
+          "required": false,
+          "type": "StreamingBlob"
+        },
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "ContentLength": {
+          "required": false,
+          "type": "ContentLength"
+        },
+        "ContentMD5": {
+          "required": false,
+          "type": "ContentMD5"
+        },
+        "ChecksumAlgorithm": {
+          "required": false,
+          "type": "ChecksumAlgorithm"
+        },
+        "ChecksumCRC32": {
+          "required": false,
+          "type": "ChecksumCRC32"
+        },
+        "ChecksumCRC32C": {
+          "required": false,
+          "type": "ChecksumCRC32C"
+        },
+        "ChecksumCRC64NVME": {
+          "required": false,
+          "type": "ChecksumCRC64NVME"
+        },
+        "ChecksumSHA1": {
+          "required": false,
+          "type": "ChecksumSHA1"
+        },
+        "ChecksumSHA256": {
+          "required": false,
+          "type": "ChecksumSHA256"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "PartNumber": {
+          "required": true,
+          "type": "PartNumber"
+        },
+        "UploadId": {
+          "required": true,
+          "type": "MultipartUploadId",
+          "references": "Upload"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "ServerSideEncryption",
+        "ETag",
+        "ChecksumCRC32",
+        "ChecksumCRC32C",
+        "ChecksumCRC64NVME",
+        "ChecksumSHA1",
+        "ChecksumSHA256",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "BucketKeyEnabled",
+        "RequestCharged"
+      ]
+    },
+    "uploadPartCopy": {
+      "resource": "PartCopy",
+      "type": "action",
+      "inputs": {
+        "Bucket": {
+          "required": true,
+          "type": "BucketName"
+        },
+        "CopySource": {
+          "required": true,
+          "type": "CopySource"
+        },
+        "CopySourceIfMatch": {
+          "required": false,
+          "type": "CopySourceIfMatch"
+        },
+        "CopySourceIfModifiedSince": {
+          "required": false,
+          "type": "CopySourceIfModifiedSince"
+        },
+        "CopySourceIfNoneMatch": {
+          "required": false,
+          "type": "CopySourceIfNoneMatch"
+        },
+        "CopySourceIfUnmodifiedSince": {
+          "required": false,
+          "type": "CopySourceIfUnmodifiedSince"
+        },
+        "CopySourceRange": {
+          "required": false,
+          "type": "CopySourceRange"
+        },
+        "Key": {
+          "required": true,
+          "type": "ObjectKey"
+        },
+        "PartNumber": {
+          "required": true,
+          "type": "PartNumber"
+        },
+        "UploadId": {
+          "required": true,
+          "type": "MultipartUploadId",
+          "references": "Upload"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSECustomerKey": {
+          "required": false,
+          "type": "SSECustomerKey"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "CopySourceSSECustomerAlgorithm": {
+          "required": false,
+          "type": "CopySourceSSECustomerAlgorithm"
+        },
+        "CopySourceSSECustomerKey": {
+          "required": false,
+          "type": "CopySourceSSECustomerKey"
+        },
+        "CopySourceSSECustomerKeyMD5": {
+          "required": false,
+          "type": "CopySourceSSECustomerKeyMD5"
+        },
+        "RequestPayer": {
+          "required": false,
+          "type": "RequestPayer"
+        },
+        "ExpectedBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        },
+        "ExpectedSourceBucketOwner": {
+          "required": false,
+          "type": "AccountId"
+        }
+      },
+      "outputs": [
+        "CopySourceVersionId",
+        "CopyPartResult",
+        "ServerSideEncryption",
+        "SSECustomerAlgorithm",
+        "SSECustomerKeyMD5",
+        "SSEKMSKeyId",
+        "BucketKeyEnabled",
+        "RequestCharged"
+      ]
+    },
+    "writeGetObjectResponse": {
+      "resource": "GetObjectResponse",
+      "type": "action",
+      "inputs": {
+        "RequestRoute": {
+          "required": true,
+          "type": "RequestRoute"
+        },
+        "RequestToken": {
+          "required": true,
+          "type": "RequestToken"
+        },
+        "Body": {
+          "required": false,
+          "type": "StreamingBlob"
+        },
+        "StatusCode": {
+          "required": false,
+          "type": "GetObjectResponseStatusCode"
+        },
+        "ErrorCode": {
+          "required": false,
+          "type": "ErrorCode"
+        },
+        "ErrorMessage": {
+          "required": false,
+          "type": "ErrorMessage"
+        },
+        "AcceptRanges": {
+          "required": false,
+          "type": "AcceptRanges"
+        },
+        "CacheControl": {
+          "required": false,
+          "type": "CacheControl"
+        },
+        "ContentDisposition": {
+          "required": false,
+          "type": "ContentDisposition"
+        },
+        "ContentEncoding": {
+          "required": false,
+          "type": "ContentEncoding"
+        },
+        "ContentLanguage": {
+          "required": false,
+          "type": "ContentLanguage"
+        },
+        "ContentLength": {
+          "required": false,
+          "type": "ContentLength"
+        },
+        "ContentRange": {
+          "required": false,
+          "type": "ContentRange"
+        },
+        "ContentType": {
+          "required": false,
+          "type": "ContentType"
+        },
+        "ChecksumCRC32": {
+          "required": false,
+          "type": "ChecksumCRC32"
+        },
+        "ChecksumCRC32C": {
+          "required": false,
+          "type": "ChecksumCRC32C"
+        },
+        "ChecksumCRC64NVME": {
+          "required": false,
+          "type": "ChecksumCRC64NVME"
+        },
+        "ChecksumSHA1": {
+          "required": false,
+          "type": "ChecksumSHA1"
+        },
+        "ChecksumSHA256": {
+          "required": false,
+          "type": "ChecksumSHA256"
+        },
+        "DeleteMarker": {
+          "required": false,
+          "type": "DeleteMarker"
+        },
+        "ETag": {
+          "required": false,
+          "type": "ETag"
+        },
+        "Expires": {
+          "required": false,
+          "type": "Expires"
+        },
+        "Expiration": {
+          "required": false,
+          "type": "Expiration"
+        },
+        "LastModified": {
+          "required": false,
+          "type": "LastModified"
+        },
+        "MissingMeta": {
+          "required": false,
+          "type": "MissingMeta"
+        },
+        "Metadata": {
+          "required": false,
+          "type": "Metadata"
+        },
+        "ObjectLockMode": {
+          "required": false,
+          "type": "ObjectLockMode"
+        },
+        "ObjectLockLegalHoldStatus": {
+          "required": false,
+          "type": "ObjectLockLegalHoldStatus"
+        },
+        "ObjectLockRetainUntilDate": {
+          "required": false,
+          "type": "ObjectLockRetainUntilDate"
+        },
+        "PartsCount": {
+          "required": false,
+          "type": "PartsCount"
+        },
+        "ReplicationStatus": {
+          "required": false,
+          "type": "ReplicationStatus"
+        },
+        "RequestCharged": {
+          "required": false,
+          "type": "RequestCharged"
+        },
+        "Restore": {
+          "required": false,
+          "type": "Restore"
+        },
+        "ServerSideEncryption": {
+          "required": false,
+          "type": "ServerSideEncryption"
+        },
+        "SSECustomerAlgorithm": {
+          "required": false,
+          "type": "SSECustomerAlgorithm"
+        },
+        "SSEKMSKeyId": {
+          "required": false,
+          "type": "SSEKMSKeyId"
+        },
+        "SSECustomerKeyMD5": {
+          "required": false,
+          "type": "SSECustomerKeyMD5"
+        },
+        "StorageClass": {
+          "required": false,
+          "type": "StorageClass"
+        },
+        "TagCount": {
+          "required": false,
+          "type": "TagCount"
+        },
+        "VersionId": {
+          "required": false,
+          "type": "ObjectVersionId",
+          "references": "Version"
+        },
+        "BucketKeyEnabled": {
+          "required": false,
+          "type": "BucketKeyEnabled"
+        }
+      },
+      "outputs": []
+    }
+  }
+}
