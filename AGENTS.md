@@ -55,61 +55,43 @@ AGENTS.md (you are here)
 bun generate --sdk s3                    # Generate service client
 bun vitest run ./test/services/s3.test.ts # Run live AWS test
 bun vitest run ./test/protocols/         # Run protocol unit tests
-bun find:errors "explore S3 errors"      # Discover undocumented errors
+bun find:errors "explore S3 errors"      # AI-powered error discovery
 bun tsgo -b                              # Check the typescript types
-bun explore ec2                          # Run topology chains to discover errors
-bun explore ec2 --limit 5                # Run first 5 chains only
-bun find:notfound ec2                    # Find NotFound errors with fake IDs
+bun find ec2                             # Find missing errors for EC2
+bun find ec2 --type delete               # Only test delete operations
+bun find ec2 --resource Vpc --limit 10   # Filter by resource, limit count
 ```
 
-## ERROR EXPLORATION
+## ERROR DISCOVERY
 
-The `explore` command uses topology analysis to systematically explore AWS APIs and discover undocumented errors:
-
-1. **Builds a dependency graph** from the Smithy model (`src/patch/topology.ts`)
-2. **Generates test sequences** — parent/child resource chains that trigger dependency errors
-3. **Executes all chains** with error recording enabled
-4. **Cleans up resources** in dependency order after exploration
-
-**Important:** Regenerate the SDK before exploring so previously discovered errors are recognized:
+The `find` command discovers undocumented AWS errors by calling APIs with fake inputs:
 
 ```bash
-bun generate --sdk ec2       # Regenerate SDK with errors from spec
-bun explore ec2              # Run all EC2 chains + cleanup
-bun explore ec2 --limit 10   # Run first 10 chains + cleanup
+bun find ec2                    # Find errors for EC2
+bun find ec2 --type delete      # Only test delete operations
+bun find ec2 --resource Vpc     # Only test Vpc-related operations
+bun find ec2 --filter "describe*" # Only test operations matching pattern
+bun find ec2 --limit 50         # Limit to 50 operations
+bun find ec2 --dry-run          # Show what would be tested
 ```
 
-The script distinguishes between:
-- **NEW errors** — `UnknownAwsError` not yet in the SDK, automatically recorded to `spec/`
-- **Known errors** — Already in the SDK (from spec or Smithy model)
+**How it works:**
+1. **Builds a dependency graph** from the Smithy model (`scripts/find-errors/topology.ts`)
+2. **Generates fake inputs** for each operation (fake IDs, names, etc.)
+3. **Calls AWS APIs** to trigger errors
+4. **Records new errors** to `spec/{service}.json`
 
-After exploration:
-1. Review `spec/{service}.json` for new errors
-2. Run `bun generate --sdk {service}` to regenerate with typed errors
-3. Commit the spec changes
-
-**Key files:**
-- `scripts/explore-service.ts` — The exploration script
-- `src/patch/topology.ts` — Dependency graph and chain generation
-- `src/patch/service-cleaner.ts` — Resource cleanup utilities
-
-## FINDING NOTFOUND ERRORS
-
-The `find:notfound` command discovers `*NotFound` and `*Malformed` errors by calling APIs with fake resource IDs:
-
+**Iterative workflow:**
 ```bash
 bun generate --sdk ec2       # Regenerate SDK first
-bun find:notfound ec2        # Call all delete/create ops with fake IDs
-bun find:notfound ec2 --limit 50  # Limit to first 50 operations
+bun find ec2                 # Discover new errors
+bun generate --sdk ec2       # Regenerate with new errors
+bun find ec2                 # Run again (should find fewer/no new errors)
 ```
 
-**Strategy:**
-1. **Delete operations** — Call with fake resource IDs → triggers `Invalid*ID.NotFound`
-2. **Create operations with FK refs** — Call with fake parent IDs → triggers `Invalid*ID.NotFound`
-
-This is simpler than `explore` because it doesn't create any resources — it just calls APIs with fake IDs to discover error codes. Very effective for finding `NotFound`, `Malformed`, and validation errors.
-
-**Key file:** `scripts/find-not-found.ts`
+**Key files:**
+- `scripts/find-errors/` — Error discovery tool (see `scripts/find-errors/AGENTS.md`)
+- `scripts/find-errors/cleaner.ts` — Resource cleanup utilities
 
 ## KEY FILES
 

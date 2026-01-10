@@ -12,15 +12,13 @@
     "lib"
   ],
   "scripts": {
-    "aws:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/aws-clean.ts",
-    "explore": "DISTILLED_AWS_DEBUG=1 bun run scripts/explore-service.ts",
-    "find:notfound": "DISTILLED_AWS_DEBUG=1 bun run scripts/find-not-found.ts",
-    "topology:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
+    "clean:aws": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
     "build:clean": "bun run install:clean && bun run build",
     "bump": "bun run ./scripts/bump.ts",
     "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
     "bundle:report": "bun run scripts/bundle-size-report.ts",
     "clean": "git clean -fqdx -e .env",
+    "find": "DISTILLED_AWS_DEBUG=1 bun run scripts/find-errors/index.ts",
     "find:errors": "bun run scripts/find-errors.ts",
     "format": "bun oxfmt ./scripts ./src ./test",
     "generate": "bun run scripts/generate-clients.ts",
@@ -28,7 +26,8 @@
     "localstack:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/localstack-clean.ts",
     "setup": "bun run scripts/setup.ts",
     "symlink": "bun run scripts/symlink.ts",
-    "test": "bun vitest run ./test"
+    "test": "bun vitest run ./test",
+    "test:scripts": "bun vitest run ./scripts"
   },
   "exports": {
     "./*": {

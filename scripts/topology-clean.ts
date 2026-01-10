@@ -16,8 +16,8 @@ import * as Credentials from "../src/credentials.ts";
 import {
   computeDeletionOrder,
   getCleanableResources,
-} from "../src/patch/service-cleaner.ts";
-import { buildDependencyGraph } from "../src/patch/topology.ts";
+} from "./find-errors/cleaner.ts";
+import { buildDependencyGraph } from "./find-errors/topology.ts";
 import { Region } from "../src/region.ts";
 
 const args = process.argv.slice(2);

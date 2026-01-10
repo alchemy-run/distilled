@@ -1,43 +1,21 @@
-#!/usr/bin/env bun
 /**
- * Find NotFound errors by calling APIs with fake resource IDs.
+ * Fake ID generation for AWS resources.
  *
- * Strategy:
- * 1. For each Delete operation - call with a fake ID → triggers *NotFound
- * 2. For each Create operation with required FK references - call with fake parent ID → triggers *NotFound
- *
- * This is much simpler than dependency chains because we don't need to create anything.
- *
- * Usage:
- *   bun scripts/find-not-found.ts ec2
- *   bun scripts/find-not-found.ts ec2 --limit 50
+ * Generates realistic-looking fake IDs that trigger NotFound/Malformed errors.
+ * Add new prefixes here as you discover them from AWS error messages.
  */
 
-import { FetchHttpClient } from "@effect/platform";
-import { NodeContext, NodeRuntime } from "@effect/platform-node";
-import { Console, Effect, Layer } from "effect";
-import * as Credentials from "../src/credentials.ts";
-import {
-  buildDependencyGraph,
-  type DependencyGraph,
-} from "../src/patch/topology.ts";
-import { Region } from "../src/region.ts";
-
-const args = process.argv.slice(2);
-const serviceName = args[0] ?? "ec2";
-const limitArg = args.indexOf("--limit");
-const limit = limitArg >= 0 ? parseInt(args[limitArg + 1] ?? "999", 10) : 999;
-
-// Track errors
-const newErrors: Array<{ operation: string; error: string }> = [];
-const allErrors: Array<{ operation: string; error: string }> = [];
+import type { DependencyGraph } from "./topology.ts";
 
 /**
  * AWS Resource ID prefixes for generating fake IDs.
  * EC2-style resources use prefix-hex format.
  * Reference: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html
+ *
+ * Add new prefixes here when you encounter "Malformed" errors indicating
+ * AWS expected a different format.
  */
-const AWS_ID_PREFIXES: Record<string, string> = {
+export const AWS_ID_PREFIXES: Record<string, string> = {
   // Core networking
   Vpc: "vpc",
   Subnet: "subnet",
@@ -184,8 +162,8 @@ const AWS_ID_PREFIXES: Record<string, string> = {
 
   // Export/Import Tasks
   ExportTask: "export",
-  ExportImageTask: "export-ami-",
-  ImportTask: "import-ami-",
+  ExportImageTask: "export-ami",
+  ImportTask: "import",
   ConversionTask: "import-i-",
 
   // Scheduled Instances
@@ -233,7 +211,6 @@ const AWS_ID_PREFIXES: Record<string, string> = {
   // Reports
   ImageUsageReport: "img-usage-report",
   DeclarativePoliciesReport: "dp-report",
-  Report: "report",
 
   // Source references (use same prefix as target)
   SourceCapacityReservation: "cr",
@@ -245,12 +222,7 @@ const AWS_ID_PREFIXES: Record<string, string> = {
   // Group (Security Group)
   Group: "sg",
 
-  // Additional missing resources from Malformed analysis
-  CoipPool: "ipv4pool-coip",
-  Exclusion: "vbpae",
-  ExportImageTask: "export-ami",
-  ExportTask: "export",
-  ImportTask: "import",
+  // Additional resources from error analysis
   HostResourceGroup: "hrg",
   OutpostLag: "lag",
   PeerTransitGateway: "tgw",
@@ -261,8 +233,6 @@ const AWS_ID_PREFIXES: Record<string, string> = {
   CurrentIpamScope: "ipam-scope",
   CapacityBlock: "cr",
   Offering: "ri",
-  IpamPrefixListResolver: "ipam-plr",
-  VpnConcentrator: "vpn-conc",
   AddMiddleboxAttachment: "tgw-attach",
   RemoveMiddleboxAttachment: "tgw-attach",
 };
@@ -271,7 +241,7 @@ const AWS_ID_PREFIXES: Record<string, string> = {
  * Resources that use name-based identifiers (not AWS-generated IDs).
  * These get fake names like "itty-fake-{resource}-notfound".
  */
-const NAME_BASED_RESOURCES = new Set([
+export const NAME_BASED_RESOURCES = new Set([
   "Bucket", // S3 buckets use user-chosen names
   "Table", // DynamoDB tables use user-chosen names
   "Function", // Lambda functions use user-chosen names
@@ -289,14 +259,11 @@ const NAME_BASED_RESOURCES = new Set([
   "Domain", // Various domain-based resources
 ]);
 
-// 17-char hex for resources
-const FAKE_HEX = "0123456789abcdef0"; // 17 chars
-
 /**
  * Resources that expect ARNs instead of IDs.
  * We generate fake ARNs for these.
  */
-const ARN_BASED_RESOURCES = new Set([
+export const ARN_BASED_RESOURCES = new Set([
   "Certificate", // ACM certificate ARN
   "Principal", // IAM principal ARN
   "Role", // IAM role ARN
@@ -307,16 +274,19 @@ const ARN_BASED_RESOURCES = new Set([
 /**
  * Resources that expect special formats (not ID or ARN).
  */
-const SPECIAL_FORMAT_RESOURCES: Record<string, string> = {
+export const SPECIAL_FORMAT_RESOURCES: Record<string, string> = {
   Address: "192.0.2.1", // IP address (TEST-NET-1)
   Bundle: "bun-12345678", // Bundle task ID (8-char hex)
   ConversionTask: "import-i-12345678", // Conversion task ID
 };
 
+// 17-char hex for resources
+const FAKE_HEX = "0123456789abcdef0"; // 17 chars
+
 /**
  * Generate a fake ID for a resource type.
  */
-const generateFakeId = (resourceType: string): string => {
+export const generateFakeId = (resourceType: string): string => {
   // Special format resources
   if (SPECIAL_FORMAT_RESOURCES[resourceType]) {
     return SPECIAL_FORMAT_RESOURCES[resourceType];
@@ -348,7 +318,7 @@ const generateFakeId = (resourceType: string): string => {
  * Generate fake inputs for an operation based on its inputs.
  * For read/list operations, also includes optional ID fields.
  */
-const generateFakeInputs = (
+export const generateFakeInputs = (
   graph: DependencyGraph,
   opName: string,
 ): Record<string, unknown> | null => {
@@ -393,218 +363,3 @@ const generateFakeInputs = (
 
   return Object.keys(inputs).length > 0 ? inputs : {};
 };
-
-/**
- * Call an operation and record any errors.
- */
-const callOperation = (
-  opName: string,
-  inputs: Record<string, unknown>,
-  serviceModule: Record<string, unknown>,
-) =>
-  Effect.gen(function* () {
-    const fn = serviceModule[opName];
-    if (typeof fn !== "function") {
-      return { skipped: true, reason: "function not found" };
-    }
-
-    const result = yield* Effect.try({
-      try: () => fn(inputs) as Effect.Effect<unknown, unknown, unknown>,
-      catch: (e) => e,
-    }).pipe(
-      Effect.flatMap((effect) =>
-        Effect.isEffect(effect)
-          ? (effect as Effect.Effect<unknown, unknown, never>)
-          : Effect.succeed(effect),
-      ),
-      Effect.map(() => ({ success: true as const })),
-      Effect.catchAll((error) => {
-        const err = error as {
-          _tag?: string;
-          errorTag?: string;
-          message?: string;
-        };
-        return Effect.succeed({
-          success: false as const,
-          error: err._tag ?? "Unknown",
-          errorTag: err.errorTag,
-          message: err.message,
-        });
-      }),
-    );
-
-    if (!result.success) {
-      const errorName = result.errorTag ?? result.error;
-      allErrors.push({ operation: opName, error: errorName });
-
-      // UnknownAwsError means it's not in the SDK
-      if (result.error === "UnknownAwsError" && result.errorTag) {
-        newErrors.push({ operation: opName, error: result.errorTag });
-      }
-    }
-
-    return result;
-  });
-
-const main = Effect.gen(function* () {
-  yield* Console.log(`\n🔍 Finding NotFound errors for ${serviceName}\n`);
-
-  // Build topology
-  yield* Console.log("📊 Building topology...");
-  const graph = yield* buildDependencyGraph(serviceName);
-
-  // Load service module
-  yield* Console.log("📦 Loading service module...");
-  const serviceModule = yield* Effect.tryPromise({
-    try: () => import(`../src/services/${serviceName}.ts`),
-    catch: (e) => new Error(`Failed to load service: ${e}`),
-  });
-
-  // Find ALL operations with resource references (required OR optional ID fields)
-  const opsWithRefs: Array<{ name: string; type: string }> = [];
-
-  for (const [opName, op] of Object.entries(graph.operations)) {
-    // Check if operation has any required FK references
-    const hasRequiredFKs = Object.values(op.inputs).some(
-      (input) => input.required && input.references,
-    );
-
-    // Also check for optional ID fields in read/list operations (describe*, list*)
-    const hasOptionalIdFields =
-      (op.type === "read" || op.type === "list") &&
-      Object.entries(op.inputs).some(
-        ([name, input]) =>
-          !input.required &&
-          (name.endsWith("Id") || name.endsWith("Ids") || input.references),
-      );
-
-    if (hasRequiredFKs || hasOptionalIdFields) {
-      opsWithRefs.push({ name: opName, type: op.type });
-    }
-  }
-
-  // Group by type for reporting
-  const byType: Record<string, string[]> = {};
-  for (const op of opsWithRefs) {
-    if (!byType[op.type]) byType[op.type] = [];
-    byType[op.type].push(op.name);
-  }
-
-  yield* Console.log(
-    `   Found ${opsWithRefs.length} operations with required resource references:`,
-  );
-  for (const [type, ops] of Object.entries(byType).sort(
-    (a, b) => b[1].length - a[1].length,
-  )) {
-    yield* Console.log(`     ${type}: ${ops.length}`);
-  }
-  yield* Console.log("");
-
-  // Test all operations with resource references
-  yield* Console.log(
-    `🔬 Testing operations with fake resource IDs (limit: ${limit})...\n`,
-  );
-  let tested = 0;
-  let errorsFound = 0;
-
-  for (const op of opsWithRefs.slice(0, limit)) {
-    const inputs = generateFakeInputs(graph, op.name);
-    if (!inputs) continue;
-
-    const result = yield* callOperation(
-      op.name,
-      inputs,
-      serviceModule as Record<string, unknown>,
-    );
-
-    tested++;
-    if (!result.success && "errorTag" in result) {
-      errorsFound++;
-      const errorTag = result.errorTag ?? result.error;
-      // Log NotFound, NoSuch, and Malformed errors (the interesting ones)
-      if (
-        errorTag?.includes("NotFound") ||
-        errorTag?.includes("NoSuch") ||
-        errorTag?.includes("Malformed")
-      ) {
-        yield* Console.log(`   ✓ ${op.name} → ${errorTag}`);
-      }
-    }
-  }
-
-  yield* Console.log(
-    `\n   Tested ${tested} operations, ${errorsFound} returned errors\n`,
-  );
-
-  // Report
-  yield* Console.log("📊 Summary:");
-
-  if (newErrors.length > 0) {
-    yield* Console.log(
-      `\n🆕 NEW errors recorded to spec (${newErrors.length}):`,
-    );
-    const unique = new Map<string, string[]>();
-    for (const err of newErrors) {
-      if (!unique.has(err.error)) unique.set(err.error, []);
-      unique.get(err.error)!.push(err.operation);
-    }
-    for (const [error, ops] of unique) {
-      yield* Console.log(
-        `   ${error}: ${ops.slice(0, 5).join(", ")}${ops.length > 5 ? ` (+${ops.length - 5} more)` : ""}`,
-      );
-    }
-  } else {
-    yield* Console.log(
-      "\n   No new errors discovered (all errors already known)",
-    );
-  }
-
-  // Show all NotFound errors
-  const notFoundErrors = allErrors.filter(
-    (e) => e.error.includes("NotFound") || e.error.includes("NoSuch"),
-  );
-  if (notFoundErrors.length > 0) {
-    yield* Console.log(
-      `\n📋 All NotFound/NoSuch errors encountered (${notFoundErrors.length}):`,
-    );
-    const unique = new Map<string, number>();
-    for (const err of notFoundErrors) {
-      unique.set(err.error, (unique.get(err.error) ?? 0) + 1);
-    }
-    const sorted = [...unique.entries()].sort((a, b) => b[1] - a[1]);
-    for (const [error, count] of sorted.slice(0, 20)) {
-      yield* Console.log(`   ${error}: ${count}x`);
-    }
-  }
-
-  // Show all Malformed errors
-  const malformedErrors = allErrors.filter((e) =>
-    e.error.includes("Malformed"),
-  );
-  if (malformedErrors.length > 0) {
-    yield* Console.log(
-      `\n📋 All Malformed errors encountered (${malformedErrors.length}):`,
-    );
-    const unique = new Map<string, number>();
-    for (const err of malformedErrors) {
-      unique.set(err.error, (unique.get(err.error) ?? 0) + 1);
-    }
-    const sorted = [...unique.entries()].sort((a, b) => b[1] - a[1]);
-    for (const [error, count] of sorted.slice(0, 15)) {
-      yield* Console.log(`   ${error}: ${count}x`);
-    }
-  }
-
-  yield* Console.log("\n✨ Done!\n");
-});
-
-// Build layers
-const platform = Layer.mergeAll(NodeContext.layer, FetchHttpClient.layer);
-const awsLayer = Credentials.fromChain();
-
-main.pipe(
-  Effect.provide(platform),
-  Effect.provide(awsLayer),
-  Effect.provideService(Region, "us-east-1"),
-  NodeRuntime.runMain,
-);
