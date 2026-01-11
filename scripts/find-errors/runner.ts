@@ -254,8 +254,6 @@ export const callOperation = (
  */
 export const printSummary = (tracker: ErrorTracker) =>
   Effect.gen(function* () {
-    const { Console } = yield* Effect.context<never>();
-
     if (tracker.newErrors.length > 0) {
       yield* Effect.log(
         `\n🆕 NEW errors recorded to spec (${tracker.newErrors.length}):`,
