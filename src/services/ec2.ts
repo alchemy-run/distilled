@@ -69819,6 +69819,10 @@ export class InvalidIpv4PoolCoipIdMalformed extends S.TaggedError<InvalidIpv4Poo
   "InvalidIpv4PoolCoipId.Malformed",
   {},
 ) {}
+export class InvalidEgressOnlyInternetGatewayIdNotFound extends S.TaggedError<InvalidEgressOnlyInternetGatewayIdNotFound>()(
+  "InvalidEgressOnlyInternetGatewayId.NotFound",
+  {},
+) {}
 export class MalformedGatewayIDNotFound extends S.TaggedError<MalformedGatewayIDNotFound>()(
   "MalformedGatewayID.NotFound",
   {},
@@ -72636,6 +72640,7 @@ export const deleteEgressOnlyInternetGateway: (
   DeleteEgressOnlyInternetGatewayResult,
   | DryRunOperation
   | InvalidGatewayIDNotFound
+  | InvalidEgressOnlyInternetGatewayIdNotFound
   | MalformedGatewayIDNotFound
   | MissingParameter
   | CommonErrors,
@@ -72646,6 +72651,7 @@ export const deleteEgressOnlyInternetGateway: (
   errors: [
     DryRunOperation,
     InvalidGatewayIDNotFound,
+    InvalidEgressOnlyInternetGatewayIdNotFound,
     MalformedGatewayIDNotFound,
     MissingParameter,
   ],
@@ -73815,27 +73821,40 @@ export const describeEgressOnlyInternetGateways: {
     input: DescribeEgressOnlyInternetGatewaysRequest,
   ): effect.Effect<
     DescribeEgressOnlyInternetGatewaysResult,
-    InvalidEgressOnlyInternetGatewayIdMalformed | ParseError | CommonErrors,
+    | InvalidEgressOnlyInternetGatewayIdMalformed
+    | InvalidEgressOnlyInternetGatewayIdNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeEgressOnlyInternetGatewaysRequest,
   ) => stream.Stream<
     DescribeEgressOnlyInternetGatewaysResult,
-    InvalidEgressOnlyInternetGatewayIdMalformed | ParseError | CommonErrors,
+    | InvalidEgressOnlyInternetGatewayIdMalformed
+    | InvalidEgressOnlyInternetGatewayIdNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeEgressOnlyInternetGatewaysRequest,
   ) => stream.Stream<
     EgressOnlyInternetGateway,
-    InvalidEgressOnlyInternetGatewayIdMalformed | ParseError | CommonErrors,
+    | InvalidEgressOnlyInternetGatewayIdMalformed
+    | InvalidEgressOnlyInternetGatewayIdNotFound
+    | ParseError
+    | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeEgressOnlyInternetGatewaysRequest,
   output: DescribeEgressOnlyInternetGatewaysResult,
-  errors: [InvalidEgressOnlyInternetGatewayIdMalformed, ParseError],
+  errors: [
+    InvalidEgressOnlyInternetGatewayIdMalformed,
+    InvalidEgressOnlyInternetGatewayIdNotFound,
+    ParseError,
+  ],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",

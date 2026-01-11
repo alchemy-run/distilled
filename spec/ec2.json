@@ -297,6 +297,7 @@
       "errors": [
         "DryRunOperation",
         "InvalidGatewayID.NotFound",
+        "InvalidEgressOnlyInternetGatewayId.NotFound",
         "MalformedGatewayID.NotFound",
         "MissingParameter"
       ]
@@ -761,6 +762,7 @@
     "describeEgressOnlyInternetGateways": {
       "errors": [
         "InvalidEgressOnlyInternetGatewayId.Malformed",
+        "InvalidEgressOnlyInternetGatewayId.NotFound",
         "ParseError"
       ]
     },
