@@ -1398,6 +1398,7 @@ export const startMessageMoveTask: (
   | ResourceNotFoundException
   | UnsupportedOperation
   | CommonServiceException
+  | InvalidParameterValueException
   | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1410,6 +1411,7 @@ export const startMessageMoveTask: (
     ResourceNotFoundException,
     UnsupportedOperation,
     CommonServiceException,
+    InvalidParameterValueException,
   ],
 }));
 /**

@@ -55,9 +55,43 @@ AGENTS.md (you are here)
 bun generate --sdk s3                    # Generate service client
 bun vitest run ./test/services/s3.test.ts # Run live AWS test
 bun vitest run ./test/protocols/         # Run protocol unit tests
-bun find:errors "explore S3 errors"      # Discover undocumented errors
+bun find:errors "explore S3 errors"      # AI-powered error discovery
 bun tsgo -b                              # Check the typescript types
+bun find ec2                             # Find missing errors for EC2
+bun find ec2 --type delete               # Only test delete operations
+bun find ec2 --resource Vpc --limit 10   # Filter by resource, limit count
 ```
+
+## ERROR DISCOVERY
+
+The `find` command discovers undocumented AWS errors by calling APIs with fake inputs:
+
+```bash
+bun find ec2                    # Find errors for EC2
+bun find ec2 --type delete      # Only test delete operations
+bun find ec2 --resource Vpc     # Only test Vpc-related operations
+bun find ec2 --filter "describe*" # Only test operations matching pattern
+bun find ec2 --limit 50         # Limit to 50 operations
+bun find ec2 --dry-run          # Show what would be tested
+```
+
+**How it works:**
+1. **Builds a dependency graph** from the Smithy model (`scripts/find-errors/topology.ts`)
+2. **Generates fake inputs** for each operation (fake IDs, names, etc.)
+3. **Calls AWS APIs** to trigger errors
+4. **Records new errors** to `spec/{service}.json`
+
+**Iterative workflow:**
+```bash
+bun generate --sdk ec2       # Regenerate SDK first
+bun find ec2                 # Discover new errors
+bun generate --sdk ec2       # Regenerate with new errors
+bun find ec2                 # Run again (should find fewer/no new errors)
+```
+
+**Key files:**
+- `scripts/find-errors/` — Error discovery tool (see `scripts/find-errors/AGENTS.md`)
+- `scripts/find-errors/cleaner.ts` — Resource cleanup utilities
 
 ## KEY FILES
 

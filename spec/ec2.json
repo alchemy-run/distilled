@@ -3,6 +3,7 @@
     "createVpc": {
       "errors": [
         "InvalidParameterValue",
+        "MissingParameter",
         "ParseError",
         "VpcLimitExceeded"
       ]
@@ -12,6 +13,7 @@
         "DependencyViolation",
         "InvalidVpcID.NotFound",
         "InvalidVpcId.Malformed",
+        "MissingParameter",
         "RequestError"
       ]
     },
@@ -19,6 +21,7 @@
       "errors": [
         "InvalidParameterValue",
         "InvalidVpcID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -26,11 +29,13 @@
       "errors": [
         "DependencyViolation",
         "InvalidSubnetID.NotFound",
-        "InvalidSubnetId.Malformed"
+        "InvalidSubnetId.Malformed",
+        "MissingParameter"
       ]
     },
     "createInternetGateway": {
       "errors": [
+        "InternetGatewayLimitExceeded",
         "ParseError"
       ]
     },
@@ -43,6 +48,7 @@
     },
     "attachInternetGateway": {
       "errors": [
+        "InvalidVpcID.NotFound",
         "InvalidInternetGatewayID.NotFound",
         "InvalidInternetGatewayId.Malformed",
         "InvalidVpcId.Malformed"
@@ -50,6 +56,7 @@
     },
     "detachInternetGateway": {
       "errors": [
+        "DependencyViolation",
         "Gateway.NotAttached",
         "InvalidInternetGatewayID.NotFound",
         "InvalidInternetGatewayId.Malformed",
@@ -59,6 +66,7 @@
     "createRouteTable": {
       "errors": [
         "InvalidVpcID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -77,7 +85,8 @@
         "InvalidPrefixListID.NotFound",
         "InvalidRouteTableID.NotFound",
         "InvalidRouteTableId.Malformed",
-        "InvalidVpcEndpointId.NotFound"
+        "InvalidVpcEndpointId.NotFound",
+        "MissingParameter"
       ]
     },
     "createNatGateway": {
@@ -127,20 +136,25 @@
     "createNetworkAcl": {
       "errors": [
         "InvalidVpcID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "deleteNetworkAcl": {
       "errors": [
+        "DependencyViolation",
         "DryRunOperation",
         "InvalidNetworkAclID.NotFound",
-        "InvalidNetworkAclId.Malformed"
+        "InvalidNetworkAclId.Malformed",
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "createVpcPeeringConnection": {
       "errors": [
         "InvalidVpcID.NotFound",
         "InvalidVpcId.Malformed",
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -152,6 +166,7 @@
     },
     "deleteDhcpOptions": {
       "errors": [
+        "DependencyViolation",
         "InvalidDhcpOptionID.NotFound",
         "InvalidDhcpOptionsID.NotFound",
         "InvalidDhcpOptionsId.Malformed"
@@ -172,12 +187,14 @@
         "InvalidPublicIpv4PoolID.Malformed",
         "InvalidPublicIpv4PoolID.NotFound",
         "InvalidRouteTableID.NotFound",
+        "InvalidSubnetID.NotFound",
         "MissingParameter"
       ]
     },
     "disassociateRouteTable": {
       "errors": [
-        "InvalidAssociationID.NotFound"
+        "InvalidAssociationID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeNatGateways": {
@@ -186,11 +203,13 @@
         "FilterLimitExceeded",
         "InvalidParameter",
         "NatGatewayMalformed",
+        "NatGatewayNotFound",
         "ParseError"
       ]
     },
     "createVpcEndpoint": {
       "errors": [
+        "InvalidParameter",
         "InvalidServiceName",
         "InvalidVpcID.NotFound",
         "InvalidVpcId.NotFound",
@@ -205,29 +224,36 @@
     "rejectVpcPeeringConnection": {
       "errors": [
         "InvalidVpcPeeringConnectionID.NotFound",
-        "InvalidVpcPeeringConnectionId.NotFound"
+        "InvalidVpcPeeringConnectionId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteVpcPeeringConnection": {
       "errors": [
         "InvalidVpcPeeringConnectionID.NotFound",
-        "InvalidVpcPeeringConnectionId.NotFound"
+        "InvalidVpcPeeringConnectionId.NotFound",
+        "MissingParameter"
       ]
     },
     "associateVpcCidrBlock": {
       "errors": [
+        "CidrConflict",
+        "InvalidParameterCombination",
         "InvalidVpcID.NotFound",
-        "InvalidVpcId.Malformed"
+        "InvalidVpcId.Malformed",
+        "MissingParameter"
       ]
     },
     "modifySubnetAttribute": {
       "errors": [
-        "InvalidSubnetID.NotFound"
+        "InvalidSubnetID.NotFound",
+        "MissingParameter"
       ]
     },
     "disassociateVpcCidrBlock": {
       "errors": [
         "InvalidVpcCidrBlockAssociationID.NotFound",
+        "InvalidVpcCidrBlockAssociationId.Malformed",
         "InvalidVpcCidrBlockAssociationIdError.NotFound",
         "OperationNotPermitted"
       ]
@@ -235,7 +261,8 @@
     "authorizeSecurityGroupIngress": {
       "errors": [
         "InvalidGroup.NotFound",
-        "InvalidGroupId.Malformed"
+        "InvalidGroupId.Malformed",
+        "MissingParameter"
       ]
     },
     "revokeSecurityGroupIngress": {
@@ -250,19 +277,24 @@
     "createNetworkInterface": {
       "errors": [
         "InvalidSubnetID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "deleteNetworkInterface": {
       "errors": [
+        "InvalidNetworkInterface.InUse",
         "InvalidNetworkInterfaceID.NotFound",
-        "InvalidNetworkInterfaceId.Malformed"
+        "InvalidNetworkInterfaceId.Malformed",
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "createEgressOnlyInternetGateway": {
       "errors": [
         "InvalidVpcID.NotFound",
         "InvalidVpcId.Malformed",
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -270,12 +302,14 @@
       "errors": [
         "DryRunOperation",
         "InvalidGatewayID.NotFound",
+        "InvalidEgressOnlyInternetGatewayId.NotFound",
         "MalformedGatewayID.NotFound",
         "MissingParameter"
       ]
     },
     "createVpnGateway": {
       "errors": [
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -295,7 +329,8 @@
       "errors": [
         "DependencyViolation",
         "IncorrectState",
-        "InvalidVpnGatewayID.NotFound"
+        "InvalidVpnGatewayID.NotFound",
+        "MissingParameter"
       ]
     },
     "createSecurityGroup": {
@@ -337,22 +372,28 @@
     "createVpnConnection": {
       "errors": [
         "InvalidCustomerGatewayID.NotFound",
+        "InvalidParameterValue",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "deleteVpnConnection": {
       "errors": [
-        "InvalidVpnConnectionID.NotFound"
+        "InvalidVpnConnectionID.NotFound",
+        "MissingParameter"
       ]
     },
     "createCustomerGateway": {
       "errors": [
+        "MissingParameter",
         "ParseError"
       ]
     },
     "createTransitGatewayVpcAttachment": {
       "errors": [
-        "InvalidTransitGatewayID.NotFound"
+        "InvalidSubnetID.NotFound",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeVpcAttribute": {
@@ -363,11 +404,13 @@
     },
     "describeVpnGateways": {
       "errors": [
+        "InvalidVpnGatewayID.NotFound",
         "ParseError"
       ]
     },
     "describeCustomerGateways": {
       "errors": [
+        "InvalidCustomerGatewayID.NotFound",
         "ParseError"
       ]
     },
@@ -384,6 +427,7 @@
         "InvalidGroupId.Malformed",
         "InvalidParameterValue",
         "InvalidPrefixListID.NotFound",
+        "InvalidPermission.NotFound",
         "InvalidSecurityGroupRuleId.Malformed",
         "MissingParameter",
         "UnknownParameter"
@@ -408,19 +452,22 @@
       "errors": [
         "InvalidVpcID.NotFound",
         "InvalidVpcId.Malformed",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "deleteCarrierGateway": {
       "errors": [
         "InvalidCarrierGatewayID.Malformed",
-        "InvalidCarrierGatewayID.NotFound"
+        "InvalidCarrierGatewayID.NotFound",
+        "MissingParameter"
       ]
     },
     "createFlowLogs": {
       "errors": [
         "InvalidID",
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "deleteFlowLogs": {
@@ -430,6 +477,7 @@
     },
     "createManagedPrefixList": {
       "errors": [
+        "InvalidParameterValue",
         "ParseError"
       ]
     },
@@ -441,6 +489,7 @@
     },
     "modifyVpcPeeringConnectionOptions": {
       "errors": [
+        "InvalidVpcPeeringConnectionID.NotFound",
         "InvalidVpcPeeringConnectionId.NotFound"
       ]
     },
@@ -457,7 +506,8 @@
     },
     "replaceRoute": {
       "errors": [
-        "InvalidRouteTableID.NotFound"
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteRoute": {
@@ -497,12 +547,14 @@
     },
     "describeTransitGateways": {
       "errors": [
+        "InvalidTransitGatewayID.NotFound",
         "ParseError"
       ]
     },
     "describeCarrierGateways": {
       "errors": [
         "InvalidCarrierGatewayID.Malformed",
+        "InvalidCarrierGatewayID.NotFound",
         "ParseError"
       ]
     },
@@ -513,6 +565,7 @@
     },
     "describeTransitGatewayAttachments": {
       "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound",
         "ParseError"
       ]
     },
@@ -524,21 +577,25 @@
     "deleteCustomerGateway": {
       "errors": [
         "InvalidCustomerGatewayID.NotFound",
-        "InvalidCustomerGatewayId.Malformed"
+        "InvalidCustomerGatewayId.Malformed",
+        "MissingParameter"
       ]
     },
     "modifyVpcAttribute": {
       "errors": [
+        "InvalidParameterCombination",
         "InvalidVpcID.NotFound"
       ]
     },
     "replaceRouteTableAssociation": {
       "errors": [
+        "InvalidRouteTableAssociationId.Malformed",
         "InvalidRouteTableID.NotFound"
       ]
     },
     "modifyVpcEndpointServiceConfiguration": {
       "errors": [
+        "InvalidVpcEndpointServiceId.Malformed",
         "InvalidVpcEndpointServiceId.NotFound"
       ]
     },
@@ -563,12 +620,14 @@
     },
     "attachNetworkInterface": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "InvalidNetworkInterfaceID.NotFound"
       ]
     },
     "detachNetworkInterface": {
       "errors": [
+        "DependencyViolation",
         "InvalidAttachmentID.NotFound",
         "InvalidNetworkInterfaceAttachmentId.Malformed"
       ]
@@ -576,48 +635,57 @@
     "assignPrivateIpAddresses": {
       "errors": [
         "InvalidNetworkInterfaceID.NotFound",
-        "InvalidNetworkInterfaceId.Malformed"
+        "InvalidNetworkInterfaceId.Malformed",
+        "InvalidParameter"
       ]
     },
     "unassignPrivateIpAddresses": {
       "errors": [
         "InvalidNetworkInterfaceID.NotFound",
-        "InvalidNetworkInterfaceId.Malformed"
+        "InvalidNetworkInterfaceId.Malformed",
+        "MissingParameter"
       ]
     },
     "assignIpv6Addresses": {
       "errors": [
-        "InvalidNetworkInterfaceID.NotFound"
+        "InvalidNetworkInterfaceID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "unassignIpv6Addresses": {
       "errors": [
-        "InvalidNetworkInterfaceID.NotFound"
+        "InvalidNetworkInterfaceID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "associateSubnetCidrBlock": {
       "errors": [
-        "InvalidSubnetID.NotFound"
+        "InvalidSubnetID.NotFound",
+        "MissingParameter"
       ]
     },
     "disassociateSubnetCidrBlock": {
       "errors": [
-        "InvalidSubnetCidrBlockAssociationID.NotFound"
+        "InvalidSubnetCidrBlockAssociationID.NotFound",
+        "InvalidSubnetCidrBlockAssociationId.Malformed"
       ]
     },
     "getSecurityGroupsForVpc": {
       "errors": [
+        "InvalidVpcId.Malformed",
         "ParseError"
       ]
     },
     "modifyVpcTenancy": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "InvalidVpcId.Malformed"
       ]
     },
     "createDefaultSubnet": {
       "errors": [
-        "DefaultSubnetAlreadyExistsInAvailabilityZone"
+        "DefaultSubnetAlreadyExistsInAvailabilityZone",
+        "MissingParameter"
       ]
     },
     "createDefaultVpc": {
@@ -638,27 +706,32 @@
     },
     "enableVpcClassicLink": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "InvalidVpcId.Malformed"
       ]
     },
     "disableVpcClassicLink": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "InvalidVpcId.Malformed"
       ]
     },
     "enableVpcClassicLinkDnsSupport": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
       ]
     },
     "disableVpcClassicLinkDnsSupport": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteManagedPrefixList": {
       "errors": [
         "InvalidPrefixListID.NotFound",
+        "InvalidPrefixListId.Malformed",
         "ParseError"
       ]
     },
@@ -678,12 +751,14 @@
       "errors": [
         "AuthFailure",
         "InvalidAllocationID.NotFound",
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "MissingParameter"
       ]
     },
     "disassociateAddress": {
       "errors": [
-        "InvalidAssociationID.NotFound"
+        "InvalidAssociationID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeAddresses": {
@@ -694,6 +769,7 @@
     "describeEgressOnlyInternetGateways": {
       "errors": [
         "InvalidEgressOnlyInternetGatewayId.Malformed",
+        "InvalidEgressOnlyInternetGatewayId.NotFound",
         "ParseError"
       ]
     },
@@ -738,7 +814,8 @@
     },
     "describeSnapshots": {
       "errors": [
-        "InvalidSnapshot.NotFound"
+        "InvalidSnapshot.NotFound",
+        "InvalidUserID.Malformed"
       ]
     },
     "describeVolumes": {
@@ -751,7 +828,8 @@
     "deleteSnapshot": {
       "errors": [
         "InvalidParameterValue",
-        "InvalidSnapshot.NotFound"
+        "InvalidSnapshot.NotFound",
+        "InvalidSnapshotID.Malformed"
       ]
     },
     "deleteVolume": {
@@ -791,6 +869,8 @@
     },
     "detachVolume": {
       "errors": [
+        "DependencyViolation",
+        "IncorrectState",
         "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
@@ -798,11 +878,13 @@
     "createSnapshot": {
       "errors": [
         "InvalidParameterValue",
-        "InvalidVolume.NotFound"
+        "InvalidVolume.NotFound",
+        "InvalidVolumeID.Malformed"
       ]
     },
     "startInstances": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "InvalidParameterCombination"
       ]
@@ -816,6 +898,7 @@
     },
     "rebootInstances": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound",
         "MissingParameter"
       ]
@@ -823,41 +906,48 @@
     "modifyVolume": {
       "errors": [
         "InvalidParameterValue",
-        "InvalidVolume.NotFound"
+        "InvalidVolume.NotFound",
+        "InvalidVolumeID.Malformed"
       ]
     },
     "describeImages": {
       "errors": [
+        "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound"
       ]
     },
     "deregisterImage": {
       "errors": [
         "InvalidAMIID.Malformed",
-        "InvalidAMIID.NotFound"
+        "InvalidAMIID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeKeyPairs": {
       "errors": [
-        "InvalidKeyPair.NotFound"
+        "InvalidKeyPair.NotFound",
+        "InvalidParameterValue"
       ]
     },
     "copySnapshot": {
       "errors": [
         "InvalidParameterValue",
+        "InvalidRegion",
         "InvalidSnapshot.NotFound"
       ]
     },
     "describeSnapshotAttribute": {
       "errors": [
         "InvalidParameterValue",
-        "InvalidSnapshot.NotFound"
+        "InvalidSnapshot.NotFound",
+        "MissingParameter"
       ]
     },
     "modifyImageAttribute": {
       "errors": [
         "InvalidAMIID.Malformed",
-        "InvalidAMIID.NotFound"
+        "InvalidAMIID.NotFound",
+        "InvalidParameterCombination"
       ]
     },
     "createLaunchTemplate": {
@@ -873,16 +963,19 @@
     },
     "describeLaunchTemplates": {
       "errors": [
+        "InvalidLaunchTemplateId.Malformed",
         "ParseError"
       ]
     },
     "createTransitGateway": {
       "errors": [
-        "ParseError"
+        "ParseError",
+        "TransitGatewayLimitExceeded"
       ]
     },
     "describeInstanceStatus": {
       "errors": [
+        "InvalidInstanceID.Malformed",
         "InvalidInstanceID.NotFound"
       ]
     },
@@ -908,11 +1001,13 @@
       "errors": [
         "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound",
+        "InvalidRegion",
         "InvalidRequest"
       ]
     },
     "describeSpotInstanceRequests": {
       "errors": [
+        "InvalidSpotInstanceRequestID.Malformed",
         "ParseError"
       ]
     },
@@ -924,6 +1019,8 @@
     },
     "getManagedPrefixListEntries": {
       "errors": [
+        "InvalidPrefixListID.NotFound",
+        "InvalidPrefixListId.Malformed",
         "ParseError"
       ]
     },
@@ -935,18 +1032,27 @@
     },
     "deleteTransitGateway": {
       "errors": [
+        "IncorrectState",
         "InvalidTransitGatewayID.Malformed",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "createTransitGatewayRouteTable": {
       "errors": [
+        "IncorrectState",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter",
         "ParseError"
       ]
     },
     "deleteTransitGatewayRouteTable": {
       "errors": [
+        "IncorrectState",
+        "InvalidRouteTableID.NotFound",
         "InvalidRouteTableId.Malformed",
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -963,6 +1069,7 @@
     },
     "describeTransitGatewayRouteTables": {
       "errors": [
+        "InvalidRouteTableID.NotFound",
         "ParseError"
       ]
     },
@@ -971,7 +1078,8 @@
         "DryRunOperation",
         "InvalidParameter",
         "MissingParameter",
-        "NatGatewayMalformed"
+        "NatGatewayMalformed",
+        "NatGatewayNotFound"
       ]
     },
     "deleteClientVpnEndpoint": {
@@ -981,42 +1089,58 @@
     },
     "deleteNetworkInterfacePermission": {
       "errors": [
-        "InvalidPermissionID.NotFound"
+        "InvalidPermissionID.Malformed",
+        "InvalidPermissionID.NotFound",
+        "MissingParameter"
       ]
     },
     "createIpam": {
       "errors": [
-        "ParseError"
+        "InvalidParameterValue",
+        "ParseError",
+        "ResourceLimitExceeded"
       ]
     },
     "deleteIpam": {
       "errors": [
-        "InvalidIpamId.NotFound"
+        "DependencyViolation",
+        "InvalidIpamId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteTransitGatewayVpcAttachment": {
       "errors": [
-        "InvalidTransitGatewayAttachmentID.Malformed"
+        "InvalidTransitGatewayAttachmentID.Malformed",
+        "InvalidTransitGatewayAttachmentID.NotFound"
       ]
     },
     "createTransitGatewayMulticastDomain": {
       "errors": [
-        "InvalidTransitGatewayID.Malformed"
+        "IncorrectState",
+        "InvalidTransitGatewayID.Malformed",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter"
       ]
     },
     "createLocalGatewayRouteTable": {
       "errors": [
-        "InvalidLocalGatewayID.Malformed"
+        "InvalidLocalGatewayID.Malformed",
+        "InvalidLocalGatewayID.NotFound",
+        "MissingParameter"
       ]
     },
     "createSubnetCidrReservation": {
       "errors": [
-        "InvalidSubnetID.Malformed"
+        "InvalidParameterValue",
+        "InvalidSubnetID.Malformed",
+        "MissingParameter"
       ]
     },
     "deleteSubnetCidrReservation": {
       "errors": [
-        "InvalidSubnetCidrReservationID.NotFound"
+        "InvalidSubnetCidrReservationID.Malformed",
+        "InvalidSubnetCidrReservationID.NotFound",
+        "MissingParameter"
       ]
     },
     "createTrafficMirrorFilter": {
@@ -1026,31 +1150,39 @@
     },
     "deleteTrafficMirrorFilter": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "InvalidTrafficMirrorFilterId.NotFound"
       ]
     },
     "deleteTrafficMirrorTarget": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "InvalidTrafficMirrorTargetId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteTrafficMirrorSession": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "InvalidTrafficMirrorSessionId.NotFound",
+        "MissingParameter"
       ]
     },
     "createNetworkInsightsPath": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "deleteNetworkInsightsPath": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "deleteNetworkInsightsAccessScope": {
       "errors": [
+        "InvalidNetworkInsightsAccessScopeId.NotFound",
         "InvalidParameterValue"
       ]
     },
@@ -1061,12 +1193,16 @@
     },
     "createCoipPool": {
       "errors": [
-        "InvalidLocalGatewayRouteTableID.Malformed"
+        "InvalidLocalGatewayRouteTableID.Malformed",
+        "InvalidLocalGatewayRouteTableID.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteCoipPool": {
       "errors": [
-        "InvalidIpv4PoolCoipId.Malformed"
+        "InvalidIpv4PoolCoipId.Malformed",
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "createClientVpnEndpoint": {
@@ -1076,7 +1212,8 @@
     },
     "createVerifiedAccessInstance": {
       "errors": [
-        "ParseError"
+        "ParseError",
+        "VerifiedAccessInstanceLimitExceeded"
       ]
     },
     "deleteVerifiedAccessInstance": {
@@ -1086,17 +1223,22 @@
     },
     "createVerifiedAccessGroup": {
       "errors": [
-        "InvalidVerifiedAccessInstanceId.NotFound"
+        "InvalidParameterValue",
+        "InvalidVerifiedAccessInstanceId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteVerifiedAccessGroup": {
       "errors": [
-        "InvalidVerifiedAccessGroupId.NotFound"
+        "InvalidVerifiedAccessGroupId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteVerifiedAccessEndpoint": {
       "errors": [
-        "InvalidVerifiedAccessEndpointId.NotFound"
+        "InvalidParameterValue",
+        "InvalidVerifiedAccessEndpointId.NotFound",
+        "MissingParameter"
       ]
     },
     "createVerifiedAccessTrustProvider": {
@@ -1111,12 +1253,15 @@
     },
     "createIpamPool": {
       "errors": [
-        "InvalidIpamScopeId.NotFound"
+        "InvalidIpamScopeId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteIpamPool": {
       "errors": [
-        "InvalidIpamPoolId.NotFound"
+        "IncorrectState",
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
       ]
     },
     "createIpamResourceDiscovery": {
@@ -1126,27 +1271,35 @@
     },
     "deleteIpamResourceDiscovery": {
       "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
         "InvalidIpamResourceDiscoveryId.NotFound"
       ]
     },
     "createIpamScope": {
       "errors": [
-        "InvalidIpamId.NotFound"
+        "InvalidIpamId.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteIpamScope": {
       "errors": [
-        "InvalidIpamScopeId.NotFound"
+        "DependencyViolation",
+        "IncorrectState",
+        "InvalidIpamScopeId.NotFound",
+        "MissingParameter"
       ]
     },
     "createIpamPolicy": {
       "errors": [
+        "InvalidIpamId.NotFound",
         "MissingParameter"
       ]
     },
     "deleteIpamPolicy": {
       "errors": [
-        "InvalidIpamPolicyId.NotFound"
+        "InvalidIpamPolicyId.Malformed",
+        "InvalidIpamPolicyId.NotFound",
+        "MissingParameter"
       ]
     },
     "createRouteServer": {
@@ -1156,17 +1309,23 @@
     },
     "deleteRouteServer": {
       "errors": [
+        "IncorrectState",
         "InvalidRouteServerId.NotFound"
       ]
     },
     "createInstanceConnectEndpoint": {
       "errors": [
-        "InvalidSubnetID.NotFound"
+        "InvalidGroup.NotFound",
+        "InvalidSubnetID.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteInstanceConnectEndpoint": {
       "errors": [
-        "InvalidInstanceConnectEndpointId.NotFound"
+        "InvalidInstanceConnectEndpointId.Malformed",
+        "InvalidInstanceConnectEndpointId.NotFound",
+        "InvalidState",
+        "MissingParameter"
       ]
     },
     "createVpcBlockPublicAccessExclusion": {
@@ -1177,17 +1336,21 @@
     },
     "deleteVpcBlockPublicAccessExclusion": {
       "errors": [
-        "MissingParameter"
+        "MissingParameter",
+        "VpcBlockPublicAccessExclusionId.Malformed"
       ]
     },
     "createVpcEncryptionControl": {
       "errors": [
-        "InvalidVpcId.Malformed"
+        "InvalidVpcId.Malformed",
+        "MissingParameter"
       ]
     },
     "deleteVpcEncryptionControl": {
       "errors": [
-        "InvalidVpcEncryptionControlId.NotFound"
+        "InvalidVpcEncryptionControlId.Malformed",
+        "InvalidVpcEncryptionControlId.NotFound",
+        "MissingParameter"
       ]
     },
     "replaceNetworkAclAssociation": {
@@ -1199,17 +1362,21 @@
     },
     "acceptVpcEndpointConnections": {
       "errors": [
-        "InvalidParameter"
+        "InvalidParameter",
+        "InvalidVpcEndpointServiceId.NotFound"
       ]
     },
     "rejectVpcEndpointConnections": {
       "errors": [
-        "InvalidParameter"
+        "InvalidParameter",
+        "InvalidVpcEndpointServiceId.NotFound"
       ]
     },
     "modifyManagedPrefixList": {
       "errors": [
-        "InvalidPrefixListID.NotFound"
+        "InvalidParameterCombination",
+        "InvalidPrefixListID.NotFound",
+        "InvalidPrefixListId.Malformed"
       ]
     },
     "modifySecurityGroupRules": {
@@ -1229,16 +1396,19 @@
     },
     "createVolume": {
       "errors": [
-        "InvalidZone.NotFound"
+        "InvalidZone.NotFound",
+        "MissingParameter"
       ]
     },
     "createPlacementGroup": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "describePlacementGroups": {
       "errors": [
+        "InvalidParameterValue",
         "InvalidPlacementGroup.Unknown"
       ]
     },
@@ -1292,6 +1462,7 @@
     },
     "cancelBundleTask": {
       "errors": [
+        "InvalidBundleID.NotFound",
         "InvalidInstanceID.Malformed"
       ]
     },
@@ -1336,11 +1507,13 @@
     },
     "modifyVolumeAttribute": {
       "errors": [
-        "InvalidVolume.NotFound"
+        "InvalidVolume.NotFound",
+        "InvalidVolumeID.Malformed"
       ]
     },
     "describeVolumeAttribute": {
       "errors": [
+        "InvalidParameterCombination",
         "InvalidParameterValue",
         "InvalidVolume.NotFound"
       ]
@@ -1348,23 +1521,2393 @@
     "resetSnapshotAttribute": {
       "errors": [
         "InvalidSnapshot.NotFound",
-        "InvalidSnapshotID.Malformed"
+        "InvalidSnapshotID.Malformed",
+        "MissingParameter"
       ]
     },
     "resetImageAttribute": {
       "errors": [
         "InvalidAMIID.Malformed",
-        "InvalidAMIID.NotFound"
+        "InvalidAMIID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeImageAttribute": {
       "errors": [
-        "InvalidAMIID.Malformed"
+        "InvalidAMIID.Malformed",
+        "MissingParameter"
       ]
     },
     "describeRegions": {
       "errors": [
         "InvalidParameterValue"
+      ]
+    },
+    "createTransitGatewayPeeringAttachment": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidTransitGatewayID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "rejectTransitGatewayPeeringAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "rejectTransitGatewayVpcAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "getTransitGatewayMulticastDomainAssociations": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.Malformed",
+        "InvalidTransitGatewayMulticastDomainId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "describeLaunchTemplateVersions": {
+      "errors": [
+        "InvalidLaunchTemplateId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "describeClientVpnConnections": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "provisionIpamPoolCidr": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deprovisionIpamPoolCidr": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createCapacityReservation": {
+      "errors": [
+        "Unsupported"
+      ]
+    },
+    "associateCapacityReservationBillingOwner": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "cancelCapacityReservation": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "disassociateCapacityReservationBillingOwner": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "associateClientVpnTargetNetwork": {
+      "errors": [
+        "InvalidSubnetID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "disassociateClientVpnTargetNetwork": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "provisionIpamByoasn": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "disassociateIpamByoasn": {
+      "errors": [
+        "InvalidCidr.NotFound"
+      ]
+    },
+    "associateNatGatewayAddress": {
+      "errors": [
+        "MissingParameter",
+        "NatGatewayMalformed",
+        "NatGatewayNotFound"
+      ]
+    },
+    "disassociateNatGatewayAddress": {
+      "errors": [
+        "MissingParameter",
+        "NatGatewayMalformed",
+        "NatGatewayNotFound"
+      ]
+    },
+    "associateSecurityGroupVpc": {
+      "errors": [
+        "InvalidGroupId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "disassociateSecurityGroupVpc": {
+      "errors": [
+        "InvalidGroupId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "disassociateTransitGatewayMulticastDomain": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayPolicyTable": {
+      "errors": [
+        "IncorrectState",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "disassociateTransitGatewayPolicyTable": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.Malformed",
+        "InvalidTransitGatewayPolicyTableId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "disassociateTransitGatewayRouteTable": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "attachClassicLinkVpc": {
+      "errors": [
+        "InvalidInstanceID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "detachClassicLinkVpc": {
+      "errors": [
+        "DependencyViolation",
+        "InvalidInstanceID.Malformed",
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createCoipCidr": {
+      "errors": [
+        "InvalidPoolID.Malformed",
+        "InvalidPoolID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteCoipCidr": {
+      "errors": [
+        "InvalidCidrBlock.Malformed",
+        "InvalidIpv4PoolCoipId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayRouteTable": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "registerImage": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "createImageUsageReport": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteImageUsageReport": {
+      "errors": [
+        "InvalidImageUsageReportId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "createIpamPrefixListResolver": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteIpamPrefixListResolver": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.Malformed",
+        "InvalidIpamPrefixListResolverId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createIpamPrefixListResolverTarget": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.Malformed",
+        "InvalidIpamPrefixListResolverId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteIpamPrefixListResolverTarget": {
+      "errors": [
+        "InvalidIpamPrefixListResolverTargetId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "createLocalGatewayRoute": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayRoute": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationID.Malformed",
+        "InvalidLocalGatewayRouteTableVirtualInterfaceGroupAssociationID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createLocalGatewayVirtualInterfaceGroup": {
+      "errors": [
+        "InvalidLocalGatewayID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createLocalGatewayRouteTableVirtualInterfaceGroupAssociation": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableID.NotFound",
+        "InvalidLocalGatewayVirtualInterfaceGroupID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayVirtualInterfaceGroup": {
+      "errors": [
+        "InvalidLocalGatewayVirtualInterfaceGroupID.Malformed",
+        "InvalidLocalGatewayVirtualInterfaceGroupID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createLocalGatewayRouteTableVpcAssociation": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableID.Malformed",
+        "InvalidLocalGatewayRouteTableID.NotFound",
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayRouteTableVpcAssociation": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableVpcAssociationID.Malformed",
+        "InvalidLocalGatewayRouteTableVpcAssociationID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createLocalGatewayVirtualInterface": {
+      "errors": [
+        "InvalidLocalGatewayVirtualInterfaceGroupID.Malformed",
+        "InvalidLocalGatewayVirtualInterfaceGroupID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteLocalGatewayVirtualInterface": {
+      "errors": [
+        "InvalidLocalGatewayVirtualInterfaceID.Malformed",
+        "InvalidLocalGatewayVirtualInterfaceID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createRouteServerEndpoint": {
+      "errors": [
+        "InvalidRouteServerId.NotAssociated",
+        "InvalidRouteServerId.NotFound",
+        "InvalidSubnetID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "disassociateRouteServer": {
+      "errors": [
+        "InvalidRouteServerId.NotFound",
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteRouteServerEndpoint": {
+      "errors": [
+        "InvalidRouteServerEndpointId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createRouteServerPeer": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteRouteServerPeer": {
+      "errors": [
+        "InvalidRouteServerPeerId.Malformed",
+        "InvalidRouteServerPeerId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createTrafficMirrorFilterRule": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteTrafficMirrorFilterRule": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidTrafficMirrorFilterRuleId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createTrafficMirrorSession": {
+      "errors": [
+        "InvalidNetworkInterfaceID.NotFound",
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "createTrafficMirrorTarget": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "createTransitGatewayMeteringPolicy": {
+      "errors": [
+        "IncorrectState",
+        "InvalidTransitGatewayID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayMeteringPolicy": {
+      "errors": [
+        "InvalidTransitGatewayMeteringPolicyId.NotFound",
+        "InvalidTransitGatewayMeteringPolicyIdMalformedException",
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayMeteringPolicyEntry": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayMeteringPolicyEntry": {
+      "errors": [
+        "InvalidTransitGatewayMeteringPolicyId.NotFound",
+        "InvalidTransitGatewayMeteringPolicyIdMalformedException",
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayPrefixListReference": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayPrefixListReference": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayRoute": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayRoute": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayRouteTableAnnouncement": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "InvalidTransitGatewayAttachmentID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayRouteTableAnnouncement": {
+      "errors": [
+        "InvalidTransitGatewayRouteTableAnnouncementId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "createVerifiedAccessEndpoint": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createVpnConnectionRoute": {
+      "errors": [
+        "InvalidParameter",
+        "MissingParameter"
+      ]
+    },
+    "deleteVpnConnectionRoute": {
+      "errors": [
+        "InvalidRoute.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "startNetworkInsightsAccessScopeAnalysis": {
+      "errors": [
+        "IdempotentParameterMismatch",
+        "InvalidParameterValue"
+      ]
+    },
+    "deleteNetworkInsightsAccessScopeAnalysis": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "startNetworkInsightsAnalysis": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "deleteNetworkInsightsAnalysis": {
+      "errors": [
+        "InvalidParameterValue",
+        "MissingParameter"
+      ]
+    },
+    "provisionPublicIpv4PoolCidr": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deprovisionPublicIpv4PoolCidr": {
+      "errors": [
+        "InvalidPublicIpv4Pool.NotFound",
+        "InvalidPublicIpv4PoolID.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "deregisterTransitGatewayMulticastGroupMembers": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "registerTransitGatewayMulticastGroupMembers": {
+      "errors": [
+        "InvalidNetworkInterfaceId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "deregisterTransitGatewayMulticastGroupSources": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "registerTransitGatewayMulticastGroupSources": {
+      "errors": [
+        "InvalidNetworkInterfaceId.Malformed",
+        "MissingParameter"
+      ]
+    },
+    "describeByoipCidrs": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getIpamPoolCidrs": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "describeClientVpnTargetNetworks": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "getTransitGatewayPrefixListReferences": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "searchTransitGatewayRoutes": {
+      "errors": [
+        "InvalidRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "searchLocalGatewayRoutes": {
+      "errors": [
+        "InvalidLocalGatewayRouteTableID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "describeClientVpnRoutes": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "getSubnetCidrReservations": {
+      "errors": [
+        "InvalidSubnetID.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "describeVpcBlockPublicAccessExclusions": {
+      "errors": [
+        "MissingParameter",
+        "VpcBlockPublicAccessExclusionId.Malformed"
+      ]
+    },
+    "getIpamPoolAllocations": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayPeeringAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "deprovisionIpamByoasn": {
+      "errors": [
+        "InvalidIpamId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteTransitGatewayPolicyTable": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.Malformed",
+        "InvalidTransitGatewayPolicyTableId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "createIpamExternalResourceVerificationToken": {
+      "errors": [
+        "InvalidIpamId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "deleteIpamExternalResourceVerificationToken": {
+      "errors": [
+        "InvalidIpamExternalResourceVerificationTokenId.Malformed",
+        "InvalidIpamExternalResourceVerificationTokenId.NotFound",
+        "MissingParameter"
+      ]
+    },
+    "cancelConversion": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "cancelDeclarativePoliciesReport": {
+      "errors": [
+        "InvalidDeclarativePoliciesReportId.Malformed"
+      ]
+    },
+    "cancelExportTask": {
+      "errors": [
+        "InvalidID"
+      ]
+    },
+    "cancelImageLaunchPermission": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "cancelImportTask": {
+      "errors": [
+        "InvalidConversionTaskId.Malformed"
+      ]
+    },
+    "cancelReservedInstancesListing": {
+      "errors": [
+        "InvalidInput"
+      ]
+    },
+    "deleteCapacityManagerDataExport": {
+      "errors": [
+        "InvalidCapacityManagerDataExportId.Malformed",
+        "InvalidCapacityManagerDataExportId.NotFound"
+      ]
+    },
+    "deleteClientVpnRoute": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "deleteFpgaImage": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed"
+      ]
+    },
+    "deleteInstanceEventWindow": {
+      "errors": [
+        "InvalidInstanceEventWindowIDNotFound",
+        "InvalidParameterValue"
+      ]
+    },
+    "deleteLaunchTemplateVersions": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "deletePublicIpv4Pool": {
+      "errors": [
+        "InvalidPublicIpv4Pool.NotFound",
+        "InvalidPublicIpv4PoolID.Malformed"
+      ]
+    },
+    "deleteTransitGatewayConnect": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "deleteTransitGatewayConnectPeer": {
+      "errors": [
+        "InvalidTransitGatewayConnectPeerID.Malformed",
+        "InvalidTransitGatewayConnectPeerID.NotFound"
+      ]
+    },
+    "deleteTransitGatewayMulticastDomain": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.Malformed",
+        "InvalidTransitGatewayMulticastDomainId.NotFound"
+      ]
+    },
+    "deleteVpnConcentrator": {
+      "errors": [
+        "InvalidVpnConcentratorID.Malformed"
+      ]
+    },
+    "deprovisionByoipCidr": {
+      "errors": [
+        "RequestLimitExceeded"
+      ]
+    },
+    "deregisterInstanceEventNotificationAttributes": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "rejectCapacityReservationBillingOwnership": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "rejectTransitGatewayMulticastDomainAssociations": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "releaseIpamPoolAllocation": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound"
+      ]
+    },
+    "terminateClientVpnConnections": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "withdrawByoipCidr": {
+      "errors": [
+        "RequestLimitExceeded"
+      ]
+    },
+    "allocateIpamPoolCidr": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound"
+      ]
+    },
+    "associateEnclaveCertificateIamRole": {
+      "errors": [
+        "InvalidCertificateArn.Malformed",
+        "InvalidRoleArn.Malformed"
+      ]
+    },
+    "associateIamInstanceProfile": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "associateIpamResourceDiscovery": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "associateRouteServer": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "associateTransitGatewayPolicyTable": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.Malformed",
+        "InvalidTransitGatewayPolicyTableId.NotFound"
+      ]
+    },
+    "associateTransitGatewayRouteTable": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "associateTrunkInterface": {
+      "errors": [
+        "OperationNotPermitted"
+      ]
+    },
+    "attachVerifiedAccessTrustProvider": {
+      "errors": [
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "copyFpgaImage": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed"
+      ]
+    },
+    "copyVolumes": {
+      "errors": [
+        "InvalidVolumeID.Malformed"
+      ]
+    },
+    "createCapacityManagerDataExport": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createCapacityReservationBySplitting": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed",
+        "InvalidCapacityReservationId.NotFound"
+      ]
+    },
+    "createClientVpnRoute": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "createDelegateMacVolumeOwnershipTask": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createInstanceExportTask": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createInterruptibleCapacityReservationAllocation": {
+      "errors": [
+        "InvalidCapacityReservationId.NotFound"
+      ]
+    },
+    "createReplaceRootVolumeTask": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "createReservedInstancesListing": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createStoreImageTask": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "createTransitGatewayConnect": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createTransitGatewayConnectPeer": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createVpcEndpointConnectionNotification": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "importKeyPair": {
+      "errors": [
+        "InvalidKeyPair.Duplicate"
+      ]
+    },
+    "purchaseCapacityBlock": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "purchaseCapacityBlockExtension": {
+      "errors": [
+        "InvalidCapacityReservationId.NotFound"
+      ]
+    },
+    "runScheduledInstances": {
+      "errors": [
+        "InvalidScheduledInstance"
+      ]
+    },
+    "startDeclarativePoliciesReport": {
+      "errors": [
+        "DeclarativePoliciesAccessDenied"
+      ]
+    },
+    "startVpcEndpointServicePrivateDnsVerification": {
+      "errors": [
+        "InvalidVpcEndpointServiceId.Malformed",
+        "InvalidVpcEndpointServiceId.NotFound"
+      ]
+    },
+    "acceptAddressTransfer": {
+      "errors": [
+        "InvalidAddress.Malformed",
+        "InvalidAddress.NotFound"
+      ]
+    },
+    "acceptCapacityReservationBillingOwnership": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "acceptTransitGatewayPeeringAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "acceptTransitGatewayVpcAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "assignPrivateNatGatewayAddress": {
+      "errors": [
+        "NatGatewayNotFound"
+      ]
+    },
+    "describeCapacityBlockExtensionOfferings": {
+      "errors": [
+        "InvalidCapacityReservationId.NotFound"
+      ]
+    },
+    "describeFleetHistory": {
+      "errors": [
+        "InvalidFleetId.Malformed"
+      ]
+    },
+    "describeFleetInstances": {
+      "errors": [
+        "InvalidFleetId.Malformed"
+      ]
+    },
+    "describeFpgaImageAttribute": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed",
+        "InvalidFpgaImageID.NotFound"
+      ]
+    },
+    "describeIdentityIdFormat": {
+      "errors": [
+        "InvalidTargetArn.Unknown"
+      ]
+    },
+    "describeStaleSecurityGroups": {
+      "errors": [
+        "InvalidVpcID.NotFound"
+      ]
+    },
+    "describeVpcEndpointServicePermissions": {
+      "errors": [
+        "InvalidVpcEndpointServiceId.Malformed",
+        "InvalidVpcEndpointServiceId.NotFound"
+      ]
+    },
+    "detachVerifiedAccessTrustProvider": {
+      "errors": [
+        "DependencyViolation",
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "disableAddressTransfer": {
+      "errors": [
+        "InvalidElasticIpID.NotFound"
+      ]
+    },
+    "disableFastLaunch": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "disableImage": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "disableImageDeprecation": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "disableImageDeregistrationProtection": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "disableIpamPolicy": {
+      "errors": [
+        "InvalidIpamPolicyId.Malformed",
+        "InvalidIpamPolicyId.NotFound"
+      ]
+    },
+    "disableRouteServerPropagation": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "disableTransitGatewayRouteTablePropagation": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "disableVgwRoutePropagation": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "disassociateEnclaveCertificateIamRole": {
+      "errors": [
+        "InvalidCertificateArn.Malformed",
+        "InvalidRoleArn.Malformed"
+      ]
+    },
+    "disassociateIamInstanceProfile": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "disassociateInstanceEventWindow": {
+      "errors": [
+        "DependencyViolation",
+        "MissingParameter"
+      ]
+    },
+    "disassociateIpamResourceDiscovery": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryAssociationId.Malformed",
+        "InvalidIpamResourceDiscoveryAssociationId.NotFound"
+      ]
+    },
+    "disassociateTrunkInterface": {
+      "errors": [
+        "OperationNotPermitted"
+      ]
+    },
+    "enableAddressTransfer": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableFastLaunch": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "enableImage": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "enableImageBlockPublicAccess": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableImageDeprecation": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "enableImageDeregistrationProtection": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "enableIpamPolicy": {
+      "errors": [
+        "InvalidIpamPolicyId.Malformed",
+        "InvalidIpamPolicyId.NotFound"
+      ]
+    },
+    "enableRouteServerPropagation": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "enableTransitGatewayRouteTablePropagation": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "enableVgwRoutePropagation": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "exportImage": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "exportTransitGatewayRoutes": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "exportVerifiedAccessInstanceClientConfiguration": {
+      "errors": [
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "getActiveVpnTunnelStatus": {
+      "errors": [
+        "InvalidVpnConnectionID.NotFound"
+      ]
+    },
+    "getAssociatedEnclaveCertificateIamRoles": {
+      "errors": [
+        "InvalidCertificateArn.Malformed",
+        "UnauthorizedOperation"
+      ]
+    },
+    "getAssociatedIpv6PoolCidrs": {
+      "errors": [
+        "InvalidIpv6PoolID.Malformed"
+      ]
+    },
+    "getCapacityReservationUsage": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "getCoipPoolUsage": {
+      "errors": [
+        "InvalidPoolID.Malformed"
+      ]
+    },
+    "getDeclarativePoliciesReportSummary": {
+      "errors": [
+        "InvalidDeclarativePoliciesReportId.Malformed"
+      ]
+    },
+    "getGroupsForCapacityReservation": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "getImageAncestry": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "getInstanceTpmEkPub": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getInstanceUefiData": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "getIpamAddressHistory": {
+      "errors": [
+        "InvalidIpamScopeId.NotFound"
+      ]
+    },
+    "getIpamDiscoveredAccounts": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "getIpamDiscoveredPublicAddresses": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "getIpamDiscoveredResourceCidrs": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "getIpamPolicyAllocationRules": {
+      "errors": [
+        "InvalidIpamPolicyId.Malformed",
+        "InvalidIpamPolicyId.NotFound"
+      ]
+    },
+    "getIpamPolicyOrganizationTargets": {
+      "errors": [
+        "InvalidIpamPolicyId.Malformed",
+        "InvalidIpamPolicyId.NotFound"
+      ]
+    },
+    "getIpamPrefixListResolverRules": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.Malformed",
+        "InvalidIpamPrefixListResolverId.NotFound"
+      ]
+    },
+    "getIpamPrefixListResolverVersionEntries": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getIpamPrefixListResolverVersions": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.Malformed",
+        "InvalidIpamPrefixListResolverId.NotFound"
+      ]
+    },
+    "getIpamResourceCidrs": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound",
+        "InvalidIpamScopeId.NotFound"
+      ]
+    },
+    "getLaunchTemplateData": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "getManagedPrefixListAssociations": {
+      "errors": [
+        "InvalidPrefixListID.NotFound",
+        "InvalidPrefixListId.Malformed"
+      ]
+    },
+    "getNetworkInsightsAccessScopeAnalysisFindings": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "getNetworkInsightsAccessScopeContent": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "getRouteServerAssociations": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "getRouteServerPropagations": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "getRouteServerRoutingDatabase": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "getTransitGatewayAttachmentPropagations": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "getTransitGatewayMeteringPolicyEntries": {
+      "errors": [
+        "InvalidTransitGatewayMeteringPolicyId.NotFound",
+        "InvalidTransitGatewayMeteringPolicyIdMalformedException"
+      ]
+    },
+    "getTransitGatewayPolicyTableAssociations": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.Malformed",
+        "InvalidTransitGatewayPolicyTableId.NotFound"
+      ]
+    },
+    "getTransitGatewayPolicyTableEntries": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.Malformed",
+        "InvalidTransitGatewayPolicyTableId.NotFound"
+      ]
+    },
+    "getTransitGatewayRouteTableAssociations": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "getTransitGatewayRouteTablePropagations": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "getVerifiedAccessEndpointPolicy": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidVerifiedAccessEndpointId.NotFound"
+      ]
+    },
+    "getVerifiedAccessEndpointTargets": {
+      "errors": [
+        "InvalidVerifiedAccessEndpointId.NotFound"
+      ]
+    },
+    "getVerifiedAccessGroupPolicy": {
+      "errors": [
+        "InvalidVerifiedAccessGroupId.NotFound"
+      ]
+    },
+    "getVpcResourcesBlockingEncryptionEnforcement": {
+      "errors": [
+        "InvalidVpcId.Malformed"
+      ]
+    },
+    "getVpnConnectionDeviceSampleConfiguration": {
+      "errors": [
+        "InvalidVpnConnectionDeviceTypeId.NotFound"
+      ]
+    },
+    "getVpnTunnelReplacementStatus": {
+      "errors": [
+        "InvalidVpnConnectionId"
+      ]
+    },
+    "lockSnapshot": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyAddressAttribute": {
+      "errors": [
+        "InvalidAllocationID.NotFound",
+        "InvalidElasticIpID.NotFound"
+      ]
+    },
+    "modifyAvailabilityZoneGroup": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyCapacityReservation": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "modifyCapacityReservationFleet": {
+      "errors": [
+        "InvalidCapacityReservationFleetId.Malformed"
+      ]
+    },
+    "modifyFleet": {
+      "errors": [
+        "InvalidFleetId.Malformed"
+      ]
+    },
+    "modifyFpgaImageAttribute": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed",
+        "InvalidFpgaImageID.NotFound"
+      ]
+    },
+    "modifyInstanceCapacityReservationAttributes": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyInstanceConnectEndpoint": {
+      "errors": [
+        "InvalidInstanceConnectEndpointId.Malformed",
+        "InvalidInstanceConnectEndpointId.NotFound"
+      ]
+    },
+    "modifyInstanceCpuOptions": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "modifyInstanceEventStartTime": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyInstanceEventWindow": {
+      "errors": [
+        "InvalidInstanceEventWindowIDNotFound",
+        "InvalidInstanceEventWindowId.Malformed"
+      ]
+    },
+    "modifyInstanceMaintenanceOptions": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "modifyInstanceMetadataOptions": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "modifyInstanceNetworkPerformance": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "modifyInstancePlacement": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "modifyIpam": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "modifyIpamPolicyAllocationRules": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyIpamPool": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound"
+      ]
+    },
+    "modifyIpamPrefixListResolver": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.Malformed",
+        "InvalidIpamPrefixListResolverId.NotFound"
+      ]
+    },
+    "modifyIpamPrefixListResolverTarget": {
+      "errors": [
+        "InvalidIpamPrefixListResolverTargetId.Malformed"
+      ]
+    },
+    "modifyIpamResourceCidr": {
+      "errors": [
+        "InvalidIpamScopeId.Malformed",
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyIpamResourceDiscovery": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.Malformed",
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "modifyIpamScope": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "modifyLocalGatewayRoute": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyPrivateDnsNameOptions": {
+      "errors": [
+        "UnknownResource"
+      ]
+    },
+    "modifyPublicIpDnsNameOptions": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyRouteServer": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "modifySnapshotTier": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyTrafficMirrorFilterNetworkServices": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyTrafficMirrorFilterRule": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidTrafficMirrorFilterRuleId.NotFound"
+      ]
+    },
+    "modifyTrafficMirrorSession": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyTransitGateway": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyTransitGatewayMeteringPolicy": {
+      "errors": [
+        "InvalidTransitGatewayMeteringPolicyIdMalformedException",
+        "MissingParameter"
+      ]
+    },
+    "modifyTransitGatewayPrefixListReference": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyTransitGatewayVpcAttachment": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessEndpoint": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidVerifiedAccessEndpointId.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessEndpointPolicy": {
+      "errors": [
+        "InvalidParameterValue",
+        "InvalidVerifiedAccessEndpointId.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessGroup": {
+      "errors": [
+        "InvalidVerifiedAccessGroupId.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessGroupPolicy": {
+      "errors": [
+        "InvalidVerifiedAccessGroupId.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessInstance": {
+      "errors": [
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "modifyVerifiedAccessInstanceLoggingConfiguration": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyVerifiedAccessTrustProvider": {
+      "errors": [
+        "InvalidVerifiedAccessTrustProviderId.NotFound"
+      ]
+    },
+    "modifyVpcEncryptionControl": {
+      "errors": [
+        "InvalidVpcEncryptionControlId.Malformed",
+        "InvalidVpcEncryptionControlId.NotFound"
+      ]
+    },
+    "modifyVpcEndpointConnectionNotification": {
+      "errors": [
+        "InvalidConnectionNotification",
+        "InvalidParameter"
+      ]
+    },
+    "modifyVpcEndpointServicePayerResponsibility": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "modifyVpcEndpointServicePermissions": {
+      "errors": [
+        "InvalidVpcEndpointServiceId.Malformed",
+        "InvalidVpcEndpointServiceId.NotFound"
+      ]
+    },
+    "modifyVpnConnection": {
+      "errors": [
+        "InvalidVpnConnectionId"
+      ]
+    },
+    "modifyVpnConnectionOptions": {
+      "errors": [
+        "InvalidVpnConnectionID.NotFound"
+      ]
+    },
+    "modifyVpnTunnelCertificate": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyVpnTunnelOptions": {
+      "errors": [
+        "InvalidVpnConnectionId"
+      ]
+    },
+    "moveByoipCidrToIpam": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound"
+      ]
+    },
+    "moveCapacityReservationInstances": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "replaceTransitGatewayRoute": {
+      "errors": [
+        "InvalidRouteTableID.NotFound"
+      ]
+    },
+    "replaceVpnTunnel": {
+      "errors": [
+        "InvalidVpnConnectionId"
+      ]
+    },
+    "resetAddressAttribute": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "resetFpgaImageAttribute": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed"
+      ]
+    },
+    "resetInstanceAttribute": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "resetNetworkInterfaceAttribute": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "restoreImageFromRecycleBin": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "restoreManagedPrefixListVersion": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "restoreSnapshotFromRecycleBin": {
+      "errors": [
+        "InvalidSnapshotID.Malformed"
+      ]
+    },
+    "restoreSnapshotTier": {
+      "errors": [
+        "InvalidSnapshotID.Malformed"
+      ]
+    },
+    "restoreVolumeFromRecycleBin": {
+      "errors": [
+        "InvalidVolumeID.Malformed"
+      ]
+    },
+    "searchTransitGatewayMulticastGroups": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.Malformed",
+        "InvalidTransitGatewayMulticastDomainId.NotFound"
+      ]
+    },
+    "sendDiagnosticInterrupt": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "unlockSnapshot": {
+      "errors": [
+        "InvalidSnapshotID.Malformed"
+      ]
+    },
+    "updateInterruptibleCapacityReservationAllocation": {
+      "errors": [
+        "InvalidCapacityReservationId.NotFound"
+      ]
+    },
+    "acceptReservedInstancesExchangeQuote": {
+      "errors": [
+        "InvalidReservedInstancesID.NotFound"
+      ]
+    },
+    "applySecurityGroupsToClientVpnTargetNetwork": {
+      "errors": [
+        "InvalidVpcId.Malformed"
+      ]
+    },
+    "associateTransitGatewayMulticastDomain": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.NotFound"
+      ]
+    },
+    "cancelCapacityReservationFleets": {
+      "errors": [
+        "InvalidCapacityReservationFleetId.Malformed"
+      ]
+    },
+    "deleteFleets": {
+      "errors": [
+        "InvalidFleetId.Malformed"
+      ]
+    },
+    "deleteQueuedReservedInstances": {
+      "errors": [
+        "InvalidReservedInstancesID.NotFound"
+      ]
+    },
+    "describeCapacityBlockExtensionHistory": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "describeCapacityBlockStatus": {
+      "errors": [
+        "InvalidCapacityBlockId.Malformed"
+      ]
+    },
+    "describeCapacityBlocks": {
+      "errors": [
+        "InvalidCapacityBlockId.Malformed"
+      ]
+    },
+    "describeCapacityManagerDataExports": {
+      "errors": [
+        "InvalidCapacityManagerDataExportId.NotFound"
+      ]
+    },
+    "describeCapacityReservationBillingRequests": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "describeCapacityReservationFleets": {
+      "errors": [
+        "InvalidCapacityReservationFleetId.Malformed"
+      ]
+    },
+    "describeCapacityReservations": {
+      "errors": [
+        "InvalidCapacityReservationId.Malformed"
+      ]
+    },
+    "describeClassicLinkInstances": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "describeClientVpnEndpoints": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "describeCoipPools": {
+      "errors": [
+        "InvalidPoolID.Malformed"
+      ]
+    },
+    "describeDeclarativePoliciesReports": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "describeElasticGpus": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "describeExportImageTasks": {
+      "errors": [
+        "InvalidExportTaskID.Malformed"
+      ]
+    },
+    "describeExportTasks": {
+      "errors": [
+        "InvalidExportTaskID.Malformed"
+      ]
+    },
+    "describeFastLaunchImages": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "describeFleets": {
+      "errors": [
+        "InvalidFleetId.Malformed"
+      ]
+    },
+    "describeFpgaImages": {
+      "errors": [
+        "InvalidFpgaImageID.Malformed"
+      ]
+    },
+    "describeHostReservationOfferings": {
+      "errors": [
+        "InvalidHostReservationOfferingId.Malformed"
+      ]
+    },
+    "describeIamInstanceProfileAssociations": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeImageReferences": {
+      "errors": [
+        "InvalidAMIID.Malformed"
+      ]
+    },
+    "describeImageUsageReportEntries": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeImageUsageReports": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeImportImageTasks": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "describeImportSnapshotTasks": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "describeInstanceConnectEndpoints": {
+      "errors": [
+        "InvalidInstanceConnectEndpointId.NotFound"
+      ]
+    },
+    "describeInstanceCreditSpecifications": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "describeInstanceEventWindows": {
+      "errors": [
+        "InvalidInstanceEventWindowIDNotFound"
+      ]
+    },
+    "describeInstanceImageMetadata": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "describeInstanceSqlHaHistoryStates": {
+      "errors": [
+        "InvalidInstanceID.NotFound"
+      ]
+    },
+    "describeInstanceSqlHaStates": {
+      "errors": [
+        "InvalidInstanceID.NotFound"
+      ]
+    },
+    "describeIpamExternalResourceVerificationTokens": {
+      "errors": [
+        "InvalidIpamExternalResourceVerificationTokenId.NotFound"
+      ]
+    },
+    "describeIpamPolicies": {
+      "errors": [
+        "InvalidIpamPolicyId.NotFound"
+      ]
+    },
+    "describeIpamPools": {
+      "errors": [
+        "InvalidIpamPoolId.NotFound"
+      ]
+    },
+    "describeIpamPrefixListResolverTargets": {
+      "errors": [
+        "InvalidIpamPrefixListResolverTargetId.Malformed"
+      ]
+    },
+    "describeIpamPrefixListResolvers": {
+      "errors": [
+        "InvalidIpamPrefixListResolverId.NotFound"
+      ]
+    },
+    "describeIpamResourceDiscoveries": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryId.NotFound"
+      ]
+    },
+    "describeIpamResourceDiscoveryAssociations": {
+      "errors": [
+        "InvalidIpamResourceDiscoveryAssociationId.NotFound"
+      ]
+    },
+    "describeIpamScopes": {
+      "errors": [
+        "InvalidIpamScopeId.NotFound"
+      ]
+    },
+    "describeIpams": {
+      "errors": [
+        "InvalidIpamId.NotFound"
+      ]
+    },
+    "describeIpv6Pools": {
+      "errors": [
+        "InvalidIpv6PoolID.NotFound"
+      ]
+    },
+    "describeLockedSnapshots": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "describeMacHosts": {
+      "errors": [
+        "InvalidHostID.Malformed"
+      ]
+    },
+    "describeMacModificationTasks": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "describeNetworkInsightsAccessScopeAnalyses": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeNetworkInsightsAccessScopes": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeNetworkInsightsAnalyses": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeNetworkInsightsPaths": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeNetworkInterfacePermissions": {
+      "errors": [
+        "InvalidPermissionID.NotFound"
+      ]
+    },
+    "describeOutpostLags": {
+      "errors": [
+        "InvalidOutpostLagID.Malformed"
+      ]
+    },
+    "describePrefixLists": {
+      "errors": [
+        "InvalidPrefixListId.NotFound"
+      ]
+    },
+    "describePublicIpv4Pools": {
+      "errors": [
+        "InvalidPublicIpv4PoolID.NotFound"
+      ]
+    },
+    "describeReplaceRootVolumeTasks": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeReservedInstances": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeReservedInstancesModifications": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeReservedInstancesOfferings": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeRouteServerEndpoints": {
+      "errors": [
+        "InvalidRouteServerEndpointId.NotFound"
+      ]
+    },
+    "describeRouteServerPeers": {
+      "errors": [
+        "InvalidRouteServerPeerId.NotFound"
+      ]
+    },
+    "describeRouteServers": {
+      "errors": [
+        "InvalidRouteServerId.NotFound"
+      ]
+    },
+    "describeServiceLinkVirtualInterfaces": {
+      "errors": [
+        "InvalidServiceLinkVirtualInterfaceID.Malformed"
+      ]
+    },
+    "describeTrafficMirrorFilters": {
+      "errors": [
+        "InvalidTrafficMirrorFilterId.NotFound"
+      ]
+    },
+    "describeTrafficMirrorSessions": {
+      "errors": [
+        "InvalidTrafficMirrorSessionId.NotFound"
+      ]
+    },
+    "describeTrafficMirrorTargets": {
+      "errors": [
+        "InvalidTrafficMirrorTargetId.NotFound"
+      ]
+    },
+    "describeTransitGatewayConnectPeers": {
+      "errors": [
+        "InvalidTransitGatewayConnectPeerID.NotFound"
+      ]
+    },
+    "describeTransitGatewayConnects": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "describeTransitGatewayMeteringPolicies": {
+      "errors": [
+        "InvalidTransitGatewayMeteringPolicyId.NotFound"
+      ]
+    },
+    "describeTransitGatewayMulticastDomains": {
+      "errors": [
+        "InvalidTransitGatewayMulticastDomainId.NotFound"
+      ]
+    },
+    "describeTransitGatewayPeeringAttachments": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "describeTransitGatewayPolicyTables": {
+      "errors": [
+        "InvalidTransitGatewayPolicyTableId.NotFound"
+      ]
+    },
+    "describeTransitGatewayRouteTableAnnouncements": {
+      "errors": [
+        "InvalidTransitGatewayRouteTableAnnouncementId.Malformed"
+      ]
+    },
+    "describeTransitGatewayVpcAttachments": {
+      "errors": [
+        "InvalidTransitGatewayAttachmentID.NotFound"
+      ]
+    },
+    "describeTrunkInterfaceAssociations": {
+      "errors": [
+        "OperationNotPermitted"
+      ]
+    },
+    "describeVerifiedAccessEndpoints": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "describeVerifiedAccessGroups": {
+      "errors": [
+        "InvalidVerifiedAccessGroupId.NotFound"
+      ]
+    },
+    "describeVerifiedAccessInstanceLoggingConfigurations": {
+      "errors": [
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "describeVerifiedAccessInstances": {
+      "errors": [
+        "InvalidVerifiedAccessInstanceId.NotFound"
+      ]
+    },
+    "describeVerifiedAccessTrustProviders": {
+      "errors": [
+        "InvalidVerifiedAccessTrustProviderId.NotFound"
+      ]
+    },
+    "describeVolumeStatus": {
+      "errors": [
+        "InvalidVolumeID.Malformed"
+      ]
+    },
+    "describeVolumesModifications": {
+      "errors": [
+        "InvalidVolumeID.Malformed"
+      ]
+    },
+    "describeVpcEncryptionControls": {
+      "errors": [
+        "InvalidParameterCombination"
+      ]
+    },
+    "describeVpcEndpointConnectionNotifications": {
+      "errors": [
+        "InvalidConnectionNotification"
+      ]
+    },
+    "describeVpnConcentrators": {
+      "errors": [
+        "InvalidVpnConcentratorId.Malformed"
+      ]
+    },
+    "disableFastSnapshotRestores": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "disableInstanceSqlHaStandbyDetections": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "enableFastSnapshotRestores": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "enableInstanceSqlHaStandbyDetections": {
+      "errors": [
+        "InvalidInstanceID.Malformed"
+      ]
+    },
+    "getReservedInstancesExchangeQuote": {
+      "errors": [
+        "InvalidReservedInstancesID.NotFound"
+      ]
+    },
+    "listImagesInRecycleBin": {
+      "errors": [
+        "InvalidAMIID.NotFound"
+      ]
+    },
+    "listSnapshotsInRecycleBin": {
+      "errors": [
+        "InvalidSnapshotID.Malformed"
+      ]
+    },
+    "listVolumesInRecycleBin": {
+      "errors": [
+        "InvalidVolumeID.Malformed"
+      ]
+    },
+    "modifyReservedInstances": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "cancelConversionTask": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "describeCapacityBlockOfferings": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeClientVpnAuthorizationRules": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "describeMovingAddresses": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "associateInstanceEventWindow": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "associateIpamByoasn": {
+      "errors": [
+        "InvalidCidr.NotFound"
+      ]
+    },
+    "authorizeClientVpnIngress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createCapacityReservationFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createFpgaImage": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "createInstanceEventWindow": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "createRestoreImageTask": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "createSnapshots": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "acceptTransitGatewayMulticastDomainAssociations": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "advertiseByoipCidr": {
+      "errors": [
+        "RequestLimitExceeded"
+      ]
+    },
+    "disableAwsNetworkPerformanceMetricSubscription": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "disableCapacityManager": {
+      "errors": [
+        "CapacityManager.Disabled"
+      ]
+    },
+    "disableIpamOrganizationAdminAccount": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableAwsNetworkPerformanceMetricSubscription": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "enableIpamOrganizationAdminAccount": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableSnapshotBlockPublicAccess": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyClientVpnEndpoint": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "modifyDefaultCreditSpecification": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyEbsDefaultKmsKeyId": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyInstanceMetadataDefaults": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyInstanceNetworkPerformanceOptions": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "modifyLaunchTemplate": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "exportClientVpnClientCertificateRevocationList": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "exportClientVpnClientConfiguration": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "requestSpotFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createVpcEndpointServiceConfiguration": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "createVpnConcentrator": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "describeSpotFleetInstances": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeSpotFleetRequestHistory": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getAwsNetworkPerformanceData": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getCapacityManagerMetricData": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getCapacityManagerMetricDimensions": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getDefaultCreditSpecification": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getInstanceTypesFromInstanceRequirements": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "importClientVpnClientCertificateRevocationList": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "importImage": {
+      "errors": [
+        "MissingRequiredParameter"
+      ]
+    },
+    "importInstance": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "importSnapshot": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "modifySpotFleetRequest": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "moveAddressToVpc": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "provisionByoipCidr": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "purchaseReservedInstancesOffering": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "purchaseScheduledInstances": {
+      "errors": [
+        "InvalidPurchaseToken.Malformed"
+      ]
+    },
+    "registerInstanceEventNotificationAttributes": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "restoreAddressToClassic": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "revokeClientVpnIngress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateCapacityManagerOrganizationsAccess": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateSecurityGroupRuleDescriptionsEgress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateSecurityGroupRuleDescriptionsIngress": {
+      "errors": [
+        "MissingParameter"
       ]
     }
   },

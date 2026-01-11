@@ -508,6 +508,36 @@
       "errors": [
         "PermanentRedirect"
       ]
+    },
+    "deleteBucketLifecycle": {
+      "errors": [
+        "NoSuchBucket"
+      ]
+    },
+    "deleteBucketMetadataConfiguration": {
+      "errors": [
+        "NoSuchBucket"
+      ]
+    },
+    "deleteBucketMetadataTableConfiguration": {
+      "errors": [
+        "NoSuchBucket"
+      ]
+    },
+    "getBucketAbac": {
+      "errors": [
+        "NoSuchBucket"
+      ]
+    },
+    "getBucketMetadataConfiguration": {
+      "errors": [
+        "NoSuchBucket"
+      ]
+    },
+    "getBucketMetadataTableConfiguration": {
+      "errors": [
+        "NoSuchBucket"
+      ]
     }
   },
   "errors": {

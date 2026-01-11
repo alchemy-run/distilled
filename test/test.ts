@@ -6,6 +6,7 @@ import {
   afterAll as _afterAll,
   beforeAll as _beforeAll,
   it,
+  type TestContext,
 } from "@effect/vitest";
 import { ConfigProvider, LogLevel } from "effect";
 import * as Effect from "effect/Effect";
@@ -31,37 +32,30 @@ const platform = Layer.mergeAll(
   Logger.pretty,
 );
 
-export function test(
-  name: string,
-  options: {
-    timeout?: number;
-  },
-  testCase: Effect.Effect<void, any, Provided>,
-): void;
+type TestCase =
+  | Effect.Effect<void, any, Provided>
+  | ((ctx: TestContext) => Effect.Effect<void, any, Provided>);
 
 export function test(
   name: string,
-  testCase: Effect.Effect<void, any, Provided>,
+  options: { timeout?: number },
+  testCase: TestCase,
 ): void;
+
+export function test(name: string, testCase: TestCase): void;
 
 export function test(
   name: string,
-  ...args:
-    | [
-        {
-          timeout?: number;
-        },
-        Effect.Effect<void, any, Provided>,
-      ]
-    | [Effect.Effect<void, any, Provided>]
+  ...args: [{ timeout?: number }, TestCase] | [TestCase]
 ) {
   const [options = {}, testCase] =
     args.length === 1 ? [undefined, args[0]] : args;
 
   return it.scopedLive(
     name,
-    () =>
-      provideTestEnv(
+    (ctx) => {
+      const effect = typeof testCase === "function" ? testCase(ctx) : testCase;
+      return provideTestEnv(
         Effect.gen(function* () {
           const fs = yield* FileSystem.FileSystem;
           if (yield* fs.exists(".env")) {
@@ -69,34 +63,26 @@ export function test(
               yield* PlatformConfigProvider.fromDotEnv(".env"),
               ConfigProvider.fromEnv,
             );
-            return yield* testCase.pipe(
+            return yield* effect.pipe(
               Effect.withConfigProvider(configProvider),
             );
           } else {
-            return yield* testCase.pipe(
+            return yield* effect.pipe(
               Effect.withConfigProvider(ConfigProvider.fromEnv()),
             );
           }
         }),
-      ),
+      );
+    },
     options.timeout ?? 120_000,
   );
 }
 
 test.skip = function (
   name: string,
-  ...args:
-    | [
-        {
-          timeout?: number;
-        },
-        Effect.Effect<void, any, Provided>,
-      ]
-    | [Effect.Effect<void, any, Provided>]
+  ...args: [{ timeout?: number }, TestCase] | [TestCase]
 ) {
-  const [options = {}, testCase] =
-    args.length === 1 ? [undefined, args[0]] : args;
-
+  const [options = {}] = args.length === 1 ? [undefined] : args;
   return it.skip(name, () => {}, options.timeout ?? 120_000);
 };
 
@@ -143,3 +129,33 @@ function provideTestEnv<A, E, R extends Provided>(
     return eff.pipe(Effect.provide(Credentials.fromChain()));
   }
 }
+
+/**
+ * Effect-native file snapshot helper.
+ * Writes JSON snapshots to __snapshots__/{suite}/{testname}.json.
+ * If filename is not provided, derives it from the describe block and test name.
+ */
+export const expectSnapshot = (
+  ctx: TestContext,
+  value: unknown,
+  filename?: string,
+): Effect.Effect<void> => {
+  const sanitize = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
+
+  // Get the suite (describe block) name if available
+  const suite = ctx.task.suite?.name ? sanitize(ctx.task.suite.name) : null;
+  const testName = sanitize(ctx.task.name);
+
+  const path =
+    filename ?? (suite ? `${suite}/${testName}.json` : `${testName}.json`);
+
+  return Effect.promise(() =>
+    ctx
+      .expect(JSON.stringify(value, null, 2))
+      .toMatchFileSnapshot(`__snapshots__/${path}`),
+  );
+};

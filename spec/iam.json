@@ -1,3 +1,9 @@
 {
-  "operations": {}
+  "operations": {
+    "listServiceSpecificCredentials": {
+      "errors": [
+        "InvalidInput"
+      ]
+    }
+  }
 }
