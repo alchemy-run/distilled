@@ -69529,6 +69529,10 @@ export class InvalidInternetGatewayIdMalformed extends S.TaggedError<InvalidInte
   "InvalidInternetGatewayId.Malformed",
   {},
 ) {}
+export class InvalidAction extends S.TaggedError<InvalidAction>()(
+  "InvalidAction",
+  {},
+) {}
 export class InvalidID extends S.TaggedError<InvalidID>()("InvalidID", {}) {}
 export class InvalidParameter extends S.TaggedError<InvalidParameter>()(
   "InvalidParameter",
@@ -69576,6 +69580,10 @@ export class InvalidParameterValue extends S.TaggedError<InvalidParameterValue>(
 ) {}
 export class InvalidNetworkAclEntryNotFound extends S.TaggedError<InvalidNetworkAclEntryNotFound>()(
   "InvalidNetworkAclEntry.NotFound",
+  {},
+) {}
+export class InvalidNetworkInterfaceInUse extends S.TaggedError<InvalidNetworkInterfaceInUse>()(
+  "InvalidNetworkInterface.InUse",
   {},
 ) {}
 export class InvalidNetworkInterfaceIDNotFound extends S.TaggedError<InvalidNetworkInterfaceIDNotFound>()(
@@ -69779,6 +69787,10 @@ export class VPCIdNotSpecified extends S.TaggedError<VPCIdNotSpecified>()(
   {},
 ) {}
 export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
+export class VerifiedAccessInstanceLimitExceeded extends S.TaggedError<VerifiedAccessInstanceLimitExceeded>()(
+  "VerifiedAccessInstanceLimitExceeded",
+  {},
+) {}
 export class InvalidCapacityManagerDataExportIdMalformed extends S.TaggedError<InvalidCapacityManagerDataExportIdMalformed>()(
   "InvalidCapacityManagerDataExportId.Malformed",
   {},
@@ -70111,6 +70123,10 @@ export class InvalidElasticIpIDNotFound extends S.TaggedError<InvalidElasticIpID
   "InvalidElasticIpID.NotFound",
   {},
 ) {}
+export class CapacityManagerDisabled extends S.TaggedError<CapacityManagerDisabled>()(
+  "CapacityManager.Disabled",
+  {},
+) {}
 export class InvalidCidrNotFound extends S.TaggedError<InvalidCidrNotFound>()(
   "InvalidCidr.NotFound",
   {},
@@ -70235,6 +70251,10 @@ export class DefaultVpcAlreadyExists extends S.TaggedError<DefaultVpcAlreadyExis
   "DefaultVpcAlreadyExists",
   {},
 ) {}
+export class InternetGatewayLimitExceeded extends S.TaggedError<InternetGatewayLimitExceeded>()(
+  "InternetGatewayLimitExceeded",
+  {},
+) {}
 export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
   "ResourceLimitExceeded",
   {},
@@ -70323,6 +70343,10 @@ export class InvalidTransitGatewayMulticastDomainIdMalformed extends S.TaggedErr
   "InvalidTransitGatewayMulticastDomainId.Malformed",
   {},
 ) {}
+export class InvalidPurchaseTokenMalformed extends S.TaggedError<InvalidPurchaseTokenMalformed>()(
+  "InvalidPurchaseToken.Malformed",
+  {},
+) {}
 export class InvalidSecurityGroupRuleIdMalformed extends S.TaggedError<InvalidSecurityGroupRuleIdMalformed>()(
   "InvalidSecurityGroupRuleId.Malformed",
   {},
@@ -70373,6 +70397,10 @@ export class InvalidIpv6PoolIDNotFound extends S.TaggedError<InvalidIpv6PoolIDNo
 ) {}
 export class FilterLimitExceeded extends S.TaggedError<FilterLimitExceeded>()(
   "FilterLimitExceeded",
+  {},
+) {}
+export class MissingRequiredParameter extends S.TaggedError<MissingRequiredParameter>()(
+  "MissingRequiredParameter",
   {},
 ) {}
 export class InvalidTransitGatewayConnectPeerIDMalformed extends S.TaggedError<InvalidTransitGatewayConnectPeerIDMalformed>()(
@@ -70443,12 +70471,12 @@ export const cancelConversionTask: (
   input: CancelConversionRequest,
 ) => effect.Effect<
   CancelConversionTaskResponse,
-  CommonErrors,
+  InvalidAction | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelConversionRequest,
   output: CancelConversionTaskResponse,
-  errors: [],
+  errors: [InvalidAction],
 }));
 /**
  * Cancels an active export task. The request removes all artifacts of the export, including any partially-created
@@ -70608,8 +70636,10 @@ export const deleteNetworkInterface: (
   input: DeleteNetworkInterfaceRequest,
 ) => effect.Effect<
   DeleteNetworkInterfaceResponse,
+  | InvalidNetworkInterfaceInUse
   | InvalidNetworkInterfaceIDNotFound
   | InvalidNetworkInterfaceIdMalformed
+  | InvalidParameterValue
   | MissingParameter
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -70617,8 +70647,10 @@ export const deleteNetworkInterface: (
   input: DeleteNetworkInterfaceRequest,
   output: DeleteNetworkInterfaceResponse,
   errors: [
+    InvalidNetworkInterfaceInUse,
     InvalidNetworkInterfaceIDNotFound,
     InvalidNetworkInterfaceIdMalformed,
+    InvalidParameterValue,
     MissingParameter,
   ],
 }));
@@ -71022,12 +71054,12 @@ export const disassociateAddress: (
   input: DisassociateAddressRequest,
 ) => effect.Effect<
   DisassociateAddressResponse,
-  InvalidAssociationIDNotFound | CommonErrors,
+  InvalidAssociationIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisassociateAddressRequest,
   output: DisassociateAddressResponse,
-  errors: [InvalidAssociationIDNotFound],
+  errors: [InvalidAssociationIDNotFound, MissingParameter],
 }));
 /**
  * Disassociates a subnet or gateway from a route table.
@@ -71627,12 +71659,18 @@ export const associateAddress: (
   | AuthFailure
   | InvalidAllocationIDNotFound
   | InvalidInstanceIDNotFound
+  | MissingParameter
   | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateAddressRequest,
   output: AssociateAddressResult,
-  errors: [AuthFailure, InvalidAllocationIDNotFound, InvalidInstanceIDNotFound],
+  errors: [
+    AuthFailure,
+    InvalidAllocationIDNotFound,
+    InvalidInstanceIDNotFound,
+    MissingParameter,
+  ],
 }));
 /**
  * Initiates a request to assign billing of the unused capacity of a shared Capacity
@@ -72207,12 +72245,12 @@ export const createRestoreImageTask: (
   input: CreateRestoreImageTaskRequest,
 ) => effect.Effect<
   CreateRestoreImageTaskResult,
-  CommonErrors,
+  InvalidRequest | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRestoreImageTaskRequest,
   output: CreateRestoreImageTaskResult,
-  errors: [],
+  errors: [InvalidRequest],
 }));
 /**
  * Creates a route in a route table within a VPC.
@@ -72443,12 +72481,12 @@ export const createVerifiedAccessInstance: (
   input: CreateVerifiedAccessInstanceRequest,
 ) => effect.Effect<
   CreateVerifiedAccessInstanceResult,
-  ParseError | CommonErrors,
+  ParseError | VerifiedAccessInstanceLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVerifiedAccessInstanceRequest,
   output: CreateVerifiedAccessInstanceResult,
-  errors: [ParseError],
+  errors: [ParseError, VerifiedAccessInstanceLimitExceeded],
 }));
 /**
  * Requests a VPC peering connection between two VPCs: a requester VPC that you own and
@@ -75117,12 +75155,12 @@ export const describeSpotFleetInstances: (
   input: DescribeSpotFleetInstancesRequest,
 ) => effect.Effect<
   DescribeSpotFleetInstancesResponse,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpotFleetInstancesRequest,
   output: DescribeSpotFleetInstancesResponse,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Describes your subnets. The default is to describe all your subnets.
@@ -76193,12 +76231,12 @@ export const disableAwsNetworkPerformanceMetricSubscription: (
   input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
 ) => effect.Effect<
   DisableAwsNetworkPerformanceMetricSubscriptionResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
   output: DisableAwsNetworkPerformanceMetricSubscriptionResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Disables EC2 Capacity Manager for your account. This stops data ingestion and removes access to capacity analytics and optimization recommendations.
@@ -76208,12 +76246,12 @@ export const disableCapacityManager: (
   input: DisableCapacityManagerRequest,
 ) => effect.Effect<
   DisableCapacityManagerResult,
-  CommonErrors,
+  CapacityManagerDisabled | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableCapacityManagerRequest,
   output: DisableCapacityManagerResult,
-  errors: [],
+  errors: [CapacityManagerDisabled],
 }));
 /**
  * Disables EBS encryption by default for your account in the current Region.
@@ -76350,12 +76388,12 @@ export const disableIpamOrganizationAdminAccount: (
   input: DisableIpamOrganizationAdminAccountRequest,
 ) => effect.Effect<
   DisableIpamOrganizationAdminAccountResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableIpamOrganizationAdminAccountRequest,
   output: DisableIpamOrganizationAdminAccountResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Disables an IPAM policy.
@@ -76448,12 +76486,12 @@ export const disableVpcClassicLinkDnsSupport: (
   input: DisableVpcClassicLinkDnsSupportRequest,
 ) => effect.Effect<
   DisableVpcClassicLinkDnsSupportResult,
-  InvalidVpcIDNotFound | CommonErrors,
+  InvalidVpcIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableVpcClassicLinkDnsSupportRequest,
   output: DisableVpcClassicLinkDnsSupportResult,
-  errors: [InvalidVpcIDNotFound],
+  errors: [InvalidVpcIDNotFound, MissingParameter],
 }));
 /**
  * Cancels a pending request to assign billing of the unused capacity of a Capacity
@@ -76799,12 +76837,12 @@ export const enableAwsNetworkPerformanceMetricSubscription: (
   input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
 ) => effect.Effect<
   EnableAwsNetworkPerformanceMetricSubscriptionResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
   output: EnableAwsNetworkPerformanceMetricSubscriptionResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Enables EC2 Capacity Manager for your account. This starts data ingestion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations.
@@ -76962,12 +77000,12 @@ export const enableIpamOrganizationAdminAccount: (
   input: EnableIpamOrganizationAdminAccountRequest,
 ) => effect.Effect<
   EnableIpamOrganizationAdminAccountResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableIpamOrganizationAdminAccountRequest,
   output: EnableIpamOrganizationAdminAccountResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Enables an IPAM policy.
@@ -77064,12 +77102,12 @@ export const enableSnapshotBlockPublicAccess: (
   input: EnableSnapshotBlockPublicAccessRequest,
 ) => effect.Effect<
   EnableSnapshotBlockPublicAccessResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableSnapshotBlockPublicAccessRequest,
   output: EnableSnapshotBlockPublicAccessResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Enables the specified attachment to propagate routes to the specified
@@ -77122,12 +77160,12 @@ export const enableVpcClassicLinkDnsSupport: (
   input: EnableVpcClassicLinkDnsSupportRequest,
 ) => effect.Effect<
   EnableVpcClassicLinkDnsSupportResult,
-  InvalidVpcIDNotFound | CommonErrors,
+  InvalidVpcIDNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableVpcClassicLinkDnsSupportRequest,
   output: EnableVpcClassicLinkDnsSupportResult,
-  errors: [InvalidVpcIDNotFound],
+  errors: [InvalidVpcIDNotFound, MissingParameter],
 }));
 /**
  * Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configuration
@@ -77138,12 +77176,12 @@ export const exportClientVpnClientConfiguration: (
   input: ExportClientVpnClientConfigurationRequest,
 ) => effect.Effect<
   ExportClientVpnClientConfigurationResult,
-  CommonErrors,
+  InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportClientVpnClientConfigurationRequest,
   output: ExportClientVpnClientConfigurationResult,
-  errors: [],
+  errors: [InvalidClientVpnEndpointIdNotFound],
 }));
 /**
  * Exports routes from the specified transit gateway route table to the specified S3 bucket.
@@ -77681,12 +77719,12 @@ export const importClientVpnClientCertificateRevocationList: (
   input: ImportClientVpnClientCertificateRevocationListRequest,
 ) => effect.Effect<
   ImportClientVpnClientCertificateRevocationListResult,
-  CommonErrors,
+  InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportClientVpnClientCertificateRevocationListRequest,
   output: ImportClientVpnClientCertificateRevocationListResult,
-  errors: [],
+  errors: [InvalidClientVpnEndpointIdNotFound],
 }));
 /**
  * Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool.
@@ -77841,12 +77879,12 @@ export const modifyDefaultCreditSpecification: (
   input: ModifyDefaultCreditSpecificationRequest,
 ) => effect.Effect<
   ModifyDefaultCreditSpecificationResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyDefaultCreditSpecificationRequest,
   output: ModifyDefaultCreditSpecificationResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Changes the default KMS key for EBS encryption by default for your account in this Region.
@@ -77865,12 +77903,12 @@ export const modifyEbsDefaultKmsKeyId: (
   input: ModifyEbsDefaultKmsKeyIdRequest,
 ) => effect.Effect<
   ModifyEbsDefaultKmsKeyIdResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyEbsDefaultKmsKeyIdRequest,
   output: ModifyEbsDefaultKmsKeyIdResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Modifies the specified EC2 Fleet.
@@ -78046,12 +78084,12 @@ export const modifyInstanceMetadataDefaults: (
   input: ModifyInstanceMetadataDefaultsRequest,
 ) => effect.Effect<
   ModifyInstanceMetadataDefaultsResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceMetadataDefaultsRequest,
   output: ModifyInstanceMetadataDefaultsResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Change the configuration of the network performance options for an existing
@@ -78061,12 +78099,12 @@ export const modifyInstanceNetworkPerformanceOptions: (
   input: ModifyInstanceNetworkPerformanceRequest,
 ) => effect.Effect<
   ModifyInstanceNetworkPerformanceResult,
-  CommonErrors,
+  InvalidAction | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyInstanceNetworkPerformanceRequest,
   output: ModifyInstanceNetworkPerformanceResult,
-  errors: [],
+  errors: [InvalidAction],
 }));
 /**
  * Modifies the placement attributes for a specified instance. You can do the
@@ -78191,12 +78229,12 @@ export const modifyLaunchTemplate: (
   input: ModifyLaunchTemplateRequest,
 ) => effect.Effect<
   ModifyLaunchTemplateResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyLaunchTemplateRequest,
   output: ModifyLaunchTemplateResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Modifies the specified local gateway route.
@@ -78709,12 +78747,12 @@ export const moveAddressToVpc: (
   input: MoveAddressToVpcRequest,
 ) => effect.Effect<
   MoveAddressToVpcResult,
-  CommonErrors,
+  UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveAddressToVpcRequest,
   output: MoveAddressToVpcResult,
-  errors: [],
+  errors: [UnsupportedOperation],
 }));
 /**
  * Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool.
@@ -79154,12 +79192,12 @@ export const restoreAddressToClassic: (
   input: RestoreAddressToClassicRequest,
 ) => effect.Effect<
   RestoreAddressToClassicResult,
-  CommonErrors,
+  UnsupportedOperation | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreAddressToClassicRequest,
   output: RestoreAddressToClassicResult,
-  errors: [],
+  errors: [UnsupportedOperation],
 }));
 /**
  * Restores an AMI from the Recycle Bin. For more information, see Recover deleted Amazon EBS
@@ -79247,12 +79285,12 @@ export const revokeClientVpnIngress: (
   input: RevokeClientVpnIngressRequest,
 ) => effect.Effect<
   RevokeClientVpnIngressResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevokeClientVpnIngressRequest,
   output: RevokeClientVpnIngressResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Removes the specified inbound (ingress) rules from a security group.
@@ -79686,12 +79724,12 @@ export const updateCapacityManagerOrganizationsAccess: (
   input: UpdateCapacityManagerOrganizationsAccessRequest,
 ) => effect.Effect<
   UpdateCapacityManagerOrganizationsAccessResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCapacityManagerOrganizationsAccessRequest,
   output: UpdateCapacityManagerOrganizationsAccessResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Modifies the number of instances allocated to an interruptible reservation, allowing you to add more capacity or reclaim capacity to your source Capacity Reservation.
@@ -79717,12 +79755,12 @@ export const updateSecurityGroupRuleDescriptionsIngress: (
   input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
 ) => effect.Effect<
   UpdateSecurityGroupRuleDescriptionsIngressResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityGroupRuleDescriptionsIngressRequest,
   output: UpdateSecurityGroupRuleDescriptionsIngressResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Stops advertising an address range that is provisioned as an address pool.
@@ -79791,12 +79829,12 @@ export const advertiseByoipCidr: (
   input: AdvertiseByoipCidrRequest,
 ) => effect.Effect<
   AdvertiseByoipCidrResult,
-  CommonErrors,
+  RequestLimitExceeded | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AdvertiseByoipCidrRequest,
   output: AdvertiseByoipCidrResult,
-  errors: [],
+  errors: [RequestLimitExceeded],
 }));
 /**
  * Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations.
@@ -79917,12 +79955,12 @@ export const associateInstanceEventWindow: (
   input: AssociateInstanceEventWindowRequest,
 ) => effect.Effect<
   AssociateInstanceEventWindowResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateInstanceEventWindowRequest,
   output: AssociateInstanceEventWindowResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region.
@@ -79935,12 +79973,12 @@ export const associateIpamByoasn: (
   input: AssociateIpamByoasnRequest,
 ) => effect.Effect<
   AssociateIpamByoasnResult,
-  CommonErrors,
+  InvalidCidrNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AssociateIpamByoasnRequest,
   output: AssociateIpamByoasnResult,
-  errors: [],
+  errors: [InvalidCidrNotFound],
 }));
 /**
  * Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
@@ -80095,12 +80133,12 @@ export const authorizeClientVpnIngress: (
   input: AuthorizeClientVpnIngressRequest,
 ) => effect.Effect<
   AuthorizeClientVpnIngressResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeClientVpnIngressRequest,
   output: AuthorizeClientVpnIngressResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Cancels one or more Spot Instance requests.
@@ -80130,12 +80168,12 @@ export const createCapacityReservationFleet: (
   input: CreateCapacityReservationFleetRequest,
 ) => effect.Effect<
   CreateCapacityReservationFleetResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCapacityReservationFleetRequest,
   output: CreateCapacityReservationFleetResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Creates a carrier gateway. For more information about carrier gateways, see Carrier gateways in the *Amazon Web Services Wavelength Developer Guide*.
@@ -80356,12 +80394,12 @@ export const createFpgaImage: (
   input: CreateFpgaImageRequest,
 ) => effect.Effect<
   CreateFpgaImageResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFpgaImageRequest,
   output: CreateFpgaImageResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Creates an event window in which scheduled events for the associated Amazon EC2 instances can
@@ -80392,12 +80430,12 @@ export const createInstanceEventWindow: (
   input: CreateInstanceEventWindowRequest,
 ) => effect.Effect<
   CreateInstanceEventWindowResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceEventWindowRequest,
   output: CreateInstanceEventWindowResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Exports a running or stopped instance to an Amazon S3 bucket.
@@ -80428,12 +80466,12 @@ export const createInternetGateway: (
   input: CreateInternetGatewayRequest,
 ) => effect.Effect<
   CreateInternetGatewayResult,
-  ParseError | CommonErrors,
+  InternetGatewayLimitExceeded | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInternetGatewayRequest,
   output: CreateInternetGatewayResult,
-  errors: [ParseError],
+  errors: [InternetGatewayLimitExceeded, ParseError],
 }));
 /**
  * Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use
@@ -80788,12 +80826,12 @@ export const createPlacementGroup: (
   input: CreatePlacementGroupRequest,
 ) => effect.Effect<
   CreatePlacementGroupResult,
-  InvalidParameterValue | CommonErrors,
+  InvalidParameterValue | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePlacementGroupRequest,
   output: CreatePlacementGroupResult,
-  errors: [InvalidParameterValue],
+  errors: [InvalidParameterValue, MissingParameter],
 }));
 /**
  * Replaces the EBS-backed root volume for a `running` instance with a new
@@ -81340,12 +81378,12 @@ export const createVolume: (
   input: CreateVolumeRequest,
 ) => effect.Effect<
   Volume,
-  InvalidZoneNotFound | CommonErrors,
+  InvalidZoneNotFound | MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVolumeRequest,
   output: Volume,
-  errors: [InvalidZoneNotFound],
+  errors: [InvalidZoneNotFound, MissingParameter],
 }));
 /**
  * Creates a VPC with the specified CIDR blocks.
@@ -81453,12 +81491,12 @@ export const createVpnConcentrator: (
   input: CreateVpnConcentratorRequest,
 ) => effect.Effect<
   CreateVpnConcentratorResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpnConcentratorRequest,
   output: CreateVpnConcentratorResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Creates a virtual private gateway. A virtual private gateway is the endpoint on the
@@ -81472,12 +81510,12 @@ export const createVpnGateway: (
   input: CreateVpnGatewayRequest,
 ) => effect.Effect<
   CreateVpnGatewayResult,
-  ParseError | CommonErrors,
+  MissingParameter | ParseError | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpnGatewayRequest,
   output: CreateVpnGatewayResult,
-  errors: [ParseError],
+  errors: [MissingParameter, ParseError],
 }));
 /**
  * Deletes the specified Client VPN endpoint. You must disassociate all target networks before you
@@ -81885,27 +81923,27 @@ export const describeCapacityBlockOfferings: {
     input: DescribeCapacityBlockOfferingsRequest,
   ): effect.Effect<
     DescribeCapacityBlockOfferingsResult,
-    CommonErrors,
+    InvalidParameterValue | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeCapacityBlockOfferingsRequest,
   ) => stream.Stream<
     DescribeCapacityBlockOfferingsResult,
-    CommonErrors,
+    InvalidParameterValue | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeCapacityBlockOfferingsRequest,
   ) => stream.Stream<
     CapacityBlockOffering,
-    CommonErrors,
+    InvalidParameterValue | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeCapacityBlockOfferingsRequest,
   output: DescribeCapacityBlockOfferingsResult,
-  errors: [],
+  errors: [InvalidParameterValue],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -82068,27 +82106,27 @@ export const describeClientVpnAuthorizationRules: {
     input: DescribeClientVpnAuthorizationRulesRequest,
   ): effect.Effect<
     DescribeClientVpnAuthorizationRulesResult,
-    CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClientVpnAuthorizationRulesRequest,
   ) => stream.Stream<
     DescribeClientVpnAuthorizationRulesResult,
-    CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClientVpnAuthorizationRulesRequest,
   ) => stream.Stream<
     AuthorizationRule,
-    CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeClientVpnAuthorizationRulesRequest,
   output: DescribeClientVpnAuthorizationRulesResult,
-  errors: [],
+  errors: [InvalidClientVpnEndpointIdNotFound],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -82104,27 +82142,27 @@ export const describeClientVpnRoutes: {
     input: DescribeClientVpnRoutesRequest,
   ): effect.Effect<
     DescribeClientVpnRoutesResult,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClientVpnRoutesRequest,
   ) => stream.Stream<
     DescribeClientVpnRoutesResult,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClientVpnRoutesRequest,
   ) => stream.Stream<
     ClientVpnRoute,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeClientVpnRoutesRequest,
   output: DescribeClientVpnRoutesResult,
-  errors: [MissingParameter],
+  errors: [InvalidClientVpnEndpointIdNotFound, MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -82787,27 +82825,27 @@ export const describeMovingAddresses: {
     input: DescribeMovingAddressesRequest,
   ): effect.Effect<
     DescribeMovingAddressesResult,
-    CommonErrors,
+    UnsupportedOperation | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeMovingAddressesRequest,
   ) => stream.Stream<
     DescribeMovingAddressesResult,
-    CommonErrors,
+    UnsupportedOperation | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeMovingAddressesRequest,
   ) => stream.Stream<
     MovingAddressStatus,
-    CommonErrors,
+    UnsupportedOperation | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeMovingAddressesRequest,
   output: DescribeMovingAddressesResult,
-  errors: [],
+  errors: [UnsupportedOperation],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -83221,12 +83259,12 @@ export const describeSpotFleetRequestHistory: (
   input: DescribeSpotFleetRequestHistoryRequest,
 ) => effect.Effect<
   DescribeSpotFleetRequestHistoryResponse,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DescribeSpotFleetRequestHistoryRequest,
   output: DescribeSpotFleetRequestHistoryResponse,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Describes your Spot Fleet requests.
@@ -83711,12 +83749,12 @@ export const exportClientVpnClientCertificateRevocationList: (
   input: ExportClientVpnClientCertificateRevocationListRequest,
 ) => effect.Effect<
   ExportClientVpnClientCertificateRevocationListResult,
-  CommonErrors,
+  InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportClientVpnClientCertificateRevocationListRequest,
   output: ExportClientVpnClientCertificateRevocationListResult,
-  errors: [],
+  errors: [InvalidClientVpnEndpointIdNotFound],
 }));
 /**
  * Exports an Amazon Machine Image (AMI) to a VM file. For more information, see Exporting a VM
@@ -83810,27 +83848,27 @@ export const getCapacityManagerMetricDimensions: {
     input: GetCapacityManagerMetricDimensionsRequest,
   ): effect.Effect<
     GetCapacityManagerMetricDimensionsResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetCapacityManagerMetricDimensionsRequest,
   ) => stream.Stream<
     GetCapacityManagerMetricDimensionsResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetCapacityManagerMetricDimensionsRequest,
   ) => stream.Stream<
     CapacityManagerDimension,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetCapacityManagerMetricDimensionsRequest,
   output: GetCapacityManagerMetricDimensionsResult,
-  errors: [],
+  errors: [MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -83879,12 +83917,12 @@ export const getDefaultCreditSpecification: (
   input: GetDefaultCreditSpecificationRequest,
 ) => effect.Effect<
   GetDefaultCreditSpecificationResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultCreditSpecificationRequest,
   output: GetDefaultCreditSpecificationResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Lists the resource groups to which a Capacity Reservation has been added.
@@ -84626,12 +84664,12 @@ export const importSnapshot: (
   input: ImportSnapshotRequest,
 ) => effect.Effect<
   ImportSnapshotResult,
-  CommonErrors,
+  InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSnapshotRequest,
   output: ImportSnapshotResult,
-  errors: [],
+  errors: [InvalidParameter],
 }));
 /**
  * This API action supports only single-volume VMs. To import multi-volume VMs, use
@@ -84750,12 +84788,12 @@ export const modifyClientVpnEndpoint: (
   input: ModifyClientVpnEndpointRequest,
 ) => effect.Effect<
   ModifyClientVpnEndpointResult,
-  CommonErrors,
+  InvalidClientVpnEndpointIdNotFound | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyClientVpnEndpointRequest,
   output: ModifyClientVpnEndpointResult,
-  errors: [],
+  errors: [InvalidClientVpnEndpointIdNotFound],
 }));
 /**
  * Modifies the specified attribute of the specified AMI. You can specify only one attribute
@@ -85068,12 +85106,12 @@ export const provisionByoipCidr: (
   input: ProvisionByoipCidrRequest,
 ) => effect.Effect<
   ProvisionByoipCidrResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionByoipCidrRequest,
   output: ProvisionByoipCidrResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see Tutorial: Bring your ASN to IPAM in the *Amazon VPC IPAM guide*.
@@ -85140,12 +85178,12 @@ export const purchaseReservedInstancesOffering: (
   input: PurchaseReservedInstancesOfferingRequest,
 ) => effect.Effect<
   PurchaseReservedInstancesOfferingResult,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseReservedInstancesOfferingRequest,
   output: PurchaseReservedInstancesOfferingResult,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));
 /**
  * You can no longer purchase Scheduled Instances.
@@ -85163,12 +85201,12 @@ export const purchaseScheduledInstances: (
   input: PurchaseScheduledInstancesRequest,
 ) => effect.Effect<
   PurchaseScheduledInstancesResult,
-  CommonErrors,
+  InvalidPurchaseTokenMalformed | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurchaseScheduledInstancesRequest,
   output: PurchaseScheduledInstancesResult,
-  errors: [],
+  errors: [InvalidPurchaseTokenMalformed],
 }));
 /**
  * Registers a set of tag keys to include in scheduled event notifications for your
@@ -85180,12 +85218,12 @@ export const registerInstanceEventNotificationAttributes: (
   input: RegisterInstanceEventNotificationAttributesRequest,
 ) => effect.Effect<
   RegisterInstanceEventNotificationAttributesResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterInstanceEventNotificationAttributesRequest,
   output: RegisterInstanceEventNotificationAttributesResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated
@@ -85386,12 +85424,12 @@ export const updateSecurityGroupRuleDescriptionsEgress: (
   input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
 ) => effect.Effect<
   UpdateSecurityGroupRuleDescriptionsEgressResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecurityGroupRuleDescriptionsEgressRequest,
   output: UpdateSecurityGroupRuleDescriptionsEgressResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Accepts a request to associate subnets with a transit gateway multicast domain.
@@ -85400,12 +85438,12 @@ export const acceptTransitGatewayMulticastDomainAssociations: (
   input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
 ) => effect.Effect<
   AcceptTransitGatewayMulticastDomainAssociationsResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptTransitGatewayMulticastDomainAssociationsRequest,
   output: AcceptTransitGatewayMulticastDomainAssociationsResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Accepts a transit gateway peering attachment request. The peering attachment must be
@@ -85596,12 +85634,15 @@ export const authorizeSecurityGroupIngress: (
   input: AuthorizeSecurityGroupIngressRequest,
 ) => effect.Effect<
   AuthorizeSecurityGroupIngressResult,
-  InvalidGroupNotFound | InvalidGroupIdMalformed | CommonErrors,
+  | InvalidGroupNotFound
+  | InvalidGroupIdMalformed
+  | MissingParameter
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeSecurityGroupIngressRequest,
   output: AuthorizeSecurityGroupIngressResult,
-  errors: [InvalidGroupNotFound, InvalidGroupIdMalformed],
+  errors: [InvalidGroupNotFound, InvalidGroupIdMalformed, MissingParameter],
 }));
 /**
  * Bundles an Amazon instance store-backed Windows instance.
@@ -85780,12 +85821,14 @@ export const createDefaultSubnet: (
   input: CreateDefaultSubnetRequest,
 ) => effect.Effect<
   CreateDefaultSubnetResult,
-  DefaultSubnetAlreadyExistsInAvailabilityZone | CommonErrors,
+  | DefaultSubnetAlreadyExistsInAvailabilityZone
+  | MissingParameter
+  | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDefaultSubnetRequest,
   output: CreateDefaultSubnetResult,
-  errors: [DefaultSubnetAlreadyExistsInAvailabilityZone],
+  errors: [DefaultSubnetAlreadyExistsInAvailabilityZone, MissingParameter],
 }));
 /**
  * Delegates ownership of the Amazon EBS root volume for an Apple silicon
@@ -86051,12 +86094,12 @@ export const createSnapshots: (
   input: CreateSnapshotsRequest,
 ) => effect.Effect<
   CreateSnapshotsResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotsRequest,
   output: CreateSnapshotsResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs.
@@ -86153,12 +86196,12 @@ export const createVpcEndpointServiceConfiguration: (
   input: CreateVpcEndpointServiceConfigurationRequest,
 ) => effect.Effect<
   CreateVpcEndpointServiceConfigurationResult,
-  CommonErrors,
+  InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcEndpointServiceConfigurationRequest,
   output: CreateVpcEndpointServiceConfigurationResult,
-  errors: [],
+  errors: [InvalidParameter],
 }));
 /**
  * Creates a VPN connection between an existing virtual private gateway or transit
@@ -86645,27 +86688,27 @@ export const describeClientVpnConnections: {
     input: DescribeClientVpnConnectionsRequest,
   ): effect.Effect<
     DescribeClientVpnConnectionsResult,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: DescribeClientVpnConnectionsRequest,
   ) => stream.Stream<
     DescribeClientVpnConnectionsResult,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: DescribeClientVpnConnectionsRequest,
   ) => stream.Stream<
     ClientVpnConnection,
-    MissingParameter | CommonErrors,
+    InvalidClientVpnEndpointIdNotFound | MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DescribeClientVpnConnectionsRequest,
   output: DescribeClientVpnConnectionsResult,
-  errors: [MissingParameter],
+  errors: [InvalidClientVpnEndpointIdNotFound, MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -87924,12 +87967,12 @@ export const importImage: (
   input: ImportImageRequest,
 ) => effect.Effect<
   ImportImageResult,
-  CommonErrors,
+  MissingRequiredParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportImageRequest,
   output: ImportImageResult,
-  errors: [],
+  errors: [MissingRequiredParameter],
 }));
 /**
  * We recommend that you use the
@@ -87951,12 +87994,12 @@ export const importInstance: (
   input: ImportInstanceRequest,
 ) => effect.Effect<
   ImportInstanceResult,
-  CommonErrors,
+  InvalidParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportInstanceRequest,
   output: ImportInstanceResult,
-  errors: [],
+  errors: [InvalidParameter],
 }));
 /**
  * Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
@@ -88860,27 +88903,27 @@ export const getAwsNetworkPerformanceData: {
     input: GetAwsNetworkPerformanceDataRequest,
   ): effect.Effect<
     GetAwsNetworkPerformanceDataResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetAwsNetworkPerformanceDataRequest,
   ) => stream.Stream<
     GetAwsNetworkPerformanceDataResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetAwsNetworkPerformanceDataRequest,
   ) => stream.Stream<
     DataResponse,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetAwsNetworkPerformanceDataRequest,
   output: GetAwsNetworkPerformanceDataResult,
-  errors: [],
+  errors: [MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -89101,27 +89144,27 @@ export const getCapacityManagerMetricData: {
     input: GetCapacityManagerMetricDataRequest,
   ): effect.Effect<
     GetCapacityManagerMetricDataResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetCapacityManagerMetricDataRequest,
   ) => stream.Stream<
     GetCapacityManagerMetricDataResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetCapacityManagerMetricDataRequest,
   ) => stream.Stream<
     MetricDataResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetCapacityManagerMetricDataRequest,
   output: GetCapacityManagerMetricDataResult,
-  errors: [],
+  errors: [MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -89203,12 +89246,12 @@ export const requestSpotFleet: (
   input: RequestSpotFleetRequest,
 ) => effect.Effect<
   RequestSpotFleetResponse,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestSpotFleetRequest,
   output: RequestSpotFleetResponse,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances.
@@ -89223,12 +89266,12 @@ export const createFleet: (
   input: CreateFleetRequest,
 ) => effect.Effect<
   CreateFleetResult,
-  CommonErrors,
+  MissingParameter | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFleetRequest,
   output: CreateFleetResult,
-  errors: [],
+  errors: [MissingParameter],
 }));
 /**
  * Describes the specified EC2 Fleet or all of your EC2 Fleets.
@@ -89308,27 +89351,27 @@ export const getInstanceTypesFromInstanceRequirements: {
     input: GetInstanceTypesFromInstanceRequirementsRequest,
   ): effect.Effect<
     GetInstanceTypesFromInstanceRequirementsResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   pages: (
     input: GetInstanceTypesFromInstanceRequirementsRequest,
   ) => stream.Stream<
     GetInstanceTypesFromInstanceRequirementsResult,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
   items: (
     input: GetInstanceTypesFromInstanceRequirementsRequest,
   ) => stream.Stream<
     InstanceTypeInfoFromInstanceRequirements,
-    CommonErrors,
+    MissingParameter | CommonErrors,
     Credentials | Rgn | HttpClient.HttpClient
   >;
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetInstanceTypesFromInstanceRequirementsRequest,
   output: GetInstanceTypesFromInstanceRequirementsResult,
-  errors: [],
+  errors: [MissingParameter],
   pagination: {
     inputToken: "NextToken",
     outputToken: "NextToken",
@@ -89453,10 +89496,10 @@ export const modifySpotFleetRequest: (
   input: ModifySpotFleetRequestRequest,
 ) => effect.Effect<
   ModifySpotFleetRequestResponse,
-  CommonErrors,
+  InvalidParameterValue | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifySpotFleetRequestRequest,
   output: ModifySpotFleetRequestResponse,
-  errors: [],
+  errors: [InvalidParameterValue],
 }));

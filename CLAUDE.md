@@ -88,6 +88,8 @@ done
 
 ### Ad-Hoc Analysis with JavaScript
 
+**IMPORTANT:** All coverage analysis should be done via ad-hoc JavaScript (`bun -e`), not CLI tools. This gives you full control and accurate results by directly inspecting both the SDK and spec files.
+
 Use `bun -e` for exploratory queries. This is powerful for understanding gaps.
 
 **Find services with zero coverage:**
@@ -100,6 +102,26 @@ const models = await readdir('aws-models/models');
 const covered = new Set(specs.map(f => f.replace('.json', '')));
 const uncovered = models.filter(m => !covered.has(m));
 console.log('Uncovered services:', uncovered.slice(0, 20));
+```
+
+**Check actual error coverage for a service (inspects SDK, not just patches):**
+
+```javascript
+// Run: bun -e "..."
+const sdk = await Bun.file('src/services/sqs.ts').text();
+
+// Find all exported operations and check their error types
+const ops = sdk.match(/export const \w+:/g) || [];
+for (const op of ops) {
+  const name = op.replace('export const ', '').replace(':', '');
+  if (name[0] !== name[0].toLowerCase()) continue; // Skip types
+
+  // Get the section for this operation (up to next export)
+  const start = sdk.indexOf(op);
+  const section = sdk.slice(start, start + 1500);
+  const hasNotFound = /NotFound|DoesNotExist|NoSuch/.test(section);
+  console.log(`${name}: ${hasNotFound ? '✓' : '✗'}`);
+}
 ```
 
 **Find delete operations missing NotFound errors:**
@@ -134,11 +156,11 @@ const prefixMatch = idGen.match(/AWS_ID_PREFIXES[^}]+\{([^}]+)\}/s);
 
 | Situation | Approach |
 |-----------|----------|
+| Coverage analysis | **Always** ad-hoc JavaScript |
 | One-time exploration | Ad-hoc JavaScript |
 | Understanding patterns | Ad-hoc JavaScript |
-| Repeated analysis | Add CLI command |
 | Cross-service comparison | Ad-hoc JavaScript |
-| Standard workflow step | Encode in CLI |
+| Error discovery execution | CLI (`bun find`) |
 
 ## Phase 2: Decide What to Target
 
@@ -205,6 +227,8 @@ bun find --no-skip ec2
 
 ### Understanding Output
 
+The find tool focuses on discovering and recording new errors. It does NOT provide coverage analysis—use ad-hoc JavaScript for that.
+
 ```
 🔍 Finding errors for ec2
 
@@ -221,13 +245,20 @@ bun find --no-skip ec2
 
 📊 Summary:
    Operations tested: 200
-   Operations skipped: 156
+   Operations skipped: 44
+   Errors encountered: 180
    New errors discovered: 2
+
+🆕 NEW errors recorded to spec/ec2.json:
+   InvalidCidrBlock.Malformed: createVpc
+   InvalidInternetGatewayID.NotFound: attachInternetGateway
+
+   Run 'bun generate --sdk ec2' to regenerate the SDK with these errors.
 ```
 
-- **🆕** = New error discovered and recorded
-- **✓** = Error triggered but already known
-- **⏭️** = Skipped (expected error already in spec)
+- **🆕** = New error discovered and recorded to spec
+- **✓** = Error triggered but already known (in SDK or spec)
+- Operations are skipped if they already have expected errors in the spec file
 
 ## Phase 4: Evaluate Results
 
@@ -503,28 +534,50 @@ Add improvements to:
 
 ### Service-Level Convergence
 
-A service is converged when:
+A service is converged when `bun find {service}` returns "0 new errors discovered" AND your ad-hoc analysis confirms no gaps.
 
+**Run the find tool:**
 ```bash
 bun find {service}
-# Returns: "0 new errors discovered"
+# Should return: "New errors discovered: 0"
 ```
 
-AND your analysis shows no obvious gaps:
-- All delete operations have `*NotFound` or `*Malformed`
-- All read operations have `NoSuch*` or `*NotFound`
-- No `Malformed` errors indicating missing ID prefixes
+**Then verify with ad-hoc JavaScript:**
+```javascript
+// Run: bun -e "..."
+// Check that delete/read operations have appropriate errors
+const sdk = await Bun.file('src/services/{service}.ts').text();
+
+// Find operations and check their error types
+const deleteOps = sdk.match(/export const delete\w+/g) || [];
+for (const op of deleteOps) {
+  const name = op.replace('export const ', '');
+  // Check if the operation's error union includes NotFound/DoesNotExist
+  const opSection = sdk.slice(sdk.indexOf(op), sdk.indexOf(op) + 2000);
+  const hasNotFound = /NotFound|DoesNotExist|NoSuch/.test(opSection);
+  console.log(`${name}: ${hasNotFound ? '✓' : '⚠️ missing NotFound'}`);
+}
+```
 
 ### Global Convergence
 
-All services are converged. Track progress:
+Track progress with ad-hoc analysis:
 
-```bash
-# Services with any coverage
-ls spec/ | wc -l
+```javascript
+// Run: bun -e "..."
+import { readdir } from 'fs/promises';
 
-# Total operations covered
-cat spec/*.json | jq '[.operations | keys | length] | add'
+const specs = await readdir('spec');
+const services = specs.filter(f => f.endsWith('.json')).map(f => f.replace('.json', ''));
+
+let total = 0;
+for (const svc of services) {
+  const spec = await Bun.file(`spec/${svc}.json`).json();
+  const ops = Object.keys(spec.operations || {}).length;
+  total += ops;
+  console.log(`${svc}: ${ops} operations patched`);
+}
+console.log(`\nTotal: ${total} operations across ${services.length} services`);
 ```
 
 ### Regression Prevention
@@ -533,6 +586,139 @@ After achieving convergence:
 - Skip rules prevent re-testing satisfied operations
 - Tests in `id-generator.test.ts` prevent ID format regressions
 - Regenerating SDKs incorporates all discovered errors
+
+## Error Heuristics
+
+The `error-heuristics.ts` module provides intelligent predictions about which errors each operation type should throw. This helps:
+- Focus discovery on operations likely to yield new errors
+- Skip operations that won't throw certain error types (e.g., list never throws NotFound)
+- Identify which delete operations should have DependencyViolation errors
+
+### Operation Type Expectations
+
+| Operation Type | NotFound | Malformed | DependencyViolation |
+|----------------|----------|-----------|---------------------|
+| `list` | Never | Never | Never |
+| `read/describe` | Sometimes* | Sometimes* | Never |
+| `delete` | Always | Always | Sometimes** |
+| `update` | Always | Always | Never |
+| `create` | Never | Never | Never |
+| `detach` | Always | Always | Never |
+| `action` | Sometimes | Sometimes | Never |
+
+\* Read operations throw NotFound/Malformed if they take a specific resource ID (e.g., `getVpc`), but not if they filter by tags or return empty results (e.g., `describeVpcs`).
+
+\** Delete operations throw DependencyViolation if they delete "parent" resources that others depend on (VPC, Subnet, SecurityGroup, etc.).
+
+### Using Heuristics
+
+```typescript
+import { getExpectedErrors, shouldHaveError } from "./error-heuristics.ts";
+
+// Get expected error types for an operation
+const expected = getExpectedErrors("deleteVpc", "delete");
+// { notFound: true, malformed: true, dependencyViolation: true, reason: "..." }
+
+// Check specific error expectations
+if (shouldHaveError("deleteVpc", "delete", "dependencyViolation")) {
+  // This operation should be tested for DependencyViolation
+}
+```
+
+## Dependency Walker
+
+The `dependency-walker.ts` module discovers DependencyViolation errors by:
+1. Creating resources in dependency order (parent before child)
+2. Attempting to delete parents while children still exist
+3. Recording the resulting DependencyViolation/InUse errors
+
+### Architecture
+
+The walker uses **resource recipes** that define:
+- How to create each resource type
+- What resources it depends on
+- How to extract IDs from responses
+- How to build delete inputs
+
+### State Error Retry Heuristics
+
+AWS resources often go through async state transitions (creating, pending, available). Instead of hardcoding waits for each resource type, the walker uses **generic state error patterns**:
+
+```typescript
+const STATE_ERROR_PATTERNS = [
+  "IncorrectState",
+  "InvalidState",
+  "ResourceNotReady",
+  "Pending",
+  "InProgress",
+  "NotReady",
+  "Busy",
+];
+```
+
+Operations automatically retry when they hit state-related errors, with exponential backoff. This eliminates the need for resource-specific wait functions like `waitForNatGateway`.
+
+### Running the Walker
+
+```bash
+# Walk EC2 dependencies to find DependencyViolation errors
+bun walk ec2
+```
+
+### Adding New Resource Recipes
+
+To discover DependencyViolation errors for more resources, add recipes to `EC2_RECIPES`:
+
+```typescript
+{
+  name: "NewResource",
+  createOp: "createNewResource",
+  deleteOp: "deleteNewResource",
+  dependsOn: ["ParentResource"],  // Must exist before this resource
+  buildInputs: (createdResources) => ({
+    ParentId: createdResources.ParentResource,
+    // ... other required fields
+  }),
+  extractId: (response) => response.NewResource?.NewResourceId,
+  buildDeleteInputs: (id) => ({ NewResourceId: id }),
+}
+```
+
+## Coverage Analysis
+
+The `coverage-analysis.ts` script provides insights into error coverage gaps:
+
+```bash
+bun run scripts/find-errors/coverage-analysis.ts
+```
+
+Output includes:
+- Total vs patched operations
+- Unpatched operations grouped by type
+- Delete operations with/without NotFound, Malformed, DependencyViolation
+- Gap analysis for achieving "100% coverage"
+
+## Current Progress (EC2)
+
+As of the last session:
+- **Operations covered:** 675/746 (90%)
+- **With NotFound:** 357 operations
+- **With Malformed:** 248 operations
+- **With DependencyViolation:** 10 operations
+
+### Known Gaps
+
+Based on heuristics, ~44 delete operations should have DependencyViolation errors, but only 10 are discovered. The remaining ~34 need:
+1. Resource recipes added to `dependency-walker.ts`
+2. The walker run to trigger the errors
+3. Resources cleaned up after discovery
+
+### Next Steps for Agents
+
+1. **Expand dependency walker recipes** - Add more EC2 resource types to discover remaining DependencyViolation errors
+2. **Run walker and verify** - After adding recipes, run `bun walk ec2` and check for new errors
+3. **Clean up resources** - Always run `bun clean:aws ec2` after discovery sessions
+4. **Move to other services** - Once EC2 is converged, apply same approach to S3, Lambda, IAM
 
 ## Key Files Reference
 
@@ -544,6 +730,9 @@ After achieving convergence:
 | `scripts/find-errors/id-generator.test.ts` | ID generation tests | Every new prefix needs a test |
 | `scripts/find-errors/runner.ts` | API calling, error recording | Adding skip rules, changing behavior |
 | `scripts/find-errors/cleaner.ts` | Resource cleanup | Adding response patterns, cleanup logic |
+| `scripts/find-errors/error-heuristics.ts` | Error type predictions | Adding heuristics for new operation patterns |
+| `scripts/find-errors/dependency-walker.ts` | DependencyViolation discovery | Adding resource recipes |
+| `scripts/find-errors/coverage-analysis.ts` | Gap analysis | Extending analysis queries |
 | `spec/*.json` | Discovered errors | Automatically updated by runner |
 | `aws-models/models/` | Smithy model source | Read-only reference |
 

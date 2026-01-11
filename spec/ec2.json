@@ -35,6 +35,7 @@
     },
     "createInternetGateway": {
       "errors": [
+        "InternetGatewayLimitExceeded",
         "ParseError"
       ]
     },
@@ -255,7 +256,8 @@
     "authorizeSecurityGroupIngress": {
       "errors": [
         "InvalidGroup.NotFound",
-        "InvalidGroupId.Malformed"
+        "InvalidGroupId.Malformed",
+        "MissingParameter"
       ]
     },
     "revokeSecurityGroupIngress": {
@@ -276,8 +278,10 @@
     },
     "deleteNetworkInterface": {
       "errors": [
+        "InvalidNetworkInterface.InUse",
         "InvalidNetworkInterfaceID.NotFound",
         "InvalidNetworkInterfaceId.Malformed",
+        "InvalidParameterValue",
         "MissingParameter"
       ]
     },
@@ -299,6 +303,7 @@
     },
     "createVpnGateway": {
       "errors": [
+        "MissingParameter",
         "ParseError"
       ]
     },
@@ -671,7 +676,8 @@
     },
     "createDefaultSubnet": {
       "errors": [
-        "DefaultSubnetAlreadyExistsInAvailabilityZone"
+        "DefaultSubnetAlreadyExistsInAvailabilityZone",
+        "MissingParameter"
       ]
     },
     "createDefaultVpc": {
@@ -704,12 +710,14 @@
     },
     "enableVpcClassicLinkDnsSupport": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
       ]
     },
     "disableVpcClassicLinkDnsSupport": {
       "errors": [
-        "InvalidVpcID.NotFound"
+        "InvalidVpcID.NotFound",
+        "MissingParameter"
       ]
     },
     "deleteManagedPrefixList": {
@@ -735,12 +743,14 @@
       "errors": [
         "AuthFailure",
         "InvalidAllocationID.NotFound",
-        "InvalidInstanceID.NotFound"
+        "InvalidInstanceID.NotFound",
+        "MissingParameter"
       ]
     },
     "disassociateAddress": {
       "errors": [
-        "InvalidAssociationID.NotFound"
+        "InvalidAssociationID.NotFound",
+        "MissingParameter"
       ]
     },
     "describeAddresses": {
@@ -1191,7 +1201,8 @@
     },
     "createVerifiedAccessInstance": {
       "errors": [
-        "ParseError"
+        "ParseError",
+        "VerifiedAccessInstanceLimitExceeded"
       ]
     },
     "deleteVerifiedAccessInstance": {
@@ -1374,12 +1385,14 @@
     },
     "createVolume": {
       "errors": [
-        "InvalidZone.NotFound"
+        "InvalidZone.NotFound",
+        "MissingParameter"
       ]
     },
     "createPlacementGroup": {
       "errors": [
-        "InvalidParameterValue"
+        "InvalidParameterValue",
+        "MissingParameter"
       ]
     },
     "describePlacementGroups": {
@@ -1553,6 +1566,7 @@
     },
     "describeClientVpnConnections": {
       "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
         "MissingParameter"
       ]
     },
@@ -2036,6 +2050,7 @@
     },
     "describeClientVpnRoutes": {
       "errors": [
+        "InvalidClientVpnEndpointId.NotFound",
         "MissingParameter"
       ]
     },
@@ -3607,6 +3622,276 @@
     "modifyReservedInstances": {
       "errors": [
         "InvalidParameterValue"
+      ]
+    },
+    "cancelConversionTask": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "describeCapacityBlockOfferings": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeClientVpnAuthorizationRules": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "describeMovingAddresses": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "associateInstanceEventWindow": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "associateIpamByoasn": {
+      "errors": [
+        "InvalidCidr.NotFound"
+      ]
+    },
+    "authorizeClientVpnIngress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createCapacityReservationFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createFpgaImage": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "createInstanceEventWindow": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "createRestoreImageTask": {
+      "errors": [
+        "InvalidRequest"
+      ]
+    },
+    "createSnapshots": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "acceptTransitGatewayMulticastDomainAssociations": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "advertiseByoipCidr": {
+      "errors": [
+        "RequestLimitExceeded"
+      ]
+    },
+    "disableAwsNetworkPerformanceMetricSubscription": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "disableCapacityManager": {
+      "errors": [
+        "CapacityManager.Disabled"
+      ]
+    },
+    "disableIpamOrganizationAdminAccount": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableAwsNetworkPerformanceMetricSubscription": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "enableIpamOrganizationAdminAccount": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "enableSnapshotBlockPublicAccess": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyClientVpnEndpoint": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "modifyDefaultCreditSpecification": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyEbsDefaultKmsKeyId": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "modifyInstanceMetadataDefaults": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "modifyInstanceNetworkPerformanceOptions": {
+      "errors": [
+        "InvalidAction"
+      ]
+    },
+    "modifyLaunchTemplate": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "exportClientVpnClientCertificateRevocationList": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "exportClientVpnClientConfiguration": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "requestSpotFleet": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "createVpcEndpointServiceConfiguration": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "createVpnConcentrator": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "describeSpotFleetInstances": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "describeSpotFleetRequestHistory": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getAwsNetworkPerformanceData": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getCapacityManagerMetricData": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getCapacityManagerMetricDimensions": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getDefaultCreditSpecification": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "getInstanceTypesFromInstanceRequirements": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "importClientVpnClientCertificateRevocationList": {
+      "errors": [
+        "InvalidClientVpnEndpointId.NotFound"
+      ]
+    },
+    "importImage": {
+      "errors": [
+        "MissingRequiredParameter"
+      ]
+    },
+    "importInstance": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "importSnapshot": {
+      "errors": [
+        "InvalidParameter"
+      ]
+    },
+    "modifySpotFleetRequest": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "moveAddressToVpc": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "provisionByoipCidr": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "purchaseReservedInstancesOffering": {
+      "errors": [
+        "InvalidParameterValue"
+      ]
+    },
+    "purchaseScheduledInstances": {
+      "errors": [
+        "InvalidPurchaseToken.Malformed"
+      ]
+    },
+    "registerInstanceEventNotificationAttributes": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "restoreAddressToClassic": {
+      "errors": [
+        "UnsupportedOperation"
+      ]
+    },
+    "revokeClientVpnIngress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateCapacityManagerOrganizationsAccess": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateSecurityGroupRuleDescriptionsEgress": {
+      "errors": [
+        "MissingParameter"
+      ]
+    },
+    "updateSecurityGroupRuleDescriptionsIngress": {
+      "errors": [
+        "MissingParameter"
       ]
     }
   },

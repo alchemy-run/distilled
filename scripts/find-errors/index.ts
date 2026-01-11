@@ -271,40 +271,14 @@ const findCommand = Command.make(
         );
       }
 
-      // Show skip summary if any were skipped
       if (skipped > 0) {
         yield* Console.log(
-          `\n⏭️  Skipped ${skipped} operations (already have expected errors)`,
+          `\n⏭️  Skipped ${skipped} operations (already have expected errors in spec)`,
         );
-        const byReason = new Map<string, number>();
-        for (const s of tracker.skipped) {
-          byReason.set(s.reason, (byReason.get(s.reason) ?? 0) + 1);
-        }
-        for (const [reason, count] of byReason) {
-          yield* Console.log(`   ${reason}: ${count}x`);
-        }
         yield* Console.log(`   Use --no-skip to test these anyway`);
       }
 
-      // Show error distribution by type
-      const byType = new Map<string, number>();
-      for (const err of tracker.allErrors) {
-        // Extract error category (e.g., "NotFound" from "InvalidVpcID.NotFound")
-        const category = err.error.includes(".")
-          ? err.error.split(".").pop()!
-          : err.error.replace(/^(Invalid|No|Missing)/, "");
-        byType.set(category, (byType.get(category) ?? 0) + 1);
-      }
-
-      if (byType.size > 0) {
-        yield* Console.log(`\n📋 Error distribution:`);
-        const sorted = [...byType.entries()].sort((a, b) => b[1] - a[1]);
-        for (const [category, count] of sorted.slice(0, 10)) {
-          yield* Console.log(`   ${category}: ${count}x`);
-        }
-      }
-
-      yield* Console.log("\n✨ Done!\n");
+      yield* Console.log("");
     }),
 );
 

@@ -280,6 +280,22 @@ export const SPECIAL_FORMAT_RESOURCES: Record<string, string> = {
   ConversionTask: "import-i-12345678", // Conversion task ID
 };
 
+/**
+ * Field-name-based special formats.
+ * Some fields have specific formats regardless of the resource type.
+ */
+export const FIELD_FORMAT_OVERRIDES: Record<string, string> = {
+  // SQS Queue URLs are full HTTPS URLs
+  QueueUrl:
+    "https://sqs.us-east-1.amazonaws.com/123456789012/itty-fake-queue-notfound",
+  // SQS Source ARN for message move tasks
+  SourceArn: "arn:aws:sqs:us-east-1:123456789012:itty-fake-queue-notfound",
+  // SQS Destination ARN for message move tasks
+  DestinationArn: "arn:aws:sqs:us-east-1:123456789012:itty-fake-dlq-notfound",
+  // SQS Task Handle for cancel operations
+  TaskHandle: "itty-fake-task-handle-notfound",
+};
+
 // 17-char hex for resources
 const FAKE_HEX = "0123456789abcdef0"; // 17 chars
 
@@ -338,6 +354,12 @@ export const generateFakeInputs = (
           input.references));
 
     if (!shouldInclude) continue;
+
+    // Check field-name-based overrides first (e.g., QueueUrl, SourceArn)
+    if (FIELD_FORMAT_OVERRIDES[fieldName]) {
+      inputs[fieldName] = FIELD_FORMAT_OVERRIDES[fieldName];
+      continue;
+    }
 
     // Generate fake value based on type/name
     if (input.references) {

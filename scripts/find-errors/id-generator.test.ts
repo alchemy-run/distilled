@@ -4,6 +4,7 @@ import { Effect } from "effect";
 import {
   ARN_BASED_RESOURCES,
   AWS_ID_PREFIXES,
+  FIELD_FORMAT_OVERRIDES,
   generateFakeId,
   generateFakeInputs,
   NAME_BASED_RESOURCES,
@@ -368,6 +369,62 @@ describe("generateFakeInputs with real EC2 operations", () => {
       const graph = yield* buildDependencyGraph("ec2");
       expect(generateFakeInputs(graph, "unknownOperation")).toBeNull();
     }).pipe(Effect.provide(NodeContext.layer)),
+  );
+});
+
+describe("generateFakeInputs with SQS operations", () => {
+  it.effect("generates proper QueueUrl format for deleteQueue", () =>
+    Effect.gen(function* () {
+      const graph = yield* buildDependencyGraph("sqs");
+      const inputs = generateFakeInputs(graph, "deleteQueue");
+
+      expect(inputs).toHaveProperty("QueueUrl");
+      expect(inputs!.QueueUrl).toBe(FIELD_FORMAT_OVERRIDES.QueueUrl);
+      expect(inputs!.QueueUrl).toMatch(/^https:\/\/sqs\..*\.amazonaws\.com/);
+    }).pipe(Effect.provide(NodeContext.layer)),
+  );
+
+  it.effect("generates proper QueueUrl format for getQueueAttributes", () =>
+    Effect.gen(function* () {
+      const graph = yield* buildDependencyGraph("sqs");
+      const inputs = generateFakeInputs(graph, "getQueueAttributes");
+
+      expect(inputs).toHaveProperty("QueueUrl");
+      expect(inputs!.QueueUrl).toMatch(/^https:\/\/sqs\..*\.amazonaws\.com/);
+    }).pipe(Effect.provide(NodeContext.layer)),
+  );
+
+  it.effect("generates proper SourceArn format for listMessageMoveTasks", () =>
+    Effect.gen(function* () {
+      const graph = yield* buildDependencyGraph("sqs");
+      const inputs = generateFakeInputs(graph, "listMessageMoveTasks");
+
+      expect(inputs).toHaveProperty("SourceArn");
+      expect(inputs!.SourceArn).toBe(FIELD_FORMAT_OVERRIDES.SourceArn);
+      expect(inputs!.SourceArn).toMatch(/^arn:aws:sqs:/);
+    }).pipe(Effect.provide(NodeContext.layer)),
+  );
+
+  it.effect("generates proper SourceArn format for startMessageMoveTask", () =>
+    Effect.gen(function* () {
+      const graph = yield* buildDependencyGraph("sqs");
+      const inputs = generateFakeInputs(graph, "startMessageMoveTask");
+
+      expect(inputs).toHaveProperty("SourceArn");
+      expect(inputs!.SourceArn).toMatch(/^arn:aws:sqs:/);
+    }).pipe(Effect.provide(NodeContext.layer)),
+  );
+
+  it.effect(
+    "generates proper TaskHandle format for cancelMessageMoveTask",
+    () =>
+      Effect.gen(function* () {
+        const graph = yield* buildDependencyGraph("sqs");
+        const inputs = generateFakeInputs(graph, "cancelMessageMoveTask");
+
+        expect(inputs).toHaveProperty("TaskHandle");
+        expect(inputs!.TaskHandle).toBe(FIELD_FORMAT_OVERRIDES.TaskHandle);
+      }).pipe(Effect.provide(NodeContext.layer)),
   );
 });
 

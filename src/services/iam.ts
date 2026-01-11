@@ -7209,6 +7209,10 @@ export class InvalidPublicKeyException extends S.TaggedError<InvalidPublicKeyExc
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "InvalidPublicKey", httpResponseCode: 400 }),
 ).pipe(C.withBadRequestError) {}
+export class InvalidInput extends S.TaggedError<InvalidInput>()(
+  "InvalidInput",
+  {},
+) {}
 export class ServiceAccessNotEnabledException extends S.TaggedError<ServiceAccessNotEnabledException>()(
   "ServiceAccessNotEnabledException",
   { Message: S.optional(S.String) },
@@ -13218,12 +13222,15 @@ export const listServiceSpecificCredentials: (
   input: ListServiceSpecificCredentialsRequest,
 ) => effect.Effect<
   ListServiceSpecificCredentialsResponse,
-  NoSuchEntityException | ServiceNotSupportedException | CommonErrors,
+  | NoSuchEntityException
+  | ServiceNotSupportedException
+  | InvalidInput
+  | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListServiceSpecificCredentialsRequest,
   output: ListServiceSpecificCredentialsResponse,
-  errors: [NoSuchEntityException, ServiceNotSupportedException],
+  errors: [NoSuchEntityException, ServiceNotSupportedException, InvalidInput],
 }));
 /**
  * Disables the management of privileged root user credentials across member accounts in
