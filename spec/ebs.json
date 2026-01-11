@@ -1,0 +1,14 @@
+{
+  "operations": {
+    "putSnapshotBlock": {
+      "errors": [
+        "InvalidSignatureException"
+      ]
+    },
+    "completeSnapshot": {
+      "errors": [
+        "InvalidSignatureException"
+      ]
+    }
+  }
+}

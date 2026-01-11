@@ -131,20 +131,29 @@ export const make = <Op extends Operation>(
     const hasContentSha256 = Object.keys(resolvedRequest.headers).some(
       (k) => k.toLowerCase() === "x-amz-content-sha256",
     );
-    const signingHeaders =
-      isStreamingBody && !hasContentSha256
-        ? {
-            ...resolvedRequest.headers,
-            "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
-          }
-        : resolvedRequest.headers;
+    // Check if service provides its own checksum (e.g., EBS x-amz-Checksum header)
+    // In this case, the body should not be included in SigV4 signing
+    const hasServiceChecksum = Object.keys(resolvedRequest.headers).some(
+      (k) => k.toLowerCase() === "x-amz-checksum",
+    );
+    // Check if there's a body to sign
+    const hasBody = resolvedRequest.body !== undefined;
+    // Use unsigned payload for streaming bodies OR when service provides checksum with body
+    const useUnsignedPayload =
+      (isStreamingBody || (hasServiceChecksum && hasBody)) && !hasContentSha256;
+    const signingHeaders = useUnsignedPayload
+      ? {
+          ...resolvedRequest.headers,
+          "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+        }
+      : resolvedRequest.headers;
 
     const signer = new AwsV4Signer({
       method: resolvedRequest.method,
       url: `${endpoint}${fullPath}`,
       headers: signingHeaders,
-      // Don't pass streaming body to signer - it can't be hashed
-      body: isStreamingBody
+      // Don't pass body to signer when using unsigned payload
+      body: useUnsignedPayload
         ? undefined
         : resolvedRequest.body instanceof Uint8Array
           ? Buffer.from(resolvedRequest.body)

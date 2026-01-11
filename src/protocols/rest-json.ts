@@ -149,11 +149,13 @@ export const restJson1Protocol: Protocol = (
     serializeRequest: Effect.fn(function* (input: unknown) {
       const encoded = yield* encodeInput(input);
 
+      // Start without Content-Type - we'll set it based on the body type
+      // unless user explicitly provides one via httpHeader binding
       let request: Request = {
         method: "POST",
         path: "/",
         query: {},
-        headers: { "Content-Type": "application/json" },
+        headers: {},
       };
 
       applyHttpTrait(inputAst, request);
@@ -165,13 +167,15 @@ export const restJson1Protocol: Protocol = (
         );
       extractStaticQueryParams(request);
 
+      // Track if user set Content-Type explicitly via httpHeader binding
+      const userSetContentType = request.headers["Content-Type"] !== undefined;
+
       // Serialize body
       if (payloadValue !== undefined && payloadAst !== undefined) {
-        // Check for input event stream - a streaming type where the user provided an Effect Stream
-        // This happens when a streaming union (T.EventStream) is used in an input context
+        // Check for input event stream - only when the schema explicitly marks it as an event stream
+        // (not for regular streaming blobs like S3 putObject or EBS putSnapshotBlock)
         const isInputEventStreamPayload =
-          (isInputEventStream(payloadAst) || isStreamingType(payloadAst)) &&
-          isEffectStream(payloadValue);
+          isInputEventStream(payloadAst) && isEffectStream(payloadValue);
 
         if (isInputEventStreamPayload) {
           // Input event stream - serialize each event to wire format
@@ -186,20 +190,41 @@ export const restJson1Protocol: Protocol = (
               payloadValue as Stream.Stream<InputEvent, unknown>,
             );
           }
-          // Set content type for event streams
+          // Set content type for event streams (always override)
           request.headers["Content-Type"] =
             "application/vnd.amazon.eventstream";
         } else if (isStreamingType(payloadAst)) {
           request.body = convertStreamingInput(
             payloadValue as StreamingInputBody,
           );
+          // Default to octet-stream for streaming payloads, unless user set explicitly
+          if (!userSetContentType) {
+            request.headers["Content-Type"] = "application/octet-stream";
+          }
         } else if (isRawPayload(payloadAst)) {
           request.body = payloadValue as string;
+          // Default to JSON for raw payloads unless user set explicitly
+          if (!userSetContentType) {
+            request.headers["Content-Type"] = "application/json";
+          }
         } else {
           request.body = JSON.stringify(payloadValue);
+          // Default to JSON for structured payloads
+          if (!userSetContentType) {
+            request.headers["Content-Type"] = "application/json";
+          }
         }
       } else if (hasBodyMembers) {
         request.body = JSON.stringify(bodyMembers);
+        // Default to JSON for body members
+        if (!userSetContentType) {
+          request.headers["Content-Type"] = "application/json";
+        }
+      } else {
+        // No body - set default JSON content type for consistency
+        if (!userSetContentType) {
+          request.headers["Content-Type"] = "application/json";
+        }
       }
 
       // Apply API Gateway customizations
