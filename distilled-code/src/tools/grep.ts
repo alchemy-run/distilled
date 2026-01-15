@@ -25,7 +25,7 @@ export const grep = Tool.make("grep", {
     pattern: S.String.annotations({
       description: "The regex pattern to search for in file contents",
     }),
-    path: S.String.annotations({
+    path: S.optional(S.String).annotations({
       description:
         "The directory to search in. Defaults to the current working directory.",
     }),

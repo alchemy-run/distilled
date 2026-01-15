@@ -2,23 +2,16 @@
  * ChatService - Bridges Effect AI layer with TUI
  * Uses LanguageModel directly with toolkit for agentic execution
  */
+import * as LanguageModel from "@effect/ai/LanguageModel";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Stream from "effect/Stream";
+import * as Layer from "effect/Layer";
 import * as Queue from "effect/Queue";
 import * as Ref from "effect/Ref";
-import * as Context from "effect/Context";
-import * as Layer from "effect/Layer";
-import * as LanguageModel from "@effect/ai/LanguageModel";
-import {
-  TuiEvent,
-  TuiController,
-  MessageData,
-  Part,
-  TextPart,
-  ToolPart,
-} from "../types.ts";
-import { toolkit } from "../../tools/index.ts";
+import * as Stream from "effect/Stream";
+import { CodingTools } from "../../tools/index.ts";
 import { log, logError } from "../../util/log.ts";
+import { Part, TextPart, ToolPart, TuiController, TuiEvent } from "../types.ts";
 
 // =============================================================================
 // Event Queue
@@ -65,9 +58,23 @@ export class ChatBridge extends Context.Tag("ChatBridge")<
   {
     sendUserMessage: (content: string) => Effect.Effect<void, unknown, any>;
     getEventStream: () => Stream.Stream<TuiEvent>;
-    emitToolStart: (messageID: string, tool: string, callID: string, input: Record<string, unknown>) => Effect.Effect<void>;
-    emitToolComplete: (messageID: string, callID: string, output: string, metadata?: Record<string, unknown>) => Effect.Effect<void>;
-    emitToolError: (messageID: string, callID: string, error: string) => Effect.Effect<void>;
+    emitToolStart: (
+      messageID: string,
+      tool: string,
+      callID: string,
+      input: Record<string, unknown>,
+    ) => Effect.Effect<void>;
+    emitToolComplete: (
+      messageID: string,
+      callID: string,
+      output: string,
+      metadata?: Record<string, unknown>,
+    ) => Effect.Effect<void>;
+    emitToolError: (
+      messageID: string,
+      callID: string,
+      error: string,
+    ) => Effect.Effect<void>;
   }
 >() {}
 
@@ -93,7 +100,7 @@ export const chatBridgeLayer = Layer.effect(
       messageID: string,
       tool: string,
       callID: string,
-      input: Record<string, unknown>
+      input: Record<string, unknown>,
     ): ToolPart => ({
       id: generatePartId(),
       type: "tool",
@@ -109,8 +116,10 @@ export const chatBridgeLayer = Layer.effect(
     return {
       sendUserMessage: (content: string) =>
         Effect.gen(function* () {
-          log("ChatBridge", "sendUserMessage called", { content: content.slice(0, 100) });
-          
+          log("ChatBridge", "sendUserMessage called", {
+            content: content.slice(0, 100),
+          });
+
           // Create user message
           const userMsgId = generateMessageId();
           const userTextPart = createTextPart(userMsgId, content);
@@ -146,64 +155,76 @@ export const chatBridgeLayer = Layer.effect(
               parts: [],
             },
           });
-          log("ChatBridge", "Created assistant message placeholder", { id: assistantMsgId });
+          log("ChatBridge", "Created assistant message placeholder", {
+            id: assistantMsgId,
+          });
 
           // Track accumulated text and tool parts across all loop iterations
           const allToolParts = yield* Ref.make<ToolPart[]>([]);
           const allTextParts = yield* Ref.make<string[]>([]);
-          
+
           // Build conversation history for multi-turn
-          const conversationHistory = yield* Ref.make<Array<{ role: string; content: string }>>([
-            { role: "user", content }
-          ]);
+          const conversationHistory = yield* Ref.make<
+            Array<{ role: string; content: string }>
+          >([{ role: "user", content }]);
 
           // Agentic loop - continue until model stops calling tools
           let loopIteration = 0;
           const MAX_ITERATIONS = 20; // Safety limit
           let shouldContinue = true;
-          
+
           while (shouldContinue && loopIteration < MAX_ITERATIONS) {
             loopIteration++;
-            log("ChatBridge", "Agentic loop iteration", { iteration: loopIteration });
-            
+            log("ChatBridge", "Agentic loop iteration", {
+              iteration: loopIteration,
+            });
+
             // Track state for this iteration
             const textBuffer = yield* Ref.make("");
-            const iterationToolParts = yield* Ref.make<Map<string, ToolPart>>(new Map());
+            const iterationToolParts = yield* Ref.make<Map<string, ToolPart>>(
+              new Map(),
+            );
             let currentTextPartId: string | null = null;
             const finishReason = yield* Ref.make<string>("unknown");
-            const toolResultsForHistory = yield* Ref.make<Array<{ id: string; name: string; result: string }>>([]);
+            const toolResultsForHistory = yield* Ref.make<
+              Array<{ id: string; name: string; result: string }>
+            >([]);
 
             // Get conversation history for multi-turn
             const history = yield* Ref.get(conversationHistory);
-            
+
             // Build prompt - use full history for context
-            const promptMessages = history.map(h => h.content).join("\n\n");
-            
-            log("ChatBridge", "Starting streamText", { promptLength: promptMessages.length });
-            
+            const promptMessages = history.map((h) => h.content).join("\n\n");
+
+            log("ChatBridge", "Starting streamText", {
+              promptLength: promptMessages.length,
+            });
+
             const stream = LanguageModel.streamText({
               prompt: promptMessages,
-              toolkit,
+              toolkit: CodingTools,
             });
 
             yield* Stream.runForEach(stream, (part) =>
               Effect.gen(function* () {
                 const partType = (part as { type: string }).type;
-                
+
                 switch (partType) {
                   case "text-start": {
                     currentTextPartId = generatePartId();
                     yield* Ref.set(textBuffer, "");
-                    log("ChatBridge", "Text streaming started", { id: currentTextPartId });
+                    log("ChatBridge", "Text streaming started", {
+                      id: currentTextPartId,
+                    });
                     break;
                   }
-                  
+
                   case "text-delta": {
                     const delta = (part as { delta: string }).delta;
                     const currentText = yield* Ref.get(textBuffer);
                     const newText = currentText + delta;
                     yield* Ref.set(textBuffer, newText);
-                    
+
                     if (currentTextPartId) {
                       const textPart: TextPart = {
                         id: currentTextPartId,
@@ -219,7 +240,7 @@ export const chatBridgeLayer = Layer.effect(
                     }
                     break;
                   }
-                  
+
                   case "text-end": {
                     log("ChatBridge", "Text streaming ended");
                     const text = yield* Ref.get(textBuffer);
@@ -230,26 +251,33 @@ export const chatBridgeLayer = Layer.effect(
                     currentTextPartId = null;
                     break;
                   }
-                  
+
                   case "tool-call": {
-                    const toolCall = part as { id: string; name: string; params: Record<string, unknown> };
-                    log("ChatBridge", "Tool call starting", { name: toolCall.name, id: toolCall.id });
-                    
+                    const toolCall = part as {
+                      id: string;
+                      name: string;
+                      params: Record<string, unknown>;
+                    };
+                    log("ChatBridge", "Tool call starting", {
+                      name: toolCall.name,
+                      id: toolCall.id,
+                    });
+
                     const toolPart = createToolPart(
                       assistantMsgId,
                       toolCall.name,
                       toolCall.id,
-                      toolCall.params
+                      toolCall.params,
                     );
-                    
+
                     const currentParts = yield* Ref.get(iterationToolParts);
                     currentParts.set(toolCall.id, toolPart);
                     yield* Ref.set(iterationToolParts, currentParts);
-                    
+
                     // Add to all tool parts
                     const all = yield* Ref.get(allToolParts);
                     yield* Ref.set(allToolParts, [...all, toolPart]);
-                    
+
                     yield* emit({
                       type: "part",
                       messageID: assistantMsgId,
@@ -257,18 +285,23 @@ export const chatBridgeLayer = Layer.effect(
                     });
                     break;
                   }
-                  
+
                   case "tool-result": {
-                    const toolResult = part as { id: string; name: string; result: unknown; isFailure: boolean };
-                    log("ChatBridge", "Tool result", { 
-                      name: toolResult.name, 
+                    const toolResult = part as {
+                      id: string;
+                      name: string;
+                      result: unknown;
+                      isFailure: boolean;
+                    };
+                    log("ChatBridge", "Tool result", {
+                      name: toolResult.name,
                       id: toolResult.id,
-                      isFailure: toolResult.isFailure 
+                      isFailure: toolResult.isFailure,
                     });
-                    
+
                     const currentParts = yield* Ref.get(iterationToolParts);
                     const existingPart = currentParts.get(toolResult.id);
-                    
+
                     if (existingPart) {
                       const resultStr = String(toolResult.result ?? "");
                       existingPart.state = {
@@ -276,38 +309,47 @@ export const chatBridgeLayer = Layer.effect(
                         input: existingPart.state?.input ?? {},
                         output: resultStr,
                       };
-                      
+
                       yield* emit({
                         type: "partUpdate",
                         messageID: assistantMsgId,
                         partID: existingPart.id,
                         update: { state: existingPart.state },
                       });
-                      
+
                       // Store for history
                       const results = yield* Ref.get(toolResultsForHistory);
-                      yield* Ref.set(toolResultsForHistory, [...results, {
-                        id: toolResult.id,
-                        name: toolResult.name,
-                        result: resultStr.slice(0, 2000), // Truncate for context
-                      }]);
+                      yield* Ref.set(toolResultsForHistory, [
+                        ...results,
+                        {
+                          id: toolResult.id,
+                          name: toolResult.name,
+                          result: resultStr.slice(0, 2000), // Truncate for context
+                        },
+                      ]);
                     }
                     break;
                   }
-                  
+
                   case "finish": {
-                    const finish = part as { reason: string; usage: { inputTokens: number; outputTokens: number } };
-                    log("ChatBridge", "Stream finished", { reason: finish.reason, usage: finish.usage });
+                    const finish = part as {
+                      reason: string;
+                      usage: { inputTokens: number; outputTokens: number };
+                    };
+                    log("ChatBridge", "Stream finished", {
+                      reason: finish.reason,
+                      usage: finish.usage,
+                    });
                     yield* Ref.set(finishReason, finish.reason);
                     break;
                   }
-                  
+
                   case "error": {
                     const error = (part as { error: unknown }).error;
                     logError("ChatBridge", "Stream error", error);
                     break;
                   }
-                  
+
                   case "response-metadata":
                   case "reasoning-start":
                   case "reasoning-delta":
@@ -316,30 +358,37 @@ export const chatBridgeLayer = Layer.effect(
                   case "tool-params-delta":
                   case "tool-params-end":
                     break;
-                    
+
                   default:
-                    log("ChatBridge", "Unknown stream part type", { type: partType });
+                    log("ChatBridge", "Unknown stream part type", {
+                      type: partType,
+                    });
                 }
-              })
+              }),
             ).pipe(
               Effect.catchAll((error) =>
                 Effect.gen(function* () {
                   logError("ChatBridge", "streamText error", error);
-                  
+
                   // If it's a tool error, we should continue the loop with the error message
                   const errorMessage = String(error);
-                  
+
                   // Check if this looks like a tool failure (file not found, etc.)
-                  if (errorMessage.includes("File not found") || 
-                      errorMessage.includes("not found") ||
-                      errorMessage.includes("not exist")) {
+                  if (
+                    errorMessage.includes("File not found") ||
+                    errorMessage.includes("not found") ||
+                    errorMessage.includes("not exist")
+                  ) {
                     // Add error message to tool results so model can recover
                     const results = yield* Ref.get(toolResultsForHistory);
-                    yield* Ref.set(toolResultsForHistory, [...results, {
-                      id: "error",
-                      name: "error",
-                      result: `Error: ${errorMessage}`,
-                    }]);
+                    yield* Ref.set(toolResultsForHistory, [
+                      ...results,
+                      {
+                        id: "error",
+                        name: "error",
+                        result: `Error: ${errorMessage}`,
+                      },
+                    ]);
                     // Set reason to tool-calls so loop continues
                     yield* Ref.set(finishReason, "tool-calls");
                   } else {
@@ -353,32 +402,42 @@ export const chatBridgeLayer = Layer.effect(
                     });
                     yield* Ref.set(finishReason, "error");
                   }
-                })
-              )
+                }),
+              ),
             );
 
             // Check if we should continue the loop
             const reason = yield* Ref.get(finishReason);
             const toolResults = yield* Ref.get(toolResultsForHistory);
-            
+
             if (reason === "tool-calls" && toolResults.length > 0) {
               // Model wants to continue - add assistant response and tool results to history
               const iterText = yield* Ref.get(textBuffer);
-              const assistantContent = iterText + "\n\nTool Results:\n" + 
-                toolResults.map(r => `[${r.name}]: ${r.result}`).join("\n\n");
-              
+              const assistantContent =
+                iterText +
+                "\n\nTool Results:\n" +
+                toolResults.map((r) => `[${r.name}]: ${r.result}`).join("\n\n");
+
               const currentHistory = yield* Ref.get(conversationHistory);
               yield* Ref.set(conversationHistory, [
                 ...currentHistory,
                 { role: "assistant", content: assistantContent },
-                { role: "user", content: "Continue based on the tool results above." }
+                {
+                  role: "user",
+                  content: "Continue based on the tool results above.",
+                },
               ]);
-              
-              log("ChatBridge", "Continuing agentic loop", { toolCount: toolResults.length });
+
+              log("ChatBridge", "Continuing agentic loop", {
+                toolCount: toolResults.length,
+              });
             } else {
               // Model is done (stop, length, error, etc.)
               shouldContinue = false;
-              log("ChatBridge", "Ending agentic loop", { reason, iteration: loopIteration });
+              log("ChatBridge", "Ending agentic loop", {
+                reason,
+                iteration: loopIteration,
+              });
             }
           }
 
@@ -386,10 +445,12 @@ export const chatBridgeLayer = Layer.effect(
           const allTexts = yield* Ref.get(allTextParts);
           const finalToolPartsArr = yield* Ref.get(allToolParts);
           const allParts: Part[] = [...finalToolPartsArr];
-          
+
           const combinedText = allTexts.join("\n\n");
           if (combinedText) {
-            allParts.push(createTextPart(assistantMsgId, sanitizeText(combinedText)));
+            allParts.push(
+              createTextPart(assistantMsgId, sanitizeText(combinedText)),
+            );
           }
 
           yield* emit({
@@ -401,10 +462,10 @@ export const chatBridgeLayer = Layer.effect(
               parts: allParts,
             },
           });
-          log("ChatBridge", "Message finalized", { 
-            textLength: combinedText.length, 
+          log("ChatBridge", "Message finalized", {
+            textLength: combinedText.length,
             toolCount: finalToolPartsArr.length,
-            iterations: loopIteration 
+            iterations: loopIteration,
           });
 
           // Set session status to idle
@@ -420,7 +481,12 @@ export const chatBridgeLayer = Layer.effect(
       getEventStream: () => Stream.fromQueue(eventQueue),
 
       // Emit tool start event
-      emitToolStart: (messageID: string, tool: string, callID: string, input: Record<string, unknown>) =>
+      emitToolStart: (
+        messageID: string,
+        tool: string,
+        callID: string,
+        input: Record<string, unknown>,
+      ) =>
         Effect.gen(function* () {
           const part = createToolPart(messageID, tool, callID, input);
           yield* emit({
@@ -431,7 +497,12 @@ export const chatBridgeLayer = Layer.effect(
         }),
 
       // Emit tool complete event
-      emitToolComplete: (messageID: string, callID: string, output: string, metadata?: Record<string, unknown>) =>
+      emitToolComplete: (
+        messageID: string,
+        callID: string,
+        output: string,
+        metadata?: Record<string, unknown>,
+      ) =>
         emit({
           type: "partUpdate",
           messageID,
@@ -459,7 +530,7 @@ export const chatBridgeLayer = Layer.effect(
           } as Partial<ToolPart>,
         }),
     };
-  })
+  }),
 );
 
 // =============================================================================
@@ -502,6 +573,6 @@ export const connectTuiController = (controller: TuiController) =>
             controller.clearSubAgents();
             break;
         }
-      })
+      }),
     );
   });

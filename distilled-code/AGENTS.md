@@ -1,372 +1,268 @@
-# Effect Code - Coding Agent Architecture
+# distilled-code
 
-This document describes the architecture and patterns used in the Effect Code project, an AI-powered coding agent built with [Effect](https://effect.website/).
+> See [../AGENTS.md](../AGENTS.md) for ecosystem overview and shared TDD patterns.
 
-## Project Overview
+Programmatic coding agent library. One function: `agent(key, prompt)`.
 
-Effect Code is a terminal-based coding agent that uses LLMs to assist with code generation, editing, and exploration. It leverages Effect's powerful type-safe abstractions for managing side effects, concurrency, and error handling.
-
-## Directory Structure
-
-```
-src/
-├── index.ts                 # CLI entry point
-├── check.ts                 # Type checking utilities
-├── tools/                   # AI tool definitions
-│   ├── index.ts             # Tool exports and merged toolkit
-│   ├── bash.ts              # Shell command execution
-│   ├── edit.ts              # File editing with smart replacement
-│   ├── glob.ts              # File pattern matching
-│   ├── grep.ts              # Content search with ripgrep
-│   ├── read.ts              # File reading
-│   ├── write.ts             # File writing
-│   └── spawn.ts             # Parallel sub-agent spawning
-├── tui/                     # Terminal UI (OpenTUI + SolidJS)
-│   ├── index.tsx            # TUI entry point
-│   ├── App.tsx              # Main application component
-│   ├── components/          # UI components
-│   └── services/            # Effect services for TUI
-├── agent/                   # Agent orchestration
-│   └── SubAgent.ts          # Parallel sub-agent execution
-└── util/                    # Utility functions
-    ├── command-validator.ts # Shell command validation
-    ├── exec.ts              # Command execution helpers
-    ├── parser.ts            # Tree-sitter parsing
-    ├── replace.ts           # Smart string replacement
-    ├── ripgrep.ts           # Ripgrep integration
-    └── wildcard.ts          # Glob pattern matching
-```
-
-## Core Concepts
-
-### Tools
-
-Tools are the primary interface between the LLM and the system. Each tool is defined using `@effect/ai`'s `Tool.make` function:
+## Core API
 
 ```typescript
-import { Tool, Toolkit } from "@effect/ai";
-import * as S from "effect/Schema";
-import * as Effect from "effect/Effect";
+import { agent } from "distilled-code";
 
-// Define the tool
-export const myTool = Tool.make("toolName", {
-  description: "What this tool does",
-  parameters: {
-    param1: S.String.annotations({ description: "Parameter description" }),
-    param2: S.Number.annotations({ description: "Another parameter" }),
-  },
-  success: S.String,  // Return type schema
-  failure: S.Any,     // Error type schema
+// Run an agent - persists to .distilled/{key}.json
+yield* agent("discover/s3", "Discover missing errors for S3.GetObject");
+```
+
+The `agent` function:
+1. Loads chat history from `.distilled/{key}.json` (or creates new)
+2. Sends the prompt with the configured toolkit
+3. Streams until completion, handling tool calls
+4. Persists updated history
+5. Returns the response
+
+## Context
+
+`agent` runs in the context of:
+- **Chat** - message history and LLM access (via `Chat.layerPersisted`)
+- **Toolkit** - available tools
+
+```typescript
+import { agent } from "./agent.ts";
+import { toolkit, toolkitLayer } from "./tools/index.ts";
+
+const program = Effect.gen(function* () {
+  yield* agent("discover/s3", "Find missing errors");
+  yield* agent("discover/s3", "Now check PutObject");  // Continues conversation
+}).pipe(
+  Effect.provide(toolkitLayer),
+  Effect.provide(Chat.layerPersisted({ storeId: "chat", toolkit })),
+  Effect.provide(modelLayer),
+);
+```
+
+## Persistence
+
+All messages stream to disk:
+
+```
+.distilled/
+├── discover/
+│   ├── s3.json
+│   └── ec2.json
+└── test/
+    └── math.json
+```
+
+Keys are paths. Nested keys create directories.
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `read` | Read file contents |
+| `write` | Write file contents |
+| `edit` | Edit existing files with smart replacement |
+| `glob` | Find files by pattern |
+| `grep` | Search file contents |
+| `spawn` | Spawn parallel sub-agents |
+
+## Testing
+
+### Eval: Generate Test Files
+
+The primary eval tests the agent's ability to generate test files from source code.
+
+```bash
+# Run the test generation eval
+bun vitest run -t "generates test file"
+```
+
+This test:
+1. Provides the agent with a source file (`test/fixtures/math.ts`)
+2. Asks it to generate a comprehensive test file
+3. Verifies the generated tests contain proper coverage
+
+### Example Output
+
+The agent successfully generates tests like:
+
+```typescript
+// test/fixtures/math.test.ts (generated)
+import { describe, it, expect } from 'vitest';
+import { add, multiply, factorial, isPrime, fibonacci } from './math';
+
+describe('add', () => {
+  it('should add two positive numbers', () => {
+    expect(add(2, 3)).toBe(5);
+  });
+  // ... 33 comprehensive tests
 });
-
-// Create a toolkit from the tool
-export const myToolkit = Toolkit.make(myTool);
-
-// Implement the tool as a Layer
-export const myToolkitLayer = myToolkit.toLayer(
-  Effect.gen(function* () {
-    // Access services here
-    const fs = yield* FileSystem.FileSystem;
-    
-    return {
-      toolName: Effect.fn(function* (params) {
-        // Tool implementation
-        return "result";
-      }),
-    };
-  }),
-);
 ```
 
-### Toolkit Composition
+### Running Generated Tests
 
-Tools are merged together into a single toolkit:
-
-```typescript
-// src/tools/index.ts
-export const toolkit = Toolkit.merge(
-  editToolkit,
-  globToolkit,
-  grepToolkit,
-  readToolkit,
-  writeToolkit,
-  spawnToolkit,
-);
-
-export const toolkitLayer = Layer.mergeAll(
-  editToolkitLayer,
-  globToolkitLayer,
-  grepToolkitLayer,
-  readToolkitLayer,
-  writeToolkitLayer,
-  spawnToolkitLayer,
-);
+```bash
+bun vitest run test/fixtures/math.test.ts
+# ✓ 33 tests passed
 ```
 
-### AI Integration
+## Implementation
 
-The project uses `@effect/ai` and `@effect/ai-openai` for LLM integration:
+### `src/agent.ts`
 
 ```typescript
 import * as Chat from "@effect/ai/Chat";
-import * as LanguageModel from "@effect/ai/LanguageModel";
-import { OpenAiClient, OpenAiLanguageModel } from "@effect/ai-openai";
+import { FileSystem, Path } from "@effect/platform";
+import { Effect, Stream } from "effect";
+import { toolkit } from "./tools/index.ts";
 
-// Configure OpenAI client
-const OpenAi = OpenAiClient.layerConfig({
-  apiKey: Config.redacted("OPENAI_API_KEY"),
-});
-
-// Select a model
-const model = OpenAiLanguageModel.model("gpt-5-codex");
-
-// Use chat with tools
-yield* Chat.fromPrompt([
-  { role: "system", content: systemPrompt },
-]);
-
-const response = yield* LanguageModel.generateObject({
-  toolkit,
-  prompt: userMessage,
-  schema: ResponseSchema,
-});
-```
-
-### String Replacement Strategy
-
-The `edit` tool uses a sophisticated multi-strategy replacement system (`src/util/replace.ts`):
-
-1. **SimpleReplacer** - Exact string match
-2. **LineTrimmedReplacer** - Match ignoring leading/trailing whitespace per line
-3. **BlockAnchorReplacer** - Match by first/last line anchors with fuzzy middle
-4. **WhitespaceNormalizedReplacer** - Match with normalized whitespace
-5. **IndentationFlexibleReplacer** - Match ignoring base indentation
-6. **EscapeNormalizedReplacer** - Handle escape sequences
-7. **TrimmedBoundaryReplacer** - Match trimmed content
-8. **ContextAwareReplacer** - Match using context lines as anchors
-
-### Effect Patterns Used
-
-#### Service Pattern
-
-```typescript
-import * as Context from "effect/Context";
-import * as Layer from "effect/Layer";
-
-export class MyService extends Context.Tag("MyService")<
-  MyService,
-  { doSomething: () => Effect.Effect<void> }
->() {}
-
-export const myServiceLayer = Layer.effect(
-  MyService,
+export const agent = (
+  key: string,
+  prompt: string,
+  options: AgentOptions = {},
+) =>
   Effect.gen(function* () {
-    return { doSomething: () => Effect.void };
-  }),
-);
+    const fs = yield* FileSystem.FileSystem;
+    const pathService = yield* Path.Path;
+    const chat = yield* Chat.fromPrompt(initialMessages);
+
+    // Execute prompt with tool loop
+    while (true) {
+      const stream = chat.streamText({
+        toolkit,
+        prompt: isFirst ? prompt : "Continue",
+      });
+
+      yield* Stream.runForEach(stream, handlePart);
+
+      if (finishReason !== "tool-calls") break;
+    }
+
+    // Persist history
+    yield* fs.writeFileString(sessionPath, JSON.stringify({ messages }));
+    return finalText;
+  });
 ```
 
-#### Error Handling
+### `test/test.ts`
+
+Test helper that provides the full Effect context:
 
 ```typescript
-yield* Effect.fail({ error: "descriptive message" });
+import { it } from "@effect/vitest";
+import * as Chat from "@effect/ai/Chat";
+import { toolkit, toolkitLayer } from "../src/tools/index.ts";
 
-// Or with typed errors
-yield* fs.stat(filePath).pipe(
-  Effect.catchIf(
-    (err) => err._tag === "SystemError" && err.reason === "NotFound",
-    () => Effect.void,
-  ),
-);
+export function test(name: string, options: { timeout?: number }, testCase: TestCase) {
+  return it.scopedLive(name, (ctx) => {
+    return provideTestEnv(effect);
+  }, options.timeout ?? 120_000);
+}
+
+function provideTestEnv(effect) {
+  return effect.pipe(
+    Effect.provide(toolkitLayer),
+    Effect.provide(Chat.layerPersisted({ storeId: "test", toolkit })),
+    Effect.provide(modelLayer),
+    Effect.provide(platform),
+  );
+}
 ```
 
-#### Concurrency
+## Architecture
 
-```typescript
-// Parallel execution
-yield* Effect.all(tasks, { concurrency: "unbounded" });
-
-// Fiber-based interruption
-const fiber = yield* Effect.fork(longRunningTask);
-yield* Fiber.interrupt(fiber);
+```
+distilled-code/
+├── src/
+│   ├── index.ts              # CLI entry
+│   ├── agent.ts              # Core agent function
+│   ├── tools/                # Tool definitions
+│   │   ├── index.ts          # Merged toolkit
+│   │   ├── read.ts           # Read files
+│   │   ├── write.ts          # Write files
+│   │   ├── edit.ts           # Edit files
+│   │   ├── glob.ts           # Find files
+│   │   ├── grep.ts           # Search content
+│   │   └── spawn.ts          # Sub-agents
+│   └── tui/                  # Terminal UI (future)
+├── test/
+│   ├── test.ts               # Test helper
+│   ├── agent.test.ts         # Agent evals
+│   └── fixtures/
+│       ├── math.ts           # Source for testing
+│       └── math.test.ts      # Generated tests
+└── .distilled/               # Persisted sessions
 ```
 
-## Adding a New Tool
-
-1. Create a new file in `src/tools/`:
-
-```typescript
-// src/tools/mytool.ts
-import { Tool, Toolkit } from "@effect/ai";
-import * as S from "effect/Schema";
-import * as Effect from "effect/Effect";
-
-export const myTool = Tool.make("myTool", {
-  description: "Description of what the tool does",
-  parameters: {
-    input: S.String.annotations({ description: "Input parameter" }),
-  },
-  success: S.String,
-  failure: S.Any,
-});
-
-export const myToolkit = Toolkit.make(myTool);
-
-export const myToolkitLayer = myToolkit.toLayer(
-  Effect.gen(function* () {
-    return {
-      myTool: Effect.fn(function* ({ input }) {
-        // Implementation
-        return `Processed: ${input}`;
-      }),
-    };
-  }),
-);
-```
-
-2. Export from `src/tools/index.ts`:
-
-```typescript
-import { myToolkit, myToolkitLayer } from "./mytool.ts";
-
-export const toolkit = Toolkit.merge(
-  // ... existing tools
-  myToolkit,
-);
-
-export const toolkitLayer = Layer.mergeAll(
-  // ... existing layers
-  myToolkitLayer,
-);
-```
-
-## TUI Architecture
-
-The terminal UI is built with OpenTUI and SolidJS:
-
-- **Input handling** - User text input with ESC interrupt support
-- **Message display** - Chat-style conversation view
-- **Diff rendering** - Inline colored diffs for file changes
-- **Sub-agent display** - Collapsible views for parallel task progress
-
-### Interrupt Controller
-
-The `InterruptController` service enables graceful cancellation:
-
-```typescript
-// Press ESC to interrupt running operations
-const result = yield* InterruptController.run(agentTask);
-```
-
-### Parallel Sub-Agents
-
-The main agent can spawn sub-agents for concurrent tasks:
-
-```typescript
-// Agent calls spawn tool
-yield* spawn({
-  tasks: [
-    { id: "task1", prompt: "Analyze file A" },
-    { id: "task2", prompt: "Analyze file B" },
-  ],
-});
-```
-
-## Running the Project
+## Development
 
 ```bash
 # Install dependencies
 bun install
 
-# Run the TUI
-bun run src/index.ts tui
+# Run tests
+bun vitest run
 
-# Run with a specific command
-bun run src/index.ts generate <service>
+# Run specific test
+bun vitest run -t "generates test file"
+
+# Run generated tests
+bun vitest run test/fixtures/math.test.ts
+
+# Type check
+bun tsgo -b
 ```
 
-## Environment Variables
-
-- `ANTHROPIC_API_KEY` - Required for LLM access (Anthropic Claude)
-- `DEBUG` - Set to enable debug logging
-
-## Reference Codebase: OpenCode
-
-We include [OpenCode](https://github.com/anomalyco/opencode) as a git submodule at `vendor/opencode/`. OpenCode is a production-grade open source coding agent that uses the same technologies we use (OpenTUI, SolidJS, Effect). Use it as a reference for:
-
-- **OpenTUI patterns** - See how they structure TUI components
-- **Effect patterns** - Learn from their Effect service implementations
-- **Tool implementations** - Reference their tool designs and prompts
-
-### Key Directories in OpenCode
-
-```
-vendor/opencode/packages/opencode/src/
-├── cli/cmd/tui/                # TUI application
-│   ├── app.tsx                 # Main TUI app entry
-│   ├── component/              # Reusable UI components
-│   │   ├── prompt/             # Input/autocomplete components
-│   │   ├── dialog-*.tsx        # Modal dialogs
-│   │   └── logo.tsx, border.tsx, etc.
-│   ├── context/                # SolidJS context providers
-│   │   ├── theme/              # Theme JSON files
-│   │   ├── theme.tsx           # Theme context
-│   │   ├── keybind.tsx         # Keyboard shortcut handling
-│   │   └── route.tsx           # Routing/navigation
-│   ├── routes/                 # Page components
-│   │   ├── home.tsx            # Main chat view
-│   │   └── session/            # Session-related views
-│   ├── ui/                     # Base UI primitives
-│   │   ├── dialog.tsx          # Dialog base component
-│   │   ├── spinner.ts          # Loading spinner
-│   │   └── toast.tsx           # Toast notifications
-│   └── util/                   # TUI utilities
-│       ├── clipboard.ts        # Clipboard handling
-│       └── terminal.ts         # Terminal utilities
-├── tool/                       # AI tool implementations (23 tools)
-├── session/                    # Chat session management
-├── agent/                      # Agent orchestration
-├── provider/                   # LLM provider integrations
-└── util/                       # Utility functions
-```
-
-### How to Use This Reference
-
-1. **Search for patterns**:
-   ```bash
-   # Find how opencode handles text rendering
-   grep -r "wrapMode" vendor/opencode/
-   
-   # Find their tool implementations
-   ls vendor/opencode/packages/opencode/src/tool/
-   
-   # Search for Effect patterns
-   grep -r "Effect.gen" vendor/opencode/packages/opencode/src/
-   ```
-
-2. **Read specific implementations**:
-   ```bash
-   # Read their TUI components
-   cat vendor/opencode/packages/opencode/src/cli/cmd/chat.tsx
-   
-   # Read their tool definitions
-   cat vendor/opencode/packages/opencode/src/tool/read.ts
-   ```
-
-3. **Copy and adapt patterns** - When implementing new features, find the equivalent in OpenCode and adapt it to our architecture.
-
-### Updating the Submodule
+## Environment
 
 ```bash
-# Pull latest changes
-cd vendor/opencode && git pull origin dev
-
-# Or from project root
-git submodule update --remote vendor/opencode
+ANTHROPIC_API_KEY=xxx    # Required for Claude-based agents
+DEBUG=1                  # Enable debug logging
 ```
 
-### Important Notes
+## CLI (Future)
 
-- OpenCode is MIT licensed, so we can reference and learn from their code
-- Their TUI is more mature and battle-tested - prefer their patterns over custom solutions
-- They also use OpenTUI which is "not ready for production" but they've worked around many issues
+```bash
+# Send prompt to an agent
+bun run code "discover/s3" "Find missing errors"
+
+# Send to multiple agents (glob)
+bun run code "discover/*" "Summarize your findings"
+
+# List all agents
+bun run code --list
+
+# Run TUI
+bun run code tui
+```
+
+## Parallel Agents
+
+Run many agents in parallel:
+
+```typescript
+const services = ["s3", "ec2", "dynamodb", "lambda", "sqs"];
+
+yield* Effect.all(
+  services.map((svc) =>
+    agent(`discover/${svc}`, `Discover missing errors for ${svc}`),
+  ),
+  { concurrency: 5 },
+);
+```
+
+Each agent streams to its own JSON file independently.
+
+## Meta-Agent
+
+An agent that operates over other agents:
+
+```typescript
+yield* agent("meta", "List all discovery agents and summarize their findings");
+```
+
+| Tool | Description |
+|------|-------------|
+| `list` | List agents matching a glob pattern |
+| `read` | Read message history from an agent |
+| `send` | Send a prompt to agents matching a pattern |

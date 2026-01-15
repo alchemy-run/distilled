@@ -218,6 +218,21 @@ export interface TuiCallbacks {
 }
 
 // =============================================================================
+// Orchestrator Types
+// =============================================================================
+
+export interface AgentInfo {
+  key: string;
+  description: string;
+  status: "idle" | "running" | "completed" | "error";
+  lastMessage?: string;
+}
+
+export type FocusTarget = 
+  | { type: "orchestrator" }
+  | { type: "agent"; key: string };
+
+// =============================================================================
 // Event Types for TUI updates
 // =============================================================================
 
@@ -230,4 +245,6 @@ export type TuiEvent =
   | { type: "partUpdate"; messageID: string; partID: string; update: Partial<Part> }
   | { type: "subAgent"; data: SubAgentTask }
   | { type: "subAgentUpdate"; id: string; data: Partial<SubAgentTask> }
-  | { type: "clearSubAgents" };
+  | { type: "clearSubAgents" }
+  | { type: "agentList"; agents: AgentInfo[] }
+  | { type: "focusChange"; focus: FocusTarget };

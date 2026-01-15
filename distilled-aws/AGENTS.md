@@ -1,8 +1,10 @@
 # distilled-aws
 
-Effect-native AWS SDK. Generates typed clients from Smithy models with full protocol support.
+> See [../AGENTS.md](../AGENTS.md) for ecosystem overview and shared TDD patterns.
 
-## ARCHITECTURE
+Effect-native AWS SDK generated from Smithy models with full protocol support.
+
+## Architecture
 
 ```
 Smithy Model → scripts/generate-clients.ts → src/services/*.ts → Runtime
@@ -16,7 +18,7 @@ Smithy Model → scripts/generate-clients.ts → src/services/*.ts → Runtime
 
 **Effect-Native:** All operations return `Effect<A, E, R>` with typed errors. Error categories (throttling, transient, server) drive automatic retries.
 
-## PROTOCOLS
+## Protocols
 
 | Protocol | Content-Type | Services | File |
 |----------|--------------|----------|------|
@@ -28,7 +30,7 @@ Smithy Model → scripts/generate-clients.ts → src/services/*.ts → Runtime
 
 **Protocol contract:** `(Operation) => { buildRequest, parseResponse }`
 
-## REQUEST FLOW
+## Request Flow
 
 ```
 Input → request-builder.ts → Protocol serializes → Middleware (checksum, streaming)
@@ -44,7 +46,7 @@ Input → request-builder.ts → Protocol serializes → Middleware (checksum, s
 - `src/middleware/checksum.ts` — CRC32/MD5 checksums, aws-chunked encoding
 - `src/eventstream/` — Bi-directional streaming (Transcribe, Bedrock)
 
-## COMMANDS
+## Commands
 
 ```bash
 bun generate --sdk s3              # Generate single service
@@ -61,7 +63,7 @@ bun find ec2 --limit 50            # Limit count
 bun find ec2 --dry-run             # Preview
 ```
 
-## KEY FILES
+## Key Files
 
 | What | Where |
 |------|-------|
@@ -72,7 +74,7 @@ bun find ec2 --dry-run             # Preview
 | Generated clients | `src/services/*.ts` (DO NOT EDIT) |
 | Error patches | `spec/*.json` |
 
-## CODE GENERATOR
+## Code Generator
 
 `scripts/generate-clients.ts`:
 1. Loads Smithy model JSON from `aws-models/models/{service}/`
@@ -83,7 +85,7 @@ bun find ec2 --dry-run             # Preview
 
 **Key functions:** `convertShapeToSchema`, `collectSerializationTraits`, `topologicalSortWithCycles`, `addError`
 
-## ERROR PATCHING
+## Error Patching
 
 AWS Smithy models omit many errors. When you encounter untyped errors:
 
@@ -105,7 +107,7 @@ AWS Smithy models omit many errors. When you encounter untyped errors:
 - `enums.{name}.add/replace` — Fix enum values
 - `errors.{name}` — Add members to error schemas
 
-## ERROR DISCOVERY
+## Error Discovery
 
 The `find` command discovers undocumented errors by calling APIs with fake inputs:
 
@@ -121,7 +123,7 @@ bun find ec2                 # Run again (should find fewer)
 - `scripts/find-errors/runner.ts` — Calls APIs, records errors
 - `scripts/find-errors/cleaner.ts` — Resource cleanup
 
-## TESTING
+## Testing
 
 **File naming:** `test/services/{service}.test.ts`
 **Resource naming:** `itty-{service}-{test}` — NO random suffixes (enables cleanup)
@@ -145,7 +147,7 @@ const cleanupUser = (name: string) =>
   );
 ```
 
-**Gotchas:**
+**AWS-Specific Gotchas:**
 - SQS: 60s cooldown after delete
 - IAM: Role changes take ~10s to propagate
 - S3: Cannot disable versioning; must delete all versions
@@ -157,22 +159,7 @@ DEBUG=1 bun vitest run ./test/services/s3.test.ts # With logs
 LOCAL=1 bun vitest run ./test/services/s3.test.ts # LocalStack
 ```
 
-## CONVENTIONS
-
-**Code:**
-- `const` arrow functions, `Effect.gen` + `pipe`, avoid explicit `return`
-- `Effect.retry` + `Schedule` instead of loops/sleeps
-
-**Commits & PRs:**
-- Use conventional commits: `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`
-- PR titles MUST use conventional commit format (e.g., `feat: add error categories`)
-
-**Testing:**
-- Use `expect` from `@effect/vitest` — NOT `Effect.fail`
-- Deterministic names: `itty-{service}-{test}`
-- Live AWS by default — `LOCAL=1` only when explicitly requested
-
-## EXPLORING SMITHY
+## Exploring Smithy
 
 Models are too large for context. Explore with:
 
@@ -183,7 +170,7 @@ console.log(Object.entries(model.shapes).filter(([_,s]) => s.type === 'operation
 "
 ```
 
-## EXTERNAL REFERENCES
+## External References
 
 - `smithy/docs/source-2.0/` — Smithy specification
 - `aws-models/models/` — AWS Smithy model definitions

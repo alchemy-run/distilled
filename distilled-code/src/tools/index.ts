@@ -4,10 +4,12 @@ import { editTooklit, editTooklitLayer } from "./edit.ts";
 import { globTooklit, globTooklitLayer } from "./glob.ts";
 import { grepTooklit, grepTooklitLayer } from "./grep.ts";
 import { readTooklit, readTooklitLayer } from "./read.ts";
-import { writeTooklit, writeTooklitLayer } from "./write.ts";
 import { spawnToolkit, spawnToolkitLayer } from "./spawn.ts";
+import { writeTooklit, writeTooklitLayer } from "./write.ts";
 
-export const toolkit = Toolkit.merge(
+export type CodingTools = typeof CodingTools;
+
+export const CodingTools = Toolkit.merge(
   editTooklit,
   globTooklit,
   grepTooklit,
@@ -17,7 +19,7 @@ export const toolkit = Toolkit.merge(
   // bashTooklit,
 );
 
-export const toolkitLayer = Layer.mergeAll(
+export const CodingToolsLayer = Layer.mergeAll(
   editTooklitLayer,
   globTooklitLayer,
   grepTooklitLayer,

@@ -6,12 +6,20 @@
     "access": "public"
   },
   "bin": {
-    "effect-code": "./src/index.ts"
+    "distilled": "./src/index.ts"
   },
   "scripts": {
-    "tui": "bun run src/index.ts tui",
-    "generate": "bun run src/index.ts generate",
+    "distilled": "bun run src/index.ts",
+    "tui": "bun run src/index.ts ./examples/distilled.config.ts",
+    "cli": "bun run src/index.ts ./examples/distilled.config.ts -p",
+    "list-agents": "bun run src/index.ts ./examples/distilled.config.ts -l",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "download:env": "doppler secrets download --no-file --format env > .env"
+  },
+  "devDependencies": {
+    "@effect/vitest": "catalog:",
+    "vitest": "catalog:"
   },
   "dependencies": {
     "@effect/ai": "catalog:",
