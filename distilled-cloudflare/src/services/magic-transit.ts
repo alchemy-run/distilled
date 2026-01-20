@@ -518,6 +518,7 @@ export interface GetConnectorResponse {
   device?: { id: string; serialNumber?: string };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
+  licenseKey?: string;
 }
 
 export const GetConnectorResponse = Schema.Struct({
@@ -546,6 +547,7 @@ export const GetConnectorResponse = Schema.Struct({
   lastSeenVersion: Schema.optional(Schema.String).pipe(
     T.JsonName("last_seen_version"),
   ),
+  licenseKey: Schema.optional(Schema.String).pipe(T.JsonName("license_key")),
 }) as unknown as Schema.Schema<GetConnectorResponse>;
 
 export const getConnector: (
@@ -563,8 +565,8 @@ export const getConnector: (
 export interface CreateConnectorRequest {
   /** Path param: Account identifier */
   accountId: string;
-  /** Body param: */
-  device: { id?: string; serialNumber?: string };
+  /** Body param: Exactly one of id, serial_number, or provision_license must be provided. */
+  device: { id?: string; provisionLicense?: boolean; serialNumber?: string };
   /** Body param: */
   activated?: boolean;
   /** Body param: */
@@ -581,6 +583,9 @@ export const CreateConnectorRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   device: Schema.Struct({
     id: Schema.optional(Schema.String),
+    provisionLicense: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("provision_license"),
+    ),
     serialNumber: Schema.optional(Schema.String).pipe(
       T.JsonName("serial_number"),
     ),
@@ -609,6 +614,7 @@ export interface CreateConnectorResponse {
   device?: { id: string; serialNumber?: string };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
+  licenseKey?: string;
 }
 
 export const CreateConnectorResponse = Schema.Struct({
@@ -637,6 +643,7 @@ export const CreateConnectorResponse = Schema.Struct({
   lastSeenVersion: Schema.optional(Schema.String).pipe(
     T.JsonName("last_seen_version"),
   ),
+  licenseKey: Schema.optional(Schema.String).pipe(T.JsonName("license_key")),
 }) as unknown as Schema.Schema<CreateConnectorResponse>;
 
 export const createConnector: (
@@ -663,6 +670,8 @@ export interface UpdateConnectorRequest {
   interruptWindowHourOfDay?: number;
   /** Body param: */
   notes?: string;
+  /** Body param: When true, regenerate license key for the connector. */
+  provisionLicense?: boolean;
   /** Body param: */
   timezone?: string;
 }
@@ -678,6 +687,9 @@ export const UpdateConnectorRequest = Schema.Struct({
     T.JsonName("interrupt_window_hour_of_day"),
   ),
   notes: Schema.optional(Schema.String),
+  provisionLicense: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("provision_license"),
+  ),
   timezone: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
@@ -697,6 +709,7 @@ export interface UpdateConnectorResponse {
   device?: { id: string; serialNumber?: string };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
+  licenseKey?: string;
 }
 
 export const UpdateConnectorResponse = Schema.Struct({
@@ -725,6 +738,7 @@ export const UpdateConnectorResponse = Schema.Struct({
   lastSeenVersion: Schema.optional(Schema.String).pipe(
     T.JsonName("last_seen_version"),
   ),
+  licenseKey: Schema.optional(Schema.String).pipe(T.JsonName("license_key")),
 }) as unknown as Schema.Schema<UpdateConnectorResponse>;
 
 export const updateConnector: (
@@ -751,6 +765,8 @@ export interface PatchConnectorRequest {
   interruptWindowHourOfDay?: number;
   /** Body param: */
   notes?: string;
+  /** Body param: When true, regenerate license key for the connector. */
+  provisionLicense?: boolean;
   /** Body param: */
   timezone?: string;
 }
@@ -766,6 +782,9 @@ export const PatchConnectorRequest = Schema.Struct({
     T.JsonName("interrupt_window_hour_of_day"),
   ),
   notes: Schema.optional(Schema.String),
+  provisionLicense: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("provision_license"),
+  ),
   timezone: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
@@ -785,6 +804,7 @@ export interface PatchConnectorResponse {
   device?: { id: string; serialNumber?: string };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
+  licenseKey?: string;
 }
 
 export const PatchConnectorResponse = Schema.Struct({
@@ -813,6 +833,7 @@ export const PatchConnectorResponse = Schema.Struct({
   lastSeenVersion: Schema.optional(Schema.String).pipe(
     T.JsonName("last_seen_version"),
   ),
+  licenseKey: Schema.optional(Schema.String).pipe(T.JsonName("license_key")),
 }) as unknown as Schema.Schema<PatchConnectorResponse>;
 
 export const patchConnector: (
@@ -854,6 +875,7 @@ export interface DeleteConnectorResponse {
   device?: { id: string; serialNumber?: string };
   lastHeartbeat?: string;
   lastSeenVersion?: string;
+  licenseKey?: string;
 }
 
 export const DeleteConnectorResponse = Schema.Struct({
@@ -882,6 +904,7 @@ export const DeleteConnectorResponse = Schema.Struct({
   lastSeenVersion: Schema.optional(Schema.String).pipe(
     T.JsonName("last_seen_version"),
   ),
+  licenseKey: Schema.optional(Schema.String).pipe(T.JsonName("license_key")),
 }) as unknown as Schema.Schema<DeleteConnectorResponse>;
 
 export const deleteConnector: (
@@ -1227,6 +1250,7 @@ export interface GetConnectorSnapshotResponse {
   t: number;
   /** Version */
   v: string;
+  bonds?: { name: string; status: string }[];
   /** Count of processors/cores */
   cpuCount?: number;
   /** Percentage of time over a 10 second window that tasks were stalled */
@@ -1622,6 +1646,7 @@ export interface GetConnectorSnapshotResponse {
     interfaceName: string;
     tunnelId: string;
     connectorId?: string;
+    probedMtu?: number;
   }[];
   /** Sum of how much time each core has spent idle */
   uptimeIdleMs?: number;
@@ -1640,6 +1665,14 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
   ),
   t: Schema.Number,
   v: Schema.String,
+  bonds: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        status: Schema.String,
+      }),
+    ),
+  ),
   cpuCount: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_count")),
   cpuPressure_10s: Schema.optional(Schema.Number).pipe(
     T.JsonName("cpu_pressure_10s"),
@@ -2249,6 +2282,9 @@ export const GetConnectorSnapshotResponse = Schema.Struct({
         connectorId: Schema.optional(Schema.String).pipe(
           T.JsonName("connector_id"),
         ),
+        probedMtu: Schema.optional(Schema.Number).pipe(
+          T.JsonName("probed_mtu"),
+        ),
       }),
     ),
   ),
@@ -2358,6 +2394,7 @@ export interface ListConnectorSnapshotLatestsResponse {
     countTransmitFailures: number;
     t: number;
     v: string;
+    bonds?: { name: string; status: string }[];
     cpuCount?: number;
     cpuPressure_10s?: number;
     cpuPressure_300s?: number;
@@ -2599,6 +2636,7 @@ export interface ListConnectorSnapshotLatestsResponse {
       interfaceName: string;
       tunnelId: string;
       connectorId?: string;
+      probedMtu?: number;
     }[];
     uptimeIdleMs?: number;
     uptimeTotalMs?: number;
@@ -2621,6 +2659,14 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
       ),
       t: Schema.Number,
       v: Schema.String,
+      bonds: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.String,
+            status: Schema.String,
+          }),
+        ),
+      ),
       cpuCount: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_count")),
       cpuPressure_10s: Schema.optional(Schema.Number).pipe(
         T.JsonName("cpu_pressure_10s"),
@@ -3237,6 +3283,9 @@ export const ListConnectorSnapshotLatestsResponse = Schema.Struct({
             tunnelId: Schema.String.pipe(T.JsonName("tunnel_id")),
             connectorId: Schema.optional(Schema.String).pipe(
               T.JsonName("connector_id"),
+            ),
+            probedMtu: Schema.optional(Schema.Number).pipe(
+              T.JsonName("probed_mtu"),
             ),
           }),
         ),
@@ -4518,6 +4567,8 @@ export interface CreateIpsecTunnelRequest {
   automaticReturnRouting?: boolean;
   /** Body param: */
   bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+  /** Body param: */
+  customRemoteIdentities?: { fqdnId?: string };
   /** Body param: The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
   customerEndpoint?: string;
   /** Body param: An optional description forthe IPsec tunnel. */
@@ -4558,6 +4609,11 @@ export const CreateIpsecTunnelRequest = Schema.Struct({
       md5Key: Schema.optional(Schema.String).pipe(T.JsonName("md5_key")),
     }),
   ),
+  customRemoteIdentities: Schema.optional(
+    Schema.Struct({
+      fqdnId: Schema.optional(Schema.String).pipe(T.JsonName("fqdn_id")),
+    }),
+  ).pipe(T.JsonName("custom_remote_identities")),
   customerEndpoint: Schema.optional(Schema.String).pipe(
     T.JsonName("customer_endpoint"),
   ),
@@ -4754,6 +4810,8 @@ export interface UpdateIpsecTunnelRequest {
   automaticReturnRouting?: boolean;
   /** Body param: */
   bgp?: { customerAsn: number; extraPrefixes?: string[]; md5Key?: string };
+  /** Body param: */
+  customRemoteIdentities?: { fqdnId?: string };
   /** Body param: The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
   customerEndpoint?: string;
   /** Body param: An optional description forthe IPsec tunnel. */
@@ -4795,6 +4853,11 @@ export const UpdateIpsecTunnelRequest = Schema.Struct({
       md5Key: Schema.optional(Schema.String).pipe(T.JsonName("md5_key")),
     }),
   ),
+  customRemoteIdentities: Schema.optional(
+    Schema.Struct({
+      fqdnId: Schema.optional(Schema.String).pipe(T.JsonName("fqdn_id")),
+    }),
+  ).pipe(T.JsonName("custom_remote_identities")),
   customerEndpoint: Schema.optional(Schema.String).pipe(
     T.JsonName("customer_endpoint"),
   ),

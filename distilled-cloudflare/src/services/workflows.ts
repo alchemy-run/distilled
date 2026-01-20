@@ -222,7 +222,10 @@ export interface CreateInstanceRequest {
   /** Body param: */
   instanceId?: string;
   /** Body param: */
-  instanceRetention?: unknown;
+  instanceRetention?: {
+    errorRetention?: number | string;
+    successRetention?: number | string;
+  };
   /** Body param: */
   params?: unknown;
 }
@@ -231,9 +234,16 @@ export const CreateInstanceRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   instanceId: Schema.optional(Schema.String).pipe(T.JsonName("instance_id")),
-  instanceRetention: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("instance_retention"),
-  ),
+  instanceRetention: Schema.optional(
+    Schema.Struct({
+      errorRetention: Schema.optional(
+        Schema.Union(Schema.Number, Schema.String),
+      ).pipe(T.JsonName("error_retention")),
+      successRetention: Schema.optional(
+        Schema.Union(Schema.Number, Schema.String),
+      ).pipe(T.JsonName("success_retention")),
+    }),
+  ).pipe(T.JsonName("instance_retention")),
   params: Schema.optional(Schema.Unknown),
 }).pipe(
   T.Http({
@@ -339,14 +349,14 @@ export interface PatchInstanceStatusRequest {
   /** Path param: */
   accountId: string;
   /** Body param: Apply action to instance. */
-  status: "resume" | "pause" | "terminate";
+  status: "resume" | "pause" | "terminate" | "restart";
 }
 
 export const PatchInstanceStatusRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  status: Schema.Literal("resume", "pause", "terminate"),
+  status: Schema.Literal("resume", "pause", "terminate", "restart"),
 }).pipe(
   T.Http({
     method: "PATCH",

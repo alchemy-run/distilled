@@ -650,10 +650,37 @@ export const GetDownloadRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDownloadRequest>;
 
-export type GetDownloadResponse = unknown;
+export interface GetDownloadResponse {
+  /** The audio-only download. Only present if this download type has been created. */
+  audio?: {
+    percentComplete?: number;
+    status?: "ready" | "inprogress" | "error";
+    url?: string;
+  };
+  /** The default video download. Only present if this download type has been created. */
+  default?: {
+    percentComplete?: number;
+    status?: "ready" | "inprogress" | "error";
+    url?: string;
+  };
+}
 
-export const GetDownloadResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDownloadResponse>;
+export const GetDownloadResponse = Schema.Struct({
+  audio: Schema.optional(
+    Schema.Struct({
+      percentComplete: Schema.optional(Schema.Number),
+      status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+      url: Schema.optional(Schema.String),
+    }),
+  ),
+  default: Schema.optional(
+    Schema.Struct({
+      percentComplete: Schema.optional(Schema.Number),
+      status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+      url: Schema.optional(Schema.String),
+    }),
+  ),
+}) as unknown as Schema.Schema<GetDownloadResponse>;
 
 export const getDownload: (
   input: GetDownloadRequest,
@@ -686,10 +713,20 @@ export const CreateDownloadRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDownloadRequest>;
 
-export type CreateDownloadResponse = unknown;
+export interface CreateDownloadResponse {
+  /** Indicates the progress as a percentage between 0 and 100. */
+  percentComplete?: number;
+  /** The status of a generated download. */
+  status?: "ready" | "inprogress" | "error";
+  /** The URL to access the generated download. */
+  url?: string;
+}
 
-export const CreateDownloadResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDownloadResponse>;
+export const CreateDownloadResponse = Schema.Struct({
+  percentComplete: Schema.optional(Schema.Number),
+  status: Schema.optional(Schema.Literal("ready", "inprogress", "error")),
+  url: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateDownloadResponse>;
 
 export const createDownload: (
   input: CreateDownloadRequest,

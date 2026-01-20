@@ -529,13 +529,19 @@ export interface DeleteListItemRequest {
   /** Path param: The Account ID for this resource. */
   accountId: string;
   /** Body param: */
-  items?: unknown[];
+  items?: { id: string }[];
 }
 
 export const DeleteListItemRequest = Schema.Struct({
   listId: Schema.String.pipe(T.HttpPath("listId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  items: Schema.optional(Schema.Array(Schema.Unknown)),
+  items: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+      }),
+    ),
+  ),
 }).pipe(
   T.Http({
     method: "DELETE",

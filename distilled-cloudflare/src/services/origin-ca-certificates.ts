@@ -85,20 +85,22 @@ export const getOriginCACertificate: (
 
 export interface CreateOriginCACertificateRequest {
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string;
+  csr: string;
   /** Array of hostnames or wildcard names (e.g., \ .example.com) bound to the certificate. */
-  hostnames?: string[];
+  hostnames: string[];
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
-  requestType?: "origin-rsa" | "origin-ecc" | "keyless-certificate";
+  requestType: "origin-rsa" | "origin-ecc" | "keyless-certificate";
   /** The number of days for which the certificate should be valid. */
   requestedValidity?: "7" | "30" | "90" | "365" | "730" | "1095" | "5475";
 }
 
 export const CreateOriginCACertificateRequest = Schema.Struct({
-  csr: Schema.optional(Schema.String),
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  requestType: Schema.optional(
-    Schema.Literal("origin-rsa", "origin-ecc", "keyless-certificate"),
+  csr: Schema.String,
+  hostnames: Schema.Array(Schema.String),
+  requestType: Schema.Literal(
+    "origin-rsa",
+    "origin-ecc",
+    "keyless-certificate",
   ).pipe(T.JsonName("request_type")),
   requestedValidity: Schema.optional(
     Schema.Literal("7", "30", "90", "365", "730", "1095", "5475"),

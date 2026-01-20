@@ -56,7 +56,8 @@ export interface GetInvestigateResponse {
       | "allowed_recipient"
       | "domain_similarity"
       | "domain_recency"
-      | "managed_acceptable_sender";
+      | "managed_acceptable_sender"
+      | "outbound_ndr";
     blocklistedMessage?: boolean;
     blocklistedPattern?: string;
     whitelistedPatternType?:
@@ -66,7 +67,8 @@ export interface GetInvestigateResponse {
       | "allowed_recipient"
       | "domain_similarity"
       | "domain_recency"
-      | "managed_acceptable_sender";
+      | "managed_acceptable_sender"
+      | "outbound_ndr";
   };
   ts: string;
   alertId?: string | null;
@@ -84,6 +86,8 @@ export interface GetInvestigateResponse {
     | "RETRO_SCAN"
     | null;
   edfHash?: string | null;
+  envelopeFrom?: string | null;
+  envelopeTo?: string[] | null;
   finalDisposition?:
     | "MALICIOUS"
     | "MALICIOUS-BEC"
@@ -97,12 +101,35 @@ export interface GetInvestigateResponse {
     | "NONE"
     | null;
   findings?:
-    | { detail?: string | null; name?: string | null; value?: string | null }[]
+    | {
+        attachment?: string | null;
+        detail?: string | null;
+        detection?:
+          | "MALICIOUS"
+          | "MALICIOUS-BEC"
+          | "SUSPICIOUS"
+          | "SPOOF"
+          | "SPAM"
+          | "BULK"
+          | "ENCRYPTED"
+          | "EXTERNAL"
+          | "UNKNOWN"
+          | "NONE"
+          | null;
+        field?: string | null;
+        name?: string | null;
+        portion?: string | null;
+        reason?: string | null;
+        score?: number | null;
+        value?: string | null;
+      }[]
     | null;
   from?: string | null;
   fromName?: string | null;
   htmltextStructureHash?: string | null;
   messageId?: string | null;
+  postfixIdOutbound?: string | null;
+  replyto?: string | null;
   sentDate?: string | null;
   subject?: string | null;
   threatCategories?: string[] | null;
@@ -141,6 +168,7 @@ export const GetInvestigateResponse = Schema.Struct({
         "domain_similarity",
         "domain_recency",
         "managed_acceptable_sender",
+        "outbound_ndr",
       ),
     ).pipe(T.JsonName("allowlisted_pattern_type")),
     blocklistedMessage: Schema.optional(Schema.Boolean).pipe(
@@ -158,6 +186,7 @@ export const GetInvestigateResponse = Schema.Struct({
         "domain_similarity",
         "domain_recency",
         "managed_acceptable_sender",
+        "outbound_ndr",
       ),
     ).pipe(T.JsonName("whitelisted_pattern_type")),
   }),
@@ -184,6 +213,12 @@ export const GetInvestigateResponse = Schema.Struct({
   edfHash: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("edf_hash"),
   ),
+  envelopeFrom: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.JsonName("envelope_from"),
+  ),
+  envelopeTo: Schema.optional(
+    Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  ).pipe(T.JsonName("envelope_to")),
   finalDisposition: Schema.optional(
     Schema.Union(
       Schema.Literal("MALICIOUS"),
@@ -203,8 +238,28 @@ export const GetInvestigateResponse = Schema.Struct({
     Schema.Union(
       Schema.Array(
         Schema.Struct({
+          attachment: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
           detail: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          detection: Schema.optional(
+            Schema.Union(
+              Schema.Literal("MALICIOUS"),
+              Schema.Literal("MALICIOUS-BEC"),
+              Schema.Literal("SUSPICIOUS"),
+              Schema.Literal("SPOOF"),
+              Schema.Literal("SPAM"),
+              Schema.Literal("BULK"),
+              Schema.Literal("ENCRYPTED"),
+              Schema.Literal("EXTERNAL"),
+              Schema.Literal("UNKNOWN"),
+              Schema.Literal("NONE"),
+              Schema.Null,
+            ),
+          ),
+          field: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
           name: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          portion: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          reason: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+          score: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
           value: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
         }),
       ),
@@ -221,6 +276,10 @@ export const GetInvestigateResponse = Schema.Struct({
   messageId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("message_id"),
   ),
+  postfixIdOutbound: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("postfix_id_outbound")),
+  replyto: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
   sentDate: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("sent_date"),
   ),

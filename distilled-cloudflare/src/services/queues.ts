@@ -1154,6 +1154,107 @@ export const deleteQueue: (
 // Subscription
 // =============================================================================
 
+export interface GetSubscriptionRequest {
+  subscriptionId: string;
+  /** A Resource identifier. */
+  accountId: string;
+}
+
+export const GetSubscriptionRequest = Schema.Struct({
+  subscriptionId: Schema.String.pipe(T.HttpPath("subscriptionId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/event_subscriptions/subscriptions/{subscriptionId}",
+  }),
+) as unknown as Schema.Schema<GetSubscriptionRequest>;
+
+export interface GetSubscriptionResponse {
+  /** Unique identifier for the subscription */
+  id: string;
+  /** When the subscription was created */
+  createdAt: string;
+  /** Destination configuration for the subscription */
+  destination: { queueId: string; type: "queues.queue" };
+  /** Whether the subscription is active */
+  enabled: boolean;
+  /** List of event types this subscription handles */
+  events: string[];
+  /** When the subscription was last modified */
+  modifiedAt: string;
+  /** Name of the subscription */
+  name: string;
+  /** Source configuration for the subscription */
+  source:
+    | { type?: "images" }
+    | { type?: "kv" }
+    | { type?: "r2" }
+    | { type?: "superSlurper" }
+    | { type?: "vectorize" }
+    | { modelName?: string; type?: "workersAi.model" }
+    | { type?: "workersBuilds.worker"; workerName?: string }
+    | { type?: "workflows.workflow"; workflowName?: string };
+}
+
+export const GetSubscriptionResponse = Schema.Struct({
+  id: Schema.String,
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  destination: Schema.Struct({
+    queueId: Schema.String.pipe(T.JsonName("queue_id")),
+    type: Schema.Literal("queues.queue"),
+  }),
+  enabled: Schema.Boolean,
+  events: Schema.Array(Schema.String),
+  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  name: Schema.String,
+  source: Schema.Union(
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("images")),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("kv")),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("r2")),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("superSlurper")),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("vectorize")),
+    }),
+    Schema.Struct({
+      modelName: Schema.optional(Schema.String).pipe(T.JsonName("model_name")),
+      type: Schema.optional(Schema.Literal("workersAi.model")),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("workersBuilds.worker")),
+      workerName: Schema.optional(Schema.String).pipe(
+        T.JsonName("worker_name"),
+      ),
+    }),
+    Schema.Struct({
+      type: Schema.optional(Schema.Literal("workflows.workflow")),
+      workflowName: Schema.optional(Schema.String).pipe(
+        T.JsonName("workflow_name"),
+      ),
+    }),
+  ),
+}) as unknown as Schema.Schema<GetSubscriptionResponse>;
+
+export const getSubscription: (
+  input: GetSubscriptionRequest,
+) => Effect.Effect<
+  GetSubscriptionResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetSubscriptionRequest,
+  output: GetSubscriptionResponse,
+  errors: [],
+}));
+
 export interface CreateSubscriptionRequest {
   /** Path param: A Resource identifier. */
   accountId: string;

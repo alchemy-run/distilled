@@ -1381,6 +1381,7 @@ export interface GetThreatEventResponse {
   category: string;
   date: string;
   event: string;
+  hasChildren: boolean;
   indicator: string;
   indicatorType: string;
   indicatorTypeId: number;
@@ -1408,6 +1409,7 @@ export const GetThreatEventResponse = Schema.Struct({
   category: Schema.String,
   date: Schema.String,
   event: Schema.String,
+  hasChildren: Schema.Boolean,
   indicator: Schema.String,
   indicatorType: Schema.String,
   indicatorTypeId: Schema.Number,
@@ -1449,6 +1451,8 @@ export interface ListThreatEventsRequest {
   /** Query param: */
   forceRefresh?: boolean;
   /** Query param: */
+  format?: "json" | "stix2";
+  /** Query param: */
   order?: "asc" | "desc";
   /** Query param: */
   orderBy?: string;
@@ -1483,6 +1487,9 @@ export const ListThreatEventsRequest = Schema.Struct({
   ),
   forceRefresh: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("forceRefresh"),
+  ),
+  format: Schema.optional(Schema.Literal("json", "stix2")).pipe(
+    T.HttpQuery("format"),
   ),
   order: Schema.optional(Schema.Literal("asc", "desc")).pipe(
     T.HttpQuery("order"),
@@ -1533,6 +1540,7 @@ export type ListThreatEventsResponse = {
   category: string;
   date: string;
   event: string;
+  hasChildren: boolean;
   indicator: string;
   indicatorType: string;
   indicatorTypeId: number;
@@ -1561,6 +1569,7 @@ export const ListThreatEventsResponse = Schema.Array(
     category: Schema.String,
     date: Schema.String,
     event: Schema.String,
+    hasChildren: Schema.Boolean,
     indicator: Schema.String,
     indicatorType: Schema.String,
     indicatorTypeId: Schema.Number,
@@ -1605,8 +1614,6 @@ export interface CreateThreatEventRequest {
   /** Body param: */
   event: string;
   /** Body param: */
-  indicatorType: string;
-  /** Body param: */
   raw: { data: Record<string, unknown> | null; source?: string; tlp?: string };
   /** Body param: */
   tlp: string;
@@ -1618,6 +1625,10 @@ export interface CreateThreatEventRequest {
   datasetId?: string;
   /** Body param: */
   indicator?: string;
+  /** Body param: Array of indicators for this event. Supports multiple indicators per event for complex scenarios. */
+  indicators?: { indicatorType: string; value: string }[];
+  /** Body param: */
+  indicatorType?: string;
   /** Body param: */
   insight?: string;
   /** Body param: */
@@ -1626,6 +1637,8 @@ export interface CreateThreatEventRequest {
   targetCountry?: string;
   /** Body param: */
   targetIndustry?: string;
+  /** Body param: Optional UUID for the event. Only used when preserveUuid=true in bulk create. Must be a valid UUID format. */
+  uuid?: string;
 }
 
 export const CreateThreatEventRequest = Schema.Struct({
@@ -1633,7 +1646,6 @@ export const CreateThreatEventRequest = Schema.Struct({
   category: Schema.String,
   date: Schema.String,
   event: Schema.String,
-  indicatorType: Schema.String,
   raw: Schema.Struct({
     data: Schema.Union(Schema.Struct({}), Schema.Null),
     source: Schema.optional(Schema.String),
@@ -1644,10 +1656,20 @@ export const CreateThreatEventRequest = Schema.Struct({
   attackerCountry: Schema.optional(Schema.String),
   datasetId: Schema.optional(Schema.String),
   indicator: Schema.optional(Schema.String),
+  indicators: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        indicatorType: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  ),
+  indicatorType: Schema.optional(Schema.String),
   insight: Schema.optional(Schema.String),
   tags: Schema.optional(Schema.Array(Schema.String)),
   targetCountry: Schema.optional(Schema.String),
   targetIndustry: Schema.optional(Schema.String),
+  uuid: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
     method: "POST",
@@ -1661,6 +1683,7 @@ export interface CreateThreatEventResponse {
   category: string;
   date: string;
   event: string;
+  hasChildren: boolean;
   indicator: string;
   indicatorType: string;
   indicatorTypeId: number;
@@ -1688,6 +1711,7 @@ export const CreateThreatEventResponse = Schema.Struct({
   category: Schema.String,
   date: Schema.String,
   event: Schema.String,
+  hasChildren: Schema.Boolean,
   indicator: Schema.String,
   indicatorType: Schema.String,
   indicatorTypeId: Schema.Number,
@@ -1732,6 +1756,10 @@ export interface PatchThreatEventRequest {
   /** Body param: */
   category?: string;
   /** Body param: */
+  createdAt?: string;
+  /** Body param: */
+  datasetId?: string;
+  /** Body param: */
   date?: string;
   /** Body param: */
   event?: string;
@@ -1761,6 +1789,8 @@ export const PatchThreatEventRequest = Schema.Struct({
   attacker: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
   attackerCountry: Schema.optional(Schema.String),
   category: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String),
+  datasetId: Schema.optional(Schema.String),
   date: Schema.optional(Schema.String),
   event: Schema.optional(Schema.String),
   indicator: Schema.optional(Schema.String),
@@ -1789,6 +1819,7 @@ export interface PatchThreatEventResponse {
   category: string;
   date: string;
   event: string;
+  hasChildren: boolean;
   indicator: string;
   indicatorType: string;
   indicatorTypeId: number;
@@ -1816,6 +1847,7 @@ export const PatchThreatEventResponse = Schema.Struct({
   category: Schema.String,
   date: Schema.String,
   event: Schema.String,
+  hasChildren: Schema.Boolean,
   indicator: Schema.String,
   indicatorType: Schema.String,
   indicatorTypeId: Schema.Number,
@@ -1893,7 +1925,6 @@ export interface BulkCreateThreatEventsRequest {
     category: string;
     date: string;
     event: string;
-    indicatorType: string;
     raw: {
       data: Record<string, unknown> | null;
       source?: string;
@@ -1905,13 +1936,18 @@ export interface BulkCreateThreatEventsRequest {
     attackerCountry?: string;
     datasetId?: string;
     indicator?: string;
+    indicators?: { indicatorType: string; value: string }[];
+    indicatorType?: string;
     insight?: string;
     tags?: string[];
     targetCountry?: string;
     targetIndustry?: string;
+    uuid?: string;
   }[];
   /** Body param: */
   datasetId: string;
+  /** Body param: When true, use provided UUIDs from event data instead of generating new ones. Used for migration scenarios where original UUIDs must be preserved. Duplicate UUIDs will be skipped. */
+  preserveUuid?: boolean;
 }
 
 export const BulkCreateThreatEventsRequest = Schema.Struct({
@@ -1921,7 +1957,6 @@ export const BulkCreateThreatEventsRequest = Schema.Struct({
       category: Schema.String,
       date: Schema.String,
       event: Schema.String,
-      indicatorType: Schema.String,
       raw: Schema.Struct({
         data: Schema.Union(Schema.Struct({}), Schema.Null),
         source: Schema.optional(Schema.String),
@@ -1933,13 +1968,24 @@ export const BulkCreateThreatEventsRequest = Schema.Struct({
       attackerCountry: Schema.optional(Schema.String),
       datasetId: Schema.optional(Schema.String),
       indicator: Schema.optional(Schema.String),
+      indicators: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            indicatorType: Schema.String,
+            value: Schema.String,
+          }),
+        ),
+      ),
+      indicatorType: Schema.optional(Schema.String),
       insight: Schema.optional(Schema.String),
       tags: Schema.optional(Schema.Array(Schema.String)),
       targetCountry: Schema.optional(Schema.String),
       targetIndustry: Schema.optional(Schema.String),
+      uuid: Schema.optional(Schema.String),
     }),
   ),
   datasetId: Schema.String,
+  preserveUuid: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
     method: "POST",
@@ -1947,10 +1993,39 @@ export const BulkCreateThreatEventsRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkCreateThreatEventsRequest>;
 
-export type BulkCreateThreatEventsResponse = number;
+export interface BulkCreateThreatEventsResponse {
+  /** Number of events created */
+  createdEventsCount: number;
+  /** Number of new tags created in SoT */
+  createdTagsCount: number;
+  /** Number of errors encountered */
+  errorCount: number;
+  /** Number of indicators queued for async processing */
+  queuedIndicatorsCount: number;
+  /** Number of events skipped due to duplicate UUID (only when preserveUuid=true) */
+  skippedEventsCount: number;
+  /** Correlation ID for async indicator processing */
+  createBulkEventsRequestId?: string;
+  /** Array of error details */
+  errors?: { error: string; eventIndex: number }[];
+}
 
-export const BulkCreateThreatEventsResponse =
-  Schema.Number as unknown as Schema.Schema<BulkCreateThreatEventsResponse>;
+export const BulkCreateThreatEventsResponse = Schema.Struct({
+  createdEventsCount: Schema.Number,
+  createdTagsCount: Schema.Number,
+  errorCount: Schema.Number,
+  queuedIndicatorsCount: Schema.Number,
+  skippedEventsCount: Schema.Number,
+  createBulkEventsRequestId: Schema.optional(Schema.String),
+  errors: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        error: Schema.String,
+        eventIndex: Schema.Number,
+      }),
+    ),
+  ),
+}) as unknown as Schema.Schema<BulkCreateThreatEventsResponse>;
 
 export const bulkCreateThreatEvents: (
   input: BulkCreateThreatEventsRequest,
@@ -1969,12 +2044,17 @@ export const bulkCreateThreatEvents: (
 // =============================================================================
 
 export interface ListThreatEventAttackersRequest {
-  /** Account ID. */
+  /** Path param: Account ID. */
   accountId: string;
+  /** Query param: Array of dataset IDs to query attackers from. If not provided, uses the default dataset. */
+  datasetIds?: string[];
 }
 
 export const ListThreatEventAttackersRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",
@@ -2055,12 +2135,17 @@ export const getThreatEventCategory: (
 }));
 
 export interface ListThreatEventCategoriesRequest {
-  /** Account ID. */
+  /** Path param: Account ID. */
   accountId: string;
+  /** Query param: Array of dataset IDs to query categories from. If not provided, uses the default dataset. */
+  datasetIds?: string[];
 }
 
 export const ListThreatEventCategoriesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",
@@ -2852,6 +2937,7 @@ export interface CreateThreatEventTagResponse {
   attributionConfidence?: string;
   attributionOrganization?: string;
   categoryName?: string;
+  categoryUuid?: string;
   externalReferenceLinks?: string[];
   internalDescription?: string;
   motive?: string;
@@ -2872,6 +2958,7 @@ export const CreateThreatEventTagResponse = Schema.Struct({
   attributionConfidence: Schema.optional(Schema.String),
   attributionOrganization: Schema.optional(Schema.String),
   categoryName: Schema.optional(Schema.String),
+  categoryUuid: Schema.optional(Schema.String),
   externalReferenceLinks: Schema.optional(Schema.Array(Schema.String)),
   internalDescription: Schema.optional(Schema.String),
   motive: Schema.optional(Schema.String),
@@ -2898,12 +2985,17 @@ export const createThreatEventTag: (
 // =============================================================================
 
 export interface ListThreatEventTargetIndustriesRequest {
-  /** Account ID. */
+  /** Path param: Account ID. */
   accountId: string;
+  /** Query param: Array of dataset IDs to query target industries from. If not provided, uses the default dataset. */
+  datasetIds?: string[];
 }
 
 export const ListThreatEventTargetIndustriesRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  datasetIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("datasetIds"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",

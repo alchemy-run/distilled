@@ -19,6 +19,694 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// AccessAiControlMcpPortal
+// =============================================================================
+
+export interface CreateAccessAiControlMcpPortalRequest {
+  /** Path param: */
+  accountId: string;
+  /** Body param: portal id */
+  id: string;
+  /** Body param: */
+  hostname: string;
+  /** Body param: */
+  name: string;
+  /** Body param: */
+  description?: string;
+  /** Body param: */
+  servers?: {
+    serverId: string;
+    defaultDisabled?: boolean;
+    onBehalf?: boolean;
+    updatedPrompts?: {
+      name: string;
+      description?: string;
+      enabled?: boolean;
+    }[];
+    updatedTools?: { name: string; description?: string; enabled?: boolean }[];
+  }[];
+}
+
+export const CreateAccessAiControlMcpPortalRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  id: Schema.String,
+  hostname: Schema.String,
+  name: Schema.String,
+  description: Schema.optional(Schema.String),
+  servers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        serverId: Schema.String.pipe(T.JsonName("server_id")),
+        defaultDisabled: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("default_disabled"),
+        ),
+        onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+        updatedPrompts: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              description: Schema.optional(Schema.String),
+              enabled: Schema.optional(Schema.Boolean),
+            }),
+          ),
+        ).pipe(T.JsonName("updated_prompts")),
+        updatedTools: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              description: Schema.optional(Schema.String),
+              enabled: Schema.optional(Schema.Boolean),
+            }),
+          ),
+        ).pipe(T.JsonName("updated_tools")),
+      }),
+    ),
+  ),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/portals",
+  }),
+) as unknown as Schema.Schema<CreateAccessAiControlMcpPortalRequest>;
+
+export interface CreateAccessAiControlMcpPortalResponse {
+  /** portal id */
+  id: string;
+  hostname: string;
+  name: string;
+  createdAt?: string;
+  createdBy?: string;
+  description?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+}
+
+export const CreateAccessAiControlMcpPortalResponse = Schema.Struct({
+  id: Schema.String,
+  hostname: Schema.String,
+  name: Schema.String,
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+}) as unknown as Schema.Schema<CreateAccessAiControlMcpPortalResponse>;
+
+export const createAccessAiControlMcpPortal: (
+  input: CreateAccessAiControlMcpPortalRequest,
+) => Effect.Effect<
+  CreateAccessAiControlMcpPortalResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateAccessAiControlMcpPortalRequest,
+  output: CreateAccessAiControlMcpPortalResponse,
+  errors: [],
+}));
+
+export interface UpdateAccessAiControlMcpPortalRequest {
+  id: string;
+  /** Path param: */
+  accountId: string;
+  /** Body param: */
+  description?: string;
+  /** Body param: */
+  hostname?: string;
+  /** Body param: */
+  name?: string;
+  /** Body param: */
+  servers?: {
+    serverId: string;
+    defaultDisabled?: boolean;
+    onBehalf?: boolean;
+    updatedPrompts?: {
+      name: string;
+      description?: string;
+      enabled?: boolean;
+    }[];
+    updatedTools?: { name: string; description?: string; enabled?: boolean }[];
+  }[];
+}
+
+export const UpdateAccessAiControlMcpPortalRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  description: Schema.optional(Schema.String),
+  hostname: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  servers: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        serverId: Schema.String.pipe(T.JsonName("server_id")),
+        defaultDisabled: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("default_disabled"),
+        ),
+        onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+        updatedPrompts: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              description: Schema.optional(Schema.String),
+              enabled: Schema.optional(Schema.Boolean),
+            }),
+          ),
+        ).pipe(T.JsonName("updated_prompts")),
+        updatedTools: Schema.optional(
+          Schema.Array(
+            Schema.Struct({
+              name: Schema.String,
+              description: Schema.optional(Schema.String),
+              enabled: Schema.optional(Schema.Boolean),
+            }),
+          ),
+        ).pipe(T.JsonName("updated_tools")),
+      }),
+    ),
+  ),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/portals/{id}",
+  }),
+) as unknown as Schema.Schema<UpdateAccessAiControlMcpPortalRequest>;
+
+export interface UpdateAccessAiControlMcpPortalResponse {
+  /** portal id */
+  id: string;
+  hostname: string;
+  name: string;
+  createdAt?: string;
+  createdBy?: string;
+  description?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+}
+
+export const UpdateAccessAiControlMcpPortalResponse = Schema.Struct({
+  id: Schema.String,
+  hostname: Schema.String,
+  name: Schema.String,
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+}) as unknown as Schema.Schema<UpdateAccessAiControlMcpPortalResponse>;
+
+export const updateAccessAiControlMcpPortal: (
+  input: UpdateAccessAiControlMcpPortalRequest,
+) => Effect.Effect<
+  UpdateAccessAiControlMcpPortalResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UpdateAccessAiControlMcpPortalRequest,
+  output: UpdateAccessAiControlMcpPortalResponse,
+  errors: [],
+}));
+
+export interface DeleteAccessAiControlMcpPortalRequest {
+  id: string;
+  accountId: string;
+}
+
+export const DeleteAccessAiControlMcpPortalRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/portals/{id}",
+  }),
+) as unknown as Schema.Schema<DeleteAccessAiControlMcpPortalRequest>;
+
+export interface DeleteAccessAiControlMcpPortalResponse {
+  /** portal id */
+  id: string;
+  hostname: string;
+  name: string;
+  createdAt?: string;
+  createdBy?: string;
+  description?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+}
+
+export const DeleteAccessAiControlMcpPortalResponse = Schema.Struct({
+  id: Schema.String,
+  hostname: Schema.String,
+  name: Schema.String,
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+}) as unknown as Schema.Schema<DeleteAccessAiControlMcpPortalResponse>;
+
+export const deleteAccessAiControlMcpPortal: (
+  input: DeleteAccessAiControlMcpPortalRequest,
+) => Effect.Effect<
+  DeleteAccessAiControlMcpPortalResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteAccessAiControlMcpPortalRequest,
+  output: DeleteAccessAiControlMcpPortalResponse,
+  errors: [],
+}));
+
+export interface ReadAccessAiControlMcpPortalRequest {
+  id: string;
+  accountId: string;
+}
+
+export const ReadAccessAiControlMcpPortalRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/portals/{id}",
+  }),
+) as unknown as Schema.Schema<ReadAccessAiControlMcpPortalRequest>;
+
+export interface ReadAccessAiControlMcpPortalResponse {
+  /** portal id */
+  id: string;
+  hostname: string;
+  name: string;
+  servers: {
+    id: string;
+    authType: "oauth" | "bearer" | "unauthenticated";
+    hostname: string;
+    name: string;
+    prompts: Record<string, unknown>[];
+    tools: Record<string, unknown>[];
+    updatedPrompts: Record<string, unknown>[];
+    updatedTools: Record<string, unknown>[];
+    createdAt?: string;
+    createdBy?: string;
+    defaultDisabled?: boolean;
+    description?: string | null;
+    error?: string;
+    lastSynced?: string;
+    modifiedAt?: string;
+    modifiedBy?: string;
+    onBehalf?: boolean;
+    status?: string;
+  }[];
+  createdAt?: string;
+  createdBy?: string;
+  description?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+}
+
+export const ReadAccessAiControlMcpPortalResponse = Schema.Struct({
+  id: Schema.String,
+  hostname: Schema.String,
+  name: Schema.String,
+  servers: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+        T.JsonName("auth_type"),
+      ),
+      hostname: Schema.String,
+      name: Schema.String,
+      prompts: Schema.Array(Schema.Struct({})),
+      tools: Schema.Array(Schema.Struct({})),
+      updatedPrompts: Schema.Array(Schema.Struct({})).pipe(
+        T.JsonName("updated_prompts"),
+      ),
+      updatedTools: Schema.Array(Schema.Struct({})).pipe(
+        T.JsonName("updated_tools"),
+      ),
+      createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+      createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+      defaultDisabled: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("default_disabled"),
+      ),
+      description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      error: Schema.optional(Schema.String),
+      lastSynced: Schema.optional(Schema.String).pipe(
+        T.JsonName("last_synced"),
+      ),
+      modifiedAt: Schema.optional(Schema.String).pipe(
+        T.JsonName("modified_at"),
+      ),
+      modifiedBy: Schema.optional(Schema.String).pipe(
+        T.JsonName("modified_by"),
+      ),
+      onBehalf: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_behalf")),
+      status: Schema.optional(Schema.String),
+    }),
+  ),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.String),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+}) as unknown as Schema.Schema<ReadAccessAiControlMcpPortalResponse>;
+
+export const readAccessAiControlMcpPortal: (
+  input: ReadAccessAiControlMcpPortalRequest,
+) => Effect.Effect<
+  ReadAccessAiControlMcpPortalResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ReadAccessAiControlMcpPortalRequest,
+  output: ReadAccessAiControlMcpPortalResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// AccessAiControlMcpServer
+// =============================================================================
+
+export interface CreateAccessAiControlMcpServerRequest {
+  /** Path param: */
+  accountId: string;
+  /** Body param: server id */
+  id: string;
+  /** Body param: */
+  authType: "oauth" | "bearer" | "unauthenticated";
+  /** Body param: */
+  hostname: string;
+  /** Body param: */
+  name: string;
+  /** Body param: */
+  authCredentials?: string;
+  /** Body param: */
+  description?: string | null;
+}
+
+export const CreateAccessAiControlMcpServerRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  id: Schema.String,
+  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+    T.JsonName("auth_type"),
+  ),
+  hostname: Schema.String,
+  name: Schema.String,
+  authCredentials: Schema.optional(Schema.String).pipe(
+    T.JsonName("auth_credentials"),
+  ),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/servers",
+  }),
+) as unknown as Schema.Schema<CreateAccessAiControlMcpServerRequest>;
+
+export interface CreateAccessAiControlMcpServerResponse {
+  /** server id */
+  id: string;
+  authType: "oauth" | "bearer" | "unauthenticated";
+  hostname: string;
+  name: string;
+  prompts: Record<string, unknown>[];
+  tools: Record<string, unknown>[];
+  createdAt?: string;
+  createdBy?: string;
+  description?: string | null;
+  error?: string;
+  lastSynced?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+  status?: string;
+}
+
+export const CreateAccessAiControlMcpServerResponse = Schema.Struct({
+  id: Schema.String,
+  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+    T.JsonName("auth_type"),
+  ),
+  hostname: Schema.String,
+  name: Schema.String,
+  prompts: Schema.Array(Schema.Struct({})),
+  tools: Schema.Array(Schema.Struct({})),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  error: Schema.optional(Schema.String),
+  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  status: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateAccessAiControlMcpServerResponse>;
+
+export const createAccessAiControlMcpServer: (
+  input: CreateAccessAiControlMcpServerRequest,
+) => Effect.Effect<
+  CreateAccessAiControlMcpServerResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateAccessAiControlMcpServerRequest,
+  output: CreateAccessAiControlMcpServerResponse,
+  errors: [],
+}));
+
+export interface UpdateAccessAiControlMcpServerRequest {
+  id: string;
+  /** Path param: */
+  accountId: string;
+  /** Body param: */
+  authCredentials?: string;
+  /** Body param: */
+  description?: string | null;
+  /** Body param: */
+  name?: string;
+}
+
+export const UpdateAccessAiControlMcpServerRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  authCredentials: Schema.optional(Schema.String).pipe(
+    T.JsonName("auth_credentials"),
+  ),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  name: Schema.optional(Schema.String),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}",
+  }),
+) as unknown as Schema.Schema<UpdateAccessAiControlMcpServerRequest>;
+
+export interface UpdateAccessAiControlMcpServerResponse {
+  /** server id */
+  id: string;
+  authType: "oauth" | "bearer" | "unauthenticated";
+  hostname: string;
+  name: string;
+  prompts: Record<string, unknown>[];
+  tools: Record<string, unknown>[];
+  createdAt?: string;
+  createdBy?: string;
+  description?: string | null;
+  error?: string;
+  lastSynced?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+  status?: string;
+}
+
+export const UpdateAccessAiControlMcpServerResponse = Schema.Struct({
+  id: Schema.String,
+  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+    T.JsonName("auth_type"),
+  ),
+  hostname: Schema.String,
+  name: Schema.String,
+  prompts: Schema.Array(Schema.Struct({})),
+  tools: Schema.Array(Schema.Struct({})),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  error: Schema.optional(Schema.String),
+  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  status: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<UpdateAccessAiControlMcpServerResponse>;
+
+export const updateAccessAiControlMcpServer: (
+  input: UpdateAccessAiControlMcpServerRequest,
+) => Effect.Effect<
+  UpdateAccessAiControlMcpServerResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: UpdateAccessAiControlMcpServerRequest,
+  output: UpdateAccessAiControlMcpServerResponse,
+  errors: [],
+}));
+
+export interface DeleteAccessAiControlMcpServerRequest {
+  id: string;
+  accountId: string;
+}
+
+export const DeleteAccessAiControlMcpServerRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}",
+  }),
+) as unknown as Schema.Schema<DeleteAccessAiControlMcpServerRequest>;
+
+export interface DeleteAccessAiControlMcpServerResponse {
+  /** server id */
+  id: string;
+  authType: "oauth" | "bearer" | "unauthenticated";
+  hostname: string;
+  name: string;
+  prompts: Record<string, unknown>[];
+  tools: Record<string, unknown>[];
+  createdAt?: string;
+  createdBy?: string;
+  description?: string | null;
+  error?: string;
+  lastSynced?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+  status?: string;
+}
+
+export const DeleteAccessAiControlMcpServerResponse = Schema.Struct({
+  id: Schema.String,
+  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+    T.JsonName("auth_type"),
+  ),
+  hostname: Schema.String,
+  name: Schema.String,
+  prompts: Schema.Array(Schema.Struct({})),
+  tools: Schema.Array(Schema.Struct({})),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  error: Schema.optional(Schema.String),
+  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  status: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<DeleteAccessAiControlMcpServerResponse>;
+
+export const deleteAccessAiControlMcpServer: (
+  input: DeleteAccessAiControlMcpServerRequest,
+) => Effect.Effect<
+  DeleteAccessAiControlMcpServerResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteAccessAiControlMcpServerRequest,
+  output: DeleteAccessAiControlMcpServerResponse,
+  errors: [],
+}));
+
+export interface ReadAccessAiControlMcpServerRequest {
+  id: string;
+  accountId: string;
+}
+
+export const ReadAccessAiControlMcpServerRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}",
+  }),
+) as unknown as Schema.Schema<ReadAccessAiControlMcpServerRequest>;
+
+export interface ReadAccessAiControlMcpServerResponse {
+  /** server id */
+  id: string;
+  authType: "oauth" | "bearer" | "unauthenticated";
+  hostname: string;
+  name: string;
+  prompts: Record<string, unknown>[];
+  tools: Record<string, unknown>[];
+  createdAt?: string;
+  createdBy?: string;
+  description?: string | null;
+  error?: string;
+  lastSynced?: string;
+  modifiedAt?: string;
+  modifiedBy?: string;
+  status?: string;
+}
+
+export const ReadAccessAiControlMcpServerResponse = Schema.Struct({
+  id: Schema.String,
+  authType: Schema.Literal("oauth", "bearer", "unauthenticated").pipe(
+    T.JsonName("auth_type"),
+  ),
+  hostname: Schema.String,
+  name: Schema.String,
+  prompts: Schema.Array(Schema.Struct({})),
+  tools: Schema.Array(Schema.Struct({})),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  error: Schema.optional(Schema.String),
+  lastSynced: Schema.optional(Schema.String).pipe(T.JsonName("last_synced")),
+  modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
+  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  status: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<ReadAccessAiControlMcpServerResponse>;
+
+export const readAccessAiControlMcpServer: (
+  input: ReadAccessAiControlMcpServerRequest,
+) => Effect.Effect<
+  ReadAccessAiControlMcpServerResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ReadAccessAiControlMcpServerRequest,
+  output: ReadAccessAiControlMcpServerResponse,
+  errors: [],
+}));
+
+export interface SyncAccessAiControlMcpServerRequest {
+  id: string;
+  accountId: string;
+}
+
+export const SyncAccessAiControlMcpServerRequest = Schema.Struct({
+  id: Schema.String.pipe(T.HttpPath("id")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/access/ai-controls/mcp/servers/{id}/sync",
+  }),
+) as unknown as Schema.Schema<SyncAccessAiControlMcpServerRequest>;
+
+export type SyncAccessAiControlMcpServerResponse = unknown;
+
+export const SyncAccessAiControlMcpServerResponse =
+  Schema.Unknown as unknown as Schema.Schema<SyncAccessAiControlMcpServerResponse>;
+
+export const syncAccessAiControlMcpServer: (
+  input: SyncAccessAiControlMcpServerRequest,
+) => Effect.Effect<
+  SyncAccessAiControlMcpServerResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SyncAccessAiControlMcpServerRequest,
+  output: SyncAccessAiControlMcpServerResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // AccessApplication
 // =============================================================================
 
@@ -45,7 +733,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -68,6 +759,7 @@ export type GetAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -183,7 +875,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       type:
@@ -197,7 +892,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       appLauncherLogoUrl?: string;
@@ -250,7 +948,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       aud?: string;
@@ -298,7 +999,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       targetCriteria: {
@@ -317,7 +1021,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       aud?: string;
       name?: string;
@@ -350,7 +1057,10 @@ export type GetAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -373,6 +1083,7 @@ export type GetAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -443,6 +1154,9 @@ export const GetAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -494,6 +1208,12 @@ export const GetAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -704,6 +1424,9 @@ export const GetAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -720,6 +1443,9 @@ export const GetAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -827,6 +1553,9 @@ export const GetAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -913,6 +1642,9 @@ export const GetAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -938,6 +1670,9 @@ export const GetAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
@@ -989,6 +1724,9 @@ export const GetAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -1040,6 +1778,12 @@ export const GetAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -1185,7 +1929,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -1208,6 +1955,7 @@ export type CreateAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -1323,7 +2071,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       type:
@@ -1337,7 +2088,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       appLauncherLogoUrl?: string;
@@ -1390,7 +2144,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       aud?: string;
@@ -1438,7 +2195,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       targetCriteria: {
@@ -1457,7 +2217,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       aud?: string;
       name?: string;
@@ -1490,7 +2253,10 @@ export type CreateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -1513,6 +2279,7 @@ export type CreateAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -1583,6 +2350,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -1634,6 +2404,12 @@ export const CreateAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -1844,6 +2620,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -1860,6 +2639,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -1967,6 +2749,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -2053,6 +2838,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -2078,6 +2866,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
@@ -2129,6 +2920,9 @@ export const CreateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -2180,6 +2974,12 @@ export const CreateAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -2325,7 +3125,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -2348,6 +3151,7 @@ export type UpdateAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -2463,7 +3267,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       type:
@@ -2477,7 +3284,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       appLauncherLogoUrl?: string;
@@ -2530,7 +3340,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowedIdps?: string[];
       aud?: string;
@@ -2578,7 +3391,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
     }
   | {
       targetCriteria: {
@@ -2597,7 +3413,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       aud?: string;
       name?: string;
@@ -2630,7 +3449,10 @@ export type UpdateAccessApplicationResponse =
         | "bookmark"
         | "dash_sso"
         | "infrastructure"
-        | "rdp";
+        | "rdp"
+        | "mcp"
+        | "mcp_portal"
+        | "proxy_endpoint";
       id?: string;
       allowAuthenticateViaWarp?: boolean;
       allowIframe?: boolean;
@@ -2653,6 +3475,7 @@ export type UpdateAccessApplicationResponse =
             type?: "private";
             vnetId?: string;
           }
+        | { mcpServerId?: string; type?: "via_mcp_server_portal" }
       )[];
       enableBindingCookie?: boolean;
       httpOnlyCookieAttribute?: boolean;
@@ -2723,6 +3546,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -2774,6 +3600,12 @@ export const UpdateAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -2984,6 +3816,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -3000,6 +3835,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -3107,6 +3945,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowedIdps: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -3193,6 +4034,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
         "dash_sso",
         "infrastructure",
         "rdp",
+        "mcp",
+        "mcp_portal",
+        "proxy_endpoint",
       ),
     ),
   }),
@@ -3218,6 +4062,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     aud: Schema.optional(Schema.String),
@@ -3269,6 +4116,9 @@ export const UpdateAccessApplicationResponse = Schema.Union(
       "dash_sso",
       "infrastructure",
       "rdp",
+      "mcp",
+      "mcp_portal",
+      "proxy_endpoint",
     ),
     id: Schema.optional(Schema.String),
     allowAuthenticateViaWarp: Schema.optional(Schema.Boolean).pipe(
@@ -3320,6 +4170,12 @@ export const UpdateAccessApplicationResponse = Schema.Union(
             ),
             type: Schema.optional(Schema.Literal("private")),
             vnetId: Schema.optional(Schema.String).pipe(T.JsonName("vnet_id")),
+          }),
+          Schema.Struct({
+            mcpServerId: Schema.optional(Schema.String).pipe(
+              T.JsonName("mcp_server_id"),
+            ),
+            type: Schema.optional(Schema.Literal("via_mcp_server_portal")),
           }),
         ),
       ),
@@ -7421,6 +8277,10 @@ export interface ListAccessLogAccessRequestsRequest {
   accountId: string;
   /** Query param: The chronological sorting order for the logs. */
   direction?: "desc" | "asc";
+  /** Query param: Filter by user email. Defaults to substring matching. To force exact matching, set `email_exact=true`. Example (default): `email=@example.com` returns all events with that domain. Example */
+  email?: string;
+  /** Query param: When true, `email` is matched exactly instead of substring matching. */
+  emailExact?: boolean;
   /** Query param: The maximum number of log entries to retrieve. */
   limit?: number;
   /** Query param: Page number of results. */
@@ -7431,6 +8291,8 @@ export interface ListAccessLogAccessRequestsRequest {
   since?: string;
   /** Query param: The latest event timestamp to query. */
   until?: string;
+  /** Query param: Filter by user UUID. */
+  userId?: string;
 }
 
 export const ListAccessLogAccessRequestsRequest = Schema.Struct({
@@ -7438,11 +8300,14 @@ export const ListAccessLogAccessRequestsRequest = Schema.Struct({
   direction: Schema.optional(Schema.Literal("desc", "asc")).pipe(
     T.HttpQuery("direction"),
   ),
+  email: Schema.optional(Schema.String).pipe(T.HttpQuery("email")),
+  emailExact: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("email_exact")),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
   since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
   until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  userId: Schema.optional(Schema.String).pipe(T.HttpQuery("user_id")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -8846,9 +9711,9 @@ export interface GetDeviceDevices_Response {
   model?: string | null;
   /** The device operating system version number. */
   osVersion?: string | null;
-  /** Additional operating system version data. For macOS or iOS, the Product Version Extra. For Linux, the kernel release version. */
+  /** Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version. */
   osVersionExtra?: string | null;
-  /** The public IP address of the WARP client. */
+  /** @deprecated  Deprecated  : IP information is provided by DEX - see https://developers.cloudflare.com/api/resources/zero_trust/subresources/dex/subresources/fleet_status/subresources/devices/methods/li */
   publicIp?: string | null;
   /** The device serial number. */
   serialNumber?: string | null;
@@ -10407,6 +11272,7 @@ export interface CreateDevicePostureRequest {
     | "domain_joined"
     | "client_certificate"
     | "client_certificate_v2"
+    | "antivirus"
     | "unique_client_id"
     | "kolide"
     | "tanium_s2s"
@@ -10457,6 +11323,7 @@ export interface CreateDevicePostureRequest {
         locations?: { paths?: string[]; trustStores?: ("system" | "user")[] };
         subjectAlternativeNames?: string[];
       }
+    | { updateWindowDays?: number }
     | {
         complianceStatus: "compliant" | "noncompliant" | "unknown";
         connectionId: string;
@@ -10546,6 +11413,7 @@ export const CreateDevicePostureRequest = Schema.Struct({
     "domain_joined",
     "client_certificate",
     "client_certificate_v2",
+    "antivirus",
     "unique_client_id",
     "kolide",
     "tanium_s2s",
@@ -10642,6 +11510,11 @@ export const CreateDevicePostureRequest = Schema.Struct({
         subjectAlternativeNames: Schema.optional(
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("subject_alternative_names")),
+      }),
+      Schema.Struct({
+        updateWindowDays: Schema.optional(Schema.Number).pipe(
+          T.JsonName("update_window_days"),
+        ),
       }),
       Schema.Struct({
         complianceStatus: Schema.Literal(
@@ -10793,6 +11666,7 @@ export interface UpdateDevicePostureRequest {
     | "domain_joined"
     | "client_certificate"
     | "client_certificate_v2"
+    | "antivirus"
     | "unique_client_id"
     | "kolide"
     | "tanium_s2s"
@@ -10843,6 +11717,7 @@ export interface UpdateDevicePostureRequest {
         locations?: { paths?: string[]; trustStores?: ("system" | "user")[] };
         subjectAlternativeNames?: string[];
       }
+    | { updateWindowDays?: number }
     | {
         complianceStatus: "compliant" | "noncompliant" | "unknown";
         connectionId: string;
@@ -10933,6 +11808,7 @@ export const UpdateDevicePostureRequest = Schema.Struct({
     "domain_joined",
     "client_certificate",
     "client_certificate_v2",
+    "antivirus",
     "unique_client_id",
     "kolide",
     "tanium_s2s",
@@ -11029,6 +11905,11 @@ export const UpdateDevicePostureRequest = Schema.Struct({
         subjectAlternativeNames: Schema.optional(
           Schema.Array(Schema.String),
         ).pipe(T.JsonName("subject_alternative_names")),
+      }),
+      Schema.Struct({
+        updateWindowDays: Schema.optional(Schema.Number).pipe(
+          T.JsonName("update_window_days"),
+        ),
       }),
       Schema.Struct({
         complianceStatus: Schema.Literal(
@@ -11927,6 +12808,14 @@ export interface PutDeviceSettingRequest {
   accountId: string;
   /** Body param: Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
   disableForTime?: number;
+  /** Body param: Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** Body param: The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the ser */
+  externalEmergencySignalFingerprint?: string;
+  /** Body param: The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** Body param: The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
   /** Body param: Enable gateway proxy filtering on TCP. */
   gatewayProxyEnabled?: boolean;
   /** Body param: Enable gateway proxy filtering on UDP. */
@@ -11941,6 +12830,18 @@ export const PutDeviceSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   disableForTime: Schema.optional(Schema.Number).pipe(
     T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
   ),
   gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("gateway_proxy_enabled"),
@@ -11980,6 +12881,14 @@ export interface PatchDeviceSettingRequest {
   accountId: string;
   /** Body param: Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
   disableForTime?: number;
+  /** Body param: Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** Body param: The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the ser */
+  externalEmergencySignalFingerprint?: string;
+  /** Body param: The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** Body param: The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
   /** Body param: Enable gateway proxy filtering on TCP. */
   gatewayProxyEnabled?: boolean;
   /** Body param: Enable gateway proxy filtering on UDP. */
@@ -11994,6 +12903,18 @@ export const PatchDeviceSettingRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   disableForTime: Schema.optional(Schema.Number).pipe(
     T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
   ),
   gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("gateway_proxy_enabled"),
@@ -13134,7 +14055,7 @@ export interface GetDlpDatasetResponse {
     | "processing"
     | "failed"
     | "complete";
-  /** When the dataset was last updated.  This includes name or description changes as well as uploads. */
+  /** Stores when the dataset was last updated.  This includes name or description changes as well as uploads. */
   updatedAt: string;
   uploads: {
     numCells: number;
@@ -13292,7 +14213,7 @@ export interface CreateDlpDatasetResponse {
   maxCells: number;
   /** The version to use when uploading the dataset. */
   version: number;
-  /** The secret to use for Exact Data Match datasets. This is not present in Custom Wordlists. */
+  /** The secret to use for Exact Data Match datasets.  This is not present in Custom Wordlists. */
   secret?: string;
 }
 
@@ -13418,7 +14339,7 @@ export interface UpdateDlpDatasetResponse {
     | "processing"
     | "failed"
     | "complete";
-  /** When the dataset was last updated.  This includes name or description changes as well as uploads. */
+  /** Stores when the dataset was last updated.  This includes name or description changes as well as uploads. */
   updatedAt: string;
   uploads: {
     numCells: number;
@@ -13627,10 +14548,100 @@ export const EditDlpDatasetUploadRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<EditDlpDatasetUploadRequest>;
 
-export type EditDlpDatasetUploadResponse = unknown;
+export interface EditDlpDatasetUploadResponse {
+  id: string;
+  columns: {
+    entryId: string;
+    headerName: string;
+    numCells: number;
+    uploadStatus:
+      | "empty"
+      | "uploading"
+      | "pending"
+      | "processing"
+      | "failed"
+      | "complete";
+  }[];
+  createdAt: string;
+  encodingVersion: number;
+  name: string;
+  numCells: number;
+  secret: boolean;
+  status:
+    | "empty"
+    | "uploading"
+    | "pending"
+    | "processing"
+    | "failed"
+    | "complete";
+  /** Stores when the dataset was last updated.  This includes name or description changes as well as uploads. */
+  updatedAt: string;
+  uploads: {
+    numCells: number;
+    status:
+      | "empty"
+      | "uploading"
+      | "pending"
+      | "processing"
+      | "failed"
+      | "complete";
+    version: number;
+  }[];
+  caseSensitive?: boolean;
+  /** The description of the dataset. */
+  description?: string | null;
+}
 
-export const EditDlpDatasetUploadResponse =
-  Schema.Unknown as unknown as Schema.Schema<EditDlpDatasetUploadResponse>;
+export const EditDlpDatasetUploadResponse = Schema.Struct({
+  id: Schema.String,
+  columns: Schema.Array(
+    Schema.Struct({
+      entryId: Schema.String.pipe(T.JsonName("entry_id")),
+      headerName: Schema.String.pipe(T.JsonName("header_name")),
+      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+      uploadStatus: Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ).pipe(T.JsonName("upload_status")),
+    }),
+  ),
+  createdAt: Schema.String.pipe(T.JsonName("created_at")),
+  encodingVersion: Schema.Number.pipe(T.JsonName("encoding_version")),
+  name: Schema.String,
+  numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+  secret: Schema.Boolean,
+  status: Schema.Literal(
+    "empty",
+    "uploading",
+    "pending",
+    "processing",
+    "failed",
+    "complete",
+  ),
+  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+  uploads: Schema.Array(
+    Schema.Struct({
+      numCells: Schema.Number.pipe(T.JsonName("num_cells")),
+      status: Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+      version: Schema.Number,
+    }),
+  ),
+  caseSensitive: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("case_sensitive"),
+  ),
+  description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+}) as unknown as Schema.Schema<EditDlpDatasetUploadResponse>;
 
 export const editDlpDatasetUpload: (
   input: EditDlpDatasetUploadRequest,
@@ -13846,7 +14857,7 @@ export const GetDlpEmailRuleRequest = Schema.Struct({
 
 export interface GetDlpEmailRuleResponse {
   action: { action: "Block"; message?: string | null };
-  /** Rule is triggered if all conditions match. */
+  /** Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -13904,7 +14915,7 @@ export interface CreateDlpEmailRuleRequest {
   accountId: string;
   /** Body param: */
   action: { action: "Block"; message?: string | null };
-  /** Body param: Rule is triggered if all conditions match. */
+  /** Body param: Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -13945,7 +14956,7 @@ export const CreateDlpEmailRuleRequest = Schema.Struct({
 
 export interface CreateDlpEmailRuleResponse {
   action: { action: "Block"; message?: string | null };
-  /** Rule is triggered if all conditions match. */
+  /** Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -14004,7 +15015,7 @@ export interface UpdateDlpEmailRuleRequest {
   accountId: string;
   /** Body param: */
   action: { action: "Block"; message?: string | null };
-  /** Body param: Rule is triggered if all conditions match. */
+  /** Body param: Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -14049,7 +15060,7 @@ export const UpdateDlpEmailRuleRequest = Schema.Struct({
 
 export interface UpdateDlpEmailRuleResponse {
   action: { action: "Block"; message?: string | null };
-  /** Rule is triggered if all conditions match. */
+  /** Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -14119,7 +15130,7 @@ export const DeleteDlpEmailRuleRequest = Schema.Struct({
 
 export interface DeleteDlpEmailRuleResponse {
   action: { action: "Block"; message?: string | null };
-  /** Rule is triggered if all conditions match. */
+  /** Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -14188,7 +15199,7 @@ export const BulkPatchDlpEmailRulesRequest = Schema.Struct({
 
 export interface BulkPatchDlpEmailRulesResponse {
   action: { action: "Block"; message?: string | null };
-  /** Rule is triggered if all conditions match. */
+  /** Triggered if all conditions match. */
   conditions: {
     operator: "InList" | "NotInList" | "MatchRegex" | "NotMatchRegex";
     selector: "Recipients" | "Sender" | "DLPProfiles";
@@ -14270,6 +15281,14 @@ export type GetDlpEntryResponse =
       type: "custom";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14278,6 +15297,14 @@ export type GetDlpEntryResponse =
       name: string;
       type: "predefined";
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
       variant?: {
         topicType: "Intent" | "Content";
         type: "PromptTopic";
@@ -14292,6 +15319,14 @@ export type GetDlpEntryResponse =
       type: "integration";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14302,6 +15337,14 @@ export type GetDlpEntryResponse =
       secret: boolean;
       type: "exact_data";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14310,6 +15353,14 @@ export type GetDlpEntryResponse =
       name: string;
       type: "document_fingerprint";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14320,6 +15371,14 @@ export type GetDlpEntryResponse =
       updatedAt: string;
       wordList: unknown;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     };
 
 export const GetDlpEntryResponse = Schema.Union(
@@ -14334,6 +15393,24 @@ export const GetDlpEntryResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14349,6 +15426,24 @@ export const GetDlpEntryResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
     variant: Schema.optional(
       Schema.Struct({
         topicType: Schema.Literal("Intent", "Content").pipe(
@@ -14369,6 +15464,24 @@ export const GetDlpEntryResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14379,6 +15492,24 @@ export const GetDlpEntryResponse = Schema.Union(
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14387,6 +15518,24 @@ export const GetDlpEntryResponse = Schema.Union(
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14399,6 +15548,24 @@ export const GetDlpEntryResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
 ) as unknown as Schema.Schema<GetDlpEntryResponse>;
 
@@ -14424,7 +15591,7 @@ export interface CreateDlpEntryRequest {
   /** Body param: */
   pattern: unknown;
   /** Body param: */
-  profileId: string;
+  profileId?: string;
 }
 
 export const CreateDlpEntryRequest = Schema.Struct({
@@ -14432,7 +15599,7 @@ export const CreateDlpEntryRequest = Schema.Struct({
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  profileId: Schema.String.pipe(T.JsonName("profile_id")),
+  profileId: Schema.optional(Schema.String).pipe(T.JsonName("profile_id")),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryRequest>;
@@ -14699,6 +15866,14 @@ export type GetDlpEntryCustomResponse =
       type: "custom";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14707,6 +15882,14 @@ export type GetDlpEntryCustomResponse =
       name: string;
       type: "predefined";
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
       variant?: {
         topicType: "Intent" | "Content";
         type: "PromptTopic";
@@ -14721,6 +15904,14 @@ export type GetDlpEntryCustomResponse =
       type: "integration";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14731,6 +15922,14 @@ export type GetDlpEntryCustomResponse =
       secret: boolean;
       type: "exact_data";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14739,6 +15938,14 @@ export type GetDlpEntryCustomResponse =
       name: string;
       type: "document_fingerprint";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -14749,6 +15956,14 @@ export type GetDlpEntryCustomResponse =
       updatedAt: string;
       wordList: unknown;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     };
 
 export const GetDlpEntryCustomResponse = Schema.Union(
@@ -14763,6 +15978,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14778,6 +16011,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
     variant: Schema.optional(
       Schema.Struct({
         topicType: Schema.Literal("Intent", "Content").pipe(
@@ -14798,6 +16049,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14808,6 +16077,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14816,6 +16103,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -14828,6 +16133,24 @@ export const GetDlpEntryCustomResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
 ) as unknown as Schema.Schema<GetDlpEntryCustomResponse>;
 
@@ -14853,7 +16176,7 @@ export interface CreateDlpEntryCustomRequest {
   /** Body param: */
   pattern: unknown;
   /** Body param: */
-  profileId: string;
+  profileId?: string;
 }
 
 export const CreateDlpEntryCustomRequest = Schema.Struct({
@@ -14861,7 +16184,7 @@ export const CreateDlpEntryCustomRequest = Schema.Struct({
   enabled: Schema.Boolean,
   name: Schema.String,
   pattern: Schema.Unknown,
-  profileId: Schema.String.pipe(T.JsonName("profile_id")),
+  profileId: Schema.optional(Schema.String).pipe(T.JsonName("profile_id")),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/dlp/entries" }),
 ) as unknown as Schema.Schema<CreateDlpEntryCustomRequest>;
@@ -15020,6 +16343,14 @@ export type GetDlpEntryIntegrationResponse =
       type: "custom";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15028,6 +16359,14 @@ export type GetDlpEntryIntegrationResponse =
       name: string;
       type: "predefined";
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
       variant?: {
         topicType: "Intent" | "Content";
         type: "PromptTopic";
@@ -15042,6 +16381,14 @@ export type GetDlpEntryIntegrationResponse =
       type: "integration";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15052,6 +16399,14 @@ export type GetDlpEntryIntegrationResponse =
       secret: boolean;
       type: "exact_data";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15060,6 +16415,14 @@ export type GetDlpEntryIntegrationResponse =
       name: string;
       type: "document_fingerprint";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15070,6 +16433,14 @@ export type GetDlpEntryIntegrationResponse =
       updatedAt: string;
       wordList: unknown;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     };
 
 export const GetDlpEntryIntegrationResponse = Schema.Union(
@@ -15084,6 +16455,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15099,6 +16488,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
     variant: Schema.optional(
       Schema.Struct({
         topicType: Schema.Literal("Intent", "Content").pipe(
@@ -15119,6 +16526,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15129,6 +16554,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15137,6 +16580,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15149,6 +16610,24 @@ export const GetDlpEntryIntegrationResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
 ) as unknown as Schema.Schema<GetDlpEntryIntegrationResponse>;
 
@@ -15171,7 +16650,7 @@ export interface CreateDlpEntryIntegrationRequest {
   enabled: boolean;
   /** Body param: */
   entryId: string;
-  /** Body param: This field is not actually used as the owning profile for a predefined entry is already set to a predefined profile */
+  /** Body param: This field is not used as the owning profile. For predefined entries it is already set to a predefined profile. */
   profileId?: string | null;
 }
 
@@ -15333,6 +16812,14 @@ export type GetDlpEntryPredefinedResponse =
       type: "custom";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15341,6 +16828,14 @@ export type GetDlpEntryPredefinedResponse =
       name: string;
       type: "predefined";
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
       variant?: {
         topicType: "Intent" | "Content";
         type: "PromptTopic";
@@ -15355,6 +16850,14 @@ export type GetDlpEntryPredefinedResponse =
       type: "integration";
       updatedAt: string;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15365,6 +16868,14 @@ export type GetDlpEntryPredefinedResponse =
       secret: boolean;
       type: "exact_data";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15373,6 +16884,14 @@ export type GetDlpEntryPredefinedResponse =
       name: string;
       type: "document_fingerprint";
       updatedAt: string;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     }
   | {
       id: string;
@@ -15383,6 +16902,14 @@ export type GetDlpEntryPredefinedResponse =
       updatedAt: string;
       wordList: unknown;
       profileId?: string | null;
+      profiles?: { id: string; name: string }[];
+      uploadStatus?:
+        | "empty"
+        | "uploading"
+        | "pending"
+        | "processing"
+        | "failed"
+        | "complete";
     };
 
 export const GetDlpEntryPredefinedResponse = Schema.Union(
@@ -15397,6 +16924,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15412,6 +16957,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
     variant: Schema.optional(
       Schema.Struct({
         topicType: Schema.Literal("Intent", "Content").pipe(
@@ -15432,6 +16995,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15442,6 +17023,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     secret: Schema.Boolean,
     type: Schema.Literal("exact_data"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15450,6 +17049,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     name: Schema.String,
     type: Schema.Literal("document_fingerprint"),
     updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
   Schema.Struct({
     id: Schema.String,
@@ -15462,6 +17079,24 @@ export const GetDlpEntryPredefinedResponse = Schema.Union(
     profileId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("profile_id"),
     ),
+    profiles: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+      ),
+    ),
+    uploadStatus: Schema.optional(
+      Schema.Literal(
+        "empty",
+        "uploading",
+        "pending",
+        "processing",
+        "failed",
+        "complete",
+      ),
+    ).pipe(T.JsonName("upload_status")),
   }),
 ) as unknown as Schema.Schema<GetDlpEntryPredefinedResponse>;
 
@@ -15484,7 +17119,7 @@ export interface CreateDlpEntryPredefinedRequest {
   enabled: boolean;
   /** Body param: */
   entryId: string;
-  /** Body param: This field is not actually used as the owning profile for a predefined entry is already set to a predefined profile */
+  /** Body param: This field is not used as the owning profile. For predefined entries it is already set to a predefined profile. */
   profileId?: string | null;
 }
 
@@ -16373,10 +18008,523 @@ export const GetDlpProfileCustomRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDlpProfileCustomRequest>;
 
-export type GetDlpProfileCustomResponse = unknown;
+export type GetDlpProfileCustomResponse =
+  | {
+      id: string;
+      allowedMatchCount: number;
+      createdAt: string;
+      name: string;
+      ocrEnabled: boolean;
+      type: "custom";
+      updatedAt: string;
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      description?: string | null;
+      entries?: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+    }
+  | {
+      id: string;
+      allowedMatchCount: number;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "predefined";
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      ocrEnabled?: boolean;
+      openAccess?: boolean;
+    }
+  | {
+      id: string;
+      createdAt: string;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "integration";
+      updatedAt: string;
+      description?: string | null;
+    };
 
-export const GetDlpProfileCustomResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDlpProfileCustomResponse>;
+export const GetDlpProfileCustomResponse = Schema.Union(
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    name: Schema.String,
+    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    type: Schema.Literal("custom"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    entries: Schema.optional(
+      Schema.Array(
+        Schema.Union(
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            pattern: Schema.Unknown,
+            type: Schema.Literal("custom"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            confidence: Schema.Struct({
+              aiContextAvailable: Schema.Boolean.pipe(
+                T.JsonName("ai_context_available"),
+              ),
+              available: Schema.Boolean,
+            }),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("predefined"),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+            variant: Schema.optional(
+              Schema.Struct({
+                topicType: Schema.Literal("Intent", "Content").pipe(
+                  T.JsonName("topic_type"),
+                ),
+                type: Schema.Literal("PromptTopic"),
+                description: Schema.optional(
+                  Schema.Union(Schema.String, Schema.Null),
+                ),
+              }),
+            ),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("integration"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            secret: Schema.Boolean,
+            type: Schema.Literal("exact_data"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("document_fingerprint"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("word_list"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+        ),
+      ),
+    ),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("predefined"),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("integration"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  }),
+) as unknown as Schema.Schema<GetDlpProfileCustomResponse>;
 
 export const getDlpProfileCustom: (
   input: GetDlpProfileCustomRequest,
@@ -16413,13 +18561,7 @@ export interface CreateDlpProfileCustomRequest {
   /** Body param: */
   ocrEnabled?: boolean;
   /** Body param: Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). */
-  sharedEntries?: (
-    | { enabled: boolean; entryId: string; entryType: "custom" }
-    | { enabled: boolean; entryId: string; entryType: "predefined" }
-    | { enabled: boolean; entryId: string; entryType: "integration" }
-    | { enabled: boolean; entryId: string; entryType: "exact_data" }
-    | { enabled: boolean; entryId: string; entryType: "document_fingerprint" }
-  )[];
+  sharedEntries?: { enabled: boolean; entryId: string }[];
 }
 
 export const CreateDlpProfileCustomRequest = Schema.Struct({
@@ -16457,41 +18599,10 @@ export const CreateDlpProfileCustomRequest = Schema.Struct({
   ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
   sharedEntries: Schema.optional(
     Schema.Array(
-      Schema.Union(
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("custom").pipe(T.JsonName("entry_type")),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("predefined").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("integration").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("exact_data").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("document_fingerprint").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-      ),
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        entryId: Schema.String.pipe(T.JsonName("entry_id")),
+      }),
     ),
   ).pipe(T.JsonName("shared_entries")),
 }).pipe(
@@ -16501,10 +18612,523 @@ export const CreateDlpProfileCustomRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDlpProfileCustomRequest>;
 
-export type CreateDlpProfileCustomResponse = unknown;
+export type CreateDlpProfileCustomResponse =
+  | {
+      id: string;
+      allowedMatchCount: number;
+      createdAt: string;
+      name: string;
+      ocrEnabled: boolean;
+      type: "custom";
+      updatedAt: string;
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      description?: string | null;
+      entries?: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+    }
+  | {
+      id: string;
+      allowedMatchCount: number;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "predefined";
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      ocrEnabled?: boolean;
+      openAccess?: boolean;
+    }
+  | {
+      id: string;
+      createdAt: string;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "integration";
+      updatedAt: string;
+      description?: string | null;
+    };
 
-export const CreateDlpProfileCustomResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDlpProfileCustomResponse>;
+export const CreateDlpProfileCustomResponse = Schema.Union(
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    name: Schema.String,
+    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    type: Schema.Literal("custom"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    entries: Schema.optional(
+      Schema.Array(
+        Schema.Union(
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            pattern: Schema.Unknown,
+            type: Schema.Literal("custom"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            confidence: Schema.Struct({
+              aiContextAvailable: Schema.Boolean.pipe(
+                T.JsonName("ai_context_available"),
+              ),
+              available: Schema.Boolean,
+            }),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("predefined"),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+            variant: Schema.optional(
+              Schema.Struct({
+                topicType: Schema.Literal("Intent", "Content").pipe(
+                  T.JsonName("topic_type"),
+                ),
+                type: Schema.Literal("PromptTopic"),
+                description: Schema.optional(
+                  Schema.Union(Schema.String, Schema.Null),
+                ),
+              }),
+            ),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("integration"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            secret: Schema.Boolean,
+            type: Schema.Literal("exact_data"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("document_fingerprint"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("word_list"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+        ),
+      ),
+    ),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("predefined"),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("integration"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  }),
+) as unknown as Schema.Schema<CreateDlpProfileCustomResponse>;
 
 export const createDlpProfileCustom: (
   input: CreateDlpProfileCustomRequest,
@@ -16544,12 +19168,7 @@ export interface UpdateDlpProfileCustomRequest {
   /** Body param: */
   ocrEnabled?: boolean;
   /** Body param: Other entries, e.g. predefined or integration. */
-  sharedEntries?: (
-    | { enabled: boolean; entryId: string; entryType: "predefined" }
-    | { enabled: boolean; entryId: string; entryType: "integration" }
-    | { enabled: boolean; entryId: string; entryType: "exact_data" }
-    | { enabled: boolean; entryId: string; entryType: "document_fingerprint" }
-  )[];
+  sharedEntries?: { enabled: boolean; entryId: string }[];
 }
 
 export const UpdateDlpProfileCustomRequest = Schema.Struct({
@@ -16592,36 +19211,10 @@ export const UpdateDlpProfileCustomRequest = Schema.Struct({
   ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
   sharedEntries: Schema.optional(
     Schema.Array(
-      Schema.Union(
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("predefined").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("integration").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("exact_data").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          entryId: Schema.String.pipe(T.JsonName("entry_id")),
-          entryType: Schema.Literal("document_fingerprint").pipe(
-            T.JsonName("entry_type"),
-          ),
-        }),
-      ),
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        entryId: Schema.String.pipe(T.JsonName("entry_id")),
+      }),
     ),
   ).pipe(T.JsonName("shared_entries")),
 }).pipe(
@@ -16631,10 +19224,523 @@ export const UpdateDlpProfileCustomRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateDlpProfileCustomRequest>;
 
-export type UpdateDlpProfileCustomResponse = unknown;
+export type UpdateDlpProfileCustomResponse =
+  | {
+      id: string;
+      allowedMatchCount: number;
+      createdAt: string;
+      name: string;
+      ocrEnabled: boolean;
+      type: "custom";
+      updatedAt: string;
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      description?: string | null;
+      entries?: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+    }
+  | {
+      id: string;
+      allowedMatchCount: number;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "predefined";
+      aiContextEnabled?: boolean;
+      confidenceThreshold?: "low" | "medium" | "high" | "very_high";
+      contextAwareness?: unknown;
+      ocrEnabled?: boolean;
+      openAccess?: boolean;
+    }
+  | {
+      id: string;
+      createdAt: string;
+      entries: (
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            pattern: unknown;
+            type: "custom";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            confidence: { aiContextAvailable: boolean; available: boolean };
+            enabled: boolean;
+            name: string;
+            type: "predefined";
+            profileId?: string | null;
+            variant?: {
+              topicType: "Intent" | "Content";
+              type: "PromptTopic";
+              description?: string | null;
+            };
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "integration";
+            updatedAt: string;
+            profileId?: string | null;
+          }
+        | {
+            id: string;
+            caseSensitive: boolean;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            secret: boolean;
+            type: "exact_data";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "document_fingerprint";
+            updatedAt: string;
+          }
+        | {
+            id: string;
+            createdAt: string;
+            enabled: boolean;
+            name: string;
+            type: "word_list";
+            updatedAt: string;
+            wordList: unknown;
+            profileId?: string | null;
+          }
+      )[];
+      name: string;
+      type: "integration";
+      updatedAt: string;
+      description?: string | null;
+    };
 
-export const UpdateDlpProfileCustomResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateDlpProfileCustomResponse>;
+export const UpdateDlpProfileCustomResponse = Schema.Union(
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    name: Schema.String,
+    ocrEnabled: Schema.Boolean.pipe(T.JsonName("ocr_enabled")),
+    type: Schema.Literal("custom"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+    entries: Schema.optional(
+      Schema.Array(
+        Schema.Union(
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            pattern: Schema.Unknown,
+            type: Schema.Literal("custom"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            confidence: Schema.Struct({
+              aiContextAvailable: Schema.Boolean.pipe(
+                T.JsonName("ai_context_available"),
+              ),
+              available: Schema.Boolean,
+            }),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("predefined"),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+            variant: Schema.optional(
+              Schema.Struct({
+                topicType: Schema.Literal("Intent", "Content").pipe(
+                  T.JsonName("topic_type"),
+                ),
+                type: Schema.Literal("PromptTopic"),
+                description: Schema.optional(
+                  Schema.Union(Schema.String, Schema.Null),
+                ),
+              }),
+            ),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("integration"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            secret: Schema.Boolean,
+            type: Schema.Literal("exact_data"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("document_fingerprint"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          }),
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String.pipe(T.JsonName("created_at")),
+            enabled: Schema.Boolean,
+            name: Schema.String,
+            type: Schema.Literal("word_list"),
+            updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+            wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+            profileId: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("profile_id")),
+          }),
+        ),
+      ),
+    ),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("predefined"),
+    aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("ai_context_enabled"),
+    ),
+    confidenceThreshold: Schema.optional(
+      Schema.Literal("low", "medium", "high", "very_high"),
+    ).pipe(T.JsonName("confidence_threshold")),
+    contextAwareness: Schema.optional(Schema.Unknown).pipe(
+      T.JsonName("context_awareness"),
+    ),
+    ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+    openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
+  }),
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    entries: Schema.Array(
+      Schema.Union(
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          pattern: Schema.Unknown,
+          type: Schema.Literal("custom"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          confidence: Schema.Struct({
+            aiContextAvailable: Schema.Boolean.pipe(
+              T.JsonName("ai_context_available"),
+            ),
+            available: Schema.Boolean,
+          }),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("predefined"),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+          variant: Schema.optional(
+            Schema.Struct({
+              topicType: Schema.Literal("Intent", "Content").pipe(
+                T.JsonName("topic_type"),
+              ),
+              type: Schema.Literal("PromptTopic"),
+              description: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ),
+            }),
+          ),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("integration"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          secret: Schema.Boolean,
+          type: Schema.Literal("exact_data"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("document_fingerprint"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        }),
+        Schema.Struct({
+          id: Schema.String,
+          createdAt: Schema.String.pipe(T.JsonName("created_at")),
+          enabled: Schema.Boolean,
+          name: Schema.String,
+          type: Schema.Literal("word_list"),
+          updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+          wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+          profileId: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("profile_id")),
+        }),
+      ),
+    ),
+    name: Schema.String,
+    type: Schema.Literal("integration"),
+    updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+    description: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  }),
+) as unknown as Schema.Schema<UpdateDlpProfileCustomResponse>;
 
 export const updateDlpProfileCustom: (
   input: UpdateDlpProfileCustomRequest,
@@ -16695,14 +19801,186 @@ export const GetDlpProfilePredefinedRequest = Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "/accounts/{account_id}/dlp/profiles/predefined/{profileId}",
+    path: "/accounts/{account_id}/dlp/profiles/predefined/{profileId}/config",
   }),
 ) as unknown as Schema.Schema<GetDlpProfilePredefinedRequest>;
 
-export type GetDlpProfilePredefinedResponse = unknown;
+export interface GetDlpProfilePredefinedResponse {
+  /** The id of the predefined profile (uuid). */
+  id: string;
+  allowedMatchCount: number;
+  confidenceThreshold: string | null;
+  enabledEntries: string[];
+  /** @deprecated */
+  entries: (
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        pattern: unknown;
+        type: "custom";
+        updatedAt: string;
+        profileId?: string | null;
+      }
+    | {
+        id: string;
+        confidence: { aiContextAvailable: boolean; available: boolean };
+        enabled: boolean;
+        name: string;
+        type: "predefined";
+        profileId?: string | null;
+        variant?: {
+          topicType: "Intent" | "Content";
+          type: "PromptTopic";
+          description?: string | null;
+        };
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "integration";
+        updatedAt: string;
+        profileId?: string | null;
+      }
+    | {
+        id: string;
+        caseSensitive: boolean;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        secret: boolean;
+        type: "exact_data";
+        updatedAt: string;
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "document_fingerprint";
+        updatedAt: string;
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "word_list";
+        updatedAt: string;
+        wordList: unknown;
+        profileId?: string | null;
+      }
+  )[];
+  /** The name of the predefined profile. */
+  name: string;
+  aiContextEnabled?: boolean;
+  ocrEnabled?: boolean;
+  /** Whether this profile can be accessed by anyone. */
+  openAccess?: boolean;
+}
 
-export const GetDlpProfilePredefinedResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDlpProfilePredefinedResponse>;
+export const GetDlpProfilePredefinedResponse = Schema.Struct({
+  id: Schema.String,
+  allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+  confidenceThreshold: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("confidence_threshold"),
+  ),
+  enabledEntries: Schema.Array(Schema.String).pipe(
+    T.JsonName("enabled_entries"),
+  ),
+  entries: Schema.Array(
+    Schema.Union(
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        pattern: Schema.Unknown,
+        type: Schema.Literal("custom"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        confidence: Schema.Struct({
+          aiContextAvailable: Schema.Boolean.pipe(
+            T.JsonName("ai_context_available"),
+          ),
+          available: Schema.Boolean,
+        }),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("predefined"),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+        variant: Schema.optional(
+          Schema.Struct({
+            topicType: Schema.Literal("Intent", "Content").pipe(
+              T.JsonName("topic_type"),
+            ),
+            type: Schema.Literal("PromptTopic"),
+            description: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ),
+          }),
+        ),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("integration"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        secret: Schema.Boolean,
+        type: Schema.Literal("exact_data"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("document_fingerprint"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("word_list"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+    ),
+  ),
+  name: Schema.String,
+  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("ai_context_enabled"),
+  ),
+  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+  openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
+}) as unknown as Schema.Schema<GetDlpProfilePredefinedResponse>;
 
 export const getDlpProfilePredefined: (
   input: GetDlpProfilePredefinedRequest,
@@ -16716,74 +19994,7 @@ export const getDlpProfilePredefined: (
   errors: [],
 }));
 
-export interface CreateDlpProfilePredefinedRequest {
-  /** Path param: */
-  accountId: string;
-  /** Body param: */
-  profileId: string;
-  /** Body param: */
-  aiContextEnabled?: boolean;
-  /** Body param: */
-  allowedMatchCount?: number | null;
-  /** Body param: */
-  confidenceThreshold?: string | null;
-  /** @deprecated Body param: Scan the context of predefined entries to only return matches surrounded by keywords. */
-  contextAwareness?: unknown;
-  /** @deprecated Body param: */
-  entries?: { id: string; enabled: boolean }[];
-  /** Body param: */
-  ocrEnabled?: boolean;
-}
-
-export const CreateDlpProfilePredefinedRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  profileId: Schema.String.pipe(T.JsonName("profile_id")),
-  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("ai_context_enabled"),
-  ),
-  allowedMatchCount: Schema.optional(
-    Schema.Union(Schema.Number, Schema.Null),
-  ).pipe(T.JsonName("allowed_match_count")),
-  confidenceThreshold: Schema.optional(
-    Schema.Union(Schema.String, Schema.Null),
-  ).pipe(T.JsonName("confidence_threshold")),
-  contextAwareness: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("context_awareness"),
-  ),
-  entries: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        enabled: Schema.Boolean,
-      }),
-    ),
-  ),
-  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/dlp/profiles/predefined",
-  }),
-) as unknown as Schema.Schema<CreateDlpProfilePredefinedRequest>;
-
-export type CreateDlpProfilePredefinedResponse = unknown;
-
-export const CreateDlpProfilePredefinedResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDlpProfilePredefinedResponse>;
-
-export const createDlpProfilePredefined: (
-  input: CreateDlpProfilePredefinedRequest,
-) => Effect.Effect<
-  CreateDlpProfilePredefinedResponse,
-  CommonErrors,
-  ApiToken | HttpClient.HttpClient
-> = API.make(() => ({
-  input: CreateDlpProfilePredefinedRequest,
-  output: CreateDlpProfilePredefinedResponse,
-  errors: [],
-}));
-
-export interface UpdateDlpProfilePredefinedRequest {
+export interface PutDlpProfilePredefinedRequest {
   profileId: string;
   /** Path param: */
   accountId: string;
@@ -16793,15 +20004,15 @@ export interface UpdateDlpProfilePredefinedRequest {
   allowedMatchCount?: number | null;
   /** Body param: */
   confidenceThreshold?: string | null;
-  /** @deprecated Body param: Scan the context of predefined entries to only return matches surrounded by keywords. */
-  contextAwareness?: unknown;
+  /** Body param: */
+  enabledEntries?: string[] | null;
   /** @deprecated Body param: */
   entries?: { id: string; enabled: boolean }[];
   /** Body param: */
   ocrEnabled?: boolean;
 }
 
-export const UpdateDlpProfilePredefinedRequest = Schema.Struct({
+export const PutDlpProfilePredefinedRequest = Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
@@ -16813,9 +20024,9 @@ export const UpdateDlpProfilePredefinedRequest = Schema.Struct({
   confidenceThreshold: Schema.optional(
     Schema.Union(Schema.String, Schema.Null),
   ).pipe(T.JsonName("confidence_threshold")),
-  contextAwareness: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("context_awareness"),
-  ),
+  enabledEntries: Schema.optional(
+    Schema.Union(Schema.Array(Schema.String), Schema.Null),
+  ).pipe(T.JsonName("enabled_entries")),
   entries: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -16828,24 +20039,196 @@ export const UpdateDlpProfilePredefinedRequest = Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "/accounts/{account_id}/dlp/profiles/predefined/{profileId}",
+    path: "/accounts/{account_id}/dlp/profiles/predefined/{profileId}/config",
   }),
-) as unknown as Schema.Schema<UpdateDlpProfilePredefinedRequest>;
+) as unknown as Schema.Schema<PutDlpProfilePredefinedRequest>;
 
-export type UpdateDlpProfilePredefinedResponse = unknown;
+export interface PutDlpProfilePredefinedResponse {
+  /** The id of the predefined profile (uuid). */
+  id: string;
+  allowedMatchCount: number;
+  confidenceThreshold: string | null;
+  enabledEntries: string[];
+  /** @deprecated */
+  entries: (
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        pattern: unknown;
+        type: "custom";
+        updatedAt: string;
+        profileId?: string | null;
+      }
+    | {
+        id: string;
+        confidence: { aiContextAvailable: boolean; available: boolean };
+        enabled: boolean;
+        name: string;
+        type: "predefined";
+        profileId?: string | null;
+        variant?: {
+          topicType: "Intent" | "Content";
+          type: "PromptTopic";
+          description?: string | null;
+        };
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "integration";
+        updatedAt: string;
+        profileId?: string | null;
+      }
+    | {
+        id: string;
+        caseSensitive: boolean;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        secret: boolean;
+        type: "exact_data";
+        updatedAt: string;
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "document_fingerprint";
+        updatedAt: string;
+      }
+    | {
+        id: string;
+        createdAt: string;
+        enabled: boolean;
+        name: string;
+        type: "word_list";
+        updatedAt: string;
+        wordList: unknown;
+        profileId?: string | null;
+      }
+  )[];
+  /** The name of the predefined profile. */
+  name: string;
+  aiContextEnabled?: boolean;
+  ocrEnabled?: boolean;
+  /** Whether this profile can be accessed by anyone. */
+  openAccess?: boolean;
+}
 
-export const UpdateDlpProfilePredefinedResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateDlpProfilePredefinedResponse>;
+export const PutDlpProfilePredefinedResponse = Schema.Struct({
+  id: Schema.String,
+  allowedMatchCount: Schema.Number.pipe(T.JsonName("allowed_match_count")),
+  confidenceThreshold: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("confidence_threshold"),
+  ),
+  enabledEntries: Schema.Array(Schema.String).pipe(
+    T.JsonName("enabled_entries"),
+  ),
+  entries: Schema.Array(
+    Schema.Union(
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        pattern: Schema.Unknown,
+        type: Schema.Literal("custom"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        confidence: Schema.Struct({
+          aiContextAvailable: Schema.Boolean.pipe(
+            T.JsonName("ai_context_available"),
+          ),
+          available: Schema.Boolean,
+        }),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("predefined"),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+        variant: Schema.optional(
+          Schema.Struct({
+            topicType: Schema.Literal("Intent", "Content").pipe(
+              T.JsonName("topic_type"),
+            ),
+            type: Schema.Literal("PromptTopic"),
+            description: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ),
+          }),
+        ),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("integration"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        caseSensitive: Schema.Boolean.pipe(T.JsonName("case_sensitive")),
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        secret: Schema.Boolean,
+        type: Schema.Literal("exact_data"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("document_fingerprint"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String.pipe(T.JsonName("created_at")),
+        enabled: Schema.Boolean,
+        name: Schema.String,
+        type: Schema.Literal("word_list"),
+        updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
+        wordList: Schema.Unknown.pipe(T.JsonName("word_list")),
+        profileId: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("profile_id")),
+      }),
+    ),
+  ),
+  name: Schema.String,
+  aiContextEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("ai_context_enabled"),
+  ),
+  ocrEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("ocr_enabled")),
+  openAccess: Schema.optional(Schema.Boolean).pipe(T.JsonName("open_access")),
+}) as unknown as Schema.Schema<PutDlpProfilePredefinedResponse>;
 
-export const updateDlpProfilePredefined: (
-  input: UpdateDlpProfilePredefinedRequest,
+export const putDlpProfilePredefined: (
+  input: PutDlpProfilePredefinedRequest,
 ) => Effect.Effect<
-  UpdateDlpProfilePredefinedResponse,
+  PutDlpProfilePredefinedResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: UpdateDlpProfilePredefinedRequest,
-  output: UpdateDlpProfilePredefinedResponse,
+  input: PutDlpProfilePredefinedRequest,
+  output: PutDlpProfilePredefinedResponse,
   errors: [],
 }));
 
@@ -16921,7 +20304,7 @@ export interface ResetExpirationGatewayRuleResponse {
     | "redirect";
   /** Specify whether the rule is enabled. */
   enabled: boolean;
-  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Specify the rule name. */
   name: string;
@@ -16948,7 +20331,7 @@ export interface ResetExpirationGatewayRuleResponse {
   identity?: string;
   /** Indicate that this rule is shared via the Orgs API and read only. */
   readOnly?: boolean;
-  /** Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting values, verif */
+  /** Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether  */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -16974,6 +20357,7 @@ export interface ResetExpirationGatewayRuleResponse {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -17176,6 +20560,14 @@ export const ResetExpirationGatewayRuleResponse = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -19307,7 +22699,15 @@ export interface GetGatewayListResponse {
   /** Specify the list name. */
   name?: string;
   /** Specify the list type. */
-  type?: "SERIAL" | "URL" | "DOMAIN" | "EMAIL" | "IP";
+  type?:
+    | "SERIAL"
+    | "URL"
+    | "DOMAIN"
+    | "EMAIL"
+    | "IP"
+    | "CATEGORY"
+    | "LOCATION"
+    | "DEVICE";
   updatedAt?: string;
 }
 
@@ -19329,7 +22729,16 @@ export const GetGatewayListResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal("SERIAL", "URL", "DOMAIN", "EMAIL", "IP"),
+    Schema.Literal(
+      "SERIAL",
+      "URL",
+      "DOMAIN",
+      "EMAIL",
+      "IP",
+      "CATEGORY",
+      "LOCATION",
+      "DEVICE",
+    ),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<GetGatewayListResponse>;
@@ -19352,7 +22761,15 @@ export interface CreateGatewayListRequest {
   /** Body param: Specify the list name. */
   name: string;
   /** Body param: Specify the list type. */
-  type: "SERIAL" | "URL" | "DOMAIN" | "EMAIL" | "IP";
+  type:
+    | "SERIAL"
+    | "URL"
+    | "DOMAIN"
+    | "EMAIL"
+    | "IP"
+    | "CATEGORY"
+    | "LOCATION"
+    | "DEVICE";
   /** Body param: Provide the list description. */
   description?: string;
   /** Body param: Add items to the list. */
@@ -19362,7 +22779,16 @@ export interface CreateGatewayListRequest {
 export const CreateGatewayListRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
-  type: Schema.Literal("SERIAL", "URL", "DOMAIN", "EMAIL", "IP"),
+  type: Schema.Literal(
+    "SERIAL",
+    "URL",
+    "DOMAIN",
+    "EMAIL",
+    "IP",
+    "CATEGORY",
+    "LOCATION",
+    "DEVICE",
+  ),
   description: Schema.optional(Schema.String),
   items: Schema.optional(
     Schema.Array(
@@ -19387,7 +22813,15 @@ export interface CreateGatewayListResponse {
   /** Specify the list name. */
   name?: string;
   /** Specify the list type. */
-  type?: "SERIAL" | "URL" | "DOMAIN" | "EMAIL" | "IP";
+  type?:
+    | "SERIAL"
+    | "URL"
+    | "DOMAIN"
+    | "EMAIL"
+    | "IP"
+    | "CATEGORY"
+    | "LOCATION"
+    | "DEVICE";
   updatedAt?: string;
 }
 
@@ -19408,7 +22842,16 @@ export const CreateGatewayListResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal("SERIAL", "URL", "DOMAIN", "EMAIL", "IP"),
+    Schema.Literal(
+      "SERIAL",
+      "URL",
+      "DOMAIN",
+      "EMAIL",
+      "IP",
+      "CATEGORY",
+      "LOCATION",
+      "DEVICE",
+    ),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<CreateGatewayListResponse>;
@@ -19470,7 +22913,15 @@ export interface UpdateGatewayListResponse {
   /** Specify the list name. */
   name?: string;
   /** Specify the list type. */
-  type?: "SERIAL" | "URL" | "DOMAIN" | "EMAIL" | "IP";
+  type?:
+    | "SERIAL"
+    | "URL"
+    | "DOMAIN"
+    | "EMAIL"
+    | "IP"
+    | "CATEGORY"
+    | "LOCATION"
+    | "DEVICE";
   updatedAt?: string;
 }
 
@@ -19492,7 +22943,16 @@ export const UpdateGatewayListResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal("SERIAL", "URL", "DOMAIN", "EMAIL", "IP"),
+    Schema.Literal(
+      "SERIAL",
+      "URL",
+      "DOMAIN",
+      "EMAIL",
+      "IP",
+      "CATEGORY",
+      "LOCATION",
+      "DEVICE",
+    ),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<UpdateGatewayListResponse>;
@@ -19551,7 +23011,15 @@ export interface PatchGatewayListResponse {
   /** Specify the list name. */
   name?: string;
   /** Specify the list type. */
-  type?: "SERIAL" | "URL" | "DOMAIN" | "EMAIL" | "IP";
+  type?:
+    | "SERIAL"
+    | "URL"
+    | "DOMAIN"
+    | "EMAIL"
+    | "IP"
+    | "CATEGORY"
+    | "LOCATION"
+    | "DEVICE";
   updatedAt?: string;
 }
 
@@ -19573,7 +23041,16 @@ export const PatchGatewayListResponse = Schema.Struct({
   ),
   name: Schema.optional(Schema.String),
   type: Schema.optional(
-    Schema.Literal("SERIAL", "URL", "DOMAIN", "EMAIL", "IP"),
+    Schema.Literal(
+      "SERIAL",
+      "URL",
+      "DOMAIN",
+      "EMAIL",
+      "IP",
+      "CATEGORY",
+      "LOCATION",
+      "DEVICE",
+    ),
   ),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
 }) as unknown as Schema.Schema<PatchGatewayListResponse>;
@@ -20472,92 +23949,119 @@ export const putGatewayLogging: (
 // GatewayProxyEndpoint
 // =============================================================================
 
-export interface ListGatewayProxyEndpointsRequest {
+export interface GetGatewayProxyEndpointRequest {
+  proxyEndpointId: string;
   accountId: string;
 }
 
-export const ListGatewayProxyEndpointsRequest = Schema.Struct({
+export const GetGatewayProxyEndpointRequest = Schema.Struct({
+  proxyEndpointId: Schema.String.pipe(T.HttpPath("proxyEndpointId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
     method: "GET",
-    path: "/accounts/{account_id}/gateway/proxy_endpoints",
+    path: "/accounts/{account_id}/gateway/proxy_endpoints/{proxyEndpointId}",
   }),
-) as unknown as Schema.Schema<ListGatewayProxyEndpointsRequest>;
+) as unknown as Schema.Schema<GetGatewayProxyEndpointRequest>;
 
-export interface ListGatewayProxyEndpointsResponse {
-  id?: string;
-  createdAt?: string;
-  /** Specify the list of CIDRs to restrict ingress connections. */
-  ips?: string[];
-  /** Specify the name of the proxy endpoint. */
-  name?: string;
-  /** Specify the subdomain to use as the destination in the proxy client. */
-  subdomain?: string;
-  updatedAt?: string;
-}
+export type GetGatewayProxyEndpointResponse =
+  | {
+      ips: string[];
+      name: string;
+      id?: string;
+      createdAt?: string;
+      kind?: "ip";
+      subdomain?: string;
+      updatedAt?: string;
+    }
+  | {
+      kind: "identity";
+      name: string;
+      id?: string;
+      createdAt?: string;
+      subdomain?: string;
+      updatedAt?: string;
+    };
 
-export const ListGatewayProxyEndpointsResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  ips: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  subdomain: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<ListGatewayProxyEndpointsResponse>;
+export const GetGatewayProxyEndpointResponse = Schema.Union(
+  Schema.Struct({
+    ips: Schema.Array(Schema.String),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    kind: Schema.optional(Schema.Literal("ip")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("identity"),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+) as unknown as Schema.Schema<GetGatewayProxyEndpointResponse>;
 
-export const listGatewayProxyEndpoints: (
-  input: ListGatewayProxyEndpointsRequest,
+export const getGatewayProxyEndpoint: (
+  input: GetGatewayProxyEndpointRequest,
 ) => Effect.Effect<
-  ListGatewayProxyEndpointsResponse,
+  GetGatewayProxyEndpointResponse,
   CommonErrors,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
-  input: ListGatewayProxyEndpointsRequest,
-  output: ListGatewayProxyEndpointsResponse,
+  input: GetGatewayProxyEndpointRequest,
+  output: GetGatewayProxyEndpointResponse,
   errors: [],
 }));
 
-export interface CreateGatewayProxyEndpointRequest {
-  /** Path param: */
-  accountId: string;
-  /** Body param: Specify the list of CIDRs to restrict ingress connections. */
-  ips: string[];
-  /** Body param: Specify the name of the proxy endpoint. */
-  name: string;
-}
+export interface CreateGatewayProxyEndpointRequest {}
 
-export const CreateGatewayProxyEndpointRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  ips: Schema.Array(Schema.String),
-  name: Schema.String,
-}).pipe(
+export const CreateGatewayProxyEndpointRequest = Schema.Struct({}).pipe(
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/gateway/proxy_endpoints",
   }),
 ) as unknown as Schema.Schema<CreateGatewayProxyEndpointRequest>;
 
-export interface CreateGatewayProxyEndpointResponse {
-  id?: string;
-  createdAt?: string;
-  /** Specify the list of CIDRs to restrict ingress connections. */
-  ips?: string[];
-  /** Specify the name of the proxy endpoint. */
-  name?: string;
-  /** Specify the subdomain to use as the destination in the proxy client. */
-  subdomain?: string;
-  updatedAt?: string;
-}
+export type CreateGatewayProxyEndpointResponse =
+  | {
+      ips: string[];
+      name: string;
+      id?: string;
+      createdAt?: string;
+      kind?: "ip";
+      subdomain?: string;
+      updatedAt?: string;
+    }
+  | {
+      kind: "identity";
+      name: string;
+      id?: string;
+      createdAt?: string;
+      subdomain?: string;
+      updatedAt?: string;
+    };
 
-export const CreateGatewayProxyEndpointResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  ips: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  subdomain: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<CreateGatewayProxyEndpointResponse>;
+export const CreateGatewayProxyEndpointResponse = Schema.Union(
+  Schema.Struct({
+    ips: Schema.Array(Schema.String),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    kind: Schema.optional(Schema.Literal("ip")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("identity"),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+) as unknown as Schema.Schema<CreateGatewayProxyEndpointResponse>;
 
 export const createGatewayProxyEndpoint: (
   input: CreateGatewayProxyEndpointRequest,
@@ -20593,26 +24097,44 @@ export const PatchGatewayProxyEndpointRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchGatewayProxyEndpointRequest>;
 
-export interface PatchGatewayProxyEndpointResponse {
-  id?: string;
-  createdAt?: string;
-  /** Specify the list of CIDRs to restrict ingress connections. */
-  ips?: string[];
-  /** Specify the name of the proxy endpoint. */
-  name?: string;
-  /** Specify the subdomain to use as the destination in the proxy client. */
-  subdomain?: string;
-  updatedAt?: string;
-}
+export type PatchGatewayProxyEndpointResponse =
+  | {
+      ips: string[];
+      name: string;
+      id?: string;
+      createdAt?: string;
+      kind?: "ip";
+      subdomain?: string;
+      updatedAt?: string;
+    }
+  | {
+      kind: "identity";
+      name: string;
+      id?: string;
+      createdAt?: string;
+      subdomain?: string;
+      updatedAt?: string;
+    };
 
-export const PatchGatewayProxyEndpointResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  ips: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  subdomain: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-}) as unknown as Schema.Schema<PatchGatewayProxyEndpointResponse>;
+export const PatchGatewayProxyEndpointResponse = Schema.Union(
+  Schema.Struct({
+    ips: Schema.Array(Schema.String),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    kind: Schema.optional(Schema.Literal("ip")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+  Schema.Struct({
+    kind: Schema.Literal("identity"),
+    name: Schema.String,
+    id: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+    subdomain: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+  }),
+) as unknown as Schema.Schema<PatchGatewayProxyEndpointResponse>;
 
 export const patchGatewayProxyEndpoint: (
   input: PatchGatewayProxyEndpointRequest,
@@ -20698,7 +24220,7 @@ export interface GetGatewayRuleResponse {
     | "redirect";
   /** Specify whether the rule is enabled. */
   enabled: boolean;
-  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Specify the rule name. */
   name: string;
@@ -20725,7 +24247,7 @@ export interface GetGatewayRuleResponse {
   identity?: string;
   /** Indicate that this rule is shared via the Orgs API and read only. */
   readOnly?: boolean;
-  /** Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting values, verif */
+  /** Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether  */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -20751,6 +24273,7 @@ export interface GetGatewayRuleResponse {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -20953,6 +24476,14 @@ export const GetGatewayRuleResponse = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -21136,13 +24667,13 @@ export interface CreateGatewayRuleRequest {
   enabled?: boolean;
   /** Body param: Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This does not apply to HTTP or network policies */
   expiration?: { expiresAt: string; duration?: number } | null;
-  /** Body param: Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Body param: Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters?: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Body param: Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatt */
   identity?: string;
   /** Body param: Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement]( */
   precedence?: number;
-  /** Body param: Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting v */
+  /** Body param: Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and ch */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -21168,6 +24699,7 @@ export interface CreateGatewayRuleRequest {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -21356,6 +24888,14 @@ export const CreateGatewayRuleRequest = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -21511,7 +25051,7 @@ export interface CreateGatewayRuleResponse {
     | "redirect";
   /** Specify whether the rule is enabled. */
   enabled: boolean;
-  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Specify the rule name. */
   name: string;
@@ -21538,7 +25078,7 @@ export interface CreateGatewayRuleResponse {
   identity?: string;
   /** Indicate that this rule is shared via the Orgs API and read only. */
   readOnly?: boolean;
-  /** Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting values, verif */
+  /** Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether  */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -21564,6 +25104,7 @@ export interface CreateGatewayRuleResponse {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -21766,6 +25307,14 @@ export const CreateGatewayRuleResponse = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -21950,13 +25499,13 @@ export interface UpdateGatewayRuleRequest {
   enabled?: boolean;
   /** Body param: Defines the expiration time stamp and default duration of a DNS policy. Takes precedence over the policy's `schedule` configuration, if any. This does not apply to HTTP or network policies */
   expiration?: { expiresAt: string; duration?: number } | null;
-  /** Body param: Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Body param: Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters?: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Body param: Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatt */
   identity?: string;
   /** Body param: Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement]( */
   precedence?: number;
-  /** Body param: Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting v */
+  /** Body param: Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and ch */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -21982,6 +25531,7 @@ export interface UpdateGatewayRuleRequest {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -22171,6 +25721,14 @@ export const UpdateGatewayRuleRequest = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -22329,7 +25887,7 @@ export interface UpdateGatewayRuleResponse {
     | "redirect";
   /** Specify whether the rule is enabled. */
   enabled: boolean;
-  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. */
+  /** Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value. */
   filters: ("http" | "dns" | "l4" | "egress" | "dns_resolver")[];
   /** Specify the rule name. */
   name: string;
@@ -22356,7 +25914,7 @@ export interface UpdateGatewayRuleResponse {
   identity?: string;
   /** Indicate that this rule is shared via the Orgs API and read only. */
   readOnly?: boolean;
-  /** Set settings related to this rule. Each setting is only valid for specific rule types and can only be used with the appropriate selectors. If Terraform drift is observed in these setting values, verif */
+  /** Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, confirm the setting supports your rule type and check whether  */
   ruleSettings?: {
     addHeaders?: Record<string, unknown> | null;
     allowChildBypass?: boolean | null;
@@ -22382,6 +25940,7 @@ export interface UpdateGatewayRuleResponse {
     checkSession?: { duration?: string; enforce?: boolean } | null;
     dnsResolvers?: { ipv4?: unknown[]; ipv6?: unknown[] } | null;
     egress?: { ipv4?: string; ipv4Fallback?: string; ipv6?: string } | null;
+    forensicCopy?: { enabled?: boolean } | null;
     ignoreCnameCategoryMatches?: boolean;
     insecureDisableDnssecValidation?: boolean;
     ipCategories?: boolean;
@@ -22584,6 +26143,14 @@ export const UpdateGatewayRuleResponse = Schema.Struct({
           Schema.Null,
         ),
       ),
+      forensicCopy: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
+        ),
+      ).pipe(T.JsonName("forensic_copy")),
       ignoreCnameCategoryMatches: Schema.optional(Schema.Boolean).pipe(
         T.JsonName("ignore_cname_category_matches"),
       ),
@@ -27117,95 +30684,10 @@ export const GetTunnelCloudflaredRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetTunnelCloudflaredRequest>;
 
-export type GetTunnelCloudflaredResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export type GetTunnelCloudflaredResponse = unknown;
 
-export const GetTunnelCloudflaredResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
-    ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
-    ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<GetTunnelCloudflaredResponse>;
+export const GetTunnelCloudflaredResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetTunnelCloudflaredResponse>;
 
 export const getTunnelCloudflared: (
   input: GetTunnelCloudflaredRequest,
@@ -27243,95 +30725,10 @@ export const CreateTunnelCloudflaredRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/cfd_tunnel" }),
 ) as unknown as Schema.Schema<CreateTunnelCloudflaredRequest>;
 
-export type CreateTunnelCloudflaredResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export type CreateTunnelCloudflaredResponse = unknown;
 
-export const CreateTunnelCloudflaredResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
-    ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
-    ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<CreateTunnelCloudflaredResponse>;
+export const CreateTunnelCloudflaredResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateTunnelCloudflaredResponse>;
 
 export const createTunnelCloudflared: (
   input: CreateTunnelCloudflaredRequest,
@@ -27369,95 +30766,10 @@ export const PatchTunnelCloudflaredRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchTunnelCloudflaredRequest>;
 
-export type PatchTunnelCloudflaredResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export type PatchTunnelCloudflaredResponse = unknown;
 
-export const PatchTunnelCloudflaredResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
-    ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
-    ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<PatchTunnelCloudflaredResponse>;
+export const PatchTunnelCloudflaredResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchTunnelCloudflaredResponse>;
 
 export const patchTunnelCloudflared: (
   input: PatchTunnelCloudflaredRequest,
@@ -27487,95 +30799,10 @@ export const DeleteTunnelCloudflaredRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteTunnelCloudflaredRequest>;
 
-export type DeleteTunnelCloudflaredResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export type DeleteTunnelCloudflaredResponse = unknown;
 
-export const DeleteTunnelCloudflaredResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
-    ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
-    ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<DeleteTunnelCloudflaredResponse>;
+export const DeleteTunnelCloudflaredResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteTunnelCloudflaredResponse>;
 
 export const deleteTunnelCloudflared: (
   input: DeleteTunnelCloudflaredRequest,
@@ -27626,6 +30853,7 @@ export interface GetTunnelCloudflaredConfigurationResponse {
         httpHostHeader?: string;
         keepAliveConnections?: number;
         keepAliveTimeout?: number;
+        matchSNItoHost?: boolean;
         noHappyEyeballs?: boolean;
         noTLSVerify?: boolean;
         originServerName?: string;
@@ -27644,6 +30872,7 @@ export interface GetTunnelCloudflaredConfigurationResponse {
       httpHostHeader?: string;
       keepAliveConnections?: number;
       keepAliveTimeout?: number;
+      matchSNItoHost?: boolean;
       noHappyEyeballs?: boolean;
       noTLSVerify?: boolean;
       originServerName?: string;
@@ -27686,6 +30915,7 @@ export const GetTunnelCloudflaredConfigurationResponse = Schema.Struct({
                 httpHostHeader: Schema.optional(Schema.String),
                 keepAliveConnections: Schema.optional(Schema.Number),
                 keepAliveTimeout: Schema.optional(Schema.Number),
+                matchSNItoHost: Schema.optional(Schema.Boolean),
                 noHappyEyeballs: Schema.optional(Schema.Boolean),
                 noTLSVerify: Schema.optional(Schema.Boolean),
                 originServerName: Schema.optional(Schema.String),
@@ -27714,6 +30944,7 @@ export const GetTunnelCloudflaredConfigurationResponse = Schema.Struct({
           httpHostHeader: Schema.optional(Schema.String),
           keepAliveConnections: Schema.optional(Schema.Number),
           keepAliveTimeout: Schema.optional(Schema.Number),
+          matchSNItoHost: Schema.optional(Schema.Boolean),
           noHappyEyeballs: Schema.optional(Schema.Boolean),
           noTLSVerify: Schema.optional(Schema.Boolean),
           originServerName: Schema.optional(Schema.String),
@@ -27760,6 +30991,7 @@ export interface PutTunnelCloudflaredConfigurationRequest {
         httpHostHeader?: string;
         keepAliveConnections?: number;
         keepAliveTimeout?: number;
+        matchSNItoHost?: boolean;
         noHappyEyeballs?: boolean;
         noTLSVerify?: boolean;
         originServerName?: string;
@@ -27778,6 +31010,7 @@ export interface PutTunnelCloudflaredConfigurationRequest {
       httpHostHeader?: string;
       keepAliveConnections?: number;
       keepAliveTimeout?: number;
+      matchSNItoHost?: boolean;
       noHappyEyeballs?: boolean;
       noTLSVerify?: boolean;
       originServerName?: string;
@@ -27814,6 +31047,7 @@ export const PutTunnelCloudflaredConfigurationRequest = Schema.Struct({
                 httpHostHeader: Schema.optional(Schema.String),
                 keepAliveConnections: Schema.optional(Schema.Number),
                 keepAliveTimeout: Schema.optional(Schema.Number),
+                matchSNItoHost: Schema.optional(Schema.Boolean),
                 noHappyEyeballs: Schema.optional(Schema.Boolean),
                 noTLSVerify: Schema.optional(Schema.Boolean),
                 originServerName: Schema.optional(Schema.String),
@@ -27842,6 +31076,7 @@ export const PutTunnelCloudflaredConfigurationRequest = Schema.Struct({
           httpHostHeader: Schema.optional(Schema.String),
           keepAliveConnections: Schema.optional(Schema.Number),
           keepAliveTimeout: Schema.optional(Schema.Number),
+          matchSNItoHost: Schema.optional(Schema.Boolean),
           noHappyEyeballs: Schema.optional(Schema.Boolean),
           noTLSVerify: Schema.optional(Schema.Boolean),
           originServerName: Schema.optional(Schema.String),
@@ -27876,6 +31111,7 @@ export interface PutTunnelCloudflaredConfigurationResponse {
         httpHostHeader?: string;
         keepAliveConnections?: number;
         keepAliveTimeout?: number;
+        matchSNItoHost?: boolean;
         noHappyEyeballs?: boolean;
         noTLSVerify?: boolean;
         originServerName?: string;
@@ -27894,6 +31130,7 @@ export interface PutTunnelCloudflaredConfigurationResponse {
       httpHostHeader?: string;
       keepAliveConnections?: number;
       keepAliveTimeout?: number;
+      matchSNItoHost?: boolean;
       noHappyEyeballs?: boolean;
       noTLSVerify?: boolean;
       originServerName?: string;
@@ -27936,6 +31173,7 @@ export const PutTunnelCloudflaredConfigurationResponse = Schema.Struct({
                 httpHostHeader: Schema.optional(Schema.String),
                 keepAliveConnections: Schema.optional(Schema.Number),
                 keepAliveTimeout: Schema.optional(Schema.Number),
+                matchSNItoHost: Schema.optional(Schema.Boolean),
                 noHappyEyeballs: Schema.optional(Schema.Boolean),
                 noTLSVerify: Schema.optional(Schema.Boolean),
                 originServerName: Schema.optional(Schema.String),
@@ -27964,6 +31202,7 @@ export const PutTunnelCloudflaredConfigurationResponse = Schema.Struct({
           httpHostHeader: Schema.optional(Schema.String),
           keepAliveConnections: Schema.optional(Schema.Number),
           keepAliveTimeout: Schema.optional(Schema.Number),
+          matchSNItoHost: Schema.optional(Schema.Boolean),
           noHappyEyeballs: Schema.optional(Schema.Boolean),
           noTLSVerify: Schema.optional(Schema.Boolean),
           originServerName: Schema.optional(Schema.String),
@@ -28168,95 +31407,93 @@ export const GetTunnelWarpConnectorRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetTunnelWarpConnectorRequest>;
 
-export type GetTunnelWarpConnectorResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export interface GetTunnelWarpConnectorResponse {
+  /** UUID of the tunnel. */
+  id?: string;
+  /** Cloudflare account ID */
+  accountTag?: string;
+  /** @deprecated This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint `/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections` */
+  connections?: {
+    id?: string;
+    clientId?: string;
+    clientVersion?: string;
+    coloName?: string;
+    isPendingReconnect?: boolean;
+    openedAt?: string;
+    originIp?: string;
+    uuid?: string;
+  }[];
+  /** Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive. */
+  connsActiveAt?: string;
+  /** Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active. */
+  connsInactiveAt?: string;
+  /** Timestamp of when the resource was created. */
+  createdAt?: string;
+  /** Timestamp of when the resource was deleted. If `null`, the resource has not been deleted. */
+  deletedAt?: string;
+  /** Metadata associated with the tunnel. */
+  metadata?: unknown;
+  /** A user-friendly name for a tunnel. */
+  name?: string;
+  /** The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and ab */
+  status?: "inactive" | "degraded" | "healthy" | "down";
+  /** The type of tunnel. */
+  tunType?:
+    | "cfd_tunnel"
+    | "warp_connector"
+    | "warp"
+    | "magic"
+    | "ip_sec"
+    | "gre"
+    | "cni";
+}
 
-export const GetTunnelWarpConnectorResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
+export const GetTunnelWarpConnectorResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  connections: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+        clientVersion: Schema.optional(Schema.String).pipe(
+          T.JsonName("client_version"),
+        ),
+        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
+        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_pending_reconnect"),
+        ),
+        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
+        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        uuid: Schema.optional(Schema.String),
+      }),
     ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
+  ),
+  connsActiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_active_at"),
+  ),
+  connsInactiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_inactive_at"),
+  ),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  metadata: Schema.optional(Schema.Unknown),
+  name: Schema.optional(Schema.String),
+  status: Schema.optional(
+    Schema.Literal("inactive", "degraded", "healthy", "down"),
+  ),
+  tunType: Schema.optional(
+    Schema.Literal(
+      "cfd_tunnel",
+      "warp_connector",
+      "warp",
+      "magic",
+      "ip_sec",
+      "gre",
+      "cni",
     ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<GetTunnelWarpConnectorResponse>;
+  ).pipe(T.JsonName("tun_type")),
+}) as unknown as Schema.Schema<GetTunnelWarpConnectorResponse>;
 
 export const getTunnelWarpConnector: (
   input: GetTunnelWarpConnectorRequest,
@@ -28284,95 +31521,93 @@ export const CreateTunnelWarpConnectorRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/warp_connector" }),
 ) as unknown as Schema.Schema<CreateTunnelWarpConnectorRequest>;
 
-export type CreateTunnelWarpConnectorResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export interface CreateTunnelWarpConnectorResponse {
+  /** UUID of the tunnel. */
+  id?: string;
+  /** Cloudflare account ID */
+  accountTag?: string;
+  /** @deprecated This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint `/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections` */
+  connections?: {
+    id?: string;
+    clientId?: string;
+    clientVersion?: string;
+    coloName?: string;
+    isPendingReconnect?: boolean;
+    openedAt?: string;
+    originIp?: string;
+    uuid?: string;
+  }[];
+  /** Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive. */
+  connsActiveAt?: string;
+  /** Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active. */
+  connsInactiveAt?: string;
+  /** Timestamp of when the resource was created. */
+  createdAt?: string;
+  /** Timestamp of when the resource was deleted. If `null`, the resource has not been deleted. */
+  deletedAt?: string;
+  /** Metadata associated with the tunnel. */
+  metadata?: unknown;
+  /** A user-friendly name for a tunnel. */
+  name?: string;
+  /** The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and ab */
+  status?: "inactive" | "degraded" | "healthy" | "down";
+  /** The type of tunnel. */
+  tunType?:
+    | "cfd_tunnel"
+    | "warp_connector"
+    | "warp"
+    | "magic"
+    | "ip_sec"
+    | "gre"
+    | "cni";
+}
 
-export const CreateTunnelWarpConnectorResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
+export const CreateTunnelWarpConnectorResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  connections: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+        clientVersion: Schema.optional(Schema.String).pipe(
+          T.JsonName("client_version"),
+        ),
+        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
+        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_pending_reconnect"),
+        ),
+        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
+        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        uuid: Schema.optional(Schema.String),
+      }),
     ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
+  ),
+  connsActiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_active_at"),
+  ),
+  connsInactiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_inactive_at"),
+  ),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  metadata: Schema.optional(Schema.Unknown),
+  name: Schema.optional(Schema.String),
+  status: Schema.optional(
+    Schema.Literal("inactive", "degraded", "healthy", "down"),
+  ),
+  tunType: Schema.optional(
+    Schema.Literal(
+      "cfd_tunnel",
+      "warp_connector",
+      "warp",
+      "magic",
+      "ip_sec",
+      "gre",
+      "cni",
     ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<CreateTunnelWarpConnectorResponse>;
+  ).pipe(T.JsonName("tun_type")),
+}) as unknown as Schema.Schema<CreateTunnelWarpConnectorResponse>;
 
 export const createTunnelWarpConnector: (
   input: CreateTunnelWarpConnectorRequest,
@@ -28410,95 +31645,93 @@ export const PatchTunnelWarpConnectorRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchTunnelWarpConnectorRequest>;
 
-export type PatchTunnelWarpConnectorResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export interface PatchTunnelWarpConnectorResponse {
+  /** UUID of the tunnel. */
+  id?: string;
+  /** Cloudflare account ID */
+  accountTag?: string;
+  /** @deprecated This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint `/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections` */
+  connections?: {
+    id?: string;
+    clientId?: string;
+    clientVersion?: string;
+    coloName?: string;
+    isPendingReconnect?: boolean;
+    openedAt?: string;
+    originIp?: string;
+    uuid?: string;
+  }[];
+  /** Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive. */
+  connsActiveAt?: string;
+  /** Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active. */
+  connsInactiveAt?: string;
+  /** Timestamp of when the resource was created. */
+  createdAt?: string;
+  /** Timestamp of when the resource was deleted. If `null`, the resource has not been deleted. */
+  deletedAt?: string;
+  /** Metadata associated with the tunnel. */
+  metadata?: unknown;
+  /** A user-friendly name for a tunnel. */
+  name?: string;
+  /** The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and ab */
+  status?: "inactive" | "degraded" | "healthy" | "down";
+  /** The type of tunnel. */
+  tunType?:
+    | "cfd_tunnel"
+    | "warp_connector"
+    | "warp"
+    | "magic"
+    | "ip_sec"
+    | "gre"
+    | "cni";
+}
 
-export const PatchTunnelWarpConnectorResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
+export const PatchTunnelWarpConnectorResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  connections: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+        clientVersion: Schema.optional(Schema.String).pipe(
+          T.JsonName("client_version"),
+        ),
+        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
+        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_pending_reconnect"),
+        ),
+        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
+        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        uuid: Schema.optional(Schema.String),
+      }),
     ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
+  ),
+  connsActiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_active_at"),
+  ),
+  connsInactiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_inactive_at"),
+  ),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  metadata: Schema.optional(Schema.Unknown),
+  name: Schema.optional(Schema.String),
+  status: Schema.optional(
+    Schema.Literal("inactive", "degraded", "healthy", "down"),
+  ),
+  tunType: Schema.optional(
+    Schema.Literal(
+      "cfd_tunnel",
+      "warp_connector",
+      "warp",
+      "magic",
+      "ip_sec",
+      "gre",
+      "cni",
     ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<PatchTunnelWarpConnectorResponse>;
+  ).pipe(T.JsonName("tun_type")),
+}) as unknown as Schema.Schema<PatchTunnelWarpConnectorResponse>;
 
 export const patchTunnelWarpConnector: (
   input: PatchTunnelWarpConnectorRequest,
@@ -28528,95 +31761,93 @@ export const DeleteTunnelWarpConnectorRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteTunnelWarpConnectorRequest>;
 
-export type DeleteTunnelWarpConnectorResponse =
-  | unknown
-  | {
-      id?: string;
-      accountTag?: string;
-      connections?: {
-        id?: string;
-        clientId?: string;
-        clientVersion?: string;
-        coloName?: string;
-        isPendingReconnect?: boolean;
-        openedAt?: string;
-        originIp?: string;
-        uuid?: string;
-      }[];
-      connsActiveAt?: string;
-      connsInactiveAt?: string;
-      createdAt?: string;
-      deletedAt?: string;
-      metadata?: unknown;
-      name?: string;
-      status?: "inactive" | "degraded" | "healthy" | "down";
-      tunType?:
-        | "cfd_tunnel"
-        | "warp_connector"
-        | "warp"
-        | "magic"
-        | "ip_sec"
-        | "gre"
-        | "cni";
-    };
+export interface DeleteTunnelWarpConnectorResponse {
+  /** UUID of the tunnel. */
+  id?: string;
+  /** Cloudflare account ID */
+  accountTag?: string;
+  /** @deprecated This field will start returning an empty array. To fetch the connections of a given tunnel, please use the dedicated endpoint `/accounts/{account_id}/{tunnel_type}/{tunnel_id}/connections` */
+  connections?: {
+    id?: string;
+    clientId?: string;
+    clientVersion?: string;
+    coloName?: string;
+    isPendingReconnect?: boolean;
+    openedAt?: string;
+    originIp?: string;
+    uuid?: string;
+  }[];
+  /** Timestamp of when the tunnel established at least one connection to Cloudflare's edge. If `null`, the tunnel is inactive. */
+  connsActiveAt?: string;
+  /** Timestamp of when the tunnel became inactive (no connections to Cloudflare's edge). If `null`, the tunnel is active. */
+  connsInactiveAt?: string;
+  /** Timestamp of when the resource was created. */
+  createdAt?: string;
+  /** Timestamp of when the resource was deleted. If `null`, the resource has not been deleted. */
+  deletedAt?: string;
+  /** Metadata associated with the tunnel. */
+  metadata?: unknown;
+  /** A user-friendly name for a tunnel. */
+  name?: string;
+  /** The status of the tunnel. Valid values are `inactive` (tunnel has never been run), `degraded` (tunnel is active and able to serve traffic but in an unhealthy state), `healthy` (tunnel is active and ab */
+  status?: "inactive" | "degraded" | "healthy" | "down";
+  /** The type of tunnel. */
+  tunType?:
+    | "cfd_tunnel"
+    | "warp_connector"
+    | "warp"
+    | "magic"
+    | "ip_sec"
+    | "gre"
+    | "cni";
+}
 
-export const DeleteTunnelWarpConnectorResponse = Schema.Union(
-  Schema.Unknown,
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
-    connections: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          clientId: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_id"),
-          ),
-          clientVersion: Schema.optional(Schema.String).pipe(
-            T.JsonName("client_version"),
-          ),
-          coloName: Schema.optional(Schema.String).pipe(
-            T.JsonName("colo_name"),
-          ),
-          isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("is_pending_reconnect"),
-          ),
-          openedAt: Schema.optional(Schema.String).pipe(
-            T.JsonName("opened_at"),
-          ),
-          originIp: Schema.optional(Schema.String).pipe(
-            T.JsonName("origin_ip"),
-          ),
-          uuid: Schema.optional(Schema.String),
-        }),
-      ),
+export const DeleteTunnelWarpConnectorResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
+  connections: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        clientId: Schema.optional(Schema.String).pipe(T.JsonName("client_id")),
+        clientVersion: Schema.optional(Schema.String).pipe(
+          T.JsonName("client_version"),
+        ),
+        coloName: Schema.optional(Schema.String).pipe(T.JsonName("colo_name")),
+        isPendingReconnect: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_pending_reconnect"),
+        ),
+        openedAt: Schema.optional(Schema.String).pipe(T.JsonName("opened_at")),
+        originIp: Schema.optional(Schema.String).pipe(T.JsonName("origin_ip")),
+        uuid: Schema.optional(Schema.String),
+      }),
     ),
-    connsActiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_active_at"),
+  ),
+  connsActiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_active_at"),
+  ),
+  connsInactiveAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("conns_inactive_at"),
+  ),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
+  metadata: Schema.optional(Schema.Unknown),
+  name: Schema.optional(Schema.String),
+  status: Schema.optional(
+    Schema.Literal("inactive", "degraded", "healthy", "down"),
+  ),
+  tunType: Schema.optional(
+    Schema.Literal(
+      "cfd_tunnel",
+      "warp_connector",
+      "warp",
+      "magic",
+      "ip_sec",
+      "gre",
+      "cni",
     ),
-    connsInactiveAt: Schema.optional(Schema.String).pipe(
-      T.JsonName("conns_inactive_at"),
-    ),
-    createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-    deletedAt: Schema.optional(Schema.String).pipe(T.JsonName("deleted_at")),
-    metadata: Schema.optional(Schema.Unknown),
-    name: Schema.optional(Schema.String),
-    status: Schema.optional(
-      Schema.Literal("inactive", "degraded", "healthy", "down"),
-    ),
-    tunType: Schema.optional(
-      Schema.Literal(
-        "cfd_tunnel",
-        "warp_connector",
-        "warp",
-        "magic",
-        "ip_sec",
-        "gre",
-        "cni",
-      ),
-    ).pipe(T.JsonName("tun_type")),
-  }),
-) as unknown as Schema.Schema<DeleteTunnelWarpConnectorResponse>;
+  ).pipe(T.JsonName("tun_type")),
+}) as unknown as Schema.Schema<DeleteTunnelWarpConnectorResponse>;
 
 export const deleteTunnelWarpConnector: (
   input: DeleteTunnelWarpConnectorRequest,

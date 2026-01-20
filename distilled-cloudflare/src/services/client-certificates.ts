@@ -241,13 +241,16 @@ export const createClientCertificate: (
 
 export interface PatchClientCertificateRequest {
   clientCertificateId: string;
-  /** Identifier. */
+  /** Path param: Identifier. */
   zoneId: string;
+  /** Body param: */
+  reactivate?: boolean;
 }
 
 export const PatchClientCertificateRequest = Schema.Struct({
   clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  reactivate: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
     method: "PATCH",

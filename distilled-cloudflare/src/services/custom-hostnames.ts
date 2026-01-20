@@ -600,8 +600,10 @@ export interface CreateCustomHostnameRequest {
   zoneId: string;
   /** Body param: The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
+  /** Body param: Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
+  customMetadata?: Record<string, unknown>;
   /** Body param: SSL properties used when creating the custom hostname. */
-  ssl: {
+  ssl?: {
     bundleMethod?: "ubiquitous" | "optimal" | "force";
     certificateAuthority?: "digicert" | "google" | "lets_encrypt" | "ssl_com";
     cloudflareBranding?: boolean;
@@ -619,56 +621,56 @@ export interface CreateCustomHostnameRequest {
     type?: "dv";
     wildcard?: boolean;
   };
-  /** Body param: Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: Record<string, unknown>;
 }
 
 export const CreateCustomHostnameRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   hostname: Schema.String,
-  ssl: Schema.Struct({
-    bundleMethod: Schema.optional(
-      Schema.Literal("ubiquitous", "optimal", "force"),
-    ).pipe(T.JsonName("bundle_method")),
-    certificateAuthority: Schema.optional(
-      Schema.Literal("digicert", "google", "lets_encrypt", "ssl_com"),
-    ).pipe(T.JsonName("certificate_authority")),
-    cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("cloudflare_branding"),
-    ),
-    customCertBundle: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          customCertificate: Schema.String.pipe(
-            T.JsonName("custom_certificate"),
-          ),
-          customKey: Schema.String.pipe(T.JsonName("custom_key")),
-        }),
-      ),
-    ).pipe(T.JsonName("custom_cert_bundle")),
-    customCertificate: Schema.optional(Schema.String).pipe(
-      T.JsonName("custom_certificate"),
-    ),
-    customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
-    method: Schema.optional(Schema.Literal("http", "txt", "email")),
-    settings: Schema.optional(
-      Schema.Struct({
-        ciphers: Schema.optional(Schema.Array(Schema.String)),
-        earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
-          T.JsonName("early_hints"),
-        ),
-        http2: Schema.optional(Schema.Literal("on", "off")),
-        minTlsVersion: Schema.optional(
-          Schema.Literal("1.0", "1.1", "1.2", "1.3"),
-        ).pipe(T.JsonName("min_tls_version")),
-        tls_1_3: Schema.optional(Schema.Literal("on", "off")),
-      }),
-    ),
-    type: Schema.optional(Schema.Literal("dv")),
-    wildcard: Schema.optional(Schema.Boolean),
-  }),
   customMetadata: Schema.optional(Schema.Struct({})).pipe(
     T.JsonName("custom_metadata"),
+  ),
+  ssl: Schema.optional(
+    Schema.Struct({
+      bundleMethod: Schema.optional(
+        Schema.Literal("ubiquitous", "optimal", "force"),
+      ).pipe(T.JsonName("bundle_method")),
+      certificateAuthority: Schema.optional(
+        Schema.Literal("digicert", "google", "lets_encrypt", "ssl_com"),
+      ).pipe(T.JsonName("certificate_authority")),
+      cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("cloudflare_branding"),
+      ),
+      customCertBundle: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            customCertificate: Schema.String.pipe(
+              T.JsonName("custom_certificate"),
+            ),
+            customKey: Schema.String.pipe(T.JsonName("custom_key")),
+          }),
+        ),
+      ).pipe(T.JsonName("custom_cert_bundle")),
+      customCertificate: Schema.optional(Schema.String).pipe(
+        T.JsonName("custom_certificate"),
+      ),
+      customKey: Schema.optional(Schema.String).pipe(T.JsonName("custom_key")),
+      method: Schema.optional(Schema.Literal("http", "txt", "email")),
+      settings: Schema.optional(
+        Schema.Struct({
+          ciphers: Schema.optional(Schema.Array(Schema.String)),
+          earlyHints: Schema.optional(Schema.Literal("on", "off")).pipe(
+            T.JsonName("early_hints"),
+          ),
+          http2: Schema.optional(Schema.Literal("on", "off")),
+          minTlsVersion: Schema.optional(
+            Schema.Literal("1.0", "1.1", "1.2", "1.3"),
+          ).pipe(T.JsonName("min_tls_version")),
+          tls_1_3: Schema.optional(Schema.Literal("on", "off")),
+        }),
+      ),
+      type: Schema.optional(Schema.Literal("dv")),
+      wildcard: Schema.optional(Schema.Boolean),
+    }),
   ),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/custom_hostnames" }),

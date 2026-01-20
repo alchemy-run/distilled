@@ -123,6 +123,7 @@ export interface ClassAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   "issueType~neq"?: (
@@ -131,6 +132,7 @@ export interface ClassAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   product?: string[];
@@ -163,6 +165,7 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("issue_type")),
@@ -174,6 +177,7 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
@@ -322,6 +326,7 @@ export interface SeverityAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   "issueType~neq"?: (
@@ -330,6 +335,7 @@ export interface SeverityAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   product?: string[];
@@ -362,6 +368,7 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("issue_type")),
@@ -373,6 +380,7 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
@@ -441,6 +449,7 @@ export interface TypeAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   "issueType~neq"?: (
@@ -449,6 +458,7 @@ export interface TypeAttackSurfaceReportIssueRequest {
     | "exposed_infrastructure"
     | "insecure_configuration"
     | "weak_authentication"
+    | "configuration_suggestion"
   )[];
   /** Query param: */
   product?: string[];
@@ -481,6 +491,7 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("issue_type")),
@@ -492,6 +503,7 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
         "exposed_infrastructure",
         "insecure_configuration",
         "weak_authentication",
+        "configuration_suggestion",
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),

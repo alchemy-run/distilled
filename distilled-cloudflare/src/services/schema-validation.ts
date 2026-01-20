@@ -217,11 +217,11 @@ export const DeleteSchemaRequest = Schema.Struct({
 
 export interface DeleteSchemaResponse {
   /** The ID of the schema that was just deleted */
-  schemaId: string;
+  id: string;
 }
 
 export const DeleteSchemaResponse = Schema.Struct({
-  schemaId: Schema.String.pipe(T.JsonName("schema_id")),
+  id: Schema.String,
 }) as unknown as Schema.Schema<DeleteSchemaResponse>;
 
 export const deleteSchema: (

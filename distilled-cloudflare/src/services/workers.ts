@@ -179,69 +179,15 @@ export const GetBetaWorkerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBetaWorkerRequest>;
 
 export interface GetBetaWorkerResponse {
-  /** Immutable ID of the Worker. */
+  /** ID of the referencing Worker. */
   id: string;
-  /** When the Worker was created. */
-  createdOn: string;
-  /** Whether logpush is enabled for the Worker. */
-  logpush: boolean;
-  /** Name of the Worker. */
+  /** Name of the referencing Worker. */
   name: string;
-  /** Observability settings for the Worker. */
-  observability: {
-    enabled?: boolean;
-    headSamplingRate?: number;
-    logs?: {
-      enabled?: boolean;
-      headSamplingRate?: number;
-      invocationLogs?: boolean;
-    };
-  };
-  /** Subdomain settings for the Worker. */
-  subdomain: { enabled?: boolean; previewsEnabled?: boolean };
-  /** Tags associated with the Worker. */
-  tags: string[];
-  /** Other Workers that should consume logs from the Worker. */
-  tailConsumers: { name: string }[];
-  /** When the Worker was most recently updated. */
-  updatedOn: string;
 }
 
 export const GetBetaWorkerResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  logpush: Schema.Boolean,
   name: Schema.String,
-  observability: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    headSamplingRate: Schema.optional(Schema.Number).pipe(
-      T.JsonName("head_sampling_rate"),
-    ),
-    logs: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        headSamplingRate: Schema.optional(Schema.Number).pipe(
-          T.JsonName("head_sampling_rate"),
-        ),
-        invocationLogs: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("invocation_logs"),
-        ),
-      }),
-    ),
-  }),
-  subdomain: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    previewsEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("previews_enabled"),
-    ),
-  }),
-  tags: Schema.Array(Schema.String),
-  tailConsumers: Schema.Array(
-    Schema.Struct({
-      name: Schema.String,
-    }),
-  ).pipe(T.JsonName("tail_consumers")),
-  updatedOn: Schema.String.pipe(T.JsonName("updated_on")),
 }) as unknown as Schema.Schema<GetBetaWorkerResponse>;
 
 export const getBetaWorker: (
@@ -325,69 +271,15 @@ export const CreateBetaWorkerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateBetaWorkerRequest>;
 
 export interface CreateBetaWorkerResponse {
-  /** Immutable ID of the Worker. */
+  /** ID of the referencing Worker. */
   id: string;
-  /** When the Worker was created. */
-  createdOn: string;
-  /** Whether logpush is enabled for the Worker. */
-  logpush: boolean;
-  /** Name of the Worker. */
+  /** Name of the referencing Worker. */
   name: string;
-  /** Observability settings for the Worker. */
-  observability: {
-    enabled?: boolean;
-    headSamplingRate?: number;
-    logs?: {
-      enabled?: boolean;
-      headSamplingRate?: number;
-      invocationLogs?: boolean;
-    };
-  };
-  /** Subdomain settings for the Worker. */
-  subdomain: { enabled?: boolean; previewsEnabled?: boolean };
-  /** Tags associated with the Worker. */
-  tags: string[];
-  /** Other Workers that should consume logs from the Worker. */
-  tailConsumers: { name: string }[];
-  /** When the Worker was most recently updated. */
-  updatedOn: string;
 }
 
 export const CreateBetaWorkerResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  logpush: Schema.Boolean,
   name: Schema.String,
-  observability: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    headSamplingRate: Schema.optional(Schema.Number).pipe(
-      T.JsonName("head_sampling_rate"),
-    ),
-    logs: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        headSamplingRate: Schema.optional(Schema.Number).pipe(
-          T.JsonName("head_sampling_rate"),
-        ),
-        invocationLogs: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("invocation_logs"),
-        ),
-      }),
-    ),
-  }),
-  subdomain: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    previewsEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("previews_enabled"),
-    ),
-  }),
-  tags: Schema.Array(Schema.String),
-  tailConsumers: Schema.Array(
-    Schema.Struct({
-      name: Schema.String,
-    }),
-  ).pipe(T.JsonName("tail_consumers")),
-  updatedOn: Schema.String.pipe(T.JsonName("updated_on")),
 }) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
 
 export const createBetaWorker: (
@@ -476,69 +368,15 @@ export const UpdateBetaWorkerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateBetaWorkerRequest>;
 
 export interface UpdateBetaWorkerResponse {
-  /** Immutable ID of the Worker. */
+  /** ID of the referencing Worker. */
   id: string;
-  /** When the Worker was created. */
-  createdOn: string;
-  /** Whether logpush is enabled for the Worker. */
-  logpush: boolean;
-  /** Name of the Worker. */
+  /** Name of the referencing Worker. */
   name: string;
-  /** Observability settings for the Worker. */
-  observability: {
-    enabled?: boolean;
-    headSamplingRate?: number;
-    logs?: {
-      enabled?: boolean;
-      headSamplingRate?: number;
-      invocationLogs?: boolean;
-    };
-  };
-  /** Subdomain settings for the Worker. */
-  subdomain: { enabled?: boolean; previewsEnabled?: boolean };
-  /** Tags associated with the Worker. */
-  tags: string[];
-  /** Other Workers that should consume logs from the Worker. */
-  tailConsumers: { name: string }[];
-  /** When the Worker was most recently updated. */
-  updatedOn: string;
 }
 
 export const UpdateBetaWorkerResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  logpush: Schema.Boolean,
   name: Schema.String,
-  observability: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    headSamplingRate: Schema.optional(Schema.Number).pipe(
-      T.JsonName("head_sampling_rate"),
-    ),
-    logs: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        headSamplingRate: Schema.optional(Schema.Number).pipe(
-          T.JsonName("head_sampling_rate"),
-        ),
-        invocationLogs: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("invocation_logs"),
-        ),
-      }),
-    ),
-  }),
-  subdomain: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    previewsEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("previews_enabled"),
-    ),
-  }),
-  tags: Schema.Array(Schema.String),
-  tailConsumers: Schema.Array(
-    Schema.Struct({
-      name: Schema.String,
-    }),
-  ).pipe(T.JsonName("tail_consumers")),
-  updatedOn: Schema.String.pipe(T.JsonName("updated_on")),
 }) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
 
 export const updateBetaWorker: (
@@ -621,69 +459,15 @@ export const PatchBetaWorkerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchBetaWorkerRequest>;
 
 export interface PatchBetaWorkerResponse {
-  /** Immutable ID of the Worker. */
+  /** ID of the referencing Worker. */
   id: string;
-  /** When the Worker was created. */
-  createdOn: string;
-  /** Whether logpush is enabled for the Worker. */
-  logpush: boolean;
-  /** Name of the Worker. */
+  /** Name of the referencing Worker. */
   name: string;
-  /** Observability settings for the Worker. */
-  observability: {
-    enabled?: boolean;
-    headSamplingRate?: number;
-    logs?: {
-      enabled?: boolean;
-      headSamplingRate?: number;
-      invocationLogs?: boolean;
-    };
-  };
-  /** Subdomain settings for the Worker. */
-  subdomain: { enabled?: boolean; previewsEnabled?: boolean };
-  /** Tags associated with the Worker. */
-  tags: string[];
-  /** Other Workers that should consume logs from the Worker. */
-  tailConsumers: { name: string }[];
-  /** When the Worker was most recently updated. */
-  updatedOn: string;
 }
 
 export const PatchBetaWorkerResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  logpush: Schema.Boolean,
   name: Schema.String,
-  observability: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    headSamplingRate: Schema.optional(Schema.Number).pipe(
-      T.JsonName("head_sampling_rate"),
-    ),
-    logs: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        headSamplingRate: Schema.optional(Schema.Number).pipe(
-          T.JsonName("head_sampling_rate"),
-        ),
-        invocationLogs: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("invocation_logs"),
-        ),
-      }),
-    ),
-  }),
-  subdomain: Schema.Struct({
-    enabled: Schema.optional(Schema.Boolean),
-    previewsEnabled: Schema.optional(Schema.Boolean).pipe(
-      T.JsonName("previews_enabled"),
-    ),
-  }),
-  tags: Schema.Array(Schema.String),
-  tailConsumers: Schema.Array(
-    Schema.Struct({
-      name: Schema.String,
-    }),
-  ).pipe(T.JsonName("tail_consumers")),
-  updatedOn: Schema.String.pipe(T.JsonName("updated_on")),
 }) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
 
 export const patchBetaWorker: (
@@ -877,7 +661,6 @@ export interface GetBetaWorkerVersionResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -928,6 +711,8 @@ export interface GetBetaWorkerVersionResponse {
   placement?: { mode?: "smart" };
   /** The client used to create the version. */
   source?: string;
+  /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
+  startupTimeMs?: number;
   /** @deprecated Usage model for the version. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -1106,11 +891,6 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -1194,6 +974,9 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
     }),
   ),
   source: Schema.optional(Schema.String),
+  startupTimeMs: Schema.optional(Schema.Number).pipe(
+    T.JsonName("startup_time_ms"),
+  ),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -1281,7 +1064,6 @@ export interface CreateBetaWorkerVersionRequest {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -1510,11 +1292,6 @@ export const CreateBetaWorkerVersionRequest = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -1695,7 +1472,6 @@ export interface CreateBetaWorkerVersionResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -1746,6 +1522,8 @@ export interface CreateBetaWorkerVersionResponse {
   placement?: { mode?: "smart" };
   /** The client used to create the version. */
   source?: string;
+  /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
+  startupTimeMs?: number;
   /** @deprecated Usage model for the version. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -1924,11 +1702,6 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -2012,6 +1785,9 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
     }),
   ),
   source: Schema.optional(Schema.String),
+  startupTimeMs: Schema.optional(Schema.Number).pipe(
+    T.JsonName("startup_time_ms"),
+  ),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -2131,7 +1907,7 @@ export const GetDomainRequest = Schema.Struct({
 export interface GetDomainResponse {
   /** Identifer of the Worker Domain. */
   id?: string;
-  /** Worker environment associated with the zone and hostname. */
+  /** @deprecated Worker environment associated with the zone and hostname. */
   environment?: string;
   /** Hostname of the Worker Domain. */
   hostname?: string;
@@ -2167,22 +1943,22 @@ export const getDomain: (
 export interface PutDomainRequest {
   /** Path param: Identifer of the account. */
   accountId: string;
-  /** Body param: Worker environment associated with the zone and hostname. */
-  environment: string;
   /** Body param: Hostname of the Worker Domain. */
   hostname: string;
   /** Body param: Worker service associated with the zone and hostname. */
   service: string;
   /** Body param: Identifier of the zone. */
   zoneId: string;
+  /** @deprecated Body param: Worker environment associated with the zone and hostname. */
+  environment?: string;
 }
 
 export const PutDomainRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  environment: Schema.String,
   hostname: Schema.String,
   service: Schema.String,
   zoneId: Schema.String.pipe(T.JsonName("zone_id")),
+  environment: Schema.optional(Schema.String),
 }).pipe(
   T.Http({ method: "PUT", path: "/accounts/{account_id}/workers/domains" }),
 ) as unknown as Schema.Schema<PutDomainRequest>;
@@ -2190,7 +1966,7 @@ export const PutDomainRequest = Schema.Struct({
 export interface PutDomainResponse {
   /** Identifer of the Worker Domain. */
   id?: string;
-  /** Worker environment associated with the zone and hostname. */
+  /** @deprecated Worker environment associated with the zone and hostname. */
   environment?: string;
   /** Hostname of the Worker Domain. */
   hostname?: string;
@@ -2263,29 +2039,29 @@ export const deleteDomain: (
 export interface QueryObservabilityTelemetryRequest {
   /** Path param: Your Cloudflare account ID. */
   accountId: string;
-  /** Body param: */
+  /** Body param: Unique identifier for the query to execute */
   queryId: string;
-  /** Body param: */
+  /** Body param: Time range for the query execution */
   timeframe: { from: number; to: number };
-  /** Body param: */
+  /** Body param: Whether to include timeseties data in the response */
   chart?: boolean;
-  /** Body param: */
+  /** Body param: Whether to include comparison data with previous time periods */
   compare?: boolean;
-  /** Body param: */
+  /** Body param: Whether to perform a dry run without saving the results of the query. Useful for validation */
   dry?: boolean;
-  /** Body param: */
+  /** Body param: Time granularity for aggregating results (in milliseconds). Controls the bucketing of time-series data */
   granularity?: number;
-  /** Body param: */
+  /** Body param: Whether to ignore time-series data in the results and return only aggregated values */
   ignoreSeries?: boolean;
-  /** Body param: */
+  /** Body param: Maximum number of events to return. */
   limit?: number;
-  /** Body param: */
+  /** Body param: Cursor for pagination to retrieve the next set of results */
   offset?: string;
-  /** Body param: */
+  /** Body param: Number of events to skip for pagination. Used in conjunction with offset */
   offsetBy?: number;
-  /** Body param: */
+  /** Body param: Direction for offset-based pagination (e.g., 'next', 'prev') */
   offsetDirection?: string;
-  /** Body param: */
+  /** Body param: Optional parameters to pass to the query execution */
   parameters?: {
     calculations?: {
       operator:
@@ -2381,9 +2157,9 @@ export interface QueryObservabilityTelemetryRequest {
     };
     orderBy?: { value: string; order?: "asc" | "desc" };
   };
-  /** Body param: */
+  /** Body param: Type of pattern to search for when using pattern-based views */
   patternType?: "message" | "error";
-  /** Body param: */
+  /** Body param: View type for presenting the query results. */
   view?:
     | "traces"
     | "events"
@@ -2677,11 +2453,21 @@ export interface QueryObservabilityTelemetryResponse {
     userId: string;
     workspaceId: string;
     created?: string;
-    statistics?: { bytesRead: number; elapsed: number; rowsRead: number };
+    statistics?: {
+      bytesRead: number;
+      elapsed: number;
+      rowsRead: number;
+      abrLevel?: number;
+    };
     updated?: string;
   };
   /** The statistics object contains information about query performance from the database, it does not include any network latency */
-  statistics: { bytesRead: number; elapsed: number; rowsRead: number };
+  statistics: {
+    bytesRead: number;
+    elapsed: number;
+    rowsRead: number;
+    abrLevel?: number;
+  };
   calculations?: {
     aggregates: {
       count: number;
@@ -2755,6 +2541,7 @@ export interface QueryObservabilityTelemetryResponse {
         statusCode?: number;
         traceDuration?: number;
         traceId?: string;
+        transactionName?: string;
         trigger?: string;
         type?: string;
         url?: string;
@@ -2762,6 +2549,7 @@ export interface QueryObservabilityTelemetryResponse {
       dataset: string;
       source: string;
       timestamp: number;
+      $containers?: unknown;
       $workers?:
         | {
             eventType:
@@ -2775,12 +2563,13 @@ export interface QueryObservabilityTelemetryResponse {
               | "rpc"
               | "websocket"
               | "unknown";
-            outcome: string;
             requestId: string;
             scriptName: string;
+            durableObjectId?: string;
             entrypoint?: string;
             event?: Record<string, unknown>;
             executionModel?: "durableObject" | "stateless";
+            outcome?: string;
             scriptVersion?: { id?: string; message?: string; tag?: string };
             truncated?: boolean;
           }
@@ -2807,6 +2596,7 @@ export interface QueryObservabilityTelemetryResponse {
               timestamp: number;
             }[];
             dispatchNamespace?: string;
+            durableObjectId?: string;
             entrypoint?: string;
             event?: Record<string, unknown>;
             executionModel?: "durableObject" | "stateless";
@@ -2841,6 +2631,17 @@ export interface QueryObservabilityTelemetryResponse {
       time: string;
     }[];
     service: string;
+  }[];
+  traces?: {
+    rootSpanName: string;
+    rootTransactionName: string;
+    service: string[];
+    spans: number;
+    traceDurationMs: number;
+    traceEndMs: number;
+    traceId: string;
+    traceStartMs: number;
+    errors?: string[];
   }[];
 }
 
@@ -3004,6 +2805,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
         bytesRead: Schema.Number.pipe(T.JsonName("bytes_read")),
         elapsed: Schema.Number,
         rowsRead: Schema.Number.pipe(T.JsonName("rows_read")),
+        abrLevel: Schema.optional(Schema.Number).pipe(T.JsonName("abr_level")),
       }),
     ),
     updated: Schema.optional(Schema.String),
@@ -3012,6 +2814,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
     bytesRead: Schema.Number.pipe(T.JsonName("bytes_read")),
     elapsed: Schema.Number,
     rowsRead: Schema.Number.pipe(T.JsonName("rows_read")),
+    abrLevel: Schema.optional(Schema.Number).pipe(T.JsonName("abr_level")),
   }),
   calculations: Schema.optional(
     Schema.Array(
@@ -3153,6 +2956,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
               statusCode: Schema.optional(Schema.Number),
               traceDuration: Schema.optional(Schema.Number),
               traceId: Schema.optional(Schema.String),
+              transactionName: Schema.optional(Schema.String),
               trigger: Schema.optional(Schema.String),
               type: Schema.optional(Schema.String),
               url: Schema.optional(Schema.String),
@@ -3160,6 +2964,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
             dataset: Schema.String,
             source: Schema.String,
             timestamp: Schema.Number,
+            $containers: Schema.optional(Schema.Unknown),
             $workers: Schema.optional(
               Schema.Union(
                 Schema.Struct({
@@ -3175,14 +2980,15 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
                     "websocket",
                     "unknown",
                   ),
-                  outcome: Schema.String,
                   requestId: Schema.String,
                   scriptName: Schema.String,
+                  durableObjectId: Schema.optional(Schema.String),
                   entrypoint: Schema.optional(Schema.String),
                   event: Schema.optional(Schema.Struct({})),
                   executionModel: Schema.optional(
                     Schema.Literal("durableObject", "stateless"),
                   ),
+                  outcome: Schema.optional(Schema.String),
                   scriptVersion: Schema.optional(
                     Schema.Struct({
                       id: Schema.optional(Schema.String),
@@ -3220,6 +3026,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
                     ),
                   ),
                   dispatchNamespace: Schema.optional(Schema.String),
+                  durableObjectId: Schema.optional(Schema.String),
                   entrypoint: Schema.optional(Schema.String),
                   event: Schema.optional(Schema.Struct({})),
                   executionModel: Schema.optional(
@@ -3306,6 +3113,21 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
           }),
         ),
         service: Schema.String,
+      }),
+    ),
+  ),
+  traces: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        rootSpanName: Schema.String,
+        rootTransactionName: Schema.String,
+        service: Schema.Array(Schema.String),
+        spans: Schema.Number,
+        traceDurationMs: Schema.Number,
+        traceEndMs: Schema.Number,
+        traceId: Schema.String,
+        traceStartMs: Schema.Number,
+        errors: Schema.optional(Schema.Array(Schema.String)),
       }),
     ),
   ),
@@ -3600,7 +3422,6 @@ export interface PutScriptRequest {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -3659,9 +3480,13 @@ export interface PutScriptRequest {
         persist?: boolean;
       } | null;
     };
-    placement?: { mode?: "smart" };
+    placement?:
+      | { mode: "smart" }
+      | { region: string }
+      | { hostname: string }
+      | { host: string };
     tags?: string[];
-    tailConsumers?: unknown[];
+    tailConsumers?: unknown[] | null;
     usageModel?: "standard" | "bundled" | "unbound";
   };
   /** Body param: An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename.<br/ */
@@ -3845,11 +3670,6 @@ export const PutScriptRequest = Schema.Struct({
           }),
           Schema.Struct({
             name: Schema.String,
-            service: Schema.String,
-            type: Schema.Literal("tail_consumer"),
-          }),
-          Schema.Struct({
-            name: Schema.String,
             part: Schema.String,
             type: Schema.Literal("text_blob"),
           }),
@@ -3962,14 +3782,25 @@ export const PutScriptRequest = Schema.Struct({
       }),
     ),
     placement: Schema.optional(
-      Schema.Struct({
-        mode: Schema.optional(Schema.Literal("smart")),
-      }),
+      Schema.Union(
+        Schema.Struct({
+          mode: Schema.Literal("smart"),
+        }),
+        Schema.Struct({
+          region: Schema.String,
+        }),
+        Schema.Struct({
+          hostname: Schema.String,
+        }),
+        Schema.Struct({
+          host: Schema.String,
+        }),
+      ),
     ),
     tags: Schema.optional(Schema.Array(Schema.String)),
-    tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-      T.JsonName("tail_consumers"),
-    ),
+    tailConsumers: Schema.optional(
+      Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+    ).pipe(T.JsonName("tail_consumers")),
     usageModel: Schema.optional(
       Schema.Literal("standard", "bundled", "unbound"),
     ).pipe(T.JsonName("usage_model")),
@@ -3987,7 +3818,7 @@ export const PutScriptRequest = Schema.Struct({
 
 export interface PutScriptResponse {
   startupTimeMs: number;
-  /** The id of the script in the Workers system. Usually the script name. */
+  /** The name used to identify the script. */
   id?: string;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string;
@@ -3995,6 +3826,8 @@ export interface PutScriptResponse {
   compatibilityFlags?: string[];
   /** When the script was created. */
   createdOn?: string;
+  /** The entry point for the script. */
+  entryPoint?: string;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string;
   /** The names of handlers exported as part of the default export. */
@@ -4013,12 +3846,52 @@ export interface PutScriptResponse {
   modifiedOn?: string;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
   namedHandlers?: { handlers?: string[]; name?: string }[];
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: {
-    lastAnalyzedAt?: string;
-    mode?: "smart";
-    status?: "SUCCESS" | "UNSUPPORTED_APPLICATION" | "INSUFFICIENT_INVOCATIONS";
+  /** Observability settings for the Worker. */
+  observability?: {
+    enabled: boolean;
+    headSamplingRate?: number | null;
+    logs?: {
+      enabled: boolean;
+      invocationLogs: boolean;
+      destinations?: string[];
+      headSamplingRate?: number | null;
+      persist?: boolean;
+    } | null;
   };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | {
+        mode: "smart";
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        region: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        hostname: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        host: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      };
   /** @deprecated */
   placementMode?: "smart";
   /** @deprecated */
@@ -4026,8 +3899,12 @@ export interface PutScriptResponse {
     | "SUCCESS"
     | "UNSUPPORTED_APPLICATION"
     | "INSUFFICIENT_INVOCATIONS";
+  /** The immutable ID of the script. */
+  tag?: string;
+  /** Tags associated with the Worker. */
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -4042,6 +3919,7 @@ export const PutScriptResponse = Schema.Struct({
     T.JsonName("compatibility_flags"),
   ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  entryPoint: Schema.optional(Schema.String).pipe(T.JsonName("entry_point")),
   etag: Schema.optional(Schema.String),
   handlers: Schema.optional(Schema.Array(Schema.String)),
   hasAssets: Schema.optional(Schema.Boolean).pipe(T.JsonName("has_assets")),
@@ -4062,20 +3940,83 @@ export const PutScriptResponse = Schema.Struct({
       }),
     ),
   ).pipe(T.JsonName("named_handlers")),
-  placement: Schema.optional(
+  observability: Schema.optional(
     Schema.Struct({
-      lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-        T.JsonName("last_analyzed_at"),
-      ),
-      mode: Schema.optional(Schema.Literal("smart")),
-      status: Schema.optional(
-        Schema.Literal(
-          "SUCCESS",
-          "UNSUPPORTED_APPLICATION",
-          "INSUFFICIENT_INVOCATIONS",
+      enabled: Schema.Boolean,
+      headSamplingRate: Schema.optional(
+        Schema.Union(Schema.Number, Schema.Null),
+      ).pipe(T.JsonName("head_sampling_rate")),
+      logs: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.Boolean,
+            invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
+            destinations: Schema.optional(Schema.Array(Schema.String)),
+            headSamplingRate: Schema.optional(
+              Schema.Union(Schema.Number, Schema.Null),
+            ).pipe(T.JsonName("head_sampling_rate")),
+            persist: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
         ),
       ),
     }),
+  ),
+  placement: Schema.optional(
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        host: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+    ),
   ),
   placementMode: Schema.optional(Schema.Literal("smart")).pipe(
     T.JsonName("placement_mode"),
@@ -4087,9 +4028,11 @@ export const PutScriptResponse = Schema.Struct({
       "INSUFFICIENT_INVOCATIONS",
     ),
   ).pipe(T.JsonName("placement_status")),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tag: Schema.optional(Schema.String),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -4819,7 +4762,6 @@ export interface GetScriptScriptAndVersionSettingResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -4874,12 +4816,16 @@ export interface GetScriptScriptAndVersionSettingResponse {
       persist?: boolean;
     } | null;
   };
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: { mode?: "smart" };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | { mode: "smart" }
+    | { region: string }
+    | { hostname: string }
+    | { host: string };
   /** Tags associated with the Worker. */
-  tags?: string[];
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -5023,11 +4969,6 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -5118,14 +5059,25 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
     }),
   ),
   placement: Schema.optional(
-    Schema.Struct({
-      mode: Schema.optional(Schema.Literal("smart")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+      }),
+      Schema.Struct({
+        host: Schema.String,
+      }),
+    ),
   ),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -5197,7 +5149,6 @@ export interface PatchScriptScriptAndVersionSettingRequest {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -5252,9 +5203,13 @@ export interface PatchScriptScriptAndVersionSettingRequest {
         persist?: boolean;
       } | null;
     };
-    placement?: { mode?: "smart" };
-    tags?: string[];
-    tailConsumers?: unknown[];
+    placement?:
+      | { mode: "smart" }
+      | { region: string }
+      | { hostname: string }
+      | { host: string };
+    tags?: string[] | null;
+    tailConsumers?: unknown[] | null;
     usageModel?: "standard" | "bundled" | "unbound";
   };
 }
@@ -5405,11 +5360,6 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
             }),
             Schema.Struct({
               name: Schema.String,
-              service: Schema.String,
-              type: Schema.Literal("tail_consumer"),
-            }),
-            Schema.Struct({
-              name: Schema.String,
               part: Schema.String,
               type: Schema.Literal("text_blob"),
             }),
@@ -5518,14 +5468,27 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
         }),
       ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.optional(Schema.Literal("smart")),
-        }),
+        Schema.Union(
+          Schema.Struct({
+            mode: Schema.Literal("smart"),
+          }),
+          Schema.Struct({
+            region: Schema.String,
+          }),
+          Schema.Struct({
+            hostname: Schema.String,
+          }),
+          Schema.Struct({
+            host: Schema.String,
+          }),
+        ),
       ),
-      tags: Schema.optional(Schema.Array(Schema.String)),
-      tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-        T.JsonName("tail_consumers"),
+      tags: Schema.optional(
+        Schema.Union(Schema.Array(Schema.String), Schema.Null),
       ),
+      tailConsumers: Schema.optional(
+        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+      ).pipe(T.JsonName("tail_consumers")),
       usageModel: Schema.optional(
         Schema.Literal("standard", "bundled", "unbound"),
       ).pipe(T.JsonName("usage_model")),
@@ -5588,7 +5551,6 @@ export interface PatchScriptScriptAndVersionSettingResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -5643,12 +5605,16 @@ export interface PatchScriptScriptAndVersionSettingResponse {
       persist?: boolean;
     } | null;
   };
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: { mode?: "smart" };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | { mode: "smart" }
+    | { region: string }
+    | { hostname: string }
+    | { host: string };
   /** Tags associated with the Worker. */
-  tags?: string[];
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -5792,11 +5758,6 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -5887,14 +5848,25 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
     }),
   ),
   placement: Schema.optional(
-    Schema.Struct({
-      mode: Schema.optional(Schema.Literal("smart")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+      }),
+      Schema.Struct({
+        host: Schema.String,
+      }),
+    ),
   ),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -6156,7 +6128,7 @@ export interface PatchScriptSettingRequest {
     } | null;
   } | null;
   /** Body param: Tags associated with the Worker. */
-  tags?: string[];
+  tags?: string[] | null;
   /** Body param: List of Workers that will consume logs from the attached Worker. */
   tailConsumers?: unknown[] | null;
 }
@@ -6192,7 +6164,7 @@ export const PatchScriptSettingRequest = Schema.Struct({
       Schema.Null,
     ),
   ),
-  tags: Schema.optional(Schema.Array(Schema.String)),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
   tailConsumers: Schema.optional(
     Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
   ).pipe(T.JsonName("tail_consumers")),
@@ -6592,7 +6564,6 @@ export interface GetScriptVersionResponse {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -6641,6 +6612,7 @@ export interface GetScriptVersionResponse {
       usageModel?: "bundled" | "unbound" | "standard";
     };
   };
+  /** Unique identifier for the version. */
   id?: string;
   metadata?: {
     authorEmail?: string;
@@ -6660,6 +6632,7 @@ export interface GetScriptVersionResponse {
       | "playground"
       | "workersci";
   };
+  /** Sequential version number. */
   number?: number;
 }
 
@@ -6802,11 +6775,6 @@ export const GetScriptVersionResponse = Schema.Struct({
             service: Schema.String,
             type: Schema.Literal("service"),
             environment: Schema.optional(Schema.String),
-          }),
-          Schema.Struct({
-            name: Schema.String,
-            service: Schema.String,
-            type: Schema.Literal("tail_consumer"),
           }),
           Schema.Struct({
             name: Schema.String,
@@ -6954,7 +6922,11 @@ export interface CreateScriptVersionRequest {
   /** Body param: JSON-encoded metadata about the uploaded parts and Worker configuration. */
   metadata: {
     mainModule: string;
-    annotations?: { "workers/message"?: string; "workers/tag"?: string };
+    annotations?: {
+      "workers/alias"?: string;
+      "workers/message"?: string;
+      "workers/tag"?: string;
+    };
     bindings?: (
       | { name: string; type: "ai" }
       | { dataset: string; name: string; type: "analytics_engine" }
@@ -7003,7 +6975,6 @@ export interface CreateScriptVersionRequest {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -7056,6 +7027,7 @@ export const CreateScriptVersionRequest = Schema.Struct({
     mainModule: Schema.String.pipe(T.JsonName("main_module")),
     annotations: Schema.optional(
       Schema.Struct({
+        "workers/alias": Schema.optional(Schema.String),
         "workers/message": Schema.optional(Schema.String),
         "workers/tag": Schema.optional(Schema.String),
       }),
@@ -7201,11 +7173,6 @@ export const CreateScriptVersionRequest = Schema.Struct({
           }),
           Schema.Struct({
             name: Schema.String,
-            service: Schema.String,
-            type: Schema.Literal("tail_consumer"),
-          }),
-          Schema.Struct({
-            name: Schema.String,
             part: Schema.String,
             type: Schema.Literal("text_blob"),
           }),
@@ -7339,7 +7306,6 @@ export interface CreateScriptVersionResponse {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -7388,6 +7354,7 @@ export interface CreateScriptVersionResponse {
       usageModel?: "bundled" | "unbound" | "standard";
     };
   };
+  /** Unique identifier for the version. */
   id?: string;
   metadata?: {
     authorEmail?: string;
@@ -7407,7 +7374,9 @@ export interface CreateScriptVersionResponse {
       | "playground"
       | "workersci";
   };
+  /** Sequential version number. */
   number?: number;
+  /** Time in milliseconds spent on [Worker startup](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time). */
   startupTimeMs?: number;
 }
 
@@ -7550,11 +7519,6 @@ export const CreateScriptVersionResponse = Schema.Struct({
             service: Schema.String,
             type: Schema.Literal("service"),
             environment: Schema.optional(Schema.String),
-          }),
-          Schema.Struct({
-            name: Schema.String,
-            service: Schema.String,
-            type: Schema.Literal("tail_consumer"),
           }),
           Schema.Struct({
             name: Schema.String,
@@ -7764,5 +7728,36 @@ export const putSubdomain: (
 > = API.make(() => ({
   input: PutSubdomainRequest,
   output: PutSubdomainResponse,
+  errors: [],
+}));
+
+export interface DeleteSubdomainRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const DeleteSubdomainRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/workers/subdomain",
+  }),
+) as unknown as Schema.Schema<DeleteSubdomainRequest>;
+
+export type DeleteSubdomainResponse = unknown;
+
+export const DeleteSubdomainResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteSubdomainResponse>;
+
+export const deleteSubdomain: (
+  input: DeleteSubdomainRequest,
+) => Effect.Effect<
+  DeleteSubdomainResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteSubdomainRequest,
+  output: DeleteSubdomainResponse,
   errors: [],
 }));

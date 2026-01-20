@@ -1623,6 +1623,8 @@ export interface CreateRuleResponse {
           mirage?: boolean;
           opportunisticEncryption?: boolean;
           polish?: "off" | "lossless" | "lossy" | "webp";
+          requestBodyBuffering?: "none" | "standard" | "full";
+          responseBodyBuffering?: "none" | "standard";
           rocketLoader?: boolean;
           securityLevel?:
             | "off"
@@ -3159,6 +3161,12 @@ export const CreateRuleResponse = Schema.Struct({
             polish: Schema.optional(
               Schema.Literal("off", "lossless", "lossy", "webp"),
             ),
+            requestBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard", "full"),
+            ).pipe(T.JsonName("request_body_buffering")),
+            responseBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard"),
+            ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),
@@ -4022,6 +4030,8 @@ export interface PatchRuleResponse {
           mirage?: boolean;
           opportunisticEncryption?: boolean;
           polish?: "off" | "lossless" | "lossy" | "webp";
+          requestBodyBuffering?: "none" | "standard" | "full";
+          responseBodyBuffering?: "none" | "standard";
           rocketLoader?: boolean;
           securityLevel?:
             | "off"
@@ -5558,6 +5568,12 @@ export const PatchRuleResponse = Schema.Struct({
             polish: Schema.optional(
               Schema.Literal("off", "lossless", "lossy", "webp"),
             ),
+            requestBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard", "full"),
+            ).pipe(T.JsonName("request_body_buffering")),
+            responseBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard"),
+            ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),
@@ -6421,6 +6437,8 @@ export interface DeleteRuleResponse {
           mirage?: boolean;
           opportunisticEncryption?: boolean;
           polish?: "off" | "lossless" | "lossy" | "webp";
+          requestBodyBuffering?: "none" | "standard" | "full";
+          responseBodyBuffering?: "none" | "standard";
           rocketLoader?: boolean;
           securityLevel?:
             | "off"
@@ -7957,6 +7975,12 @@ export const DeleteRuleResponse = Schema.Struct({
             polish: Schema.optional(
               Schema.Literal("off", "lossless", "lossy", "webp"),
             ),
+            requestBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard", "full"),
+            ).pipe(T.JsonName("request_body_buffering")),
+            responseBodyBuffering: Schema.optional(
+              Schema.Literal("none", "standard"),
+            ).pipe(T.JsonName("response_body_buffering")),
             rocketLoader: Schema.optional(Schema.Boolean).pipe(
               T.JsonName("rocket_loader"),
             ),

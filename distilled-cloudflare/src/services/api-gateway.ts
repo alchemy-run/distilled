@@ -26,15 +26,13 @@ import { UploadableSchema } from "../schemas.ts";
 export interface GetConfigurationRequest {
   /** Path param: Identifier. */
   zoneId: string;
-  /** Query param: Requests information about certain properties. */
-  properties?: "auth_id_characteristics"[];
+  /** Query param: Ensures that the configuration is written or retrieved in normalized fashion */
+  normalize?: boolean;
 }
 
 export const GetConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  properties: Schema.optional(
-    Schema.Array(Schema.Literal("auth_id_characteristics")),
-  ).pipe(T.HttpQuery("properties")),
+  normalize: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("normalize")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/api_gateway/configuration" }),
 ) as unknown as Schema.Schema<GetConfigurationRequest>;
@@ -76,6 +74,8 @@ export const getConfiguration: (
 export interface PutConfigurationRequest {
   /** Path param: Identifier. */
   zoneId: string;
+  /** Query param: Ensures that the configuration is written or retrieved in normalized fashion */
+  normalize?: boolean;
   /** Body param: */
   authIdCharacteristics: (
     | { name: string; type: "header" | "cookie" }
@@ -85,6 +85,7 @@ export interface PutConfigurationRequest {
 
 export const PutConfigurationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  normalize: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("normalize")),
   authIdCharacteristics: Schema.Array(
     Schema.Union(
       Schema.Struct({
@@ -102,16 +103,25 @@ export const PutConfigurationRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PutConfigurationRequest>;
 
 export interface PutConfigurationResponse {
-  errors: unknown;
-  messages: unknown;
-  /** Whether the API call was successful. */
-  success: true;
+  authIdCharacteristics: (
+    | { name: string; type: "header" | "cookie" }
+    | { name: string; type: "jwt" }
+  )[];
 }
 
 export const PutConfigurationResponse = Schema.Struct({
-  errors: Schema.Unknown,
-  messages: Schema.Unknown,
-  success: Schema.Literal(true),
+  authIdCharacteristics: Schema.Array(
+    Schema.Union(
+      Schema.Struct({
+        name: Schema.String,
+        type: Schema.Literal("header", "cookie"),
+      }),
+      Schema.Struct({
+        name: Schema.String,
+        type: Schema.Literal("jwt"),
+      }),
+    ),
+  ).pipe(T.JsonName("auth_id_characteristics")),
 }) as unknown as Schema.Schema<PutConfigurationResponse>;
 
 export const putConfiguration: (

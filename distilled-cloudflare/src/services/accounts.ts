@@ -41,6 +41,8 @@ export interface GetAccountResponse {
   type: "standard" | "enterprise";
   /** Timestamp for the creation of the account */
   createdOn?: string;
+  /** Parent container details */
+  managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
   settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
 }
@@ -50,6 +52,16 @@ export const GetAccountResponse = Schema.Struct({
   name: Schema.String,
   type: Schema.Literal("standard", "enterprise"),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  managedBy: Schema.optional(
+    Schema.Struct({
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(Schema.String).pipe(
@@ -102,6 +114,8 @@ export interface CreateAccountResponse {
   type: "standard" | "enterprise";
   /** Timestamp for the creation of the account */
   createdOn?: string;
+  /** Parent container details */
+  managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
   settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
 }
@@ -111,6 +125,16 @@ export const CreateAccountResponse = Schema.Struct({
   name: Schema.String,
   type: Schema.Literal("standard", "enterprise"),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  managedBy: Schema.optional(
+    Schema.Struct({
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(Schema.String).pipe(
@@ -144,6 +168,8 @@ export interface UpdateAccountRequest {
   name: string;
   /** Body param: */
   type: "standard" | "enterprise";
+  /** Body param: Parent container details */
+  managedBy?: unknown;
   /** Body param: Account settings */
   settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
 }
@@ -153,6 +179,7 @@ export const UpdateAccountRequest = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literal("standard", "enterprise"),
+  managedBy: Schema.optional(Schema.Unknown).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(Schema.String).pipe(
@@ -175,6 +202,8 @@ export interface UpdateAccountResponse {
   type: "standard" | "enterprise";
   /** Timestamp for the creation of the account */
   createdOn?: string;
+  /** Parent container details */
+  managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
   settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
 }
@@ -184,6 +213,16 @@ export const UpdateAccountResponse = Schema.Struct({
   name: Schema.String,
   type: Schema.Literal("standard", "enterprise"),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  managedBy: Schema.optional(
+    Schema.Struct({
+      parentOrgId: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_id"),
+      ),
+      parentOrgName: Schema.optional(Schema.String).pipe(
+        T.JsonName("parent_org_name"),
+      ),
+    }),
+  ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
       abuseContactEmail: Schema.optional(Schema.String).pipe(

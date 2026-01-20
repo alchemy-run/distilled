@@ -1184,7 +1184,7 @@ export interface PutBucketEventNotificationRequest {
   /** Header param: Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Body param: Array of rules to drive notifications. */
-  rules?: {
+  rules: {
     actions: (
       | "PutObject"
       | "CopyObject"
@@ -1205,23 +1205,21 @@ export const PutBucketEventNotificationRequest = Schema.Struct({
   jurisdiction: Schema.optional(
     Schema.Literal("default", "eu", "fedramp"),
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
-  rules: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        actions: Schema.Array(
-          Schema.Literal(
-            "PutObject",
-            "CopyObject",
-            "DeleteObject",
-            "CompleteMultipartUpload",
-            "LifecycleDeletion",
-          ),
+  rules: Schema.Array(
+    Schema.Struct({
+      actions: Schema.Array(
+        Schema.Literal(
+          "PutObject",
+          "CopyObject",
+          "DeleteObject",
+          "CompleteMultipartUpload",
+          "LifecycleDeletion",
         ),
-        description: Schema.optional(Schema.String),
-        prefix: Schema.optional(Schema.String),
-        suffix: Schema.optional(Schema.String),
-      }),
-    ),
+      ),
+      description: Schema.optional(Schema.String),
+      prefix: Schema.optional(Schema.String),
+      suffix: Schema.optional(Schema.String),
+    }),
   ),
 }).pipe(
   T.Http({
@@ -1791,8 +1789,9 @@ export interface GetBucketSippyResponse {
   enabled?: boolean;
   /** Details about the configured source bucket. */
   source?: {
-    bucket?: string;
-    provider?: "aws" | "gcs";
+    bucket?: string | null;
+    bucketUrl?: string | null;
+    provider?: "aws" | "gcs" | "s3";
     region?: string | null;
   };
 }
@@ -1809,8 +1808,9 @@ export const GetBucketSippyResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   source: Schema.optional(
     Schema.Struct({
-      bucket: Schema.optional(Schema.String),
-      provider: Schema.optional(Schema.Literal("aws", "gcs")),
+      bucket: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      bucketUrl: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      provider: Schema.optional(Schema.Literal("aws", "gcs", "s3")),
       region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
     }),
   ),
@@ -1853,8 +1853,9 @@ export interface PutBucketSippyResponse {
   enabled?: boolean;
   /** Details about the configured source bucket. */
   source?: {
-    bucket?: string;
-    provider?: "aws" | "gcs";
+    bucket?: string | null;
+    bucketUrl?: string | null;
+    provider?: "aws" | "gcs" | "s3";
     region?: string | null;
   };
 }
@@ -1871,8 +1872,9 @@ export const PutBucketSippyResponse = Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   source: Schema.optional(
     Schema.Struct({
-      bucket: Schema.optional(Schema.String),
-      provider: Schema.optional(Schema.Literal("aws", "gcs")),
+      bucket: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      bucketUrl: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+      provider: Schema.optional(Schema.Literal("aws", "gcs", "s3")),
       region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
     }),
   ),
@@ -1970,26 +1972,24 @@ export interface TargetSuperSlurperConnectivityPrecheckRequest {
   /** Path param: */
   accountId: string;
   /** Body param: */
-  bucket?: string;
+  bucket: string;
+  /** Body param: */
+  secret: { accessKeyId: string; secretAccessKey: string };
+  /** Body param: */
+  vendor: "r2";
   /** Body param: */
   jurisdiction?: "default" | "eu" | "fedramp";
-  /** Body param: */
-  secret?: { accessKeyId?: string; secretAccessKey?: string };
-  /** Body param: */
-  vendor?: "r2";
 }
 
 export const TargetSuperSlurperConnectivityPrecheckRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  bucket: Schema.optional(Schema.String),
+  bucket: Schema.String,
+  secret: Schema.Struct({
+    accessKeyId: Schema.String,
+    secretAccessKey: Schema.String,
+  }),
+  vendor: Schema.Literal("r2"),
   jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
-  secret: Schema.optional(
-    Schema.Struct({
-      accessKeyId: Schema.optional(Schema.String),
-      secretAccessKey: Schema.optional(Schema.String),
-    }),
-  ),
-  vendor: Schema.optional(Schema.Literal("r2")),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -2045,13 +2045,20 @@ export interface GetSuperSlurperJobResponse {
     | {
         bucket?: string;
         endpoint?: string | null;
+        keys?: string[] | null;
         pathPrefix?: string | null;
         vendor?: "s3";
       }
-    | { bucket?: string; pathPrefix?: string | null; vendor?: "gcs" }
+    | {
+        bucket?: string;
+        keys?: string[] | null;
+        pathPrefix?: string | null;
+        vendor?: "gcs";
+      }
     | {
         bucket?: string;
         jurisdiction?: "default" | "eu" | "fedramp";
+        keys?: string[] | null;
         pathPrefix?: string | null;
         vendor?: "r2";
       };
@@ -2073,11 +2080,17 @@ export const GetSuperSlurperJobResponse = Schema.Struct({
       Schema.Struct({
         bucket: Schema.optional(Schema.String),
         endpoint: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        keys: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
         vendor: Schema.optional(Schema.Literal("s3")),
       }),
       Schema.Struct({
         bucket: Schema.optional(Schema.String),
+        keys: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
         vendor: Schema.optional(Schema.Literal("gcs")),
       }),
@@ -2085,6 +2098,9 @@ export const GetSuperSlurperJobResponse = Schema.Struct({
         bucket: Schema.optional(Schema.String),
         jurisdiction: Schema.optional(
           Schema.Literal("default", "eu", "fedramp"),
+        ),
+        keys: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
         ),
         pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
         vendor: Schema.optional(Schema.Literal("r2")),
@@ -2123,28 +2139,32 @@ export interface CreateSuperSlurperJobRequest {
   /** Body param: */
   source?:
     | {
-        bucket?: string;
+        bucket: string;
+        secret: { accessKeyId: string; secretAccessKey: string };
+        vendor: "s3";
         endpoint?: string | null;
-        secret?: { accessKeyId?: string; secretAccessKey?: string };
-        vendor?: "s3";
+        pathPrefix?: string | null;
+        region?: string | null;
       }
     | {
-        bucket?: string;
-        secret?: { clientEmail?: string; privateKey?: string };
-        vendor?: "gcs";
+        bucket: string;
+        secret: { clientEmail: string; privateKey: string };
+        vendor: "gcs";
+        pathPrefix?: string | null;
       }
     | {
-        bucket?: string;
+        bucket: string;
+        secret: { accessKeyId: string; secretAccessKey: string };
+        vendor: "r2";
         jurisdiction?: "default" | "eu" | "fedramp";
-        secret?: { accessKeyId?: string; secretAccessKey?: string };
-        vendor?: "r2";
+        pathPrefix?: string | null;
       };
   /** Body param: */
   target?: {
-    bucket?: string;
+    bucket: string;
+    secret: { accessKeyId: string; secretAccessKey: string };
+    vendor: "r2";
     jurisdiction?: "default" | "eu" | "fedramp";
-    secret?: { accessKeyId?: string; secretAccessKey?: string };
-    vendor?: "r2";
   };
 }
 
@@ -2154,52 +2174,48 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
   source: Schema.optional(
     Schema.Union(
       Schema.Struct({
-        bucket: Schema.optional(Schema.String),
+        bucket: Schema.String,
+        secret: Schema.Struct({
+          accessKeyId: Schema.String,
+          secretAccessKey: Schema.String,
+        }),
+        vendor: Schema.Literal("s3"),
         endpoint: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-        secret: Schema.optional(
-          Schema.Struct({
-            accessKeyId: Schema.optional(Schema.String),
-            secretAccessKey: Schema.optional(Schema.String),
-          }),
-        ),
-        vendor: Schema.optional(Schema.Literal("s3")),
+        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+        region: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
       }),
       Schema.Struct({
-        bucket: Schema.optional(Schema.String),
-        secret: Schema.optional(
-          Schema.Struct({
-            clientEmail: Schema.optional(Schema.String),
-            privateKey: Schema.optional(Schema.String),
-          }),
-        ),
-        vendor: Schema.optional(Schema.Literal("gcs")),
+        bucket: Schema.String,
+        secret: Schema.Struct({
+          clientEmail: Schema.String,
+          privateKey: Schema.String,
+        }),
+        vendor: Schema.Literal("gcs"),
+        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
       }),
       Schema.Struct({
-        bucket: Schema.optional(Schema.String),
+        bucket: Schema.String,
+        secret: Schema.Struct({
+          accessKeyId: Schema.String,
+          secretAccessKey: Schema.String,
+        }),
+        vendor: Schema.Literal("r2"),
         jurisdiction: Schema.optional(
           Schema.Literal("default", "eu", "fedramp"),
         ),
-        secret: Schema.optional(
-          Schema.Struct({
-            accessKeyId: Schema.optional(Schema.String),
-            secretAccessKey: Schema.optional(Schema.String),
-          }),
-        ),
-        vendor: Schema.optional(Schema.Literal("r2")),
+        pathPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
       }),
     ),
   ),
   target: Schema.optional(
     Schema.Struct({
-      bucket: Schema.optional(Schema.String),
+      bucket: Schema.String,
+      secret: Schema.Struct({
+        accessKeyId: Schema.String,
+        secretAccessKey: Schema.String,
+      }),
+      vendor: Schema.Literal("r2"),
       jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
-      secret: Schema.optional(
-        Schema.Struct({
-          accessKeyId: Schema.optional(Schema.String),
-          secretAccessKey: Schema.optional(Schema.String),
-        }),
-      ),
-      vendor: Schema.optional(Schema.Literal("r2")),
     }),
   ),
 }).pipe(

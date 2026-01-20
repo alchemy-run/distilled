@@ -162,18 +162,19 @@ export const CreateResourceGroupRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateResourceGroupRequest>;
 
 export interface CreateResourceGroupResponse {
-  /** Identifier of the group. */
-  id?: string;
+  /** Identifier of the resource group. */
+  id: string;
+  /** The scope associated to the resource group */
+  scope: { key: string; objects: { key: string }[] }[];
   /** Attributes associated to the resource group. */
-  meta?: unknown;
-  /** A scope is a combination of scope objects which provides additional context. */
-  scope?: { key: string; objects: { key: string }[] };
+  meta?: { key?: string; value?: string };
+  /** Name of the resource group. */
+  name?: string;
 }
 
 export const CreateResourceGroupResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Unknown),
-  scope: Schema.optional(
+  id: Schema.String,
+  scope: Schema.Array(
     Schema.Struct({
       key: Schema.String,
       objects: Schema.Array(
@@ -183,6 +184,13 @@ export const CreateResourceGroupResponse = Schema.Struct({
       ),
     }),
   ),
+  meta: Schema.optional(
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ),
+  name: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateResourceGroupResponse>;
 
 export const createResourceGroup: (
@@ -302,6 +310,251 @@ export const deleteResourceGroup: (
 > = API.make(() => ({
   input: DeleteResourceGroupRequest,
   output: DeleteResourceGroupResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// Sso
+// =============================================================================
+
+export interface GetSsoRequest {
+  ssoConnectorId: string;
+  /** Account identifier tag. */
+  accountId: string;
+}
+
+export const GetSsoRequest = Schema.Struct({
+  ssoConnectorId: Schema.String.pipe(T.HttpPath("ssoConnectorId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}",
+  }),
+) as unknown as Schema.Schema<GetSsoRequest>;
+
+export interface GetSsoResponse {
+  /** SSO Connector identifier tag. */
+  id?: string;
+  /** Timestamp for the creation of the SSO connector */
+  createdOn?: string;
+  emailDomain?: string;
+  enabled?: boolean;
+  /** Timestamp for the last update of the SSO connector */
+  updatedOn?: string;
+  /** Controls the display of FedRAMP language to the user during SSO login */
+  useFedrampLanguage?: boolean;
+  verification?: {
+    code?: string;
+    status?: "awaiting" | "pending" | "failed" | "verified";
+  };
+}
+
+export const GetSsoResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
+  enabled: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
+  verification: Schema.optional(
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      status: Schema.optional(
+        Schema.Literal("awaiting", "pending", "failed", "verified"),
+      ),
+    }),
+  ),
+}) as unknown as Schema.Schema<GetSsoResponse>;
+
+export const getSso: (
+  input: GetSsoRequest,
+) => Effect.Effect<
+  GetSsoResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetSsoRequest,
+  output: GetSsoResponse,
+  errors: [],
+}));
+
+export interface CreateSsoRequest {
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Body param: Email domain of the new SSO connector */
+  emailDomain: string;
+  /** Body param: Begin the verification process after creation */
+  beginVerification?: boolean;
+  /** Body param: Controls the display of FedRAMP language to the user during SSO login */
+  useFedrampLanguage?: boolean;
+}
+
+export const CreateSsoRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  emailDomain: Schema.String.pipe(T.JsonName("email_domain")),
+  beginVerification: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("begin_verification"),
+  ),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
+}).pipe(
+  T.Http({ method: "POST", path: "/accounts/{account_id}/sso_connectors" }),
+) as unknown as Schema.Schema<CreateSsoRequest>;
+
+export interface CreateSsoResponse {
+  /** SSO Connector identifier tag. */
+  id?: string;
+  /** Timestamp for the creation of the SSO connector */
+  createdOn?: string;
+  emailDomain?: string;
+  enabled?: boolean;
+  /** Timestamp for the last update of the SSO connector */
+  updatedOn?: string;
+  /** Controls the display of FedRAMP language to the user during SSO login */
+  useFedrampLanguage?: boolean;
+  verification?: {
+    code?: string;
+    status?: "awaiting" | "pending" | "failed" | "verified";
+  };
+}
+
+export const CreateSsoResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
+  enabled: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
+  verification: Schema.optional(
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      status: Schema.optional(
+        Schema.Literal("awaiting", "pending", "failed", "verified"),
+      ),
+    }),
+  ),
+}) as unknown as Schema.Schema<CreateSsoResponse>;
+
+export const createSso: (
+  input: CreateSsoRequest,
+) => Effect.Effect<
+  CreateSsoResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateSsoRequest,
+  output: CreateSsoResponse,
+  errors: [],
+}));
+
+export interface PatchSsoRequest {
+  ssoConnectorId: string;
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Body param: SSO Connector enabled state */
+  enabled?: boolean;
+  /** Body param: Controls the display of FedRAMP language to the user during SSO login */
+  useFedrampLanguage?: boolean;
+}
+
+export const PatchSsoRequest = Schema.Struct({
+  ssoConnectorId: Schema.String.pipe(T.HttpPath("ssoConnectorId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  enabled: Schema.optional(Schema.Boolean),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}",
+  }),
+) as unknown as Schema.Schema<PatchSsoRequest>;
+
+export interface PatchSsoResponse {
+  /** SSO Connector identifier tag. */
+  id?: string;
+  /** Timestamp for the creation of the SSO connector */
+  createdOn?: string;
+  emailDomain?: string;
+  enabled?: boolean;
+  /** Timestamp for the last update of the SSO connector */
+  updatedOn?: string;
+  /** Controls the display of FedRAMP language to the user during SSO login */
+  useFedrampLanguage?: boolean;
+  verification?: {
+    code?: string;
+    status?: "awaiting" | "pending" | "failed" | "verified";
+  };
+}
+
+export const PatchSsoResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  emailDomain: Schema.optional(Schema.String).pipe(T.JsonName("email_domain")),
+  enabled: Schema.optional(Schema.Boolean),
+  updatedOn: Schema.optional(Schema.String).pipe(T.JsonName("updated_on")),
+  useFedrampLanguage: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_fedramp_language"),
+  ),
+  verification: Schema.optional(
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      status: Schema.optional(
+        Schema.Literal("awaiting", "pending", "failed", "verified"),
+      ),
+    }),
+  ),
+}) as unknown as Schema.Schema<PatchSsoResponse>;
+
+export const patchSso: (
+  input: PatchSsoRequest,
+) => Effect.Effect<
+  PatchSsoResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PatchSsoRequest,
+  output: PatchSsoResponse,
+  errors: [],
+}));
+
+export interface DeleteSsoRequest {
+  ssoConnectorId: string;
+  /** Account identifier tag. */
+  accountId: string;
+}
+
+export const DeleteSsoRequest = Schema.Struct({
+  ssoConnectorId: Schema.String.pipe(T.HttpPath("ssoConnectorId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}",
+  }),
+) as unknown as Schema.Schema<DeleteSsoRequest>;
+
+export type DeleteSsoResponse = unknown;
+
+export const DeleteSsoResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteSsoResponse>;
+
+export const deleteSso: (
+  input: DeleteSsoRequest,
+) => Effect.Effect<
+  DeleteSsoResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteSsoRequest,
+  output: DeleteSsoResponse,
   errors: [],
 }));
 
@@ -710,5 +963,86 @@ export const deleteUserGroupMember: (
 > = API.make(() => ({
   input: DeleteUserGroupMemberRequest,
   output: DeleteUserGroupMemberResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// VerificationSso
+// =============================================================================
+
+export interface BeginVerificationSsoRequest {
+  ssoConnectorId: string;
+  /** Account identifier tag. */
+  accountId: string;
+}
+
+export const BeginVerificationSsoRequest = Schema.Struct({
+  ssoConnectorId: Schema.String.pipe(T.HttpPath("ssoConnectorId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/sso_connectors/{ssoConnectorId}/begin_verification",
+  }),
+) as unknown as Schema.Schema<BeginVerificationSsoRequest>;
+
+export interface BeginVerificationSsoResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string;
+    source?: { pointer?: string };
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+}
+
+export const BeginVerificationSsoResponse = Schema.Struct({
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
+      source: Schema.optional(
+        Schema.Struct({
+          pointer: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ),
+  success: Schema.Literal(true),
+}) as unknown as Schema.Schema<BeginVerificationSsoResponse>;
+
+export const beginVerificationSso: (
+  input: BeginVerificationSsoRequest,
+) => Effect.Effect<
+  BeginVerificationSsoResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: BeginVerificationSsoRequest,
+  output: BeginVerificationSsoResponse,
   errors: [],
 }));

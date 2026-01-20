@@ -304,7 +304,6 @@ export interface PutDispatchNamespaceScriptRequest {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -363,9 +362,13 @@ export interface PutDispatchNamespaceScriptRequest {
         persist?: boolean;
       } | null;
     };
-    placement?: { mode?: "smart" };
+    placement?:
+      | { mode: "smart" }
+      | { region: string }
+      | { hostname: string }
+      | { host: string };
     tags?: string[];
-    tailConsumers?: unknown[];
+    tailConsumers?: unknown[] | null;
     usageModel?: "standard" | "bundled" | "unbound";
   };
   /** Body param: An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename.<br/ */
@@ -550,11 +553,6 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           }),
           Schema.Struct({
             name: Schema.String,
-            service: Schema.String,
-            type: Schema.Literal("tail_consumer"),
-          }),
-          Schema.Struct({
-            name: Schema.String,
             part: Schema.String,
             type: Schema.Literal("text_blob"),
           }),
@@ -667,14 +665,25 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
       }),
     ),
     placement: Schema.optional(
-      Schema.Struct({
-        mode: Schema.optional(Schema.Literal("smart")),
-      }),
+      Schema.Union(
+        Schema.Struct({
+          mode: Schema.Literal("smart"),
+        }),
+        Schema.Struct({
+          region: Schema.String,
+        }),
+        Schema.Struct({
+          hostname: Schema.String,
+        }),
+        Schema.Struct({
+          host: Schema.String,
+        }),
+      ),
     ),
     tags: Schema.optional(Schema.Array(Schema.String)),
-    tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-      T.JsonName("tail_consumers"),
-    ),
+    tailConsumers: Schema.optional(
+      Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+    ).pipe(T.JsonName("tail_consumers")),
     usageModel: Schema.optional(
       Schema.Literal("standard", "bundled", "unbound"),
     ).pipe(T.JsonName("usage_model")),
@@ -692,7 +701,7 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
 
 export interface PutDispatchNamespaceScriptResponse {
   startupTimeMs: number;
-  /** The id of the script in the Workers system. Usually the script name. */
+  /** The name used to identify the script. */
   id?: string;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
   compatibilityDate?: string;
@@ -700,6 +709,8 @@ export interface PutDispatchNamespaceScriptResponse {
   compatibilityFlags?: string[];
   /** When the script was created. */
   createdOn?: string;
+  /** The entry point for the script. */
+  entryPoint?: string;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
   etag?: string;
   /** The names of handlers exported as part of the default export. */
@@ -718,12 +729,52 @@ export interface PutDispatchNamespaceScriptResponse {
   modifiedOn?: string;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
   namedHandlers?: { handlers?: string[]; name?: string }[];
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: {
-    lastAnalyzedAt?: string;
-    mode?: "smart";
-    status?: "SUCCESS" | "UNSUPPORTED_APPLICATION" | "INSUFFICIENT_INVOCATIONS";
+  /** Observability settings for the Worker. */
+  observability?: {
+    enabled: boolean;
+    headSamplingRate?: number | null;
+    logs?: {
+      enabled: boolean;
+      invocationLogs: boolean;
+      destinations?: string[];
+      headSamplingRate?: number | null;
+      persist?: boolean;
+    } | null;
   };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | {
+        mode: "smart";
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        region: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        hostname: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      }
+    | {
+        host: string;
+        lastAnalyzedAt?: string;
+        status?:
+          | "SUCCESS"
+          | "UNSUPPORTED_APPLICATION"
+          | "INSUFFICIENT_INVOCATIONS";
+      };
   /** @deprecated */
   placementMode?: "smart";
   /** @deprecated */
@@ -731,8 +782,12 @@ export interface PutDispatchNamespaceScriptResponse {
     | "SUCCESS"
     | "UNSUPPORTED_APPLICATION"
     | "INSUFFICIENT_INVOCATIONS";
+  /** The immutable ID of the script. */
+  tag?: string;
+  /** Tags associated with the Worker. */
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -747,6 +802,7 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
     T.JsonName("compatibility_flags"),
   ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  entryPoint: Schema.optional(Schema.String).pipe(T.JsonName("entry_point")),
   etag: Schema.optional(Schema.String),
   handlers: Schema.optional(Schema.Array(Schema.String)),
   hasAssets: Schema.optional(Schema.Boolean).pipe(T.JsonName("has_assets")),
@@ -767,20 +823,83 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
       }),
     ),
   ).pipe(T.JsonName("named_handlers")),
-  placement: Schema.optional(
+  observability: Schema.optional(
     Schema.Struct({
-      lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-        T.JsonName("last_analyzed_at"),
-      ),
-      mode: Schema.optional(Schema.Literal("smart")),
-      status: Schema.optional(
-        Schema.Literal(
-          "SUCCESS",
-          "UNSUPPORTED_APPLICATION",
-          "INSUFFICIENT_INVOCATIONS",
+      enabled: Schema.Boolean,
+      headSamplingRate: Schema.optional(
+        Schema.Union(Schema.Number, Schema.Null),
+      ).pipe(T.JsonName("head_sampling_rate")),
+      logs: Schema.optional(
+        Schema.Union(
+          Schema.Struct({
+            enabled: Schema.Boolean,
+            invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
+            destinations: Schema.optional(Schema.Array(Schema.String)),
+            headSamplingRate: Schema.optional(
+              Schema.Union(Schema.Number, Schema.Null),
+            ).pipe(T.JsonName("head_sampling_rate")),
+            persist: Schema.optional(Schema.Boolean),
+          }),
+          Schema.Null,
         ),
       ),
     }),
+  ),
+  placement: Schema.optional(
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+      Schema.Struct({
+        host: Schema.String,
+        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("last_analyzed_at"),
+        ),
+        status: Schema.optional(
+          Schema.Literal(
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ),
+        ),
+      }),
+    ),
   ),
   placementMode: Schema.optional(Schema.Literal("smart")).pipe(
     T.JsonName("placement_mode"),
@@ -792,9 +911,11 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
       "INSUFFICIENT_INVOCATIONS",
     ),
   ).pipe(T.JsonName("placement_status")),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tag: Schema.optional(Schema.String),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -1258,7 +1379,6 @@ export interface GetDispatchNamespaceScriptSettingResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -1313,12 +1433,16 @@ export interface GetDispatchNamespaceScriptSettingResponse {
       persist?: boolean;
     } | null;
   };
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: { mode?: "smart" };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | { mode: "smart" }
+    | { region: string }
+    | { hostname: string }
+    | { host: string };
   /** Tags associated with the Worker. */
-  tags?: string[];
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -1462,11 +1586,6 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -1557,14 +1676,25 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
     }),
   ),
   placement: Schema.optional(
-    Schema.Struct({
-      mode: Schema.optional(Schema.Literal("smart")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+      }),
+      Schema.Struct({
+        host: Schema.String,
+      }),
+    ),
   ),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),
@@ -1637,7 +1767,6 @@ export interface PatchDispatchNamespaceScriptSettingRequest {
           destinationAddress?: string;
         }
       | { name: string; service: string; type: "service"; environment?: string }
-      | { name: string; service: string; type: "tail_consumer" }
       | { name: string; part: string; type: "text_blob" }
       | { indexName: string; name: string; type: "vectorize" }
       | { name: string; type: "version_metadata" }
@@ -1692,9 +1821,13 @@ export interface PatchDispatchNamespaceScriptSettingRequest {
         persist?: boolean;
       } | null;
     };
-    placement?: { mode?: "smart" };
-    tags?: string[];
-    tailConsumers?: unknown[];
+    placement?:
+      | { mode: "smart" }
+      | { region: string }
+      | { hostname: string }
+      | { host: string };
+    tags?: string[] | null;
+    tailConsumers?: unknown[] | null;
     usageModel?: "standard" | "bundled" | "unbound";
   };
 }
@@ -1846,11 +1979,6 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             }),
             Schema.Struct({
               name: Schema.String,
-              service: Schema.String,
-              type: Schema.Literal("tail_consumer"),
-            }),
-            Schema.Struct({
-              name: Schema.String,
               part: Schema.String,
               type: Schema.Literal("text_blob"),
             }),
@@ -1959,14 +2087,27 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
         }),
       ),
       placement: Schema.optional(
-        Schema.Struct({
-          mode: Schema.optional(Schema.Literal("smart")),
-        }),
+        Schema.Union(
+          Schema.Struct({
+            mode: Schema.Literal("smart"),
+          }),
+          Schema.Struct({
+            region: Schema.String,
+          }),
+          Schema.Struct({
+            hostname: Schema.String,
+          }),
+          Schema.Struct({
+            host: Schema.String,
+          }),
+        ),
       ),
-      tags: Schema.optional(Schema.Array(Schema.String)),
-      tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-        T.JsonName("tail_consumers"),
+      tags: Schema.optional(
+        Schema.Union(Schema.Array(Schema.String), Schema.Null),
       ),
+      tailConsumers: Schema.optional(
+        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+      ).pipe(T.JsonName("tail_consumers")),
       usageModel: Schema.optional(
         Schema.Literal("standard", "bundled", "unbound"),
       ).pipe(T.JsonName("usage_model")),
@@ -2029,7 +2170,6 @@ export interface PatchDispatchNamespaceScriptSettingResponse {
         destinationAddress?: string;
       }
     | { name: string; service: string; type: "service"; environment?: string }
-    | { name: string; service: string; type: "tail_consumer" }
     | { name: string; part: string; type: "text_blob" }
     | { indexName: string; name: string; type: "vectorize" }
     | { name: string; type: "version_metadata" }
@@ -2084,12 +2224,16 @@ export interface PatchDispatchNamespaceScriptSettingResponse {
       persist?: boolean;
     } | null;
   };
-  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placement?: { mode?: "smart" };
+  /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
+  placement?:
+    | { mode: "smart" }
+    | { region: string }
+    | { hostname: string }
+    | { host: string };
   /** Tags associated with the Worker. */
-  tags?: string[];
+  tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: unknown[];
+  tailConsumers?: unknown[] | null;
   /** Usage model for the Worker invocations. */
   usageModel?: "standard" | "bundled" | "unbound";
 }
@@ -2233,11 +2377,6 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          service: Schema.String,
-          type: Schema.Literal("tail_consumer"),
-        }),
-        Schema.Struct({
-          name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("text_blob"),
         }),
@@ -2328,14 +2467,25 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
     }),
   ),
   placement: Schema.optional(
-    Schema.Struct({
-      mode: Schema.optional(Schema.Literal("smart")),
-    }),
+    Schema.Union(
+      Schema.Struct({
+        mode: Schema.Literal("smart"),
+      }),
+      Schema.Struct({
+        region: Schema.String,
+      }),
+      Schema.Struct({
+        hostname: Schema.String,
+      }),
+      Schema.Struct({
+        host: Schema.String,
+      }),
+    ),
   ),
-  tags: Schema.optional(Schema.Array(Schema.String)),
-  tailConsumers: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
-    T.JsonName("tail_consumers"),
-  ),
+  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tailConsumers: Schema.optional(
+    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
+  ).pipe(T.JsonName("tail_consumers")),
   usageModel: Schema.optional(
     Schema.Literal("standard", "bundled", "unbound"),
   ).pipe(T.JsonName("usage_model")),

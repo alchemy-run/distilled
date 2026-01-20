@@ -22,6 +22,126 @@ import {
 // ContentScanning
 // =============================================================================
 
+export interface GetContentScanningRequest {
+  /** Defines an identifier. */
+  zoneId: string;
+}
+
+export const GetContentScanningRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<GetContentScanningRequest>;
+
+export interface GetContentScanningResponse {
+  /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
+  modified?: string;
+  /** Defines the status of Content Scanning. */
+  value?: string;
+}
+
+export const GetContentScanningResponse = Schema.Struct({
+  modified: Schema.optional(Schema.String),
+  value: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetContentScanningResponse>;
+
+export const getContentScanning: (
+  input: GetContentScanningRequest,
+) => Effect.Effect<
+  GetContentScanningResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetContentScanningRequest,
+  output: GetContentScanningResponse,
+  errors: [],
+}));
+
+export interface CreateContentScanningRequest {
+  /** Path param: Defines an identifier. */
+  zoneId: string;
+  /** Body param: The status value for Content Scanning. */
+  value: "enabled" | "disabled";
+}
+
+export const CreateContentScanningRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  value: Schema.Literal("enabled", "disabled"),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<CreateContentScanningRequest>;
+
+export interface CreateContentScanningResponse {
+  /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
+  modified?: string;
+  /** Defines the status of Content Scanning. */
+  value?: string;
+}
+
+export const CreateContentScanningResponse = Schema.Struct({
+  modified: Schema.optional(Schema.String),
+  value: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateContentScanningResponse>;
+
+export const createContentScanning: (
+  input: CreateContentScanningRequest,
+) => Effect.Effect<
+  CreateContentScanningResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateContentScanningRequest,
+  output: CreateContentScanningResponse,
+  errors: [],
+}));
+
+export interface PutContentScanningRequest {
+  /** Path param: Defines an identifier. */
+  zoneId: string;
+  /** Body param: The status value for Content Scanning. */
+  value: "enabled" | "disabled";
+}
+
+export const PutContentScanningRequest = Schema.Struct({
+  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  value: Schema.Literal("enabled", "disabled"),
+}).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
+) as unknown as Schema.Schema<PutContentScanningRequest>;
+
+export interface PutContentScanningResponse {
+  /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
+  modified?: string;
+  /** Defines the status of Content Scanning. */
+  value?: string;
+}
+
+export const PutContentScanningResponse = Schema.Struct({
+  modified: Schema.optional(Schema.String),
+  value: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<PutContentScanningResponse>;
+
+export const putContentScanning: (
+  input: PutContentScanningRequest,
+) => Effect.Effect<
+  PutContentScanningResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: PutContentScanningRequest,
+  output: PutContentScanningResponse,
+  errors: [],
+}));
+
 export interface EnableContentScanningRequest {
   /** Defines an identifier. */
   zoneId: string;

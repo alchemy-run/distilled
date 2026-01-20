@@ -60,9 +60,12 @@ export interface GetRecipientResponse {
   created: string;
   /** When the share was modified. */
   modified: string;
-  /** Share Recipient status message. */
-  statusMessage: string;
-  resources?: { error: string; resourceId: string; resourceVersion: number }[];
+  resources?: {
+    error: string;
+    resourceId: string;
+    resourceVersion: number;
+    terminal: boolean;
+  }[];
 }
 
 export const GetRecipientResponse = Schema.Struct({
@@ -76,13 +79,13 @@ export const GetRecipientResponse = Schema.Struct({
   ).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
-  statusMessage: Schema.String.pipe(T.JsonName("status_message")),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
         error: Schema.String,
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
+        terminal: Schema.Boolean,
       }),
     ),
   ),
@@ -141,9 +144,12 @@ export interface CreateRecipientResponse {
   created: string;
   /** When the share was modified. */
   modified: string;
-  /** Share Recipient status message. */
-  statusMessage: string;
-  resources?: { error: string; resourceId: string; resourceVersion: number }[];
+  resources?: {
+    error: string;
+    resourceId: string;
+    resourceVersion: number;
+    terminal: boolean;
+  }[];
 }
 
 export const CreateRecipientResponse = Schema.Struct({
@@ -157,13 +163,13 @@ export const CreateRecipientResponse = Schema.Struct({
   ).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
-  statusMessage: Schema.String.pipe(T.JsonName("status_message")),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
         error: Schema.String,
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
+        terminal: Schema.Boolean,
       }),
     ),
   ),
@@ -214,9 +220,12 @@ export interface DeleteRecipientResponse {
   created: string;
   /** When the share was modified. */
   modified: string;
-  /** Share Recipient status message. */
-  statusMessage: string;
-  resources?: { error: string; resourceId: string; resourceVersion: number }[];
+  resources?: {
+    error: string;
+    resourceId: string;
+    resourceVersion: number;
+    terminal: boolean;
+  }[];
 }
 
 export const DeleteRecipientResponse = Schema.Struct({
@@ -230,13 +239,13 @@ export const DeleteRecipientResponse = Schema.Struct({
   ).pipe(T.JsonName("association_status")),
   created: Schema.String,
   modified: Schema.String,
-  statusMessage: Schema.String.pipe(T.JsonName("status_message")),
   resources: Schema.optional(
     Schema.Array(
       Schema.Struct({
         error: Schema.String,
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceVersion: Schema.Number.pipe(T.JsonName("resource_version")),
+        terminal: Schema.Boolean,
       }),
     ),
   ),

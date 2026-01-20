@@ -64,6 +64,7 @@ export interface GetAiGatewayResponse {
           profiles: string[];
         }[];
       };
+  isDefault?: boolean;
   logManagement?: number | null;
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
   logpush?: boolean;
@@ -73,6 +74,7 @@ export interface GetAiGatewayResponse {
     | null;
   storeId?: string | null;
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
+  zdr?: boolean;
 }
 
 export const GetAiGatewayResponse = Schema.Struct({
@@ -120,6 +122,7 @@ export const GetAiGatewayResponse = Schema.Struct({
       }),
     ),
   ),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -162,6 +165,7 @@ export const GetAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ),
   ),
+  zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetAiGatewayResponse>;
 
 export const getAiGateway: (
@@ -196,6 +200,8 @@ export interface CreateAiGatewayRequest {
   /** Body param: */
   authentication?: boolean;
   /** Body param: */
+  isDefault?: boolean;
+  /** Body param: */
   logManagement?: number | null;
   /** Body param: */
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
@@ -203,6 +209,8 @@ export interface CreateAiGatewayRequest {
   logpush?: boolean;
   /** Body param: */
   logpushPublicKey?: string | null;
+  /** Body param: */
+  zdr?: boolean;
 }
 
 export const CreateAiGatewayRequest = Schema.Struct({
@@ -225,6 +233,7 @@ export const CreateAiGatewayRequest = Schema.Struct({
     T.JsonName("rate_limiting_technique"),
   ),
   authentication: Schema.optional(Schema.Boolean),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -239,6 +248,7 @@ export const CreateAiGatewayRequest = Schema.Struct({
   logpushPublicKey: Schema.optional(
     Schema.Union(Schema.String, Schema.Null),
   ).pipe(T.JsonName("logpush_public_key")),
+  zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
     method: "POST",
@@ -273,6 +283,7 @@ export interface CreateAiGatewayResponse {
           profiles: string[];
         }[];
       };
+  isDefault?: boolean;
   logManagement?: number | null;
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
   logpush?: boolean;
@@ -282,6 +293,7 @@ export interface CreateAiGatewayResponse {
     | null;
   storeId?: string | null;
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
+  zdr?: boolean;
 }
 
 export const CreateAiGatewayResponse = Schema.Struct({
@@ -329,6 +341,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
       }),
     ),
   ),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -371,6 +384,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ),
   ),
+  zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateAiGatewayResponse>;
 
 export const createAiGateway: (
@@ -417,6 +431,8 @@ export interface UpdateAiGatewayRequest {
         }[];
       };
   /** Body param: */
+  isDefault?: boolean;
+  /** Body param: */
   logManagement?: number | null;
   /** Body param: */
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
@@ -432,6 +448,8 @@ export interface UpdateAiGatewayRequest {
   storeId?: string | null;
   /** Body param: */
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
+  /** Body param: */
+  zdr?: boolean;
 }
 
 export const UpdateAiGatewayRequest = Schema.Struct({
@@ -475,6 +493,7 @@ export const UpdateAiGatewayRequest = Schema.Struct({
       }),
     ),
   ),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -517,6 +536,7 @@ export const UpdateAiGatewayRequest = Schema.Struct({
       Schema.Null,
     ),
   ),
+  zdr: Schema.optional(Schema.Boolean),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -551,6 +571,7 @@ export interface UpdateAiGatewayResponse {
           profiles: string[];
         }[];
       };
+  isDefault?: boolean;
   logManagement?: number | null;
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
   logpush?: boolean;
@@ -560,6 +581,7 @@ export interface UpdateAiGatewayResponse {
     | null;
   storeId?: string | null;
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
+  zdr?: boolean;
 }
 
 export const UpdateAiGatewayResponse = Schema.Struct({
@@ -607,6 +629,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
       }),
     ),
   ),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -649,6 +672,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ),
   ),
+  zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateAiGatewayResponse>;
 
 export const updateAiGateway: (
@@ -705,6 +729,7 @@ export interface DeleteAiGatewayResponse {
           profiles: string[];
         }[];
       };
+  isDefault?: boolean;
   logManagement?: number | null;
   logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
   logpush?: boolean;
@@ -714,6 +739,7 @@ export interface DeleteAiGatewayResponse {
     | null;
   storeId?: string | null;
   stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
+  zdr?: boolean;
 }
 
 export const DeleteAiGatewayResponse = Schema.Struct({
@@ -761,6 +787,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
       }),
     ),
   ),
+  isDefault: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_default")),
   logManagement: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
     T.JsonName("log_management"),
   ),
@@ -803,6 +830,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
       Schema.Null,
     ),
   ),
+  zdr: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteAiGatewayResponse>;
 
 export const deleteAiGateway: (

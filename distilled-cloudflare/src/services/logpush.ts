@@ -30,6 +30,8 @@ export interface GetDatasetFieldRequest {
     | "biso_user_actions"
     | "casb_findings"
     | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
     | "dlp_forensic_copies"
     | "dns_firewall_logs"
     | "dns_logs"
@@ -39,6 +41,7 @@ export interface GetDatasetFieldRequest {
     | "gateway_http"
     | "gateway_network"
     | "http_requests"
+    | "ipsec_logs"
     | "magic_ids_detections"
     | "nel_reports"
     | "network_analytics_logs"
@@ -46,6 +49,8 @@ export interface GetDatasetFieldRequest {
     | "sinkhole_http_logs"
     | "spectrum_events"
     | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
     | "workers_trace_events"
     | "zaraz_events"
     | "zero_trust_network_sessions"
@@ -60,6 +65,8 @@ export const GetDatasetFieldRequest = Schema.Struct({
     Schema.Literal("biso_user_actions"),
     Schema.Literal("casb_findings"),
     Schema.Literal("device_posture_results"),
+    Schema.Literal("dex_application_tests"),
+    Schema.Literal("dex_device_state_events"),
     Schema.Literal("dlp_forensic_copies"),
     Schema.Literal("dns_firewall_logs"),
     Schema.Literal("dns_logs"),
@@ -69,6 +76,7 @@ export const GetDatasetFieldRequest = Schema.Struct({
     Schema.Literal("gateway_http"),
     Schema.Literal("gateway_network"),
     Schema.Literal("http_requests"),
+    Schema.Literal("ipsec_logs"),
     Schema.Literal("magic_ids_detections"),
     Schema.Literal("nel_reports"),
     Schema.Literal("network_analytics_logs"),
@@ -76,6 +84,8 @@ export const GetDatasetFieldRequest = Schema.Struct({
     Schema.Literal("sinkhole_http_logs"),
     Schema.Literal("spectrum_events"),
     Schema.Literal("ssh_logs"),
+    Schema.Literal("warp_config_changes"),
+    Schema.Literal("warp_toggle_changes"),
     Schema.Literal("workers_trace_events"),
     Schema.Literal("zaraz_events"),
     Schema.Literal("zero_trust_network_sessions"),
@@ -236,6 +246,8 @@ export interface CreateJobRequest {
     | "biso_user_actions"
     | "casb_findings"
     | "device_posture_results"
+    | "dex_application_tests"
+    | "dex_device_state_events"
     | "dlp_forensic_copies"
     | "dns_firewall_logs"
     | "dns_logs"
@@ -245,6 +257,7 @@ export interface CreateJobRequest {
     | "gateway_http"
     | "gateway_network"
     | "http_requests"
+    | "ipsec_logs"
     | "magic_ids_detections"
     | "nel_reports"
     | "network_analytics_logs"
@@ -252,6 +265,8 @@ export interface CreateJobRequest {
     | "sinkhole_http_logs"
     | "spectrum_events"
     | "ssh_logs"
+    | "warp_config_changes"
+    | "warp_toggle_changes"
     | "workers_trace_events"
     | "zaraz_events"
     | "zero_trust_network_sessions"
@@ -305,6 +320,8 @@ export const CreateJobRequest = Schema.Struct({
       Schema.Literal("biso_user_actions"),
       Schema.Literal("casb_findings"),
       Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
       Schema.Literal("dlp_forensic_copies"),
       Schema.Literal("dns_firewall_logs"),
       Schema.Literal("dns_logs"),
@@ -314,6 +331,7 @@ export const CreateJobRequest = Schema.Struct({
       Schema.Literal("gateway_http"),
       Schema.Literal("gateway_network"),
       Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
       Schema.Literal("magic_ids_detections"),
       Schema.Literal("nel_reports"),
       Schema.Literal("network_analytics_logs"),
@@ -321,6 +339,8 @@ export const CreateJobRequest = Schema.Struct({
       Schema.Literal("sinkhole_http_logs"),
       Schema.Literal("spectrum_events"),
       Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
       Schema.Literal("workers_trace_events"),
       Schema.Literal("zaraz_events"),
       Schema.Literal("zero_trust_network_sessions"),

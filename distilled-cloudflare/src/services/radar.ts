@@ -33,10 +33,41 @@ export interface UserAgentAiBotSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -64,10 +95,43 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -138,10 +202,41 @@ export interface UserAgentAiTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -176,10 +271,43 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -229,6 +357,177 @@ export const userAgentAiTimeseriesGroup: (
 }));
 
 // =============================================================================
+// AiBot
+// =============================================================================
+
+export interface TimeseriesAiBotRequest {}
+
+export const TimeseriesAiBotRequest = Schema.Struct({}).pipe(
+  T.Http({ method: "GET", path: "/radar/ai/bots/timeseries" }),
+) as unknown as Schema.Schema<TimeseriesAiBotRequest>;
+
+export interface TimeseriesAiBotResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+}
+
+export const TimeseriesAiBotResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+}) as unknown as Schema.Schema<TimeseriesAiBotResponse>;
+
+export const timeseriesAiBot: (
+  input: TimeseriesAiBotRequest,
+) => Effect.Effect<
+  TimeseriesAiBotResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesAiBotRequest,
+  output: TimeseriesAiBotResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // AiInferenceSummary
 // =============================================================================
 
@@ -243,10 +542,41 @@ export interface ModelAiInferenceSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -274,10 +604,43 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -335,10 +698,41 @@ export interface TaskAiInferenceSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -366,10 +760,43 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -442,10 +869,41 @@ export interface ModelAiInferenceTimeseriesGroupSummaryResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -480,10 +938,43 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -551,10 +1042,41 @@ export interface TaskAiInferenceTimeseriesGroupSummaryResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -589,10 +1111,43 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -665,10 +1220,41 @@ export interface SummaryAiTimeseriesGroupResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -696,10 +1282,43 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -763,10 +1382,41 @@ export interface TimeseriesAiTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -800,10 +1450,43 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -872,6 +1555,8 @@ export interface ListAnnotationsResponse {
     eventType: string;
     locations: string[];
     locationsDetails: { code: string; name: string }[];
+    origins: string[];
+    originsDetails: { name: string; origin: string }[];
     outage: { outageCause: string; outageType: string };
     startDate: string;
     description?: string;
@@ -905,6 +1590,13 @@ export const ListAnnotationsResponse = Schema.Struct({
         Schema.Struct({
           code: Schema.String,
           name: Schema.String,
+        }),
+      ),
+      origins: Schema.Array(Schema.String),
+      originsDetails: Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          origin: Schema.String,
         }),
       ),
       outage: Schema.Struct({
@@ -955,6 +1647,8 @@ export interface GetAnnotationOutageResponse {
     eventType: string;
     locations: string[];
     locationsDetails: { code: string; name: string }[];
+    origins: string[];
+    originsDetails: { name: string; origin: string }[];
     outage: { outageCause: string; outageType: string };
     startDate: string;
     description?: string;
@@ -988,6 +1682,13 @@ export const GetAnnotationOutageResponse = Schema.Struct({
         Schema.Struct({
           code: Schema.String,
           name: Schema.String,
+        }),
+      ),
+      origins: Schema.Array(Schema.String),
+      originsDetails: Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          origin: Schema.String,
         }),
       ),
       outage: Schema.Struct({
@@ -1066,10 +1767,41 @@ export interface MatchingAnswerDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1097,10 +1829,43 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1174,10 +1939,41 @@ export interface MatchingAnswerDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1212,10 +2008,43 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1286,10 +2115,41 @@ export interface TimeseriesAs112Response {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1323,10 +2183,43 @@ export const TimeseriesAs112Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1387,10 +2280,41 @@ export interface DnssecAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1418,10 +2342,43 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1482,10 +2439,41 @@ export interface EdnsAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1513,10 +2501,43 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1577,10 +2598,41 @@ export interface ProtocolAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1608,10 +2660,43 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1684,10 +2769,41 @@ export interface DnssecAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1722,10 +2838,43 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1794,10 +2943,41 @@ export interface EdnsAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1832,10 +3012,43 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1904,10 +3117,41 @@ export interface ProtocolAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -1942,10 +3186,43 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2018,10 +3295,41 @@ export interface DnssecAs112TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2054,10 +3362,43 @@ export const DnssecAs112TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -2127,10 +3468,41 @@ export interface EdnsAs112TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2163,10 +3535,43 @@ export const EdnsAs112TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -2232,10 +3637,41 @@ export interface LocationsAs112TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2268,10 +3704,43 @@ export const LocationsAs112TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -2347,10 +3816,41 @@ export interface TimeseriesAttackLayer3Response {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2384,10 +3884,43 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2448,10 +3981,41 @@ export interface BitrateAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2485,10 +4049,43 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2552,10 +4149,41 @@ export interface DurationAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2590,10 +4218,43 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2658,10 +4319,41 @@ export interface IndustryAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2689,10 +4381,43 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2750,10 +4475,41 @@ export interface ProtocolAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2781,10 +4537,43 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2847,10 +4636,41 @@ export interface VectorAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2878,10 +4698,43 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2939,10 +4792,41 @@ export interface VerticalAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -2970,10 +4854,43 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3044,10 +4961,41 @@ export interface BitrateAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3089,10 +5037,43 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3172,10 +5153,41 @@ export interface DurationAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3218,10 +5230,43 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3300,10 +5345,41 @@ export interface IndustryAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3338,10 +5414,43 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3412,10 +5521,41 @@ export interface ProtocolAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3456,10 +5596,43 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3532,10 +5705,41 @@ export interface VectorAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3570,10 +5774,43 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3644,10 +5881,41 @@ export interface VerticalAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3682,10 +5950,43 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3749,10 +6050,41 @@ export interface AttacksAttackLayer3TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3785,10 +6117,43 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -3854,10 +6219,41 @@ export interface IndustryAttackLayer3TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3886,10 +6282,43 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -3954,10 +6383,41 @@ export interface VerticalAttackLayer3TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -3986,10 +6446,43 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -4058,10 +6551,41 @@ export interface OriginAttackLayer3TopLocationResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4095,10 +6619,43 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -4165,10 +6722,41 @@ export interface TargetAttackLayer3TopLocationResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4202,10 +6790,43 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -4282,10 +6903,41 @@ export interface TimeseriesAttackLayer7Response {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4320,10 +6972,43 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4388,10 +7073,41 @@ export interface IndustryAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4419,10 +7135,43 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4480,10 +7229,41 @@ export interface VerticalAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4511,10 +7291,43 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4587,10 +7400,41 @@ export interface IndustryAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4625,10 +7469,43 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4699,10 +7576,41 @@ export interface VerticalAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4737,10 +7645,43 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4804,10 +7745,41 @@ export interface AttacksAttackLayer7TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4842,10 +7814,43 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -4913,10 +7918,41 @@ export interface IndustryAttackLayer7TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -4945,10 +7981,43 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -5013,10 +8082,41 @@ export interface VerticalAttackLayer7TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5045,10 +8145,43 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -5117,10 +8250,41 @@ export interface OriginAttackLayer7TopAsResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5154,10 +8318,43 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -5228,10 +8425,41 @@ export interface OriginAttackLayer7TopLocationResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5265,10 +8493,43 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -5335,10 +8596,41 @@ export interface TargetAttackLayer7TopLocationResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5372,10 +8664,43 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -5446,10 +8771,41 @@ export interface DnssecAwareDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5477,10 +8833,43 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5551,10 +8940,41 @@ export interface DnssecAwareDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5589,10 +9009,43 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5659,10 +9112,41 @@ export interface TimeseriesBgpResponse {
     aggInterval: "15m" | "1h" | "1d" | "1w";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5681,10 +9165,43 @@ export const TimeseriesBgpResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5739,10 +9256,41 @@ export interface TimeseriesBgpIpResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -5793,10 +9341,43 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6448,10 +10029,41 @@ export interface SummaryBotResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -6479,10 +10091,43 @@ export const SummaryBotResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6546,10 +10191,41 @@ export interface TimeseriesBotResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -6583,10 +10259,43 @@ export const TimeseriesBotResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6638,6 +10347,7 @@ export const timeseriesBot: (
 
 export interface SummaryBotWebCrawlerRequest {
   dimension:
+    | "CLIENT_TYPE"
     | "USER_AGENT"
     | "REFERER"
     | "CRAWL_REFER_RATIO"
@@ -6647,6 +10357,7 @@ export interface SummaryBotWebCrawlerRequest {
 
 export const SummaryBotWebCrawlerRequest = Schema.Struct({
   dimension: Schema.Literal(
+    "CLIENT_TYPE",
     "USER_AGENT",
     "REFERER",
     "CRAWL_REFER_RATIO",
@@ -6662,10 +10373,41 @@ export interface SummaryBotWebCrawlerResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -6693,10 +10435,43 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6758,10 +10533,41 @@ export interface DomainCategoriesRobotsTxtTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -6790,10 +10596,43 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6865,10 +10704,41 @@ export interface ThreatCategoryEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -6901,10 +10771,43 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6982,10 +10885,41 @@ export interface ThreatCategoryEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7026,10 +10960,43 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -7103,10 +11070,41 @@ export interface BotClassHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7134,10 +11132,43 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7208,10 +11239,41 @@ export interface BotClassHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7246,10 +11308,43 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7318,10 +11413,41 @@ export interface BotClassLeakedCredentialSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7349,10 +11475,43 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7428,10 +11587,41 @@ export interface BotClassLeakedCredentialTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7466,10 +11656,43 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7535,10 +11758,41 @@ export interface ResponseCodeDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7566,10 +11820,43 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7637,10 +11924,41 @@ export interface ResponseCodeDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7675,10 +11993,43 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7742,10 +12093,41 @@ export interface ResponseCodesAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7773,10 +12155,43 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7847,10 +12262,41 @@ export interface ResponseCodesAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -7885,10 +12331,43 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7985,10 +12464,41 @@ export interface SummaryCtResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -8036,10 +12546,43 @@ export const SummaryCtResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -8140,10 +12683,41 @@ export interface TimeseriesCtResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -8177,10 +12751,43 @@ export const TimeseriesCtResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -8456,8 +13063,10 @@ export const GetCtLogRequest = Schema.Struct({
 export interface GetCtLogResponse {
   certificateLog: {
     api: "RFC6962" | "STATIC";
+    avgThroughput: number;
     description: string;
     endExclusive: string;
+    lastUpdate: string;
     operator: string;
     performance: {
       endpoints: {
@@ -8498,6 +13107,8 @@ export interface GetCtLogResponse {
       | "RETIRED"
       | "REJECTED";
     stateTimestamp: string;
+    submittableCertCount: string | null;
+    submittedCertCount: string | null;
     url: string;
   };
 }
@@ -8505,8 +13116,10 @@ export interface GetCtLogResponse {
 export const GetCtLogResponse = Schema.Struct({
   certificateLog: Schema.Struct({
     api: Schema.Literal("RFC6962", "STATIC"),
+    avgThroughput: Schema.Number,
     description: Schema.String,
     endExclusive: Schema.String,
+    lastUpdate: Schema.String,
     operator: Schema.String,
     performance: Schema.Union(
       Schema.Struct({
@@ -8557,6 +13170,8 @@ export const GetCtLogResponse = Schema.Struct({
       "REJECTED",
     ),
     stateTimestamp: Schema.String,
+    submittableCertCount: Schema.Union(Schema.String, Schema.Null),
+    submittedCertCount: Schema.Union(Schema.String, Schema.Null),
     url: Schema.String,
   }),
 }) as unknown as Schema.Schema<GetCtLogResponse>;
@@ -8766,10 +13381,41 @@ export interface TimeseriesDnsResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -8803,10 +13449,43 @@ export const TimeseriesDnsResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -8867,10 +13546,41 @@ export interface DnssecDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -8903,10 +13613,43 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -8969,10 +13712,41 @@ export interface ProtocolDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9000,10 +13774,43 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9076,10 +13883,41 @@ export interface DnssecDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9119,10 +13957,43 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9191,10 +14062,41 @@ export interface ProtocolDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9229,10 +14131,43 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9299,10 +14234,41 @@ export interface AsesDnsTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9331,10 +14297,43 @@ export const AsesDnsTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -9400,10 +14399,41 @@ export interface LocationsDnsTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9436,10 +14466,43 @@ export const LocationsDnsTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -9509,10 +14572,41 @@ export interface DnssecE2EDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9540,10 +14634,43 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9614,10 +14741,41 @@ export interface DnssecE2EDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9652,10 +14810,43 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9720,10 +14911,41 @@ export interface ArcEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9751,10 +14973,43 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9812,10 +15067,41 @@ export interface DkimEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9843,10 +15129,43 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9904,10 +15223,41 @@ export interface DmarcEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -9935,10 +15285,43 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9996,10 +15379,41 @@ export interface EncryptedEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10027,10 +15441,43 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10091,10 +15538,41 @@ export interface SpfEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10122,10 +15600,43 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10193,10 +15704,41 @@ export interface ArcEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10231,10 +15773,43 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10301,10 +15876,41 @@ export interface DkimEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10339,10 +15945,43 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10409,10 +16048,41 @@ export interface DmarcEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10447,10 +16117,43 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10519,10 +16222,41 @@ export interface EncryptedEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10557,10 +16291,43 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10629,10 +16396,41 @@ export interface SpfEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10667,10 +16465,43 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10732,10 +16563,41 @@ export interface ArcEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10763,10 +16625,43 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10824,10 +16719,41 @@ export interface DkimEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10855,10 +16781,43 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10916,10 +16875,41 @@ export interface DmarcEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -10947,10 +16937,43 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11008,10 +17031,41 @@ export interface MaliciousEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11039,10 +17093,43 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11103,10 +17190,41 @@ export interface SpamEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11134,10 +17252,43 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11198,10 +17349,41 @@ export interface SpfEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11229,10 +17411,43 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11290,10 +17505,41 @@ export interface SpoofEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11321,10 +17567,43 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11398,10 +17677,41 @@ export interface ArcEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11436,10 +17746,43 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11506,10 +17849,41 @@ export interface DkimEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11544,10 +17918,43 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11614,10 +18021,41 @@ export interface DmarcEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11652,10 +18090,43 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11724,10 +18195,41 @@ export interface MaliciousEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11762,10 +18264,43 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11837,10 +18372,41 @@ export interface SpamEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11875,10 +18441,43 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11948,10 +18547,41 @@ export interface SpfEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -11986,10 +18616,43 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12056,10 +18719,41 @@ export interface SpoofEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -12094,10 +18788,43 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12162,10 +18889,41 @@ export interface GetEmailSecurityTopTldResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -12194,10 +18952,43 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -12275,10 +19066,41 @@ export interface GetEmailSecurityTopTldMaliciousResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -12307,10 +19129,43 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -12383,10 +19238,41 @@ export interface GetEmailSecurityTopTldSpamResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -12415,10 +19301,43 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -12494,10 +19413,41 @@ export interface GetEmailSecurityTopTldSpoofResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -12526,10 +19476,43 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -13019,10 +20002,41 @@ export interface BrowserFamilyHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13057,10 +20071,43 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13124,10 +20171,41 @@ export interface BrowserFamilyHttpTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13156,10 +20234,43 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -13214,6 +20325,335 @@ export const browserFamilyHttpTop: (
 }));
 
 // =============================================================================
+// Geolocation
+// =============================================================================
+
+export interface GetGeolocationRequest {
+  geoId: string;
+}
+
+export const GetGeolocationRequest = Schema.Struct({
+  geoId: Schema.String.pipe(T.HttpPath("geoId")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/geolocations/{geoId}" }),
+) as unknown as Schema.Schema<GetGeolocationRequest>;
+
+export interface GetGeolocationResponse {
+  geolocation: {
+    geoId: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+    parent: {
+      geoId: string;
+      latitude: string;
+      longitude: string;
+      name: string;
+      parent: {
+        geoId: string;
+        latitude: string;
+        longitude: string;
+        name: string;
+        type: "CONTINENT" | "COUNTRY" | "ADM1";
+      };
+      type: "CONTINENT" | "COUNTRY" | "ADM1";
+    };
+    type: "CONTINENT" | "COUNTRY" | "ADM1";
+  };
+}
+
+export const GetGeolocationResponse = Schema.Struct({
+  geolocation: Schema.Struct({
+    geoId: Schema.String,
+    latitude: Schema.String,
+    longitude: Schema.String,
+    name: Schema.String,
+    parent: Schema.Struct({
+      geoId: Schema.String,
+      latitude: Schema.String,
+      longitude: Schema.String,
+      name: Schema.String,
+      parent: Schema.Struct({
+        geoId: Schema.String,
+        latitude: Schema.String,
+        longitude: Schema.String,
+        name: Schema.String,
+        type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+      }),
+      type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+    }),
+    type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+  }),
+}) as unknown as Schema.Schema<GetGeolocationResponse>;
+
+export const getGeolocation: (
+  input: GetGeolocationRequest,
+) => Effect.Effect<
+  GetGeolocationResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetGeolocationRequest,
+  output: GetGeolocationResponse,
+  errors: [],
+}));
+
+export interface ListGeolocationsRequest {}
+
+export const ListGeolocationsRequest = Schema.Struct({}).pipe(
+  T.Http({ method: "GET", path: "/radar/geolocations" }),
+) as unknown as Schema.Schema<ListGeolocationsRequest>;
+
+export interface ListGeolocationsResponse {
+  geolocations: {
+    geoId: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+    parent: {
+      geoId: string;
+      latitude: string;
+      longitude: string;
+      name: string;
+      parent: {
+        geoId: string;
+        latitude: string;
+        longitude: string;
+        name: string;
+        type: "CONTINENT" | "COUNTRY" | "ADM1";
+      };
+      type: "CONTINENT" | "COUNTRY" | "ADM1";
+    };
+    type: "CONTINENT" | "COUNTRY" | "ADM1";
+  }[];
+}
+
+export const ListGeolocationsResponse = Schema.Struct({
+  geolocations: Schema.Array(
+    Schema.Struct({
+      geoId: Schema.String,
+      latitude: Schema.String,
+      longitude: Schema.String,
+      name: Schema.String,
+      parent: Schema.Struct({
+        geoId: Schema.String,
+        latitude: Schema.String,
+        longitude: Schema.String,
+        name: Schema.String,
+        parent: Schema.Struct({
+          geoId: Schema.String,
+          latitude: Schema.String,
+          longitude: Schema.String,
+          name: Schema.String,
+          type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+        }),
+        type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+      }),
+      type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListGeolocationsResponse>;
+
+export const listGeolocations: (
+  input: ListGeolocationsRequest,
+) => Effect.Effect<
+  ListGeolocationsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: ListGeolocationsRequest,
+  output: ListGeolocationsResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsAiBot
+// =============================================================================
+
+export interface TimeseriesGroupsAiBotRequest {
+  dimension: "USER_AGENT" | "CRAWL_PURPOSE" | "INDUSTRY" | "VERTICAL";
+}
+
+export const TimeseriesGroupsAiBotRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "USER_AGENT",
+    "CRAWL_PURPOSE",
+    "INDUSTRY",
+    "VERTICAL",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/ai/bots/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsAiBotRequest>;
+
+export interface TimeseriesGroupsAiBotResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsAiBotResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsAiBotResponse>;
+
+export const timeseriesGroupsAiBot: (
+  input: TimeseriesGroupsAiBotRequest,
+) => Effect.Effect<
+  TimeseriesGroupsAiBotResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsAiBotRequest,
+  output: TimeseriesGroupsAiBotResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // GroupsAiTimeseriesGroup
 // =============================================================================
 
@@ -13246,10 +20686,41 @@ export interface TimeseriesGroupsAiTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13284,10 +20755,43 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13366,10 +20870,41 @@ export interface TimeseriesGroupsBotResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13404,10 +20939,43 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13462,6 +21030,7 @@ export const timeseriesGroupsBot: (
 
 export interface TimeseriesGroupsBotWebCrawlerRequest {
   dimension:
+    | "CLIENT_TYPE"
     | "USER_AGENT"
     | "REFERER"
     | "CRAWL_REFER_RATIO"
@@ -13471,6 +21040,7 @@ export interface TimeseriesGroupsBotWebCrawlerRequest {
 
 export const TimeseriesGroupsBotWebCrawlerRequest = Schema.Struct({
   dimension: Schema.Literal(
+    "CLIENT_TYPE",
     "USER_AGENT",
     "REFERER",
     "CRAWL_REFER_RATIO",
@@ -13495,10 +21065,41 @@ export interface TimeseriesGroupsBotWebCrawlerResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13533,10 +21134,43 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13639,10 +21273,41 @@ export interface TimeseriesGroupsCtResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13697,10 +21362,43 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13797,6 +21495,188 @@ export const timeseriesGroupsCt: (
 }));
 
 // =============================================================================
+// GroupsNetflow
+// =============================================================================
+
+export interface TimeseriesGroupsNetflowRequest {
+  dimension: "ADM1" | "PRODUCT";
+}
+
+export const TimeseriesGroupsNetflowRequest = Schema.Struct({
+  dimension: Schema.Literal("ADM1", "PRODUCT").pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/netflows/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsNetflowRequest>;
+
+export interface TimeseriesGroupsNetflowResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsNetflowResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsNetflowResponse>;
+
+export const timeseriesGroupsNetflow: (
+  input: TimeseriesGroupsNetflowRequest,
+) => Effect.Effect<
+  TimeseriesGroupsNetflowResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsNetflowRequest,
+  output: TimeseriesGroupsNetflowResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // GroupsQualityIqi
 // =============================================================================
 
@@ -13852,10 +21732,41 @@ export interface TimeseriesGroupsQualityIqiResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -13895,10 +21806,43 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13971,10 +21915,41 @@ export interface TimeseriesGroupsRankingResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14009,10 +21984,43 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14087,10 +22095,41 @@ export interface TimeseriesGroupsRankingInternetServiceResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14125,10 +22164,43 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14201,10 +22273,41 @@ export interface TimeseriesGroupsTcpResetsTimeoutResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14246,10 +22349,43 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14304,6 +22440,1752 @@ export const timeseriesGroupsTcpResetsTimeout: (
 }));
 
 // =============================================================================
+// GroupsV2AiInference
+// =============================================================================
+
+export interface TimeseriesGroupsV2AiInferenceRequest {
+  dimension: "MODEL" | "TASK";
+}
+
+export const TimeseriesGroupsV2AiInferenceRequest = Schema.Struct({
+  dimension: Schema.Literal("MODEL", "TASK").pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/ai/inference/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceRequest>;
+
+export interface TimeseriesGroupsV2AiInferenceResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceResponse>;
+
+export const timeseriesGroupsV2AiInference: (
+  input: TimeseriesGroupsV2AiInferenceRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2AiInferenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2AiInferenceRequest,
+  output: TimeseriesGroupsV2AiInferenceResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2As112
+// =============================================================================
+
+export interface TimeseriesGroupsV2As112Request {
+  dimension:
+    | "DNSSEC"
+    | "EDNS"
+    | "IP_VERSION"
+    | "PROTOCOL"
+    | "QUERY_TYPE"
+    | "RESPONSE_CODE";
+}
+
+export const TimeseriesGroupsV2As112Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "DNSSEC",
+    "EDNS",
+    "IP_VERSION",
+    "PROTOCOL",
+    "QUERY_TYPE",
+    "RESPONSE_CODE",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/as112/timeseries_groups/{dimension}" }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2As112Request>;
+
+export interface TimeseriesGroupsV2As112Response {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2As112Response = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2As112Response>;
+
+export const timeseriesGroupsV2As112: (
+  input: TimeseriesGroupsV2As112Request,
+) => Effect.Effect<
+  TimeseriesGroupsV2As112Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2As112Request,
+  output: TimeseriesGroupsV2As112Response,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2AttackLayer3
+// =============================================================================
+
+export interface TimeseriesGroupsV2AttackLayer3Request {
+  dimension:
+    | "PROTOCOL"
+    | "IP_VERSION"
+    | "VECTOR"
+    | "DURATION"
+    | "BITRATE"
+    | "VERTICAL"
+    | "INDUSTRY";
+}
+
+export const TimeseriesGroupsV2AttackLayer3Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "PROTOCOL",
+    "IP_VERSION",
+    "VECTOR",
+    "DURATION",
+    "BITRATE",
+    "VERTICAL",
+    "INDUSTRY",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Request>;
+
+export interface TimeseriesGroupsV2AttackLayer3Response {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Response>;
+
+export const timeseriesGroupsV2AttackLayer3: (
+  input: TimeseriesGroupsV2AttackLayer3Request,
+) => Effect.Effect<
+  TimeseriesGroupsV2AttackLayer3Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2AttackLayer3Request,
+  output: TimeseriesGroupsV2AttackLayer3Response,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2AttackLayer7
+// =============================================================================
+
+export interface TimeseriesGroupsV2AttackLayer7Request {
+  dimension:
+    | "HTTP_METHOD"
+    | "HTTP_VERSION"
+    | "IP_VERSION"
+    | "MANAGED_RULES"
+    | "MITIGATION_PRODUCT"
+    | "VERTICAL"
+    | "INDUSTRY";
+}
+
+export const TimeseriesGroupsV2AttackLayer7Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "HTTP_METHOD",
+    "HTTP_VERSION",
+    "IP_VERSION",
+    "MANAGED_RULES",
+    "MITIGATION_PRODUCT",
+    "VERTICAL",
+    "INDUSTRY",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Request>;
+
+export interface TimeseriesGroupsV2AttackLayer7Response {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Response>;
+
+export const timeseriesGroupsV2AttackLayer7: (
+  input: TimeseriesGroupsV2AttackLayer7Request,
+) => Effect.Effect<
+  TimeseriesGroupsV2AttackLayer7Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2AttackLayer7Request,
+  output: TimeseriesGroupsV2AttackLayer7Response,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2Dn
+// =============================================================================
+
+export interface TimeseriesGroupsV2DnsRequest {
+  dimension:
+    | "IP_VERSION"
+    | "CACHE_HIT"
+    | "DNSSEC"
+    | "DNSSEC_AWARE"
+    | "DNSSEC_E2E"
+    | "MATCHING_ANSWER"
+    | "PROTOCOL"
+    | "QUERY_TYPE"
+    | "RESPONSE_CODE"
+    | "RESPONSE_TTL"
+    | "TLD";
+}
+
+export const TimeseriesGroupsV2DnsRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "IP_VERSION",
+    "CACHE_HIT",
+    "DNSSEC",
+    "DNSSEC_AWARE",
+    "DNSSEC_E2E",
+    "MATCHING_ANSWER",
+    "PROTOCOL",
+    "QUERY_TYPE",
+    "RESPONSE_CODE",
+    "RESPONSE_TTL",
+    "TLD",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/dns/timeseries_groups/{dimension}" }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2DnsRequest>;
+
+export interface TimeseriesGroupsV2DnsResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2DnsResponse>;
+
+export const timeseriesGroupsV2Dns: (
+  input: TimeseriesGroupsV2DnsRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2DnsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2DnsRequest,
+  output: TimeseriesGroupsV2DnsResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2EmailRouting
+// =============================================================================
+
+export interface TimeseriesGroupsV2EmailRoutingRequest {
+  dimension: "IP_VERSION" | "ENCRYPTED" | "ARC" | "DKIM" | "DMARC" | "SPF";
+}
+
+export const TimeseriesGroupsV2EmailRoutingRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "IP_VERSION",
+    "ENCRYPTED",
+    "ARC",
+    "DKIM",
+    "DMARC",
+    "SPF",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/routing/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingRequest>;
+
+export interface TimeseriesGroupsV2EmailRoutingResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingResponse>;
+
+export const timeseriesGroupsV2EmailRouting: (
+  input: TimeseriesGroupsV2EmailRoutingRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2EmailRoutingResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2EmailRoutingRequest,
+  output: TimeseriesGroupsV2EmailRoutingResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2EmailSecurity
+// =============================================================================
+
+export interface TimeseriesGroupsV2EmailSecurityRequest {
+  dimension:
+    | "SPAM"
+    | "MALICIOUS"
+    | "SPOOF"
+    | "THREAT_CATEGORY"
+    | "ARC"
+    | "DKIM"
+    | "DMARC"
+    | "SPF"
+    | "TLS_VERSION";
+}
+
+export const TimeseriesGroupsV2EmailSecurityRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "SPAM",
+    "MALICIOUS",
+    "SPOOF",
+    "THREAT_CATEGORY",
+    "ARC",
+    "DKIM",
+    "DMARC",
+    "SPF",
+    "TLS_VERSION",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityRequest>;
+
+export interface TimeseriesGroupsV2EmailSecurityResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityResponse>;
+
+export const timeseriesGroupsV2EmailSecurity: (
+  input: TimeseriesGroupsV2EmailSecurityRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2EmailSecurityResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2EmailSecurityRequest,
+  output: TimeseriesGroupsV2EmailSecurityResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2Http
+// =============================================================================
+
+export interface TimeseriesGroupsV2HttpRequest {
+  dimension:
+    | "ADM1"
+    | "BOT_CLASS"
+    | "BROWSER"
+    | "BROWSER_FAMILY"
+    | "DEVICE_TYPE"
+    | "HTTP_PROTOCOL"
+    | "HTTP_VERSION"
+    | "IP_VERSION"
+    | "OS"
+    | "POST_QUANTUM"
+    | "TLS_VERSION";
+}
+
+export const TimeseriesGroupsV2HttpRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "ADM1",
+    "BOT_CLASS",
+    "BROWSER",
+    "BROWSER_FAMILY",
+    "DEVICE_TYPE",
+    "HTTP_PROTOCOL",
+    "HTTP_VERSION",
+    "IP_VERSION",
+    "OS",
+    "POST_QUANTUM",
+    "TLS_VERSION",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/http/timeseries_groups/{dimension}" }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2HttpRequest>;
+
+export interface TimeseriesGroupsV2HttpResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2HttpResponse>;
+
+export const timeseriesGroupsV2Http: (
+  input: TimeseriesGroupsV2HttpRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2HttpResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2HttpRequest,
+  output: TimeseriesGroupsV2HttpResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// GroupsV2LeakedCredential
+// =============================================================================
+
+export interface TimeseriesGroupsV2LeakedCredentialRequest {
+  dimension: "COMPROMISED" | "BOT_CLASS";
+}
+
+export const TimeseriesGroupsV2LeakedCredentialRequest = Schema.Struct({
+  dimension: Schema.Literal("COMPROMISED", "BOT_CLASS").pipe(
+    T.HttpPath("dimension"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/timeseries_groups/{dimension}",
+  }),
+) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialRequest>;
+
+export interface TimeseriesGroupsV2LeakedCredentialResponse {
+  /** Metadata for the results. */
+  meta: {
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  serie_0: { timestamps: string[] };
+}
+
+export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
+  meta: Schema.Struct({
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  serie_0: Schema.Struct({
+    timestamps: Schema.Array(Schema.String),
+  }),
+}) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialResponse>;
+
+export const timeseriesGroupsV2LeakedCredential: (
+  input: TimeseriesGroupsV2LeakedCredentialRequest,
+) => Effect.Effect<
+  TimeseriesGroupsV2LeakedCredentialResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: TimeseriesGroupsV2LeakedCredentialRequest,
+  output: TimeseriesGroupsV2LeakedCredentialResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // HitDnsSummary
 // =============================================================================
 
@@ -14318,10 +24200,41 @@ export interface CacheHitDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14349,10 +24262,43 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14423,10 +24369,41 @@ export interface CacheHitDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14461,10 +24438,43 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14535,10 +24545,41 @@ export interface TimeseriesHttpResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14572,10 +24613,43 @@ export const TimeseriesHttpResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14636,10 +24710,41 @@ export interface GetHttpAsResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14668,10 +24773,43 @@ export const GetHttpAsResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -14747,10 +24885,41 @@ export interface GetHttpAsBotClassResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14779,10 +24948,43 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -14861,10 +25063,41 @@ export interface GetHttpAsBrowserFamilyResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -14893,10 +25126,43 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -14975,10 +25241,41 @@ export interface GetHttpAsDeviceTypeResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15007,10 +25304,43 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15089,10 +25419,41 @@ export interface GetHttpAsHttpMethodResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15121,10 +25482,43 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15203,10 +25597,41 @@ export interface GetHttpAsHttpProtocolResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15235,10 +25660,43 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15315,10 +25773,41 @@ export interface GetHttpAsIpVersionResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15347,10 +25836,43 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15439,10 +25961,41 @@ export interface GetHttpAsOsResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15471,10 +26024,43 @@ export const GetHttpAsOsResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15557,10 +26143,41 @@ export interface GetHttpAsTlsVersionResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15589,10 +26206,43 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15662,10 +26312,41 @@ export interface GetHttpLocationResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15698,10 +26379,43 @@ export const GetHttpLocationResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15780,10 +26494,41 @@ export interface GetHttpLocationBotClassResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15816,10 +26561,43 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -15898,10 +26676,41 @@ export interface GetHttpLocationBrowserFamilyResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -15934,10 +26743,43 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16016,10 +26858,41 @@ export interface GetHttpLocationDeviceTypeResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16052,10 +26925,43 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16134,10 +27040,41 @@ export interface GetHttpLocationHttpMethodResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16170,10 +27107,43 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16252,10 +27222,41 @@ export interface GetHttpLocationHttpProtocolResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16288,10 +27289,43 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16368,10 +27402,41 @@ export interface GetHttpLocationIpVersionResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16404,10 +27469,43 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16496,10 +27594,41 @@ export interface GetHttpLocationOsResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16532,10 +27661,43 @@ export const GetHttpLocationOsResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16618,10 +27780,41 @@ export interface GetHttpLocationTlsVersionResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16654,10 +27847,43 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -16727,10 +27953,41 @@ export interface OsHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16758,10 +28015,43 @@ export const OsHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16832,10 +28122,41 @@ export interface BrowserHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16870,10 +28191,43 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16939,10 +28293,41 @@ export interface OsHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -16977,10 +28362,43 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17044,10 +28462,41 @@ export interface BrowserHttpTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17076,10 +28525,43 @@ export const BrowserHttpTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -17151,10 +28633,41 @@ export interface CompromisedLeakedCredentialSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17182,10 +28695,43 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17261,10 +28807,41 @@ export interface CompromisedLeakedCredentialTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17300,10 +28877,43 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -17370,10 +28980,41 @@ export interface HttpMethodAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17401,10 +29042,43 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17477,10 +29151,41 @@ export interface HttpMethodAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17515,10 +29220,43 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17582,10 +29320,41 @@ export interface SummaryNetflowResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17613,10 +29382,43 @@ export const SummaryNetflowResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17683,10 +29485,41 @@ export interface TimeseriesNetflowResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17721,10 +29554,43 @@ export const TimeseriesNetflowResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17789,10 +29655,41 @@ export interface AsesNetflowTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17821,10 +29718,43 @@ export const AsesNetflowTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -17890,10 +29820,41 @@ export interface LocationsNetflowTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -17926,10 +29887,43 @@ export const LocationsNetflowTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -18004,10 +29998,41 @@ export interface MitigationProductAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18035,10 +30060,43 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18110,10 +30168,41 @@ export interface MitigationProductAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18149,10 +30238,43 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -18216,10 +30338,41 @@ export interface HttpProtocolHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18247,10 +30400,43 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18324,10 +30510,41 @@ export interface HttpProtocolHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18362,10 +30579,43 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18460,10 +30710,41 @@ export interface SummaryQualityIqiResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18491,10 +30772,43 @@ export const SummaryQualityIqiResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18566,10 +30880,41 @@ export interface HistogramQualitySpeedResponse {
     bucketSize: number;
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18603,10 +30948,43 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18664,10 +31042,41 @@ export interface SummaryQualitySpeedResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18703,10 +31112,43 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18776,10 +31218,41 @@ export interface AsesQualitySpeedTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18819,10 +31292,43 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -18895,10 +31401,41 @@ export interface LocationsQualitySpeedTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -18938,10 +31475,43 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19018,10 +31588,41 @@ export interface PostQuantumHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19049,10 +31650,43 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -19123,10 +31757,41 @@ export interface PostQuantumHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19165,10 +31830,43 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -19235,10 +31933,41 @@ export interface TopRankingResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19272,10 +32001,43 @@ export const TopRankingResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19455,10 +32217,41 @@ export interface TopRankingInternetServiceResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19487,10 +32280,43 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19562,10 +32388,41 @@ export interface DirectiveRobotsTxtTopUserAgentResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19594,10 +32451,43 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19671,10 +32561,41 @@ export interface ManagedRulesAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19702,10 +32623,43 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -19778,10 +32732,41 @@ export interface ManagedRulesAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -19816,10 +32801,43 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -19882,6 +32900,8 @@ export interface GlobalSearchRequest {
     | "BOTS"
     | "CERTIFICATE_AUTHORITIES"
     | "CERTIFICATE_LOGS"
+    | "ORIGINS"
+    | "ORIGIN_REGIONS"
     | "INDUSTRIES"
     | "LOCATIONS"
     | "NOTEBOOKS"
@@ -19897,6 +32917,8 @@ export interface GlobalSearchRequest {
     | "BOTS"
     | "CERTIFICATE_AUTHORITIES"
     | "CERTIFICATE_LOGS"
+    | "ORIGINS"
+    | "ORIGIN_REGIONS"
     | "INDUSTRIES"
     | "LOCATIONS"
     | "NOTEBOOKS"
@@ -19919,6 +32941,8 @@ export const GlobalSearchRequest = Schema.Struct({
         "BOTS",
         "CERTIFICATE_AUTHORITIES",
         "CERTIFICATE_LOGS",
+        "ORIGINS",
+        "ORIGIN_REGIONS",
         "INDUSTRIES",
         "LOCATIONS",
         "NOTEBOOKS",
@@ -19936,6 +32960,8 @@ export const GlobalSearchRequest = Schema.Struct({
         "BOTS",
         "CERTIFICATE_AUTHORITIES",
         "CERTIFICATE_LOGS",
+        "ORIGINS",
+        "ORIGIN_REGIONS",
         "INDUSTRIES",
         "LOCATIONS",
         "NOTEBOOKS",
@@ -19998,7 +33024,9 @@ export interface AsSetEntityAsnResponse {
     asnConeSize: number;
     irrSources: string[];
     name: string;
-    asn?: number;
+    hierarchicalAsn?: number;
+    inferredAsn?: number;
+    peeringdbAsn?: number;
   }[];
   /** Paths from the AS-SET that include the given AS to its upstreams recursively */
   paths: string[][];
@@ -20015,7 +33043,15 @@ export const AsSetEntityAsnResponse = Schema.Struct({
       asnConeSize: Schema.Number.pipe(T.JsonName("asn_cone_size")),
       irrSources: Schema.Array(Schema.String).pipe(T.JsonName("irr_sources")),
       name: Schema.String,
-      asn: Schema.optional(Schema.Number),
+      hierarchicalAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("hierarchical_asn"),
+      ),
+      inferredAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("inferred_asn"),
+      ),
+      peeringdbAsn: Schema.optional(Schema.Number).pipe(
+        T.JsonName("peeringdb_asn"),
+      ),
     }),
   ).pipe(T.JsonName("as_sets")),
   paths: Schema.Array(Schema.Array(Schema.String)),
@@ -20048,10 +33084,41 @@ export interface SummaryTcpResetsTimeoutResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20085,10 +33152,43 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20164,6 +33264,7 @@ export interface GetTrafficAnomalyResponse {
     };
     endDate?: string;
     locationDetails?: { code: string; name: string };
+    originDetails?: { name: string; origin: string };
     visibleInDataSources?: string[];
   }[];
 }
@@ -20192,6 +33293,12 @@ export const GetTrafficAnomalyResponse = Schema.Struct({
         Schema.Struct({
           code: Schema.String,
           name: Schema.String,
+        }),
+      ),
+      originDetails: Schema.optional(
+        Schema.Struct({
+          name: Schema.String,
+          origin: Schema.String,
         }),
       ),
       visibleInDataSources: Schema.optional(Schema.Array(Schema.String)),
@@ -20266,10 +33373,41 @@ export interface ResponseTTLDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20305,10 +33443,43 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20384,10 +33555,41 @@ export interface ResponseTTLDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20430,10 +33632,43 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20503,10 +33738,41 @@ export interface QueryTypeAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20534,10 +33800,43 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20605,10 +33904,41 @@ export interface QueryTypeAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20643,10 +33973,43 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20710,10 +34073,41 @@ export interface QueryTypeDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20741,10 +34135,43 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20812,10 +34239,41 @@ export interface QueryTypeDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20850,10 +34308,43 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20917,10 +34408,41 @@ export interface DeviceTypeHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -20948,10 +34470,43 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21023,10 +34578,41 @@ export interface DeviceTypeHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21066,10 +34652,43 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21122,6 +34741,1937 @@ export const deviceTypeHttpTimeseriesGroup: (
 }));
 
 // =============================================================================
+// V2AiBot
+// =============================================================================
+
+export interface SummaryV2AiBotRequest {
+  dimension: "USER_AGENT" | "CRAWL_PURPOSE" | "INDUSTRY" | "VERTICAL";
+}
+
+export const SummaryV2AiBotRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "USER_AGENT",
+    "CRAWL_PURPOSE",
+    "INDUSTRY",
+    "VERTICAL",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/ai/bots/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2AiBotRequest>;
+
+export interface SummaryV2AiBotResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2AiBotResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2AiBotResponse>;
+
+export const summaryV2AiBot: (
+  input: SummaryV2AiBotRequest,
+) => Effect.Effect<
+  SummaryV2AiBotResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2AiBotRequest,
+  output: SummaryV2AiBotResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2AiInference
+// =============================================================================
+
+export interface SummaryV2AiInferenceRequest {
+  dimension: "MODEL" | "TASK";
+}
+
+export const SummaryV2AiInferenceRequest = Schema.Struct({
+  dimension: Schema.Literal("MODEL", "TASK").pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/ai/inference/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2AiInferenceRequest>;
+
+export interface SummaryV2AiInferenceResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2AiInferenceResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2AiInferenceResponse>;
+
+export const summaryV2AiInference: (
+  input: SummaryV2AiInferenceRequest,
+) => Effect.Effect<
+  SummaryV2AiInferenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2AiInferenceRequest,
+  output: SummaryV2AiInferenceResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2As112
+// =============================================================================
+
+export interface SummaryV2As112Request {
+  dimension:
+    | "DNSSEC"
+    | "EDNS"
+    | "IP_VERSION"
+    | "PROTOCOL"
+    | "QUERY_TYPE"
+    | "RESPONSE_CODE";
+}
+
+export const SummaryV2As112Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "DNSSEC",
+    "EDNS",
+    "IP_VERSION",
+    "PROTOCOL",
+    "QUERY_TYPE",
+    "RESPONSE_CODE",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/as112/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2As112Request>;
+
+export interface SummaryV2As112Response {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2As112Response = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2As112Response>;
+
+export const summaryV2As112: (
+  input: SummaryV2As112Request,
+) => Effect.Effect<
+  SummaryV2As112Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2As112Request,
+  output: SummaryV2As112Response,
+  errors: [],
+}));
+
+// =============================================================================
+// V2AttackLayer3
+// =============================================================================
+
+export interface SummaryV2AttackLayer3Request {
+  dimension:
+    | "PROTOCOL"
+    | "IP_VERSION"
+    | "VECTOR"
+    | "DURATION"
+    | "BITRATE"
+    | "VERTICAL"
+    | "INDUSTRY";
+}
+
+export const SummaryV2AttackLayer3Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "PROTOCOL",
+    "IP_VERSION",
+    "VECTOR",
+    "DURATION",
+    "BITRATE",
+    "VERTICAL",
+    "INDUSTRY",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/attacks/layer3/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2AttackLayer3Request>;
+
+export interface SummaryV2AttackLayer3Response {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2AttackLayer3Response = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2AttackLayer3Response>;
+
+export const summaryV2AttackLayer3: (
+  input: SummaryV2AttackLayer3Request,
+) => Effect.Effect<
+  SummaryV2AttackLayer3Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2AttackLayer3Request,
+  output: SummaryV2AttackLayer3Response,
+  errors: [],
+}));
+
+// =============================================================================
+// V2AttackLayer7
+// =============================================================================
+
+export interface SummaryV2AttackLayer7Request {
+  dimension:
+    | "HTTP_METHOD"
+    | "HTTP_VERSION"
+    | "IP_VERSION"
+    | "MANAGED_RULES"
+    | "MITIGATION_PRODUCT"
+    | "VERTICAL"
+    | "INDUSTRY";
+}
+
+export const SummaryV2AttackLayer7Request = Schema.Struct({
+  dimension: Schema.Literal(
+    "HTTP_METHOD",
+    "HTTP_VERSION",
+    "IP_VERSION",
+    "MANAGED_RULES",
+    "MITIGATION_PRODUCT",
+    "VERTICAL",
+    "INDUSTRY",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/attacks/layer7/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2AttackLayer7Request>;
+
+export interface SummaryV2AttackLayer7Response {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2AttackLayer7Response = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2AttackLayer7Response>;
+
+export const summaryV2AttackLayer7: (
+  input: SummaryV2AttackLayer7Request,
+) => Effect.Effect<
+  SummaryV2AttackLayer7Response,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2AttackLayer7Request,
+  output: SummaryV2AttackLayer7Response,
+  errors: [],
+}));
+
+// =============================================================================
+// V2Dn
+// =============================================================================
+
+export interface SummaryV2DnsRequest {
+  dimension:
+    | "IP_VERSION"
+    | "CACHE_HIT"
+    | "DNSSEC"
+    | "DNSSEC_AWARE"
+    | "DNSSEC_E2E"
+    | "MATCHING_ANSWER"
+    | "PROTOCOL"
+    | "QUERY_TYPE"
+    | "RESPONSE_CODE"
+    | "RESPONSE_TTL"
+    | "TLD"
+    | "TLD_DNS_MAGNITUDE";
+}
+
+export const SummaryV2DnsRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "IP_VERSION",
+    "CACHE_HIT",
+    "DNSSEC",
+    "DNSSEC_AWARE",
+    "DNSSEC_E2E",
+    "MATCHING_ANSWER",
+    "PROTOCOL",
+    "QUERY_TYPE",
+    "RESPONSE_CODE",
+    "RESPONSE_TTL",
+    "TLD",
+    "TLD_DNS_MAGNITUDE",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/dns/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2DnsRequest>;
+
+export interface SummaryV2DnsResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2DnsResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2DnsResponse>;
+
+export const summaryV2Dns: (
+  input: SummaryV2DnsRequest,
+) => Effect.Effect<
+  SummaryV2DnsResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2DnsRequest,
+  output: SummaryV2DnsResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2EmailRouting
+// =============================================================================
+
+export interface SummaryV2EmailRoutingRequest {
+  dimension: "IP_VERSION" | "ENCRYPTED" | "ARC" | "DKIM" | "DMARC" | "SPF";
+}
+
+export const SummaryV2EmailRoutingRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "IP_VERSION",
+    "ENCRYPTED",
+    "ARC",
+    "DKIM",
+    "DMARC",
+    "SPF",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/email/routing/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2EmailRoutingRequest>;
+
+export interface SummaryV2EmailRoutingResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2EmailRoutingResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2EmailRoutingResponse>;
+
+export const summaryV2EmailRouting: (
+  input: SummaryV2EmailRoutingRequest,
+) => Effect.Effect<
+  SummaryV2EmailRoutingResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2EmailRoutingRequest,
+  output: SummaryV2EmailRoutingResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2EmailSecurity
+// =============================================================================
+
+export interface SummaryV2EmailSecurityRequest {
+  dimension:
+    | "SPAM"
+    | "MALICIOUS"
+    | "SPOOF"
+    | "THREAT_CATEGORY"
+    | "ARC"
+    | "DKIM"
+    | "DMARC"
+    | "SPF"
+    | "TLS_VERSION";
+}
+
+export const SummaryV2EmailSecurityRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "SPAM",
+    "MALICIOUS",
+    "SPOOF",
+    "THREAT_CATEGORY",
+    "ARC",
+    "DKIM",
+    "DMARC",
+    "SPF",
+    "TLS_VERSION",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/email/security/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2EmailSecurityRequest>;
+
+export interface SummaryV2EmailSecurityResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2EmailSecurityResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2EmailSecurityResponse>;
+
+export const summaryV2EmailSecurity: (
+  input: SummaryV2EmailSecurityRequest,
+) => Effect.Effect<
+  SummaryV2EmailSecurityResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2EmailSecurityRequest,
+  output: SummaryV2EmailSecurityResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2Http
+// =============================================================================
+
+export interface SummaryV2HttpRequest {
+  dimension:
+    | "ADM1"
+    | "BOT_CLASS"
+    | "BROWSER"
+    | "BROWSER_FAMILY"
+    | "DEVICE_TYPE"
+    | "HTTP_PROTOCOL"
+    | "HTTP_VERSION"
+    | "IP_VERSION"
+    | "OS"
+    | "POST_QUANTUM"
+    | "TLS_VERSION";
+}
+
+export const SummaryV2HttpRequest = Schema.Struct({
+  dimension: Schema.Literal(
+    "ADM1",
+    "BOT_CLASS",
+    "BROWSER",
+    "BROWSER_FAMILY",
+    "DEVICE_TYPE",
+    "HTTP_PROTOCOL",
+    "HTTP_VERSION",
+    "IP_VERSION",
+    "OS",
+    "POST_QUANTUM",
+    "TLS_VERSION",
+  ).pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/http/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2HttpRequest>;
+
+export interface SummaryV2HttpResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2HttpResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2HttpResponse>;
+
+export const summaryV2Http: (
+  input: SummaryV2HttpRequest,
+) => Effect.Effect<
+  SummaryV2HttpResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2HttpRequest,
+  output: SummaryV2HttpResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2LeakedCredential
+// =============================================================================
+
+export interface SummaryV2LeakedCredentialRequest {
+  dimension: "COMPROMISED" | "BOT_CLASS";
+}
+
+export const SummaryV2LeakedCredentialRequest = Schema.Struct({
+  dimension: Schema.Literal("COMPROMISED", "BOT_CLASS").pipe(
+    T.HttpPath("dimension"),
+  ),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/summary/{dimension}",
+  }),
+) as unknown as Schema.Schema<SummaryV2LeakedCredentialRequest>;
+
+export interface SummaryV2LeakedCredentialResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2LeakedCredentialResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2LeakedCredentialResponse>;
+
+export const summaryV2LeakedCredential: (
+  input: SummaryV2LeakedCredentialRequest,
+) => Effect.Effect<
+  SummaryV2LeakedCredentialResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2LeakedCredentialRequest,
+  output: SummaryV2LeakedCredentialResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// V2Netflow
+// =============================================================================
+
+export interface SummaryV2NetflowRequest {
+  dimension: "ADM1" | "PRODUCT";
+}
+
+export const SummaryV2NetflowRequest = Schema.Struct({
+  dimension: Schema.Literal("ADM1", "PRODUCT").pipe(T.HttpPath("dimension")),
+}).pipe(
+  T.Http({ method: "GET", path: "/radar/netflows/summary/{dimension}" }),
+) as unknown as Schema.Schema<SummaryV2NetflowRequest>;
+
+export interface SummaryV2NetflowResponse {
+  /** Metadata for the results. */
+  meta: {
+    confidenceInfo: {
+      annotations: {
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
+        description: string;
+        endDate: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
+        isInstantaneous: boolean;
+        linkedUrl: string;
+        startDate: string;
+      }[];
+      level: number;
+    };
+    dateRange: { endTime: string; startTime: string }[];
+    lastUpdated: string;
+    normalization:
+      | "PERCENTAGE"
+      | "MIN0_MAX"
+      | "MIN_MAX"
+      | "RAW_VALUES"
+      | "PERCENTAGE_CHANGE"
+      | "ROLLING_AVERAGE"
+      | "OVERLAPPED_PERCENTAGE"
+      | "RATIO";
+    units: { name: string; value: string }[];
+  };
+  summary_0: Record<string, unknown>;
+}
+
+export const SummaryV2NetflowResponse = Schema.Struct({
+  meta: Schema.Struct({
+    confidenceInfo: Schema.Struct({
+      annotations: Schema.Array(
+        Schema.Struct({
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
+          description: Schema.String,
+          endDate: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
+          isInstantaneous: Schema.Boolean,
+          linkedUrl: Schema.String,
+          startDate: Schema.String,
+        }),
+      ),
+      level: Schema.Number,
+    }),
+    dateRange: Schema.Array(
+      Schema.Struct({
+        endTime: Schema.String,
+        startTime: Schema.String,
+      }),
+    ),
+    lastUpdated: Schema.String,
+    normalization: Schema.Literal(
+      "PERCENTAGE",
+      "MIN0_MAX",
+      "MIN_MAX",
+      "RAW_VALUES",
+      "PERCENTAGE_CHANGE",
+      "ROLLING_AVERAGE",
+      "OVERLAPPED_PERCENTAGE",
+      "RATIO",
+    ),
+    units: Schema.Array(
+      Schema.Struct({
+        name: Schema.String,
+        value: Schema.String,
+      }),
+    ),
+  }),
+  summary_0: Schema.Struct({}),
+}) as unknown as Schema.Schema<SummaryV2NetflowResponse>;
+
+export const summaryV2Netflow: (
+  input: SummaryV2NetflowRequest,
+) => Effect.Effect<
+  SummaryV2NetflowResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: SummaryV2NetflowRequest,
+  output: SummaryV2NetflowResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // VerifiedBotTop
 // =============================================================================
 
@@ -21136,10 +36686,41 @@ export interface BotsVerifiedBotTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21173,10 +36754,43 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -21243,10 +36857,41 @@ export interface CategoriesVerifiedBotTopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21275,10 +36920,43 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -21347,10 +37025,41 @@ export interface IpVersionAs112SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21378,10 +37087,43 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21452,10 +37194,41 @@ export interface IpVersionAs112TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21490,10 +37263,43 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21565,10 +37371,41 @@ export interface IpVersionAs112TopResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21601,10 +37438,43 @@ export const IpVersionAs112TopResponse = Schema.Struct({
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.String,
+            dataSource: Schema.Literal(
+              "ALL",
+              "AI_BOTS",
+              "AI_GATEWAY",
+              "BGP",
+              "BOTS",
+              "CONNECTION_ANOMALY",
+              "CT",
+              "DNS",
+              "DNS_MAGNITUDE",
+              "DNS_AS112",
+              "DOS",
+              "EMAIL_ROUTING",
+              "EMAIL_SECURITY",
+              "FW",
+              "FW_PG",
+              "HTTP",
+              "HTTP_CONTROL",
+              "HTTP_CRAWLER_REFERER",
+              "HTTP_ORIGINS",
+              "IQI",
+              "LEAKED_CREDENTIALS",
+              "NET",
+              "ROBOTS_TXT",
+              "SPEED",
+              "WORKERS_AI",
+            ),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.String,
+            eventType: Schema.Literal(
+              "EVENT",
+              "GENERAL",
+              "OUTAGE",
+              "PARTIAL_PROJECTION",
+              "PIPELINE",
+              "TRAFFIC_ANOMALY",
+            ),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -21674,10 +37544,41 @@ export interface IpVersionAttackLayer3SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21705,10 +37606,43 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21784,10 +37718,41 @@ export interface IpVersionAttackLayer3TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21822,10 +37787,43 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21891,10 +37889,41 @@ export interface HttpVersionAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -21922,10 +37951,43 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21987,10 +38049,41 @@ export interface IpVersionAttackLayer7SummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22018,10 +38111,43 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22097,10 +38223,41 @@ export interface HttpVersionAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22140,10 +38297,43 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22217,10 +38407,41 @@ export interface IpVersionAttackLayer7TimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22255,10 +38476,43 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22324,10 +38578,41 @@ export interface IpVersionDnsSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22355,10 +38640,43 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22429,10 +38747,41 @@ export interface IpVersionDnsTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22467,10 +38816,43 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22535,10 +38917,41 @@ export interface IpVersionEmailRoutingSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22566,10 +38979,43 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22645,10 +39091,41 @@ export interface IpVersionEmailRoutingTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22683,10 +39160,43 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22751,10 +39261,41 @@ export interface TlsVersionEmailSecuritySummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22787,10 +39328,43 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22868,10 +39442,41 @@ export interface TlsVersionEmailSecurityTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -22911,10 +39516,43 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22981,10 +39619,41 @@ export interface HttpVersionHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23012,10 +39681,43 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23077,10 +39779,41 @@ export interface IpVersionHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23108,10 +39841,43 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23172,10 +39938,41 @@ export interface TlsVersionHttpSummaryResponse {
   meta: {
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23209,10 +40006,43 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23286,10 +40116,41 @@ export interface HttpVersionHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23329,10 +40190,43 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23401,10 +40295,41 @@ export interface IpVersionHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23439,10 +40364,43 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23510,10 +40468,41 @@ export interface TlsVersionHttpTimeseriesGroupResponse {
       | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
-        dataSource: string;
+        dataSource:
+          | "ALL"
+          | "AI_BOTS"
+          | "AI_GATEWAY"
+          | "BGP"
+          | "BOTS"
+          | "CONNECTION_ANOMALY"
+          | "CT"
+          | "DNS"
+          | "DNS_MAGNITUDE"
+          | "DNS_AS112"
+          | "DOS"
+          | "EMAIL_ROUTING"
+          | "EMAIL_SECURITY"
+          | "FW"
+          | "FW_PG"
+          | "HTTP"
+          | "HTTP_CONTROL"
+          | "HTTP_CRAWLER_REFERER"
+          | "HTTP_ORIGINS"
+          | "IQI"
+          | "LEAKED_CREDENTIALS"
+          | "NET"
+          | "ROBOTS_TXT"
+          | "SPEED"
+          | "WORKERS_AI";
         description: string;
         endDate: string;
-        eventType: string;
+        eventType:
+          | "EVENT"
+          | "GENERAL"
+          | "OUTAGE"
+          | "PARTIAL_PROJECTION"
+          | "PIPELINE"
+          | "TRAFFIC_ANOMALY";
         isInstantaneous: boolean;
         linkedUrl: string;
         startDate: string;
@@ -23555,10 +40544,43 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
+          dataSource: Schema.Literal(
+            "ALL",
+            "AI_BOTS",
+            "AI_GATEWAY",
+            "BGP",
+            "BOTS",
+            "CONNECTION_ANOMALY",
+            "CT",
+            "DNS",
+            "DNS_MAGNITUDE",
+            "DNS_AS112",
+            "DOS",
+            "EMAIL_ROUTING",
+            "EMAIL_SECURITY",
+            "FW",
+            "FW_PG",
+            "HTTP",
+            "HTTP_CONTROL",
+            "HTTP_CRAWLER_REFERER",
+            "HTTP_ORIGINS",
+            "IQI",
+            "LEAKED_CREDENTIALS",
+            "NET",
+            "ROBOTS_TXT",
+            "SPEED",
+            "WORKERS_AI",
+          ),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.String,
+          eventType: Schema.Literal(
+            "EVENT",
+            "GENERAL",
+            "OUTAGE",
+            "PARTIAL_PROJECTION",
+            "PIPELINE",
+            "TRAFFIC_ANOMALY",
+          ),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,

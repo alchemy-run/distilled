@@ -2412,7 +2412,7 @@ export const patchSetting: (
 // =============================================================================
 
 export interface GetSubscriptionRequest {
-  /** Subscription identifier tag. */
+  /** Identifier */
   zoneId: string;
 }
 
@@ -2422,10 +2422,64 @@ export const GetSubscriptionRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/subscription" }),
 ) as unknown as Schema.Schema<GetSubscriptionRequest>;
 
-export type GetSubscriptionResponse = unknown;
+export interface GetSubscriptionResponse {
+  /** Subscription identifier tag. */
+  id?: string;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string;
+  /** How often the subscription is renewed automatically. */
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: unknown;
+  /** The state that the subscription is in. */
+  state?:
+    | "Trial"
+    | "Provisioned"
+    | "Paid"
+    | "AwaitingPayment"
+    | "Cancelled"
+    | "Failed"
+    | "Expired";
+}
 
-export const GetSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
+export const GetSubscriptionResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  currency: Schema.optional(Schema.String),
+  currentPeriodEnd: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_end"),
+  ),
+  currentPeriodStart: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_start"),
+  ),
+  frequency: Schema.optional(
+    Schema.Literal(
+      "weekly",
+      "monthly",
+      "quarterly",
+      "yearly",
+      "not-applicable",
+    ),
+  ),
+  price: Schema.optional(Schema.Number),
+  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  state: Schema.optional(
+    Schema.Literal(
+      "Trial",
+      "Provisioned",
+      "Paid",
+      "AwaitingPayment",
+      "Cancelled",
+      "Failed",
+      "Expired",
+    ),
+  ),
+}) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
 export const getSubscription: (
   input: GetSubscriptionRequest,
@@ -2440,7 +2494,7 @@ export const getSubscription: (
 }));
 
 export interface CreateSubscriptionRequest {
-  /** Path param: Subscription identifier tag. */
+  /** Path param: Identifier */
   zoneId: string;
   /** Body param: How often the subscription is renewed automatically. */
   frequency?: "weekly" | "monthly" | "quarterly" | "yearly";
@@ -2458,10 +2512,64 @@ export const CreateSubscriptionRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/zones/{zone_id}/subscription" }),
 ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
-export type CreateSubscriptionResponse = unknown;
+export interface CreateSubscriptionResponse {
+  /** Subscription identifier tag. */
+  id?: string;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string;
+  /** How often the subscription is renewed automatically. */
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: unknown;
+  /** The state that the subscription is in. */
+  state?:
+    | "Trial"
+    | "Provisioned"
+    | "Paid"
+    | "AwaitingPayment"
+    | "Cancelled"
+    | "Failed"
+    | "Expired";
+}
 
-export const CreateSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateSubscriptionResponse>;
+export const CreateSubscriptionResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  currency: Schema.optional(Schema.String),
+  currentPeriodEnd: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_end"),
+  ),
+  currentPeriodStart: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_start"),
+  ),
+  frequency: Schema.optional(
+    Schema.Literal(
+      "weekly",
+      "monthly",
+      "quarterly",
+      "yearly",
+      "not-applicable",
+    ),
+  ),
+  price: Schema.optional(Schema.Number),
+  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  state: Schema.optional(
+    Schema.Literal(
+      "Trial",
+      "Provisioned",
+      "Paid",
+      "AwaitingPayment",
+      "Cancelled",
+      "Failed",
+      "Expired",
+    ),
+  ),
+}) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
 export const createSubscription: (
   input: CreateSubscriptionRequest,
@@ -2476,7 +2584,7 @@ export const createSubscription: (
 }));
 
 export interface UpdateSubscriptionRequest {
-  /** Path param: Subscription identifier tag. */
+  /** Path param: Identifier */
   zoneId: string;
   /** Body param: How often the subscription is renewed automatically. */
   frequency?: "weekly" | "monthly" | "quarterly" | "yearly";
@@ -2494,10 +2602,64 @@ export const UpdateSubscriptionRequest = Schema.Struct({
   T.Http({ method: "PUT", path: "/zones/{zone_id}/subscription" }),
 ) as unknown as Schema.Schema<UpdateSubscriptionRequest>;
 
-export type UpdateSubscriptionResponse = unknown;
+export interface UpdateSubscriptionResponse {
+  /** Subscription identifier tag. */
+  id?: string;
+  /** The monetary unit in which pricing information is displayed. */
+  currency?: string;
+  /** The end of the current period and also when the next billing is due. */
+  currentPeriodEnd?: string;
+  /** When the current billing period started. May match initial_period_start if this is the first period. */
+  currentPeriodStart?: string;
+  /** How often the subscription is renewed automatically. */
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  /** The price of the subscription that will be billed, in US dollars. */
+  price?: number;
+  /** The rate plan applied to the subscription. */
+  ratePlan?: unknown;
+  /** The state that the subscription is in. */
+  state?:
+    | "Trial"
+    | "Provisioned"
+    | "Paid"
+    | "AwaitingPayment"
+    | "Cancelled"
+    | "Failed"
+    | "Expired";
+}
 
-export const UpdateSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateSubscriptionResponse>;
+export const UpdateSubscriptionResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  currency: Schema.optional(Schema.String),
+  currentPeriodEnd: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_end"),
+  ),
+  currentPeriodStart: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_period_start"),
+  ),
+  frequency: Schema.optional(
+    Schema.Literal(
+      "weekly",
+      "monthly",
+      "quarterly",
+      "yearly",
+      "not-applicable",
+    ),
+  ),
+  price: Schema.optional(Schema.Number),
+  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  state: Schema.optional(
+    Schema.Literal(
+      "Trial",
+      "Provisioned",
+      "Paid",
+      "AwaitingPayment",
+      "Cancelled",
+      "Failed",
+      "Expired",
+    ),
+  ),
+}) as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
 export const updateSubscription: (
   input: UpdateSubscriptionRequest,

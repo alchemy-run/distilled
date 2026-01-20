@@ -78,10 +78,179 @@ export const GetCertificatePackRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetCertificatePackRequest>;
 
-export type GetCertificatePackResponse = unknown;
+export interface GetCertificatePackResponse {
+  /** Identifier. */
+  id: string;
+  /** Array of certificates in this pack. */
+  certificates: {
+    id: string;
+    hosts: string[];
+    status: string;
+    bundleMethod?: string;
+    expiresOn?: string;
+    geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+    issuer?: string;
+    modifiedOn?: string;
+    priority?: number;
+    signature?: string;
+    uploadedOn?: string;
+    zoneId?: string;
+  }[];
+  /** Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty. */
+  hosts: string[];
+  /** Status of certificate pack. */
+  status:
+    | "initializing"
+    | "pending_validation"
+    | "deleted"
+    | "pending_issuance"
+    | "pending_deployment"
+    | "pending_deletion"
+    | "pending_expiration"
+    | "expired"
+    | "active"
+    | "initializing_timed_out"
+    | "validation_timed_out"
+    | "issuance_timed_out"
+    | "deployment_timed_out"
+    | "deletion_timed_out"
+    | "pending_cleanup"
+    | "staging_deployment"
+    | "staging_active"
+    | "deactivating"
+    | "inactive"
+    | "backup_issued"
+    | "holding_deployment";
+  /** Type of certificate pack. */
+  type:
+    | "mh_custom"
+    | "managed_hostname"
+    | "sni_custom"
+    | "universal"
+    | "advanced"
+    | "total_tls"
+    | "keyless"
+    | "legacy_custom";
+  /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details.](https://developers.cloudflare.com/ssl/refe */
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
+  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
+  cloudflareBranding?: boolean;
+  /** Identifier of the primary certificate in a pack. */
+  primaryCertificate?: string;
+  /** Domain validation errors that have been received by the certificate authority (CA). */
+  validationErrors?: { message?: string }[];
+  /** Validation Method selected for the order. */
+  validationMethod?: "txt" | "http" | "email";
+  /** Certificates' validation records. */
+  validationRecords?: {
+    emails?: string[];
+    httpBody?: string;
+    httpUrl?: string;
+    txtName?: string;
+    txtValue?: string;
+  }[];
+  /** Validity Days selected for the order. */
+  validityDays?: "14" | "30" | "90" | "365";
+}
 
-export const GetCertificatePackResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetCertificatePackResponse>;
+export const GetCertificatePackResponse = Schema.Struct({
+  id: Schema.String,
+  certificates: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      hosts: Schema.Array(Schema.String),
+      status: Schema.String,
+      bundleMethod: Schema.optional(Schema.String).pipe(
+        T.JsonName("bundle_method"),
+      ),
+      expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+      geoRestrictions: Schema.optional(
+        Schema.Struct({
+          label: Schema.optional(
+            Schema.Literal("us", "eu", "highest_security"),
+          ),
+        }),
+      ).pipe(T.JsonName("geo_restrictions")),
+      issuer: Schema.optional(Schema.String),
+      modifiedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("modified_on"),
+      ),
+      priority: Schema.optional(Schema.Number),
+      signature: Schema.optional(Schema.String),
+      uploadedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("uploaded_on"),
+      ),
+      zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    }),
+  ),
+  hosts: Schema.Array(Schema.String),
+  status: Schema.Literal(
+    "initializing",
+    "pending_validation",
+    "deleted",
+    "pending_issuance",
+    "pending_deployment",
+    "pending_deletion",
+    "pending_expiration",
+    "expired",
+    "active",
+    "initializing_timed_out",
+    "validation_timed_out",
+    "issuance_timed_out",
+    "deployment_timed_out",
+    "deletion_timed_out",
+    "pending_cleanup",
+    "staging_deployment",
+    "staging_active",
+    "deactivating",
+    "inactive",
+    "backup_issued",
+    "holding_deployment",
+  ),
+  type: Schema.Literal(
+    "mh_custom",
+    "managed_hostname",
+    "sni_custom",
+    "universal",
+    "advanced",
+    "total_tls",
+    "keyless",
+    "legacy_custom",
+  ),
+  certificateAuthority: Schema.optional(
+    Schema.Literal("google", "lets_encrypt", "ssl_com"),
+  ).pipe(T.JsonName("certificate_authority")),
+  cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("cloudflare_branding"),
+  ),
+  primaryCertificate: Schema.optional(Schema.String).pipe(
+    T.JsonName("primary_certificate"),
+  ),
+  validationErrors: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        message: Schema.optional(Schema.String),
+      }),
+    ),
+  ).pipe(T.JsonName("validation_errors")),
+  validationMethod: Schema.optional(
+    Schema.Literal("txt", "http", "email"),
+  ).pipe(T.JsonName("validation_method")),
+  validationRecords: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        emails: Schema.optional(Schema.Array(Schema.String)),
+        httpBody: Schema.optional(Schema.String).pipe(T.JsonName("http_body")),
+        httpUrl: Schema.optional(Schema.String).pipe(T.JsonName("http_url")),
+        txtName: Schema.optional(Schema.String).pipe(T.JsonName("txt_name")),
+        txtValue: Schema.optional(Schema.String).pipe(T.JsonName("txt_value")),
+      }),
+    ),
+  ).pipe(T.JsonName("validation_records")),
+  validityDays: Schema.optional(Schema.Literal("14", "30", "90", "365")).pipe(
+    T.JsonName("validity_days"),
+  ),
+}) as unknown as Schema.Schema<GetCertificatePackResponse>;
 
 export const getCertificatePack: (
   input: GetCertificatePackRequest,
@@ -139,15 +308,26 @@ export const CreateCertificatePackRequest = Schema.Struct({
 
 export interface CreateCertificatePackResponse {
   /** Identifier. */
-  id?: string;
-  /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details.](https://developers.cloudflare.com/ssl/refe */
-  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
-  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  id: string;
+  /** Array of certificates in this pack. */
+  certificates: {
+    id: string;
+    hosts: string[];
+    status: string;
+    bundleMethod?: string;
+    expiresOn?: string;
+    geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+    issuer?: string;
+    modifiedOn?: string;
+    priority?: number;
+    signature?: string;
+    uploadedOn?: string;
+    zoneId?: string;
+  }[];
   /** Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty. */
-  hosts?: string[];
+  hosts: string[];
   /** Status of certificate pack. */
-  status?:
+  status:
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -170,7 +350,7 @@ export interface CreateCertificatePackResponse {
     | "backup_issued"
     | "holding_deployment";
   /** Type of certificate pack. */
-  type?:
+  type:
     | "mh_custom"
     | "managed_hostname"
     | "sni_custom"
@@ -179,11 +359,17 @@ export interface CreateCertificatePackResponse {
     | "total_tls"
     | "keyless"
     | "legacy_custom";
+  /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details.](https://developers.cloudflare.com/ssl/refe */
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
+  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
+  cloudflareBranding?: boolean;
+  /** Identifier of the primary certificate in a pack. */
+  primaryCertificate?: string;
   /** Domain validation errors that have been received by the certificate authority (CA). */
   validationErrors?: { message?: string }[];
   /** Validation Method selected for the order. */
   validationMethod?: "txt" | "http" | "email";
-  /** Certificates' validation records. Only present when certificate pack is in "pending_validation" status */
+  /** Certificates' validation records. */
   validationRecords?: {
     emails?: string[];
     httpBody?: string;
@@ -196,50 +382,77 @@ export interface CreateCertificatePackResponse {
 }
 
 export const CreateCertificatePackResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.String,
+  certificates: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      hosts: Schema.Array(Schema.String),
+      status: Schema.String,
+      bundleMethod: Schema.optional(Schema.String).pipe(
+        T.JsonName("bundle_method"),
+      ),
+      expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+      geoRestrictions: Schema.optional(
+        Schema.Struct({
+          label: Schema.optional(
+            Schema.Literal("us", "eu", "highest_security"),
+          ),
+        }),
+      ).pipe(T.JsonName("geo_restrictions")),
+      issuer: Schema.optional(Schema.String),
+      modifiedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("modified_on"),
+      ),
+      priority: Schema.optional(Schema.Number),
+      signature: Schema.optional(Schema.String),
+      uploadedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("uploaded_on"),
+      ),
+      zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    }),
+  ),
+  hosts: Schema.Array(Schema.String),
+  status: Schema.Literal(
+    "initializing",
+    "pending_validation",
+    "deleted",
+    "pending_issuance",
+    "pending_deployment",
+    "pending_deletion",
+    "pending_expiration",
+    "expired",
+    "active",
+    "initializing_timed_out",
+    "validation_timed_out",
+    "issuance_timed_out",
+    "deployment_timed_out",
+    "deletion_timed_out",
+    "pending_cleanup",
+    "staging_deployment",
+    "staging_active",
+    "deactivating",
+    "inactive",
+    "backup_issued",
+    "holding_deployment",
+  ),
+  type: Schema.Literal(
+    "mh_custom",
+    "managed_hostname",
+    "sni_custom",
+    "universal",
+    "advanced",
+    "total_tls",
+    "keyless",
+    "legacy_custom",
+  ),
   certificateAuthority: Schema.optional(
     Schema.Literal("google", "lets_encrypt", "ssl_com"),
   ).pipe(T.JsonName("certificate_authority")),
   cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("cloudflare_branding"),
   ),
-  hosts: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(
-    Schema.Literal(
-      "initializing",
-      "pending_validation",
-      "deleted",
-      "pending_issuance",
-      "pending_deployment",
-      "pending_deletion",
-      "pending_expiration",
-      "expired",
-      "active",
-      "initializing_timed_out",
-      "validation_timed_out",
-      "issuance_timed_out",
-      "deployment_timed_out",
-      "deletion_timed_out",
-      "pending_cleanup",
-      "staging_deployment",
-      "staging_active",
-      "deactivating",
-      "inactive",
-      "backup_issued",
-      "holding_deployment",
-    ),
-  ),
-  type: Schema.optional(
-    Schema.Literal(
-      "mh_custom",
-      "managed_hostname",
-      "sni_custom",
-      "universal",
-      "advanced",
-      "total_tls",
-      "keyless",
-      "legacy_custom",
-    ),
+  primaryCertificate: Schema.optional(Schema.String).pipe(
+    T.JsonName("primary_certificate"),
   ),
   validationErrors: Schema.optional(
     Schema.Array(
@@ -302,15 +515,26 @@ export const PatchCertificatePackRequest = Schema.Struct({
 
 export interface PatchCertificatePackResponse {
   /** Identifier. */
-  id?: string;
-  /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details.](https://developers.cloudflare.com/ssl/refe */
-  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
-  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  id: string;
+  /** Array of certificates in this pack. */
+  certificates: {
+    id: string;
+    hosts: string[];
+    status: string;
+    bundleMethod?: string;
+    expiresOn?: string;
+    geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
+    issuer?: string;
+    modifiedOn?: string;
+    priority?: number;
+    signature?: string;
+    uploadedOn?: string;
+    zoneId?: string;
+  }[];
   /** Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty. */
-  hosts?: string[];
+  hosts: string[];
   /** Status of certificate pack. */
-  status?:
+  status:
     | "initializing"
     | "pending_validation"
     | "deleted"
@@ -333,7 +557,7 @@ export interface PatchCertificatePackResponse {
     | "backup_issued"
     | "holding_deployment";
   /** Type of certificate pack. */
-  type?:
+  type:
     | "mh_custom"
     | "managed_hostname"
     | "sni_custom"
@@ -342,11 +566,17 @@ export interface PatchCertificatePackResponse {
     | "total_tls"
     | "keyless"
     | "legacy_custom";
+  /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details.](https://developers.cloudflare.com/ssl/refe */
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
+  /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
+  cloudflareBranding?: boolean;
+  /** Identifier of the primary certificate in a pack. */
+  primaryCertificate?: string;
   /** Domain validation errors that have been received by the certificate authority (CA). */
   validationErrors?: { message?: string }[];
   /** Validation Method selected for the order. */
   validationMethod?: "txt" | "http" | "email";
-  /** Certificates' validation records. Only present when certificate pack is in "pending_validation" status */
+  /** Certificates' validation records. */
   validationRecords?: {
     emails?: string[];
     httpBody?: string;
@@ -359,50 +589,77 @@ export interface PatchCertificatePackResponse {
 }
 
 export const PatchCertificatePackResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.String,
+  certificates: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      hosts: Schema.Array(Schema.String),
+      status: Schema.String,
+      bundleMethod: Schema.optional(Schema.String).pipe(
+        T.JsonName("bundle_method"),
+      ),
+      expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+      geoRestrictions: Schema.optional(
+        Schema.Struct({
+          label: Schema.optional(
+            Schema.Literal("us", "eu", "highest_security"),
+          ),
+        }),
+      ).pipe(T.JsonName("geo_restrictions")),
+      issuer: Schema.optional(Schema.String),
+      modifiedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("modified_on"),
+      ),
+      priority: Schema.optional(Schema.Number),
+      signature: Schema.optional(Schema.String),
+      uploadedOn: Schema.optional(Schema.String).pipe(
+        T.JsonName("uploaded_on"),
+      ),
+      zoneId: Schema.optional(Schema.String).pipe(T.JsonName("zone_id")),
+    }),
+  ),
+  hosts: Schema.Array(Schema.String),
+  status: Schema.Literal(
+    "initializing",
+    "pending_validation",
+    "deleted",
+    "pending_issuance",
+    "pending_deployment",
+    "pending_deletion",
+    "pending_expiration",
+    "expired",
+    "active",
+    "initializing_timed_out",
+    "validation_timed_out",
+    "issuance_timed_out",
+    "deployment_timed_out",
+    "deletion_timed_out",
+    "pending_cleanup",
+    "staging_deployment",
+    "staging_active",
+    "deactivating",
+    "inactive",
+    "backup_issued",
+    "holding_deployment",
+  ),
+  type: Schema.Literal(
+    "mh_custom",
+    "managed_hostname",
+    "sni_custom",
+    "universal",
+    "advanced",
+    "total_tls",
+    "keyless",
+    "legacy_custom",
+  ),
   certificateAuthority: Schema.optional(
     Schema.Literal("google", "lets_encrypt", "ssl_com"),
   ).pipe(T.JsonName("certificate_authority")),
   cloudflareBranding: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("cloudflare_branding"),
   ),
-  hosts: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(
-    Schema.Literal(
-      "initializing",
-      "pending_validation",
-      "deleted",
-      "pending_issuance",
-      "pending_deployment",
-      "pending_deletion",
-      "pending_expiration",
-      "expired",
-      "active",
-      "initializing_timed_out",
-      "validation_timed_out",
-      "issuance_timed_out",
-      "deployment_timed_out",
-      "deletion_timed_out",
-      "pending_cleanup",
-      "staging_deployment",
-      "staging_active",
-      "deactivating",
-      "inactive",
-      "backup_issued",
-      "holding_deployment",
-    ),
-  ),
-  type: Schema.optional(
-    Schema.Literal(
-      "mh_custom",
-      "managed_hostname",
-      "sni_custom",
-      "universal",
-      "advanced",
-      "total_tls",
-      "keyless",
-      "legacy_custom",
-    ),
+  primaryCertificate: Schema.optional(Schema.String).pipe(
+    T.JsonName("primary_certificate"),
   ),
   validationErrors: Schema.optional(
     Schema.Array(

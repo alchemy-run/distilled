@@ -58,7 +58,7 @@ export const getConfig: (
 export interface CreateConfigRequest {
   /** Path param: Define configurations using a unique string identifier. */
   accountId: string;
-  /** Body param: */
+  /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name: string;
   /** Body param: */
   origin:
@@ -170,7 +170,7 @@ export interface UpdateConfigRequest {
   hyperdriveId: string;
   /** Path param: Define configurations using a unique string identifier. */
   accountId: string;
-  /** Body param: */
+  /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name: string;
   /** Body param: */
   origin:
@@ -296,7 +296,7 @@ export interface PatchConfigRequest {
     mtlsCertificateId?: string;
     sslmode?: string;
   };
-  /** Body param: */
+  /** Body param: The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name?: string;
   /** Body param: */
   origin?:

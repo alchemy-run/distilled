@@ -1995,7 +1995,7 @@ export interface GetMonitorResponse {
   /** The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: d */
-  port?: number;
+  port?: number | null;
   /** Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2033,7 +2033,7 @@ export const GetMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2080,7 +2080,7 @@ export interface CreateMonitorRequest {
   /** Body param: The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** Body param: The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default  */
-  port?: number;
+  port?: number | null;
   /** Body param: Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2116,7 +2116,7 @@ export const CreateMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2157,7 +2157,7 @@ export interface CreateMonitorResponse {
   /** The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: d */
-  port?: number;
+  port?: number | null;
   /** Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2195,7 +2195,7 @@ export const CreateMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2243,7 +2243,7 @@ export interface UpdateMonitorRequest {
   /** Body param: The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** Body param: The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default  */
-  port?: number;
+  port?: number | null;
   /** Body param: Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2280,7 +2280,7 @@ export const UpdateMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2321,7 +2321,7 @@ export interface UpdateMonitorResponse {
   /** The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: d */
-  port?: number;
+  port?: number | null;
   /** Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2359,7 +2359,7 @@ export const UpdateMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2407,7 +2407,7 @@ export interface PatchMonitorRequest {
   /** Body param: The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** Body param: The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default  */
-  port?: number;
+  port?: number | null;
   /** Body param: Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2444,7 +2444,7 @@ export const PatchMonitorRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -2485,7 +2485,7 @@ export interface PatchMonitorResponse {
   /** The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default 80, HTTPS: d */
-  port?: number;
+  port?: number | null;
   /** Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -2523,7 +2523,7 @@ export const PatchMonitorResponse = Schema.Struct({
   method: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -3001,7 +3001,7 @@ export interface CreateMonitorPreviewRequest {
   /** Body param: The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** Body param: The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default  */
-  port?: number;
+  port?: number | null;
   /** Body param: Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -3038,7 +3038,7 @@ export const CreateMonitorPreviewRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),
@@ -3126,7 +3126,7 @@ export interface GetPoolResponse {
   /** The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the  */
@@ -3145,7 +3145,7 @@ export interface GetPoolResponse {
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
   /** The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins?: unknown[];
 }
@@ -3180,7 +3180,7 @@ export const GetPoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3200,9 +3200,9 @@ export const GetPoolResponse = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<GetPoolResponse>;
 
@@ -3232,7 +3232,7 @@ export interface CreatePoolRequest {
   /** Body param: The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Body param: Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** Body param: The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** Body param: The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will fail */
@@ -3246,7 +3246,7 @@ export interface CreatePoolRequest {
   /** Body param: Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Body param: Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
 }
 
 export const CreatePoolRequest = Schema.Struct({
@@ -3256,7 +3256,7 @@ export const CreatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3273,9 +3273,9 @@ export const CreatePoolRequest = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
 }).pipe(
   T.Http({
     method: "POST",
@@ -3314,7 +3314,7 @@ export interface CreatePoolResponse {
   /** The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the  */
@@ -3333,7 +3333,7 @@ export interface CreatePoolResponse {
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
   /** The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins?: unknown[];
 }
@@ -3368,7 +3368,7 @@ export const CreatePoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3388,9 +3388,9 @@ export const CreatePoolResponse = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<CreatePoolResponse>;
 
@@ -3440,7 +3440,7 @@ export interface UpdatePoolRequest {
   /** Body param: The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Body param: Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** Body param: The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** Body param: The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will fail */
@@ -3454,7 +3454,7 @@ export interface UpdatePoolRequest {
   /** Body param: Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Body param: Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
 }
 
 export const UpdatePoolRequest = Schema.Struct({
@@ -3488,7 +3488,7 @@ export const UpdatePoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3505,9 +3505,9 @@ export const UpdatePoolRequest = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -3546,7 +3546,7 @@ export interface UpdatePoolResponse {
   /** The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the  */
@@ -3565,7 +3565,7 @@ export interface UpdatePoolResponse {
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
   /** The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins?: unknown[];
 }
@@ -3600,7 +3600,7 @@ export const UpdatePoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3620,9 +3620,9 @@ export const UpdatePoolResponse = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<UpdatePoolResponse>;
 
@@ -3668,7 +3668,7 @@ export interface PatchPoolRequest {
   /** Body param: The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Body param: Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** Body param: The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** Body param: The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will fail */
@@ -3684,7 +3684,7 @@ export interface PatchPoolRequest {
   /** Body param: Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Body param: Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
   /** Body param: The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins?: unknown[];
 }
@@ -3718,7 +3718,7 @@ export const PatchPoolRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3736,9 +3736,9 @@ export const PatchPoolRequest = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
   T.Http({
@@ -3778,7 +3778,7 @@ export interface PatchPoolResponse {
   /** The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set. */
   latitude?: number;
   /** Configures load shedding policies and percentages for the pool. */
-  loadShedding?: unknown;
+  loadShedding?: unknown | null;
   /** The longitude of the data center containing the origins used in this pool in decimal degrees. If this is set, latitude must also be set. */
   longitude?: number;
   /** The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the  */
@@ -3797,7 +3797,7 @@ export interface PatchPoolResponse {
   /** Filter pool and origin health notifications by resource type or health status. Use null to reset. */
   notificationFilter?: unknown | null;
   /** Configures origin steering for the pool. Controls how origins are selected for new sessions and traffic without session affinity. */
-  originSteering?: unknown;
+  originSteering?: unknown | null;
   /** The list of origins within this pool. Traffic directed at this pool is balanced across all currently healthy origins, provided the pool itself is healthy. */
   origins?: unknown[];
 }
@@ -3832,7 +3832,7 @@ export const PatchPoolResponse = Schema.Struct({
   disabledAt: Schema.optional(Schema.String).pipe(T.JsonName("disabled_at")),
   enabled: Schema.optional(Schema.Boolean),
   latitude: Schema.optional(Schema.Number),
-  loadShedding: Schema.optional(Schema.Unknown).pipe(
+  loadShedding: Schema.optional(Schema.Union(Schema.Unknown, Schema.Null)).pipe(
     T.JsonName("load_shedding"),
   ),
   longitude: Schema.optional(Schema.Number),
@@ -3852,9 +3852,9 @@ export const PatchPoolResponse = Schema.Struct({
   notificationFilter: Schema.optional(
     Schema.Union(Schema.Unknown, Schema.Null),
   ).pipe(T.JsonName("notification_filter")),
-  originSteering: Schema.optional(Schema.Unknown).pipe(
-    T.JsonName("origin_steering"),
-  ),
+  originSteering: Schema.optional(
+    Schema.Union(Schema.Unknown, Schema.Null),
+  ).pipe(T.JsonName("origin_steering")),
   origins: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<PatchPoolResponse>;
 
@@ -4009,7 +4009,7 @@ export interface CreatePoolHealthRequest {
   /** Body param: The endpoint path you want to conduct a health check against. This parameter is only valid for HTTP and HTTPS monitors. */
   path?: string;
   /** Body param: The port number to connect to for the health check. Required for TCP, UDP, and SMTP checks. HTTP and HTTPS checks should only define the port when using a non-standard port (HTTP: default  */
-  port?: number;
+  port?: number | null;
   /** Body param: Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors. */
   probeZone?: string;
   /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
@@ -4046,7 +4046,7 @@ export const CreatePoolHealthRequest = Schema.Struct({
   interval: Schema.optional(Schema.Number),
   method: Schema.optional(Schema.String),
   path: Schema.optional(Schema.String),
-  port: Schema.optional(Schema.Number),
+  port: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   probeZone: Schema.optional(Schema.String).pipe(T.JsonName("probe_zone")),
   retries: Schema.optional(Schema.Number),
   timeout: Schema.optional(Schema.Number),

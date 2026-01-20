@@ -55,6 +55,7 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -178,6 +179,12 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -219,6 +226,7 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -342,6 +350,12 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -388,6 +402,7 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -511,6 +526,12 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -567,6 +588,7 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -690,6 +712,12 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -2026,6 +2054,7 @@ export interface DiscoverCloudIntegrationResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -2149,6 +2178,12 @@ export interface DiscoverCloudIntegrationResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -2190,6 +2225,7 @@ export interface DiscoverCloudIntegrationResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -2313,6 +2349,12 @@ export interface DiscoverCloudIntegrationResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -2359,6 +2401,7 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -2482,6 +2525,12 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -2538,6 +2587,7 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -2661,6 +2711,12 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -2751,6 +2807,7 @@ export const GetOnRampRequest = Schema.Struct({
 export interface GetOnRampResponse {
   id: string;
   cloudType: "AWS" | "AZURE" | "GOOGLE";
+  dynamicRouting: boolean;
   installRoutesInCloud: boolean;
   installRoutesInMagicWan: boolean;
   name: string;
@@ -2758,6 +2815,7 @@ export interface GetOnRampResponse {
   updatedAt: string;
   attachedHubs?: string[];
   attachedVpcs?: string[];
+  cloudAsn?: number;
   description?: string;
   hub?: string;
   lastAppliedAt?: string;
@@ -2889,6 +2947,7 @@ export const GetOnRampResponse = Schema.Struct({
   cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
     T.JsonName("cloud_type"),
   ),
+  dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
   installRoutesInCloud: Schema.Boolean.pipe(
     T.JsonName("install_routes_in_cloud"),
   ),
@@ -2904,6 +2963,7 @@ export const GetOnRampResponse = Schema.Struct({
   attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_vpcs"),
   ),
+  cloudAsn: Schema.optional(Schema.Number).pipe(T.JsonName("cloud_asn")),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
   lastAppliedAt: Schema.optional(Schema.String).pipe(
@@ -3110,6 +3170,8 @@ export interface CreateOnRampRequest {
   forwarded?: string;
   /** Body param: */
   cloudType: "AWS" | "AZURE" | "GOOGLE";
+  /** Body param: if set to true, install_routes_in_cloud and install_routes_in_magic_wan should be set to false */
+  dynamicRouting: boolean;
   /** Body param: */
   installRoutesInCloud: boolean;
   /** Body param: */
@@ -3124,6 +3186,8 @@ export interface CreateOnRampRequest {
   attachedHubs?: string[];
   /** Body param: */
   attachedVpcs?: string[];
+  /** Body param: the ASN to use on the cloud side. If unset or zero, the cloud's default will be used. */
+  cloudAsn?: number;
   /** Body param: */
   description?: string;
   /** Body param: */
@@ -3144,6 +3208,7 @@ export const CreateOnRampRequest = Schema.Struct({
   cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
     T.JsonName("cloud_type"),
   ),
+  dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
   installRoutesInCloud: Schema.Boolean.pipe(
     T.JsonName("install_routes_in_cloud"),
   ),
@@ -3161,6 +3226,7 @@ export const CreateOnRampRequest = Schema.Struct({
   attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_vpcs"),
   ),
+  cloudAsn: Schema.optional(Schema.Number).pipe(T.JsonName("cloud_asn")),
   description: Schema.optional(Schema.String),
   hubProviderId: Schema.optional(Schema.String).pipe(
     T.JsonName("hub_provider_id"),
@@ -3183,6 +3249,7 @@ export const CreateOnRampRequest = Schema.Struct({
 export interface CreateOnRampResponse {
   id: string;
   cloudType: "AWS" | "AZURE" | "GOOGLE";
+  dynamicRouting: boolean;
   installRoutesInCloud: boolean;
   installRoutesInMagicWan: boolean;
   name: string;
@@ -3190,6 +3257,7 @@ export interface CreateOnRampResponse {
   updatedAt: string;
   attachedHubs?: string[];
   attachedVpcs?: string[];
+  cloudAsn?: number;
   description?: string;
   hub?: string;
   lastAppliedAt?: string;
@@ -3321,6 +3389,7 @@ export const CreateOnRampResponse = Schema.Struct({
   cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
     T.JsonName("cloud_type"),
   ),
+  dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
   installRoutesInCloud: Schema.Boolean.pipe(
     T.JsonName("install_routes_in_cloud"),
   ),
@@ -3336,6 +3405,7 @@ export const CreateOnRampResponse = Schema.Struct({
   attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_vpcs"),
   ),
+  cloudAsn: Schema.optional(Schema.Number).pipe(T.JsonName("cloud_asn")),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
   lastAppliedAt: Schema.optional(Schema.String).pipe(
@@ -3593,6 +3663,7 @@ export const UpdateOnRampRequest = Schema.Struct({
 export interface UpdateOnRampResponse {
   id: string;
   cloudType: "AWS" | "AZURE" | "GOOGLE";
+  dynamicRouting: boolean;
   installRoutesInCloud: boolean;
   installRoutesInMagicWan: boolean;
   name: string;
@@ -3600,6 +3671,7 @@ export interface UpdateOnRampResponse {
   updatedAt: string;
   attachedHubs?: string[];
   attachedVpcs?: string[];
+  cloudAsn?: number;
   description?: string;
   hub?: string;
   lastAppliedAt?: string;
@@ -3731,6 +3803,7 @@ export const UpdateOnRampResponse = Schema.Struct({
   cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
     T.JsonName("cloud_type"),
   ),
+  dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
   installRoutesInCloud: Schema.Boolean.pipe(
     T.JsonName("install_routes_in_cloud"),
   ),
@@ -3746,6 +3819,7 @@ export const UpdateOnRampResponse = Schema.Struct({
   attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_vpcs"),
   ),
+  cloudAsn: Schema.optional(Schema.Number).pipe(T.JsonName("cloud_asn")),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
   lastAppliedAt: Schema.optional(Schema.String).pipe(
@@ -4003,6 +4077,7 @@ export const PatchOnRampRequest = Schema.Struct({
 export interface PatchOnRampResponse {
   id: string;
   cloudType: "AWS" | "AZURE" | "GOOGLE";
+  dynamicRouting: boolean;
   installRoutesInCloud: boolean;
   installRoutesInMagicWan: boolean;
   name: string;
@@ -4010,6 +4085,7 @@ export interface PatchOnRampResponse {
   updatedAt: string;
   attachedHubs?: string[];
   attachedVpcs?: string[];
+  cloudAsn?: number;
   description?: string;
   hub?: string;
   lastAppliedAt?: string;
@@ -4141,6 +4217,7 @@ export const PatchOnRampResponse = Schema.Struct({
   cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
     T.JsonName("cloud_type"),
   ),
+  dynamicRouting: Schema.Boolean.pipe(T.JsonName("dynamic_routing")),
   installRoutesInCloud: Schema.Boolean.pipe(
     T.JsonName("install_routes_in_cloud"),
   ),
@@ -4156,6 +4233,7 @@ export const PatchOnRampResponse = Schema.Struct({
   attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("attached_vpcs"),
   ),
+  cloudAsn: Schema.optional(Schema.Number).pipe(T.JsonName("cloud_asn")),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
   lastAppliedAt: Schema.optional(Schema.String).pipe(
@@ -4432,6 +4510,7 @@ export interface ApplyOnRampResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -4555,6 +4634,12 @@ export interface ApplyOnRampResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -4596,6 +4681,7 @@ export interface ApplyOnRampResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -4719,6 +4805,12 @@ export interface ApplyOnRampResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -4765,6 +4857,7 @@ export const ApplyOnRampResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -4888,6 +4981,12 @@ export const ApplyOnRampResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -4944,6 +5043,7 @@ export const ApplyOnRampResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -5067,6 +5167,12 @@ export const ApplyOnRampResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -5185,6 +5291,7 @@ export interface PlanOnRampResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -5308,6 +5415,12 @@ export interface PlanOnRampResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -5349,6 +5462,7 @@ export interface PlanOnRampResponse {
       | "1015"
       | "1016"
       | "1017"
+      | "1018"
       | "2001"
       | "2002"
       | "2003"
@@ -5472,6 +5586,12 @@ export interface PlanOnRampResponse {
       | "102064"
       | "102065"
       | "102066"
+      | "102067"
+      | "102068"
+      | "102069"
+      | "102070"
+      | "102071"
+      | "102072"
       | "103001"
       | "103002"
       | "103003"
@@ -5518,6 +5638,7 @@ export const PlanOnRampResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -5641,6 +5762,12 @@ export const PlanOnRampResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",
@@ -5697,6 +5824,7 @@ export const PlanOnRampResponse = Schema.Struct({
         "1015",
         "1016",
         "1017",
+        "1018",
         "2001",
         "2002",
         "2003",
@@ -5820,6 +5948,12 @@ export const PlanOnRampResponse = Schema.Struct({
         "102064",
         "102065",
         "102066",
+        "102067",
+        "102068",
+        "102069",
+        "102070",
+        "102071",
+        "102072",
         "103001",
         "103002",
         "103003",

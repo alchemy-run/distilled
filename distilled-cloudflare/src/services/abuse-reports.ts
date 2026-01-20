@@ -22,16 +22,126 @@ import {
 // AbuseReport
 // =============================================================================
 
+export interface GetAbuseReportRequest {
+  reportParam: string;
+  /** Cloudflare Account ID */
+  accountId: string;
+}
+
+export const GetAbuseReportRequest = Schema.Struct({
+  reportParam: Schema.String.pipe(T.HttpPath("reportParam")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/abuse-reports/{reportParam}",
+  }),
+) as unknown as Schema.Schema<GetAbuseReportRequest>;
+
+export interface GetAbuseReportResponse {
+  /** Public facing ID of abuse report, aka abuse_rand. */
+  id: string;
+  /** Creation date of report. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html) */
+  cdate: string;
+  /** Domain that relates to the report. */
+  domain: string;
+  /** A summary of the mitigations related to this report. */
+  mitigationSummary: {
+    acceptedUrlCount: number;
+    activeCount: number;
+    externalHostNotified: boolean;
+    inReviewCount: number;
+    pendingCount: number;
+  };
+  /** An enum value that represents the status of an abuse record */
+  status: "accepted" | "in_review";
+  /** The abuse report type */
+  type:
+    | "PHISH"
+    | "GEN"
+    | "THREAT"
+    | "DMCA"
+    | "EMER"
+    | "TM"
+    | "REG_WHO"
+    | "NCSEI"
+    | "NETWORK";
+  /** Justification for the report. */
+  justification?: string;
+  /** Original work / Targeted brand in the alleged abuse. */
+  originalWork?: string;
+  /** Information about the submitter of the report. */
+  submitter?: {
+    company?: string;
+    email?: string;
+    name?: string;
+    telephone?: string;
+  };
+  urls?: string[];
+}
+
+export const GetAbuseReportResponse = Schema.Struct({
+  id: Schema.String,
+  cdate: Schema.String,
+  domain: Schema.String,
+  mitigationSummary: Schema.Struct({
+    acceptedUrlCount: Schema.Number.pipe(T.JsonName("accepted_url_count")),
+    activeCount: Schema.Number.pipe(T.JsonName("active_count")),
+    externalHostNotified: Schema.Boolean.pipe(
+      T.JsonName("external_host_notified"),
+    ),
+    inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
+    pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
+  }).pipe(T.JsonName("mitigation_summary")),
+  status: Schema.Literal("accepted", "in_review"),
+  type: Schema.Literal(
+    "PHISH",
+    "GEN",
+    "THREAT",
+    "DMCA",
+    "EMER",
+    "TM",
+    "REG_WHO",
+    "NCSEI",
+    "NETWORK",
+  ),
+  justification: Schema.optional(Schema.String),
+  originalWork: Schema.optional(Schema.String).pipe(
+    T.JsonName("original_work"),
+  ),
+  submitter: Schema.optional(
+    Schema.Struct({
+      company: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      telephone: Schema.optional(Schema.String),
+    }),
+  ),
+  urls: Schema.optional(Schema.Array(Schema.String)),
+}) as unknown as Schema.Schema<GetAbuseReportResponse>;
+
+export const getAbuseReport: (
+  input: GetAbuseReportRequest,
+) => Effect.Effect<
+  GetAbuseReportResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetAbuseReportRequest,
+  output: GetAbuseReportResponse,
+  errors: [],
+}));
+
 export interface CreateAbuseReportRequest {
-  reportType: string;
+  reportParam: string;
 }
 
 export const CreateAbuseReportRequest = Schema.Struct({
-  reportType: Schema.String.pipe(T.HttpPath("reportType")),
+  reportParam: Schema.String.pipe(T.HttpPath("reportParam")),
 }).pipe(
   T.Http({
     method: "POST",
-    path: "/accounts/{account_id}/abuse-reports/{reportType}",
+    path: "/accounts/{account_id}/abuse-reports/{reportParam}",
   }),
 ) as unknown as Schema.Schema<CreateAbuseReportRequest>;
 

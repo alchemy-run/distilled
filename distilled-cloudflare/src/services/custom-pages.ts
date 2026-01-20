@@ -24,24 +24,30 @@ import {
 
 export interface GetCustomPageRequest {
   identifier:
-    | "waf_block"
-    | "ip_block"
-    | "country_challenge"
-    | "500_errors"
     | "1000_errors"
+    | "500_errors"
+    | "basic_challenge"
+    | "country_challenge"
+    | "ip_block"
     | "managed_challenge"
-    | "ratelimit_block";
+    | "ratelimit_block"
+    | "under_attack"
+    | "waf_block"
+    | "waf_challenge";
 }
 
 export const GetCustomPageRequest = Schema.Struct({
   identifier: Schema.Literal(
-    "waf_block",
-    "ip_block",
-    "country_challenge",
-    "500_errors",
     "1000_errors",
+    "500_errors",
+    "basic_challenge",
+    "country_challenge",
+    "ip_block",
     "managed_challenge",
     "ratelimit_block",
+    "under_attack",
+    "waf_block",
+    "waf_challenge",
   ).pipe(T.HttpPath("identifier")),
 }).pipe(
   T.Http({
@@ -92,13 +98,16 @@ export const getCustomPage: (
 
 export interface PutCustomPageRequest {
   identifier:
-    | "waf_block"
-    | "ip_block"
-    | "country_challenge"
-    | "500_errors"
     | "1000_errors"
+    | "500_errors"
+    | "basic_challenge"
+    | "country_challenge"
+    | "ip_block"
     | "managed_challenge"
-    | "ratelimit_block";
+    | "ratelimit_block"
+    | "under_attack"
+    | "waf_block"
+    | "waf_challenge";
   /** Path param: The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId?: string;
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -111,13 +120,16 @@ export interface PutCustomPageRequest {
 
 export const PutCustomPageRequest = Schema.Struct({
   identifier: Schema.Literal(
-    "waf_block",
-    "ip_block",
-    "country_challenge",
-    "500_errors",
     "1000_errors",
+    "500_errors",
+    "basic_challenge",
+    "country_challenge",
+    "ip_block",
     "managed_challenge",
     "ratelimit_block",
+    "under_attack",
+    "waf_block",
+    "waf_challenge",
   ).pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),

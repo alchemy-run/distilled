@@ -19,6 +19,50 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// BookmarkDatabaseTimeTravel
+// =============================================================================
+
+export interface GetBookmarkDatabaseTimeTravelRequest {
+  databaseId: string;
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Query param: An optional ISO 8601 timestamp. If provided, returns the nearest available bookmark at or before this timestamp. If omitted, returns the current bookmark. */
+  timestamp?: string;
+}
+
+export const GetBookmarkDatabaseTimeTravelRequest = Schema.Struct({
+  databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/bookmark",
+  }),
+) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelRequest>;
+
+export interface GetBookmarkDatabaseTimeTravelResponse {
+  /** A bookmark representing a specific state of the database at a specific point in time. */
+  bookmark?: string;
+}
+
+export const GetBookmarkDatabaseTimeTravelResponse = Schema.Struct({
+  bookmark: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
+
+export const getBookmarkDatabaseTimeTravel: (
+  input: GetBookmarkDatabaseTimeTravelRequest,
+) => Effect.Effect<
+  GetBookmarkDatabaseTimeTravelResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetBookmarkDatabaseTimeTravelRequest,
+  output: GetBookmarkDatabaseTimeTravelResponse,
+  errors: [],
+}));
+
+// =============================================================================
 // Database
 // =============================================================================
 
@@ -60,6 +104,8 @@ export interface CreateDatabaseRequest {
   accountId: string;
   /** Body param: D1 database name. */
   name: string;
+  /** Body param: Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
+  jurisdiction?: "eu" | "fedramp";
   /** Body param: Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user. */
   primaryLocationHint?: "wnam" | "enam" | "weur" | "eeur" | "apac" | "oc";
 }
@@ -67,6 +113,7 @@ export interface CreateDatabaseRequest {
 export const CreateDatabaseRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
+  jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
   primaryLocationHint: Schema.optional(
     Schema.Literal("wnam", "enam", "weur", "eeur", "apac", "oc"),
   ).pipe(T.JsonName("primary_location_hint")),
@@ -308,6 +355,7 @@ export interface ImportDatabaseResponse {
       lastRowId?: number;
       rowsRead?: number;
       rowsWritten?: number;
+      servedByColo?: string;
       servedByPrimary?: boolean;
       servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC";
       sizeAfter?: number;
@@ -348,6 +396,9 @@ export const ImportDatabaseResponse = Schema.Struct({
           rowsWritten: Schema.optional(Schema.Number).pipe(
             T.JsonName("rows_written"),
           ),
+          servedByColo: Schema.optional(Schema.String).pipe(
+            T.JsonName("served_by_colo"),
+          ),
           servedByPrimary: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("served_by_primary"),
           ),
@@ -386,5 +437,60 @@ export const importDatabase: (
 > = API.make(() => ({
   input: ImportDatabaseRequest,
   output: ImportDatabaseResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// DatabaseTimeTravel
+// =============================================================================
+
+export interface RestoreDatabaseTimeTravelRequest {
+  databaseId: string;
+  /** Path param: Account identifier tag. */
+  accountId: string;
+  /** Query param: A bookmark to restore the database to. Required if `timestamp` is not provided. */
+  bookmark?: string;
+  /** Query param: An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided. */
+  timestamp?: string;
+}
+
+export const RestoreDatabaseTimeTravelRequest = Schema.Struct({
+  databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  bookmark: Schema.optional(Schema.String).pipe(T.HttpQuery("bookmark")),
+  timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/restore",
+  }),
+) as unknown as Schema.Schema<RestoreDatabaseTimeTravelRequest>;
+
+export interface RestoreDatabaseTimeTravelResponse {
+  /** The new bookmark representing the state of the database after the restore operation. */
+  bookmark?: string;
+  /** A message describing the result of the restore operation. */
+  message?: string;
+  /** The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed. */
+  previousBookmark?: string;
+}
+
+export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
+  bookmark: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  previousBookmark: Schema.optional(Schema.String).pipe(
+    T.JsonName("previous_bookmark"),
+  ),
+}) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
+
+export const restoreDatabaseTimeTravel: (
+  input: RestoreDatabaseTimeTravelRequest,
+) => Effect.Effect<
+  RestoreDatabaseTimeTravelResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: RestoreDatabaseTimeTravelRequest,
+  output: RestoreDatabaseTimeTravelResponse,
   errors: [],
 }));

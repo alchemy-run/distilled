@@ -461,6 +461,7 @@ export interface GetPolicyResponse {
   alertInterval?: string;
   /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
   alertType?:
+    | "abuse_report_alert"
     | "access_custom_certificate_expiration_type"
     | "advanced_ddos_attack_l4_alert"
     | "advanced_ddos_attack_l7_alert"
@@ -580,6 +581,7 @@ export interface GetPolicyResponse {
     trafficExclusions?: "security_events"[];
     tunnelId?: string[];
     tunnelName?: string[];
+    type?: string[];
     where?: string[];
     zones?: string[];
   };
@@ -601,6 +603,7 @@ export const GetPolicyResponse = Schema.Struct({
   ),
   alertType: Schema.optional(
     Schema.Literal(
+      "abuse_report_alert",
       "access_custom_certificate_expiration_type",
       "advanced_ddos_attack_l4_alert",
       "advanced_ddos_attack_l7_alert",
@@ -780,6 +783,7 @@ export const GetPolicyResponse = Schema.Struct({
       tunnelName: Schema.optional(Schema.Array(Schema.String)).pipe(
         T.JsonName("tunnel_name"),
       ),
+      type: Schema.optional(Schema.Array(Schema.String)),
       where: Schema.optional(Schema.Array(Schema.String)),
       zones: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -830,6 +834,7 @@ export interface CreatePolicyRequest {
   accountId: string;
   /** Body param: Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
   alertType:
+    | "abuse_report_alert"
     | "access_custom_certificate_expiration_type"
     | "advanced_ddos_attack_l4_alert"
     | "advanced_ddos_attack_l7_alert"
@@ -958,6 +963,7 @@ export interface CreatePolicyRequest {
     trafficExclusions?: "security_events"[];
     tunnelId?: string[];
     tunnelName?: string[];
+    type?: string[];
     where?: string[];
     zones?: string[];
   };
@@ -966,6 +972,7 @@ export interface CreatePolicyRequest {
 export const CreatePolicyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   alertType: Schema.Literal(
+    "abuse_report_alert",
     "access_custom_certificate_expiration_type",
     "advanced_ddos_attack_l4_alert",
     "advanced_ddos_attack_l7_alert",
@@ -1170,6 +1177,7 @@ export const CreatePolicyRequest = Schema.Struct({
       tunnelName: Schema.optional(Schema.Array(Schema.String)).pipe(
         T.JsonName("tunnel_name"),
       ),
+      type: Schema.optional(Schema.Array(Schema.String)),
       where: Schema.optional(Schema.Array(Schema.String)),
       zones: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1210,6 +1218,7 @@ export interface UpdatePolicyRequest {
   alertInterval?: string;
   /** Body param: Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
   alertType?:
+    | "abuse_report_alert"
     | "access_custom_certificate_expiration_type"
     | "advanced_ddos_attack_l4_alert"
     | "advanced_ddos_attack_l7_alert"
@@ -1328,6 +1337,7 @@ export interface UpdatePolicyRequest {
     trafficExclusions?: "security_events"[];
     tunnelId?: string[];
     tunnelName?: string[];
+    type?: string[];
     where?: string[];
     zones?: string[];
   };
@@ -1349,6 +1359,7 @@ export const UpdatePolicyRequest = Schema.Struct({
   ),
   alertType: Schema.optional(
     Schema.Literal(
+      "abuse_report_alert",
       "access_custom_certificate_expiration_type",
       "advanced_ddos_attack_l4_alert",
       "advanced_ddos_attack_l7_alert",
@@ -1527,6 +1538,7 @@ export const UpdatePolicyRequest = Schema.Struct({
       tunnelName: Schema.optional(Schema.Array(Schema.String)).pipe(
         T.JsonName("tunnel_name"),
       ),
+      type: Schema.optional(Schema.Array(Schema.String)),
       where: Schema.optional(Schema.Array(Schema.String)),
       zones: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1649,5 +1661,170 @@ export const deletePolicy: (
 > = API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// Silence
+// =============================================================================
+
+export interface GetSilenceRequest {
+  silenceId: string;
+  /** The account id */
+  accountId: string;
+}
+
+export const GetSilenceRequest = Schema.Struct({
+  silenceId: Schema.String.pipe(T.HttpPath("silenceId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/alerting/v3/silences/{silenceId}",
+  }),
+) as unknown as Schema.Schema<GetSilenceRequest>;
+
+export interface GetSilenceResponse {
+  /** Silence ID */
+  id?: string;
+  /** When the silence was created. */
+  createdAt?: string;
+  /** When the silence ends. */
+  endTime?: string;
+  /** The unique identifier of a notification policy */
+  policyId?: string;
+  /** When the silence starts. */
+  startTime?: string;
+  /** When the silence was modified. */
+  updatedAt?: string;
+}
+
+export const GetSilenceResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+  endTime: Schema.optional(Schema.String).pipe(T.JsonName("end_time")),
+  policyId: Schema.optional(Schema.String).pipe(T.JsonName("policy_id")),
+  startTime: Schema.optional(Schema.String).pipe(T.JsonName("start_time")),
+  updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
+}) as unknown as Schema.Schema<GetSilenceResponse>;
+
+export const getSilence: (
+  input: GetSilenceRequest,
+) => Effect.Effect<
+  GetSilenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetSilenceRequest,
+  output: GetSilenceResponse,
+  errors: [],
+}));
+
+export interface CreateSilenceRequest {
+  /** Path param: The account id */
+  accountId: string;
+  /** Body param: */
+  body: { endTime?: string; policyId?: string; startTime?: string }[];
+}
+
+export const CreateSilenceRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  body: Schema.Array(
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String).pipe(T.JsonName("end_time")),
+      policyId: Schema.optional(Schema.String).pipe(T.JsonName("policy_id")),
+      startTime: Schema.optional(Schema.String).pipe(T.JsonName("start_time")),
+    }),
+  ),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/alerting/v3/silences",
+  }),
+) as unknown as Schema.Schema<CreateSilenceRequest>;
+
+export interface CreateSilenceResponse {
+  errors: { message: string; code?: number }[];
+  messages: { message: string; code?: number }[];
+  /** Whether the API call was successful */
+  success: true;
+}
+
+export const CreateSilenceResponse = Schema.Struct({
+  errors: Schema.Array(
+    Schema.Struct({
+      message: Schema.String,
+      code: Schema.optional(Schema.Number),
+    }),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      message: Schema.String,
+      code: Schema.optional(Schema.Number),
+    }),
+  ),
+  success: Schema.Literal(true),
+}) as unknown as Schema.Schema<CreateSilenceResponse>;
+
+export const createSilence: (
+  input: CreateSilenceRequest,
+) => Effect.Effect<
+  CreateSilenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: CreateSilenceRequest,
+  output: CreateSilenceResponse,
+  errors: [],
+}));
+
+export interface DeleteSilenceRequest {
+  silenceId: string;
+  /** The account id */
+  accountId: string;
+}
+
+export const DeleteSilenceRequest = Schema.Struct({
+  silenceId: Schema.String.pipe(T.HttpPath("silenceId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/alerting/v3/silences/{silenceId}",
+  }),
+) as unknown as Schema.Schema<DeleteSilenceRequest>;
+
+export interface DeleteSilenceResponse {
+  errors: { message: string; code?: number }[];
+  messages: { message: string; code?: number }[];
+  /** Whether the API call was successful */
+  success: true;
+}
+
+export const DeleteSilenceResponse = Schema.Struct({
+  errors: Schema.Array(
+    Schema.Struct({
+      message: Schema.String,
+      code: Schema.optional(Schema.Number),
+    }),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      message: Schema.String,
+      code: Schema.optional(Schema.Number),
+    }),
+  ),
+  success: Schema.Literal(true),
+}) as unknown as Schema.Schema<DeleteSilenceResponse>;
+
+export const deleteSilence: (
+  input: DeleteSilenceRequest,
+) => Effect.Effect<
+  DeleteSilenceResponse,
+  CommonErrors,
+  ApiToken | HttpClient.HttpClient
+> = API.make(() => ({
+  input: DeleteSilenceRequest,
+  output: DeleteSilenceResponse,
   errors: [],
 }));
