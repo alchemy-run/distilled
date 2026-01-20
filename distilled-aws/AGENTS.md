@@ -20,13 +20,13 @@ Smithy Model → scripts/generate-clients.ts → src/services/*.ts → Runtime
 
 ## Protocols
 
-| Protocol | Content-Type | Services | File |
-|----------|--------------|----------|------|
-| `restJson1` | `application/json` | Lambda, API Gateway | `src/protocols/rest-json.ts` |
-| `restXml` | `application/xml` | S3, CloudFront | `src/protocols/rest-xml.ts` |
-| `awsJson1_0/1_1` | `application/x-amz-json-1.x` | DynamoDB, KMS | `src/protocols/aws-json.ts` |
-| `awsQuery` | `application/x-www-form-urlencoded` | IAM, SNS, STS | `src/protocols/aws-query.ts` |
-| `ec2Query` | `application/x-www-form-urlencoded` | EC2 | `src/protocols/ec2-query.ts` |
+| Protocol         | Content-Type                        | Services            | File                         |
+| ---------------- | ----------------------------------- | ------------------- | ---------------------------- |
+| `restJson1`      | `application/json`                  | Lambda, API Gateway | `src/protocols/rest-json.ts` |
+| `restXml`        | `application/xml`                   | S3, CloudFront      | `src/protocols/rest-xml.ts`  |
+| `awsJson1_0/1_1` | `application/x-amz-json-1.x`        | DynamoDB, KMS       | `src/protocols/aws-json.ts`  |
+| `awsQuery`       | `application/x-www-form-urlencoded` | IAM, SNS, STS       | `src/protocols/aws-query.ts` |
+| `ec2Query`       | `application/x-www-form-urlencoded` | EC2                 | `src/protocols/ec2-query.ts` |
 
 **Protocol contract:** `(Operation) => { buildRequest, parseResponse }`
 
@@ -39,6 +39,7 @@ Input → request-builder.ts → Protocol serializes → Middleware (checksum, s
 ```
 
 **Key files:**
+
 - `src/client/api.ts` — `make(op)`, `makePaginated(op)` create Effect functions
 - `src/client/request-builder.ts` — Protocol + middleware → Request
 - `src/client/response-parser.ts` — Deserialize + decode + error matching
@@ -65,18 +66,19 @@ bun find ec2 --dry-run             # Preview
 
 ## Key Files
 
-| What | Where |
-|------|-------|
-| API client | `src/client/api.ts` |
-| Smithy traits | `src/traits.ts` |
-| Code generator | `scripts/generate-clients.ts` |
-| Model schemas | `scripts/model-schema.ts` |
+| What              | Where                             |
+| ----------------- | --------------------------------- |
+| API client        | `src/client/api.ts`               |
+| Smithy traits     | `src/traits.ts`                   |
+| Code generator    | `scripts/generate-clients.ts`     |
+| Model schemas     | `scripts/model-schema.ts`         |
 | Generated clients | `src/services/*.ts` (DO NOT EDIT) |
-| Error patches | `spec/*.json` |
+| Error patches     | `spec/*.json`                     |
 
 ## Code Generator
 
 `scripts/generate-clients.ts`:
+
 1. Loads Smithy model JSON from `aws-models/models/{service}/`
 2. Parses using `scripts/model-schema.ts`
 3. Transforms traits to Effect Schema annotations
@@ -101,6 +103,7 @@ AWS Smithy models omit many errors. When you encounter untyped errors:
 3. Use typed handling: `Effect.catchTag("InvalidVpcID.NotFound", ...)`
 
 **Spec schema** (`src/patch/spec-schema.ts`):
+
 - `operations.{name}.errors` — Add errors to operation unions
 - `operations.{name}.aliases` — Map error names
 - `structures.{name}.members` — Override member optionality
@@ -118,6 +121,7 @@ bun find ec2                 # Run again (should find fewer)
 ```
 
 **Key files:**
+
 - `scripts/find-errors/topology.ts` — Builds dependency graph from Smithy
 - `scripts/find-errors/id-generator.ts` — Generates fake IDs/names
 - `scripts/find-errors/runner.ts` — Calls APIs, records errors
@@ -129,6 +133,7 @@ bun find ec2                 # Run again (should find fewer)
 **Resource naming:** `itty-{service}-{test}` — NO random suffixes (enables cleanup)
 
 **Patterns:**
+
 ```typescript
 // Resource lifecycle wrapper
 const withBucket = <R, E, A>(name: string, fn: (bucket: string) => Effect<A, E, R>) =>
@@ -148,6 +153,7 @@ const cleanupUser = (name: string) =>
 ```
 
 **AWS-Specific Gotchas:**
+
 - SQS: 60s cooldown after delete
 - IAM: Role changes take ~10s to propagate
 - S3: Cannot disable versioning; must delete all versions

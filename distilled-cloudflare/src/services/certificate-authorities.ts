@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // HostnameAssociation
@@ -26,9 +30,14 @@ export interface GetHostnameAssociationRequest {
 
 export const GetHostnameAssociationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  mtlsCertificateId: Schema.optional(Schema.String).pipe(T.HttpQuery("mtls_certificate_id")),
+  mtlsCertificateId: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("mtls_certificate_id"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/certificate_authorities/hostname_associations" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
+  }),
 ) as unknown as Schema.Schema<GetHostnameAssociationRequest>;
 
 export interface GetHostnameAssociationResponse {
@@ -57,9 +66,14 @@ export interface PutHostnameAssociationRequest {
 export const PutHostnameAssociationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   hostnames: Schema.optional(Schema.Array(Schema.String)),
-  mtlsCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("mtls_certificate_id")),
+  mtlsCertificateId: Schema.optional(Schema.String).pipe(
+    T.JsonName("mtls_certificate_id"),
+  ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/certificate_authorities/hostname_associations" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
+  }),
 ) as unknown as Schema.Schema<PutHostnameAssociationRequest>;
 
 export interface PutHostnameAssociationResponse {

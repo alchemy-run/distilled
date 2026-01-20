@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Namespace
@@ -27,7 +31,10 @@ export const GetNamespaceRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}",
+  }),
 ) as unknown as Schema.Schema<GetNamespaceRequest>;
 
 export interface GetNamespaceResponse {
@@ -42,7 +49,9 @@ export interface GetNamespaceResponse {
 export const GetNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(T.JsonName("supports_url_encoding")),
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
 }) as unknown as Schema.Schema<GetNamespaceResponse>;
 
 export const getNamespace = API.make(() => ({
@@ -62,7 +71,10 @@ export const CreateNamespaceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   title: Schema.String,
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/storage/kv/namespaces" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/storage/kv/namespaces",
+  }),
 ) as unknown as Schema.Schema<CreateNamespaceRequest>;
 
 export interface CreateNamespaceResponse {
@@ -77,7 +89,9 @@ export interface CreateNamespaceResponse {
 export const CreateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(T.JsonName("supports_url_encoding")),
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
 }) as unknown as Schema.Schema<CreateNamespaceResponse>;
 
 export const createNamespace = API.make(() => ({
@@ -99,7 +113,10 @@ export const UpdateNamespaceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   title: Schema.String,
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}",
+  }),
 ) as unknown as Schema.Schema<UpdateNamespaceRequest>;
 
 export interface UpdateNamespaceResponse {
@@ -114,7 +131,9 @@ export interface UpdateNamespaceResponse {
 export const UpdateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(T.JsonName("supports_url_encoding")),
+  supportsUrlEncoding: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("supports_url_encoding"),
+  ),
 }) as unknown as Schema.Schema<UpdateNamespaceResponse>;
 
 export const updateNamespace = API.make(() => ({
@@ -133,7 +152,10 @@ export const DeleteNamespaceRequest = Schema.Struct({
   namespaceId: Schema.String.pipe(T.HttpPath("namespaceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/storage/kv/namespaces/{namespaceId}",
+  }),
 ) as unknown as Schema.Schema<DeleteNamespaceRequest>;
 
 export type DeleteNamespaceResponse = unknown;
@@ -369,7 +391,9 @@ export const PutNamespaceValueRequest = Schema.Struct({
   keyName: Schema.String.pipe(T.HttpPath("keyName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   expiration: Schema.optional(Schema.Number).pipe(T.HttpQuery("expiration")),
-  expirationTtl: Schema.optional(Schema.Number).pipe(T.HttpQuery("expiration_ttl")),
+  expirationTtl: Schema.optional(Schema.Number).pipe(
+    T.HttpQuery("expiration_ttl"),
+  ),
   value: Schema.String,
   metadata: Schema.optional(Schema.Unknown),
 }).pipe(
@@ -447,7 +471,9 @@ export const BulkPutNamespacesRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(T.JsonName("expiration_ttl")),
+      expirationTtl: Schema.optional(Schema.Number).pipe(
+        T.JsonName("expiration_ttl"),
+      ),
       metadata: Schema.optional(Schema.Unknown),
     }),
   ),
@@ -497,7 +523,9 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
       value: Schema.String,
       base64: Schema.optional(Schema.Boolean),
       expiration: Schema.optional(Schema.Number),
-      expirationTtl: Schema.optional(Schema.Number).pipe(T.JsonName("expiration_ttl")),
+      expirationTtl: Schema.optional(Schema.Number).pipe(
+        T.JsonName("expiration_ttl"),
+      ),
       metadata: Schema.optional(Schema.Unknown),
     }),
   ),

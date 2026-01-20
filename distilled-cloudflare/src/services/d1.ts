@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Database
@@ -27,12 +31,16 @@ export const GetDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/d1/database/{databaseId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/d1/database/{databaseId}",
+  }),
 ) as unknown as Schema.Schema<GetDatabaseRequest>;
 
 export type GetDatabaseResponse = unknown;
 
-export const GetDatabaseResponse = Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
+export const GetDatabaseResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
 
 export const getDatabase = API.make(() => ({
   input: GetDatabaseRequest,
@@ -85,7 +93,10 @@ export const UpdateDatabaseRequest = Schema.Struct({
     mode: Schema.Literal("auto", "disabled"),
   }).pipe(T.JsonName("read_replication")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/d1/database/{databaseId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/d1/database/{databaseId}",
+  }),
 ) as unknown as Schema.Schema<UpdateDatabaseRequest>;
 
 export type UpdateDatabaseResponse = unknown;
@@ -116,7 +127,10 @@ export const PatchDatabaseRequest = Schema.Struct({
     }),
   ).pipe(T.JsonName("read_replication")),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/d1/database/{databaseId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/d1/database/{databaseId}",
+  }),
 ) as unknown as Schema.Schema<PatchDatabaseRequest>;
 
 export type PatchDatabaseResponse = unknown;
@@ -140,7 +154,10 @@ export const DeleteDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/d1/database/{databaseId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/d1/database/{databaseId}",
+  }),
 ) as unknown as Schema.Schema<DeleteDatabaseRequest>;
 
 export type DeleteDatabaseResponse = unknown;
@@ -170,7 +187,9 @@ export const ExportDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   outputFormat: Schema.Literal("polling").pipe(T.JsonName("output_format")),
-  currentBookmark: Schema.optional(Schema.String).pipe(T.JsonName("current_bookmark")),
+  currentBookmark: Schema.optional(Schema.String).pipe(
+    T.JsonName("current_bookmark"),
+  ),
   dumpOptions: Schema.optional(
     Schema.Struct({
       noData: Schema.optional(Schema.Boolean).pipe(T.JsonName("no_data")),
@@ -179,7 +198,10 @@ export const ExportDatabaseRequest = Schema.Struct({
     }),
   ).pipe(T.JsonName("dump_options")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/d1/database/{databaseId}/export" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/d1/database/{databaseId}/export",
+  }),
 ) as unknown as Schema.Schema<ExportDatabaseRequest>;
 
 export interface ExportDatabaseResponse {
@@ -224,7 +246,10 @@ export interface ImportDatabaseRequest {
 export const ImportDatabaseRequest = Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/d1/database/{databaseId}/import" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/d1/database/{databaseId}/import",
+  }),
 ) as unknown as Schema.Schema<ImportDatabaseRequest>;
 
 export interface ImportDatabaseResponse {
@@ -267,28 +292,46 @@ export const ImportDatabaseResponse = Schema.Struct({
   messages: Schema.optional(Schema.Array(Schema.String)),
   result: Schema.optional(
     Schema.Struct({
-      finalBookmark: Schema.optional(Schema.String).pipe(T.JsonName("final_bookmark")),
+      finalBookmark: Schema.optional(Schema.String).pipe(
+        T.JsonName("final_bookmark"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
-          changedDb: Schema.optional(Schema.Boolean).pipe(T.JsonName("changed_db")),
+          changedDb: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("changed_db"),
+          ),
           changes: Schema.optional(Schema.Number),
           duration: Schema.optional(Schema.Number),
-          lastRowId: Schema.optional(Schema.Number).pipe(T.JsonName("last_row_id")),
-          rowsRead: Schema.optional(Schema.Number).pipe(T.JsonName("rows_read")),
-          rowsWritten: Schema.optional(Schema.Number).pipe(T.JsonName("rows_written")),
-          servedByPrimary: Schema.optional(Schema.Boolean).pipe(T.JsonName("served_by_primary")),
+          lastRowId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("last_row_id"),
+          ),
+          rowsRead: Schema.optional(Schema.Number).pipe(
+            T.JsonName("rows_read"),
+          ),
+          rowsWritten: Schema.optional(Schema.Number).pipe(
+            T.JsonName("rows_written"),
+          ),
+          servedByPrimary: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("served_by_primary"),
+          ),
           servedByRegion: Schema.optional(
             Schema.Literal("WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"),
           ).pipe(T.JsonName("served_by_region")),
-          sizeAfter: Schema.optional(Schema.Number).pipe(T.JsonName("size_after")),
+          sizeAfter: Schema.optional(Schema.Number).pipe(
+            T.JsonName("size_after"),
+          ),
           timings: Schema.optional(
             Schema.Struct({
-              sqlDurationMs: Schema.optional(Schema.Number).pipe(T.JsonName("sql_duration_ms")),
+              sqlDurationMs: Schema.optional(Schema.Number).pipe(
+                T.JsonName("sql_duration_ms"),
+              ),
             }),
           ),
         }),
       ),
-      numQueries: Schema.optional(Schema.Number).pipe(T.JsonName("num_queries")),
+      numQueries: Schema.optional(Schema.Number).pipe(
+        T.JsonName("num_queries"),
+      ),
     }),
   ),
   status: Schema.optional(Schema.Literal("complete", "error")),

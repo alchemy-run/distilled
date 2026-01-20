@@ -1,9 +1,10 @@
 {
-    "include": ["src/**/*.ts"],
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "noEmit": false,
-        "outDir": "./lib",
-        "rootDir": "./src"
-    }
+  "include": ["src/**/*.ts"],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "outDir": "./lib",
+    "rootDir": "./src"
+  }
 }

@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Content
@@ -25,7 +29,12 @@ export interface CreateContentRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -129,7 +138,12 @@ export interface CreateContentRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -203,7 +217,9 @@ export const CreateContentRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -220,7 +236,14 @@ export const CreateContentRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -275,7 +298,10 @@ export const CreateContentRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/content" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/content",
+  }),
 ) as unknown as Schema.Schema<CreateContentRequest>;
 
 export type CreateContentResponse = string;
@@ -301,7 +327,12 @@ export interface CreateJsonRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -392,7 +423,10 @@ export interface CreateJsonRequest {
     | "other"
   )[];
   /** Body param: */
-  responseFormat?: { type: string; jsonSchema?: Record<string, unknown> | null };
+  responseFormat?: {
+    type: string;
+    jsonSchema?: Record<string, unknown> | null;
+  };
   /** Body param: */
   setExtraHTTPHeaders?: Record<string, unknown>;
   /** Body param: */
@@ -411,7 +445,12 @@ export interface CreateJsonRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -485,7 +524,9 @@ export const CreateJsonRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -510,7 +551,14 @@ export const CreateJsonRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -545,9 +593,9 @@ export const CreateJsonRequest = Schema.Struct({
   responseFormat: Schema.optional(
     Schema.Struct({
       type: Schema.String,
-      jsonSchema: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-        T.JsonName("json_schema"),
-      ),
+      jsonSchema: Schema.optional(
+        Schema.Union(Schema.Struct({}), Schema.Null),
+      ).pipe(T.JsonName("json_schema")),
     }),
   ).pipe(T.JsonName("response_format")),
   setExtraHTTPHeaders: Schema.optional(Schema.Struct({})),
@@ -574,12 +622,17 @@ export const CreateJsonRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/json" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/json",
+  }),
 ) as unknown as Schema.Schema<CreateJsonRequest>;
 
 export type CreateJsonResponse = Record<string, unknown>;
 
-export const CreateJsonResponse = Schema.Struct({}) as unknown as Schema.Schema<CreateJsonResponse>;
+export const CreateJsonResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<CreateJsonResponse>;
 
 export const createJson = API.make(() => ({
   input: CreateJsonRequest,
@@ -599,7 +652,12 @@ export interface CreateLinkRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -707,7 +765,12 @@ export interface CreateLinkRequest {
   /** Body param: */
   visibleLinksOnly?: boolean;
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -781,7 +844,9 @@ export const CreateLinkRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -799,7 +864,14 @@ export const CreateLinkRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -855,7 +927,10 @@ export const CreateLinkRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/links" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/links",
+  }),
 ) as unknown as Schema.Schema<CreateLinkRequest>;
 
 export type CreateLinkResponse = string[];
@@ -882,7 +957,12 @@ export interface CreateMarkdownRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -986,7 +1066,12 @@ export interface CreateMarkdownRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -1060,7 +1145,9 @@ export const CreateMarkdownRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -1077,7 +1164,14 @@ export const CreateMarkdownRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -1132,7 +1226,10 @@ export const CreateMarkdownRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/markdown" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/markdown",
+  }),
 ) as unknown as Schema.Schema<CreateMarkdownRequest>;
 
 export type CreateMarkdownResponse = string;
@@ -1158,7 +1255,12 @@ export interface CreatePdfRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -1297,7 +1399,12 @@ export interface CreatePdfRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -1371,7 +1478,9 @@ export const CreatePdfRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -1388,7 +1497,14 @@ export const CreatePdfRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -1484,12 +1600,16 @@ export const CreatePdfRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/pdf" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/pdf",
+  }),
 ) as unknown as Schema.Schema<CreatePdfRequest>;
 
 export type CreatePdfResponse = unknown;
 
-export const CreatePdfResponse = Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
+export const CreatePdfResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
 
 export const createPdf = API.make(() => ({
   input: CreatePdfRequest,
@@ -1511,7 +1631,12 @@ export interface CreateScrapeRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -1615,7 +1740,12 @@ export interface CreateScrapeRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -1694,7 +1824,9 @@ export const CreateScrapeRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -1711,7 +1843,14 @@ export const CreateScrapeRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -1766,7 +1905,10 @@ export const CreateScrapeRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/scrape" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/scrape",
+  }),
 ) as unknown as Schema.Schema<CreateScrapeRequest>;
 
 export type CreateScrapeResponse = {
@@ -1820,7 +1962,12 @@ export interface CreateScreenshotRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -1909,7 +2056,13 @@ export interface CreateScreenshotRequest {
   /** Body param: Check [options](https://pptr.dev/api/puppeteer.screenshotoptions). */
   screenshotOptions?: {
     captureBeyondViewport?: boolean;
-    clip?: { height: number; width: number; x: number; y: number; scale?: number };
+    clip?: {
+      height: number;
+      width: number;
+      x: number;
+      y: number;
+      scale?: number;
+    };
     encoding?: "binary" | "base64";
     fromSurface?: boolean;
     fullPage?: boolean;
@@ -1940,7 +2093,12 @@ export interface CreateScreenshotRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -2014,7 +2172,9 @@ export const CreateScreenshotRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -2031,7 +2191,14 @@ export const CreateScreenshotRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -2109,7 +2276,10 @@ export const CreateScreenshotRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/screenshot" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/screenshot",
+  }),
 ) as unknown as Schema.Schema<CreateScreenshotRequest>;
 
 export interface CreateScreenshotResponse {
@@ -2148,7 +2318,12 @@ export interface CreateSnapshotRequest {
   /** Body param: The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceed */
   actionTimeout?: number;
   /** Body param: Adds a `<script>` tag into the page with the desired URL or content. */
-  addScriptTag?: { id?: string; content?: string; type?: string; url?: string }[];
+  addScriptTag?: {
+    id?: string;
+    content?: string;
+    type?: string;
+    url?: string;
+  }[];
   /** Body param: Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. */
   addStyleTag?: { content?: string; url?: string }[];
   /** Body param: Only allow requests that match the provided regex patterns, eg. '/^.\ \.(css)'. */
@@ -2237,7 +2412,13 @@ export interface CreateSnapshotRequest {
   /** Body param: */
   screenshotOptions?: {
     captureBeyondViewport?: boolean;
-    clip?: { height: number; width: number; x: number; y: number; scale?: number };
+    clip?: {
+      height: number;
+      width: number;
+      x: number;
+      y: number;
+      scale?: number;
+    };
     fromSurface?: boolean;
     fullPage?: boolean;
     omitBackground?: boolean;
@@ -2263,7 +2444,12 @@ export interface CreateSnapshotRequest {
     isMobile?: boolean;
   };
   /** Body param: Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: { selector: string; hidden?: true; timeout?: number; visible?: true };
+  waitForSelector?: {
+    selector: string;
+    hidden?: true;
+    timeout?: number;
+    visible?: true;
+  };
   /** Body param: Waits for a specified timeout before continuing. */
   waitForTimeout?: number;
 }
@@ -2337,7 +2523,9 @@ export const CreateSnapshotRequest = Schema.Struct({
         sameSite: Schema.optional(Schema.Literal("Strict", "Lax", "None")),
         secure: Schema.optional(Schema.Boolean),
         sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(Schema.Literal("Unset", "NonSecure", "Secure")),
+        sourceScheme: Schema.optional(
+          Schema.Literal("Unset", "NonSecure", "Secure"),
+        ),
         url: Schema.optional(Schema.String),
       }),
     ),
@@ -2354,7 +2542,14 @@ export const CreateSnapshotRequest = Schema.Struct({
           Schema.Literal("domcontentloaded"),
           Schema.Literal("networkidle0"),
           Schema.Literal("networkidle2"),
-          Schema.Array(Schema.Literal("load", "domcontentloaded", "networkidle0", "networkidle2")),
+          Schema.Array(
+            Schema.Literal(
+              "load",
+              "domcontentloaded",
+              "networkidle0",
+              "networkidle2",
+            ),
+          ),
         ),
       ),
     }),
@@ -2429,7 +2624,10 @@ export const CreateSnapshotRequest = Schema.Struct({
   ),
   waitForTimeout: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/browser-rendering/snapshot" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/browser-rendering/snapshot",
+  }),
 ) as unknown as Schema.Schema<CreateSnapshotRequest>;
 
 export interface CreateSnapshotResponse {

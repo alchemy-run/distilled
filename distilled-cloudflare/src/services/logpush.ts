@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // DatasetField
@@ -120,7 +124,8 @@ export const CreateEdgeRequest = Schema.Struct({
 
 export type CreateEdgeResponse = unknown;
 
-export const CreateEdgeResponse = Schema.Unknown as unknown as Schema.Schema<CreateEdgeResponse>;
+export const CreateEdgeResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateEdgeResponse>;
 
 export const createEdge = API.make(() => ({
   input: CreateEdgeRequest,
@@ -174,12 +179,16 @@ export interface GetJobRequest {
 export const GetJobRequest = Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
 }).pipe(
-  T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" }),
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
 ) as unknown as Schema.Schema<GetJobRequest>;
 
 export type GetJobResponse = unknown;
 
-export const GetJobResponse = Schema.Unknown as unknown as Schema.Schema<GetJobResponse>;
+export const GetJobResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetJobResponse>;
 
 export const getJob = API.make(() => ({
   input: GetJobRequest,
@@ -299,9 +308,9 @@ export const CreateJobRequest = Schema.Struct({
     Schema.Union(Schema.Literal("high"), Schema.Literal("low"), Schema.Null),
   ),
   kind: Schema.optional(Schema.Literal("", "edge")),
-  logpullOptions: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("logpull_options"),
-  ),
+  logpullOptions: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("logpull_options")),
   maxUploadBytes: Schema.optional(
     Schema.Union(Schema.Literal("0"), Schema.Number, Schema.Null),
   ).pipe(T.JsonName("max_upload_bytes")),
@@ -315,50 +324,60 @@ export const CreateJobRequest = Schema.Struct({
   outputOptions: Schema.optional(
     Schema.Union(
       Schema.Struct({
-        batchPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("batch_prefix"),
+        batchPrefix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("batch_prefix")),
+        batchSuffix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("batch_suffix")),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union(Schema.Boolean, Schema.Null),
         ),
-        batchSuffix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("batch_suffix"),
+        fieldDelimiter: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
         ),
-        "CVE-2021-44228": Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-        fieldDelimiter: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("field_delimiter"),
-        ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("field_names")),
         outputType: Schema.optional(Schema.Literal("ndjson", "csv")).pipe(
           T.JsonName("output_type"),
         ),
-        recordDelimiter: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_delimiter"),
-        ),
-        recordPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_prefix"),
-        ),
-        recordSuffix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_suffix"),
-        ),
-        recordTemplate: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_template"),
-        ),
-        sampleRate: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-          T.JsonName("sample_rate"),
-        ),
-        timestampFormat: Schema.optional(Schema.Literal("unixnano", "unix", "rfc3339")).pipe(
-          T.JsonName("timestamp_format"),
-        ),
+        recordDelimiter: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_delimiter")),
+        recordPrefix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_prefix")),
+        recordSuffix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_suffix")),
+        recordTemplate: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union(Schema.Number, Schema.Null),
+        ).pipe(T.JsonName("sample_rate")),
+        timestampFormat: Schema.optional(
+          Schema.Literal("unixnano", "unix", "rfc3339"),
+        ).pipe(T.JsonName("timestamp_format")),
       }),
       Schema.Null,
     ),
   ).pipe(T.JsonName("output_options")),
-  ownershipChallenge: Schema.optional(Schema.String).pipe(T.JsonName("ownership_challenge")),
+  ownershipChallenge: Schema.optional(Schema.String).pipe(
+    T.JsonName("ownership_challenge"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs",
+  }),
 ) as unknown as Schema.Schema<CreateJobRequest>;
 
 export type CreateJobResponse = unknown;
 
-export const CreateJobResponse = Schema.Unknown as unknown as Schema.Schema<CreateJobResponse>;
+export const CreateJobResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateJobResponse>;
 
 export const createJob = API.make(() => ({
   input: CreateJobRequest,
@@ -415,16 +434,18 @@ export const UpdateJobRequest = Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.optional(Schema.String).pipe(T.JsonName("destination_conf")),
+  destinationConf: Schema.optional(Schema.String).pipe(
+    T.JsonName("destination_conf"),
+  ),
   enabled: Schema.optional(Schema.Boolean),
   filter: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
   frequency: Schema.optional(
     Schema.Union(Schema.Literal("high"), Schema.Literal("low"), Schema.Null),
   ),
   kind: Schema.optional(Schema.Literal("", "edge")),
-  logpullOptions: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("logpull_options"),
-  ),
+  logpullOptions: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("logpull_options")),
   maxUploadBytes: Schema.optional(
     Schema.Union(Schema.Literal("0"), Schema.Number, Schema.Null),
   ).pipe(T.JsonName("max_upload_bytes")),
@@ -438,50 +459,60 @@ export const UpdateJobRequest = Schema.Struct({
   outputOptions: Schema.optional(
     Schema.Union(
       Schema.Struct({
-        batchPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("batch_prefix"),
+        batchPrefix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("batch_prefix")),
+        batchSuffix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("batch_suffix")),
+        "CVE-2021-44228": Schema.optional(
+          Schema.Union(Schema.Boolean, Schema.Null),
         ),
-        batchSuffix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("batch_suffix"),
+        fieldDelimiter: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("field_delimiter")),
+        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+          T.JsonName("field_names"),
         ),
-        "CVE-2021-44228": Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-        fieldDelimiter: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("field_delimiter"),
-        ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("field_names")),
         outputType: Schema.optional(Schema.Literal("ndjson", "csv")).pipe(
           T.JsonName("output_type"),
         ),
-        recordDelimiter: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_delimiter"),
-        ),
-        recordPrefix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_prefix"),
-        ),
-        recordSuffix: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_suffix"),
-        ),
-        recordTemplate: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-          T.JsonName("record_template"),
-        ),
-        sampleRate: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-          T.JsonName("sample_rate"),
-        ),
-        timestampFormat: Schema.optional(Schema.Literal("unixnano", "unix", "rfc3339")).pipe(
-          T.JsonName("timestamp_format"),
-        ),
+        recordDelimiter: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_delimiter")),
+        recordPrefix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_prefix")),
+        recordSuffix: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_suffix")),
+        recordTemplate: Schema.optional(
+          Schema.Union(Schema.String, Schema.Null),
+        ).pipe(T.JsonName("record_template")),
+        sampleRate: Schema.optional(
+          Schema.Union(Schema.Number, Schema.Null),
+        ).pipe(T.JsonName("sample_rate")),
+        timestampFormat: Schema.optional(
+          Schema.Literal("unixnano", "unix", "rfc3339"),
+        ).pipe(T.JsonName("timestamp_format")),
       }),
       Schema.Null,
     ),
   ).pipe(T.JsonName("output_options")),
-  ownershipChallenge: Schema.optional(Schema.String).pipe(T.JsonName("ownership_challenge")),
+  ownershipChallenge: Schema.optional(Schema.String).pipe(
+    T.JsonName("ownership_challenge"),
+  ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
 ) as unknown as Schema.Schema<UpdateJobRequest>;
 
 export type UpdateJobResponse = unknown;
 
-export const UpdateJobResponse = Schema.Unknown as unknown as Schema.Schema<UpdateJobResponse>;
+export const UpdateJobResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateJobResponse>;
 
 export const updateJob = API.make(() => ({
   input: UpdateJobRequest,
@@ -496,7 +527,10 @@ export interface DeleteJobRequest {
 export const DeleteJobRequest = Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs/{jobId}",
+  }),
 ) as unknown as Schema.Schema<DeleteJobRequest>;
 
 export interface DeleteJobResponse {
@@ -532,7 +566,10 @@ export const CreateOwnershipRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
 }).pipe(
-  T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership",
+  }),
 ) as unknown as Schema.Schema<CreateOwnershipRequest>;
 
 export type CreateOwnershipResponse = unknown;
@@ -563,7 +600,10 @@ export const ValidateOwnershipRequest = Schema.Struct({
   destinationConf: Schema.String.pipe(T.JsonName("destination_conf")),
   ownershipChallenge: Schema.String.pipe(T.JsonName("ownership_challenge")),
 }).pipe(
-  T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate",
+  }),
 ) as unknown as Schema.Schema<ValidateOwnershipRequest>;
 
 export type ValidateOwnershipResponse = unknown;
@@ -624,9 +664,14 @@ export interface OriginValidateRequest {
 export const OriginValidateRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  logpullOptions: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("logpull_options")),
+  logpullOptions: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("logpull_options"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/origin" }),
+  T.Http({
+    method: "POST",
+    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/origin",
+  }),
 ) as unknown as Schema.Schema<OriginValidateRequest>;
 
 export type OriginValidateResponse = unknown;

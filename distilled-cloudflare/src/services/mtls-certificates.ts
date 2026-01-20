@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // MtlsCertificate
@@ -27,7 +31,10 @@ export const GetMtlsCertificateRequest = Schema.Struct({
   mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}",
+  }),
 ) as unknown as Schema.Schema<GetMtlsCertificateRequest>;
 
 export interface GetMtlsCertificateResponse {
@@ -58,7 +65,9 @@ export const GetMtlsCertificateResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
 }) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
@@ -122,7 +131,9 @@ export const CreateMtlsCertificateResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
@@ -178,7 +189,9 @@ export const DeleteMtlsCertificateResponse = Schema.Struct({
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   uploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("uploaded_on")),
 }) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;

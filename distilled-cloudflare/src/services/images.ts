@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // V1
@@ -144,7 +148,10 @@ export const PatchV1Request = Schema.Struct({
   metadata: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/images/v1/{imageId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/images/v1/{imageId}",
+  }),
 ) as unknown as Schema.Schema<PatchV1Request>;
 
 export interface PatchV1Response {
@@ -190,12 +197,16 @@ export const DeleteV1Request = Schema.Struct({
   imageId: Schema.String.pipe(T.HttpPath("imageId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/{imageId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/{imageId}",
+  }),
 ) as unknown as Schema.Schema<DeleteV1Request>;
 
 export type DeleteV1Response = string;
 
-export const DeleteV1Response = Schema.String as unknown as Schema.Schema<DeleteV1Response>;
+export const DeleteV1Response =
+  Schema.String as unknown as Schema.Schema<DeleteV1Response>;
 
 export const deleteV1 = API.make(() => ({
   input: DeleteV1Request,
@@ -217,12 +228,16 @@ export const GetV1BlobRequest = Schema.Struct({
   imageId: Schema.String.pipe(T.HttpPath("imageId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/{imageId}/blob" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/images/v1/{imageId}/blob",
+  }),
 ) as unknown as Schema.Schema<GetV1BlobRequest>;
 
 export type GetV1BlobResponse = unknown;
 
-export const GetV1BlobResponse = Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
+export const GetV1BlobResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
 
 export const getV1Blob = API.make(() => ({
   input: GetV1BlobRequest,
@@ -276,7 +291,10 @@ export const PutV1KeyRequest = Schema.Struct({
   signingKeyName: Schema.String.pipe(T.HttpPath("signingKeyName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}",
+  }),
 ) as unknown as Schema.Schema<PutV1KeyRequest>;
 
 export interface PutV1KeyResponse {
@@ -310,7 +328,10 @@ export const DeleteV1KeyRequest = Schema.Struct({
   signingKeyName: Schema.String.pipe(T.HttpPath("signingKeyName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/keys/{signingKeyName}",
+  }),
 ) as unknown as Schema.Schema<DeleteV1KeyRequest>;
 
 export interface DeleteV1KeyResponse {
@@ -382,7 +403,10 @@ export const GetV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1/variants/{variantId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
 ) as unknown as Schema.Schema<GetV1VariantRequest>;
 
 export interface GetV1VariantResponse {
@@ -550,7 +574,10 @@ export const PatchV1VariantRequest = Schema.Struct({
   }),
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/images/v1/variants/{variantId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
 ) as unknown as Schema.Schema<PatchV1VariantRequest>;
 
 export interface PatchV1VariantResponse {
@@ -597,7 +624,10 @@ export const DeleteV1VariantRequest = Schema.Struct({
   variantId: Schema.String.pipe(T.HttpPath("variantId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/images/v1/variants/{variantId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/images/v1/variants/{variantId}",
+  }),
 ) as unknown as Schema.Schema<DeleteV1VariantRequest>;
 
 export type DeleteV1VariantResponse = string;
@@ -630,12 +660,16 @@ export interface ListV2sRequest {
 
 export const ListV2sRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  continuationToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.HttpQuery("continuation_token"),
+  continuationToken: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.HttpQuery("continuation_token")),
+  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("creator"),
   ),
-  creator: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("creator")),
   perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  sortOrder: Schema.optional(Schema.Literal("asc", "desc")).pipe(T.HttpQuery("sort_order")),
+  sortOrder: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+    T.HttpQuery("sort_order"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/images/v2" }),
 ) as unknown as Schema.Schema<ListV2sRequest>;
@@ -647,9 +681,9 @@ export interface ListV2sResponse {
 }
 
 export const ListV2sResponse = Schema.Struct({
-  continuationToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("continuation_token"),
-  ),
+  continuationToken: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("continuation_token")),
   images: Schema.optional(Schema.Array(Schema.Unknown)),
 }) as unknown as Schema.Schema<ListV2sResponse>;
 
@@ -686,7 +720,10 @@ export const CreateV2DirectUploadRequest = Schema.Struct({
   metadata: Schema.optional(Schema.Unknown),
   requireSignedURLs: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/images/v2/direct_upload" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/images/v2/direct_upload",
+  }),
 ) as unknown as Schema.Schema<CreateV2DirectUploadRequest>;
 
 export interface CreateV2DirectUploadResponse {

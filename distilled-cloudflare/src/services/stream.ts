@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AudioTrack
@@ -110,7 +114,10 @@ export const CopyAudioTrackRequest = Schema.Struct({
   label: Schema.String,
   url: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/audio/copy" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/audio/copy",
+  }),
 ) as unknown as Schema.Schema<CopyAudioTrackRequest>;
 
 export interface CopyAudioTrackResponse {
@@ -153,7 +160,10 @@ export const GetCaptionLanguageRequest = Schema.Struct({
   language: Schema.String.pipe(T.HttpPath("language")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+  }),
 ) as unknown as Schema.Schema<GetCaptionLanguageRequest>;
 
 export type GetCaptionLanguageResponse = unknown;
@@ -211,7 +221,10 @@ export const UpdateCaptionLanguageRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   file: Schema.String,
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/stream/{identifier}/captions/{language}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/stream/{identifier}/captions/{language}",
+  }),
 ) as unknown as Schema.Schema<UpdateCaptionLanguageRequest>;
 
 export type UpdateCaptionLanguageResponse = unknown;
@@ -443,7 +456,9 @@ export interface CreateCopyRequest {
 
 export const CreateCopyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader("'Upload-Creator'")),
+  "Upload-Creator": Schema.optional(Schema.String).pipe(
+    T.HttpHeader("'Upload-Creator'"),
+  ),
   url: Schema.String,
   allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
   creator: Schema.optional(Schema.String),
@@ -462,7 +477,8 @@ export const CreateCopyRequest = Schema.Struct({
 
 export type CreateCopyResponse = unknown;
 
-export const CreateCopyResponse = Schema.Unknown as unknown as Schema.Schema<CreateCopyResponse>;
+export const CreateCopyResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateCopyResponse>;
 
 export const createCopy = API.make(() => ({
   input: CreateCopyRequest,
@@ -501,7 +517,9 @@ export interface CreateDirectUploadRequest {
 
 export const CreateDirectUploadRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader("'Upload-Creator'")),
+  "Upload-Creator": Schema.optional(Schema.String).pipe(
+    T.HttpHeader("'Upload-Creator'"),
+  ),
   maxDurationSeconds: Schema.Number,
   allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
   creator: Schema.optional(Schema.String),
@@ -516,7 +534,10 @@ export const CreateDirectUploadRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/direct_upload" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/direct_upload",
+  }),
 ) as unknown as Schema.Schema<CreateDirectUploadRequest>;
 
 export interface CreateDirectUploadResponse {
@@ -556,12 +577,16 @@ export const GetDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/downloads" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
 ) as unknown as Schema.Schema<GetDownloadRequest>;
 
 export type GetDownloadResponse = unknown;
 
-export const GetDownloadResponse = Schema.Unknown as unknown as Schema.Schema<GetDownloadResponse>;
+export const GetDownloadResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDownloadResponse>;
 
 export const getDownload = API.make(() => ({
   input: GetDownloadRequest,
@@ -582,7 +607,10 @@ export const CreateDownloadRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Unknown,
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/downloads" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
 ) as unknown as Schema.Schema<CreateDownloadRequest>;
 
 export type CreateDownloadResponse = unknown;
@@ -606,7 +634,10 @@ export const DeleteDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}/downloads" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}/downloads",
+  }),
 ) as unknown as Schema.Schema<DeleteDownloadRequest>;
 
 export type DeleteDownloadResponse = string;
@@ -634,12 +665,16 @@ export const GetEmbedRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/{identifier}/embed" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/{identifier}/embed",
+  }),
 ) as unknown as Schema.Schema<GetEmbedRequest>;
 
 export type GetEmbedResponse = unknown;
 
-export const GetEmbedResponse = Schema.Unknown as unknown as Schema.Schema<GetEmbedResponse>;
+export const GetEmbedResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetEmbedResponse>;
 
 export const getEmbed = API.make(() => ({
   input: GetEmbedRequest,
@@ -699,12 +734,16 @@ export const DeleteKeyRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/keys/{identifier}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/keys/{identifier}",
+  }),
 ) as unknown as Schema.Schema<DeleteKeyRequest>;
 
 export type DeleteKeyResponse = string;
 
-export const DeleteKeyResponse = Schema.String as unknown as Schema.Schema<DeleteKeyResponse>;
+export const DeleteKeyResponse =
+  Schema.String as unknown as Schema.Schema<DeleteKeyResponse>;
 
 export const deleteKey = API.make(() => ({
   input: DeleteKeyRequest,
@@ -768,7 +807,9 @@ export interface ListLiveInputsRequest {
 
 export const ListLiveInputsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  includeCounts: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_counts")),
+  includeCounts: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_counts"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/stream/live_inputs" }),
 ) as unknown as Schema.Schema<ListLiveInputsRequest>;
@@ -1250,10 +1291,16 @@ export interface CreateStreamRequest {
 export const CreateStreamRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   directUser: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("direct_user")),
-  "Tus-Resumable": Schema.Literal("1.0.0").pipe(T.HttpHeader("'Tus-Resumable'")),
+  "Tus-Resumable": Schema.Literal("1.0.0").pipe(
+    T.HttpHeader("'Tus-Resumable'"),
+  ),
   "Upload-Length": Schema.Number.pipe(T.HttpHeader("'Upload-Length'")),
-  "Upload-Creator": Schema.optional(Schema.String).pipe(T.HttpHeader("'Upload-Creator'")),
-  "Upload-Metadata": Schema.optional(Schema.String).pipe(T.HttpHeader("'Upload-Metadata'")),
+  "Upload-Creator": Schema.optional(Schema.String).pipe(
+    T.HttpHeader("'Upload-Creator'"),
+  ),
+  "Upload-Metadata": Schema.optional(Schema.String).pipe(
+    T.HttpHeader("'Upload-Metadata'"),
+  ),
   body: Schema.Unknown,
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/stream" }),
@@ -1280,7 +1327,10 @@ export const DeleteStreamRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/{identifier}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/{identifier}",
+  }),
 ) as unknown as Schema.Schema<DeleteStreamRequest>;
 
 export type DeleteStreamResponse = unknown;
@@ -1328,7 +1378,10 @@ export const EditStreamRequest = Schema.Struct({
   thumbnailTimestampPct: Schema.optional(Schema.Number),
   uploadExpiry: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}",
+  }),
 ) as unknown as Schema.Schema<EditStreamRequest>;
 
 export interface EditStreamResponse {
@@ -1485,7 +1538,9 @@ export const CreateTokenRequest = Schema.Struct({
         action: Schema.optional(Schema.Literal("allow", "block")),
         country: Schema.optional(Schema.Array(Schema.String)),
         ip: Schema.optional(Schema.Array(Schema.String)),
-        type: Schema.optional(Schema.Literal("any", "ip.src", "ip.geoip.country")),
+        type: Schema.optional(
+          Schema.Literal("any", "ip.src", "ip.geoip.country"),
+        ),
       }),
     ),
   ),
@@ -1494,7 +1549,10 @@ export const CreateTokenRequest = Schema.Struct({
   nbf: Schema.optional(Schema.Number),
   pem: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/stream/{identifier}/token" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/stream/{identifier}/token",
+  }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
 export interface CreateTokenResponse {
@@ -1527,7 +1585,10 @@ export const StorageUsageVideoRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   creator: Schema.optional(Schema.String).pipe(T.HttpQuery("creator")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/storage-usage" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/storage-usage",
+  }),
 ) as unknown as Schema.Schema<StorageUsageVideoRequest>;
 
 export interface StorageUsageVideoResponse {
@@ -1568,7 +1629,10 @@ export const GetWatermarkRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/stream/watermarks/{identifier}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/stream/watermarks/{identifier}",
+  }),
 ) as unknown as Schema.Schema<GetWatermarkRequest>;
 
 export interface GetWatermarkResponse {
@@ -1700,7 +1764,10 @@ export const DeleteWatermarkRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/stream/watermarks/{identifier}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/stream/watermarks/{identifier}",
+  }),
 ) as unknown as Schema.Schema<DeleteWatermarkRequest>;
 
 export type DeleteWatermarkResponse = string;
@@ -1731,7 +1798,8 @@ export const GetWebhookRequest = Schema.Struct({
 
 export type GetWebhookResponse = unknown;
 
-export const GetWebhookResponse = Schema.Unknown as unknown as Schema.Schema<GetWebhookResponse>;
+export const GetWebhookResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetWebhookResponse>;
 
 export const getWebhook = API.make(() => ({
   input: GetWebhookRequest,
@@ -1755,7 +1823,8 @@ export const PutWebhookRequest = Schema.Struct({
 
 export type PutWebhookResponse = unknown;
 
-export const PutWebhookResponse = Schema.Unknown as unknown as Schema.Schema<PutWebhookResponse>;
+export const PutWebhookResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutWebhookResponse>;
 
 export const putWebhook = API.make(() => ({
   input: PutWebhookRequest,

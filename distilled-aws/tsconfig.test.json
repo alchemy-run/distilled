@@ -1,16 +1,14 @@
 {
-    "include": [
-        "test/**/*.ts"
-    ],
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "noEmit": true,
-        "outDir": "./lib",
-        "rootDir": "."
-    },
-    "references": [
-        {
-            "path": "./tsconfig.lib.json"
-        }
-    ]
+  "include": ["test/**/*.ts"],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "outDir": "./lib",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
 }

@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Instance
@@ -141,7 +145,9 @@ export const GetInstanceResponse = Schema.Struct({
           retries: Schema.Struct({
             delay: Schema.Number,
             limit: Schema.Number,
-            backoff: Schema.optional(Schema.Literal("constant", "linear", "exponential")),
+            backoff: Schema.optional(
+              Schema.Literal("constant", "linear", "exponential"),
+            ),
           }),
           timeout: Schema.Number,
         }),
@@ -218,10 +224,15 @@ export const CreateInstanceRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   instanceId: Schema.optional(Schema.String).pipe(T.JsonName("instance_id")),
-  instanceRetention: Schema.optional(Schema.Unknown).pipe(T.JsonName("instance_retention")),
+  instanceRetention: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("instance_retention"),
+  ),
   params: Schema.optional(Schema.Unknown),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/workflows/{workflowName}/instances" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/workflows/{workflowName}/instances",
+  }),
 ) as unknown as Schema.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
@@ -414,7 +425,10 @@ export const GetWorkflowRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/workflows/{workflowName}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/workflows/{workflowName}",
+  }),
 ) as unknown as Schema.Schema<GetWorkflowRequest>;
 
 export interface GetWorkflowResponse {
@@ -454,7 +468,9 @@ export const GetWorkflowResponse = Schema.Struct({
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   scriptName: Schema.String.pipe(T.JsonName("script_name")),
-  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("triggered_on")),
+  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("triggered_on"),
+  ),
 }) as unknown as Schema.Schema<GetWorkflowResponse>;
 
 export const getWorkflow = API.make(() => ({
@@ -479,7 +495,10 @@ export const PutWorkflowRequest = Schema.Struct({
   className: Schema.String.pipe(T.JsonName("class_name")),
   scriptName: Schema.String.pipe(T.JsonName("script_name")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/workflows/{workflowName}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/workflows/{workflowName}",
+  }),
 ) as unknown as Schema.Schema<PutWorkflowRequest>;
 
 export interface PutWorkflowResponse {
@@ -504,7 +523,9 @@ export const PutWorkflowResponse = Schema.Struct({
   name: Schema.String,
   scriptName: Schema.String.pipe(T.JsonName("script_name")),
   terminatorRunning: Schema.Number.pipe(T.JsonName("terminator_running")),
-  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("triggered_on")),
+  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("triggered_on"),
+  ),
   versionId: Schema.String.pipe(T.JsonName("version_id")),
 }) as unknown as Schema.Schema<PutWorkflowResponse>;
 
@@ -523,7 +544,10 @@ export const DeleteWorkflowRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/workflows/{workflowName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/workflows/{workflowName}",
+  }),
 ) as unknown as Schema.Schema<DeleteWorkflowRequest>;
 
 export interface DeleteWorkflowResponse {

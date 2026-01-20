@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Connection
@@ -27,7 +31,10 @@ export const GetConnectionRequest = Schema.Struct({
   connectionId: Schema.String.pipe(T.HttpPath("connectionId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections/{connectionId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/connections/{connectionId}",
+  }),
 ) as unknown as Schema.Schema<GetConnectionRequest>;
 
 export type GetConnectionResponse = unknown;
@@ -55,12 +62,16 @@ export const GetCookyRequest = Schema.Struct({
   cookieId: Schema.String.pipe(T.HttpPath("cookieId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/cookies/{cookieId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/cookies/{cookieId}",
+  }),
 ) as unknown as Schema.Schema<GetCookyRequest>;
 
 export type GetCookyResponse = unknown;
 
-export const GetCookyResponse = Schema.Unknown as unknown as Schema.Schema<GetCookyResponse>;
+export const GetCookyResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetCookyResponse>;
 
 export const getCooky = API.make(() => ({
   input: GetCookyRequest,
@@ -111,7 +122,9 @@ export const PutPageShieldRequest = Schema.Struct({
   useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("use_cloudflare_reporting_endpoint"),
   ),
-  useConnectionUrlPath: Schema.optional(Schema.Boolean).pipe(T.JsonName("use_connection_url_path")),
+  useConnectionUrlPath: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_connection_url_path"),
+  ),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" }),
 ) as unknown as Schema.Schema<PutPageShieldRequest>;
@@ -133,7 +146,9 @@ export const PutPageShieldResponse = Schema.Struct({
   useCloudflareReportingEndpoint: Schema.Boolean.pipe(
     T.JsonName("use_cloudflare_reporting_endpoint"),
   ),
-  useConnectionUrlPath: Schema.Boolean.pipe(T.JsonName("use_connection_url_path")),
+  useConnectionUrlPath: Schema.Boolean.pipe(
+    T.JsonName("use_connection_url_path"),
+  ),
 }) as unknown as Schema.Schema<PutPageShieldResponse>;
 
 export const putPageShield = API.make(() => ({
@@ -156,12 +171,16 @@ export const GetPolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies/{policyId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
 ) as unknown as Schema.Schema<GetPolicyRequest>;
 
 export type GetPolicyResponse = unknown;
 
-export const GetPolicyResponse = Schema.Unknown as unknown as Schema.Schema<GetPolicyResponse>;
+export const GetPolicyResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetPolicyResponse>;
 
 export const getPolicy = API.make(() => ({
   input: GetPolicyRequest,
@@ -231,7 +250,10 @@ export const UpdatePolicyRequest = Schema.Struct({
   expression: Schema.optional(Schema.String),
   value: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield/policies/{policyId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
 ) as unknown as Schema.Schema<UpdatePolicyRequest>;
 
 export type UpdatePolicyResponse = unknown;
@@ -255,7 +277,10 @@ export const DeletePolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/page_shield/policies/{policyId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/page_shield/policies/{policyId}",
+  }),
 ) as unknown as Schema.Schema<DeletePolicyRequest>;
 
 export type DeletePolicyResponse = unknown;
@@ -283,12 +308,16 @@ export const GetScriptRequest = Schema.Struct({
   scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/scripts/{scriptId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/page_shield/scripts/{scriptId}",
+  }),
 ) as unknown as Schema.Schema<GetScriptRequest>;
 
 export type GetScriptResponse = unknown;
 
-export const GetScriptResponse = Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
+export const GetScriptResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
 
 export const getScript = API.make(() => ({
   input: GetScriptRequest,

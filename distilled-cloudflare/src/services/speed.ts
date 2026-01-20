@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Availability
@@ -32,12 +36,22 @@ export interface ListAvailabilitiesResponse {
   quota?: {
     plan?: string;
     quotasPerPlan?: {
-      value?: { business?: number; enterprise?: number; free?: number; pro?: number };
+      value?: {
+        business?: number;
+        enterprise?: number;
+        free?: number;
+        pro?: number;
+      };
     };
     remainingSchedules?: number;
     remainingTests?: number;
     scheduleQuotasPerPlan?: {
-      value?: { business?: number; enterprise?: number; free?: number; pro?: number };
+      value?: {
+        business?: number;
+        enterprise?: number;
+        free?: number;
+        pro?: number;
+      };
     };
   };
   regions?: unknown[];
@@ -145,7 +159,9 @@ export interface TrendPageRequest {
 export const TrendPageRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  deviceType: Schema.Literal("DESKTOP", "MOBILE").pipe(T.HttpQuery("deviceType")),
+  deviceType: Schema.Literal("DESKTOP", "MOBILE").pipe(
+    T.HttpQuery("deviceType"),
+  ),
   metrics: Schema.String.pipe(T.HttpQuery("metrics")),
   region: Schema.Literal(
     "asia-east1",
@@ -174,12 +190,16 @@ export const TrendPageRequest = Schema.Struct({
   tz: Schema.String.pipe(T.HttpQuery("tz")),
   end: Schema.optional(Schema.String).pipe(T.HttpQuery("end")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/speed_api/pages/{url}/trend" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/speed_api/pages/{url}/trend",
+  }),
 ) as unknown as Schema.Schema<TrendPageRequest>;
 
 export type TrendPageResponse = unknown;
 
-export const TrendPageResponse = Schema.Unknown as unknown as Schema.Schema<TrendPageResponse>;
+export const TrendPageResponse =
+  Schema.Unknown as unknown as Schema.Schema<TrendPageResponse>;
 
 export const trendPage = API.make(() => ({
   input: TrendPageRequest,
@@ -203,7 +223,10 @@ export const GetPageTestRequest = Schema.Struct({
   testId: Schema.String.pipe(T.HttpPath("testId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/speed_api/pages/{url}/tests/{testId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/speed_api/pages/{url}/tests/{testId}",
+  }),
 ) as unknown as Schema.Schema<GetPageTestRequest>;
 
 export interface GetPageTestResponse {
@@ -296,7 +319,10 @@ export const CreatePageTestRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/speed_api/pages/{url}/tests" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/speed_api/pages/{url}/tests",
+  }),
 ) as unknown as Schema.Schema<CreatePageTestRequest>;
 
 export interface CreatePageTestResponse {
@@ -389,7 +415,10 @@ export const DeletePageTestRequest = Schema.Struct({
     ),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/speed_api/pages/{url}/tests" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/speed_api/pages/{url}/tests",
+  }),
 ) as unknown as Schema.Schema<DeletePageTestRequest>;
 
 export interface DeletePageTestResponse {
@@ -729,7 +758,10 @@ export const DeleteScheduleRequest = Schema.Struct({
     ),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/speed_api/schedule/{url}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/speed_api/schedule/{url}",
+  }),
 ) as unknown as Schema.Schema<DeleteScheduleRequest>;
 
 export interface DeleteScheduleResponse {

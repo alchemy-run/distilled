@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // OriginCACertificate
@@ -47,12 +51,20 @@ export interface GetOriginCACertificateResponse {
 export const GetOriginCACertificateResponse = Schema.Struct({
   csr: Schema.String,
   hostnames: Schema.Array(Schema.String),
-  requestType: Schema.Literal("origin-rsa", "origin-ecc", "keyless-certificate").pipe(
-    T.JsonName("request_type"),
-  ),
-  requestedValidity: Schema.Literal("7", "30", "90", "365", "730", "1095", "5475").pipe(
-    T.JsonName("requested_validity"),
-  ),
+  requestType: Schema.Literal(
+    "origin-rsa",
+    "origin-ecc",
+    "keyless-certificate",
+  ).pipe(T.JsonName("request_type")),
+  requestedValidity: Schema.Literal(
+    "7",
+    "30",
+    "90",
+    "365",
+    "730",
+    "1095",
+    "5475",
+  ).pipe(T.JsonName("requested_validity")),
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
@@ -108,12 +120,20 @@ export interface CreateOriginCACertificateResponse {
 export const CreateOriginCACertificateResponse = Schema.Struct({
   csr: Schema.String,
   hostnames: Schema.Array(Schema.String),
-  requestType: Schema.Literal("origin-rsa", "origin-ecc", "keyless-certificate").pipe(
-    T.JsonName("request_type"),
-  ),
-  requestedValidity: Schema.Literal("7", "30", "90", "365", "730", "1095", "5475").pipe(
-    T.JsonName("requested_validity"),
-  ),
+  requestType: Schema.Literal(
+    "origin-rsa",
+    "origin-ecc",
+    "keyless-certificate",
+  ).pipe(T.JsonName("request_type")),
+  requestedValidity: Schema.Literal(
+    "7",
+    "30",
+    "90",
+    "365",
+    "730",
+    "1095",
+    "5475",
+  ).pipe(T.JsonName("requested_validity")),
   id: Schema.optional(Schema.String),
   certificate: Schema.optional(Schema.String),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),

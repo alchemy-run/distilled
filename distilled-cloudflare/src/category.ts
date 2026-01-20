@@ -105,7 +105,9 @@ export const withCategory =
   <Args extends Array<any>, Ret, C extends { new (...args: Args): Ret }>(
     C: C,
   ): C & {
-    new (...args: Args): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
+    new (
+      ...args: Args
+    ): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
   } => {
     for (const category of categories) {
       if (!(categoriesKey in C.prototype)) {
@@ -154,7 +156,10 @@ export const withRetryableError = withCategory(RetryableError);
  * Check if an error has a specific category
  */
 export const hasCategory = (error: unknown, category: Category): boolean => {
-  if (Predicate.isObject(error) && Predicate.hasProperty(categoriesKey)(error)) {
+  if (
+    Predicate.isObject(error) &&
+    Predicate.hasProperty(categoriesKey)(error)
+  ) {
     // @ts-expect-error - accessing dynamic property
     return category in error[categoriesKey];
   }
@@ -181,7 +186,11 @@ export const isThrottlingError = (error: unknown): boolean => {
   // Fall back to tag-based checking
   if (Predicate.isObject(error) && "_tag" in error) {
     const tag = (error as { _tag: string })._tag;
-    return tag === "RateLimited" || tag.includes("RateLimit") || tag === "TooManyRequests";
+    return (
+      tag === "RateLimited" ||
+      tag.includes("RateLimit") ||
+      tag === "TooManyRequests"
+    );
   }
   return false;
 };
@@ -195,7 +204,11 @@ export const isAuthError = (error: unknown): boolean => {
   }
   if (Predicate.isObject(error) && "_tag" in error) {
     const tag = (error as { _tag: string })._tag;
-    return tag === "AuthenticationError" || tag === "Unauthorized" || tag.includes("Auth");
+    return (
+      tag === "AuthenticationError" ||
+      tag === "Unauthorized" ||
+      tag.includes("Auth")
+    );
   }
   return false;
 };
@@ -223,7 +236,11 @@ export const isConflictError = (error: unknown): boolean => {
   }
   if (Predicate.isObject(error) && "_tag" in error) {
     const tag = (error as { _tag: string })._tag;
-    return tag.includes("AlreadyExists") || tag.includes("Conflict") || tag.includes("InUse");
+    return (
+      tag.includes("AlreadyExists") ||
+      tag.includes("Conflict") ||
+      tag.includes("InUse")
+    );
   }
   return false;
 };
@@ -300,7 +317,9 @@ export const isTransientError = (error: unknown): boolean => {
 // Type Helpers for catchCategory
 // =============================================================================
 
-export type AllKeys<E> = E extends { [categoriesKey]: infer Q } ? keyof Q : never;
+export type AllKeys<E> = E extends { [categoriesKey]: infer Q }
+  ? keyof Q
+  : never;
 
 export type ExtractAll<E, Cats extends PropertyKey> = Cats extends any
   ? Extract<E, { [categoriesKey]: { [K in Cats]: any } }>
@@ -325,7 +344,11 @@ export const catchCategory =
   ) =>
   <A, R>(
     effect: Effect.Effect<A, E, R>,
-  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> => {
+  ): Effect.Effect<
+    A | A2,
+    E2 | Exclude<E, ExtractAll<E, Categories[number]>>,
+    R | R2
+  > => {
     const f = args.pop()!;
     const categories = args;
     return Effect.catchIf(

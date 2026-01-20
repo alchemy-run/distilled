@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Account
@@ -47,8 +51,12 @@ export const GetAccountResponse = Schema.Struct({
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(T.JsonName("abuse_contact_email")),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(T.JsonName("enforce_twofactor")),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<GetAccountResponse>;
@@ -98,8 +106,12 @@ export const CreateAccountResponse = Schema.Struct({
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(T.JsonName("abuse_contact_email")),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(T.JsonName("enforce_twofactor")),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<CreateAccountResponse>;
@@ -130,8 +142,12 @@ export const UpdateAccountRequest = Schema.Struct({
   type: Schema.Literal("standard", "enterprise"),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(T.JsonName("abuse_contact_email")),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(T.JsonName("enforce_twofactor")),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
     }),
   ),
 }).pipe(
@@ -157,8 +173,12 @@ export const UpdateAccountResponse = Schema.Struct({
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(T.JsonName("abuse_contact_email")),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(T.JsonName("enforce_twofactor")),
+      abuseContactEmail: Schema.optional(Schema.String).pipe(
+        T.JsonName("abuse_contact_email"),
+      ),
+      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("enforce_twofactor"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<UpdateAccountResponse>;
@@ -210,7 +230,8 @@ export const GetMemberRequest = Schema.Struct({
 
 export type GetMemberResponse = unknown;
 
-export const GetMemberResponse = Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
+export const GetMemberResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
 
 export const getMember = API.make(() => ({
   input: GetMemberRequest,
@@ -266,7 +287,10 @@ export const DeleteMemberRequest = Schema.Struct({
   memberId: Schema.String.pipe(T.HttpPath("memberId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/members/{memberId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/members/{memberId}",
+  }),
 ) as unknown as Schema.Schema<DeleteMemberRequest>;
 
 export type DeleteMemberResponse = unknown;
@@ -299,7 +323,8 @@ export const GetRoleRequest = Schema.Struct({
 
 export type GetRoleResponse = unknown;
 
-export const GetRoleResponse = Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
+export const GetRoleResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
 
 export const getRole = API.make(() => ({
   input: GetRoleRequest,
@@ -322,7 +347,9 @@ export interface CreateSubscriptionRequest {
 
 export const CreateSubscriptionRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  frequency: Schema.optional(Schema.Literal("weekly", "monthly", "quarterly", "yearly")),
+  frequency: Schema.optional(
+    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+  ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/subscriptions" }),
@@ -350,12 +377,19 @@ export interface UpdateSubscriptionRequest {
 }
 
 export const UpdateSubscriptionRequest = Schema.Struct({
-  subscriptionIdentifier: Schema.String.pipe(T.HttpPath("subscriptionIdentifier")),
+  subscriptionIdentifier: Schema.String.pipe(
+    T.HttpPath("subscriptionIdentifier"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  frequency: Schema.optional(Schema.Literal("weekly", "monthly", "quarterly", "yearly")),
+  frequency: Schema.optional(
+    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+  ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
+  }),
 ) as unknown as Schema.Schema<UpdateSubscriptionRequest>;
 
 export type UpdateSubscriptionResponse = unknown;
@@ -376,7 +410,9 @@ export interface DeleteSubscriptionRequest {
 }
 
 export const DeleteSubscriptionRequest = Schema.Struct({
-  subscriptionIdentifier: Schema.String.pipe(T.HttpPath("subscriptionIdentifier")),
+  subscriptionIdentifier: Schema.String.pipe(
+    T.HttpPath("subscriptionIdentifier"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -391,7 +427,9 @@ export interface DeleteSubscriptionResponse {
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("subscription_id")),
+  subscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("subscription_id"),
+  ),
 }) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export const deleteSubscription = API.make(() => ({
@@ -419,7 +457,8 @@ export const GetTokenRequest = Schema.Struct({
 
 export type GetTokenResponse = unknown;
 
-export const GetTokenResponse = Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
+export const GetTokenResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
 export const getToken = API.make(() => ({
   input: GetTokenRequest,
@@ -451,7 +490,9 @@ export const CreateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("not_in")),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
         }),
       ).pipe(T.JsonName("request_ip")),
     }),
@@ -493,7 +534,9 @@ export const CreateTokenResponse = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("not_in")),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
         }),
       ).pipe(T.JsonName("request_ip")),
     }),
@@ -543,7 +586,9 @@ export const UpdateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("not_in")),
+          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
+            T.JsonName("not_in"),
+          ),
         }),
       ).pipe(T.JsonName("request_ip")),
     }),
@@ -557,7 +602,8 @@ export const UpdateTokenRequest = Schema.Struct({
 
 export type UpdateTokenResponse = unknown;
 
-export const UpdateTokenResponse = Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
+export const UpdateTokenResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
 export const updateToken = API.make(() => ({
   input: UpdateTokenRequest,
@@ -580,7 +626,8 @@ export const DeleteTokenRequest = Schema.Struct({
 
 export type DeleteTokenResponse = unknown;
 
-export const DeleteTokenResponse = Schema.Unknown as unknown as Schema.Schema<DeleteTokenResponse>;
+export const DeleteTokenResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteTokenResponse>;
 
 export const deleteToken = API.make(() => ({
   input: DeleteTokenRequest,
@@ -641,7 +688,10 @@ export const GetTokenPermissionGroupRequest = Schema.Struct({
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
   scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/tokens/permission_groups" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/tokens/permission_groups",
+  }),
 ) as unknown as Schema.Schema<GetTokenPermissionGroupRequest>;
 
 export type GetTokenPermissionGroupResponse = {
@@ -695,7 +745,10 @@ export const PutTokenValueRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Unknown,
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/tokens/{tokenId}/value" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/tokens/{tokenId}/value",
+  }),
 ) as unknown as Schema.Schema<PutTokenValueRequest>;
 
 export type PutTokenValueResponse = unknown;

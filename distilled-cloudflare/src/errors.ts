@@ -15,7 +15,9 @@ import * as Schema from "effect/Schema";
 /**
  * A single Cloudflare error from the errors array.
  */
-export class CloudflareErrorInfo extends Schema.Class<CloudflareErrorInfo>("CloudflareErrorInfo")({
+export class CloudflareErrorInfo extends Schema.Class<CloudflareErrorInfo>(
+  "CloudflareErrorInfo",
+)({
   code: Schema.Number,
   message: Schema.String,
 }) {}
@@ -24,10 +26,13 @@ export class CloudflareErrorInfo extends Schema.Class<CloudflareErrorInfo>("Clou
  * Base tagged error for all Cloudflare API errors.
  * Contains the error code and message from the API response.
  */
-export class CloudflareError extends Schema.TaggedError<CloudflareError>()("CloudflareError", {
-  code: Schema.Number,
-  message: Schema.String,
-}) {}
+export class CloudflareError extends Schema.TaggedError<CloudflareError>()(
+  "CloudflareError",
+  {
+    code: Schema.Number,
+    message: Schema.String,
+  },
+) {}
 
 /**
  * Unknown Cloudflare error - returned when an error code is not recognized.

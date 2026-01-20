@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // ContentScanning
@@ -25,7 +29,10 @@ export interface EnableContentScanningRequest {
 export const EnableContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/content-upload-scan/enable" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/content-upload-scan/enable",
+  }),
 ) as unknown as Schema.Schema<EnableContentScanningRequest>;
 
 export type EnableContentScanningResponse = unknown;
@@ -47,7 +54,10 @@ export interface DisableContentScanningRequest {
 export const DisableContentScanningRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/content-upload-scan/disable" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/content-upload-scan/disable",
+  }),
 ) as unknown as Schema.Schema<DisableContentScanningRequest>;
 
 export type DisableContentScanningResponse = unknown;
@@ -73,7 +83,10 @@ export interface GetSettingRequest {
 export const GetSettingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/content-upload-scan/settings" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/content-upload-scan/settings",
+  }),
 ) as unknown as Schema.Schema<GetSettingRequest>;
 
 export interface GetSettingResponse {

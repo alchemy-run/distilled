@@ -1,25 +1,18 @@
 {
   "name": "distilled-code",
   "version": "0.0.1",
+  "bin": {
+    "distilled": "./bin/distilled.ts"
+  },
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "bin": {
-    "distilled": "./src/index.ts"
-  },
   "scripts": {
-    "distilled": "bun run src/index.ts",
-    "tui": "bun run src/index.ts ./examples/distilled.config.ts",
-    "cli": "bun run src/index.ts ./examples/distilled.config.ts -p",
-    "list-agents": "bun run src/index.ts ./examples/distilled.config.ts -l",
+    "distilled": "bun run bin/distilled.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "download:env": "doppler secrets download --no-file --format env > .env"
-  },
-  "devDependencies": {
-    "@effect/vitest": "catalog:",
-    "vitest": "catalog:"
   },
   "dependencies": {
     "@effect/ai": "catalog:",
@@ -29,11 +22,12 @@
     "@effect/experimental": "catalog:",
     "@effect/platform": "catalog:",
     "@effect/platform-node": "catalog:",
-    "@opentui/core": "catalog:",
-    "@opentui/solid": "catalog:",
     "diff": "catalog:",
     "effect": "catalog:",
-    "solid-js": "^1.9.10",
     "web-tree-sitter": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/vitest": "catalog:",
+    "vitest": "catalog:"
   }
 }

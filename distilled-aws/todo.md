@@ -1,4 +1,5 @@
 # todo
+
 - better error on credentials missing
   - ```
     [08:58:06.504] ERROR (#1):
@@ -19,6 +20,7 @@
 - warning for people who don't know how to bundle
 
 ## Testing
+
 - generate a report on kb per bundle (see effect 4 / effect-smol?) @sam
 - support smithy's testing suite for parsers?
   - e.g. https://github.com/smithy-lang/smithy/tree/main/smithy-aws-protocol-tests/model/restJson1
@@ -26,12 +28,13 @@
 - test coverage reporting
 
 ## Performance
+
 - default sigV4service name to lowercase sdkId when it works
 - make name smaller
 - make everything into thunks
 
 ## Specific handling of errors
 
-| Operation | Tag | Error | Handling behavior |
-|-----------|-----|-------|-------------------|
-| * | OperationAborted | 409 Conflict | Exponential backoff, base 1s, max 30s, unlimited retries until timeout |
+| Operation | Tag              | Error        | Handling behavior                                                      |
+| --------- | ---------------- | ------------ | ---------------------------------------------------------------------- |
+| \*        | OperationAborted | 409 Conflict | Exponential backoff, base 1s, max 30s, unlimited retries until timeout |

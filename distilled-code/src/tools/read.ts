@@ -1,9 +1,9 @@
 import { Tool, Toolkit } from "@effect/ai";
 
-import * as S from "effect/Schema";
-import * as Path from "@effect/platform/Path";
 import * as FileSystem from "@effect/platform/FileSystem";
+import * as Path from "@effect/platform/Path";
 import * as Effect from "effect/Effect";
+import * as S from "effect/Schema";
 
 export const read = Tool.make("read", {
   description: `Reads a file from the local filesystem.
@@ -26,7 +26,7 @@ Usage:
     }),
   },
   success: S.String,
-  failure: S.Any,
+  failure: S.Never,
 });
 
 export const readTooklit = Toolkit.make(read);
@@ -41,36 +41,72 @@ export const readTooklitLayer = readTooklit.toLayer(
         // offset = 0,
         // limit = 2000,
       }) {
+        yield* Effect.logDebug(`[read] filePath=${_filePath}`);
+
         const offset = 0;
         const limit = 2000;
+
         if (_filePath.includes(".env")) {
-          return yield* Effect.fail("Environment variables are not readable");
+          return "Environment files (.env) are not readable for security reasons";
         }
+
         const filePath = path.isAbsolute(_filePath)
           ? _filePath
           : path.join(process.cwd(), _filePath);
 
-        if (!(yield* fs.exists(filePath))) {
+        const exists = yield* fs
+          .exists(filePath)
+          .pipe(Effect.catchAll(() => Effect.succeed(false)));
+
+        if (!exists) {
+          // Try to get suggestions from parent directory
           const dir = path.dirname(filePath);
           const base = path.basename(filePath);
-          const files = yield* fs.readDirectory(dir);
-          const suggestions = files
-            .filter(
-              (entry) =>
-                entry.toLowerCase().includes(base.toLowerCase()) ||
-                base.toLowerCase().includes(entry.toLowerCase()),
-            )
-            .map((entry) => path.join(dir, entry))
-            .slice(0, 3);
+          const dirExists = yield* fs
+            .exists(dir)
+            .pipe(Effect.catchAll(() => Effect.succeed(false)));
 
-          if (suggestions.length > 0) {
-            return yield* Effect.fail(
-              `File not found: ${filePath}. Did you mean one of these files? ${suggestions.join(", ")}`,
-            );
+          if (dirExists) {
+            const files = yield* fs
+              .readDirectory(dir)
+              .pipe(Effect.catchAll(() => Effect.succeed([] as string[])));
+            const suggestions = files
+              .filter(
+                (entry) =>
+                  entry.toLowerCase().includes(base.toLowerCase()) ||
+                  base.toLowerCase().includes(entry.toLowerCase()),
+              )
+              .map((entry) => path.join(dir, entry))
+              .slice(0, 3);
+
+            if (suggestions.length > 0) {
+              return `File not found: ${filePath}. Did you mean one of these?\n${suggestions.join("\n")}`;
+            }
           }
-          return yield* Effect.fail(`File not found: ${filePath}`);
+          return `File not found: ${filePath}`;
         }
-        return (yield* fs.readFileString(filePath))
+
+        // Check if it's a directory
+        const stat = yield* fs
+          .stat(filePath)
+          .pipe(Effect.catchAll(() => Effect.succeed(null)));
+
+        if (stat?.type === "Directory") {
+          const entries = yield* fs
+            .readDirectory(filePath)
+            .pipe(Effect.catchAll(() => Effect.succeed([] as string[])));
+          return `Cannot read directory as a file: ${filePath}\nThis is a directory. Contents:\n${entries.slice(0, 10).join("\n")}${entries.length > 10 ? "\n..." : ""}`;
+        }
+
+        const content = yield* fs
+          .readFileString(filePath)
+          .pipe(
+            Effect.catchAll((e) =>
+              Effect.succeed(`Failed to read file ${filePath}: ${e}`),
+            ),
+          );
+
+        return content
           .split("\n")
           .slice(offset, offset + limit)
           .join("\n");

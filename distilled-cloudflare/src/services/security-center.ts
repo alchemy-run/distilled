@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Insight
@@ -61,7 +65,9 @@ export const DismissInsightResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -73,7 +79,9 @@ export const DismissInsightResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),

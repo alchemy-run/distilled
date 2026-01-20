@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AddressMap
@@ -27,7 +31,10 @@ export const GetAddressMapRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
 ) as unknown as Schema.Schema<GetAddressMapRequest>;
 
 export interface GetAddressMapResponse {
@@ -59,7 +66,9 @@ export interface GetAddressMapResponse {
 export const GetAddressMapResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   canDelete: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_delete")),
-  canModifyIps: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_modify_ips")),
+  canModifyIps: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("can_modify_ips"),
+  ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("default_sni"),
@@ -70,8 +79,12 @@ export const GetAddressMapResponse = Schema.Struct({
   memberships: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        canDelete: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_delete")),
-        createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+        canDelete: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("can_delete"),
+        ),
+        createdAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_at"),
+        ),
         identifier: Schema.optional(Schema.String),
         kind: Schema.optional(Schema.Literal("zone", "account")),
       }),
@@ -113,7 +126,10 @@ export const CreateAddressMapRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/address_maps" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/address_maps",
+  }),
 ) as unknown as Schema.Schema<CreateAddressMapRequest>;
 
 export interface CreateAddressMapResponse {
@@ -145,7 +161,9 @@ export interface CreateAddressMapResponse {
 export const CreateAddressMapResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   canDelete: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_delete")),
-  canModifyIps: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_modify_ips")),
+  canModifyIps: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("can_modify_ips"),
+  ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("default_sni"),
@@ -156,8 +174,12 @@ export const CreateAddressMapResponse = Schema.Struct({
   memberships: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        canDelete: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_delete")),
-        createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
+        canDelete: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("can_delete"),
+        ),
+        createdAt: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_at"),
+        ),
         identifier: Schema.optional(Schema.String),
         kind: Schema.optional(Schema.Literal("zone", "account")),
       }),
@@ -219,7 +241,9 @@ export interface PatchAddressMapResponse {
 export const PatchAddressMapResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   canDelete: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_delete")),
-  canModifyIps: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_modify_ips")),
+  canModifyIps: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("can_modify_ips"),
+  ),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   defaultSni: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.JsonName("default_sni"),
@@ -266,7 +290,12 @@ export interface DeleteAddressMapResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapResponse = Schema.Struct({
@@ -274,7 +303,9 @@ export const DeleteAddressMapResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -286,7 +317,9 @@ export const DeleteAddressMapResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -300,7 +333,9 @@ export const DeleteAddressMapResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<DeleteAddressMapResponse>;
@@ -349,7 +384,12 @@ export interface PutAddressMapAccountResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapAccountResponse = Schema.Struct({
@@ -357,7 +397,9 @@ export const PutAddressMapAccountResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -369,7 +411,9 @@ export const PutAddressMapAccountResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -383,7 +427,9 @@ export const PutAddressMapAccountResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
@@ -425,7 +471,12 @@ export interface DeleteAddressMapAccountResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapAccountResponse = Schema.Struct({
@@ -433,7 +484,9 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -445,7 +498,9 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -459,7 +514,9 @@ export const DeleteAddressMapAccountResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
@@ -510,7 +567,12 @@ export interface PutAddressMapIpResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapIpResponse = Schema.Struct({
@@ -518,7 +580,9 @@ export const PutAddressMapIpResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -530,7 +594,9 @@ export const PutAddressMapIpResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -544,7 +610,9 @@ export const PutAddressMapIpResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<PutAddressMapIpResponse>;
@@ -588,7 +656,12 @@ export interface DeleteAddressMapIpResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapIpResponse = Schema.Struct({
@@ -596,7 +669,9 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -608,7 +683,9 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -622,7 +699,9 @@ export const DeleteAddressMapIpResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
@@ -674,7 +753,12 @@ export interface PutAddressMapZoneResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const PutAddressMapZoneResponse = Schema.Struct({
@@ -682,7 +766,9 @@ export const PutAddressMapZoneResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -694,7 +780,9 @@ export const PutAddressMapZoneResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -708,7 +796,9 @@ export const PutAddressMapZoneResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
@@ -753,7 +843,12 @@ export interface DeleteAddressMapZoneResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeleteAddressMapZoneResponse = Schema.Struct({
@@ -761,7 +856,9 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -773,7 +870,9 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -787,7 +886,9 @@ export const DeleteAddressMapZoneResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
@@ -809,7 +910,9 @@ export interface GetLoaDocumentRequest {
 }
 
 export const GetLoaDocumentRequest = Schema.Struct({
-  loaDocumentId: Schema.Union(Schema.String, Schema.Null).pipe(T.HttpPath("loaDocumentId")),
+  loaDocumentId: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.HttpPath("loaDocumentId"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -840,7 +943,10 @@ export const CreateLoaDocumentRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   loaDocument: Schema.String.pipe(T.JsonName("loa_document")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/loa_documents" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/loa_documents",
+  }),
 ) as unknown as Schema.Schema<CreateLoaDocumentRequest>;
 
 export interface CreateLoaDocumentResponse {
@@ -891,7 +997,10 @@ export const GetPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
 ) as unknown as Schema.Schema<GetPrefixRequest>;
 
 export interface GetPrefixResponse {
@@ -925,9 +1034,9 @@ export const GetPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
   advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("advertised_modified_at"),
-  ),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   cidr: Schema.optional(Schema.String),
@@ -937,8 +1046,12 @@ export const GetPrefixResponse = Schema.Struct({
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-  onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_enabled"),
+  ),
+  onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_locked"),
+  ),
 }) as unknown as Schema.Schema<GetPrefixResponse>;
 
 export const getPrefix = API.make(() => ({
@@ -962,9 +1075,14 @@ export const CreatePrefixRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   asn: Schema.Union(Schema.Number, Schema.Null),
   cidr: Schema.String,
-  loaDocumentId: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("loa_document_id")),
+  loaDocumentId: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("loa_document_id"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/addressing/prefixes" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes",
+  }),
 ) as unknown as Schema.Schema<CreatePrefixRequest>;
 
 export interface CreatePrefixResponse {
@@ -998,9 +1116,9 @@ export const CreatePrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
   advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("advertised_modified_at"),
-  ),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   cidr: Schema.optional(Schema.String),
@@ -1010,8 +1128,12 @@ export const CreatePrefixResponse = Schema.Struct({
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-  onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_enabled"),
+  ),
+  onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_locked"),
+  ),
 }) as unknown as Schema.Schema<CreatePrefixResponse>;
 
 export const createPrefix = API.make(() => ({
@@ -1033,7 +1155,10 @@ export const PatchPrefixRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   description: Schema.String,
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
 ) as unknown as Schema.Schema<PatchPrefixRequest>;
 
 export interface PatchPrefixResponse {
@@ -1067,9 +1192,9 @@ export const PatchPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
   advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-  advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("advertised_modified_at"),
-  ),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("advertised_modified_at")),
   approved: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
   cidr: Schema.optional(Schema.String),
@@ -1079,8 +1204,12 @@ export const PatchPrefixResponse = Schema.Struct({
     T.JsonName("loa_document_id"),
   ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-  onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+  onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_enabled"),
+  ),
+  onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("on_demand_locked"),
+  ),
 }) as unknown as Schema.Schema<PatchPrefixResponse>;
 
 export const patchPrefix = API.make(() => ({
@@ -1099,7 +1228,10 @@ export const DeletePrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/addressing/prefixes/{prefixId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
 ) as unknown as Schema.Schema<DeletePrefixRequest>;
 
 export interface DeletePrefixResponse {
@@ -1117,7 +1249,12 @@ export interface DeletePrefixResponse {
   }[];
   /** Whether the API call was successful. */
   success: true;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const DeletePrefixResponse = Schema.Struct({
@@ -1125,7 +1262,9 @@ export const DeletePrefixResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1137,7 +1276,9 @@ export const DeletePrefixResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1151,7 +1292,9 @@ export const DeletePrefixResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<DeletePrefixResponse>;
@@ -1191,9 +1334,9 @@ export interface GetPrefixAdvertisementStatusResponse {
 
 export const GetPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
-  advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("advertised_modified_at"),
-  ),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("advertised_modified_at")),
 }) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
 
 export const getPrefixAdvertisementStatus = API.make(() => ({
@@ -1230,9 +1373,9 @@ export interface PatchPrefixAdvertisementStatusResponse {
 
 export const PatchPrefixAdvertisementStatusResponse = Schema.Struct({
   advertised: Schema.optional(Schema.Boolean),
-  advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("advertised_modified_at"),
-  ),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("advertised_modified_at")),
 }) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
 
 export const patchPrefixAdvertisementStatus = API.make(() => ({
@@ -1288,16 +1431,18 @@ export interface GetPrefixBgpPrefixResponse {
 export const GetPrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  asnPrependCount: Schema.optional(Schema.Number).pipe(T.JsonName("asn_prepend_count")),
+  asnPrependCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("asn_prepend_count"),
+  ),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("auto_advertise_withdraw"),
   ),
   bgpSignalOpts: Schema.optional(
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
-      modifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("modified_at"),
-      ),
+      modifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
   cidr: Schema.optional(Schema.String),
@@ -1306,11 +1451,15 @@ export const GetPrefixBgpPrefixResponse = Schema.Struct({
   onDemand: Schema.optional(
     Schema.Struct({
       advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-      advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("advertised_modified_at"),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("advertised_modified_at")),
+      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_enabled"),
       ),
-      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-      onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+      onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_locked"),
+      ),
     }),
   ).pipe(T.JsonName("on_demand")),
 }) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
@@ -1365,16 +1514,18 @@ export interface CreatePrefixBgpPrefixResponse {
 export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  asnPrependCount: Schema.optional(Schema.Number).pipe(T.JsonName("asn_prepend_count")),
+  asnPrependCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("asn_prepend_count"),
+  ),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("auto_advertise_withdraw"),
   ),
   bgpSignalOpts: Schema.optional(
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
-      modifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("modified_at"),
-      ),
+      modifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
   cidr: Schema.optional(Schema.String),
@@ -1383,11 +1534,15 @@ export const CreatePrefixBgpPrefixResponse = Schema.Struct({
   onDemand: Schema.optional(
     Schema.Struct({
       advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-      advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("advertised_modified_at"),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("advertised_modified_at")),
+      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_enabled"),
       ),
-      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-      onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+      onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_locked"),
+      ),
     }),
   ).pipe(T.JsonName("on_demand")),
 }) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
@@ -1415,7 +1570,9 @@ export const PatchPrefixBgpPrefixRequest = Schema.Struct({
   prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
   bgpPrefixId: Schema.String.pipe(T.HttpPath("bgpPrefixId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  asnPrependCount: Schema.optional(Schema.Number).pipe(T.JsonName("asn_prepend_count")),
+  asnPrependCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("asn_prepend_count"),
+  ),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("auto_advertise_withdraw"),
   ),
@@ -1456,16 +1613,18 @@ export interface PatchPrefixBgpPrefixResponse {
 export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   asn: Schema.optional(Schema.Union(Schema.Number, Schema.Null)),
-  asnPrependCount: Schema.optional(Schema.Number).pipe(T.JsonName("asn_prepend_count")),
+  asnPrependCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("asn_prepend_count"),
+  ),
   autoAdvertiseWithdraw: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("auto_advertise_withdraw"),
   ),
   bgpSignalOpts: Schema.optional(
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
-      modifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("modified_at"),
-      ),
+      modifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("modified_at")),
     }),
   ).pipe(T.JsonName("bgp_signal_opts")),
   cidr: Schema.optional(Schema.String),
@@ -1474,11 +1633,15 @@ export const PatchPrefixBgpPrefixResponse = Schema.Struct({
   onDemand: Schema.optional(
     Schema.Struct({
       advertised: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
-      advertisedModifiedAt: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("advertised_modified_at"),
+      advertisedModifiedAt: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("advertised_modified_at")),
+      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_enabled"),
       ),
-      onDemandEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_enabled")),
-      onDemandLocked: Schema.optional(Schema.Boolean).pipe(T.JsonName("on_demand_locked")),
+      onDemandLocked: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("on_demand_locked"),
+      ),
     }),
   ).pipe(T.JsonName("on_demand")),
 }) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
@@ -1532,9 +1695,13 @@ export const CreatePrefixDelegationResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   cidr: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
-  delegatedAccountId: Schema.optional(Schema.String).pipe(T.JsonName("delegated_account_id")),
+  delegatedAccountId: Schema.optional(Schema.String).pipe(
+    T.JsonName("delegated_account_id"),
+  ),
   modifiedAt: Schema.optional(Schema.String).pipe(T.JsonName("modified_at")),
-  parentPrefixId: Schema.optional(Schema.String).pipe(T.JsonName("parent_prefix_id")),
+  parentPrefixId: Schema.optional(Schema.String).pipe(
+    T.JsonName("parent_prefix_id"),
+  ),
 }) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
 
 export const createPrefixDelegation = API.make(() => ({
@@ -1722,7 +1889,9 @@ export const DeletePrefixServiceBindingResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1734,7 +1903,9 @@ export const DeletePrefixServiceBindingResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1765,7 +1936,10 @@ export const GetRegionalHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
 ) as unknown as Schema.Schema<GetRegionalHostnameRequest>;
 
 export interface GetRegionalHostnameResponse {
@@ -1809,7 +1983,10 @@ export const CreateRegionalHostnameRequest = Schema.Struct({
   regionKey: Schema.String.pipe(T.JsonName("region_key")),
   routing: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/addressing/regional_hostnames" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/addressing/regional_hostnames",
+  }),
 ) as unknown as Schema.Schema<CreateRegionalHostnameRequest>;
 
 export interface CreateRegionalHostnameResponse {
@@ -1849,7 +2026,10 @@ export const PatchRegionalHostnameRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   regionKey: Schema.String.pipe(T.JsonName("region_key")),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
 ) as unknown as Schema.Schema<PatchRegionalHostnameRequest>;
 
 export interface PatchRegionalHostnameResponse {
@@ -1886,7 +2066,10 @@ export const DeleteRegionalHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+  }),
 ) as unknown as Schema.Schema<DeleteRegionalHostnameRequest>;
 
 export interface DeleteRegionalHostnameResponse {
@@ -1911,7 +2094,9 @@ export const DeleteRegionalHostnameResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1923,7 +2108,9 @@ export const DeleteRegionalHostnameResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),

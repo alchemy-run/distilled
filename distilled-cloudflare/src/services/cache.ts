@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Cache
@@ -25,7 +29,8 @@ export const PurgeCacheRequest = Schema.Struct({}).pipe(
 
 export type PurgeCacheResponse = unknown;
 
-export const PurgeCacheResponse = Schema.Unknown as unknown as Schema.Schema<PurgeCacheResponse>;
+export const PurgeCacheResponse =
+  Schema.Unknown as unknown as Schema.Schema<PurgeCacheResponse>;
 
 export const purgeCache = API.make(() => ({
   input: PurgeCacheRequest,
@@ -165,7 +170,10 @@ export const ClearCacheReserveRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   body: Schema.Unknown,
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/cache/cache_reserve_clear" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/cache/cache_reserve_clear",
+  }),
 ) as unknown as Schema.Schema<ClearCacheReserveRequest>;
 
 export interface ClearCacheReserveResponse {
@@ -209,7 +217,10 @@ export interface GetRegionalTieredCacheRequest {
 export const GetRegionalTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/cache/regional_tiered_cache" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/cache/regional_tiered_cache",
+  }),
 ) as unknown as Schema.Schema<GetRegionalTieredCacheRequest>;
 
 export interface GetRegionalTieredCacheResponse {
@@ -249,7 +260,10 @@ export const PatchRegionalTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   value: Schema.Literal("on", "off"),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/cache/regional_tiered_cache" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/cache/regional_tiered_cache",
+  }),
 ) as unknown as Schema.Schema<PatchRegionalTieredCacheRequest>;
 
 export interface PatchRegionalTieredCacheResponse {
@@ -290,7 +304,10 @@ export interface GetSmartTieredCacheRequest {
 export const GetSmartTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+  }),
 ) as unknown as Schema.Schema<GetSmartTieredCacheRequest>;
 
 export interface GetSmartTieredCacheResponse {
@@ -330,7 +347,10 @@ export const PatchSmartTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   value: Schema.Literal("on", "off"),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+  }),
 ) as unknown as Schema.Schema<PatchSmartTieredCacheRequest>;
 
 export interface PatchSmartTieredCacheResponse {
@@ -367,7 +387,10 @@ export interface DeleteSmartTieredCacheRequest {
 export const DeleteSmartTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+  }),
 ) as unknown as Schema.Schema<DeleteSmartTieredCacheRequest>;
 
 export interface DeleteSmartTieredCacheResponse {

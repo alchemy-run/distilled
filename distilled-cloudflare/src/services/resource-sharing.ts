@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Recipient
@@ -30,7 +34,9 @@ export const GetRecipientRequest = Schema.Struct({
   shareId: Schema.String.pipe(T.HttpPath("shareId")),
   recipientId: Schema.String.pipe(T.HttpPath("recipientId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  includeResources: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_resources")),
+  includeResources: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_resources"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",
@@ -44,7 +50,11 @@ export interface GetRecipientResponse {
   /** Account identifier. */
   accountId: string;
   /** Share Recipient association status. */
-  associationStatus: "associating" | "associated" | "disassociating" | "disassociated";
+  associationStatus:
+    | "associating"
+    | "associated"
+    | "disassociating"
+    | "disassociated";
   /** When the share was created. */
   created: string;
   /** When the share was modified. */
@@ -96,10 +106,17 @@ export interface CreateRecipientRequest {
 export const CreateRecipientRequest = Schema.Struct({
   shareId: Schema.String.pipe(T.HttpPath("shareId")),
   pathAccountId: Schema.String.pipe(T.HttpPath("path_account_id")),
-  bodyAccountId: Schema.optional(Schema.String).pipe(T.JsonName("body_account_id")),
-  organizationId: Schema.optional(Schema.String).pipe(T.JsonName("organization_id")),
+  bodyAccountId: Schema.optional(Schema.String).pipe(
+    T.JsonName("body_account_id"),
+  ),
+  organizationId: Schema.optional(Schema.String).pipe(
+    T.JsonName("organization_id"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{path_account_id}/shares/{shareId}/recipients" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{path_account_id}/shares/{shareId}/recipients",
+  }),
 ) as unknown as Schema.Schema<CreateRecipientRequest>;
 
 export interface CreateRecipientResponse {
@@ -108,7 +125,11 @@ export interface CreateRecipientResponse {
   /** Account identifier. */
   accountId: string;
   /** Share Recipient association status. */
-  associationStatus: "associating" | "associated" | "disassociating" | "disassociated";
+  associationStatus:
+    | "associating"
+    | "associated"
+    | "disassociating"
+    | "disassociated";
   /** When the share was created. */
   created: string;
   /** When the share was modified. */
@@ -171,7 +192,11 @@ export interface DeleteRecipientResponse {
   /** Account identifier. */
   accountId: string;
   /** Share Recipient association status. */
-  associationStatus: "associating" | "associated" | "disassociating" | "disassociated";
+  associationStatus:
+    | "associating"
+    | "associated"
+    | "disassociating"
+    | "disassociated";
   /** When the share was created. */
   created: string;
   /** When the share was modified. */
@@ -226,7 +251,10 @@ export const GetResourceRequest = Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/shares/{shareId}/resources/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/shares/{shareId}/resources/{resourceId}",
+  }),
 ) as unknown as Schema.Schema<GetResourceRequest>;
 
 export interface GetResourceResponse {
@@ -316,7 +344,10 @@ export const CreateResourceRequest = Schema.Struct({
     "gateway-extended-email-matching",
   ).pipe(T.JsonName("resource_type")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/shares/{shareId}/resources" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/shares/{shareId}/resources",
+  }),
 ) as unknown as Schema.Schema<CreateResourceRequest>;
 
 export interface CreateResourceResponse {
@@ -386,7 +417,10 @@ export const UpdateResourceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   meta: Schema.Unknown,
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/shares/{shareId}/resources/{resourceId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/shares/{shareId}/resources/{resourceId}",
+  }),
 ) as unknown as Schema.Schema<UpdateResourceRequest>;
 
 export interface UpdateResourceResponse {
@@ -531,7 +565,9 @@ export const GetResourceSharingRequest = Schema.Struct({
   includeRecipientCounts: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("include_recipient_counts"),
   ),
-  includeResources: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_resources")),
+  includeResources: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_resources"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/shares/{shareId}" }),
 ) as unknown as Schema.Schema<GetResourceSharingRequest>;
@@ -591,7 +627,9 @@ export const GetResourceSharingResponse = Schema.Struct({
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
   status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(T.JsonName("target_type")),
+  targetType: Schema.Literal("account", "organization").pipe(
+    T.JsonName("target_type"),
+  ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("associated_recipient_count"),
   ),
@@ -612,7 +650,9 @@ export const GetResourceSharingResponse = Schema.Struct({
         created: Schema.String,
         meta: Schema.Unknown,
         modified: Schema.String,
-        resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
+        resourceAccountId: Schema.String.pipe(
+          T.JsonName("resource_account_id"),
+        ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceType: Schema.Literal(
           "custom-ruleset",
@@ -663,7 +703,9 @@ export const CreateResourceSharingRequest = Schema.Struct({
   recipients: Schema.Array(
     Schema.Struct({
       accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
-      organizationId: Schema.optional(Schema.String).pipe(T.JsonName("organization_id")),
+      organizationId: Schema.optional(Schema.String).pipe(
+        T.JsonName("organization_id"),
+      ),
     }),
   ),
   resources: Schema.Array(
@@ -740,7 +782,9 @@ export const CreateResourceSharingResponse = Schema.Struct({
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
   status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(T.JsonName("target_type")),
+  targetType: Schema.Literal("account", "organization").pipe(
+    T.JsonName("target_type"),
+  ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("associated_recipient_count"),
   ),
@@ -761,7 +805,9 @@ export const CreateResourceSharingResponse = Schema.Struct({
         created: Schema.String,
         meta: Schema.Unknown,
         modified: Schema.String,
-        resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
+        resourceAccountId: Schema.String.pipe(
+          T.JsonName("resource_account_id"),
+        ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceType: Schema.Literal(
           "custom-ruleset",
@@ -855,7 +901,9 @@ export const UpdateResourceSharingResponse = Schema.Struct({
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
   status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(T.JsonName("target_type")),
+  targetType: Schema.Literal("account", "organization").pipe(
+    T.JsonName("target_type"),
+  ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("associated_recipient_count"),
   ),
@@ -876,7 +924,9 @@ export const UpdateResourceSharingResponse = Schema.Struct({
         created: Schema.String,
         meta: Schema.Unknown,
         modified: Schema.String,
-        resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
+        resourceAccountId: Schema.String.pipe(
+          T.JsonName("resource_account_id"),
+        ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceType: Schema.Literal(
           "custom-ruleset",
@@ -967,7 +1017,9 @@ export const DeleteResourceSharingResponse = Schema.Struct({
   name: Schema.String,
   organizationId: Schema.String.pipe(T.JsonName("organization_id")),
   status: Schema.Literal("active", "deleting", "deleted"),
-  targetType: Schema.Literal("account", "organization").pipe(T.JsonName("target_type")),
+  targetType: Schema.Literal("account", "organization").pipe(
+    T.JsonName("target_type"),
+  ),
   associatedRecipientCount: Schema.optional(Schema.Number).pipe(
     T.JsonName("associated_recipient_count"),
   ),
@@ -988,7 +1040,9 @@ export const DeleteResourceSharingResponse = Schema.Struct({
         created: Schema.String,
         meta: Schema.Unknown,
         modified: Schema.String,
-        resourceAccountId: Schema.String.pipe(T.JsonName("resource_account_id")),
+        resourceAccountId: Schema.String.pipe(
+          T.JsonName("resource_account_id"),
+        ),
         resourceId: Schema.String.pipe(T.JsonName("resource_id")),
         resourceType: Schema.Literal(
           "custom-ruleset",

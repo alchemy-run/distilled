@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // EndpointHealthcheck
@@ -27,7 +31,10 @@ export const GetEndpointHealthcheckRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
+  }),
 ) as unknown as Schema.Schema<GetEndpointHealthcheckRequest>;
 
 export interface GetEndpointHealthcheckResponse {
@@ -62,7 +69,10 @@ export interface ListEndpointHealthchecksRequest {
 export const ListEndpointHealthchecksRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
+  }),
 ) as unknown as Schema.Schema<ListEndpointHealthchecksRequest>;
 
 export interface ListEndpointHealthchecksResponse {
@@ -106,7 +116,10 @@ export const CreateEndpointHealthcheckRequest = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
+  }),
 ) as unknown as Schema.Schema<CreateEndpointHealthcheckRequest>;
 
 export interface CreateEndpointHealthcheckResponse {
@@ -152,7 +165,10 @@ export const UpdateEndpointHealthcheckRequest = Schema.Struct({
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
+  }),
 ) as unknown as Schema.Schema<UpdateEndpointHealthcheckRequest>;
 
 export interface UpdateEndpointHealthcheckResponse {
@@ -217,7 +233,9 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -229,7 +247,9 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),

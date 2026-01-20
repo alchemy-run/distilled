@@ -1,12 +1,12 @@
 import { Tool, Toolkit } from "@effect/ai";
+import * as Command from "@effect/platform/Command";
+import { CommandExecutor } from "@effect/platform/CommandExecutor";
+import * as FileSystem from "@effect/platform/FileSystem";
+import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as S from "effect/Schema";
-import * as Effect from "effect/Effect";
-import * as FileSystem from "@effect/platform/FileSystem";
-import { CommandExecutor } from "@effect/platform/CommandExecutor";
-import * as Command from "@effect/platform/Command";
-import { exec } from "../util/exec.ts";
 import { Scope } from "effect/Scope";
+import { exec } from "../util/exec.ts";
 
 const MAX_LINE_LENGTH = 2000;
 
@@ -35,7 +35,7 @@ export const grep = Tool.make("grep", {
     // }),
   },
   success: S.String,
-  failure: S.Any,
+  failure: S.Never,
 });
 
 export const grepTooklit = Toolkit.make(grep);
@@ -44,96 +44,109 @@ export const grepTooklitLayer = grepTooklit.toLayer(
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     return {
-      grep: Effect.fn(function* ({ pattern, path }) {
-        // TODO: add include once effect/ai supports non-strict schemas
-        const include = undefined;
-        const searchPath = path || process.cwd();
+      grep: (args: { readonly pattern: string; readonly path?: string }) =>
+        Effect.gen(function* () {
+          const { pattern, path } = args;
+          yield* Effect.logDebug(`[grep] pattern=${pattern} path=${path}`);
 
-        const args = ["-nH", "--field-match-separator=|", "--regexp", pattern];
-        if (include) {
-          args.push("--glob", include);
-        }
-        args.push(searchPath);
+          // TODO: add include once effect/ai supports non-strict schemas
+          const include = undefined;
+          const searchPath = path || process.cwd();
 
-        const { stdout, stderr, exitCode } = yield* Command.make(
-          "rg",
-          ...args,
-        ).pipe(Command.stdout("pipe"), Command.stderr("pipe"), exec);
-
-        if (exitCode === 1) {
-          return "No files found";
-        } else if (exitCode !== 0) {
-          return `ripgrep failed: ${stderr}`;
-        }
-
-        const lines = stdout.split(/\r?\n/);
-        const matches: {
-          path: string;
-          modTime: number;
-          lineNum: number;
-          lineText: string;
-        }[] = [];
-
-        for (const line of lines) {
-          if (!line) continue;
-
-          const [filePath, lineNumStr, ...lineTextParts] = line.split("|");
-          if (!filePath || !lineNumStr || lineTextParts.length === 0) continue;
-
-          const lineNum = parseInt(lineNumStr, 10);
-          const lineText = lineTextParts.join("|");
-
-          // const file = Bun.file(filePath);
-          const stats = yield* fs.stat(filePath);
-          if (!stats) continue;
-
-          const modTime = stats.mtime.pipe(Option.getOrUndefined);
-          if (!modTime) continue;
-          matches.push({
-            path: filePath,
-            modTime: modTime.getTime(),
-            lineNum,
-            lineText,
-          });
-        }
-
-        matches.sort((a, b) => b.modTime - a.modTime);
-
-        const limit = 100;
-        const truncated = matches.length > limit;
-        const finalMatches = truncated ? matches.slice(0, limit) : matches;
-
-        if (finalMatches.length === 0) {
-          return "No files found";
-        }
-
-        const outputLines = [`Found ${finalMatches.length} matches`];
-
-        let currentFile = "";
-        for (const match of finalMatches) {
-          if (currentFile !== match.path) {
-            if (currentFile !== "") {
-              outputLines.push("");
-            }
-            currentFile = match.path;
-            outputLines.push(`${match.path}:`);
+          const rgArgs = [
+            "-nH",
+            "--field-match-separator=|",
+            "--regexp",
+            pattern,
+          ];
+          if (include) {
+            rgArgs.push("--glob", include);
           }
-          const truncatedLineText =
-            match.lineText.length > MAX_LINE_LENGTH
-              ? match.lineText.substring(0, MAX_LINE_LENGTH) + "..."
-              : match.lineText;
-          outputLines.push(`  Line ${match.lineNum}: ${truncatedLineText}`);
-        }
+          rgArgs.push(searchPath);
 
-        if (truncated) {
-          outputLines.push("");
-          outputLines.push(
-            "(Results are truncated. Consider using a more specific path or pattern.)",
-          );
-        }
+          const { stdout, stderr, exitCode } = yield* Command.make(
+            "rg",
+            ...rgArgs,
+          ).pipe(Command.stdout("pipe"), Command.stderr("pipe"), exec);
 
-        return outputLines.join("\n");
-      }),
+          if (exitCode === 1) {
+            return `No matches found for pattern "${pattern}" in ${searchPath}`;
+          } else if (exitCode !== 0) {
+            return `ripgrep failed with exit code ${exitCode}: ${stderr}`;
+          }
+
+          const lines = stdout.split(/\r?\n/);
+          const matches: {
+            path: string;
+            modTime: number;
+            lineNum: number;
+            lineText: string;
+          }[] = [];
+
+          for (const line of lines) {
+            if (!line) continue;
+
+            const [filePath, lineNumStr, ...lineTextParts] = line.split("|");
+            if (!filePath || !lineNumStr || lineTextParts.length === 0)
+              continue;
+
+            const lineNum = parseInt(lineNumStr, 10);
+            const lineText = lineTextParts.join("|");
+
+            const stats = yield* fs
+              .stat(filePath)
+              .pipe(Effect.catchAll(() => Effect.succeed(null)));
+            if (!stats) continue;
+
+            const modTime = stats.mtime.pipe(Option.getOrUndefined);
+            if (!modTime) continue;
+            matches.push({
+              path: filePath,
+              modTime: modTime.getTime(),
+              lineNum,
+              lineText,
+            });
+          }
+
+          matches.sort((a, b) => b.modTime - a.modTime);
+
+          const limit = 100;
+          const truncated = matches.length > limit;
+          const finalMatches = truncated ? matches.slice(0, limit) : matches;
+
+          if (finalMatches.length === 0) {
+            return `No matches found for pattern "${pattern}" in ${searchPath}`;
+          }
+
+          const outputLines = [`Found ${finalMatches.length} matches`];
+
+          let currentFile = "";
+          for (const match of finalMatches) {
+            if (currentFile !== match.path) {
+              if (currentFile !== "") {
+                outputLines.push("");
+              }
+              currentFile = match.path;
+              outputLines.push(`${match.path}:`);
+            }
+            const truncatedLineText =
+              match.lineText.length > MAX_LINE_LENGTH
+                ? match.lineText.substring(0, MAX_LINE_LENGTH) + "..."
+                : match.lineText;
+            outputLines.push(`  Line ${match.lineNum}: ${truncatedLineText}`);
+          }
+
+          if (truncated) {
+            outputLines.push("");
+            outputLines.push(
+              "(Results are truncated. Consider using a more specific path or pattern.)",
+            );
+          }
+
+          return outputLines.join("\n");
+        }).pipe(
+          Effect.catchAll((e) => Effect.succeed(`Grep search failed: ${e}`)),
+        ),
     };
   }),
 );

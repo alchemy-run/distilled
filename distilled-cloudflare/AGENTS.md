@@ -32,44 +32,46 @@ cloudflare-typescript/src/resources/*.ts → Generator → src/services/*.ts →
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `scripts/generate-from-sdk.ts` | Code generator (parses SDK source) |
-| `spec/{service}.json` | Error definitions and per-operation error assignments |
-| `src/services/{service}.ts` | Generated client (DO NOT EDIT) |
-| `src/client/request-builder.ts` | Builds HTTP requests from annotated schemas |
-| `src/client/response-parser.ts` | Parses responses and matches errors |
-| `src/traits.ts` | Schema annotations for HTTP bindings and error matching |
-| `src/schemas.ts` | Common schemas (file uploads, etc.) |
-| `test/services/{service}.test.ts` | Tests that drive error discovery |
+| File                              | Purpose                                                 |
+| --------------------------------- | ------------------------------------------------------- |
+| `scripts/generate-from-sdk.ts`    | Code generator (parses SDK source)                      |
+| `spec/{service}.json`             | Error definitions and per-operation error assignments   |
+| `src/services/{service}.ts`       | Generated client (DO NOT EDIT)                          |
+| `src/client/request-builder.ts`   | Builds HTTP requests from annotated schemas             |
+| `src/client/response-parser.ts`   | Parses responses and matches errors                     |
+| `src/traits.ts`                   | Schema annotations for HTTP bindings and error matching |
+| `src/schemas.ts`                  | Common schemas (file uploads, etc.)                     |
+| `test/services/{service}.test.ts` | Tests that drive error discovery                        |
 
 ## Traits
 
 HTTP bindings and error matching as Schema annotations:
 
-| Trait | Purpose |
-|-------|---------|
-| `T.HttpPath(name)` | Path parameter |
-| `T.HttpQuery(name)` | Query parameter |
-| `T.HttpHeader(name)` | Header |
-| `T.JsonName(name)` | JSON serialization key (for camelCase → snake_case) |
-| `T.Http({ method, path, contentType? })` | Operation-level HTTP metadata |
-| `T.HttpFormDataFile()` | File upload in multipart form |
-| `T.HttpErrorCode(code)` | Match error by single code |
-| `T.HttpErrorCodes([...])` | Match error by multiple codes |
-| `T.HttpErrorStatus(status)` | Match error by HTTP status |
-| `T.HttpErrorMessage(pattern)` | Match error by message substring |
+| Trait                                    | Purpose                                             |
+| ---------------------------------------- | --------------------------------------------------- |
+| `T.HttpPath(name)`                       | Path parameter                                      |
+| `T.HttpQuery(name)`                      | Query parameter                                     |
+| `T.HttpHeader(name)`                     | Header                                              |
+| `T.JsonName(name)`                       | JSON serialization key (for camelCase → snake_case) |
+| `T.Http({ method, path, contentType? })` | Operation-level HTTP metadata                       |
+| `T.HttpFormDataFile()`                   | File upload in multipart form                       |
+| `T.HttpErrorCode(code)`                  | Match error by single code                          |
+| `T.HttpErrorCodes([...])`                | Match error by multiple codes                       |
+| `T.HttpErrorStatus(status)`              | Match error by HTTP status                          |
+| `T.HttpErrorMessage(pattern)`            | Match error by message substring                    |
 
 ## Error Patching
 
 When you see `UnknownCloudflareError`:
 
 1. Extract the error code from the failure:
+
    ```bash
    DEBUG=1 bun vitest run ./test/services/r2.test.ts -t "CORS"
    ```
 
 2. Add to `spec/{service}.json`:
+
    ```json
    {
      "errors": {
@@ -88,12 +90,12 @@ When you see `UnknownCloudflareError`:
 
 **Error Matching Options:**
 
-| Field | Description |
-|-------|-------------|
-| `code` | Single Cloudflare error code |
-| `codes` | Array of codes that map to the same error |
-| `status` | HTTP status code (for disambiguation) |
-| `message` | Substring match on error message |
+| Field     | Description                               |
+| --------- | ----------------------------------------- |
+| `code`    | Single Cloudflare error code              |
+| `codes`   | Array of codes that map to the same error |
+| `status`  | HTTP status code (for disambiguation)     |
+| `message` | Substring match on error message          |
 
 **Matching priority:** code + status + message > code + status > code only
 
@@ -102,6 +104,7 @@ When you see `UnknownCloudflareError`:
 ### Naming Conventions
 
 The generator automatically:
+
 - Converts `snake_case` params to `camelCase` (with `T.JsonName` for serialization)
 - Maps HTTP verbs: `update` → `put` (when no create exists), `edit` → `patch`
 - Handles bulk operations: `bulkDelete` → `batchDelete`
@@ -111,19 +114,20 @@ The generator automatically:
 ### File Uploads
 
 When the SDK uses `Core.Uploadable` types, the generator:
+
 1. Detects file parameters in body
-2. Generates `UploadableSchema.pipe(T.HttpFormDataFile())` 
+2. Generates `UploadableSchema.pipe(T.HttpFormDataFile())`
 3. Adds `contentType: "multipart"` to the `T.Http` trait
 4. TypeScript type becomes `File | Blob`
 
 ### Generator Issues
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| `unknown` type in output | SDK type not resolved | Improve type resolution in `typeNodeToTypeInfo` |
-| Wrong property name | camelCase conversion issue | Fix `toCamelCase` or naming logic |
-| Missing trait | Parameter location not detected | Update param extraction logic |
-| Schema/interface mismatch | `typeInfoToSchema` and `typeInfoToTsType` diverge | Apply same fix to both |
+| Symptom                   | Cause                                             | Fix                                             |
+| ------------------------- | ------------------------------------------------- | ----------------------------------------------- |
+| `unknown` type in output  | SDK type not resolved                             | Improve type resolution in `typeNodeToTypeInfo` |
+| Wrong property name       | camelCase conversion issue                        | Fix `toCamelCase` or naming logic               |
+| Missing trait             | Parameter location not detected                   | Update param extraction logic                   |
+| Schema/interface mismatch | `typeInfoToSchema` and `typeInfoToTsType` diverge | Apply same fix to both                          |
 
 ## Testing Protocol
 
@@ -140,7 +144,7 @@ describe("Workers", () => {
         expect(result.result).toBeDefined();
         expect(Array.isArray(result.result)).toBe(true);
       }));
-    
+
     test("error - WorkerNotFound for non-existent", () =>
       Workers.getWorkerSettings({
         account_id: accountId(),
@@ -173,15 +177,16 @@ flowchart TD
 
 ### When to Stop and Ask
 
-| Situation | Action |
-|-----------|--------|
-| Missing credentials | Request user add env vars |
-| Rate limiting | Request user wait or increase limits |
-| Account-level restrictions | Request user enable feature |
-| Ambiguous API behavior | Ask for clarification |
-| Breaking generator change | Ask for approval |
+| Situation                  | Action                               |
+| -------------------------- | ------------------------------------ |
+| Missing credentials        | Request user add env vars            |
+| Rate limiting              | Request user wait or increase limits |
+| Account-level restrictions | Request user enable feature          |
+| Ambiguous API behavior     | Ask for clarification                |
+| Breaking generator change  | Ask for approval                     |
 
 Do NOT stop for:
+
 - `UnknownCloudflareError` → Add to spec and continue
 - Type errors → Fix and continue
 - Flaky tests → Add retry logic and continue
@@ -203,13 +208,16 @@ bun run download:env
 ## Service Notes
 
 **Queues:**
+
 - Create `http_pull` consumer before pulling messages
 
 **R2:**
+
 - Location enum has uppercase/lowercase variants
 - Fresh buckets return `NoCorsConfiguration` (not 404)
 
 **Workers:**
+
 - Upload via FormData with metadata blob and files array
 - `getContent` returns `FormData` with worker modules as `File` entries
 - Workflows require a worker that exports Workflow class

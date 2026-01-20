@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AnalyticAggregateCurrent
@@ -31,7 +35,10 @@ export const GetAnalyticAggregateCurrentRequest = Schema.Struct({
   appID: Schema.optional(Schema.String).pipe(T.HttpQuery("appID")),
   coloName: Schema.optional(Schema.String).pipe(T.HttpQuery("colo_name")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/spectrum/analytics/aggregate/current" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/spectrum/analytics/aggregate/current",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentRequest>;
 
 export type GetAnalyticAggregateCurrentResponse = {
@@ -66,7 +73,15 @@ export interface GetAnalyticEventBytimeRequest {
   /** Path param: Identifier. */
   zoneId: string;
   /** Query param: Used to select time series resolution. */
-  timeDelta: "year" | "quarter" | "month" | "week" | "day" | "hour" | "dekaminute" | "minute";
+  timeDelta:
+    | "year"
+    | "quarter"
+    | "month"
+    | "week"
+    | "day"
+    | "hour"
+    | "dekaminute"
+    | "minute";
   /** Query param: Can be used to break down the data by given attributes. Options are:  | Dimension | Name                          | Example                                                    | | -------- */
   dimensions?: ("event" | "appID" | "coloName" | "ipVersion")[];
   /** Query param: Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined usin */
@@ -122,7 +137,10 @@ export const GetAnalyticEventBytimeRequest = Schema.Struct({
   sort: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sort")),
   until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/spectrum/analytics/events/bytime" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/spectrum/analytics/events/bytime",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticEventBytimeRequest>;
 
 export interface GetAnalyticEventBytimeResponse {
@@ -164,7 +182,10 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Number), Schema.Array(Schema.Array(Schema.Number))),
+        Schema.Union(
+          Schema.Array(Schema.Number),
+          Schema.Array(Schema.Array(Schema.Number)),
+        ),
       ),
     }),
   ),
@@ -196,9 +217,9 @@ export const GetAnalyticEventBytimeResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))).pipe(
-    T.JsonName("time_intervals"),
-  ),
+  timeIntervals: Schema.optional(
+    Schema.Array(Schema.Array(Schema.String)),
+  ).pipe(T.JsonName("time_intervals")),
 }) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
 export const getAnalyticEventBytime = API.make(() => ({
@@ -259,7 +280,10 @@ export const GetAnalyticEventSummaryRequest = Schema.Struct({
   sort: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sort")),
   until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/spectrum/analytics/events/summary" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/spectrum/analytics/events/summary",
+  }),
 ) as unknown as Schema.Schema<GetAnalyticEventSummaryRequest>;
 
 export interface GetAnalyticEventSummaryResponse {
@@ -301,7 +325,10 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Number), Schema.Array(Schema.Array(Schema.Number))),
+        Schema.Union(
+          Schema.Array(Schema.Number),
+          Schema.Array(Schema.Array(Schema.Number)),
+        ),
       ),
     }),
   ),
@@ -333,9 +360,9 @@ export const GetAnalyticEventSummaryResponse = Schema.Struct({
   }),
   rows: Schema.Number,
   totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(Schema.Array(Schema.Array(Schema.String))).pipe(
-    T.JsonName("time_intervals"),
-  ),
+  timeIntervals: Schema.optional(
+    Schema.Array(Schema.Array(Schema.String)),
+  ).pipe(T.JsonName("time_intervals")),
 }) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
 export const getAnalyticEventSummary = API.make(() => ({
@@ -394,18 +421,24 @@ export const GetAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(T.JsonName("traffic_type")),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(T.JsonName("argo_smart_routing")),
+    trafficType: Schema.Literal("direct", "http", "https").pipe(
+      T.JsonName("traffic_type"),
+    ),
+    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("argo_smart_routing"),
+    ),
     edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
     ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(
-      T.JsonName("origin_port"),
-    ),
-    proxyProtocol: Schema.optional(Schema.Literal("off", "v1", "v2", "simple")).pipe(
-      T.JsonName("proxy_protocol"),
-    ),
+    originPort: Schema.optional(
+      Schema.Union(Schema.String, Schema.Number),
+    ).pipe(T.JsonName("origin_port")),
+    proxyProtocol: Schema.optional(
+      Schema.Literal("off", "v1", "v2", "simple"),
+    ).pipe(T.JsonName("proxy_protocol")),
     tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
   }),
   Schema.Struct({
@@ -414,7 +447,9 @@ export const GetAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
   }),
 ) as unknown as Schema.Schema<GetAppResponse>;
 
@@ -463,18 +498,24 @@ export const CreateAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(T.JsonName("traffic_type")),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(T.JsonName("argo_smart_routing")),
+    trafficType: Schema.Literal("direct", "http", "https").pipe(
+      T.JsonName("traffic_type"),
+    ),
+    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("argo_smart_routing"),
+    ),
     edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
     ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(
-      T.JsonName("origin_port"),
-    ),
-    proxyProtocol: Schema.optional(Schema.Literal("off", "v1", "v2", "simple")).pipe(
-      T.JsonName("proxy_protocol"),
-    ),
+    originPort: Schema.optional(
+      Schema.Union(Schema.String, Schema.Number),
+    ).pipe(T.JsonName("origin_port")),
+    proxyProtocol: Schema.optional(
+      Schema.Literal("off", "v1", "v2", "simple"),
+    ).pipe(T.JsonName("proxy_protocol")),
     tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
   }),
   Schema.Struct({
@@ -483,7 +524,9 @@ export const CreateAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
   }),
 ) as unknown as Schema.Schema<CreateAppResponse>;
 
@@ -536,18 +579,24 @@ export const UpdateAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    trafficType: Schema.Literal("direct", "http", "https").pipe(T.JsonName("traffic_type")),
-    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(T.JsonName("argo_smart_routing")),
+    trafficType: Schema.Literal("direct", "http", "https").pipe(
+      T.JsonName("traffic_type"),
+    ),
+    argoSmartRouting: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("argo_smart_routing"),
+    ),
     edgeIps: Schema.optional(Schema.Unknown).pipe(T.JsonName("edge_ips")),
     ipFirewall: Schema.optional(Schema.Boolean).pipe(T.JsonName("ip_firewall")),
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
     originDns: Schema.optional(Schema.Unknown).pipe(T.JsonName("origin_dns")),
-    originPort: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(
-      T.JsonName("origin_port"),
-    ),
-    proxyProtocol: Schema.optional(Schema.Literal("off", "v1", "v2", "simple")).pipe(
-      T.JsonName("proxy_protocol"),
-    ),
+    originPort: Schema.optional(
+      Schema.Union(Schema.String, Schema.Number),
+    ).pipe(T.JsonName("origin_port")),
+    proxyProtocol: Schema.optional(
+      Schema.Literal("off", "v1", "v2", "simple"),
+    ).pipe(T.JsonName("proxy_protocol")),
     tls: Schema.optional(Schema.Literal("off", "flexible", "full", "strict")),
   }),
   Schema.Struct({
@@ -556,7 +605,9 @@ export const UpdateAppResponse = Schema.Union(
     dns: Schema.Unknown,
     modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
     protocol: Schema.String,
-    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("origin_direct")),
+    originDirect: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("origin_direct"),
+    ),
   }),
 ) as unknown as Schema.Schema<UpdateAppResponse>;
 
@@ -581,7 +632,8 @@ export const DeleteAppRequest = Schema.Struct({
 
 export type DeleteAppResponse = unknown;
 
-export const DeleteAppResponse = Schema.Unknown as unknown as Schema.Schema<DeleteAppResponse>;
+export const DeleteAppResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteAppResponse>;
 
 export const deleteApp = API.make(() => ({
   input: DeleteAppRequest,

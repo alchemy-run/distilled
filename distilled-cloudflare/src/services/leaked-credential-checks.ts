@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Detection
@@ -31,7 +35,10 @@ export const CreateDetectionRequest = Schema.Struct({
   password: Schema.optional(Schema.String),
   username: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/leaked-credential-checks/detections" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/leaked-credential-checks/detections",
+  }),
 ) as unknown as Schema.Schema<CreateDetectionRequest>;
 
 export interface CreateDetectionResponse {

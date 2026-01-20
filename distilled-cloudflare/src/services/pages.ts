@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // BuildCacheProject
@@ -58,7 +62,10 @@ export const GetProjectRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/pages/projects/{projectName}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/pages/projects/{projectName}",
+  }),
 ) as unknown as Schema.Schema<GetProjectRequest>;
 
 export interface GetProjectResponse {
@@ -87,7 +94,11 @@ export interface GetProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -184,7 +195,11 @@ export interface GetProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -252,88 +267,118 @@ export const GetProjectResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   buildConfig: Schema.optional(
     Schema.Struct({
-      buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-        T.JsonName("build_caching"),
-      ),
-      buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("build_command"),
-      ),
-      destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("destination_dir"),
-      ),
+      buildCaching: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("build_caching")),
+      buildCommand: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("build_command")),
+      destinationDir: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("destination_dir")),
       rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
         T.JsonName("root_dir"),
       ),
-      webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_tag"),
-      ),
-      webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_token"),
-      ),
+      webAnalyticsTag: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_tag")),
+      webAnalyticsToken: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
   canonicalDeployment: Schema.optional(
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -352,22 +397,24 @@ export const GetProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -376,17 +423,29 @@ export const GetProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -401,33 +460,39 @@ export const GetProjectResponse = Schema.Struct({
     Schema.Struct({
       preview: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -436,47 +501,55 @@ export const GetProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
       production: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -485,16 +558,18 @@ export const GetProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
     }),
@@ -504,64 +579,94 @@ export const GetProjectResponse = Schema.Struct({
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -580,22 +685,24 @@ export const GetProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -604,17 +711,29 @@ export const GetProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -625,7 +744,9 @@ export const GetProjectResponse = Schema.Struct({
     ),
   ).pipe(T.JsonName("latest_deployment")),
   name: Schema.optional(Schema.String),
-  productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
+  productionBranch: Schema.optional(Schema.String).pipe(
+    T.JsonName("production_branch"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       config: Schema.optional(
@@ -643,20 +764,24 @@ export const GetProjectResponse = Schema.Struct({
           prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("pr_comments_enabled"),
           ),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_excludes"),
+          previewBranchExcludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_excludes")),
+          previewBranchIncludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_includes")),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Literal("all", "none", "custom"),
+          ).pipe(T.JsonName("preview_deployment_setting")),
+          productionBranch: Schema.optional(Schema.String).pipe(
+            T.JsonName("production_branch"),
           ),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_includes"),
-          ),
-          previewDeploymentSetting: Schema.optional(Schema.Literal("all", "none", "custom")).pipe(
-            T.JsonName("preview_deployment_setting"),
-          ),
-          productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
           productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("production_deployments_enabled"),
           ),
-          repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
+          repoName: Schema.optional(Schema.String).pipe(
+            T.JsonName("repo_name"),
+          ),
         }),
       ),
       type: Schema.optional(Schema.String),
@@ -749,57 +874,63 @@ export const CreateProjectRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   buildConfig: Schema.optional(
     Schema.Struct({
-      buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-        T.JsonName("build_caching"),
-      ),
-      buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("build_command"),
-      ),
-      destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("destination_dir"),
-      ),
+      buildCaching: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("build_caching")),
+      buildCommand: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("build_command")),
+      destinationDir: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("destination_dir")),
       rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
         T.JsonName("root_dir"),
       ),
-      webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_tag"),
-      ),
-      webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_token"),
-      ),
+      webAnalyticsTag: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_tag")),
+      webAnalyticsToken: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
   deploymentConfigs: Schema.optional(
     Schema.Struct({
       preview: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -808,47 +939,55 @@ export const CreateProjectRequest = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
       production: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -857,22 +996,26 @@ export const CreateProjectRequest = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
     }),
   ).pipe(T.JsonName("deployment_configs")),
   name: Schema.optional(Schema.String),
-  productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
+  productionBranch: Schema.optional(Schema.String).pipe(
+    T.JsonName("production_branch"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       config: Schema.optional(
@@ -890,20 +1033,24 @@ export const CreateProjectRequest = Schema.Struct({
           prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("pr_comments_enabled"),
           ),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_excludes"),
+          previewBranchExcludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_excludes")),
+          previewBranchIncludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_includes")),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Literal("all", "none", "custom"),
+          ).pipe(T.JsonName("preview_deployment_setting")),
+          productionBranch: Schema.optional(Schema.String).pipe(
+            T.JsonName("production_branch"),
           ),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_includes"),
-          ),
-          previewDeploymentSetting: Schema.optional(Schema.Literal("all", "none", "custom")).pipe(
-            T.JsonName("preview_deployment_setting"),
-          ),
-          productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
           productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("production_deployments_enabled"),
           ),
-          repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
+          repoName: Schema.optional(Schema.String).pipe(
+            T.JsonName("repo_name"),
+          ),
         }),
       ),
       type: Schema.optional(Schema.String),
@@ -939,7 +1086,11 @@ export interface CreateProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -1036,7 +1187,11 @@ export interface CreateProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -1104,88 +1259,118 @@ export const CreateProjectResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   buildConfig: Schema.optional(
     Schema.Struct({
-      buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-        T.JsonName("build_caching"),
-      ),
-      buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("build_command"),
-      ),
-      destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("destination_dir"),
-      ),
+      buildCaching: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("build_caching")),
+      buildCommand: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("build_command")),
+      destinationDir: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("destination_dir")),
       rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
         T.JsonName("root_dir"),
       ),
-      webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_tag"),
-      ),
-      webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_token"),
-      ),
+      webAnalyticsTag: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_tag")),
+      webAnalyticsToken: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
   canonicalDeployment: Schema.optional(
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -1204,22 +1389,24 @@ export const CreateProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -1228,17 +1415,29 @@ export const CreateProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -1253,33 +1452,39 @@ export const CreateProjectResponse = Schema.Struct({
     Schema.Struct({
       preview: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -1288,47 +1493,55 @@ export const CreateProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
       production: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -1337,16 +1550,18 @@ export const CreateProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
     }),
@@ -1356,64 +1571,94 @@ export const CreateProjectResponse = Schema.Struct({
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -1432,22 +1677,24 @@ export const CreateProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -1456,17 +1703,29 @@ export const CreateProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -1477,7 +1736,9 @@ export const CreateProjectResponse = Schema.Struct({
     ),
   ).pipe(T.JsonName("latest_deployment")),
   name: Schema.optional(Schema.String),
-  productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
+  productionBranch: Schema.optional(Schema.String).pipe(
+    T.JsonName("production_branch"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       config: Schema.optional(
@@ -1495,20 +1756,24 @@ export const CreateProjectResponse = Schema.Struct({
           prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("pr_comments_enabled"),
           ),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_excludes"),
+          previewBranchExcludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_excludes")),
+          previewBranchIncludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_includes")),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Literal("all", "none", "custom"),
+          ).pipe(T.JsonName("preview_deployment_setting")),
+          productionBranch: Schema.optional(Schema.String).pipe(
+            T.JsonName("production_branch"),
           ),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_includes"),
-          ),
-          previewDeploymentSetting: Schema.optional(Schema.Literal("all", "none", "custom")).pipe(
-            T.JsonName("preview_deployment_setting"),
-          ),
-          productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
           productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("production_deployments_enabled"),
           ),
-          repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
+          repoName: Schema.optional(Schema.String).pipe(
+            T.JsonName("repo_name"),
+          ),
         }),
       ),
       type: Schema.optional(Schema.String),
@@ -1603,57 +1868,63 @@ export const PatchProjectRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   buildConfig: Schema.optional(
     Schema.Struct({
-      buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-        T.JsonName("build_caching"),
-      ),
-      buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("build_command"),
-      ),
-      destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("destination_dir"),
-      ),
+      buildCaching: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("build_caching")),
+      buildCommand: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("build_command")),
+      destinationDir: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("destination_dir")),
       rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
         T.JsonName("root_dir"),
       ),
-      webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_tag"),
-      ),
-      webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_token"),
-      ),
+      webAnalyticsTag: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_tag")),
+      webAnalyticsToken: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
   deploymentConfigs: Schema.optional(
     Schema.Struct({
       preview: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -1662,47 +1933,55 @@ export const PatchProjectRequest = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
       production: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -1711,22 +1990,26 @@ export const PatchProjectRequest = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
     }),
   ).pipe(T.JsonName("deployment_configs")),
   name: Schema.optional(Schema.String),
-  productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
+  productionBranch: Schema.optional(Schema.String).pipe(
+    T.JsonName("production_branch"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       config: Schema.optional(
@@ -1744,27 +2027,34 @@ export const PatchProjectRequest = Schema.Struct({
           prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("pr_comments_enabled"),
           ),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_excludes"),
+          previewBranchExcludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_excludes")),
+          previewBranchIncludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_includes")),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Literal("all", "none", "custom"),
+          ).pipe(T.JsonName("preview_deployment_setting")),
+          productionBranch: Schema.optional(Schema.String).pipe(
+            T.JsonName("production_branch"),
           ),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_includes"),
-          ),
-          previewDeploymentSetting: Schema.optional(Schema.Literal("all", "none", "custom")).pipe(
-            T.JsonName("preview_deployment_setting"),
-          ),
-          productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
           productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("production_deployments_enabled"),
           ),
-          repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
+          repoName: Schema.optional(Schema.String).pipe(
+            T.JsonName("repo_name"),
+          ),
         }),
       ),
       type: Schema.optional(Schema.String),
     }),
   ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/pages/projects/{projectName}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/pages/projects/{projectName}",
+  }),
 ) as unknown as Schema.Schema<PatchProjectRequest>;
 
 export interface PatchProjectResponse {
@@ -1793,7 +2083,11 @@ export interface PatchProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -1890,7 +2184,11 @@ export interface PatchProjectResponse {
     };
     createdOn?: string;
     deploymentTrigger?: {
-      metadata?: { branch?: string; commitHash?: string; commitMessage?: string };
+      metadata?: {
+        branch?: string;
+        commitHash?: string;
+        commitMessage?: string;
+      };
       type?: "push" | "ad_hoc";
     };
     envVars?: Record<string, unknown>;
@@ -1958,88 +2256,118 @@ export const PatchProjectResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   buildConfig: Schema.optional(
     Schema.Struct({
-      buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-        T.JsonName("build_caching"),
-      ),
-      buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("build_command"),
-      ),
-      destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("destination_dir"),
-      ),
+      buildCaching: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("build_caching")),
+      buildCommand: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("build_command")),
+      destinationDir: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("destination_dir")),
       rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
         T.JsonName("root_dir"),
       ),
-      webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_tag"),
-      ),
-      webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-        T.JsonName("web_analytics_token"),
-      ),
+      webAnalyticsTag: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_tag")),
+      webAnalyticsToken: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("web_analytics_token")),
     }),
   ).pipe(T.JsonName("build_config")),
   canonicalDeployment: Schema.optional(
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -2058,22 +2386,24 @@ export const PatchProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -2082,17 +2412,29 @@ export const PatchProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -2107,33 +2449,39 @@ export const PatchProjectResponse = Schema.Struct({
     Schema.Struct({
       preview: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -2142,47 +2490,55 @@ export const PatchProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
       production: Schema.optional(
         Schema.Struct({
-          aiBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("ai_bindings"),
-          ),
+          aiBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("ai_bindings")),
           analyticsEngineDatasets: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("analytics_engine_datasets")),
-          browsers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          compatibilityDate: Schema.optional(Schema.String).pipe(T.JsonName("compatibility_date")),
+          browsers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ),
+          compatibilityDate: Schema.optional(Schema.String).pipe(
+            T.JsonName("compatibility_date"),
+          ),
           compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
             T.JsonName("compatibility_flags"),
           ),
-          d1Databases: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("d1_databases"),
-          ),
+          d1Databases: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("d1_databases")),
           durableObjectNamespaces: Schema.optional(
             Schema.Union(Schema.Struct({}), Schema.Null),
           ).pipe(T.JsonName("durable_object_namespaces")),
-          envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
-          hyperdriveBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("hyperdrive_bindings"),
+          envVars: Schema.optional(Schema.Struct({})).pipe(
+            T.JsonName("env_vars"),
           ),
-          kvNamespaces: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("kv_namespaces"),
-          ),
-          mtlsCertificates: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("mtls_certificates"),
-          ),
+          hyperdriveBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("hyperdrive_bindings")),
+          kvNamespaces: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("kv_namespaces")),
+          mtlsCertificates: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("mtls_certificates")),
           placement: Schema.optional(
             Schema.Union(
               Schema.Struct({
@@ -2191,16 +2547,18 @@ export const PatchProjectResponse = Schema.Struct({
               Schema.Null,
             ),
           ),
-          queueProducers: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("queue_producers"),
+          queueProducers: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("queue_producers")),
+          r2Buckets: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("r2_buckets")),
+          services: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
           ),
-          r2Buckets: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("r2_buckets"),
-          ),
-          services: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)),
-          vectorizeBindings: Schema.optional(Schema.Union(Schema.Struct({}), Schema.Null)).pipe(
-            T.JsonName("vectorize_bindings"),
-          ),
+          vectorizeBindings: Schema.optional(
+            Schema.Union(Schema.Struct({}), Schema.Null),
+          ).pipe(T.JsonName("vectorize_bindings")),
         }),
       ),
     }),
@@ -2210,64 +2568,94 @@ export const PatchProjectResponse = Schema.Struct({
     Schema.Union(
       Schema.Struct({
         id: Schema.optional(Schema.String),
-        aliases: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+        aliases: Schema.optional(
+          Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        ),
         buildConfig: Schema.optional(
           Schema.Struct({
-            buildCaching: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-              T.JsonName("build_caching"),
-            ),
-            buildCommand: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("build_command"),
-            ),
-            destinationDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("destination_dir"),
-            ),
-            rootDir: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("root_dir"),
-            ),
-            webAnalyticsTag: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_tag"),
-            ),
-            webAnalyticsToken: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("web_analytics_token"),
-            ),
+            buildCaching: Schema.optional(
+              Schema.Union(Schema.Boolean, Schema.Null),
+            ).pipe(T.JsonName("build_caching")),
+            buildCommand: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("build_command")),
+            destinationDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("destination_dir")),
+            rootDir: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("root_dir")),
+            webAnalyticsTag: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_tag")),
+            webAnalyticsToken: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("web_analytics_token")),
           }),
         ).pipe(T.JsonName("build_config")),
-        createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+        createdOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("created_on"),
+        ),
         deploymentTrigger: Schema.optional(
           Schema.Struct({
             metadata: Schema.optional(
               Schema.Struct({
                 branch: Schema.optional(Schema.String),
-                commitHash: Schema.optional(Schema.String).pipe(T.JsonName("commit_hash")),
-                commitMessage: Schema.optional(Schema.String).pipe(T.JsonName("commit_message")),
+                commitHash: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_hash"),
+                ),
+                commitMessage: Schema.optional(Schema.String).pipe(
+                  T.JsonName("commit_message"),
+                ),
               }),
             ),
             type: Schema.optional(Schema.Literal("push", "ad_hoc")),
           }),
         ).pipe(T.JsonName("deployment_trigger")),
-        envVars: Schema.optional(Schema.Struct({})).pipe(T.JsonName("env_vars")),
+        envVars: Schema.optional(Schema.Struct({})).pipe(
+          T.JsonName("env_vars"),
+        ),
         environment: Schema.optional(Schema.Literal("preview", "production")),
-        isSkipped: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_skipped")),
+        isSkipped: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("is_skipped"),
+        ),
         latestStage: Schema.optional(
           Schema.Struct({
-            endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("ended_on"),
-            ),
+            endedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("ended_on")),
             name: Schema.optional(
-              Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+              Schema.Literal(
+                "queued",
+                "initialize",
+                "clone_repo",
+                "build",
+                "deploy",
+              ),
             ),
-            startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-              T.JsonName("started_on"),
-            ),
+            startedOn: Schema.optional(
+              Schema.Union(Schema.String, Schema.Null),
+            ).pipe(T.JsonName("started_on")),
             status: Schema.optional(
-              Schema.Literal("success", "idle", "active", "failure", "canceled"),
+              Schema.Literal(
+                "success",
+                "idle",
+                "active",
+                "failure",
+                "canceled",
+              ),
             ),
           }),
         ).pipe(T.JsonName("latest_stage")),
-        modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-        projectId: Schema.optional(Schema.String).pipe(T.JsonName("project_id")),
-        projectName: Schema.optional(Schema.String).pipe(T.JsonName("project_name")),
+        modifiedOn: Schema.optional(Schema.String).pipe(
+          T.JsonName("modified_on"),
+        ),
+        projectId: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_id"),
+        ),
+        projectName: Schema.optional(Schema.String).pipe(
+          T.JsonName("project_name"),
+        ),
         shortId: Schema.optional(Schema.String).pipe(T.JsonName("short_id")),
         source: Schema.optional(
           Schema.Struct({
@@ -2286,22 +2674,24 @@ export const PatchProjectResponse = Schema.Struct({
                 prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
                   T.JsonName("pr_comments_enabled"),
                 ),
-                previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_excludes"),
-                ),
-                previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("preview_branch_includes"),
-                ),
+                previewBranchExcludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_excludes")),
+                previewBranchIncludes: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("preview_branch_includes")),
                 previewDeploymentSetting: Schema.optional(
                   Schema.Literal("all", "none", "custom"),
                 ).pipe(T.JsonName("preview_deployment_setting")),
                 productionBranch: Schema.optional(Schema.String).pipe(
                   T.JsonName("production_branch"),
                 ),
-                productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
-                  T.JsonName("production_deployments_enabled"),
+                productionDeploymentsEnabled: Schema.optional(
+                  Schema.Boolean,
+                ).pipe(T.JsonName("production_deployments_enabled")),
+                repoName: Schema.optional(Schema.String).pipe(
+                  T.JsonName("repo_name"),
                 ),
-                repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
               }),
             ),
             type: Schema.optional(Schema.String),
@@ -2310,17 +2700,29 @@ export const PatchProjectResponse = Schema.Struct({
         stages: Schema.optional(
           Schema.Array(
             Schema.Struct({
-              endedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("ended_on"),
-              ),
+              endedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("ended_on")),
               name: Schema.optional(
-                Schema.Literal("queued", "initialize", "clone_repo", "build", "deploy"),
+                Schema.Literal(
+                  "queued",
+                  "initialize",
+                  "clone_repo",
+                  "build",
+                  "deploy",
+                ),
               ),
-              startedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-                T.JsonName("started_on"),
-              ),
+              startedOn: Schema.optional(
+                Schema.Union(Schema.String, Schema.Null),
+              ).pipe(T.JsonName("started_on")),
               status: Schema.optional(
-                Schema.Literal("success", "idle", "active", "failure", "canceled"),
+                Schema.Literal(
+                  "success",
+                  "idle",
+                  "active",
+                  "failure",
+                  "canceled",
+                ),
               ),
             }),
           ),
@@ -2331,7 +2733,9 @@ export const PatchProjectResponse = Schema.Struct({
     ),
   ).pipe(T.JsonName("latest_deployment")),
   name: Schema.optional(Schema.String),
-  productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
+  productionBranch: Schema.optional(Schema.String).pipe(
+    T.JsonName("production_branch"),
+  ),
   source: Schema.optional(
     Schema.Struct({
       config: Schema.optional(
@@ -2349,20 +2753,24 @@ export const PatchProjectResponse = Schema.Struct({
           prCommentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("pr_comments_enabled"),
           ),
-          previewBranchExcludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_excludes"),
+          previewBranchExcludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_excludes")),
+          previewBranchIncludes: Schema.optional(
+            Schema.Array(Schema.String),
+          ).pipe(T.JsonName("preview_branch_includes")),
+          previewDeploymentSetting: Schema.optional(
+            Schema.Literal("all", "none", "custom"),
+          ).pipe(T.JsonName("preview_deployment_setting")),
+          productionBranch: Schema.optional(Schema.String).pipe(
+            T.JsonName("production_branch"),
           ),
-          previewBranchIncludes: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("preview_branch_includes"),
-          ),
-          previewDeploymentSetting: Schema.optional(Schema.Literal("all", "none", "custom")).pipe(
-            T.JsonName("preview_deployment_setting"),
-          ),
-          productionBranch: Schema.optional(Schema.String).pipe(T.JsonName("production_branch")),
           productionDeploymentsEnabled: Schema.optional(Schema.Boolean).pipe(
             T.JsonName("production_deployments_enabled"),
           ),
-          repoName: Schema.optional(Schema.String).pipe(T.JsonName("repo_name")),
+          repoName: Schema.optional(Schema.String).pipe(
+            T.JsonName("repo_name"),
+          ),
         }),
       ),
       type: Schema.optional(Schema.String),
@@ -2387,7 +2795,10 @@ export const DeleteProjectRequest = Schema.Struct({
   projectName: Schema.String.pipe(T.HttpPath("projectName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/pages/projects/{projectName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/pages/projects/{projectName}",
+  }),
 ) as unknown as Schema.Schema<DeleteProjectRequest>;
 
 export type DeleteProjectResponse = unknown;
@@ -2652,7 +3063,10 @@ export const CreateProjectDomainRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/pages/projects/{projectName}/domains" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/pages/projects/{projectName}/domains",
+  }),
 ) as unknown as Schema.Schema<CreateProjectDomainRequest>;
 
 export type CreateProjectDomainResponse = unknown;

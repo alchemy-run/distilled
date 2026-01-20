@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Hostname
@@ -27,7 +31,10 @@ export const GetHostnameRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/web3/hostnames/{identifier}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/web3/hostnames/{identifier}",
+  }),
 ) as unknown as Schema.Schema<GetHostnameRequest>;
 
 export interface GetHostnameResponse {
@@ -54,8 +61,12 @@ export const GetHostnameResponse = Schema.Struct({
   dnslink: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("active", "pending", "deleting", "error")),
-  target: Schema.optional(Schema.Literal("ethereum", "ipfs", "ipfs_universal_path")),
+  status: Schema.optional(
+    Schema.Literal("active", "pending", "deleting", "error"),
+  ),
+  target: Schema.optional(
+    Schema.Literal("ethereum", "ipfs", "ipfs_universal_path"),
+  ),
 }) as unknown as Schema.Schema<GetHostnameResponse>;
 
 export const getHostname = API.make(() => ({
@@ -111,8 +122,12 @@ export const CreateHostnameResponse = Schema.Struct({
   dnslink: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("active", "pending", "deleting", "error")),
-  target: Schema.optional(Schema.Literal("ethereum", "ipfs", "ipfs_universal_path")),
+  status: Schema.optional(
+    Schema.Literal("active", "pending", "deleting", "error"),
+  ),
+  target: Schema.optional(
+    Schema.Literal("ethereum", "ipfs", "ipfs_universal_path"),
+  ),
 }) as unknown as Schema.Schema<CreateHostnameResponse>;
 
 export const createHostname = API.make(() => ({
@@ -137,7 +152,10 @@ export const PatchHostnameRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   dnslink: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/web3/hostnames/{identifier}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/web3/hostnames/{identifier}",
+  }),
 ) as unknown as Schema.Schema<PatchHostnameRequest>;
 
 export interface PatchHostnameResponse {
@@ -164,8 +182,12 @@ export const PatchHostnameResponse = Schema.Struct({
   dnslink: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Literal("active", "pending", "deleting", "error")),
-  target: Schema.optional(Schema.Literal("ethereum", "ipfs", "ipfs_universal_path")),
+  status: Schema.optional(
+    Schema.Literal("active", "pending", "deleting", "error"),
+  ),
+  target: Schema.optional(
+    Schema.Literal("ethereum", "ipfs", "ipfs_universal_path"),
+  ),
 }) as unknown as Schema.Schema<PatchHostnameResponse>;
 
 export const patchHostname = API.make(() => ({
@@ -184,7 +206,10 @@ export const DeleteHostnameRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/web3/hostnames/{identifier}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/web3/hostnames/{identifier}",
+  }),
 ) as unknown as Schema.Schema<DeleteHostnameRequest>;
 
 export type DeleteHostnameResponse = unknown;
@@ -240,7 +265,11 @@ export interface PutHostnameIpfsUniversalPathContentListRequest {
   /** Body param: Behavior of the content list. */
   action: "block";
   /** Body param: Provides content list entries. */
-  entries: { content?: string; description?: string; type?: "cid" | "content_path" }[];
+  entries: {
+    content?: string;
+    description?: string;
+    type?: "cid" | "content_path";
+  }[];
 }
 
 export const PutHostnameIpfsUniversalPathContentListRequest = Schema.Struct({
@@ -287,16 +316,19 @@ export interface GetHostnameIpfsUniversalPathContentListEntryRequest {
   zoneId: string;
 }
 
-export const GetHostnameIpfsUniversalPathContentListEntryRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  contentListEntryIdentifier: Schema.String.pipe(T.HttpPath("contentListEntryIdentifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
-  }),
-) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryRequest>;
+export const GetHostnameIpfsUniversalPathContentListEntryRequest =
+  Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    contentListEntryIdentifier: Schema.String.pipe(
+      T.HttpPath("contentListEntryIdentifier"),
+    ),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
+    }),
+  ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryRequest>;
 
 export interface GetHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
@@ -311,14 +343,15 @@ export interface GetHostnameIpfsUniversalPathContentListEntryResponse {
   type?: "cid" | "content_path";
 }
 
-export const GetHostnameIpfsUniversalPathContentListEntryResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  type: Schema.optional(Schema.Literal("cid", "content_path")),
-}) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
+export const GetHostnameIpfsUniversalPathContentListEntryResponse =
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    type: Schema.optional(Schema.Literal("cid", "content_path")),
+  }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const getHostnameIpfsUniversalPathContentListEntry = API.make(() => ({
   input: GetHostnameIpfsUniversalPathContentListEntryRequest,
@@ -332,15 +365,16 @@ export interface ListHostnameIpfsUniversalPathContentListEntriesRequest {
   zoneId: string;
 }
 
-export const ListHostnameIpfsUniversalPathContentListEntriesRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries",
-  }),
-) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesRequest>;
+export const ListHostnameIpfsUniversalPathContentListEntriesRequest =
+  Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries",
+    }),
+  ) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesRequest>;
 
 export type ListHostnameIpfsUniversalPathContentListEntriesResponse = unknown;
 
@@ -365,18 +399,19 @@ export interface CreateHostnameIpfsUniversalPathContentListEntryRequest {
   description?: string;
 }
 
-export const CreateHostnameIpfsUniversalPathContentListEntryRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  content: Schema.String,
-  type: Schema.Literal("cid", "content_path"),
-  description: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries",
-  }),
-) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryRequest>;
+export const CreateHostnameIpfsUniversalPathContentListEntryRequest =
+  Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    content: Schema.String,
+    type: Schema.Literal("cid", "content_path"),
+    description: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries",
+    }),
+  ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryRequest>;
 
 export interface CreateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
@@ -391,14 +426,15 @@ export interface CreateHostnameIpfsUniversalPathContentListEntryResponse {
   type?: "cid" | "content_path";
 }
 
-export const CreateHostnameIpfsUniversalPathContentListEntryResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  type: Schema.optional(Schema.Literal("cid", "content_path")),
-}) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
+export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    type: Schema.optional(Schema.Literal("cid", "content_path")),
+  }) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const createHostnameIpfsUniversalPathContentListEntry = API.make(() => ({
   input: CreateHostnameIpfsUniversalPathContentListEntryRequest,
@@ -419,19 +455,22 @@ export interface UpdateHostnameIpfsUniversalPathContentListEntryRequest {
   description?: string;
 }
 
-export const UpdateHostnameIpfsUniversalPathContentListEntryRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  contentListEntryIdentifier: Schema.String.pipe(T.HttpPath("contentListEntryIdentifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  content: Schema.String,
-  type: Schema.Literal("cid", "content_path"),
-  description: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
-  }),
-) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryRequest>;
+export const UpdateHostnameIpfsUniversalPathContentListEntryRequest =
+  Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    contentListEntryIdentifier: Schema.String.pipe(
+      T.HttpPath("contentListEntryIdentifier"),
+    ),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    content: Schema.String,
+    type: Schema.Literal("cid", "content_path"),
+    description: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
+    }),
+  ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryRequest>;
 
 export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
@@ -446,14 +485,15 @@ export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
   type?: "cid" | "content_path";
 }
 
-export const UpdateHostnameIpfsUniversalPathContentListEntryResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  content: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  type: Schema.optional(Schema.Literal("cid", "content_path")),
-}) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
+export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+    content: Schema.optional(Schema.String),
+    createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+    description: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+    type: Schema.optional(Schema.Literal("cid", "content_path")),
+  }) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const updateHostnameIpfsUniversalPathContentListEntry = API.make(() => ({
   input: UpdateHostnameIpfsUniversalPathContentListEntryRequest,
@@ -468,16 +508,19 @@ export interface DeleteHostnameIpfsUniversalPathContentListEntryRequest {
   zoneId: string;
 }
 
-export const DeleteHostnameIpfsUniversalPathContentListEntryRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  contentListEntryIdentifier: Schema.String.pipe(T.HttpPath("contentListEntryIdentifier")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
-  }),
-) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryRequest>;
+export const DeleteHostnameIpfsUniversalPathContentListEntryRequest =
+  Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    contentListEntryIdentifier: Schema.String.pipe(
+      T.HttpPath("contentListEntryIdentifier"),
+    ),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}",
+    }),
+  ) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryRequest>;
 
 export type DeleteHostnameIpfsUniversalPathContentListEntryResponse = unknown;
 

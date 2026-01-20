@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // ControlCmbConfig
@@ -25,7 +29,10 @@ export interface GetControlCmbConfigRequest {
 export const GetControlCmbConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/logs/control/cmb/config" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/logs/control/cmb/config",
+  }),
 ) as unknown as Schema.Schema<GetControlCmbConfigRequest>;
 
 export type GetControlCmbConfigResponse = unknown;
@@ -55,7 +62,10 @@ export const CreateControlCmbConfigRequest = Schema.Struct({
   ),
   regions: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/logs/control/cmb/config" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/logs/control/cmb/config",
+  }),
 ) as unknown as Schema.Schema<CreateControlCmbConfigRequest>;
 
 export type CreateControlCmbConfigResponse = unknown;
@@ -77,7 +87,10 @@ export interface DeleteControlCmbConfigRequest {
 export const DeleteControlCmbConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/logs/control/cmb/config" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/logs/control/cmb/config",
+  }),
 ) as unknown as Schema.Schema<DeleteControlCmbConfigRequest>;
 
 export type DeleteControlCmbConfigResponse = unknown;
@@ -103,7 +116,10 @@ export interface GetControlRetentionRequest {
 export const GetControlRetentionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/logs/control/retention/flag" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/logs/control/retention/flag",
+  }),
 ) as unknown as Schema.Schema<GetControlRetentionRequest>;
 
 export type GetControlRetentionResponse = unknown;
@@ -128,7 +144,10 @@ export const CreateControlRetentionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   flag: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/logs/control/retention/flag" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/logs/control/retention/flag",
+  }),
 ) as unknown as Schema.Schema<CreateControlRetentionRequest>;
 
 export type CreateControlRetentionResponse = unknown;
@@ -160,16 +179,17 @@ export const GetRayidRequest = Schema.Struct({
   rayID: Schema.String.pipe(T.HttpPath("RayID")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   fields: Schema.optional(Schema.String).pipe(T.HttpQuery("fields")),
-  timestamps: Schema.optional(Schema.Literal("unix", "unixnano", "rfc3339")).pipe(
-    T.HttpQuery("timestamps"),
-  ),
+  timestamps: Schema.optional(
+    Schema.Literal("unix", "unixnano", "rfc3339"),
+  ).pipe(T.HttpQuery("timestamps")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/logs/rayids/{RayID}" }),
 ) as unknown as Schema.Schema<GetRayidRequest>;
 
 export type GetRayidResponse = string;
 
-export const GetRayidResponse = Schema.String as unknown as Schema.Schema<GetRayidResponse>;
+export const GetRayidResponse =
+  Schema.String as unknown as Schema.Schema<GetRayidResponse>;
 
 export const getRayid = API.make(() => ({
   input: GetRayidRequest,
@@ -204,17 +224,20 @@ export const GetReceivedRequest = Schema.Struct({
   count: Schema.optional(Schema.Number).pipe(T.HttpQuery("count")),
   fields: Schema.optional(Schema.String).pipe(T.HttpQuery("fields")),
   sample: Schema.optional(Schema.Number).pipe(T.HttpQuery("sample")),
-  start: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(T.HttpQuery("start")),
-  timestamps: Schema.optional(Schema.Literal("unix", "unixnano", "rfc3339")).pipe(
-    T.HttpQuery("timestamps"),
+  start: Schema.optional(Schema.Union(Schema.String, Schema.Number)).pipe(
+    T.HttpQuery("start"),
   ),
+  timestamps: Schema.optional(
+    Schema.Literal("unix", "unixnano", "rfc3339"),
+  ).pipe(T.HttpQuery("timestamps")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/logs/received" }),
 ) as unknown as Schema.Schema<GetReceivedRequest>;
 
 export type GetReceivedResponse = string;
 
-export const GetReceivedResponse = Schema.String as unknown as Schema.Schema<GetReceivedResponse>;
+export const GetReceivedResponse =
+  Schema.String as unknown as Schema.Schema<GetReceivedResponse>;
 
 export const getReceived = API.make(() => ({
   input: GetReceivedRequest,

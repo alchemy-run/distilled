@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // CustomCertificate
@@ -27,7 +31,10 @@ export const GetCustomCertificateRequest = Schema.Struct({
   customCertificateId: Schema.String.pipe(T.HttpPath("customCertificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/custom_certificates/{customCertificateId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/custom_certificates/{customCertificateId}",
+  }),
 ) as unknown as Schema.Schema<GetCustomCertificateRequest>;
 
 export interface GetCustomCertificateResponse {
@@ -61,14 +68,22 @@ export interface GetCustomCertificateResponse {
 
 export const GetCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(T.JsonName("bundle_method")),
+  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(
+    T.JsonName("bundle_method"),
+  ),
   expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
-  status: Schema.Literal("active", "expired", "deleted", "pending", "initializing"),
+  status: Schema.Literal(
+    "active",
+    "expired",
+    "deleted",
+    "pending",
+    "initializing",
+  ),
   uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
   zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
@@ -76,7 +91,9 @@ export const GetCustomCertificateResponse = Schema.Struct({
       label: Schema.optional(Schema.Literal("us", "eu", "highest_security")),
     }),
   ).pipe(T.JsonName("geo_restrictions")),
-  keylessServer: Schema.optional(Schema.Unknown).pipe(T.JsonName("keyless_server")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
+  ),
   policy: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetCustomCertificateResponse>;
 
@@ -107,9 +124,9 @@ export const CreateCustomCertificateRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   certificate: Schema.String,
   privateKey: Schema.String.pipe(T.JsonName("private_key")),
-  bundleMethod: Schema.optional(Schema.Literal("ubiquitous", "optimal", "force")).pipe(
-    T.JsonName("bundle_method"),
-  ),
+  bundleMethod: Schema.optional(
+    Schema.Literal("ubiquitous", "optimal", "force"),
+  ).pipe(T.JsonName("bundle_method")),
   geoRestrictions: Schema.optional(
     Schema.Struct({
       label: Schema.optional(Schema.Literal("us", "eu", "highest_security")),
@@ -152,14 +169,22 @@ export interface CreateCustomCertificateResponse {
 
 export const CreateCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(T.JsonName("bundle_method")),
+  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(
+    T.JsonName("bundle_method"),
+  ),
   expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
-  status: Schema.Literal("active", "expired", "deleted", "pending", "initializing"),
+  status: Schema.Literal(
+    "active",
+    "expired",
+    "deleted",
+    "pending",
+    "initializing",
+  ),
   uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
   zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
@@ -167,7 +192,9 @@ export const CreateCustomCertificateResponse = Schema.Struct({
       label: Schema.optional(Schema.Literal("us", "eu", "highest_security")),
     }),
   ).pipe(T.JsonName("geo_restrictions")),
-  keylessServer: Schema.optional(Schema.Unknown).pipe(T.JsonName("keyless_server")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
+  ),
   policy: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
 
@@ -196,9 +223,9 @@ export interface PatchCustomCertificateRequest {
 export const PatchCustomCertificateRequest = Schema.Struct({
   customCertificateId: Schema.String.pipe(T.HttpPath("customCertificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  bundleMethod: Schema.optional(Schema.Literal("ubiquitous", "optimal", "force")).pipe(
-    T.JsonName("bundle_method"),
-  ),
+  bundleMethod: Schema.optional(
+    Schema.Literal("ubiquitous", "optimal", "force"),
+  ).pipe(T.JsonName("bundle_method")),
   certificate: Schema.optional(Schema.String),
   geoRestrictions: Schema.optional(
     Schema.Struct({
@@ -208,7 +235,10 @@ export const PatchCustomCertificateRequest = Schema.Struct({
   policy: Schema.optional(Schema.String),
   privateKey: Schema.optional(Schema.String).pipe(T.JsonName("private_key")),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/custom_certificates/{customCertificateId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/custom_certificates/{customCertificateId}",
+  }),
 ) as unknown as Schema.Schema<PatchCustomCertificateRequest>;
 
 export interface PatchCustomCertificateResponse {
@@ -242,14 +272,22 @@ export interface PatchCustomCertificateResponse {
 
 export const PatchCustomCertificateResponse = Schema.Struct({
   id: Schema.String,
-  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(T.JsonName("bundle_method")),
+  bundleMethod: Schema.Literal("ubiquitous", "optimal", "force").pipe(
+    T.JsonName("bundle_method"),
+  ),
   expiresOn: Schema.String.pipe(T.JsonName("expires_on")),
   hosts: Schema.Array(Schema.String),
   issuer: Schema.String,
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   priority: Schema.Number,
   signature: Schema.String,
-  status: Schema.Literal("active", "expired", "deleted", "pending", "initializing"),
+  status: Schema.Literal(
+    "active",
+    "expired",
+    "deleted",
+    "pending",
+    "initializing",
+  ),
   uploadedOn: Schema.String.pipe(T.JsonName("uploaded_on")),
   zoneId: Schema.String.pipe(T.JsonName("zone_id")),
   geoRestrictions: Schema.optional(
@@ -257,7 +295,9 @@ export const PatchCustomCertificateResponse = Schema.Struct({
       label: Schema.optional(Schema.Literal("us", "eu", "highest_security")),
     }),
   ).pipe(T.JsonName("geo_restrictions")),
-  keylessServer: Schema.optional(Schema.Unknown).pipe(T.JsonName("keyless_server")),
+  keylessServer: Schema.optional(Schema.Unknown).pipe(
+    T.JsonName("keyless_server"),
+  ),
   policy: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
 
@@ -277,7 +317,10 @@ export const DeleteCustomCertificateRequest = Schema.Struct({
   customCertificateId: Schema.String.pipe(T.HttpPath("customCertificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/custom_certificates/{customCertificateId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/custom_certificates/{customCertificateId}",
+  }),
 ) as unknown as Schema.Schema<DeleteCustomCertificateRequest>;
 
 export interface DeleteCustomCertificateResponse {

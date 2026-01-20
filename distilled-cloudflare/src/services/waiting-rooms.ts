@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Event
@@ -68,42 +72,57 @@ export interface GetEventResponse {
   /** If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const GetEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  eventEndTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_end_time"),
   ),
-  eventEndTime: Schema.optional(Schema.String).pipe(T.JsonName("event_end_time")),
-  eventStartTime: Schema.optional(Schema.String).pipe(T.JsonName("event_start_time")),
+  eventStartTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_start_time"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -155,7 +174,12 @@ export interface CreateEventRequest {
   /** Body param: If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** Body param: If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const CreateEventRequest = Schema.Struct({
@@ -164,32 +188,38 @@ export const CreateEventRequest = Schema.Struct({
   eventEndTime: Schema.String.pipe(T.JsonName("event_end_time")),
   eventStartTime: Schema.String.pipe(T.JsonName("event_start_time")),
   name: Schema.String,
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
-  ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -201,7 +231,10 @@ export const CreateEventRequest = Schema.Struct({
     ),
   ).pipe(T.JsonName("turnstile_mode")),
 }).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}/events" }),
+  T.Http({
+    method: "POST",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}/events",
+  }),
 ) as unknown as Schema.Schema<CreateEventRequest>;
 
 export interface CreateEventResponse {
@@ -237,42 +270,57 @@ export interface CreateEventResponse {
   /** If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const CreateEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  eventEndTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_end_time"),
   ),
-  eventEndTime: Schema.optional(Schema.String).pipe(T.JsonName("event_end_time")),
-  eventStartTime: Schema.optional(Schema.String).pipe(T.JsonName("event_start_time")),
+  eventStartTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_start_time"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -325,7 +373,12 @@ export interface UpdateEventRequest {
   /** Body param: If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** Body param: If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const UpdateEventRequest = Schema.Struct({
@@ -335,32 +388,38 @@ export const UpdateEventRequest = Schema.Struct({
   eventEndTime: Schema.String.pipe(T.JsonName("event_end_time")),
   eventStartTime: Schema.String.pipe(T.JsonName("event_start_time")),
   name: Schema.String,
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
-  ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -411,42 +470,57 @@ export interface UpdateEventResponse {
   /** If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const UpdateEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  eventEndTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_end_time"),
   ),
-  eventEndTime: Schema.optional(Schema.String).pipe(T.JsonName("event_end_time")),
-  eventStartTime: Schema.optional(Schema.String).pipe(T.JsonName("event_start_time")),
+  eventStartTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_start_time"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -499,7 +573,12 @@ export interface PatchEventRequest {
   /** Body param: If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** Body param: If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const PatchEventRequest = Schema.Struct({
@@ -509,32 +588,38 @@ export const PatchEventRequest = Schema.Struct({
   eventEndTime: Schema.String.pipe(T.JsonName("event_end_time")),
   eventStartTime: Schema.String.pipe(T.JsonName("event_start_time")),
   name: Schema.String,
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
-  ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -585,42 +670,57 @@ export interface PatchEventResponse {
   /** If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it. */
   turnstileAction?: "log" | "infinite_queue" | null;
   /** If set, the event will override the waiting room's `turnstile_mode` property while it is active. If null, the event will inherit it. */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed" | null;
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed"
+    | null;
 }
 
 export const PatchEventResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("custom_page_html"),
-  ),
+  customPageHtml: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("custom_page_html")),
   description: Schema.optional(Schema.String),
-  disableSessionRenewal: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("disable_session_renewal"),
+  disableSessionRenewal: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("disable_session_renewal")),
+  eventEndTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_end_time"),
   ),
-  eventEndTime: Schema.optional(Schema.String).pipe(T.JsonName("event_end_time")),
-  eventStartTime: Schema.optional(Schema.String).pipe(T.JsonName("event_start_time")),
+  eventStartTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_start_time"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("new_users_per_minute"),
+  newUsersPerMinute: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("new_users_per_minute")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("queueing_method")),
+  sessionDuration: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("session_duration")),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
   ),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
-  ),
-  queueingMethod: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("queueing_method"),
-  ),
-  sessionDuration: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("session_duration"),
-  ),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
-    T.JsonName("total_active_users"),
-  ),
+  totalActiveUsers: Schema.optional(
+    Schema.Union(Schema.Number, Schema.Null),
+  ).pipe(T.JsonName("total_active_users")),
   turnstileAction: Schema.optional(
-    Schema.Union(Schema.Literal("log"), Schema.Literal("infinite_queue"), Schema.Null),
+    Schema.Union(
+      Schema.Literal("log"),
+      Schema.Literal("infinite_queue"),
+      Schema.Null,
+    ),
   ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
     Schema.Union(
@@ -722,24 +822,40 @@ export interface GetEventDetailResponse {
 export const GetEventDetailResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   description: Schema.optional(Schema.String),
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  eventEndTime: Schema.optional(Schema.String).pipe(T.JsonName("event_end_time")),
-  eventStartTime: Schema.optional(Schema.String).pipe(T.JsonName("event_start_time")),
+  eventEndTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_end_time"),
+  ),
+  eventStartTime: Schema.optional(Schema.String).pipe(
+    T.JsonName("event_start_time"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Number).pipe(T.JsonName("new_users_per_minute")),
-  prequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("prequeue_start_time"),
+  newUsersPerMinute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("new_users_per_minute"),
   ),
-  queueingMethod: Schema.optional(Schema.String).pipe(T.JsonName("queueing_method")),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(T.JsonName("shuffle_at_event_start")),
+  prequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("prequeue_start_time")),
+  queueingMethod: Schema.optional(Schema.String).pipe(
+    T.JsonName("queueing_method"),
+  ),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
+  ),
+  shuffleAtEventStart: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("shuffle_at_event_start"),
+  ),
   suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_active_users")),
+  totalActiveUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("total_active_users"),
+  ),
 }) as unknown as Schema.Schema<GetEventDetailResponse>;
 
 export const getEventDetail = API.make(() => ({
@@ -802,7 +918,9 @@ export interface GetSettingResponse {
 }
 
 export const GetSettingResponse = Schema.Struct({
-  searchEngineCrawlerBypass: Schema.Boolean.pipe(T.JsonName("search_engine_crawler_bypass")),
+  searchEngineCrawlerBypass: Schema.Boolean.pipe(
+    T.JsonName("search_engine_crawler_bypass"),
+  ),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
 export const getSetting = API.make(() => ({
@@ -833,7 +951,9 @@ export interface PutSettingResponse {
 }
 
 export const PutSettingResponse = Schema.Struct({
-  searchEngineCrawlerBypass: Schema.Boolean.pipe(T.JsonName("search_engine_crawler_bypass")),
+  searchEngineCrawlerBypass: Schema.Boolean.pipe(
+    T.JsonName("search_engine_crawler_bypass"),
+  ),
 }) as unknown as Schema.Schema<PutSettingResponse>;
 
 export const putSetting = API.make(() => ({
@@ -864,7 +984,9 @@ export interface PatchSettingResponse {
 }
 
 export const PatchSettingResponse = Schema.Struct({
-  searchEngineCrawlerBypass: Schema.Boolean.pipe(T.JsonName("search_engine_crawler_bypass")),
+  searchEngineCrawlerBypass: Schema.Boolean.pipe(
+    T.JsonName("search_engine_crawler_bypass"),
+  ),
 }) as unknown as Schema.Schema<PatchSettingResponse>;
 
 export const patchSetting = API.make(() => ({
@@ -887,7 +1009,10 @@ export const GetStatusRequest = Schema.Struct({
   waitingRoomId: Schema.String.pipe(T.HttpPath("waitingRoomId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}/status" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}/status",
+  }),
 ) as unknown as Schema.Schema<GetStatusRequest>;
 
 export interface GetStatusResponse {
@@ -899,7 +1024,9 @@ export interface GetStatusResponse {
 }
 
 export const GetStatusResponse = Schema.Struct({
-  estimatedQueuedUsers: Schema.optional(Schema.Number).pipe(T.JsonName("estimated_queued_users")),
+  estimatedQueuedUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("estimated_queued_users"),
+  ),
   estimatedTotalActiveUsers: Schema.optional(Schema.Number).pipe(
     T.JsonName("estimated_total_active_users"),
   ),
@@ -908,7 +1035,12 @@ export const GetStatusResponse = Schema.Struct({
     T.JsonName("max_estimated_time_minutes"),
   ),
   status: Schema.optional(
-    Schema.Literal("event_prequeueing", "not_queueing", "queueing", "suspended"),
+    Schema.Literal(
+      "event_prequeueing",
+      "not_queueing",
+      "queueing",
+      "suspended",
+    ),
   ),
 }) as unknown as Schema.Schema<GetStatusResponse>;
 
@@ -932,7 +1064,10 @@ export const GetWaitingRoomRequest = Schema.Struct({
   waitingRoomId: Schema.String.pipe(T.HttpPath("waitingRoomId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}",
+  }),
 ) as unknown as Schema.Schema<GetWaitingRoomRequest>;
 
 export interface GetWaitingRoomResponse {
@@ -1025,7 +1160,11 @@ export interface GetWaitingRoomResponse {
   /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_que */
   turnstileAction?: "log" | "infinite_queue";
   /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these  */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const GetWaitingRoomResponse = Schema.Struct({
@@ -1040,13 +1179,19 @@ export const GetWaitingRoomResponse = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -1093,36 +1238,49 @@ export const GetWaitingRoomResponse = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
-  ),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
   host: Schema.optional(Schema.String),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Number).pipe(T.JsonName("new_users_per_minute")),
-  nextEventPrequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_prequeue_start_time"),
+  newUsersPerMinute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("new_users_per_minute"),
   ),
-  nextEventStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_start_time"),
-  ),
+  nextEventPrequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_prequeue_start_time")),
+  nextEventStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_start_time")),
   path: Schema.optional(Schema.String),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_active_users")),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  totalActiveUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("total_active_users"),
+  ),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }) as unknown as Schema.Schema<GetWaitingRoomResponse>;
 
@@ -1217,7 +1375,11 @@ export interface CreateWaitingRoomRequest {
   /** Body param: Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. ` */
   turnstileAction?: "log" | "infinite_queue";
   /** Body param: Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitio */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const CreateWaitingRoomRequest = Schema.Struct({
@@ -1237,12 +1399,18 @@ export const CreateWaitingRoomRequest = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -1289,24 +1457,33 @@ export const CreateWaitingRoomRequest = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
   ),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/waiting_rooms" }),
@@ -1402,7 +1579,11 @@ export interface CreateWaitingRoomResponse {
   /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_que */
   turnstileAction?: "log" | "infinite_queue";
   /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these  */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const CreateWaitingRoomResponse = Schema.Struct({
@@ -1417,13 +1598,19 @@ export const CreateWaitingRoomResponse = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -1470,36 +1657,49 @@ export const CreateWaitingRoomResponse = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
-  ),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
   host: Schema.optional(Schema.String),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Number).pipe(T.JsonName("new_users_per_minute")),
-  nextEventPrequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_prequeue_start_time"),
+  newUsersPerMinute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("new_users_per_minute"),
   ),
-  nextEventStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_start_time"),
-  ),
+  nextEventPrequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_prequeue_start_time")),
+  nextEventStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_start_time")),
   path: Schema.optional(Schema.String),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_active_users")),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  totalActiveUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("total_active_users"),
+  ),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }) as unknown as Schema.Schema<CreateWaitingRoomResponse>;
 
@@ -1595,7 +1795,11 @@ export interface UpdateWaitingRoomRequest {
   /** Body param: Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. ` */
   turnstileAction?: "log" | "infinite_queue";
   /** Body param: Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitio */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const UpdateWaitingRoomRequest = Schema.Struct({
@@ -1616,12 +1820,18 @@ export const UpdateWaitingRoomRequest = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -1668,27 +1878,39 @@ export const UpdateWaitingRoomRequest = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
   ),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}",
+  }),
 ) as unknown as Schema.Schema<UpdateWaitingRoomRequest>;
 
 export interface UpdateWaitingRoomResponse {
@@ -1781,7 +2003,11 @@ export interface UpdateWaitingRoomResponse {
   /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_que */
   turnstileAction?: "log" | "infinite_queue";
   /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these  */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const UpdateWaitingRoomResponse = Schema.Struct({
@@ -1796,13 +2022,19 @@ export const UpdateWaitingRoomResponse = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -1849,36 +2081,49 @@ export const UpdateWaitingRoomResponse = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
-  ),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
   host: Schema.optional(Schema.String),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Number).pipe(T.JsonName("new_users_per_minute")),
-  nextEventPrequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_prequeue_start_time"),
+  newUsersPerMinute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("new_users_per_minute"),
   ),
-  nextEventStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_start_time"),
-  ),
+  nextEventPrequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_prequeue_start_time")),
+  nextEventStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_start_time")),
   path: Schema.optional(Schema.String),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_active_users")),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  totalActiveUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("total_active_users"),
+  ),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }) as unknown as Schema.Schema<UpdateWaitingRoomResponse>;
 
@@ -1974,7 +2219,11 @@ export interface PatchWaitingRoomRequest {
   /** Body param: Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. ` */
   turnstileAction?: "log" | "infinite_queue";
   /** Body param: Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitio */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const PatchWaitingRoomRequest = Schema.Struct({
@@ -1995,12 +2244,18 @@ export const PatchWaitingRoomRequest = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -2047,27 +2302,39 @@ export const PatchWaitingRoomRequest = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
   ),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}",
+  }),
 ) as unknown as Schema.Schema<PatchWaitingRoomRequest>;
 
 export interface PatchWaitingRoomResponse {
@@ -2160,7 +2427,11 @@ export interface PatchWaitingRoomResponse {
   /** Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_que */
   turnstileAction?: "log" | "infinite_queue";
   /** Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these  */
-  turnstileMode?: "off" | "invisible" | "visible_non_interactive" | "visible_managed";
+  turnstileMode?:
+    | "off"
+    | "invisible"
+    | "visible_non_interactive"
+    | "visible_managed";
 }
 
 export const PatchWaitingRoomResponse = Schema.Struct({
@@ -2175,13 +2446,19 @@ export const PatchWaitingRoomResponse = Schema.Struct({
   ).pipe(T.JsonName("additional_routes")),
   cookieAttributes: Schema.optional(
     Schema.Struct({
-      samesite: Schema.optional(Schema.Literal("auto", "lax", "none", "strict")),
+      samesite: Schema.optional(
+        Schema.Literal("auto", "lax", "none", "strict"),
+      ),
       secure: Schema.optional(Schema.Literal("auto", "always", "never")),
     }),
   ).pipe(T.JsonName("cookie_attributes")),
-  cookieSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cookie_suffix")),
+  cookieSuffix: Schema.optional(Schema.String).pipe(
+    T.JsonName("cookie_suffix"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  customPageHtml: Schema.optional(Schema.String).pipe(T.JsonName("custom_page_html")),
+  customPageHtml: Schema.optional(Schema.String).pipe(
+    T.JsonName("custom_page_html"),
+  ),
   defaultTemplateLanguage: Schema.optional(
     Schema.Literal(
       "en-US",
@@ -2228,36 +2505,49 @@ export const PatchWaitingRoomResponse = Schema.Struct({
   disableSessionRenewal: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("disable_session_renewal"),
   ),
-  enabledOriginCommands: Schema.optional(Schema.Array(Schema.Literal("revoke"))).pipe(
-    T.JsonName("enabled_origin_commands"),
-  ),
+  enabledOriginCommands: Schema.optional(
+    Schema.Array(Schema.Literal("revoke")),
+  ).pipe(T.JsonName("enabled_origin_commands")),
   host: Schema.optional(Schema.String),
-  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("json_response_enabled")),
+  jsonResponseEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("json_response_enabled"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  newUsersPerMinute: Schema.optional(Schema.Number).pipe(T.JsonName("new_users_per_minute")),
-  nextEventPrequeueStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_prequeue_start_time"),
+  newUsersPerMinute: Schema.optional(Schema.Number).pipe(
+    T.JsonName("new_users_per_minute"),
   ),
-  nextEventStartTime: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("next_event_start_time"),
-  ),
+  nextEventPrequeueStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_prequeue_start_time")),
+  nextEventStartTime: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.JsonName("next_event_start_time")),
   path: Schema.optional(Schema.String),
   queueAll: Schema.optional(Schema.Boolean).pipe(T.JsonName("queue_all")),
-  queueingMethod: Schema.optional(Schema.Literal("fifo", "random", "passthrough", "reject")).pipe(
-    T.JsonName("queueing_method"),
-  ),
+  queueingMethod: Schema.optional(
+    Schema.Literal("fifo", "random", "passthrough", "reject"),
+  ).pipe(T.JsonName("queueing_method")),
   queueingStatusCode: Schema.optional(Schema.Literal("200", "202", "429")).pipe(
     T.JsonName("queueing_status_code"),
   ),
-  sessionDuration: Schema.optional(Schema.Number).pipe(T.JsonName("session_duration")),
-  suspended: Schema.optional(Schema.Boolean),
-  totalActiveUsers: Schema.optional(Schema.Number).pipe(T.JsonName("total_active_users")),
-  turnstileAction: Schema.optional(Schema.Literal("log", "infinite_queue")).pipe(
-    T.JsonName("turnstile_action"),
+  sessionDuration: Schema.optional(Schema.Number).pipe(
+    T.JsonName("session_duration"),
   ),
+  suspended: Schema.optional(Schema.Boolean),
+  totalActiveUsers: Schema.optional(Schema.Number).pipe(
+    T.JsonName("total_active_users"),
+  ),
+  turnstileAction: Schema.optional(
+    Schema.Literal("log", "infinite_queue"),
+  ).pipe(T.JsonName("turnstile_action")),
   turnstileMode: Schema.optional(
-    Schema.Literal("off", "invisible", "visible_non_interactive", "visible_managed"),
+    Schema.Literal(
+      "off",
+      "invisible",
+      "visible_non_interactive",
+      "visible_managed",
+    ),
   ).pipe(T.JsonName("turnstile_mode")),
 }) as unknown as Schema.Schema<PatchWaitingRoomResponse>;
 
@@ -2277,7 +2567,10 @@ export const DeleteWaitingRoomRequest = Schema.Struct({
   waitingRoomId: Schema.String.pipe(T.HttpPath("waitingRoomId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/waiting_rooms/{waitingRoomId}",
+  }),
 ) as unknown as Schema.Schema<DeleteWaitingRoomRequest>;
 
 export interface DeleteWaitingRoomResponse {

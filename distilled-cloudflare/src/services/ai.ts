@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Ai
@@ -46,7 +50,11 @@ export type RunAiResponse =
   | {
       response: string;
       toolCalls?: { arguments?: unknown; name?: string }[];
-      usage?: { completionTokens?: number; promptTokens?: number; totalTokens?: number };
+      usage?: {
+        completionTokens?: number;
+        promptTokens?: number;
+        totalTokens?: number;
+      };
     }
   | { translatedText?: string }
   | { summary?: string }
@@ -107,14 +115,22 @@ export const RunAiResponse = Schema.Union(
     ).pipe(T.JsonName("tool_calls")),
     usage: Schema.optional(
       Schema.Struct({
-        completionTokens: Schema.optional(Schema.Number).pipe(T.JsonName("completion_tokens")),
-        promptTokens: Schema.optional(Schema.Number).pipe(T.JsonName("prompt_tokens")),
-        totalTokens: Schema.optional(Schema.Number).pipe(T.JsonName("total_tokens")),
+        completionTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("completion_tokens"),
+        ),
+        promptTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("prompt_tokens"),
+        ),
+        totalTokens: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_tokens"),
+        ),
       }),
     ),
   }),
   Schema.Struct({
-    translatedText: Schema.optional(Schema.String).pipe(T.JsonName("translated_text")),
+    translatedText: Schema.optional(Schema.String).pipe(
+      T.JsonName("translated_text"),
+    ),
   }),
   Schema.Struct({
     summary: Schema.optional(Schema.String),

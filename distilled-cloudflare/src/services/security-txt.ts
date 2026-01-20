@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // SecurityTXT
@@ -25,7 +29,10 @@ export interface GetSecurityTXTRequest {
 export const GetSecurityTXTRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/security-center/securitytxt" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
 ) as unknown as Schema.Schema<GetSecurityTXTRequest>;
 
 export interface GetSecurityTXTResponse {
@@ -93,7 +100,10 @@ export const PutSecurityTXTRequest = Schema.Struct({
   policy: Schema.optional(Schema.Array(Schema.String)),
   preferredLanguages: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/security-center/securitytxt" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
 ) as unknown as Schema.Schema<PutSecurityTXTRequest>;
 
 export interface PutSecurityTXTResponse {
@@ -118,7 +128,9 @@ export const PutSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -130,7 +142,9 @@ export const PutSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -155,7 +169,10 @@ export interface DeleteSecurityTXTRequest {
 export const DeleteSecurityTXTRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/security-center/securitytxt" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/security-center/securitytxt",
+  }),
 ) as unknown as Schema.Schema<DeleteSecurityTXTRequest>;
 
 export interface DeleteSecurityTXTResponse {
@@ -180,7 +197,9 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -192,7 +211,9 @@ export const DeleteSecurityTXTResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),

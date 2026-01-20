@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // PermissionGroup
@@ -73,7 +77,10 @@ export const GetResourceGroupRequest = Schema.Struct({
   resourceGroupId: Schema.String.pipe(T.HttpPath("resourceGroupId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/iam/resource_groups/{resourceGroupId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/iam/resource_groups/{resourceGroupId}",
+  }),
 ) as unknown as Schema.Schema<GetResourceGroupRequest>;
 
 export interface GetResourceGroupResponse {
@@ -135,7 +142,10 @@ export const CreateResourceGroupRequest = Schema.Struct({
     ),
   }),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/iam/resource_groups" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/iam/resource_groups",
+  }),
 ) as unknown as Schema.Schema<CreateResourceGroupRequest>;
 
 export interface CreateResourceGroupResponse {
@@ -193,7 +203,10 @@ export const UpdateResourceGroupRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/iam/resource_groups/{resourceGroupId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/iam/resource_groups/{resourceGroupId}",
+  }),
 ) as unknown as Schema.Schema<UpdateResourceGroupRequest>;
 
 export interface UpdateResourceGroupResponse {
@@ -275,7 +288,10 @@ export const GetUserGroupRequest = Schema.Struct({
   userGroupId: Schema.String.pipe(T.HttpPath("userGroupId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/iam/user_groups/{userGroupId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/iam/user_groups/{userGroupId}",
+  }),
 ) as unknown as Schema.Schema<GetUserGroupRequest>;
 
 export interface GetUserGroupResponse {
@@ -457,7 +473,10 @@ export const UpdateUserGroupRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/iam/user_groups/{userGroupId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/iam/user_groups/{userGroupId}",
+  }),
 ) as unknown as Schema.Schema<UpdateUserGroupRequest>;
 
 export interface UpdateUserGroupResponse {
@@ -523,7 +542,10 @@ export const DeleteUserGroupRequest = Schema.Struct({
   userGroupId: Schema.String.pipe(T.HttpPath("userGroupId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/iam/user_groups/{userGroupId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/iam/user_groups/{userGroupId}",
+  }),
 ) as unknown as Schema.Schema<DeleteUserGroupRequest>;
 
 export type DeleteUserGroupResponse = unknown;
@@ -558,7 +580,10 @@ export const CreateUserGroupMemberRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/iam/user_groups/{userGroupId}/members" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/iam/user_groups/{userGroupId}/members",
+  }),
 ) as unknown as Schema.Schema<CreateUserGroupMemberRequest>;
 
 export interface CreateUserGroupMemberResponse {

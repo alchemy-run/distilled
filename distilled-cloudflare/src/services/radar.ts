@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AgentAiBotSummary
@@ -110,13 +114,21 @@ export const userAgentAiBotSummary = API.make(() => ({
 export interface UserAgentAiTimeseriesGroupRequest {}
 
 export const UserAgentAiTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/ai/bots/timeseries_groups/user_agent" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/ai/bots/timeseries_groups/user_agent",
+  }),
 ) as unknown as Schema.Schema<UserAgentAiTimeseriesGroupRequest>;
 
 export interface UserAgentAiTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -147,7 +159,13 @@ export interface UserAgentAiTimeseriesGroupResponse {
 
 export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -379,14 +397,24 @@ export const taskAiInferenceSummary = API.make(() => ({
 
 export interface ModelAiInferenceTimeseriesGroupSummaryRequest {}
 
-export const ModelAiInferenceTimeseriesGroupSummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/ai/inference/timeseries_groups/model" }),
+export const ModelAiInferenceTimeseriesGroupSummaryRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/ai/inference/timeseries_groups/model",
+  }),
 ) as unknown as Schema.Schema<ModelAiInferenceTimeseriesGroupSummaryRequest>;
 
 export interface ModelAiInferenceTimeseriesGroupSummaryResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -417,7 +445,13 @@ export interface ModelAiInferenceTimeseriesGroupSummaryResponse {
 
 export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -469,14 +503,21 @@ export const modelAiInferenceTimeseriesGroupSummary = API.make(() => ({
 
 export interface TaskAiInferenceTimeseriesGroupSummaryRequest {}
 
-export const TaskAiInferenceTimeseriesGroupSummaryRequest = Schema.Struct({}).pipe(
+export const TaskAiInferenceTimeseriesGroupSummaryRequest = Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/radar/ai/inference/timeseries_groups/task" }),
 ) as unknown as Schema.Schema<TaskAiInferenceTimeseriesGroupSummaryRequest>;
 
 export interface TaskAiInferenceTimeseriesGroupSummaryResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -507,7 +548,13 @@ export interface TaskAiInferenceTimeseriesGroupSummaryResponse {
 
 export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -566,9 +613,12 @@ export interface SummaryAiTimeseriesGroupRequest {
 }
 
 export const SummaryAiTimeseriesGroupRequest = Schema.Struct({
-  dimension: Schema.Literal("USER_AGENT", "CRAWL_PURPOSE", "INDUSTRY", "VERTICAL").pipe(
-    T.HttpPath("dimension"),
-  ),
+  dimension: Schema.Literal(
+    "USER_AGENT",
+    "CRAWL_PURPOSE",
+    "INDUSTRY",
+    "VERTICAL",
+  ).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ai/bots/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryAiTimeseriesGroupRequest>;
@@ -662,7 +712,12 @@ export const TimeseriesAiTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface TimeseriesAiTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -692,7 +747,13 @@ export interface TimeseriesAiTimeseriesGroupResponse {
 
 export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -753,7 +814,11 @@ export interface ListAnnotationsResponse {
   annotations: {
     id: string;
     asns: number[];
-    asnsDetails: { asn: string; name: string; locations?: { code: string; name: string } }[];
+    asnsDetails: {
+      asn: string;
+      name: string;
+      locations?: { code: string; name: string };
+    }[];
     dataSource: string;
     eventType: string;
     locations: string[];
@@ -826,7 +891,11 @@ export interface GetAnnotationOutageResponse {
   annotations: {
     id: string;
     asns: number[];
-    asnsDetails: { asn: string; name: string; locations?: { code: string; name: string } }[];
+    asnsDetails: {
+      asn: string;
+      name: string;
+      locations?: { code: string; name: string };
+    }[];
     dataSource: string;
     eventType: string;
     locations: string[];
@@ -892,7 +961,11 @@ export const LocationsAnnotationOutageRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<LocationsAnnotationOutageRequest>;
 
 export interface LocationsAnnotationOutageResponse {
-  annotations: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  annotations: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const LocationsAnnotationOutageResponse = Schema.Struct({
@@ -1011,13 +1084,21 @@ export const matchingAnswerDnsSummary = API.make(() => ({
 export interface MatchingAnswerDnsTimeseriesGroupRequest {}
 
 export const MatchingAnswerDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/dns/timeseries_groups/matching_answer" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/dns/timeseries_groups/matching_answer",
+  }),
 ) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupRequest>;
 
 export interface MatchingAnswerDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -1048,7 +1129,13 @@ export interface MatchingAnswerDnsTimeseriesGroupResponse {
 
 export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -1112,7 +1199,12 @@ export const TimeseriesAs112Request = Schema.Struct({}).pipe(
 export interface TimeseriesAs112Response {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -1142,7 +1234,13 @@ export interface TimeseriesAs112Response {
 
 export const TimeseriesAs112Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -1475,7 +1573,12 @@ export const DnssecAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface DnssecAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -1506,7 +1609,13 @@ export interface DnssecAs112TimeseriesGroupResponse {
 
 export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -1546,7 +1655,9 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SUPPORTED")),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
     sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
   }),
 }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
@@ -1566,7 +1677,12 @@ export const EdnsAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface EdnsAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -1597,7 +1713,13 @@ export interface EdnsAs112TimeseriesGroupResponse {
 
 export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -1637,7 +1759,9 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SUPPORTED")),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
     sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
   }),
 }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
@@ -1657,7 +1781,12 @@ export const ProtocolAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface ProtocolAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -1688,7 +1817,13 @@ export interface ProtocolAs112TimeseriesGroupResponse {
 
 export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -1750,7 +1885,9 @@ export interface DnssecAs112TopRequest {
 }
 
 export const DnssecAs112TopRequest = Schema.Struct({
-  dnssec: Schema.Literal("SUPPORTED", "NOT_SUPPORTED").pipe(T.HttpPath("dnssec")),
+  dnssec: Schema.Literal("SUPPORTED", "NOT_SUPPORTED").pipe(
+    T.HttpPath("dnssec"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/as112/top/locations/dnssec/{dnssec}" }),
 ) as unknown as Schema.Schema<DnssecAs112TopRequest>;
@@ -1783,7 +1920,11 @@ export interface DnssecAs112TopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const DnssecAs112TopResponse = Schema.Struct({
@@ -1882,7 +2023,11 @@ export interface EdnsAs112TopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const EdnsAs112TopResponse = Schema.Struct({
@@ -1977,7 +2122,11 @@ export interface LocationsAs112TopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const LocationsAs112TopResponse = Schema.Struct({
@@ -2051,7 +2200,12 @@ export const TimeseriesAttackLayer3Request = Schema.Struct({}).pipe(
 export interface TimeseriesAttackLayer3Response {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -2081,7 +2235,13 @@ export interface TimeseriesAttackLayer3Response {
 
 export const TimeseriesAttackLayer3Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -2686,13 +2846,21 @@ export const verticalAttackLayer3Summary = API.make(() => ({
 export interface BitrateAttackLayer3TimeseriesGroupRequest {}
 
 export const BitrateAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/bitrate" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/bitrate",
+  }),
 ) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupRequest>;
 
 export interface BitrateAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -2730,7 +2898,13 @@ export interface BitrateAttackLayer3TimeseriesGroupResponse {
 
 export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -2773,9 +2947,13 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _1_GBPS_TO_10_GBPS: Schema.Array(Schema.String),
     _10_GBPS_TO_100_GBPS: Schema.Array(Schema.String),
     _500_MBPS_TO_1_GBPS: Schema.Array(Schema.String),
-    oVER_100_GBPS: Schema.Array(Schema.String).pipe(T.JsonName("OVER_100_GBPS")),
+    oVER_100_GBPS: Schema.Array(Schema.String).pipe(
+      T.JsonName("OVER_100_GBPS"),
+    ),
     timestamps: Schema.Array(Schema.String),
-    uNDER_500_MBPS: Schema.Array(Schema.String).pipe(T.JsonName("UNDER_500_MBPS")),
+    uNDER_500_MBPS: Schema.Array(Schema.String).pipe(
+      T.JsonName("UNDER_500_MBPS"),
+    ),
   }),
 }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
@@ -2787,14 +2965,24 @@ export const bitrateAttackLayer3TimeseriesGroup = API.make(() => ({
 
 export interface DurationAttackLayer3TimeseriesGroupRequest {}
 
-export const DurationAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/duration" }),
+export const DurationAttackLayer3TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/duration",
+  }),
 ) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupRequest>;
 
 export interface DurationAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -2833,7 +3021,13 @@ export interface DurationAttackLayer3TimeseriesGroupResponse {
 
 export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -2879,7 +3073,9 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _40_MINS_TO_1_HOUR: Schema.Array(Schema.String),
     oVER_3_HOURS: Schema.Array(Schema.String).pipe(T.JsonName("OVER_3_HOURS")),
     timestamps: Schema.Array(Schema.String),
-    uNDER_10_MINS: Schema.Array(Schema.String).pipe(T.JsonName("UNDER_10_MINS")),
+    uNDER_10_MINS: Schema.Array(Schema.String).pipe(
+      T.JsonName("UNDER_10_MINS"),
+    ),
   }),
 }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
@@ -2891,14 +3087,24 @@ export const durationAttackLayer3TimeseriesGroup = API.make(() => ({
 
 export interface IndustryAttackLayer3TimeseriesGroupRequest {}
 
-export const IndustryAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/industry" }),
+export const IndustryAttackLayer3TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/industry",
+  }),
 ) as unknown as Schema.Schema<IndustryAttackLayer3TimeseriesGroupRequest>;
 
 export interface IndustryAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -2929,7 +3135,13 @@ export interface IndustryAttackLayer3TimeseriesGroupResponse {
 
 export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -2981,14 +3193,24 @@ export const industryAttackLayer3TimeseriesGroup = API.make(() => ({
 
 export interface ProtocolAttackLayer3TimeseriesGroupRequest {}
 
-export const ProtocolAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/protocol" }),
+export const ProtocolAttackLayer3TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/protocol",
+  }),
 ) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupRequest>;
 
 export interface ProtocolAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -3014,12 +3236,24 @@ export interface ProtocolAttackLayer3TimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { gRE: string[]; iCMP: string[]; tCP: string[]; timestamps: string[]; uDP: string[] };
+  serie_0: {
+    gRE: string[];
+    iCMP: string[];
+    tCP: string[];
+    timestamps: string[];
+    uDP: string[];
+  };
 }
 
 export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -3076,13 +3310,21 @@ export const protocolAttackLayer3TimeseriesGroup = API.make(() => ({
 export interface VectorAttackLayer3TimeseriesGroupRequest {}
 
 export const VectorAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/vector" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/vector",
+  }),
 ) as unknown as Schema.Schema<VectorAttackLayer3TimeseriesGroupRequest>;
 
 export interface VectorAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -3113,7 +3355,13 @@ export interface VectorAttackLayer3TimeseriesGroupResponse {
 
 export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -3165,14 +3413,24 @@ export const vectorAttackLayer3TimeseriesGroup = API.make(() => ({
 
 export interface VerticalAttackLayer3TimeseriesGroupRequest {}
 
-export const VerticalAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/vertical" }),
+export const VerticalAttackLayer3TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/vertical",
+  }),
 ) as unknown as Schema.Schema<VerticalAttackLayer3TimeseriesGroupRequest>;
 
 export interface VerticalAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -3203,7 +3461,13 @@ export interface VerticalAttackLayer3TimeseriesGroupResponse {
 
 export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -3291,7 +3555,11 @@ export interface AttacksAttackLayer3TopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { originCountryAlpha2: string; originCountryName: string; value: string }[];
+  top_0: {
+    originCountryAlpha2: string;
+    originCountryName: string;
+    value: string;
+  }[];
 }
 
 export const AttacksAttackLayer3TopResponse = Schema.Struct({
@@ -3578,7 +3846,12 @@ export interface OriginAttackLayer3TopLocationResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { originCountryAlpha2: string; originCountryName: string; rank: number; value: string }[];
+  top_0: {
+    originCountryAlpha2: string;
+    originCountryName: string;
+    rank: number;
+    value: string;
+  }[];
 }
 
 export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
@@ -3674,7 +3947,12 @@ export interface TargetAttackLayer3TopLocationResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { rank: number; targetCountryAlpha2: string; targetCountryName: string; value: string }[];
+  top_0: {
+    rank: number;
+    targetCountryAlpha2: string;
+    targetCountryName: string;
+    value: string;
+  }[];
 }
 
 export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
@@ -3749,7 +4027,12 @@ export const TimeseriesAttackLayer7Request = Schema.Struct({}).pipe(
 export interface TimeseriesAttackLayer7Response {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -3780,7 +4063,13 @@ export interface TimeseriesAttackLayer7Response {
 
 export const TimeseriesAttackLayer7Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -4013,14 +4302,24 @@ export const verticalAttackLayer7Summary = API.make(() => ({
 
 export interface IndustryAttackLayer7TimeseriesGroupRequest {}
 
-export const IndustryAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/industry" }),
+export const IndustryAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/industry",
+  }),
 ) as unknown as Schema.Schema<IndustryAttackLayer7TimeseriesGroupRequest>;
 
 export interface IndustryAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -4051,7 +4350,13 @@ export interface IndustryAttackLayer7TimeseriesGroupResponse {
 
 export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -4103,14 +4408,24 @@ export const industryAttackLayer7TimeseriesGroup = API.make(() => ({
 
 export interface VerticalAttackLayer7TimeseriesGroupRequest {}
 
-export const VerticalAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/vertical" }),
+export const VerticalAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/vertical",
+  }),
 ) as unknown as Schema.Schema<VerticalAttackLayer7TimeseriesGroupRequest>;
 
 export interface VerticalAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -4141,7 +4456,13 @@ export interface VerticalAttackLayer7TimeseriesGroupResponse {
 
 export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -4524,7 +4845,12 @@ export interface OriginAttackLayer7TopAsResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { originAsn: string; originAsnName: string; rank: number; value: string }[];
+  top_0: {
+    originAsn: string;
+    originAsnName: string;
+    rank: number;
+    value: string;
+  }[];
 }
 
 export const OriginAttackLayer7TopAsResponse = Schema.Struct({
@@ -4624,7 +4950,12 @@ export interface OriginAttackLayer7TopLocationResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { originCountryAlpha2: string; originCountryName: string; rank: number; value: string }[];
+  top_0: {
+    originCountryAlpha2: string;
+    originCountryName: string;
+    rank: number;
+    value: string;
+  }[];
 }
 
 export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
@@ -4720,7 +5051,12 @@ export interface TargetAttackLayer7TopLocationResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { rank: number; targetCountryAlpha2: string; targetCountryName: string; value: string }[];
+  top_0: {
+    rank: number;
+    targetCountryAlpha2: string;
+    targetCountryName: string;
+    value: string;
+  }[];
 }
 
 export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
@@ -4888,7 +5224,12 @@ export const DnssecAwareDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface DnssecAwareDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -4919,7 +5260,13 @@ export interface DnssecAwareDnsTimeseriesGroupResponse {
 
 export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -4959,7 +5306,9 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SUPPORTED")),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
     sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
   }),
 }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
@@ -5051,7 +5400,12 @@ export const TimeseriesBgpIpRequest = Schema.Struct({}).pipe(
 export interface TimeseriesBgpIpResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -5098,7 +5452,13 @@ export interface TimeseriesBgpIpResponse {
 
 export const TimeseriesBgpIpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -5277,7 +5637,12 @@ export const Pfx2asBgpRouteRequest = Schema.Struct({}).pipe(
 
 export interface Pfx2asBgpRouteResponse {
   meta: { dataTime: string; queryTime: string; totalPeers: number };
-  prefixOrigins: { origin: number; peerCount: number; prefix: string; rpkiValidation: string }[];
+  prefixOrigins: {
+    origin: number;
+    peerCount: number;
+    prefix: string;
+    rpkiValidation: string;
+  }[];
 }
 
 export const Pfx2asBgpRouteResponse = Schema.Struct({
@@ -5310,7 +5675,13 @@ export const RealtimeBgpRouteRequest = Schema.Struct({}).pipe(
 
 export interface RealtimeBgpRouteResponse {
   meta: {
-    asnInfo: { asName: string; asn: number; countryCode: string; orgId: string; orgName: string }[];
+    asnInfo: {
+      asName: string;
+      asn: number;
+      countryCode: string;
+      orgId: string;
+      orgName: string;
+    }[];
     collectors: {
       collector: string;
       latestRealtimeTs: string;
@@ -5430,11 +5801,19 @@ export const StatsBgpRouteResponse = Schema.Struct({
   }),
   stats: Schema.Struct({
     distinctOrigins: Schema.Number.pipe(T.JsonName("distinct_origins")),
-    distinctOriginsIpv4: Schema.Number.pipe(T.JsonName("distinct_origins_ipv4")),
-    distinctOriginsIpv6: Schema.Number.pipe(T.JsonName("distinct_origins_ipv6")),
+    distinctOriginsIpv4: Schema.Number.pipe(
+      T.JsonName("distinct_origins_ipv4"),
+    ),
+    distinctOriginsIpv6: Schema.Number.pipe(
+      T.JsonName("distinct_origins_ipv6"),
+    ),
     distinctPrefixes: Schema.Number.pipe(T.JsonName("distinct_prefixes")),
-    distinctPrefixesIpv4: Schema.Number.pipe(T.JsonName("distinct_prefixes_ipv4")),
-    distinctPrefixesIpv6: Schema.Number.pipe(T.JsonName("distinct_prefixes_ipv6")),
+    distinctPrefixesIpv4: Schema.Number.pipe(
+      T.JsonName("distinct_prefixes_ipv4"),
+    ),
+    distinctPrefixesIpv6: Schema.Number.pipe(
+      T.JsonName("distinct_prefixes_ipv6"),
+    ),
     routesInvalid: Schema.Number.pipe(T.JsonName("routes_invalid")),
     routesInvalidIpv4: Schema.Number.pipe(T.JsonName("routes_invalid_ipv4")),
     routesInvalidIpv6: Schema.Number.pipe(T.JsonName("routes_invalid_ipv6")),
@@ -5657,9 +6036,12 @@ export interface SummaryBotRequest {
 }
 
 export const SummaryBotRequest = Schema.Struct({
-  dimension: Schema.Literal("BOT", "BOT_KIND", "BOT_OPERATOR", "BOT_CATEGORY").pipe(
-    T.HttpPath("dimension"),
-  ),
+  dimension: Schema.Literal(
+    "BOT",
+    "BOT_KIND",
+    "BOT_OPERATOR",
+    "BOT_CATEGORY",
+  ).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/bots/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryBotRequest>;
@@ -5753,7 +6135,12 @@ export const TimeseriesBotRequest = Schema.Struct({}).pipe(
 export interface TimeseriesBotResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -5783,7 +6170,13 @@ export interface TimeseriesBotResponse {
 
 export const TimeseriesBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -5835,7 +6228,12 @@ export const timeseriesBot = API.make(() => ({
 // =============================================================================
 
 export interface SummaryBotWebCrawlerRequest {
-  dimension: "USER_AGENT" | "REFERER" | "CRAWL_REFER_RATIO" | "VERTICAL" | "INDUSTRY";
+  dimension:
+    | "USER_AGENT"
+    | "REFERER"
+    | "CRAWL_REFER_RATIO"
+    | "VERTICAL"
+    | "INDUSTRY";
 }
 
 export const SummaryBotWebCrawlerRequest = Schema.Struct({
@@ -6035,7 +6433,10 @@ export const domainCategoriesRobotsTxtTop = API.make(() => ({
 export interface ThreatCategoryEmailSecuritySummaryRequest {}
 
 export const ThreatCategoryEmailSecuritySummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/summary/threat_category" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/summary/threat_category",
+  }),
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryRequest>;
 
 export interface ThreatCategoryEmailSecuritySummaryResponse {
@@ -6134,14 +6535,24 @@ export const threatCategoryEmailSecuritySummary = API.make(() => ({
 
 export interface ThreatCategoryEmailSecurityTimeseriesGroupRequest {}
 
-export const ThreatCategoryEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/threat_category" }),
+export const ThreatCategoryEmailSecurityTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/threat_category",
+  }),
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupRequest>;
 
 export interface ThreatCategoryEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -6175,54 +6586,68 @@ export interface ThreatCategoryEmailSecurityTimeseriesGroupResponse {
   };
 }
 
-export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct({
-  meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
-    confidenceInfo: Schema.Struct({
-      annotations: Schema.Array(
+export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
+  {
+    meta: Schema.Struct({
+      aggInterval: Schema.Literal(
+        "FIFTEEN_MINUTES",
+        "ONE_HOUR",
+        "ONE_DAY",
+        "ONE_WEEK",
+        "ONE_MONTH",
+      ),
+      confidenceInfo: Schema.Struct({
+        annotations: Schema.Array(
+          Schema.Struct({
+            dataSource: Schema.String,
+            description: Schema.String,
+            endDate: Schema.String,
+            eventType: Schema.String,
+            isInstantaneous: Schema.Boolean,
+            linkedUrl: Schema.String,
+            startDate: Schema.String,
+          }),
+        ),
+        level: Schema.Number,
+      }),
+      dateRange: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
-          description: Schema.String,
-          endDate: Schema.String,
-          eventType: Schema.String,
-          isInstantaneous: Schema.Boolean,
-          linkedUrl: Schema.String,
-          startDate: Schema.String,
+          endTime: Schema.String,
+          startTime: Schema.String,
         }),
       ),
-      level: Schema.Number,
+      lastUpdated: Schema.String,
+      normalization: Schema.Literal(
+        "PERCENTAGE",
+        "MIN0_MAX",
+        "MIN_MAX",
+        "RAW_VALUES",
+        "PERCENTAGE_CHANGE",
+        "ROLLING_AVERAGE",
+        "OVERLAPPED_PERCENTAGE",
+        "RATIO",
+      ),
+      units: Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          value: Schema.String,
+        }),
+      ),
     }),
-    dateRange: Schema.Array(
-      Schema.Struct({
-        endTime: Schema.String,
-        startTime: Schema.String,
-      }),
-    ),
-    lastUpdated: Schema.String,
-    normalization: Schema.Literal(
-      "PERCENTAGE",
-      "MIN0_MAX",
-      "MIN_MAX",
-      "RAW_VALUES",
-      "PERCENTAGE_CHANGE",
-      "ROLLING_AVERAGE",
-      "OVERLAPPED_PERCENTAGE",
-      "RATIO",
-    ),
-    units: Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        value: Schema.String,
-      }),
-    ),
-  }),
-  serie_0: Schema.Struct({
-    brandImpersonation: Schema.Array(Schema.String).pipe(T.JsonName("BrandImpersonation")),
-    credentialHarvester: Schema.Array(Schema.String).pipe(T.JsonName("CredentialHarvester")),
-    identityDeception: Schema.Array(Schema.String).pipe(T.JsonName("IdentityDeception")),
-    link: Schema.Array(Schema.String).pipe(T.JsonName("Link")),
-  }),
-}) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
+    serie_0: Schema.Struct({
+      brandImpersonation: Schema.Array(Schema.String).pipe(
+        T.JsonName("BrandImpersonation"),
+      ),
+      credentialHarvester: Schema.Array(Schema.String).pipe(
+        T.JsonName("CredentialHarvester"),
+      ),
+      identityDeception: Schema.Array(Schema.String).pipe(
+        T.JsonName("IdentityDeception"),
+      ),
+      link: Schema.Array(Schema.String).pipe(T.JsonName("Link")),
+    }),
+  },
+) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
 export const threatCategoryEmailSecurityTimeseriesGroup = API.make(() => ({
   input: ThreatCategoryEmailSecurityTimeseriesGroupRequest,
@@ -6336,7 +6761,12 @@ export const BotClassHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface BotClassHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -6367,7 +6797,13 @@ export interface BotClassHttpTimeseriesGroupResponse {
 
 export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -6426,7 +6862,10 @@ export const botClassHttpTimeseriesGroup = API.make(() => ({
 export interface BotClassLeakedCredentialSummaryRequest {}
 
 export const BotClassLeakedCredentialSummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/leaked_credential_checks/summary/bot_class" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/summary/bot_class",
+  }),
 ) as unknown as Schema.Schema<BotClassLeakedCredentialSummaryRequest>;
 
 export interface BotClassLeakedCredentialSummaryResponse {
@@ -6518,14 +6957,24 @@ export const botClassLeakedCredentialSummary = API.make(() => ({
 
 export interface BotClassLeakedCredentialTimeseriesGroupRequest {}
 
-export const BotClassLeakedCredentialTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/leaked_credential_checks/timeseries_groups/bot_class" }),
+export const BotClassLeakedCredentialTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/timeseries_groups/bot_class",
+  }),
 ) as unknown as Schema.Schema<BotClassLeakedCredentialTimeseriesGroupRequest>;
 
 export interface BotClassLeakedCredentialTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -6556,7 +7005,13 @@ export interface BotClassLeakedCredentialTimeseriesGroupResponse {
 
 export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -6711,7 +7166,12 @@ export const ResponseCodeDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface ResponseCodeDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -6742,7 +7202,13 @@ export interface ResponseCodeDnsTimeseriesGroupResponse {
 
 export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -6889,13 +7355,21 @@ export const responseCodesAs112Summary = API.make(() => ({
 export interface ResponseCodesAs112TimeseriesGroupRequest {}
 
 export const ResponseCodesAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/as112/timeseries_groups/response_codes" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/as112/timeseries_groups/response_codes",
+  }),
 ) as unknown as Schema.Schema<ResponseCodesAs112TimeseriesGroupRequest>;
 
 export interface ResponseCodesAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -6926,7 +7400,13 @@ export interface ResponseCodesAs112TimeseriesGroupResponse {
 
 export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -7062,7 +7542,12 @@ export interface SummaryCtResponse {
     | { eXPIRED: string; vALID: string }
     | { nEGATIVE: string; pOSITIVE: string }
     | { dSA: string; eCDSA: string; rSA: string }
-    | { domain: string; extended: string; organization: string; unknown: string };
+    | {
+        domain: string;
+        extended: string;
+        organization: string;
+        unknown: string;
+      };
 }
 
 export const SummaryCtResponse = Schema.Struct({
@@ -7160,7 +7645,12 @@ export const TimeseriesCtRequest = Schema.Struct({}).pipe(
 export interface TimeseriesCtResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -7190,7 +7680,13 @@ export interface TimeseriesCtResponse {
 
 export const TimeseriesCtResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -7319,7 +7815,10 @@ export const GetCtAuthorityResponse = Schema.Struct({
       "BLOCKED",
     ),
     authorityKeyIdentifier: Schema.String,
-    certificateRecordType: Schema.Literal("ROOT_CERTIFICATE", "INTERMEDIATE_CERTIFICATE"),
+    certificateRecordType: Schema.Literal(
+      "ROOT_CERTIFICATE",
+      "INTERMEDIATE_CERTIFICATE",
+    ),
     chromeStatus: Schema.Literal(
       "INCLUDED",
       "NOT_YET_INCLUDED",
@@ -7355,13 +7854,24 @@ export const GetCtAuthorityResponse = Schema.Struct({
     parentSha256Fingerprint: Schema.String,
     related: Schema.Array(
       Schema.Struct({
-        certificateRecordType: Schema.Literal("ROOT_CERTIFICATE", "INTERMEDIATE_CERTIFICATE"),
+        certificateRecordType: Schema.Literal(
+          "ROOT_CERTIFICATE",
+          "INTERMEDIATE_CERTIFICATE",
+        ),
         name: Schema.String,
-        revocationStatus: Schema.Literal("NOT_REVOKED", "REVOKED", "PARENT_CERT_REVOKED"),
+        revocationStatus: Schema.Literal(
+          "NOT_REVOKED",
+          "REVOKED",
+          "PARENT_CERT_REVOKED",
+        ),
         sha256Fingerprint: Schema.String,
       }),
     ),
-    revocationStatus: Schema.Literal("NOT_REVOKED", "REVOKED", "PARENT_CERT_REVOKED"),
+    revocationStatus: Schema.Literal(
+      "NOT_REVOKED",
+      "REVOKED",
+      "PARENT_CERT_REVOKED",
+    ),
     sha256Fingerprint: Schema.String,
     subjectKeyIdentifier: Schema.String,
     validFrom: Schema.String,
@@ -7398,14 +7908,21 @@ export interface ListCtAuthoritiesResponse {
 export const ListCtAuthoritiesResponse = Schema.Struct({
   certificateAuthorities: Schema.Array(
     Schema.Struct({
-      certificateRecordType: Schema.Literal("ROOT_CERTIFICATE", "INTERMEDIATE_CERTIFICATE"),
+      certificateRecordType: Schema.Literal(
+        "ROOT_CERTIFICATE",
+        "INTERMEDIATE_CERTIFICATE",
+      ),
       country: Schema.String,
       countryName: Schema.String,
       name: Schema.String,
       owner: Schema.String,
       parentName: Schema.String,
       parentSha256Fingerprint: Schema.String,
-      revocationStatus: Schema.Literal("NOT_REVOKED", "REVOKED", "PARENT_CERT_REVOKED"),
+      revocationStatus: Schema.Literal(
+        "NOT_REVOKED",
+        "REVOKED",
+        "PARENT_CERT_REVOKED",
+      ),
       sha256Fingerprint: Schema.String,
     }),
   ),
@@ -7458,11 +7975,23 @@ export interface GetCtLogResponse {
       endExclusive: string;
       slug: string;
       startInclusive: string;
-      state: "USABLE" | "PENDING" | "QUALIFIED" | "READ_ONLY" | "RETIRED" | "REJECTED";
+      state:
+        | "USABLE"
+        | "PENDING"
+        | "QUALIFIED"
+        | "READ_ONLY"
+        | "RETIRED"
+        | "REJECTED";
     }[];
     slug: string;
     startInclusive: string;
-    state: "USABLE" | "PENDING" | "QUALIFIED" | "READ_ONLY" | "RETIRED" | "REJECTED";
+    state:
+      | "USABLE"
+      | "PENDING"
+      | "QUALIFIED"
+      | "READ_ONLY"
+      | "RETIRED"
+      | "REJECTED";
     stateTimestamp: string;
     url: string;
   };
@@ -7502,12 +8031,26 @@ export const GetCtLogResponse = Schema.Struct({
         endExclusive: Schema.String,
         slug: Schema.String,
         startInclusive: Schema.String,
-        state: Schema.Literal("USABLE", "PENDING", "QUALIFIED", "READ_ONLY", "RETIRED", "REJECTED"),
+        state: Schema.Literal(
+          "USABLE",
+          "PENDING",
+          "QUALIFIED",
+          "READ_ONLY",
+          "RETIRED",
+          "REJECTED",
+        ),
       }),
     ),
     slug: Schema.String,
     startInclusive: Schema.String,
-    state: Schema.Literal("USABLE", "PENDING", "QUALIFIED", "READ_ONLY", "RETIRED", "REJECTED"),
+    state: Schema.Literal(
+      "USABLE",
+      "PENDING",
+      "QUALIFIED",
+      "READ_ONLY",
+      "RETIRED",
+      "REJECTED",
+    ),
     stateTimestamp: Schema.String,
     url: Schema.String,
   }),
@@ -7533,7 +8076,13 @@ export interface ListCtLogsResponse {
     operator: string;
     slug: string;
     startInclusive: string;
-    state: "USABLE" | "PENDING" | "QUALIFIED" | "READ_ONLY" | "RETIRED" | "REJECTED";
+    state:
+      | "USABLE"
+      | "PENDING"
+      | "QUALIFIED"
+      | "READ_ONLY"
+      | "RETIRED"
+      | "REJECTED";
     stateTimestamp: string;
     url: string;
   }[];
@@ -7548,7 +8097,14 @@ export const ListCtLogsResponse = Schema.Struct({
       operator: Schema.String,
       slug: Schema.String,
       startInclusive: Schema.String,
-      state: Schema.Literal("USABLE", "PENDING", "QUALIFIED", "READ_ONLY", "RETIRED", "REJECTED"),
+      state: Schema.Literal(
+        "USABLE",
+        "PENDING",
+        "QUALIFIED",
+        "READ_ONLY",
+        "RETIRED",
+        "REJECTED",
+      ),
       stateTimestamp: Schema.String,
       url: Schema.String,
     }),
@@ -7577,7 +8133,8 @@ export const GetDatasetRequest = Schema.Struct({
 
 export type GetDatasetResponse = unknown;
 
-export const GetDatasetResponse = Schema.Unknown as unknown as Schema.Schema<GetDatasetResponse>;
+export const GetDatasetResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDatasetResponse>;
 
 export const getDataset = API.make(() => ({
   input: GetDatasetRequest,
@@ -7629,7 +8186,9 @@ export interface DownloadDatasetRequest {
 }
 
 export const DownloadDatasetRequest = Schema.Struct({
-  format: Schema.optional(Schema.Literal("JSON", "CSV")).pipe(T.HttpQuery("format")),
+  format: Schema.optional(Schema.Literal("JSON", "CSV")).pipe(
+    T.HttpQuery("format"),
+  ),
   datasetId: Schema.Number,
 }).pipe(
   T.Http({ method: "POST", path: "/radar/datasets/download" }),
@@ -7664,7 +8223,12 @@ export const TimeseriesDnsRequest = Schema.Struct({}).pipe(
 export interface TimeseriesDnsResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -7694,7 +8258,13 @@ export interface TimeseriesDnsResponse {
 
 export const TimeseriesDnsResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -7779,7 +8349,12 @@ export interface DnssecDnsSummaryResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  summary_0: { iNSECURE: string; iNVALID: string; oTHER: string; sECURE: string };
+  summary_0: {
+    iNSECURE: string;
+    iNVALID: string;
+    oTHER: string;
+    sECURE: string;
+  };
 }
 
 export const DnssecDnsSummaryResponse = Schema.Struct({
@@ -7940,7 +8515,12 @@ export const DnssecDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface DnssecDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -7966,12 +8546,23 @@ export interface DnssecDnsTimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { iNSECURE: string[]; iNVALID: string[]; oTHER: string[]; sECURE: string[] };
+  serie_0: {
+    iNSECURE: string[];
+    iNVALID: string[];
+    oTHER: string[];
+    sECURE: string[];
+  };
 }
 
 export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -8033,7 +8624,12 @@ export const ProtocolDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface ProtocolDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -8064,7 +8660,13 @@ export interface ProtocolDnsTimeseriesGroupResponse {
 
 export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -8250,7 +8852,11 @@ export interface LocationsDnsTopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const LocationsDnsTopResponse = Schema.Struct({
@@ -8417,7 +9023,12 @@ export const DnssecE2EDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface DnssecE2EDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -8448,7 +9059,13 @@ export interface DnssecE2EDnsTimeseriesGroupResponse {
 
 export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -8949,7 +9566,12 @@ export const ArcEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface ArcEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -8980,7 +9602,13 @@ export interface ArcEmailRoutingTimeseriesGroupResponse {
 
 export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -9031,13 +9659,21 @@ export const arcEmailRoutingTimeseriesGroup = API.make(() => ({
 export interface DkimEmailRoutingTimeseriesGroupRequest {}
 
 export const DkimEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/routing/timeseries_groups/dkim" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/routing/timeseries_groups/dkim",
+  }),
 ) as unknown as Schema.Schema<DkimEmailRoutingTimeseriesGroupRequest>;
 
 export interface DkimEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -9068,7 +9704,13 @@ export interface DkimEmailRoutingTimeseriesGroupResponse {
 
 export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -9119,13 +9761,21 @@ export const dkimEmailRoutingTimeseriesGroup = API.make(() => ({
 export interface DmarcEmailRoutingTimeseriesGroupRequest {}
 
 export const DmarcEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/routing/timeseries_groups/dmarc" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/routing/timeseries_groups/dmarc",
+  }),
 ) as unknown as Schema.Schema<DmarcEmailRoutingTimeseriesGroupRequest>;
 
 export interface DmarcEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -9156,7 +9806,13 @@ export interface DmarcEmailRoutingTimeseriesGroupResponse {
 
 export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -9206,14 +9862,24 @@ export const dmarcEmailRoutingTimeseriesGroup = API.make(() => ({
 
 export interface EncryptedEmailRoutingTimeseriesGroupRequest {}
 
-export const EncryptedEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/routing/timeseries_groups/encrypted" }),
+export const EncryptedEmailRoutingTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/routing/timeseries_groups/encrypted",
+  }),
 ) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupRequest>;
 
 export interface EncryptedEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -9244,7 +9910,13 @@ export interface EncryptedEmailRoutingTimeseriesGroupResponse {
 
 export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -9285,7 +9957,9 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   }),
   serie_0: Schema.Struct({
     eNCRYPTED: Schema.Array(Schema.String).pipe(T.JsonName("ENCRYPTED")),
-    nOT_ENCRYPTED: Schema.Array(Schema.String).pipe(T.JsonName("NOT_ENCRYPTED")),
+    nOT_ENCRYPTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_ENCRYPTED"),
+    ),
   }),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
@@ -9304,7 +9978,12 @@ export const SpfEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface SpfEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -9335,7 +10014,13 @@ export interface SpfEmailRoutingTimeseriesGroupResponse {
 
 export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10005,13 +10690,21 @@ export const spoofEmailSecuritySummary = API.make(() => ({
 export interface ArcEmailSecurityTimeseriesGroupRequest {}
 
 export const ArcEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/arc" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/arc",
+  }),
 ) as unknown as Schema.Schema<ArcEmailSecurityTimeseriesGroupRequest>;
 
 export interface ArcEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10042,7 +10735,13 @@ export interface ArcEmailSecurityTimeseriesGroupResponse {
 
 export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10093,13 +10792,21 @@ export const arcEmailSecurityTimeseriesGroup = API.make(() => ({
 export interface DkimEmailSecurityTimeseriesGroupRequest {}
 
 export const DkimEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/dkim" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/dkim",
+  }),
 ) as unknown as Schema.Schema<DkimEmailSecurityTimeseriesGroupRequest>;
 
 export interface DkimEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10130,7 +10837,13 @@ export interface DkimEmailSecurityTimeseriesGroupResponse {
 
 export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10181,13 +10894,21 @@ export const dkimEmailSecurityTimeseriesGroup = API.make(() => ({
 export interface DmarcEmailSecurityTimeseriesGroupRequest {}
 
 export const DmarcEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/dmarc" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/dmarc",
+  }),
 ) as unknown as Schema.Schema<DmarcEmailSecurityTimeseriesGroupRequest>;
 
 export interface DmarcEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10218,7 +10939,13 @@ export interface DmarcEmailSecurityTimeseriesGroupResponse {
 
 export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10268,14 +10995,24 @@ export const dmarcEmailSecurityTimeseriesGroup = API.make(() => ({
 
 export interface MaliciousEmailSecurityTimeseriesGroupRequest {}
 
-export const MaliciousEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/malicious" }),
+export const MaliciousEmailSecurityTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/malicious",
+  }),
 ) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupRequest>;
 
 export interface MaliciousEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10306,7 +11043,13 @@ export interface MaliciousEmailSecurityTimeseriesGroupResponse {
 
 export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10347,7 +11090,9 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   }),
   serie_0: Schema.Struct({
     mALICIOUS: Schema.Array(Schema.String).pipe(T.JsonName("MALICIOUS")),
-    nOT_MALICIOUS: Schema.Array(Schema.String).pipe(T.JsonName("NOT_MALICIOUS")),
+    nOT_MALICIOUS: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_MALICIOUS"),
+    ),
   }),
 }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
@@ -10360,13 +11105,21 @@ export const maliciousEmailSecurityTimeseriesGroup = API.make(() => ({
 export interface SpamEmailSecurityTimeseriesGroupRequest {}
 
 export const SpamEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/spam" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/spam",
+  }),
 ) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupRequest>;
 
 export interface SpamEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10397,7 +11150,13 @@ export interface SpamEmailSecurityTimeseriesGroupResponse {
 
 export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10451,13 +11210,21 @@ export const spamEmailSecurityTimeseriesGroup = API.make(() => ({
 export interface SpfEmailSecurityTimeseriesGroupRequest {}
 
 export const SpfEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/spf" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/spf",
+  }),
 ) as unknown as Schema.Schema<SpfEmailSecurityTimeseriesGroupRequest>;
 
 export interface SpfEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10488,7 +11255,13 @@ export interface SpfEmailSecurityTimeseriesGroupResponse {
 
 export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10539,13 +11312,21 @@ export const spfEmailSecurityTimeseriesGroup = API.make(() => ({
 export interface SpoofEmailSecurityTimeseriesGroupRequest {}
 
 export const SpoofEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/spoof" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/spoof",
+  }),
 ) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupRequest>;
 
 export interface SpoofEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -10576,7 +11357,13 @@ export interface SpoofEmailSecurityTimeseriesGroupResponse {
 
 export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -10734,9 +11521,14 @@ export interface GetEmailSecurityTopTldMaliciousRequest {
 }
 
 export const GetEmailSecurityTopTldMaliciousRequest = Schema.Struct({
-  malicious: Schema.Literal("MALICIOUS", "NOT_MALICIOUS").pipe(T.HttpPath("malicious")),
+  malicious: Schema.Literal("MALICIOUS", "NOT_MALICIOUS").pipe(
+    T.HttpPath("malicious"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/top/tlds/malicious/{malicious}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/top/tlds/malicious/{malicious}",
+  }),
 ) as unknown as Schema.Schema<GetEmailSecurityTopTldMaliciousRequest>;
 
 export interface GetEmailSecurityTopTldMaliciousResponse {
@@ -10940,7 +11732,10 @@ export interface GetEmailSecurityTopTldSpoofRequest {
 export const GetEmailSecurityTopTldSpoofRequest = Schema.Struct({
   spoof: Schema.Literal("SPOOF", "NOT_SPOOF").pipe(T.HttpPath("spoof")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/top/tlds/spoof/{spoof}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/top/tlds/spoof/{spoof}",
+  }),
 ) as unknown as Schema.Schema<GetEmailSecurityTopTldSpoofRequest>;
 
 export interface GetEmailSecurityTopTldSpoofResponse {
@@ -11102,12 +11897,21 @@ export interface GetEntityAsnResponse {
     country: string;
     countryName: string;
     estimatedUsers: {
-      locations: { locationAlpha2: string; locationName: string; estimatedUsers?: number }[];
+      locations: {
+        locationAlpha2: string;
+        locationName: string;
+        estimatedUsers?: number;
+      }[];
       estimatedUsers?: number;
     };
     name: string;
     orgName: string;
-    related: { asn: number; name: string; aka?: string; estimatedUsers?: number }[];
+    related: {
+      asn: number;
+      name: string;
+      aka?: string;
+      estimatedUsers?: number;
+    }[];
     source: string;
     website: string;
     aka?: string;
@@ -11210,12 +12014,21 @@ export interface IpEntityAsnResponse {
     country: string;
     countryName: string;
     estimatedUsers: {
-      locations: { locationAlpha2: string; locationName: string; estimatedUsers?: number }[];
+      locations: {
+        locationAlpha2: string;
+        locationName: string;
+        estimatedUsers?: number;
+      }[];
       estimatedUsers?: number;
     };
     name: string;
     orgName: string;
-    related: { asn: number; name: string; aka?: string; estimatedUsers?: number }[];
+    related: {
+      asn: number;
+      name: string;
+      aka?: string;
+      estimatedUsers?: number;
+    }[];
     source: string;
     website: string;
     aka?: string;
@@ -11358,7 +12171,12 @@ export const ListEntityLocationsRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListEntityLocationsRequest>;
 
 export interface ListEntityLocationsResponse {
-  locations: { alpha2: string; latitude: string; longitude: string; name: string }[];
+  locations: {
+    alpha2: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+  }[];
 }
 
 export const ListEntityLocationsResponse = Schema.Struct({
@@ -11385,13 +12203,21 @@ export const listEntityLocations = API.make(() => ({
 export interface BrowserFamilyHttpTimeseriesGroupRequest {}
 
 export const BrowserFamilyHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/http/timeseries_groups/browser_family" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/timeseries_groups/browser_family",
+  }),
 ) as unknown as Schema.Schema<BrowserFamilyHttpTimeseriesGroupRequest>;
 
 export interface BrowserFamilyHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -11422,7 +12248,13 @@ export interface BrowserFamilyHttpTimeseriesGroupResponse {
 
 export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -11579,17 +12411,28 @@ export interface TimeseriesGroupsAiTimeseriesGroupRequest {
 }
 
 export const TimeseriesGroupsAiTimeseriesGroupRequest = Schema.Struct({
-  dimension: Schema.Literal("USER_AGENT", "CRAWL_PURPOSE", "INDUSTRY", "VERTICAL").pipe(
-    T.HttpPath("dimension"),
-  ),
+  dimension: Schema.Literal(
+    "USER_AGENT",
+    "CRAWL_PURPOSE",
+    "INDUSTRY",
+    "VERTICAL",
+  ).pipe(T.HttpPath("dimension")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/ai/bots/timeseries_groups/{dimension}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/ai/bots/timeseries_groups/{dimension}",
+  }),
 ) as unknown as Schema.Schema<TimeseriesGroupsAiTimeseriesGroupRequest>;
 
 export interface TimeseriesGroupsAiTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -11620,7 +12463,13 @@ export interface TimeseriesGroupsAiTimeseriesGroupResponse {
 
 export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -11679,9 +12528,12 @@ export interface TimeseriesGroupsBotRequest {
 }
 
 export const TimeseriesGroupsBotRequest = Schema.Struct({
-  dimension: Schema.Literal("BOT", "BOT_KIND", "BOT_OPERATOR", "BOT_CATEGORY").pipe(
-    T.HttpPath("dimension"),
-  ),
+  dimension: Schema.Literal(
+    "BOT",
+    "BOT_KIND",
+    "BOT_OPERATOR",
+    "BOT_CATEGORY",
+  ).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/bots/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsBotRequest>;
@@ -11689,7 +12541,12 @@ export const TimeseriesGroupsBotRequest = Schema.Struct({
 export interface TimeseriesGroupsBotResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -11720,7 +12577,13 @@ export interface TimeseriesGroupsBotResponse {
 
 export const TimeseriesGroupsBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -11775,7 +12638,12 @@ export const timeseriesGroupsBot = API.make(() => ({
 // =============================================================================
 
 export interface TimeseriesGroupsBotWebCrawlerRequest {
-  dimension: "USER_AGENT" | "REFERER" | "CRAWL_REFER_RATIO" | "VERTICAL" | "INDUSTRY";
+  dimension:
+    | "USER_AGENT"
+    | "REFERER"
+    | "CRAWL_REFER_RATIO"
+    | "VERTICAL"
+    | "INDUSTRY";
 }
 
 export const TimeseriesGroupsBotWebCrawlerRequest = Schema.Struct({
@@ -11787,13 +12655,21 @@ export const TimeseriesGroupsBotWebCrawlerRequest = Schema.Struct({
     "INDUSTRY",
   ).pipe(T.HttpPath("dimension")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/bots/crawlers/timeseries_groups/{dimension}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/bots/crawlers/timeseries_groups/{dimension}",
+  }),
 ) as unknown as Schema.Schema<TimeseriesGroupsBotWebCrawlerRequest>;
 
 export interface TimeseriesGroupsBotWebCrawlerResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -11824,7 +12700,13 @@ export interface TimeseriesGroupsBotWebCrawlerResponse {
 
 export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -11920,7 +12802,12 @@ export const TimeseriesGroupsCtRequest = Schema.Struct({
 export interface TimeseriesGroupsCtResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -11961,12 +12848,23 @@ export interface TimeseriesGroupsCtResponse {
     | { eXPIRED: string[]; vALID: string[] }
     | { nEGATIVE: string[]; pOSITIVE: string[] }
     | { dSA: string[]; eCDSA: string[]; rSA: string[] }
-    | { domain: string[]; extended: string[]; organization: string[]; unknown: string[] };
+    | {
+        domain: string[];
+        extended: string[];
+        organization: string[];
+        unknown: string[];
+      };
 }
 
 export const TimeseriesGroupsCtResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12015,15 +12913,25 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
     }),
     Schema.Struct({
       gt_121d: Schema.Array(Schema.String),
-      gt_16dLte_31d: Schema.Array(Schema.String).pipe(T.JsonName("gt_16d_lte_31d")),
-      gt_31dLte_91d: Schema.Array(Schema.String).pipe(T.JsonName("gt_31d_lte_91d")),
-      gt_3dLte_16d: Schema.Array(Schema.String).pipe(T.JsonName("gt_3d_lte_16d")),
-      gt_91dLte_121d: Schema.Array(Schema.String).pipe(T.JsonName("gt_91d_lte_121d")),
+      gt_16dLte_31d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_16d_lte_31d"),
+      ),
+      gt_31dLte_91d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_31d_lte_91d"),
+      ),
+      gt_3dLte_16d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_3d_lte_16d"),
+      ),
+      gt_91dLte_121d: Schema.Array(Schema.String).pipe(
+        T.JsonName("gt_91d_lte_121d"),
+      ),
       lte_3d: Schema.Array(Schema.String),
     }),
     Schema.Struct({
       cERTIFICATE: Schema.Array(Schema.String).pipe(T.JsonName("CERTIFICATE")),
-      pRECERTIFICATE: Schema.Array(Schema.String).pipe(T.JsonName("PRECERTIFICATE")),
+      pRECERTIFICATE: Schema.Array(Schema.String).pipe(
+        T.JsonName("PRECERTIFICATE"),
+      ),
     }),
     Schema.Struct({
       eXPIRED: Schema.Array(Schema.String).pipe(T.JsonName("EXPIRED")),
@@ -12101,7 +13009,12 @@ export const TimeseriesGroupsQualityIqiRequest = Schema.Struct({
 export interface TimeseriesGroupsQualityIqiResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12127,12 +13040,23 @@ export interface TimeseriesGroupsQualityIqiResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { p25: string[]; p50: string[]; p75: string[]; timestamps: string[] };
+  serie_0: {
+    p25: string[];
+    p50: string[];
+    p75: string[];
+    timestamps: string[];
+  };
 }
 
 export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12198,7 +13122,12 @@ export const TimeseriesGroupsRankingRequest = Schema.Struct({}).pipe(
 export interface TimeseriesGroupsRankingResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12229,7 +13158,13 @@ export interface TimeseriesGroupsRankingResponse {
 
 export const TimeseriesGroupsRankingResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12285,14 +13220,24 @@ export const timeseriesGroupsRanking = API.make(() => ({
 
 export interface TimeseriesGroupsRankingInternetServiceRequest {}
 
-export const TimeseriesGroupsRankingInternetServiceRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/ranking/internet_services/timeseries_groups" }),
+export const TimeseriesGroupsRankingInternetServiceRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/ranking/internet_services/timeseries_groups",
+  }),
 ) as unknown as Schema.Schema<TimeseriesGroupsRankingInternetServiceRequest>;
 
 export interface TimeseriesGroupsRankingInternetServiceResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12323,7 +13268,13 @@ export interface TimeseriesGroupsRankingInternetServiceResponse {
 
 export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12380,13 +13331,21 @@ export const timeseriesGroupsRankingInternetService = API.make(() => ({
 export interface TimeseriesGroupsTcpResetsTimeoutRequest {}
 
 export const TimeseriesGroupsTcpResetsTimeoutRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/tcp_resets_timeouts/timeseries_groups" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/tcp_resets_timeouts/timeseries_groups",
+  }),
 ) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutRequest>;
 
 export interface TimeseriesGroupsTcpResetsTimeoutResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12424,7 +13383,13 @@ export interface TimeseriesGroupsTcpResetsTimeoutResponse {
 
 export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12585,7 +13550,12 @@ export const CacheHitDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface CacheHitDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12616,7 +13586,13 @@ export interface CacheHitDnsTimeseriesGroupResponse {
 
 export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12680,7 +13656,12 @@ export const TimeseriesHttpRequest = Schema.Struct({}).pipe(
 export interface TimeseriesHttpResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -12710,7 +13691,13 @@ export interface TimeseriesHttpResponse {
 
 export const TimeseriesHttpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -12865,7 +13852,9 @@ export interface GetHttpAsBotClassRequest {
 }
 
 export const GetHttpAsBotClassRequest = Schema.Struct({
-  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(T.HttpPath("botClass")),
+  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(
+    T.HttpPath("botClass"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/top/ases/bot_class/{botClass}" }),
 ) as unknown as Schema.Schema<GetHttpAsBotClassRequest>;
@@ -12972,7 +13961,10 @@ export const GetHttpAsBrowserFamilyRequest = Schema.Struct({
     T.HttpPath("browserFamily"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/browser_family/{browserFamily}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/browser_family/{browserFamily}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsBrowserFamilyRequest>;
 
 export interface GetHttpAsBrowserFamilyResponse {
@@ -13073,9 +14065,14 @@ export interface GetHttpAsDeviceTypeRequest {
 }
 
 export const GetHttpAsDeviceTypeRequest = Schema.Struct({
-  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(T.HttpPath("deviceType")),
+  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(
+    T.HttpPath("deviceType"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/device_type/{deviceType}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/device_type/{deviceType}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsDeviceTypeRequest>;
 
 export interface GetHttpAsDeviceTypeResponse {
@@ -13176,9 +14173,14 @@ export interface GetHttpAsHttpMethodRequest {
 }
 
 export const GetHttpAsHttpMethodRequest = Schema.Struct({
-  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(T.HttpPath("httpVersion")),
+  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(
+    T.HttpPath("httpVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/http_version/{httpVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/http_version/{httpVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsHttpMethodRequest>;
 
 export interface GetHttpAsHttpMethodResponse {
@@ -13279,9 +14281,14 @@ export interface GetHttpAsHttpProtocolRequest {
 }
 
 export const GetHttpAsHttpProtocolRequest = Schema.Struct({
-  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(T.HttpPath("httpProtocol")),
+  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(
+    T.HttpPath("httpProtocol"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/http_protocol/{httpProtocol}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/http_protocol/{httpProtocol}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsHttpProtocolRequest>;
 
 export interface GetHttpAsHttpProtocolResponse {
@@ -13384,7 +14391,10 @@ export interface GetHttpAsIpVersionRequest {
 export const GetHttpAsIpVersionRequest = Schema.Struct({
   ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/ip_version/{ipVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/ip_version/{ipVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsIpVersionRequest>;
 
 export interface GetHttpAsIpVersionResponse {
@@ -13481,13 +14491,26 @@ export const getHttpAsIpVersion = API.make(() => ({
 // =============================================================================
 
 export interface GetHttpAsOsRequest {
-  os: "WINDOWS" | "MACOSX" | "IOS" | "ANDROID" | "CHROMEOS" | "LINUX" | "SMART_TV";
+  os:
+    | "WINDOWS"
+    | "MACOSX"
+    | "IOS"
+    | "ANDROID"
+    | "CHROMEOS"
+    | "LINUX"
+    | "SMART_TV";
 }
 
 export const GetHttpAsOsRequest = Schema.Struct({
-  os: Schema.Literal("WINDOWS", "MACOSX", "IOS", "ANDROID", "CHROMEOS", "LINUX", "SMART_TV").pipe(
-    T.HttpPath("os"),
-  ),
+  os: Schema.Literal(
+    "WINDOWS",
+    "MACOSX",
+    "IOS",
+    "ANDROID",
+    "CHROMEOS",
+    "LINUX",
+    "SMART_TV",
+  ).pipe(T.HttpPath("os")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/top/ases/os/{os}" }),
 ) as unknown as Schema.Schema<GetHttpAsOsRequest>;
@@ -13590,11 +14613,18 @@ export interface GetHttpAsTlsVersionRequest {
 }
 
 export const GetHttpAsTlsVersionRequest = Schema.Struct({
-  tlsVersion: Schema.Literal("TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC").pipe(
-    T.HttpPath("tlsVersion"),
-  ),
+  tlsVersion: Schema.Literal(
+    "TLSv1_0",
+    "TLSv1_1",
+    "TLSv1_2",
+    "TLSv1_3",
+    "TLSvQUIC",
+  ).pipe(T.HttpPath("tlsVersion")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/ases/tls_version/{tlsVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/ases/tls_version/{tlsVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpAsTlsVersionRequest>;
 
 export interface GetHttpAsTlsVersionResponse {
@@ -13724,7 +14754,11 @@ export interface GetHttpLocationResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationResponse = Schema.Struct({
@@ -13794,9 +14828,14 @@ export interface GetHttpLocationBotClassRequest {
 }
 
 export const GetHttpLocationBotClassRequest = Schema.Struct({
-  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(T.HttpPath("botClass")),
+  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(
+    T.HttpPath("botClass"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/bot_class/{botClass}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/bot_class/{botClass}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationBotClassRequest>;
 
 export interface GetHttpLocationBotClassResponse {
@@ -13827,7 +14866,11 @@ export interface GetHttpLocationBotClassResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationBotClassResponse = Schema.Struct({
@@ -13901,7 +14944,10 @@ export const GetHttpLocationBrowserFamilyRequest = Schema.Struct({
     T.HttpPath("browserFamily"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/browser_family/{browserFamily}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/browser_family/{browserFamily}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationBrowserFamilyRequest>;
 
 export interface GetHttpLocationBrowserFamilyResponse {
@@ -13932,7 +14978,11 @@ export interface GetHttpLocationBrowserFamilyResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
@@ -14002,9 +15052,14 @@ export interface GetHttpLocationDeviceTypeRequest {
 }
 
 export const GetHttpLocationDeviceTypeRequest = Schema.Struct({
-  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(T.HttpPath("deviceType")),
+  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(
+    T.HttpPath("deviceType"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/device_type/{deviceType}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/device_type/{deviceType}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationDeviceTypeRequest>;
 
 export interface GetHttpLocationDeviceTypeResponse {
@@ -14035,7 +15090,11 @@ export interface GetHttpLocationDeviceTypeResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
@@ -14105,9 +15164,14 @@ export interface GetHttpLocationHttpMethodRequest {
 }
 
 export const GetHttpLocationHttpMethodRequest = Schema.Struct({
-  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(T.HttpPath("httpVersion")),
+  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(
+    T.HttpPath("httpVersion"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/http_version/{httpVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/http_version/{httpVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationHttpMethodRequest>;
 
 export interface GetHttpLocationHttpMethodResponse {
@@ -14138,7 +15202,11 @@ export interface GetHttpLocationHttpMethodResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationHttpMethodResponse = Schema.Struct({
@@ -14208,9 +15276,14 @@ export interface GetHttpLocationHttpProtocolRequest {
 }
 
 export const GetHttpLocationHttpProtocolRequest = Schema.Struct({
-  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(T.HttpPath("httpProtocol")),
+  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(
+    T.HttpPath("httpProtocol"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/http_protocol/{httpProtocol}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/http_protocol/{httpProtocol}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationHttpProtocolRequest>;
 
 export interface GetHttpLocationHttpProtocolResponse {
@@ -14241,7 +15314,11 @@ export interface GetHttpLocationHttpProtocolResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
@@ -14313,7 +15390,10 @@ export interface GetHttpLocationIpVersionRequest {
 export const GetHttpLocationIpVersionRequest = Schema.Struct({
   ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/ip_version/{ipVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/ip_version/{ipVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationIpVersionRequest>;
 
 export interface GetHttpLocationIpVersionResponse {
@@ -14344,7 +15424,11 @@ export interface GetHttpLocationIpVersionResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationIpVersionResponse = Schema.Struct({
@@ -14410,13 +15494,26 @@ export const getHttpLocationIpVersion = API.make(() => ({
 // =============================================================================
 
 export interface GetHttpLocationOsRequest {
-  os: "WINDOWS" | "MACOSX" | "IOS" | "ANDROID" | "CHROMEOS" | "LINUX" | "SMART_TV";
+  os:
+    | "WINDOWS"
+    | "MACOSX"
+    | "IOS"
+    | "ANDROID"
+    | "CHROMEOS"
+    | "LINUX"
+    | "SMART_TV";
 }
 
 export const GetHttpLocationOsRequest = Schema.Struct({
-  os: Schema.Literal("WINDOWS", "MACOSX", "IOS", "ANDROID", "CHROMEOS", "LINUX", "SMART_TV").pipe(
-    T.HttpPath("os"),
-  ),
+  os: Schema.Literal(
+    "WINDOWS",
+    "MACOSX",
+    "IOS",
+    "ANDROID",
+    "CHROMEOS",
+    "LINUX",
+    "SMART_TV",
+  ).pipe(T.HttpPath("os")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/top/locations/os/{os}" }),
 ) as unknown as Schema.Schema<GetHttpLocationOsRequest>;
@@ -14449,7 +15546,11 @@ export interface GetHttpLocationOsResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationOsResponse = Schema.Struct({
@@ -14519,11 +15620,18 @@ export interface GetHttpLocationTlsVersionRequest {
 }
 
 export const GetHttpLocationTlsVersionRequest = Schema.Struct({
-  tlsVersion: Schema.Literal("TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3", "TLSvQUIC").pipe(
-    T.HttpPath("tlsVersion"),
-  ),
+  tlsVersion: Schema.Literal(
+    "TLSv1_0",
+    "TLSv1_1",
+    "TLSv1_2",
+    "TLSv1_3",
+    "TLSvQUIC",
+  ).pipe(T.HttpPath("tlsVersion")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/http/top/locations/tls_version/{tlsVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/top/locations/tls_version/{tlsVersion}",
+  }),
 ) as unknown as Schema.Schema<GetHttpLocationTlsVersionRequest>;
 
 export interface GetHttpLocationTlsVersionResponse {
@@ -14554,7 +15662,11 @@ export interface GetHttpLocationTlsVersionResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetHttpLocationTlsVersionResponse = Schema.Struct({
@@ -14721,7 +15833,12 @@ export const BrowserHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface BrowserHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -14752,7 +15869,13 @@ export interface BrowserHttpTimeseriesGroupResponse {
 
 export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -14811,7 +15934,12 @@ export const OsHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface OsHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -14842,7 +15970,13 @@ export interface OsHttpTimeseriesGroupResponse {
 
 export const OsHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -14997,7 +16131,10 @@ export const browserHttpTop = API.make(() => ({
 export interface CompromisedLeakedCredentialSummaryRequest {}
 
 export const CompromisedLeakedCredentialSummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/leaked_credential_checks/summary/compromised" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/summary/compromised",
+  }),
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryRequest>;
 
 export interface CompromisedLeakedCredentialSummaryResponse {
@@ -15089,14 +16226,24 @@ export const compromisedLeakedCredentialSummary = API.make(() => ({
 
 export interface CompromisedLeakedCredentialTimeseriesGroupRequest {}
 
-export const CompromisedLeakedCredentialTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/leaked_credential_checks/timeseries_groups/compromised" }),
+export const CompromisedLeakedCredentialTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/leaked_credential_checks/timeseries_groups/compromised",
+  }),
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupRequest>;
 
 export interface CompromisedLeakedCredentialTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -15125,53 +16272,61 @@ export interface CompromisedLeakedCredentialTimeseriesGroupResponse {
   serie_0: { cLEAN: string[]; cOMPROMISED: string[]; timestamps: string[] };
 }
 
-export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
-  meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
-    confidenceInfo: Schema.Struct({
-      annotations: Schema.Array(
+export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
+  {
+    meta: Schema.Struct({
+      aggInterval: Schema.Literal(
+        "FIFTEEN_MINUTES",
+        "ONE_HOUR",
+        "ONE_DAY",
+        "ONE_WEEK",
+        "ONE_MONTH",
+      ),
+      confidenceInfo: Schema.Struct({
+        annotations: Schema.Array(
+          Schema.Struct({
+            dataSource: Schema.String,
+            description: Schema.String,
+            endDate: Schema.String,
+            eventType: Schema.String,
+            isInstantaneous: Schema.Boolean,
+            linkedUrl: Schema.String,
+            startDate: Schema.String,
+          }),
+        ),
+        level: Schema.Number,
+      }),
+      dateRange: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
-          description: Schema.String,
-          endDate: Schema.String,
-          eventType: Schema.String,
-          isInstantaneous: Schema.Boolean,
-          linkedUrl: Schema.String,
-          startDate: Schema.String,
+          endTime: Schema.String,
+          startTime: Schema.String,
         }),
       ),
-      level: Schema.Number,
+      lastUpdated: Schema.String,
+      normalization: Schema.Literal(
+        "PERCENTAGE",
+        "MIN0_MAX",
+        "MIN_MAX",
+        "RAW_VALUES",
+        "PERCENTAGE_CHANGE",
+        "ROLLING_AVERAGE",
+        "OVERLAPPED_PERCENTAGE",
+        "RATIO",
+      ),
+      units: Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          value: Schema.String,
+        }),
+      ),
     }),
-    dateRange: Schema.Array(
-      Schema.Struct({
-        endTime: Schema.String,
-        startTime: Schema.String,
-      }),
-    ),
-    lastUpdated: Schema.String,
-    normalization: Schema.Literal(
-      "PERCENTAGE",
-      "MIN0_MAX",
-      "MIN_MAX",
-      "RAW_VALUES",
-      "PERCENTAGE_CHANGE",
-      "ROLLING_AVERAGE",
-      "OVERLAPPED_PERCENTAGE",
-      "RATIO",
-    ),
-    units: Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        value: Schema.String,
-      }),
-    ),
-  }),
-  serie_0: Schema.Struct({
-    cLEAN: Schema.Array(Schema.String).pipe(T.JsonName("CLEAN")),
-    cOMPROMISED: Schema.Array(Schema.String).pipe(T.JsonName("COMPROMISED")),
-    timestamps: Schema.Array(Schema.String),
-  }),
-}) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
+    serie_0: Schema.Struct({
+      cLEAN: Schema.Array(Schema.String).pipe(T.JsonName("CLEAN")),
+      cOMPROMISED: Schema.Array(Schema.String).pipe(T.JsonName("COMPROMISED")),
+      timestamps: Schema.Array(Schema.String),
+    }),
+  },
+) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
 export const compromisedLeakedCredentialTimeseriesGroup = API.make(() => ({
   input: CompromisedLeakedCredentialTimeseriesGroupRequest,
@@ -15275,14 +16430,24 @@ export const httpMethodAttackLayer7Summary = API.make(() => ({
 
 export interface HttpMethodAttackLayer7TimeseriesGroupRequest {}
 
-export const HttpMethodAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/http_method" }),
+export const HttpMethodAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/http_method",
+  }),
 ) as unknown as Schema.Schema<HttpMethodAttackLayer7TimeseriesGroupRequest>;
 
 export interface HttpMethodAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -15313,7 +16478,13 @@ export interface HttpMethodAttackLayer7TimeseriesGroupResponse {
 
 export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -15465,7 +16636,12 @@ export const TimeseriesNetflowRequest = Schema.Struct({}).pipe(
 export interface TimeseriesNetflowResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -15496,7 +16672,13 @@ export interface TimeseriesNetflowResponse {
 
 export const TimeseriesNetflowResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -15680,7 +16862,11 @@ export interface LocationsNetflowTopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const LocationsNetflowTopResponse = Schema.Struct({
@@ -15747,8 +16933,13 @@ export const locationsNetflowTop = API.make(() => ({
 
 export interface MitigationProductAttackLayer7SummaryRequest {}
 
-export const MitigationProductAttackLayer7SummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/summary/mitigation_product" }),
+export const MitigationProductAttackLayer7SummaryRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/summary/mitigation_product",
+  }),
 ) as unknown as Schema.Schema<MitigationProductAttackLayer7SummaryRequest>;
 
 export interface MitigationProductAttackLayer7SummaryResponse {
@@ -15837,14 +17028,23 @@ export const mitigationProductAttackLayer7Summary = API.make(() => ({
 
 export interface MitigationProductAttackLayer7TimeseriesGroupRequest {}
 
-export const MitigationProductAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/mitigation_product" }),
-) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupRequest>;
+export const MitigationProductAttackLayer7TimeseriesGroupRequest =
+  Schema.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      path: "/radar/attacks/layer7/timeseries_groups/mitigation_product",
+    }),
+  ) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupRequest>;
 
 export interface MitigationProductAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -15873,51 +17073,58 @@ export interface MitigationProductAttackLayer7TimeseriesGroupResponse {
   serie_0: { timestamps: string[] };
 }
 
-export const MitigationProductAttackLayer7TimeseriesGroupResponse = Schema.Struct({
-  meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
-    confidenceInfo: Schema.Struct({
-      annotations: Schema.Array(
+export const MitigationProductAttackLayer7TimeseriesGroupResponse =
+  Schema.Struct({
+    meta: Schema.Struct({
+      aggInterval: Schema.Literal(
+        "FIFTEEN_MINUTES",
+        "ONE_HOUR",
+        "ONE_DAY",
+        "ONE_WEEK",
+        "ONE_MONTH",
+      ),
+      confidenceInfo: Schema.Struct({
+        annotations: Schema.Array(
+          Schema.Struct({
+            dataSource: Schema.String,
+            description: Schema.String,
+            endDate: Schema.String,
+            eventType: Schema.String,
+            isInstantaneous: Schema.Boolean,
+            linkedUrl: Schema.String,
+            startDate: Schema.String,
+          }),
+        ),
+        level: Schema.Number,
+      }),
+      dateRange: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.String,
-          description: Schema.String,
-          endDate: Schema.String,
-          eventType: Schema.String,
-          isInstantaneous: Schema.Boolean,
-          linkedUrl: Schema.String,
-          startDate: Schema.String,
+          endTime: Schema.String,
+          startTime: Schema.String,
         }),
       ),
-      level: Schema.Number,
+      lastUpdated: Schema.String,
+      normalization: Schema.Literal(
+        "PERCENTAGE",
+        "MIN0_MAX",
+        "MIN_MAX",
+        "RAW_VALUES",
+        "PERCENTAGE_CHANGE",
+        "ROLLING_AVERAGE",
+        "OVERLAPPED_PERCENTAGE",
+        "RATIO",
+      ),
+      units: Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          value: Schema.String,
+        }),
+      ),
     }),
-    dateRange: Schema.Array(
-      Schema.Struct({
-        endTime: Schema.String,
-        startTime: Schema.String,
-      }),
-    ),
-    lastUpdated: Schema.String,
-    normalization: Schema.Literal(
-      "PERCENTAGE",
-      "MIN0_MAX",
-      "MIN_MAX",
-      "RAW_VALUES",
-      "PERCENTAGE_CHANGE",
-      "ROLLING_AVERAGE",
-      "OVERLAPPED_PERCENTAGE",
-      "RATIO",
-    ),
-    units: Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        value: Schema.String,
-      }),
-    ),
-  }),
-  serie_0: Schema.Struct({
-    timestamps: Schema.Array(Schema.String),
-  }),
-}) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
+    serie_0: Schema.Struct({
+      timestamps: Schema.Array(Schema.String),
+    }),
+  }) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
 
 export const mitigationProductAttackLayer7TimeseriesGroup = API.make(() => ({
   input: MitigationProductAttackLayer7TimeseriesGroupRequest,
@@ -16025,13 +17232,21 @@ export const httpProtocolHttpSummary = API.make(() => ({
 export interface HttpProtocolHttpTimeseriesGroupRequest {}
 
 export const HttpProtocolHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/http/timeseries_groups/http_protocol" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/http/timeseries_groups/http_protocol",
+  }),
 ) as unknown as Schema.Schema<HttpProtocolHttpTimeseriesGroupRequest>;
 
 export interface HttpProtocolHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -16062,7 +17277,13 @@ export interface HttpProtocolHttpTimeseriesGroupResponse {
 
 export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -16248,7 +17469,11 @@ export const HistogramQualitySpeedRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<HistogramQualitySpeedRequest>;
 
 export interface HistogramQualitySpeedResponse {
-  histogram_0: { bandwidthDownload: string[]; bandwidthUpload: string[]; bucketMin: string[] };
+  histogram_0: {
+    bandwidthDownload: string[];
+    bandwidthUpload: string[];
+    bucketMin: string[];
+  };
   /** Metadata for the results. */
   meta: {
     bucketSize: number;
@@ -16773,7 +17998,12 @@ export const PostQuantumHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface PostQuantumHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -16799,12 +18029,22 @@ export interface PostQuantumHttpTimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { nOT_SUPPORTED: string[]; sUPPORTED: string[]; timestamps: string[] };
+  serie_0: {
+    nOT_SUPPORTED: string[];
+    sUPPORTED: string[];
+    timestamps: string[];
+  };
 }
 
 export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -16844,7 +18084,9 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SUPPORTED")),
+    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
+      T.JsonName("NOT_SUPPORTED"),
+    ),
     sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
     timestamps: Schema.Array(Schema.String),
   }),
@@ -16985,7 +18227,11 @@ export interface GetRankingDomainResponse {
     categories: { id: number; name: string; superCategoryId: number }[];
     bucket?: string;
     rank?: number;
-    topLocations?: { locationCode: string; locationName: string; rank: number }[];
+    topLocations?: {
+      locationCode: string;
+      locationName: string;
+      rank: number;
+    }[];
   };
   meta: { dateRange: { endTime: string; startTime: string }[] };
 }
@@ -17034,7 +18280,10 @@ export const getRankingDomain = API.make(() => ({
 export interface CategoriesRankingInternetServiceRequest {}
 
 export const CategoriesRankingInternetServiceRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/ranking/internet_services/categories" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/ranking/internet_services/categories",
+  }),
 ) as unknown as Schema.Schema<CategoriesRankingInternetServiceRequest>;
 
 export interface CategoriesRankingInternetServiceResponse {
@@ -17155,7 +18404,10 @@ export const topRankingInternetService = API.make(() => ({
 export interface DirectiveRobotsTxtTopUserAgentRequest {}
 
 export const DirectiveRobotsTxtTopUserAgentRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/robots_txt/top/user_agents/directive" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/robots_txt/top/user_agents/directive",
+  }),
 ) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentRequest>;
 
 export interface DirectiveRobotsTxtTopUserAgentResponse {
@@ -17255,7 +18507,10 @@ export const directiveRobotsTxtTopUserAgent = API.make(() => ({
 export interface ManagedRulesAttackLayer7SummaryRequest {}
 
 export const ManagedRulesAttackLayer7SummaryRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/summary/managed_rules" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/summary/managed_rules",
+  }),
 ) as unknown as Schema.Schema<ManagedRulesAttackLayer7SummaryRequest>;
 
 export interface ManagedRulesAttackLayer7SummaryResponse {
@@ -17344,14 +18599,24 @@ export const managedRulesAttackLayer7Summary = API.make(() => ({
 
 export interface ManagedRulesAttackLayer7TimeseriesGroupRequest {}
 
-export const ManagedRulesAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/managed_rules" }),
+export const ManagedRulesAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/managed_rules",
+  }),
 ) as unknown as Schema.Schema<ManagedRulesAttackLayer7TimeseriesGroupRequest>;
 
 export interface ManagedRulesAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -17382,7 +18647,13 @@ export interface ManagedRulesAttackLayer7TimeseriesGroupResponse {
 
 export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -17567,7 +18838,9 @@ export const AsSetEntityAsnResponse = Schema.Struct({
     Schema.Struct({
       asMembersCount: Schema.Number.pipe(T.JsonName("as_members_count")),
       asSetMembersCount: Schema.Number.pipe(T.JsonName("as_set_members_count")),
-      asSetUpstreamsCount: Schema.Number.pipe(T.JsonName("as_set_upstreams_count")),
+      asSetUpstreamsCount: Schema.Number.pipe(
+        T.JsonName("as_set_upstreams_count"),
+      ),
       asnConeSize: Schema.Number.pipe(T.JsonName("asn_cone_size")),
       irrSources: Schema.Array(Schema.String).pipe(T.JsonName("irr_sources")),
       name: Schema.String,
@@ -17701,7 +18974,11 @@ export interface GetTrafficAnomalyResponse {
     status: string;
     type: string;
     uuid: string;
-    asnDetails?: { asn: string; name: string; locations?: { code: string; name: string } };
+    asnDetails?: {
+      asn: string;
+      name: string;
+      locations?: { code: string; name: string };
+    };
     endDate?: string;
     locationDetails?: { code: string; name: string };
     visibleInDataSources?: string[];
@@ -17756,7 +19033,11 @@ export const GetTrafficAnomalyLocationRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<GetTrafficAnomalyLocationRequest>;
 
 export interface GetTrafficAnomalyLocationResponse {
-  trafficAnomalies: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  trafficAnomalies: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const GetTrafficAnomalyLocationResponse = Schema.Struct({
@@ -17894,7 +19175,12 @@ export const ResponseTTLDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface ResponseTTLDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -17933,7 +19219,13 @@ export interface ResponseTTLDnsTimeseriesGroupResponse {
 
 export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -18092,7 +19384,12 @@ export const QueryTypeAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface QueryTypeAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -18123,7 +19420,13 @@ export interface QueryTypeAs112TimeseriesGroupResponse {
 
 export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -18276,7 +19579,12 @@ export const QueryTypeDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface QueryTypeDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -18307,7 +19615,13 @@ export interface QueryTypeDnsTimeseriesGroupResponse {
 
 export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -18464,7 +19778,12 @@ export const DeviceTypeHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface DeviceTypeHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -18490,12 +19809,23 @@ export interface DeviceTypeHttpTimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { desktop: string[]; mobile: string[]; other: string[]; timestamps: string[] };
+  serie_0: {
+    desktop: string[];
+    mobile: string[];
+    other: string[];
+    timestamps: string[];
+  };
 }
 
 export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -18586,7 +19916,12 @@ export interface BotsVerifiedBotTopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { botCategory: string; botName: string; botOwner: string; value: string }[];
+  top_0: {
+    botCategory: string;
+    botName: string;
+    botOwner: string;
+    value: string;
+  }[];
 }
 
 export const BotsVerifiedBotTopResponse = Schema.Struct({
@@ -18848,7 +20183,12 @@ export const IpVersionAs112TimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface IpVersionAs112TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -18879,7 +20219,13 @@ export interface IpVersionAs112TimeseriesGroupResponse {
 
 export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -18941,7 +20287,10 @@ export interface IpVersionAs112TopRequest {
 export const IpVersionAs112TopRequest = Schema.Struct({
   ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
 }).pipe(
-  T.Http({ method: "GET", path: "/radar/as112/top/locations/ip_version/{ipVersion}" }),
+  T.Http({
+    method: "GET",
+    path: "/radar/as112/top/locations/ip_version/{ipVersion}",
+  }),
 ) as unknown as Schema.Schema<IpVersionAs112TopRequest>;
 
 export interface IpVersionAs112TopResponse {
@@ -18972,7 +20321,11 @@ export interface IpVersionAs112TopResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { clientCountryAlpha2: string; clientCountryName: string; value: string }[];
+  top_0: {
+    clientCountryAlpha2: string;
+    clientCountryName: string;
+    value: string;
+  }[];
 }
 
 export const IpVersionAs112TopResponse = Schema.Struct({
@@ -19132,14 +20485,24 @@ export const ipVersionAttackLayer3Summary = API.make(() => ({
 
 export interface IpVersionAttackLayer3TimeseriesGroupRequest {}
 
-export const IpVersionAttackLayer3TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer3/timeseries_groups/ip_version" }),
+export const IpVersionAttackLayer3TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer3/timeseries_groups/ip_version",
+  }),
 ) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupRequest>;
 
 export interface IpVersionAttackLayer3TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -19170,7 +20533,13 @@ export interface IpVersionAttackLayer3TimeseriesGroupResponse {
 
 export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -19411,14 +20780,24 @@ export const ipVersionAttackLayer7Summary = API.make(() => ({
 
 export interface HttpVersionAttackLayer7TimeseriesGroupRequest {}
 
-export const HttpVersionAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/http_version" }),
+export const HttpVersionAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/http_version",
+  }),
 ) as unknown as Schema.Schema<HttpVersionAttackLayer7TimeseriesGroupRequest>;
 
 export interface HttpVersionAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -19444,12 +20823,23 @@ export interface HttpVersionAttackLayer7TimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { "HTTP/1.x": string[]; "HTTP/2": string[]; "HTTP/3": string[]; timestamps: string[] };
+  serie_0: {
+    "HTTP/1.x": string[];
+    "HTTP/2": string[];
+    "HTTP/3": string[];
+    timestamps: string[];
+  };
 }
 
 export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -19504,14 +20894,24 @@ export const httpVersionAttackLayer7TimeseriesGroup = API.make(() => ({
 
 export interface IpVersionAttackLayer7TimeseriesGroupRequest {}
 
-export const IpVersionAttackLayer7TimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/attacks/layer7/timeseries_groups/ip_version" }),
+export const IpVersionAttackLayer7TimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/attacks/layer7/timeseries_groups/ip_version",
+  }),
 ) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupRequest>;
 
 export interface IpVersionAttackLayer7TimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -19542,7 +20942,13 @@ export interface IpVersionAttackLayer7TimeseriesGroupResponse {
 
 export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -19700,7 +21106,12 @@ export const IpVersionDnsTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface IpVersionDnsTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -19731,7 +21142,13 @@ export interface IpVersionDnsTimeseriesGroupResponse {
 
 export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -19881,14 +21298,24 @@ export const ipVersionEmailRoutingSummary = API.make(() => ({
 
 export interface IpVersionEmailRoutingTimeseriesGroupRequest {}
 
-export const IpVersionEmailRoutingTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/routing/timeseries_groups/ip_version" }),
+export const IpVersionEmailRoutingTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/routing/timeseries_groups/ip_version",
+  }),
 ) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupRequest>;
 
 export interface IpVersionEmailRoutingTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -19919,7 +21346,13 @@ export interface IpVersionEmailRoutingTimeseriesGroupResponse {
 
 export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -20008,7 +21441,12 @@ export interface TlsVersionEmailSecuritySummaryResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  summary_0: { "TLS 1.0": string; "TLS 1.1": string; "TLS 1.2": string; "TLS 1.3": string };
+  summary_0: {
+    "TLS 1.0": string;
+    "TLS 1.1": string;
+    "TLS 1.2": string;
+    "TLS 1.3": string;
+  };
 }
 
 export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
@@ -20071,14 +21509,24 @@ export const tlsVersionEmailSecuritySummary = API.make(() => ({
 
 export interface TlsVersionEmailSecurityTimeseriesGroupRequest {}
 
-export const TlsVersionEmailSecurityTimeseriesGroupRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/radar/email/security/timeseries_groups/tls_version" }),
+export const TlsVersionEmailSecurityTimeseriesGroupRequest = Schema.Struct(
+  {},
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/radar/email/security/timeseries_groups/tls_version",
+  }),
 ) as unknown as Schema.Schema<TlsVersionEmailSecurityTimeseriesGroupRequest>;
 
 export interface TlsVersionEmailSecurityTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -20104,12 +21552,23 @@ export interface TlsVersionEmailSecurityTimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { "TLS 1.0": string[]; "TLS 1.1": string[]; "TLS 1.2": string[]; "TLS 1.3": string[] };
+  serie_0: {
+    "TLS 1.0": string[];
+    "TLS 1.1": string[];
+    "TLS 1.2": string[];
+    "TLS 1.3": string[];
+  };
 }
 
 export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -20456,7 +21915,12 @@ export const HttpVersionHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface HttpVersionHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -20482,12 +21946,23 @@ export interface HttpVersionHttpTimeseriesGroupResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  serie_0: { "HTTP/1.x": string[]; "HTTP/2": string[]; "HTTP/3": string[]; timestamps: string[] };
+  serie_0: {
+    "HTTP/1.x": string[];
+    "HTTP/2": string[];
+    "HTTP/3": string[];
+    timestamps: string[];
+  };
 }
 
 export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -20549,7 +22024,12 @@ export const IpVersionHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface IpVersionHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -20580,7 +22060,13 @@ export interface IpVersionHttpTimeseriesGroupResponse {
 
 export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
@@ -20641,7 +22127,12 @@ export const TlsVersionHttpTimeseriesGroupRequest = Schema.Struct({}).pipe(
 export interface TlsVersionHttpTimeseriesGroupResponse {
   /** Metadata for the results. */
   meta: {
-    aggInterval: "FIFTEEN_MINUTES" | "ONE_HOUR" | "ONE_DAY" | "ONE_WEEK" | "ONE_MONTH";
+    aggInterval:
+      | "FIFTEEN_MINUTES"
+      | "ONE_HOUR"
+      | "ONE_DAY"
+      | "ONE_WEEK"
+      | "ONE_MONTH";
     confidenceInfo: {
       annotations: {
         dataSource: string;
@@ -20679,7 +22170,13 @@ export interface TlsVersionHttpTimeseriesGroupResponse {
 
 export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("FIFTEEN_MINUTES", "ONE_HOUR", "ONE_DAY", "ONE_WEEK", "ONE_MONTH"),
+    aggInterval: Schema.Literal(
+      "FIFTEEN_MINUTES",
+      "ONE_HOUR",
+      "ONE_DAY",
+      "ONE_WEEK",
+      "ONE_MONTH",
+    ),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({

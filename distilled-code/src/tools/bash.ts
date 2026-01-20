@@ -1,13 +1,12 @@
-import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import { Tool, Toolkit } from "@effect/ai";
-import * as S from "effect/Schema";
 import * as Command from "@effect/platform/Command";
 import { CommandExecutor } from "@effect/platform/CommandExecutor";
-import { loadParser } from "../util/parser.ts";
+import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
+import * as S from "effect/Schema";
 import { CommandValidator } from "../util/command-validator.ts";
 
-export const bash = Tool.make("bash", {
+export const bash = Tool.make("AnthropicBash", {
   description: `Executes a given bash command in a persistent shell session with optional timeout, ensuring proper handling and security measures.
 
 All commands run in ${process.cwd()} by default. Use the \`workdir\` parameter if you need to run a command in a different directory. AVOID using \`cd <directory> && <command>\` patterns - use \`workdir\` instead.
@@ -125,8 +124,8 @@ Important:
 # Other common operations
 - View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments
 `,
-  success: S.Void,
-  failure: S.Any,
+  success: S.String,
+  failure: S.Never,
   dependencies: [CommandExecutor],
   parameters: {
     command: S.String.annotations({
@@ -149,28 +148,30 @@ export const bashTooklit = Toolkit.make(bash);
 
 export const bashTooklitLayer = bashTooklit.toLayer(
   Effect.gen(function* () {
-    const parser = yield* loadParser(
-      "tree-sitter-bash/tree-sitter-bash.wasm",
-    );
     const validator = yield* Effect.serviceOption(CommandValidator).pipe(
       Effect.map(Option.getOrUndefined),
     );
     return {
-      bash: Effect.fn(function* (params) {
-        const tree = parser.parse(params.command);
-        if (!tree) {
-          return yield* Effect.fail({
-            error: "Failed to parse command",
-          });
-        }
+      AnthropicBash: Effect.fn(function* (params) {
+        yield* Effect.logDebug(`[bash] command=${params.command}`);
 
         if (validator) {
-          yield* validator.validate(params.command);
+          const validationError = yield* validator
+            .validate(params.command)
+            .pipe(
+              Effect.map(() => null),
+              Effect.catchAll((e) => Effect.succeed(String(e))),
+            );
+          if (validationError) {
+            return `Security violation: ${validationError}`;
+          }
         }
 
-        return yield* Command.string(
+        const result = yield* Command.string(
           Command.make(params.command).pipe(Command.runInShell(true)),
-        );
+        ).pipe(Effect.catchAll((e) => Effect.succeed(`Command failed: ${e}`)));
+
+        return result;
       }),
     };
   }),

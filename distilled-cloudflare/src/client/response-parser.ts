@@ -7,7 +7,11 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { CloudflareError, CloudflareHttpError, UnknownCloudflareError } from "../errors.ts";
+import {
+  CloudflareError,
+  CloudflareHttpError,
+  UnknownCloudflareError,
+} from "../errors.ts";
 import * as T from "../traits.ts";
 
 /**
@@ -64,7 +68,8 @@ function findMatchingError(
     const expectedMessage = T.getHttpErrorMessage(ast);
 
     // Build codes array from either annotation
-    const codes: number[] = expectedCodes ?? (expectedCode !== undefined ? [expectedCode] : []);
+    const codes: number[] =
+      expectedCodes ?? (expectedCode !== undefined ? [expectedCode] : []);
 
     // Must match at least one code
     if (codes.length === 0 || !codes.includes(code)) continue;
@@ -150,13 +155,17 @@ function parseMultipartBody(body: Uint8Array, contentType: string): FormData {
 
     // Extract the content (trim trailing \r\n before next boundary)
     const content = part.slice(headerEndIndex + 4).replace(/\r\n$/, "");
-    const partContentType = headers.get("content-type") ?? "application/octet-stream";
+    const partContentType =
+      headers.get("content-type") ?? "application/octet-stream";
     const name = nameMatch?.[1] ?? "unknown";
     const filename = filenameMatch?.[1];
 
     // Create a File or Blob depending on whether we have a filename
     if (filename) {
-      formData.append(name, new File([content], filename, { type: partContentType }));
+      formData.append(
+        name,
+        new File([content], filename, { type: partContentType }),
+      );
     } else {
       formData.append(name, new Blob([content], { type: partContentType }));
     }
@@ -181,7 +190,10 @@ export const parseResponse = <O>(
   },
   outputSchema: Schema.Schema<O, unknown>,
   errorSchemas: Map<string, Schema.Schema.AnyNoContext>,
-): Effect.Effect<O, CloudflareError | UnknownCloudflareError | CloudflareHttpError> =>
+): Effect.Effect<
+  O,
+  CloudflareError | UnknownCloudflareError | CloudflareHttpError
+> =>
   Effect.gen(function* () {
     // Read body as bytes
     const reader = response.body.getReader();
@@ -213,7 +225,10 @@ export const parseResponse = <O>(
     // 1. Content-type is actually multipart, OR
     // 2. The operation expects multipart AND response is successful (2xx)
     // This ensures error responses (404 with JSON) are handled as errors, not wrapped in FormData
-    if (isActuallyMultipart || (isMultipart && response.status >= 200 && response.status < 300)) {
+    if (
+      isActuallyMultipart ||
+      (isMultipart && response.status >= 200 && response.status < 300)
+    ) {
       // For multipart responses, return FormData
       return parseMultipartBody(bodyBytes, contentType) as unknown as O;
     }
@@ -239,7 +254,9 @@ export const parseResponse = <O>(
       const errors = json.errors ?? [];
       const error = errors[0];
       if (!error) {
-        return yield* Effect.fail(new CloudflareError({ code: 0, message: "Unknown error" }));
+        return yield* Effect.fail(
+          new CloudflareError({ code: 0, message: "Unknown error" }),
+        );
       }
 
       // Handle case where error code is missing
@@ -247,14 +264,28 @@ export const parseResponse = <O>(
       const errorMessage = error.message ?? "Unknown error";
 
       // Find matching error using trait annotations
-      const matched = findMatchingError(errorSchemas, errorCode, response.status, errorMessage);
+      const matched = findMatchingError(
+        errorSchemas,
+        errorCode,
+        response.status,
+        errorMessage,
+      );
 
       if (matched) {
         // Decode using the schema - this properly instantiates TaggedError classes
         // Include the _tag field required by TaggedError schemas
-        const errorData = { _tag: matched.tag, code: errorCode, message: errorMessage };
-        const decodeResult = yield* Schema.decodeUnknown(matched.schema)(errorData).pipe(
-          Effect.mapError(() => new CloudflareError({ code: errorCode, message: errorMessage })),
+        const errorData = {
+          _tag: matched.tag,
+          code: errorCode,
+          message: errorMessage,
+        };
+        const decodeResult = yield* Schema.decodeUnknown(matched.schema)(
+          errorData,
+        ).pipe(
+          Effect.mapError(
+            () =>
+              new CloudflareError({ code: errorCode, message: errorMessage }),
+          ),
         );
         return yield* Effect.fail(decodeResult as CloudflareError);
       }

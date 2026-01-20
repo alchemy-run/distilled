@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Rule
@@ -27,7 +31,10 @@ export const ListRulesRequest = Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/rum/v2/{rulesetId}/rules" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/rum/v2/{rulesetId}/rules",
+  }),
 ) as unknown as Schema.Schema<ListRulesRequest>;
 
 export interface ListRulesResponse {
@@ -41,7 +48,12 @@ export interface ListRulesResponse {
     paths?: string[];
     priority?: number;
   }[];
-  ruleset?: { id?: string; enabled?: boolean; zoneName?: string; zoneTag?: string };
+  ruleset?: {
+    id?: string;
+    enabled?: boolean;
+    zoneName?: string;
+    zoneTag?: string;
+  };
 }
 
 export const ListRulesResponse = Schema.Struct({
@@ -96,7 +108,10 @@ export const CreateRuleRequest = Schema.Struct({
   isPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_paused")),
   paths: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule",
+  }),
 ) as unknown as Schema.Schema<CreateRuleRequest>;
 
 export interface CreateRuleResponse {
@@ -154,7 +169,10 @@ export const UpdateRuleRequest = Schema.Struct({
   isPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_paused")),
   paths: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule/{ruleId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule/{ruleId}",
+  }),
 ) as unknown as Schema.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
@@ -200,7 +218,10 @@ export const DeleteRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule/{ruleId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/rum/v2/{rulesetId}/rule/{ruleId}",
+  }),
 ) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
@@ -237,7 +258,9 @@ export interface BulkCreateRulesRequest {
 export const BulkCreateRulesRequest = Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  deleteRules: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("delete_rules")),
+  deleteRules: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("delete_rules"),
+  ),
   rules: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -250,7 +273,10 @@ export const BulkCreateRulesRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/rum/v2/{rulesetId}/rules" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/rum/v2/{rulesetId}/rules",
+  }),
 ) as unknown as Schema.Schema<BulkCreateRulesRequest>;
 
 export interface BulkCreateRulesResponse {
@@ -264,7 +290,12 @@ export interface BulkCreateRulesResponse {
     paths?: string[];
     priority?: number;
   }[];
-  ruleset?: { id?: string; enabled?: boolean; zoneName?: string; zoneTag?: string };
+  ruleset?: {
+    id?: string;
+    enabled?: boolean;
+    zoneName?: string;
+    zoneTag?: string;
+  };
 }
 
 export const BulkCreateRulesResponse = Schema.Struct({
@@ -311,7 +342,10 @@ export const GetSiteInfoRequest = Schema.Struct({
   siteId: Schema.String.pipe(T.HttpPath("siteId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/rum/site_info/{siteId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/rum/site_info/{siteId}",
+  }),
 ) as unknown as Schema.Schema<GetSiteInfoRequest>;
 
 export interface GetSiteInfoResponse {
@@ -320,7 +354,12 @@ export interface GetSiteInfoResponse {
   created?: string;
   /** A list of rules. */
   rules?: unknown[];
-  ruleset?: { id?: string; enabled?: boolean; zoneName?: string; zoneTag?: string };
+  ruleset?: {
+    id?: string;
+    enabled?: boolean;
+    zoneName?: string;
+    zoneTag?: string;
+  };
   /** The Web Analytics site identifier. */
   siteTag?: string;
   /** The Web Analytics site token. */
@@ -378,7 +417,12 @@ export interface CreateSiteInfoResponse {
   created?: string;
   /** A list of rules. */
   rules?: unknown[];
-  ruleset?: { id?: string; enabled?: boolean; zoneName?: string; zoneTag?: string };
+  ruleset?: {
+    id?: string;
+    enabled?: boolean;
+    zoneName?: string;
+    zoneTag?: string;
+  };
   /** The Web Analytics site identifier. */
   siteTag?: string;
   /** The Web Analytics site token. */
@@ -435,7 +479,10 @@ export const UpdateSiteInfoRequest = Schema.Struct({
   lite: Schema.optional(Schema.Boolean),
   zoneTag: Schema.optional(Schema.String).pipe(T.JsonName("zone_tag")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/rum/site_info/{siteId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/rum/site_info/{siteId}",
+  }),
 ) as unknown as Schema.Schema<UpdateSiteInfoRequest>;
 
 export interface UpdateSiteInfoResponse {
@@ -444,7 +491,12 @@ export interface UpdateSiteInfoResponse {
   created?: string;
   /** A list of rules. */
   rules?: unknown[];
-  ruleset?: { id?: string; enabled?: boolean; zoneName?: string; zoneTag?: string };
+  ruleset?: {
+    id?: string;
+    enabled?: boolean;
+    zoneName?: string;
+    zoneTag?: string;
+  };
   /** The Web Analytics site identifier. */
   siteTag?: string;
   /** The Web Analytics site token. */
@@ -486,7 +538,10 @@ export const DeleteSiteInfoRequest = Schema.Struct({
   siteId: Schema.String.pipe(T.HttpPath("siteId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/rum/site_info/{siteId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/rum/site_info/{siteId}",
+  }),
 ) as unknown as Schema.Schema<DeleteSiteInfoRequest>;
 
 export interface DeleteSiteInfoResponse {

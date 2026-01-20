@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Membership
@@ -52,7 +56,11 @@ export interface GetMembershipResponse {
   policies?: {
     id?: string;
     access?: "allow" | "deny";
-    permissionGroups?: { id: string; meta?: { key?: string; value?: string }; name?: string }[];
+    permissionGroups?: {
+      id: string;
+      meta?: { key?: string; value?: string };
+      name?: string;
+    }[];
     resourceGroups?: {
       id: string;
       scope: { key: string; objects: { key: string }[] }[];
@@ -69,22 +77,28 @@ export interface GetMembershipResponse {
 export const GetMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
-  apiAccessEnabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("api_access_enabled"),
-  ),
+  apiAccessEnabled: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("api_access_enabled")),
   permissions: Schema.optional(
     Schema.Struct({
       analytics: Schema.optional(Schema.Unknown),
       billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown).pipe(T.JsonName("cache_purge")),
+      cachePurge: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("cache_purge"),
+      ),
       dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown).pipe(T.JsonName("dns_records")),
+      dnsRecords: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("dns_records"),
+      ),
       lb: Schema.optional(Schema.Unknown),
       logs: Schema.optional(Schema.Unknown),
       organization: Schema.optional(Schema.Unknown),
       ssl: Schema.optional(Schema.Unknown),
       waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown).pipe(T.JsonName("zone_settings")),
+      zoneSettings: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("zone_settings"),
+      ),
       zones: Schema.optional(Schema.Unknown),
     }),
   ),
@@ -182,7 +196,11 @@ export interface PutMembershipResponse {
   policies?: {
     id?: string;
     access?: "allow" | "deny";
-    permissionGroups?: { id: string; meta?: { key?: string; value?: string }; name?: string }[];
+    permissionGroups?: {
+      id: string;
+      meta?: { key?: string; value?: string };
+      name?: string;
+    }[];
     resourceGroups?: {
       id: string;
       scope: { key: string; objects: { key: string }[] }[];
@@ -199,22 +217,28 @@ export interface PutMembershipResponse {
 export const PutMembershipResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   account: Schema.optional(Schema.Unknown),
-  apiAccessEnabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("api_access_enabled"),
-  ),
+  apiAccessEnabled: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("api_access_enabled")),
   permissions: Schema.optional(
     Schema.Struct({
       analytics: Schema.optional(Schema.Unknown),
       billing: Schema.optional(Schema.Unknown),
-      cachePurge: Schema.optional(Schema.Unknown).pipe(T.JsonName("cache_purge")),
+      cachePurge: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("cache_purge"),
+      ),
       dns: Schema.optional(Schema.Unknown),
-      dnsRecords: Schema.optional(Schema.Unknown).pipe(T.JsonName("dns_records")),
+      dnsRecords: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("dns_records"),
+      ),
       lb: Schema.optional(Schema.Unknown),
       logs: Schema.optional(Schema.Unknown),
       organization: Schema.optional(Schema.Unknown),
       ssl: Schema.optional(Schema.Unknown),
       waf: Schema.optional(Schema.Unknown),
-      zoneSettings: Schema.optional(Schema.Unknown).pipe(T.JsonName("zone_settings")),
+      zoneSettings: Schema.optional(Schema.Unknown).pipe(
+        T.JsonName("zone_settings"),
+      ),
       zones: Schema.optional(Schema.Unknown),
     }),
   ),

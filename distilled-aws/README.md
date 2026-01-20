@@ -462,18 +462,18 @@ import * as Category from "distilled-aws/Category";
 
 #### Available Categories
 
-| Category | Description | HTTP Codes |
-|----------|-------------|------------|
-| `AuthError` | Authentication/authorization failures | 401, 403 |
-| `BadRequestError` | Invalid request parameters | 400, 404, 405, 406, 410, 413, 415, 422 |
-| `ConflictError` | Resource state conflicts | 409 |
-| `QuotaError` | Service quota exceeded | 402 |
-| `ThrottlingError` | Rate limiting | 429 |
-| `TimeoutError` | Request timeouts | 408, 504 |
-| `ServerError` | AWS service errors | 5xx |
-| `RetryableError` | Errors with Smithy `@retryable` trait | - |
-| `NetworkError` | Network/transport failures | - |
-| `AbortedError` | Aborted operations | - |
+| Category          | Description                           | HTTP Codes                             |
+| ----------------- | ------------------------------------- | -------------------------------------- |
+| `AuthError`       | Authentication/authorization failures | 401, 403                               |
+| `BadRequestError` | Invalid request parameters            | 400, 404, 405, 406, 410, 413, 415, 422 |
+| `ConflictError`   | Resource state conflicts              | 409                                    |
+| `QuotaError`      | Service quota exceeded                | 402                                    |
+| `ThrottlingError` | Rate limiting                         | 429                                    |
+| `TimeoutError`    | Request timeouts                      | 408, 504                               |
+| `ServerError`     | AWS service errors                    | 5xx                                    |
+| `RetryableError`  | Errors with Smithy `@retryable` trait | -                                      |
+| `NetworkError`    | Network/transport failures            | -                                      |
+| `AbortedError`    | Aborted operations                    | -                                      |
 
 #### Catching Errors by Category
 
@@ -555,12 +555,12 @@ const program = Effect.gen(function* () {
 
 ### Sensitive Fields in Common Services
 
-| Service | Field | Type |
-|---------|-------|------|
-| IAM | `SecretAccessKey` | `Redacted<string>` |
-| IAM | `Password` | `Redacted<string>` |
-| KMS | `Plaintext` | `Redacted<Uint8Array>` |
-| Lambda | `Environment.Variables` (values) | `Redacted<string>` |
+| Service | Field                            | Type                   |
+| ------- | -------------------------------- | ---------------------- |
+| IAM     | `SecretAccessKey`                | `Redacted<string>`     |
+| IAM     | `Password`                       | `Redacted<string>`     |
+| KMS     | `Plaintext`                      | `Redacted<Uint8Array>` |
+| Lambda  | `Environment.Variables` (values) | `Redacted<string>`     |
 
 ### Passing Sensitive Input
 
@@ -706,22 +706,22 @@ bun generate
 
 Smithy traits are modeled 1:1 with Effect Schema annotations in [`src/traits.ts`](./src/traits.ts). This allows protocol implementations to introspect schemas and serialize/deserialize correctly.
 
-| Smithy Trait | Effect Annotation | Purpose |
-|--------------|-------------------|---------|
-| `@httpLabel` | `T.HttpLabel()` | Bind member to URI path parameter |
-| `@httpHeader` | `T.HttpHeader("X-Custom")` | Bind member to HTTP header |
-| `@httpQuery` | `T.HttpQuery("param")` | Bind member to query string |
-| `@httpPayload` | `T.HttpPayload()` | Bind member to request/response body |
-| `@httpPrefixHeaders` | `T.HttpPrefixHeaders("x-amz-meta-")` | Bind map to prefixed headers |
-| `@xmlName` | `T.XmlName("CustomName")` | Custom XML element name |
-| `@xmlFlattened` | `T.XmlFlattened()` | Flatten list/map (no wrapper) |
-| `@xmlAttribute` | `T.XmlAttribute()` | Serialize as XML attribute |
-| `@xmlNamespace` | `T.XmlNamespace("http://...")` | XML namespace URI |
-| `@jsonName` | `T.JsonName("custom_name")` | Custom JSON key (uses `S.fromKey`) |
-| `@timestampFormat` | `T.TimestampFormat("http-date")` | Timestamp wire format |
-| `@streaming` | `T.Streaming()` | Streaming blob type |
-| `@contextParam` | `T.ContextParam("Bucket")` | Endpoint resolution parameter |
-| `@sensitive` | `SensitiveString` / `SensitiveBlob` | Wrap in `Redacted` to prevent logging |
+| Smithy Trait         | Effect Annotation                    | Purpose                               |
+| -------------------- | ------------------------------------ | ------------------------------------- |
+| `@httpLabel`         | `T.HttpLabel()`                      | Bind member to URI path parameter     |
+| `@httpHeader`        | `T.HttpHeader("X-Custom")`           | Bind member to HTTP header            |
+| `@httpQuery`         | `T.HttpQuery("param")`               | Bind member to query string           |
+| `@httpPayload`       | `T.HttpPayload()`                    | Bind member to request/response body  |
+| `@httpPrefixHeaders` | `T.HttpPrefixHeaders("x-amz-meta-")` | Bind map to prefixed headers          |
+| `@xmlName`           | `T.XmlName("CustomName")`            | Custom XML element name               |
+| `@xmlFlattened`      | `T.XmlFlattened()`                   | Flatten list/map (no wrapper)         |
+| `@xmlAttribute`      | `T.XmlAttribute()`                   | Serialize as XML attribute            |
+| `@xmlNamespace`      | `T.XmlNamespace("http://...")`       | XML namespace URI                     |
+| `@jsonName`          | `T.JsonName("custom_name")`          | Custom JSON key (uses `S.fromKey`)    |
+| `@timestampFormat`   | `T.TimestampFormat("http-date")`     | Timestamp wire format                 |
+| `@streaming`         | `T.Streaming()`                      | Streaming blob type                   |
+| `@contextParam`      | `T.ContextParam("Bucket")`           | Endpoint resolution parameter         |
+| `@sensitive`         | `SensitiveString` / `SensitiveBlob`  | Wrap in `Redacted` to prevent logging |
 
 ### Generated Code Examples
 

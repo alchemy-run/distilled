@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Quota
@@ -59,7 +63,10 @@ export const DeleteStoreRequest = Schema.Struct({
   storeId: Schema.String.pipe(T.HttpPath("storeId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/secrets_store/stores/{storeId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/secrets_store/stores/{storeId}",
+  }),
 ) as unknown as Schema.Schema<DeleteStoreRequest>;
 
 export interface DeleteStoreResponse {

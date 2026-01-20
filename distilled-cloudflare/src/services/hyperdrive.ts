@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Config
@@ -27,12 +31,16 @@ export const GetConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
 ) as unknown as Schema.Schema<GetConfigRequest>;
 
 export type GetConfigResponse = unknown;
 
-export const GetConfigResponse = Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
+export const GetConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
 export const getConfig = API.make(() => ({
   input: GetConfigRequest,
@@ -69,7 +77,11 @@ export interface CreateConfigRequest {
     | { disabled?: boolean }
     | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number;
 }
@@ -88,7 +100,9 @@ export const CreateConfigRequest = Schema.Struct({
     }),
     Schema.Struct({
       accessClientId: Schema.String.pipe(T.JsonName("access_client_id")),
-      accessClientSecret: Schema.String.pipe(T.JsonName("access_client_secret")),
+      accessClientSecret: Schema.String.pipe(
+        T.JsonName("access_client_secret"),
+      ),
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
@@ -112,12 +126,18 @@ export const CreateConfigRequest = Schema.Struct({
   ),
   mtls: Schema.optional(
     Schema.Struct({
-      caCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("ca_certificate_id")),
-      mtlsCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("mtls_certificate_id")),
+      caCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("ca_certificate_id"),
+      ),
+      mtlsCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("mtls_certificate_id"),
+      ),
       sslmode: Schema.optional(Schema.String),
     }),
   ),
-  originConnectionLimit: Schema.optional(Schema.Number).pipe(T.JsonName("origin_connection_limit")),
+  originConnectionLimit: Schema.optional(Schema.Number).pipe(
+    T.JsonName("origin_connection_limit"),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/hyperdrive/configs" }),
 ) as unknown as Schema.Schema<CreateConfigRequest>;
@@ -163,7 +183,11 @@ export interface UpdateConfigRequest {
     | { disabled?: boolean }
     | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number;
 }
@@ -183,7 +207,9 @@ export const UpdateConfigRequest = Schema.Struct({
     }),
     Schema.Struct({
       accessClientId: Schema.String.pipe(T.JsonName("access_client_id")),
-      accessClientSecret: Schema.String.pipe(T.JsonName("access_client_secret")),
+      accessClientSecret: Schema.String.pipe(
+        T.JsonName("access_client_secret"),
+      ),
       database: Schema.String,
       host: Schema.String,
       password: Schema.String,
@@ -207,14 +233,23 @@ export const UpdateConfigRequest = Schema.Struct({
   ),
   mtls: Schema.optional(
     Schema.Struct({
-      caCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("ca_certificate_id")),
-      mtlsCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("mtls_certificate_id")),
+      caCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("ca_certificate_id"),
+      ),
+      mtlsCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("mtls_certificate_id"),
+      ),
       sslmode: Schema.optional(Schema.String),
     }),
   ),
-  originConnectionLimit: Schema.optional(Schema.Number).pipe(T.JsonName("origin_connection_limit")),
+  originConnectionLimit: Schema.optional(Schema.Number).pipe(
+    T.JsonName("origin_connection_limit"),
+  ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
 ) as unknown as Schema.Schema<UpdateConfigRequest>;
 
 export type UpdateConfigResponse = unknown;
@@ -237,7 +272,11 @@ export interface PatchConfigRequest {
     | { disabled?: boolean }
     | { disabled?: boolean; maxAge?: number; staleWhileRevalidate?: number };
   /** Body param: */
-  mtls?: { caCertificateId?: string; mtlsCertificateId?: string; sslmode?: string };
+  mtls?: {
+    caCertificateId?: string;
+    mtlsCertificateId?: string;
+    sslmode?: string;
+  };
   /** Body param: */
   name?: string;
   /** Body param: */
@@ -273,8 +312,12 @@ export const PatchConfigRequest = Schema.Struct({
   ),
   mtls: Schema.optional(
     Schema.Struct({
-      caCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("ca_certificate_id")),
-      mtlsCertificateId: Schema.optional(Schema.String).pipe(T.JsonName("mtls_certificate_id")),
+      caCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("ca_certificate_id"),
+      ),
+      mtlsCertificateId: Schema.optional(Schema.String).pipe(
+        T.JsonName("mtls_certificate_id"),
+      ),
       sslmode: Schema.optional(Schema.String),
     }),
   ),
@@ -284,7 +327,9 @@ export const PatchConfigRequest = Schema.Struct({
       Schema.Struct({
         database: Schema.optional(Schema.String),
         password: Schema.optional(Schema.String),
-        scheme: Schema.optional(Schema.Literal("postgres", "postgresql", "mysql")),
+        scheme: Schema.optional(
+          Schema.Literal("postgres", "postgresql", "mysql"),
+        ),
         user: Schema.optional(Schema.String),
       }),
       Schema.Struct({
@@ -293,19 +338,27 @@ export const PatchConfigRequest = Schema.Struct({
       }),
       Schema.Struct({
         accessClientId: Schema.String.pipe(T.JsonName("access_client_id")),
-        accessClientSecret: Schema.String.pipe(T.JsonName("access_client_secret")),
+        accessClientSecret: Schema.String.pipe(
+          T.JsonName("access_client_secret"),
+        ),
         host: Schema.String,
       }),
     ),
   ),
-  originConnectionLimit: Schema.optional(Schema.Number).pipe(T.JsonName("origin_connection_limit")),
+  originConnectionLimit: Schema.optional(Schema.Number).pipe(
+    T.JsonName("origin_connection_limit"),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
 ) as unknown as Schema.Schema<PatchConfigRequest>;
 
 export type PatchConfigResponse = unknown;
 
-export const PatchConfigResponse = Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
+export const PatchConfigResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
 export const patchConfig = API.make(() => ({
   input: PatchConfigRequest,
@@ -323,7 +376,10 @@ export const DeleteConfigRequest = Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/hyperdrive/configs/{hyperdriveId}",
+  }),
 ) as unknown as Schema.Schema<DeleteConfigRequest>;
 
 export type DeleteConfigResponse = unknown;

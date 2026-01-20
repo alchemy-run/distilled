@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // RateLimit
@@ -35,7 +39,12 @@ export interface GetRateLimitResponse {
   id?: string;
   /** The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action?: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -49,7 +58,15 @@ export interface GetRateLimitResponse {
   match?: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -66,12 +83,20 @@ export const GetRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+        Schema.Literal(
+          "simulate",
+          "ban",
+          "challenge",
+          "js_challenge",
+          "managed_challenge",
+        ),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+          contentType: Schema.optional(Schema.String).pipe(
+            T.JsonName("content_type"),
+          ),
         }),
       ),
       timeout: Schema.optional(Schema.Number),
@@ -101,7 +126,17 @@ export const GetRateLimitResponse = Schema.Struct({
       request: Schema.optional(
         Schema.Struct({
           methods: Schema.optional(
-            Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+            Schema.Array(
+              Schema.Literal(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "HEAD",
+                "_ALL_",
+              ),
+            ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
           url: Schema.optional(Schema.String),
@@ -109,7 +144,9 @@ export const GetRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+          originTraffic: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("origin_traffic"),
+          ),
         }),
       ),
     }),
@@ -129,7 +166,12 @@ export interface CreateRateLimitRequest {
   zoneId: string;
   /** Body param: The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -137,7 +179,15 @@ export interface CreateRateLimitRequest {
   match: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -153,12 +203,20 @@ export const CreateRateLimitRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Struct({
     mode: Schema.optional(
-      Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+      Schema.Literal(
+        "simulate",
+        "ban",
+        "challenge",
+        "js_challenge",
+        "managed_challenge",
+      ),
     ),
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+        contentType: Schema.optional(Schema.String).pipe(
+          T.JsonName("content_type"),
+        ),
       }),
     ),
     timeout: Schema.optional(Schema.Number),
@@ -176,7 +234,17 @@ export const CreateRateLimitRequest = Schema.Struct({
     request: Schema.optional(
       Schema.Struct({
         methods: Schema.optional(
-          Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+          Schema.Array(
+            Schema.Literal(
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE",
+              "PATCH",
+              "HEAD",
+              "_ALL_",
+            ),
+          ),
         ),
         schemes: Schema.optional(Schema.Array(Schema.String)),
         url: Schema.optional(Schema.String),
@@ -184,7 +252,9 @@ export const CreateRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+        originTraffic: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("origin_traffic"),
+        ),
       }),
     ),
   }),
@@ -199,7 +269,12 @@ export interface CreateRateLimitResponse {
   id?: string;
   /** The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action?: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -213,7 +288,15 @@ export interface CreateRateLimitResponse {
   match?: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -230,12 +313,20 @@ export const CreateRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+        Schema.Literal(
+          "simulate",
+          "ban",
+          "challenge",
+          "js_challenge",
+          "managed_challenge",
+        ),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+          contentType: Schema.optional(Schema.String).pipe(
+            T.JsonName("content_type"),
+          ),
         }),
       ),
       timeout: Schema.optional(Schema.Number),
@@ -265,7 +356,17 @@ export const CreateRateLimitResponse = Schema.Struct({
       request: Schema.optional(
         Schema.Struct({
           methods: Schema.optional(
-            Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+            Schema.Array(
+              Schema.Literal(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "HEAD",
+                "_ALL_",
+              ),
+            ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
           url: Schema.optional(Schema.String),
@@ -273,7 +374,9 @@ export const CreateRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+          originTraffic: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("origin_traffic"),
+          ),
         }),
       ),
     }),
@@ -298,7 +401,10 @@ export const DeleteRateLimitRequest = Schema.Struct({
   rateLimitId: Schema.String.pipe(T.HttpPath("rateLimitId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/rate_limits/{rateLimitId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/rate_limits/{rateLimitId}",
+  }),
 ) as unknown as Schema.Schema<DeleteRateLimitRequest>;
 
 export interface DeleteRateLimitResponse {
@@ -306,7 +412,12 @@ export interface DeleteRateLimitResponse {
   id?: string;
   /** The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action?: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -320,7 +431,15 @@ export interface DeleteRateLimitResponse {
   match?: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -337,12 +456,20 @@ export const DeleteRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+        Schema.Literal(
+          "simulate",
+          "ban",
+          "challenge",
+          "js_challenge",
+          "managed_challenge",
+        ),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+          contentType: Schema.optional(Schema.String).pipe(
+            T.JsonName("content_type"),
+          ),
         }),
       ),
       timeout: Schema.optional(Schema.Number),
@@ -372,7 +499,17 @@ export const DeleteRateLimitResponse = Schema.Struct({
       request: Schema.optional(
         Schema.Struct({
           methods: Schema.optional(
-            Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+            Schema.Array(
+              Schema.Literal(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "HEAD",
+                "_ALL_",
+              ),
+            ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
           url: Schema.optional(Schema.String),
@@ -380,7 +517,9 @@ export const DeleteRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+          originTraffic: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("origin_traffic"),
+          ),
         }),
       ),
     }),
@@ -401,7 +540,12 @@ export interface EditRateLimitRequest {
   zoneId: string;
   /** Body param: The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -409,7 +553,15 @@ export interface EditRateLimitRequest {
   match: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -426,12 +578,20 @@ export const EditRateLimitRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Struct({
     mode: Schema.optional(
-      Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+      Schema.Literal(
+        "simulate",
+        "ban",
+        "challenge",
+        "js_challenge",
+        "managed_challenge",
+      ),
     ),
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+        contentType: Schema.optional(Schema.String).pipe(
+          T.JsonName("content_type"),
+        ),
       }),
     ),
     timeout: Schema.optional(Schema.Number),
@@ -449,7 +609,17 @@ export const EditRateLimitRequest = Schema.Struct({
     request: Schema.optional(
       Schema.Struct({
         methods: Schema.optional(
-          Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+          Schema.Array(
+            Schema.Literal(
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE",
+              "PATCH",
+              "HEAD",
+              "_ALL_",
+            ),
+          ),
         ),
         schemes: Schema.optional(Schema.Array(Schema.String)),
         url: Schema.optional(Schema.String),
@@ -457,7 +627,9 @@ export const EditRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+        originTraffic: Schema.optional(Schema.Boolean).pipe(
+          T.JsonName("origin_traffic"),
+        ),
       }),
     ),
   }),
@@ -472,7 +644,12 @@ export interface EditRateLimitResponse {
   id?: string;
   /** The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action?: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -486,7 +663,15 @@ export interface EditRateLimitResponse {
   match?: {
     headers?: { name?: string; op?: "eq" | "ne"; value?: string }[];
     request?: {
-      methods?: ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[];
+      methods?: (
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH"
+        | "HEAD"
+        | "_ALL_"
+      )[];
       schemes?: string[];
       url?: string;
     };
@@ -503,12 +688,20 @@ export const EditRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+        Schema.Literal(
+          "simulate",
+          "ban",
+          "challenge",
+          "js_challenge",
+          "managed_challenge",
+        ),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+          contentType: Schema.optional(Schema.String).pipe(
+            T.JsonName("content_type"),
+          ),
         }),
       ),
       timeout: Schema.optional(Schema.Number),
@@ -538,7 +731,17 @@ export const EditRateLimitResponse = Schema.Struct({
       request: Schema.optional(
         Schema.Struct({
           methods: Schema.optional(
-            Schema.Array(Schema.Literal("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "_ALL_")),
+            Schema.Array(
+              Schema.Literal(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "HEAD",
+                "_ALL_",
+              ),
+            ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
           url: Schema.optional(Schema.String),
@@ -546,7 +749,9 @@ export const EditRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(T.JsonName("origin_traffic")),
+          originTraffic: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("origin_traffic"),
+          ),
         }),
       ),
     }),

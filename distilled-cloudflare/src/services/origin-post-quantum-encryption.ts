@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // OriginPostQuantumEncryption
@@ -25,7 +29,10 @@ export interface GetOriginPostQuantumEncryptionRequest {
 export const GetOriginPostQuantumEncryptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/cache/origin_post_quantum_encryption" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/cache/origin_post_quantum_encryption",
+  }),
 ) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionRequest>;
 
 export interface GetOriginPostQuantumEncryptionResponse {
@@ -65,7 +72,10 @@ export const PutOriginPostQuantumEncryptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   value: Schema.Literal("preferred", "supported", "off"),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/cache/origin_post_quantum_encryption" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/cache/origin_post_quantum_encryption",
+  }),
 ) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionRequest>;
 
 export interface PutOriginPostQuantumEncryptionResponse {

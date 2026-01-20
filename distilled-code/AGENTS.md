@@ -2,42 +2,65 @@
 
 > See [../AGENTS.md](../AGENTS.md) for ecosystem overview and shared TDD patterns.
 
-Programmatic coding agent library. One function: `agent(key, prompt)`.
+Programmatic coding agent library. Simple CLI to run agents with prompts.
+
+## CLI Usage
+
+```bash
+# Send a prompt to all agents
+distilled "implement the API endpoints"
+
+# Send a prompt to agents matching a pattern
+distilled "api/*" "implement the API endpoints"
+distilled "test/*" "write tests for all modules"
+
+# List all configured agents
+distilled --list
+
+# List agents matching a pattern
+distilled --list "api/*"
+
+# Use a specific config file
+distilled -c ./my.config.ts "implement the API"
+
+# Use a different model
+distilled -m claude-opus "implement the API"
+```
+
+## Configuration
+
+Create a `distilled.config.ts` in your project:
+
+```typescript
+import { defineConfig, agent } from "distilled-code";
+
+export default defineConfig({
+  name: "my-project",
+  model: "claude-sonnet",
+  agents: [
+    agent("api/listTodos", { description: "Implements GET /todos" }),
+    agent("api/getTodo", { description: "Implements GET /todos/:id" }),
+    agent("api/createTodo", { description: "Implements POST /todos" }),
+    agent("test/unit", { description: "Writes unit tests" }),
+  ],
+});
+```
 
 ## Core API
 
 ```typescript
-import { agent } from "distilled-code";
+import { spawn } from "distilled-code";
+import { CodingTools } from "distilled-code/tools";
 
-// Run an agent - persists to .distilled/{key}.json
-yield* agent("discover/s3", "Discover missing errors for S3.GetObject");
-```
+// Spawn an agent - persists to .distilled/{key}.json
+const agent = yield* spawn("api/listTodos", {
+  toolkit: CodingTools,
+  onText: (delta) => process.stdout.write(delta),
+});
 
-The `agent` function:
-1. Loads chat history from `.distilled/{key}.json` (or creates new)
-2. Sends the prompt with the configured toolkit
-3. Streams until completion, handling tool calls
-4. Persists updated history
-5. Returns the response
-
-## Context
-
-`agent` runs in the context of:
-- **Chat** - message history and LLM access (via `Chat.layerPersisted`)
-- **Toolkit** - available tools
-
-```typescript
-import { agent } from "./agent.ts";
-import { toolkit, toolkitLayer } from "./tools/index.ts";
-
-const program = Effect.gen(function* () {
-  yield* agent("discover/s3", "Find missing errors");
-  yield* agent("discover/s3", "Now check PutObject");  // Continues conversation
-}).pipe(
-  Effect.provide(toolkitLayer),
-  Effect.provide(Chat.layerPersisted({ storeId: "chat", toolkit })),
-  Effect.provide(modelLayer),
-);
+// Send prompts
+yield* agent.send("Read the API spec and implement GET /todos");
+yield* agent.send("Now add pagination support");  // Continues conversation
 ```
 
 ## Persistence
@@ -46,67 +69,100 @@ All messages stream to disk:
 
 ```
 .distilled/
-├── discover/
-│   ├── s3.json
-│   └── ec2.json
+├── api/
+│   ├── listTodos.json
+│   ├── getTodo.json
+│   └── createTodo.json
 └── test/
-    └── math.json
+    └── unit.json
 ```
 
 Keys are paths. Nested keys create directories.
 
 ## Available Tools
 
-| Tool | Description |
-|------|-------------|
-| `read` | Read file contents |
-| `write` | Write file contents |
-| `edit` | Edit existing files with smart replacement |
-| `glob` | Find files by pattern |
-| `grep` | Search file contents |
-| `spawn` | Spawn parallel sub-agents |
+| Tool    | Description                                |
+| ------- | ------------------------------------------ |
+| `read`  | Read file contents                         |
+| `write` | Write file contents                        |
+| `edit`  | Edit existing files with smart replacement |
+| `glob`  | Find files by pattern                      |
+| `grep`  | Search file contents                       |
+| `bash`  | Execute shell commands                     |
+| `spawn` | Spawn parallel sub-agents                  |
 
-## Testing
+## Tool Error Handling Convention
 
-### Eval: Generate Test Files
+**Philosophy**: LLMs benefit from **information**, not exceptions. Most "errors" are actually helpful data the LLM can use to adjust its approach.
 
-The primary eval tests the agent's ability to generate test files from source code.
+### Return as Success (Informative Content)
 
-```bash
-# Run the test generation eval
-bun vitest run -t "generates test file"
-```
+Always return these as success strings - the LLM can act on this information:
 
-This test:
-1. Provides the agent with a source file (`test/fixtures/math.ts`)
-2. Asks it to generate a comprehensive test file
-3. Verifies the generated tests contain proper coverage
+- **File not found** with suggestions: `"File not found: foo.ts. Did you mean?\nbar.ts\nbaz.ts"`
+- **No matches found**: `"No matches found for pattern \"xyz\" in /path"`
+- **Command output** (including failures): `"Command failed: npm ERR! ..."`
+- **Edit failures**: `"Could not find oldString in file..."` or `"Found multiple matches..."`
+- **Directory instead of file**: `"Cannot read directory as a file: /path\nContents:\nfile1.ts\nfile2.ts"`
+- **Security violations**: `"Security violation: Cannot rm file outside cwd"`
 
-### Example Output
+### Never Use Failure Channel
 
-The agent successfully generates tests like:
+Tools must use `failure: S.Never` in their Tool definition. The @effect/ai toolkit type system doesn't compose well with typed failures, and returning errors as success strings provides better LLM experience anyway.
 
 ```typescript
-// test/fixtures/math.test.ts (generated)
-import { describe, it, expect } from 'vitest';
-import { add, multiply, factorial, isPrime, fibonacci } from './math';
-
-describe('add', () => {
-  it('should add two positive numbers', () => {
-    expect(add(2, 3)).toBe(5);
-  });
-  // ... 33 comprehensive tests
+// ✅ CORRECT: Use S.Never for failure, return informative strings
+export const myTool = Tool.make("myTool", {
+  success: S.String,
+  failure: S.Never,  // Always S.Never
+  // ...
 });
+
+// In implementation - catch errors and return as success
+const result = yield* someOperation().pipe(
+  Effect.catchAll((e) => Effect.succeed(`Operation failed: ${e}`)),
+);
 ```
 
-### Running Generated Tests
+### Internal Tagged Errors
 
-```bash
-bun vitest run test/fixtures/math.test.ts
-# ✓ 33 tests passed
+Use tagged errors internally for structured error handling between utility functions and tool implementations:
+
+```typescript
+// src/util/replace.ts - internal tagged errors
+export class ReplaceNotFoundError extends S.TaggedError<ReplaceNotFoundError>()(
+  "ReplaceNotFoundError",
+  { oldString: S.String },
+) {}
+
+// src/tools/edit.ts - catch and convert to success string
+const result = yield* replace(content, old, new).pipe(
+  Effect.catchTag("ReplaceNotFoundError", (e) =>
+    Effect.succeed(`Could not find oldString: "${e.oldString.slice(0, 50)}..."`),
+  ),
+);
 ```
 
-## Implementation
+### Message Formatting
+
+- **No prefixes**: Don't use `[ERROR]` or `[SUCCESS]` prefixes
+- **Be specific**: Include context like file paths, patterns, what was searched
+- **Provide suggestions**: When a file isn't found, suggest similar files
+- **Be concise**: One clear message, not verbose explanations
+
+```typescript
+// ✅ Good
+return `File not found: ${filePath}`;
+return `No matches found for pattern "${pattern}" in ${searchPath}`;
+return `Edited file: ${filePath}`;
+
+// ❌ Bad
+return `[ERROR] File not found: ${filePath}`;
+return `[SUCCESS] The file was successfully written to: ${filePath}`;
+return `Error occurred while trying to find the file`;
+```
+
+## Agent Implementation
 
 ### `src/agent.ts`
 
@@ -114,83 +170,84 @@ bun vitest run test/fixtures/math.test.ts
 import * as Chat from "@effect/ai/Chat";
 import { FileSystem, Path } from "@effect/platform";
 import { Effect, Stream } from "effect";
-import { toolkit } from "./tools/index.ts";
 
-export const agent = (
-  key: string,
-  prompt: string,
-  options: AgentOptions = {},
-) =>
+export const spawn = (key: string, options: SpawnOptions) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const pathService = yield* Path.Path;
-    const chat = yield* Chat.fromPrompt(initialMessages);
+    const { toolkit, onText } = options;
 
-    // Execute prompt with tool loop
-    while (true) {
-      const stream = chat.streamText({
-        toolkit,
-        prompt: isFirst ? prompt : "Continue",
+    const sessionPath = pathService.join(".distilled", `${key}.json`);
+
+    // Load existing session or create empty chat
+    const existingJson = yield* fs.readFileString(sessionPath).pipe(
+      Effect.catchAll(() => Effect.succeed(null)),
+    );
+    const chat = existingJson
+      ? yield* Chat.fromJson(existingJson)
+      : yield* Chat.empty;
+
+    const send = (prompt: string) =>
+      Effect.gen(function* () {
+        let finalText = "";
+        let isFirst = true;
+
+        while (true) {
+          const stream = chat.streamText({
+            toolkit,
+            prompt: isFirst ? prompt : "Continue",
+          });
+          isFirst = false;
+
+          yield* Stream.runForEach(stream, (part) =>
+            Effect.gen(function* () {
+              if (part.type === "text-delta" && onText) {
+                finalText += part.delta;
+                onText(part.delta);
+              }
+              if (part.type === "finish" && part.reason !== "tool-calls") {
+                return;
+              }
+            }),
+          );
+        }
+
+        // Persist history
+        yield* fs.writeFileString(sessionPath, yield* chat.exportJson);
+        return finalText;
       });
 
-      yield* Stream.runForEach(stream, handlePart);
-
-      if (finishReason !== "tool-calls") break;
-    }
-
-    // Persist history
-    yield* fs.writeFileString(sessionPath, JSON.stringify({ messages }));
-    return finalText;
+    return { key, send };
   });
-```
-
-### `test/test.ts`
-
-Test helper that provides the full Effect context:
-
-```typescript
-import { it } from "@effect/vitest";
-import * as Chat from "@effect/ai/Chat";
-import { toolkit, toolkitLayer } from "../src/tools/index.ts";
-
-export function test(name: string, options: { timeout?: number }, testCase: TestCase) {
-  return it.scopedLive(name, (ctx) => {
-    return provideTestEnv(effect);
-  }, options.timeout ?? 120_000);
-}
-
-function provideTestEnv(effect) {
-  return effect.pipe(
-    Effect.provide(toolkitLayer),
-    Effect.provide(Chat.layerPersisted({ storeId: "test", toolkit })),
-    Effect.provide(modelLayer),
-    Effect.provide(platform),
-  );
-}
 ```
 
 ## Architecture
 
 ```
 distilled-code/
+├── bin/
+│   └── distilled.ts          # CLI entry point
 ├── src/
-│   ├── index.ts              # CLI entry
-│   ├── agent.ts              # Core agent function
+│   ├── agent.ts              # Agent definition + spawn function
+│   ├── config.ts             # Config types and loading
 │   ├── tools/                # Tool definitions
-│   │   ├── index.ts          # Merged toolkit
+│   │   ├── index.ts          # Merged toolkit + exports
+│   │   ├── errors.ts         # Tagged error types
+│   │   ├── bash.ts           # Execute shell commands
 │   │   ├── read.ts           # Read files
 │   │   ├── write.ts          # Write files
 │   │   ├── edit.ts           # Edit files
 │   │   ├── glob.ts           # Find files
 │   │   ├── grep.ts           # Search content
 │   │   └── spawn.ts          # Sub-agents
-│   └── tui/                  # Terminal UI (future)
+│   └── util/
+│       ├── replace.ts        # Edit replacement logic
+│       └── wildcard.ts       # Glob pattern matching
 ├── test/
 │   ├── test.ts               # Test helper
 │   ├── agent.test.ts         # Agent evals
 │   └── fixtures/
-│       ├── math.ts           # Source for testing
-│       └── math.test.ts      # Generated tests
+│       └── math.ts           # Source for testing
 └── .distilled/               # Persisted sessions
 ```
 
@@ -206,11 +263,12 @@ bun vitest run
 # Run specific test
 bun vitest run -t "generates test file"
 
-# Run generated tests
-bun vitest run test/fixtures/math.test.ts
-
 # Type check
 bun tsgo -b
+
+# Run the CLI
+bun run bin/distilled.ts --list
+bun run bin/distilled.ts "api/*" "implement the endpoints"
 ```
 
 ## Environment
@@ -220,49 +278,25 @@ ANTHROPIC_API_KEY=xxx    # Required for Claude-based agents
 DEBUG=1                  # Enable debug logging
 ```
 
-## CLI (Future)
-
-```bash
-# Send prompt to an agent
-bun run code "discover/s3" "Find missing errors"
-
-# Send to multiple agents (glob)
-bun run code "discover/*" "Summarize your findings"
-
-# List all agents
-bun run code --list
-
-# Run TUI
-bun run code tui
-```
-
 ## Parallel Agents
 
-Run many agents in parallel:
+The CLI runs agents sequentially by default. For programmatic parallel execution:
 
 ```typescript
+import { spawn } from "distilled-code";
+import { CodingTools } from "distilled-code/tools";
+
 const services = ["s3", "ec2", "dynamodb", "lambda", "sqs"];
 
 yield* Effect.all(
   services.map((svc) =>
-    agent(`discover/${svc}`, `Discover missing errors for ${svc}`),
+    Effect.gen(function* () {
+      const agent = yield* spawn(`discover/${svc}`, { toolkit: CodingTools });
+      yield* agent.send(`Discover missing errors for ${svc}`);
+    }),
   ),
   { concurrency: 5 },
 );
 ```
 
 Each agent streams to its own JSON file independently.
-
-## Meta-Agent
-
-An agent that operates over other agents:
-
-```typescript
-yield* agent("meta", "List all discovery agents and summarize their findings");
-```
-
-| Tool | Description |
-|------|-------------|
-| `list` | List agents matching a glob pattern |
-| `read` | Read message history from an agent |
-| `send` | Send a prompt to agents matching a pattern |

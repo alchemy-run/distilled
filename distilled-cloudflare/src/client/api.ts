@@ -39,8 +39,14 @@ function extractTagFromAst(ast: AST.AST): string | undefined {
 
   // Handle TypeLiteral - look for the _tag property
   if (ast._tag === "TypeLiteral") {
-    const tagProp = ast.propertySignatures.find((p: { name: PropertyKey }) => p.name === "_tag");
-    if (tagProp && tagProp.type._tag === "Literal" && typeof tagProp.type.literal === "string") {
+    const tagProp = ast.propertySignatures.find(
+      (p: { name: PropertyKey }) => p.name === "_tag",
+    );
+    if (
+      tagProp &&
+      tagProp.type._tag === "Literal" &&
+      typeof tagProp.type.literal === "string"
+    ) {
       return tagProp.type.literal;
     }
   }
@@ -66,7 +72,10 @@ export interface Operation<
 /**
  * Create an Effect-returning API function from an operation definition.
  */
-export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Schema.AnyNoContext>(
+export const make = <
+  I extends Schema.Schema.AnyNoContext,
+  O extends Schema.Schema.AnyNoContext,
+>(
   initOperation: () => {
     input: I;
     output: O;
@@ -97,7 +106,10 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
     payload: Input,
   ): Effect.Effect<
     Output,
-    CloudflareError | UnknownCloudflareError | CloudflareNetworkError | CloudflareHttpError,
+    | CloudflareError
+    | UnknownCloudflareError
+    | CloudflareNetworkError
+    | CloudflareHttpError,
     ApiToken | HttpClient.HttpClient
   > =>
     Effect.gen(function* () {
@@ -105,14 +117,15 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
       const lastErrorRef = yield* Ref.make<unknown>(null);
 
       // Check if a custom retry policy was provided in context (without requiring it)
-      const retryPolicyOption = yield* Effect.contextWith((ctx: Context.Context<never>) =>
-        Context.getOption(ctx, Retry),
+      const retryPolicyOption = yield* Effect.contextWith(
+        (ctx: Context.Context<never>) => Context.getOption(ctx, Retry),
       );
 
       // Resolve policy - could be static Options or a Factory function
       const retryPolicy = Option.match(retryPolicyOption, {
         onNone: () => makeDefault(lastErrorRef),
-        onSome: (policy) => (typeof policy === "function" ? policy(lastErrorRef) : policy),
+        onSome: (policy) =>
+          typeof policy === "function" ? policy(lastErrorRef) : policy,
       });
 
       // The core operation that may be retried
@@ -128,7 +141,10 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
           .filter(([_, v]) => v !== undefined)
           .flatMap(([k, v]) => {
             if (Array.isArray(v)) {
-              return v.map((item) => `${encodeURIComponent(k)}=${encodeURIComponent(item)}`);
+              return v.map(
+                (item) =>
+                  `${encodeURIComponent(k)}=${encodeURIComponent(item)}`,
+              );
             }
             return `${encodeURIComponent(k)}=${encodeURIComponent(v!)}`;
           })
@@ -154,9 +170,11 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
 
         // Add authentication headers
         if (auth.auth.type === "token") {
-          headers["Authorization"] = `Bearer ${Redacted.value(auth.auth.token)}`;
+          headers["Authorization"] =
+            `Bearer ${Redacted.value(auth.auth.token)}`;
         } else if (auth.auth.type === "oauth") {
-          headers["Authorization"] = `Bearer ${Redacted.value(auth.auth.accessToken)}`;
+          headers["Authorization"] =
+            `Bearer ${Redacted.value(auth.auth.accessToken)}`;
         } else {
           headers["X-Auth-Key"] = Redacted.value(auth.auth.apiKey);
           headers["X-Auth-Email"] = auth.auth.email;
@@ -171,9 +189,9 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
         if (request.body !== undefined) {
           if (isFormData) {
             // FormData body - use formData body type
-            httpRequest = HttpClientRequest.setBody(HttpBody.formData(request.body as FormData))(
-              httpRequest,
-            );
+            httpRequest = HttpClientRequest.setBody(
+              HttpBody.formData(request.body as FormData),
+            )(httpRequest);
           } else {
             // Serialize body based on content type
             const bodyText =
@@ -181,9 +199,9 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
                 ? JSON.stringify(request.body)
                 : String(request.body);
 
-            httpRequest = HttpClientRequest.setBody(HttpBody.text(bodyText, contentType))(
-              httpRequest,
-            );
+            httpRequest = HttpClientRequest.setBody(
+              HttpBody.text(bodyText, contentType),
+            )(httpRequest);
           }
         }
 
@@ -214,7 +232,9 @@ export const make = <I extends Schema.Schema.AnyNoContext, O extends Schema.Sche
         // Convert Effect Stream to ReadableStream for the response parser
         const contentLength = responseHeaders["content-length"];
         const isEmptyBody =
-          request.method === "HEAD" || contentLength === "0" || rawResponse.status === 204;
+          request.method === "HEAD" ||
+          contentLength === "0" ||
+          rawResponse.status === 204;
 
         const responseBody = isEmptyBody
           ? new ReadableStream<Uint8Array>({ start: (c) => c.close() })
@@ -316,7 +336,9 @@ export const makePaginated = <
       const allItems: unknown[] = [];
 
       for (const page of allPages) {
-        const pageItems = getPath(page, pagination.items) as unknown[] | undefined;
+        const pageItems = getPath(page, pagination.items) as
+          | unknown[]
+          | undefined;
         if (pageItems) {
           allItems.push(...pageItems);
         }

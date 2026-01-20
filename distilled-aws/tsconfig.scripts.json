@@ -1,8 +1,8 @@
 {
-    "include": ["scripts/**/*.ts"],
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "types": ["bun-types", "@types/node"],
-        "noEmit": true
-    }
+  "include": ["scripts/**/*.ts"],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["bun-types", "@types/node"],
+    "noEmit": true
+  }
 }

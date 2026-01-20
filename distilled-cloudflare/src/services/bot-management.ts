@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // BotManagement
@@ -78,33 +82,39 @@ export type GetBotManagementResponse =
 export const GetBotManagementResponse = Schema.Union(
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     fightMode: Schema.optional(Schema.Boolean).pipe(T.JsonName("fight_mode")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
-    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(T.JsonName("optimize_wordpress")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
+    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("optimize_wordpress"),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
       Schema.Literal("allow", "block", "managed_challenge"),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
@@ -117,18 +127,22 @@ export const GetBotManagementResponse = Schema.Union(
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
-    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(T.JsonName("optimize_wordpress")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
+    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("optimize_wordpress"),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
       Schema.Literal("allow", "block", "managed_challenge"),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
@@ -144,19 +158,25 @@ export const GetBotManagementResponse = Schema.Union(
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
+    autoUpdateModel: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("auto_update_model"),
     ),
-    autoUpdateModel: Schema.optional(Schema.Boolean).pipe(T.JsonName("auto_update_model")),
-    bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("bm_cookie_enabled")),
+    bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("bm_cookie_enabled"),
+    ),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
     suppressSessionScore: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("suppress_session_score"),
     ),
@@ -225,33 +245,39 @@ export type PutBotManagementResponse =
 export const PutBotManagementResponse = Schema.Union(
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
     fightMode: Schema.optional(Schema.Boolean).pipe(T.JsonName("fight_mode")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
-    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(T.JsonName("optimize_wordpress")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
+    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("optimize_wordpress"),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
       Schema.Literal("allow", "block", "managed_challenge"),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
@@ -264,18 +290,22 @@ export const PutBotManagementResponse = Schema.Union(
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
-    ),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
-    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(T.JsonName("optimize_wordpress")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
+    optimizeWordpress: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("optimize_wordpress"),
+    ),
     sbfmDefinitelyAutomated: Schema.optional(
       Schema.Literal("allow", "block", "managed_challenge"),
     ).pipe(T.JsonName("sbfm_definitely_automated")),
@@ -291,19 +321,25 @@ export const PutBotManagementResponse = Schema.Union(
   }),
   Schema.Struct({
     zoneId: Schema.String.pipe(T.JsonName("zone_id")),
-    aiBotsProtection: Schema.optional(Schema.Literal("block", "disabled", "only_on_ad_pages")).pipe(
-      T.JsonName("ai_bots_protection"),
+    aiBotsProtection: Schema.optional(
+      Schema.Literal("block", "disabled", "only_on_ad_pages"),
+    ).pipe(T.JsonName("ai_bots_protection")),
+    autoUpdateModel: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("auto_update_model"),
     ),
-    autoUpdateModel: Schema.optional(Schema.Boolean).pipe(T.JsonName("auto_update_model")),
-    bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(T.JsonName("bm_cookie_enabled")),
+    bmCookieEnabled: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("bm_cookie_enabled"),
+    ),
     cfRobotsVariant: Schema.optional(Schema.Literal("off", "policy_only")).pipe(
       T.JsonName("cf_robots_variant"),
     ),
-    crawlerProtection: Schema.optional(Schema.Literal("enabled", "disabled")).pipe(
-      T.JsonName("crawler_protection"),
-    ),
+    crawlerProtection: Schema.optional(
+      Schema.Literal("enabled", "disabled"),
+    ).pipe(T.JsonName("crawler_protection")),
     enableJs: Schema.optional(Schema.Boolean).pipe(T.JsonName("enable_js")),
-    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_robots_txt_managed")),
+    isRobotsTxtManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_robots_txt_managed"),
+    ),
     suppressSessionScore: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("suppress_session_score"),
     ),

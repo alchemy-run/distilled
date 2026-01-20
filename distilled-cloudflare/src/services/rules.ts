@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // List
@@ -27,7 +31,10 @@ export const GetListRequest = Schema.Struct({
   listId: Schema.String.pipe(T.HttpPath("listId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/{listId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/rules/lists/{listId}",
+  }),
 ) as unknown as Schema.Schema<GetListRequest>;
 
 export interface GetListResponse {
@@ -56,7 +63,9 @@ export const GetListResponse = Schema.Struct({
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
-  numReferencingFilters: Schema.Number.pipe(T.JsonName("num_referencing_filters")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetListResponse>;
 
@@ -112,7 +121,9 @@ export const CreateListResponse = Schema.Struct({
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
-  numReferencingFilters: Schema.Number.pipe(T.JsonName("num_referencing_filters")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateListResponse>;
 
@@ -135,7 +146,10 @@ export const UpdateListRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   description: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/rules/lists/{listId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/rules/lists/{listId}",
+  }),
 ) as unknown as Schema.Schema<UpdateListRequest>;
 
 export interface UpdateListResponse {
@@ -164,7 +178,9 @@ export const UpdateListResponse = Schema.Struct({
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   numItems: Schema.Number.pipe(T.JsonName("num_items")),
-  numReferencingFilters: Schema.Number.pipe(T.JsonName("num_referencing_filters")),
+  numReferencingFilters: Schema.Number.pipe(
+    T.JsonName("num_referencing_filters"),
+  ),
   description: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateListResponse>;
 
@@ -184,7 +200,10 @@ export const DeleteListRequest = Schema.Struct({
   listId: Schema.String.pipe(T.HttpPath("listId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/rules/lists/{listId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/rules/lists/{listId}",
+  }),
 ) as unknown as Schema.Schema<DeleteListRequest>;
 
 export interface DeleteListResponse {
@@ -267,14 +286,41 @@ export const GetListItemRequest = Schema.Struct({
   itemId: Schema.String.pipe(T.HttpPath("itemId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists/{listId}/items/{itemId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/rules/lists/{listId}/items/{itemId}",
+  }),
 ) as unknown as Schema.Schema<GetListItemRequest>;
 
 export type GetListItemResponse =
-  | { id: string; createdOn: string; ip: string; modifiedOn: string; comment?: string }
-  | { id: string; createdOn: string; hostname: unknown; modifiedOn: string; comment?: string }
-  | { id: string; createdOn: string; modifiedOn: string; redirect: unknown; comment?: string }
-  | { id: string; asn: number; createdOn: string; modifiedOn: string; comment?: string };
+  | {
+      id: string;
+      createdOn: string;
+      ip: string;
+      modifiedOn: string;
+      comment?: string;
+    }
+  | {
+      id: string;
+      createdOn: string;
+      hostname: unknown;
+      modifiedOn: string;
+      comment?: string;
+    }
+  | {
+      id: string;
+      createdOn: string;
+      modifiedOn: string;
+      redirect: unknown;
+      comment?: string;
+    }
+  | {
+      id: string;
+      asn: number;
+      createdOn: string;
+      modifiedOn: string;
+      comment?: string;
+    };
 
 export const GetListItemResponse = Schema.Union(
   Schema.Struct({
@@ -350,7 +396,10 @@ export const CreateListItemRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/rules/lists/{listId}/items" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/rules/lists/{listId}/items",
+  }),
 ) as unknown as Schema.Schema<CreateListItemRequest>;
 
 export interface CreateListItemResponse {
@@ -405,7 +454,10 @@ export const UpdateListItemRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/rules/lists/{listId}/items" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/rules/lists/{listId}/items",
+  }),
 ) as unknown as Schema.Schema<UpdateListItemRequest>;
 
 export interface UpdateListItemResponse {
@@ -436,7 +488,10 @@ export const DeleteListItemRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   items: Schema.optional(Schema.Array(Schema.Unknown)),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/rules/lists/{listId}/items" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/rules/lists/{listId}/items",
+  }),
 ) as unknown as Schema.Schema<DeleteListItemRequest>;
 
 export interface DeleteListItemResponse {

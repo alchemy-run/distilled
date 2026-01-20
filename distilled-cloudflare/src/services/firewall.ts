@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AccessRule
@@ -34,7 +38,13 @@ export interface GetAccessRuleResponse {
   /** The unique identifier of the IP Access rule. */
   id: string;
   /** The available actions that a rule can apply to a matched request. */
-  allowedModes: ("block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge")[];
+  allowedModes: (
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge"
+  )[];
   /** The rule configuration. */
   configuration:
     | { target?: "ip"; value?: string }
@@ -43,7 +53,12 @@ export interface GetAccessRuleResponse {
     | { target?: "asn"; value?: string }
     | { target?: "country"; value?: string };
   /** The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** The timestamp of when the rule was created. */
   createdOn?: string;
   /** The timestamp of when the rule was last modified. */
@@ -57,7 +72,13 @@ export interface GetAccessRuleResponse {
 export const GetAccessRuleResponse = Schema.Struct({
   id: Schema.String,
   allowedModes: Schema.Array(
-    Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+    Schema.Literal(
+      "block",
+      "challenge",
+      "whitelist",
+      "js_challenge",
+      "managed_challenge",
+    ),
   ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union(
     Schema.Struct({
@@ -81,7 +102,13 @@ export const GetAccessRuleResponse = Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
   ),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
@@ -113,7 +140,12 @@ export interface CreateAccessRuleRequest {
     | { target?: "asn"; value?: string }
     | { target?: "country"; value?: string };
   /** Body param: The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** Body param: An informative summary of the rule, typically used as a reminder or explanation. */
   notes?: string;
 }
@@ -143,7 +175,13 @@ export const CreateAccessRuleRequest = Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
   ),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   notes: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
@@ -156,7 +194,13 @@ export interface CreateAccessRuleResponse {
   /** The unique identifier of the IP Access rule. */
   id: string;
   /** The available actions that a rule can apply to a matched request. */
-  allowedModes: ("block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge")[];
+  allowedModes: (
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge"
+  )[];
   /** The rule configuration. */
   configuration:
     | { target?: "ip"; value?: string }
@@ -165,7 +209,12 @@ export interface CreateAccessRuleResponse {
     | { target?: "asn"; value?: string }
     | { target?: "country"; value?: string };
   /** The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** The timestamp of when the rule was created. */
   createdOn?: string;
   /** The timestamp of when the rule was last modified. */
@@ -179,7 +228,13 @@ export interface CreateAccessRuleResponse {
 export const CreateAccessRuleResponse = Schema.Struct({
   id: Schema.String,
   allowedModes: Schema.Array(
-    Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+    Schema.Literal(
+      "block",
+      "challenge",
+      "whitelist",
+      "js_challenge",
+      "managed_challenge",
+    ),
   ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union(
     Schema.Struct({
@@ -203,7 +258,13 @@ export const CreateAccessRuleResponse = Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
   ),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
@@ -236,7 +297,12 @@ export interface PatchAccessRuleRequest {
     | { target?: "asn"; value?: string }
     | { target?: "country"; value?: string };
   /** Body param: The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** Body param: An informative summary of the rule, typically used as a reminder or explanation. */
   notes?: string;
 }
@@ -267,7 +333,13 @@ export const PatchAccessRuleRequest = Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
   ),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   notes: Schema.optional(Schema.String),
 }).pipe(
   T.Http({
@@ -280,7 +352,13 @@ export interface PatchAccessRuleResponse {
   /** The unique identifier of the IP Access rule. */
   id: string;
   /** The available actions that a rule can apply to a matched request. */
-  allowedModes: ("block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge")[];
+  allowedModes: (
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge"
+  )[];
   /** The rule configuration. */
   configuration:
     | { target?: "ip"; value?: string }
@@ -289,7 +367,12 @@ export interface PatchAccessRuleResponse {
     | { target?: "asn"; value?: string }
     | { target?: "country"; value?: string };
   /** The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** The timestamp of when the rule was created. */
   createdOn?: string;
   /** The timestamp of when the rule was last modified. */
@@ -303,7 +386,13 @@ export interface PatchAccessRuleResponse {
 export const PatchAccessRuleResponse = Schema.Struct({
   id: Schema.String,
   allowedModes: Schema.Array(
-    Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+    Schema.Literal(
+      "block",
+      "challenge",
+      "whitelist",
+      "js_challenge",
+      "managed_challenge",
+    ),
   ).pipe(T.JsonName("allowed_modes")),
   configuration: Schema.Union(
     Schema.Struct({
@@ -327,7 +416,13 @@ export const PatchAccessRuleResponse = Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
   ),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   notes: Schema.optional(Schema.String),
@@ -384,7 +479,10 @@ export const GetLockdownRequest = Schema.Struct({
   lockDownsId: Schema.String.pipe(T.HttpPath("lockDownsId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}",
+  }),
 ) as unknown as Schema.Schema<GetLockdownRequest>;
 
 export interface GetLockdownResponse {
@@ -495,7 +593,10 @@ export const UpdateLockdownRequest = Schema.Struct({
   configurations: Schema.Unknown,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}",
+  }),
 ) as unknown as Schema.Schema<UpdateLockdownRequest>;
 
 export interface UpdateLockdownResponse {
@@ -541,7 +642,10 @@ export const DeleteLockdownRequest = Schema.Struct({
   lockDownsId: Schema.String.pipe(T.HttpPath("lockDownsId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/firewall/lockdowns/{lockDownsId}",
+  }),
 ) as unknown as Schema.Schema<DeleteLockdownRequest>;
 
 export interface DeleteLockdownResponse {
@@ -595,7 +699,15 @@ export interface GetRuleResponse {
   paused?: boolean;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules  */
   priority?: number;
-  products?: ("zoneLockdown" | "uaBlock" | "bic" | "hot" | "securityLevel" | "rateLimit" | "waf")[];
+  products?: (
+    | "zoneLockdown"
+    | "uaBlock"
+    | "bic"
+    | "hot"
+    | "securityLevel"
+    | "rateLimit"
+    | "waf"
+  )[];
   /** A short reference tag. Allows you to select related firewall rules. */
   ref?: string;
 }
@@ -627,7 +739,15 @@ export const GetRuleResponse = Schema.Struct({
   priority: Schema.optional(Schema.Number),
   products: Schema.optional(
     Schema.Array(
-      Schema.Literal("zoneLockdown", "uaBlock", "bic", "hot", "securityLevel", "rateLimit", "waf"),
+      Schema.Literal(
+        "zoneLockdown",
+        "uaBlock",
+        "bic",
+        "hot",
+        "securityLevel",
+        "rateLimit",
+        "waf",
+      ),
     ),
   ),
   ref: Schema.optional(Schema.String),
@@ -645,7 +765,12 @@ export interface PutRuleRequest {
   zoneId: string;
   /** Body param: The action to perform when the threshold of matched traffic within the configured period is exceeded. */
   action: {
-    mode?: "simulate" | "ban" | "challenge" | "js_challenge" | "managed_challenge";
+    mode?:
+      | "simulate"
+      | "ban"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge";
     response?: { body?: string; contentType?: string };
     timeout?: number;
   };
@@ -658,12 +783,20 @@ export const PutRuleRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Struct({
     mode: Schema.optional(
-      Schema.Literal("simulate", "ban", "challenge", "js_challenge", "managed_challenge"),
+      Schema.Literal(
+        "simulate",
+        "ban",
+        "challenge",
+        "js_challenge",
+        "managed_challenge",
+      ),
     ),
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(T.JsonName("content_type")),
+        contentType: Schema.optional(Schema.String).pipe(
+          T.JsonName("content_type"),
+        ),
       }),
     ),
     timeout: Schema.optional(Schema.Number),
@@ -692,7 +825,15 @@ export interface PutRuleResponse {
   paused?: boolean;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules  */
   priority?: number;
-  products?: ("zoneLockdown" | "uaBlock" | "bic" | "hot" | "securityLevel" | "rateLimit" | "waf")[];
+  products?: (
+    | "zoneLockdown"
+    | "uaBlock"
+    | "bic"
+    | "hot"
+    | "securityLevel"
+    | "rateLimit"
+    | "waf"
+  )[];
   /** A short reference tag. Allows you to select related firewall rules. */
   ref?: string;
 }
@@ -724,7 +865,15 @@ export const PutRuleResponse = Schema.Struct({
   priority: Schema.optional(Schema.Number),
   products: Schema.optional(
     Schema.Array(
-      Schema.Literal("zoneLockdown", "uaBlock", "bic", "hot", "securityLevel", "rateLimit", "waf"),
+      Schema.Literal(
+        "zoneLockdown",
+        "uaBlock",
+        "bic",
+        "hot",
+        "securityLevel",
+        "rateLimit",
+        "waf",
+      ),
     ),
   ),
   ref: Schema.optional(Schema.String),
@@ -746,7 +895,10 @@ export const DeleteRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/firewall/rules/{ruleId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/firewall/rules/{ruleId}",
+  }),
 ) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
@@ -768,7 +920,15 @@ export interface DeleteRuleResponse {
   paused?: boolean;
   /** The priority of the rule. Optional value used to define the processing order. A lower number indicates a higher priority. If not provided, rules with a defined priority will be processed before rules  */
   priority?: number;
-  products?: ("zoneLockdown" | "uaBlock" | "bic" | "hot" | "securityLevel" | "rateLimit" | "waf")[];
+  products?: (
+    | "zoneLockdown"
+    | "uaBlock"
+    | "bic"
+    | "hot"
+    | "securityLevel"
+    | "rateLimit"
+    | "waf"
+  )[];
   /** A short reference tag. Allows you to select related firewall rules. */
   ref?: string;
 }
@@ -800,7 +960,15 @@ export const DeleteRuleResponse = Schema.Struct({
   priority: Schema.optional(Schema.Number),
   products: Schema.optional(
     Schema.Array(
-      Schema.Literal("zoneLockdown", "uaBlock", "bic", "hot", "securityLevel", "rateLimit", "waf"),
+      Schema.Literal(
+        "zoneLockdown",
+        "uaBlock",
+        "bic",
+        "hot",
+        "securityLevel",
+        "rateLimit",
+        "waf",
+      ),
     ),
   ),
   ref: Schema.optional(Schema.String),
@@ -826,7 +994,10 @@ export const GetUaRuleRequest = Schema.Struct({
   uaRuleId: Schema.String.pipe(T.HttpPath("uaRuleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}",
+  }),
 ) as unknown as Schema.Schema<GetUaRuleRequest>;
 
 export interface GetUaRuleResponse {
@@ -851,7 +1022,9 @@ export const GetUaRuleResponse = Schema.Struct({
     }),
   ),
   description: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.Literal("block", "challenge", "js_challenge", "managed_challenge")),
+  mode: Schema.optional(
+    Schema.Literal("block", "challenge", "js_challenge", "managed_challenge"),
+  ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<GetUaRuleResponse>;
 
@@ -867,7 +1040,12 @@ export interface CreateUaRuleRequest {
   /** Body param: */
   configuration: { target?: "ua"; value?: string };
   /** Body param: The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** Body param: An informative summary of the rule. This value is sanitized and any tags will be removed. */
   description?: string;
   /** Body param: When true, indicates that the rule is currently paused. */
@@ -880,7 +1058,13 @@ export const CreateUaRuleRequest = Schema.Struct({
     target: Schema.optional(Schema.Literal("ua")),
     value: Schema.optional(Schema.String),
   }),
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   description: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
 }).pipe(
@@ -909,7 +1093,9 @@ export const CreateUaRuleResponse = Schema.Struct({
     }),
   ),
   description: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.Literal("block", "challenge", "js_challenge", "managed_challenge")),
+  mode: Schema.optional(
+    Schema.Literal("block", "challenge", "js_challenge", "managed_challenge"),
+  ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<CreateUaRuleResponse>;
 
@@ -926,7 +1112,12 @@ export interface UpdateUaRuleRequest {
   /** Body param: The rule configuration. */
   configuration: unknown;
   /** Body param: The action to apply to a matched request. */
-  mode: "block" | "challenge" | "whitelist" | "js_challenge" | "managed_challenge";
+  mode:
+    | "block"
+    | "challenge"
+    | "whitelist"
+    | "js_challenge"
+    | "managed_challenge";
   /** Body param: An informative summary of the rule. This value is sanitized and any tags will be removed. */
   description?: string;
   /** Body param: When true, indicates that the rule is currently paused. */
@@ -937,11 +1128,20 @@ export const UpdateUaRuleRequest = Schema.Struct({
   uaRuleId: Schema.String.pipe(T.HttpPath("uaRuleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   configuration: Schema.Unknown,
-  mode: Schema.Literal("block", "challenge", "whitelist", "js_challenge", "managed_challenge"),
+  mode: Schema.Literal(
+    "block",
+    "challenge",
+    "whitelist",
+    "js_challenge",
+    "managed_challenge",
+  ),
   description: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}",
+  }),
 ) as unknown as Schema.Schema<UpdateUaRuleRequest>;
 
 export interface UpdateUaRuleResponse {
@@ -966,7 +1166,9 @@ export const UpdateUaRuleResponse = Schema.Struct({
     }),
   ),
   description: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.Literal("block", "challenge", "js_challenge", "managed_challenge")),
+  mode: Schema.optional(
+    Schema.Literal("block", "challenge", "js_challenge", "managed_challenge"),
+  ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<UpdateUaRuleResponse>;
 
@@ -986,7 +1188,10 @@ export const DeleteUaRuleRequest = Schema.Struct({
   uaRuleId: Schema.String.pipe(T.HttpPath("uaRuleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/firewall/ua_rules/{uaRuleId}",
+  }),
 ) as unknown as Schema.Schema<DeleteUaRuleRequest>;
 
 export interface DeleteUaRuleResponse {
@@ -1011,7 +1216,9 @@ export const DeleteUaRuleResponse = Schema.Struct({
     }),
   ),
   description: Schema.optional(Schema.String),
-  mode: Schema.optional(Schema.Literal("block", "challenge", "js_challenge", "managed_challenge")),
+  mode: Schema.optional(
+    Schema.Literal("block", "challenge", "js_challenge", "managed_challenge"),
+  ),
   paused: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<DeleteUaRuleResponse>;
 
@@ -1035,7 +1242,10 @@ export const GetWafOverrideRequest = Schema.Struct({
   overridesId: Schema.String.pipe(T.HttpPath("overridesId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}",
+  }),
 ) as unknown as Schema.Schema<GetWafOverrideRequest>;
 
 export interface GetWafOverrideResponse {
@@ -1197,7 +1407,9 @@ export const UpdateWafOverrideRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   id: Schema.String,
   rewriteAction: Schema.Struct({
-    block: Schema.optional(Schema.Literal("challenge", "block", "simulate", "disable", "default")),
+    block: Schema.optional(
+      Schema.Literal("challenge", "block", "simulate", "disable", "default"),
+    ),
     challenge: Schema.optional(
       Schema.Literal("challenge", "block", "simulate", "disable", "default"),
     ),
@@ -1214,7 +1426,10 @@ export const UpdateWafOverrideRequest = Schema.Struct({
   rules: Schema.Unknown,
   urls: Schema.Array(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}",
+  }),
 ) as unknown as Schema.Schema<UpdateWafOverrideRequest>;
 
 export interface UpdateWafOverrideResponse {
@@ -1287,7 +1502,10 @@ export const DeleteWafOverrideRequest = Schema.Struct({
   overridesId: Schema.String.pipe(T.HttpPath("overridesId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/firewall/waf/overrides/{overridesId}",
+  }),
 ) as unknown as Schema.Schema<DeleteWafOverrideRequest>;
 
 export interface DeleteWafOverrideResponse {
@@ -1319,11 +1537,19 @@ export const GetWafPackageRequest = Schema.Struct({
   packageId: Schema.String.pipe(T.HttpPath("packageId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/waf/packages/{packageId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/firewall/waf/packages/{packageId}",
+  }),
 ) as unknown as Schema.Schema<GetWafPackageRequest>;
 
 export type GetWafPackageResponse =
-  | { errors: unknown[]; messages: unknown[]; result: string | null; success: true }
+  | {
+      errors: unknown[];
+      messages: unknown[];
+      result: string | null;
+      success: true;
+    }
   | { result?: unknown };
 
 export const GetWafPackageResponse = Schema.Union(
@@ -1454,7 +1680,14 @@ export interface PatchWafPackageRuleRequest {
   /** Path param: Defines an identifier of a schema. */
   zoneId: string;
   /** Body param: Defines the mode/action of the rule when triggered. You must use a value from the `allowed_modes` array of the current rule. */
-  mode?: "default" | "disable" | "simulate" | "block" | "challenge" | "on" | "off";
+  mode?:
+    | "default"
+    | "disable"
+    | "simulate"
+    | "block"
+    | "challenge"
+    | "on"
+    | "off";
 }
 
 export const PatchWafPackageRuleRequest = Schema.Struct({
@@ -1462,7 +1695,15 @@ export const PatchWafPackageRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   mode: Schema.optional(
-    Schema.Literal("default", "disable", "simulate", "block", "challenge", "on", "off"),
+    Schema.Literal(
+      "default",
+      "disable",
+      "simulate",
+      "block",
+      "challenge",
+      "on",
+      "off",
+    ),
   ),
 }).pipe(
   T.Http({
@@ -1483,7 +1724,13 @@ export type PatchWafPackageRuleResponse =
     }
   | {
       id: string;
-      allowedModes: ("default" | "disable" | "simulate" | "block" | "challenge")[];
+      allowedModes: (
+        | "default"
+        | "disable"
+        | "simulate"
+        | "block"
+        | "challenge"
+      )[];
       defaultMode: "disable" | "simulate" | "block" | "challenge";
       description: string;
       group: unknown;
@@ -1504,7 +1751,9 @@ export type PatchWafPackageRuleResponse =
 export const PatchWafPackageRuleResponse = Schema.Union(
   Schema.Struct({
     id: Schema.String,
-    allowedModes: Schema.Array(Schema.Literal("off", "on")).pipe(T.JsonName("allowed_modes")),
+    allowedModes: Schema.Array(Schema.Literal("off", "on")).pipe(
+      T.JsonName("allowed_modes"),
+    ),
     description: Schema.String,
     group: Schema.Unknown,
     mode: Schema.Literal("off", "on"),
@@ -1516,18 +1765,29 @@ export const PatchWafPackageRuleResponse = Schema.Union(
     allowedModes: Schema.Array(
       Schema.Literal("default", "disable", "simulate", "block", "challenge"),
     ).pipe(T.JsonName("allowed_modes")),
-    defaultMode: Schema.Literal("disable", "simulate", "block", "challenge").pipe(
-      T.JsonName("default_mode"),
-    ),
+    defaultMode: Schema.Literal(
+      "disable",
+      "simulate",
+      "block",
+      "challenge",
+    ).pipe(T.JsonName("default_mode")),
     description: Schema.String,
     group: Schema.Unknown,
-    mode: Schema.Literal("default", "disable", "simulate", "block", "challenge"),
+    mode: Schema.Literal(
+      "default",
+      "disable",
+      "simulate",
+      "block",
+      "challenge",
+    ),
     packageId: Schema.String.pipe(T.JsonName("package_id")),
     priority: Schema.String,
   }),
   Schema.Struct({
     id: Schema.String,
-    allowedModes: Schema.Array(Schema.Literal("on", "off")).pipe(T.JsonName("allowed_modes")),
+    allowedModes: Schema.Array(Schema.Literal("on", "off")).pipe(
+      T.JsonName("allowed_modes"),
+    ),
     description: Schema.String,
     group: Schema.Unknown,
     mode: Schema.Literal("on", "off"),

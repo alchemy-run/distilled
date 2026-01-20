@@ -10,10 +10,6 @@ import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
-import {
-  AgentRegistryLive,
-  OrchestratorToolsLayer,
-} from "../src/orchestrator.ts";
 import { CodingToolsLayer } from "../src/tools/index.ts";
 
 const platform = Layer.mergeAll(
@@ -87,8 +83,6 @@ function provideTestEnv(effect: Effect.Effect<void, any, any>) {
     });
 
     return yield* effect.pipe(
-      Effect.provide(OrchestratorToolsLayer),
-      Effect.provide(AgentRegistryLive),
       Effect.provide(CodingToolsLayer),
       Effect.provide(chatLayer),
       Effect.provide(modelLayer),

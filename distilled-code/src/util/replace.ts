@@ -1,6 +1,35 @@
 // copied from https://github.com/sst/opencode/blob/dev/packages/opencode/src/tool/edit.ts#L1
 
 import * as Effect from "effect/Effect";
+import * as S from "effect/Schema";
+
+/**
+ * Error when oldString is not found in the content.
+ */
+export class ReplaceNotFoundError extends S.TaggedError<ReplaceNotFoundError>()(
+  "ReplaceNotFoundError",
+  {
+    oldString: S.String,
+  },
+) {}
+
+/**
+ * Error when oldString matches multiple locations and replaceAll is not set.
+ */
+export class ReplaceMultipleMatchesError extends S.TaggedError<ReplaceMultipleMatchesError>()(
+  "ReplaceMultipleMatchesError",
+  {
+    oldString: S.String,
+  },
+) {}
+
+/**
+ * Error when oldString equals newString.
+ */
+export class ReplaceSameStringError extends S.TaggedError<ReplaceSameStringError>()(
+  "ReplaceSameStringError",
+  {},
+) {}
 
 export type Replacer = (
   content: string,
@@ -490,7 +519,7 @@ export const replace = Effect.fn(function* (
   replaceAll = false,
 ) {
   if (oldString === newString) {
-    return yield* Effect.fail("oldString and newString must be different");
+    return yield* new ReplaceSameStringError();
   }
 
   let notFound = true;
@@ -524,9 +553,7 @@ export const replace = Effect.fn(function* (
   }
 
   if (notFound) {
-    return yield* Effect.fail("oldString not found in content");
+    return yield* new ReplaceNotFoundError({ oldString });
   }
-  return yield* Effect.fail(
-    "Found multiple matches for oldString. Provide more surrounding lines in oldString to identify the correct match.",
-  );
+  return yield* new ReplaceMultipleMatchesError({ oldString });
 });

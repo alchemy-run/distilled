@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Cni
@@ -41,7 +45,11 @@ export interface GetCniResponse {
   magic: { conduitName: string; description: string; mtu: number };
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes: string[];
+    md5Key?: string | null;
+  };
 }
 
 export const GetCniResponse = Schema.Struct({
@@ -58,8 +66,12 @@ export const GetCniResponse = Schema.Struct({
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.JsonName("md5_key")),
+      extraPrefixes: Schema.Array(Schema.String).pipe(
+        T.JsonName("extra_prefixes"),
+      ),
+      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        T.JsonName("md5_key"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<GetCniResponse>;
@@ -85,9 +97,15 @@ export interface ListCnisRequest {
 
 export const ListCnisRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("cursor")),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("limit")),
-  slot: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("slot")),
+  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("cursor"),
+  ),
+  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("limit"),
+  ),
+  slot: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("slot"),
+  ),
   tunnelId: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
     T.HttpQuery("tunnel_id"),
   ),
@@ -103,7 +121,11 @@ export interface ListCnisResponse {
     interconnect: string;
     magic: { conduitName: string; description: string; mtu: number };
     p2pIp: string;
-    bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+    bgp?: {
+      customerAsn: number;
+      extraPrefixes: string[];
+      md5Key?: string | null;
+    };
   }[];
   next?: number | null;
 }
@@ -124,10 +146,12 @@ export const ListCnisResponse = Schema.Struct({
       bgp: Schema.optional(
         Schema.Struct({
           customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-          extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-          md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-            T.JsonName("md5_key"),
+          extraPrefixes: Schema.Array(Schema.String).pipe(
+            T.JsonName("extra_prefixes"),
           ),
+          md5Key: Schema.optional(
+            Schema.Union(Schema.String, Schema.Null),
+          ).pipe(T.JsonName("md5_key")),
         }),
       ),
     }),
@@ -151,7 +175,11 @@ export interface CreateCniRequest {
   /** Body param: */
   magic: { conduitName: string; description: string; mtu: number };
   /** Body param: */
-  bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes: string[];
+    md5Key?: string | null;
+  };
 }
 
 export const CreateCniRequest = Schema.Struct({
@@ -166,8 +194,12 @@ export const CreateCniRequest = Schema.Struct({
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.JsonName("md5_key")),
+      extraPrefixes: Schema.Array(Schema.String).pipe(
+        T.JsonName("extra_prefixes"),
+      ),
+      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        T.JsonName("md5_key"),
+      ),
     }),
   ),
 }).pipe(
@@ -185,7 +217,11 @@ export interface CreateCniResponse {
   magic: { conduitName: string; description: string; mtu: number };
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes: string[];
+    md5Key?: string | null;
+  };
 }
 
 export const CreateCniResponse = Schema.Struct({
@@ -202,8 +238,12 @@ export const CreateCniResponse = Schema.Struct({
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.JsonName("md5_key")),
+      extraPrefixes: Schema.Array(Schema.String).pipe(
+        T.JsonName("extra_prefixes"),
+      ),
+      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        T.JsonName("md5_key"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<CreateCniResponse>;
@@ -231,7 +271,11 @@ export interface UpdateCniRequest {
   /** Body param: Cloudflare end of the point-to-point link */
   p2pIp: string;
   /** Body param: */
-  bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes: string[];
+    md5Key?: string | null;
+  };
 }
 
 export const UpdateCniRequest = Schema.Struct({
@@ -250,8 +294,12 @@ export const UpdateCniRequest = Schema.Struct({
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.JsonName("md5_key")),
+      extraPrefixes: Schema.Array(Schema.String).pipe(
+        T.JsonName("extra_prefixes"),
+      ),
+      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        T.JsonName("md5_key"),
+      ),
     }),
   ),
 }).pipe(
@@ -269,7 +317,11 @@ export interface UpdateCniResponse {
   magic: { conduitName: string; description: string; mtu: number };
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
-  bgp?: { customerAsn: number; extraPrefixes: string[]; md5Key?: string | null };
+  bgp?: {
+    customerAsn: number;
+    extraPrefixes: string[];
+    md5Key?: string | null;
+  };
 }
 
 export const UpdateCniResponse = Schema.Struct({
@@ -286,8 +338,12 @@ export const UpdateCniResponse = Schema.Struct({
   bgp: Schema.optional(
     Schema.Struct({
       customerAsn: Schema.Number.pipe(T.JsonName("customer_asn")),
-      extraPrefixes: Schema.Array(Schema.String).pipe(T.JsonName("extra_prefixes")),
-      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.JsonName("md5_key")),
+      extraPrefixes: Schema.Array(Schema.String).pipe(
+        T.JsonName("extra_prefixes"),
+      ),
+      md5Key: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+        T.JsonName("md5_key"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<UpdateCniResponse>;
@@ -313,7 +369,8 @@ export const DeleteCniRequest = Schema.Struct({
 
 export type DeleteCniResponse = unknown;
 
-export const DeleteCniResponse = Schema.Unknown as unknown as Schema.Schema<DeleteCniResponse>;
+export const DeleteCniResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteCniResponse>;
 
 export const deleteCni = API.make(() => ({
   input: DeleteCniRequest,
@@ -335,7 +392,10 @@ export const GetInterconnectRequest = Schema.Struct({
   icon: Schema.String.pipe(T.HttpPath("icon")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/cni/interconnects/{icon}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cni/interconnects/{icon}",
+  }),
 ) as unknown as Schema.Schema<GetInterconnectRequest>;
 
 export type GetInterconnectResponse =
@@ -430,10 +490,18 @@ export interface ListInterconnectsRequest {
 
 export const ListInterconnectsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("cursor")),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("limit")),
-  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("site")),
-  type: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("type")),
+  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("cursor"),
+  ),
+  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("limit"),
+  ),
+  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("site"),
+  ),
+  type: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("type"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/cni/interconnects" }),
 ) as unknown as Schema.Schema<ListInterconnectsRequest>;
@@ -617,7 +685,10 @@ export const DeleteInterconnectRequest = Schema.Struct({
   icon: Schema.String.pipe(T.HttpPath("icon")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/cni/interconnects/{icon}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/cni/interconnects/{icon}",
+  }),
 ) as unknown as Schema.Schema<DeleteInterconnectRequest>;
 
 export type DeleteInterconnectResponse = unknown;
@@ -641,7 +712,10 @@ export const StatusInterconnectRequest = Schema.Struct({
   icon: Schema.String.pipe(T.HttpPath("icon")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/cni/interconnects/{icon}/status" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cni/interconnects/{icon}/status",
+  }),
 ) as unknown as Schema.Schema<StatusInterconnectRequest>;
 
 export type StatusInterconnectResponse =
@@ -683,7 +757,10 @@ export const LoaInterconnectRequest = Schema.Struct({
   icon: Schema.String.pipe(T.HttpPath("icon")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/cni/interconnects/{icon}/loa" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/cni/interconnects/{icon}/loa",
+  }),
 ) as unknown as Schema.Schema<LoaInterconnectRequest>;
 
 export type LoaInterconnectResponse = unknown;
@@ -822,16 +899,24 @@ export interface ListSlotsRequest {
 
 export const ListSlotsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  addressContains: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.HttpQuery("address_contains"),
+  addressContains: Schema.optional(
+    Schema.Union(Schema.String, Schema.Null),
+  ).pipe(T.HttpQuery("address_contains")),
+  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("cursor"),
   ),
-  cursor: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("cursor")),
-  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(T.HttpQuery("limit")),
+  limit: Schema.optional(Schema.Union(Schema.Number, Schema.Null)).pipe(
+    T.HttpQuery("limit"),
+  ),
   occupied: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
     T.HttpQuery("occupied"),
   ),
-  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("site")),
-  speed: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(T.HttpQuery("speed")),
+  site: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("site"),
+  ),
+  speed: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.HttpQuery("speed"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/cni/slots" }),
 ) as unknown as Schema.Schema<ListSlotsRequest>;

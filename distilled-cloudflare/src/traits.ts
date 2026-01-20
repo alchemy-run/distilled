@@ -27,7 +27,8 @@ export interface Annotation {
 }
 
 function makeAnnotation<T>(sym: symbol, value: T): Annotation {
-  const fn = <A extends Annotatable>(schema: A): A => schema.annotations({ [sym]: value }) as A;
+  const fn = <A extends Annotatable>(schema: A): A =>
+    schema.annotations({ [sym]: value }) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: [{ symbol: sym, value }],
@@ -57,7 +58,8 @@ export function all(...annotations: Annotation[]): Annotation {
     }
   }
 
-  const fn = <A extends Annotatable>(schema: A): A => schema.annotations(raw) as A;
+  const fn = <A extends Annotatable>(schema: A): A =>
+    schema.annotations(raw) as A;
 
   Object.defineProperty(fn, annotationMetaSymbol, {
     value: entries,
@@ -86,11 +88,13 @@ export const HttpPath = (name: string) => makeAnnotation(httpPathSymbol, name);
 
 /** Bind member to a query string parameter */
 export const httpQuerySymbol = Symbol.for("distilled-cloudflare/http-query");
-export const HttpQuery = (name: string) => makeAnnotation(httpQuerySymbol, name);
+export const HttpQuery = (name: string) =>
+  makeAnnotation(httpQuerySymbol, name);
 
 /** Bind member to an HTTP header */
 export const httpHeaderSymbol = Symbol.for("distilled-cloudflare/http-header");
-export const HttpHeader = (name: string) => makeAnnotation(httpHeaderSymbol, name);
+export const HttpHeader = (name: string) =>
+  makeAnnotation(httpHeaderSymbol, name);
 
 /** Bind member to the request/response body */
 export const httpBodySymbol = Symbol.for("distilled-cloudflare/http-body");
@@ -144,7 +148,9 @@ export const JsonName = (name: string) => {
 };
 
 /** Content type for the request body */
-export const httpContentTypeSymbol = Symbol.for("distilled-cloudflare/http-content-type");
+export const httpContentTypeSymbol = Symbol.for(
+  "distilled-cloudflare/http-content-type",
+);
 export const HttpContentType = (contentType: string) =>
   makeAnnotation(httpContentTypeSymbol, contentType);
 
@@ -153,16 +159,22 @@ export const HttpTextBody = (contentType: string = "text/plain") =>
   all(HttpBody(), HttpContentType(contentType));
 
 /** FormData body binding (multipart/form-data) */
-export const httpFormDataSymbol = Symbol.for("distilled-cloudflare/http-form-data");
-export const HttpFormData = () => all(HttpBody(), makeAnnotation(httpFormDataSymbol, true));
+export const httpFormDataSymbol = Symbol.for(
+  "distilled-cloudflare/http-form-data",
+);
+export const HttpFormData = () =>
+  all(HttpBody(), makeAnnotation(httpFormDataSymbol, true));
 
 /** Check if body is FormData */
 export const hasHttpFormData = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpFormDataSymbol);
 
 /** Mark a property as a file/files for multipart form upload */
-export const httpFormDataFileSymbol = Symbol.for("distilled-cloudflare/http-form-data-file");
-export const HttpFormDataFile = () => makeAnnotation(httpFormDataFileSymbol, true);
+export const httpFormDataFileSymbol = Symbol.for(
+  "distilled-cloudflare/http-form-data-file",
+);
+export const HttpFormDataFile = () =>
+  makeAnnotation(httpFormDataFileSymbol, true);
 
 /** Check if property is a file upload */
 export const hasHttpFormDataFile = (prop: AST.PropertySignature): boolean =>
@@ -176,7 +188,9 @@ export const HttpStatus = () => makeAnnotation(httpStatusSymbol, true);
 // Operation-Level Traits
 // =============================================================================
 
-export const httpOperationSymbol = Symbol.for("distilled-cloudflare/http-operation");
+export const httpOperationSymbol = Symbol.for(
+  "distilled-cloudflare/http-operation",
+);
 
 export interface HttpOperationTrait {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
@@ -189,7 +203,8 @@ export interface HttpOperationTrait {
   contentType?: "json" | "multipart";
 }
 
-export const Http = (trait: HttpOperationTrait) => makeAnnotation(httpOperationSymbol, trait);
+export const Http = (trait: HttpOperationTrait) =>
+  makeAnnotation(httpOperationSymbol, trait);
 
 // =============================================================================
 // Service-Level Traits
@@ -202,7 +217,8 @@ export interface ServiceTrait {
   version?: string;
 }
 
-export const Service = (trait: ServiceTrait) => makeAnnotation(serviceSymbol, trait);
+export const Service = (trait: ServiceTrait) =>
+  makeAnnotation(serviceSymbol, trait);
 
 // =============================================================================
 // Pagination Trait
@@ -217,13 +233,17 @@ export interface PaginationTrait {
   pageSize?: string;
 }
 
-export const Pagination = (trait: PaginationTrait) => makeAnnotation(paginationSymbol, trait);
+export const Pagination = (trait: PaginationTrait) =>
+  makeAnnotation(paginationSymbol, trait);
 
 // =============================================================================
 // Annotation Retrieval Helpers
 // =============================================================================
 
-export const getAnnotation = <T>(ast: AST.AST, symbol: symbol): T | undefined => {
+export const getAnnotation = <T>(
+  ast: AST.AST,
+  symbol: symbol,
+): T | undefined => {
   return ast.annotations?.[symbol] as T | undefined;
 };
 
@@ -236,7 +256,10 @@ export const getPropAnnotation = <T>(
   return getAnnotationUnwrap(prop.type, symbol);
 };
 
-export const hasPropAnnotation = (prop: AST.PropertySignature, symbol: symbol): boolean => {
+export const hasPropAnnotation = (
+  prop: AST.PropertySignature,
+  symbol: symbol,
+): boolean => {
   if (prop.annotations?.[symbol] !== undefined) return true;
   return hasAnnotation(prop.type, symbol);
 };
@@ -251,7 +274,8 @@ export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
   if (ast._tag === "Union") {
     const nonNullishTypes = ast.types.filter(
       (t: AST.AST) =>
-        t._tag !== "UndefinedKeyword" && !(t._tag === "Literal" && t.literal === null),
+        t._tag !== "UndefinedKeyword" &&
+        !(t._tag === "Literal" && t.literal === null),
     );
     return nonNullishTypes.some((t: AST.AST) => hasAnnotation(t, symbol));
   }
@@ -265,7 +289,10 @@ export const hasAnnotation = (ast: AST.AST, symbol: symbol): boolean => {
   return false;
 };
 
-export const getAnnotationUnwrap = <T>(ast: AST.AST, symbol: symbol): T | undefined => {
+export const getAnnotationUnwrap = <T>(
+  ast: AST.AST,
+  symbol: symbol,
+): T | undefined => {
   const direct = ast.annotations?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
@@ -282,7 +309,9 @@ export const getAnnotationUnwrap = <T>(ast: AST.AST, symbol: symbol): T | undefi
 
   if (ast._tag === "Union") {
     const nonNullishTypes = ast.types.filter(
-      (t) => t._tag !== "UndefinedKeyword" && !(t._tag === "Literal" && t.literal === null),
+      (t) =>
+        t._tag !== "UndefinedKeyword" &&
+        !(t._tag === "Literal" && t.literal === null),
     );
     if (nonNullishTypes.length === 1) {
       return getAnnotationUnwrap(nonNullishTypes[0]!, symbol);
@@ -302,14 +331,16 @@ export const getHttpPath = (prop: AST.PropertySignature): string | undefined =>
 export const getHttpQuery = (prop: AST.PropertySignature): string | undefined =>
   getPropAnnotation<string>(prop, httpQuerySymbol);
 
-export const getHttpHeader = (prop: AST.PropertySignature): string | undefined =>
-  getPropAnnotation<string>(prop, httpHeaderSymbol);
+export const getHttpHeader = (
+  prop: AST.PropertySignature,
+): string | undefined => getPropAnnotation<string>(prop, httpHeaderSymbol);
 
 export const hasHttpBody = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpBodySymbol);
 
-export const getHttpContentType = (prop: AST.PropertySignature): string | undefined =>
-  getPropAnnotation<string>(prop, httpContentTypeSymbol);
+export const getHttpContentType = (
+  prop: AST.PropertySignature,
+): string | undefined => getPropAnnotation<string>(prop, httpContentTypeSymbol);
 
 export const hasHttpStatus = (prop: AST.PropertySignature): boolean =>
   hasPropAnnotation(prop, httpStatusSymbol);
@@ -318,7 +349,9 @@ export const hasHttpStatus = (prop: AST.PropertySignature): boolean =>
 // Operation Trait Helpers
 // =============================================================================
 
-export const getHttpOperation = (ast: AST.AST): HttpOperationTrait | undefined =>
+export const getHttpOperation = (
+  ast: AST.AST,
+): HttpOperationTrait | undefined =>
   getAnnotationUnwrap<HttpOperationTrait>(ast, httpOperationSymbol);
 
 export const getService = (ast: AST.AST): ServiceTrait | undefined =>
@@ -347,19 +380,30 @@ export const isStreamingType = (ast: AST.AST): boolean => {
 // =============================================================================
 
 /** Error code trait - matches against Cloudflare error code in response */
-export const httpErrorCodeSymbol = Symbol.for("distilled-cloudflare/http-error-code");
-export const HttpErrorCode = (code: number) => makeAnnotation(httpErrorCodeSymbol, code);
+export const httpErrorCodeSymbol = Symbol.for(
+  "distilled-cloudflare/http-error-code",
+);
+export const HttpErrorCode = (code: number) =>
+  makeAnnotation(httpErrorCodeSymbol, code);
 
 /** Error codes trait - matches against multiple Cloudflare error codes */
-export const httpErrorCodesSymbol = Symbol.for("distilled-cloudflare/http-error-codes");
-export const HttpErrorCodes = (codes: number[]) => makeAnnotation(httpErrorCodesSymbol, codes);
+export const httpErrorCodesSymbol = Symbol.for(
+  "distilled-cloudflare/http-error-codes",
+);
+export const HttpErrorCodes = (codes: number[]) =>
+  makeAnnotation(httpErrorCodesSymbol, codes);
 
 /** Error HTTP status trait - matches against HTTP status code */
-export const httpErrorStatusSymbol = Symbol.for("distilled-cloudflare/http-error-status");
-export const HttpErrorStatus = (status: number) => makeAnnotation(httpErrorStatusSymbol, status);
+export const httpErrorStatusSymbol = Symbol.for(
+  "distilled-cloudflare/http-error-status",
+);
+export const HttpErrorStatus = (status: number) =>
+  makeAnnotation(httpErrorStatusSymbol, status);
 
 /** Error message pattern trait - matches if message contains this substring */
-export const httpErrorMessageSymbol = Symbol.for("distilled-cloudflare/http-error-message");
+export const httpErrorMessageSymbol = Symbol.for(
+  "distilled-cloudflare/http-error-message",
+);
 export const HttpErrorMessage = (pattern: string) =>
   makeAnnotation(httpErrorMessageSymbol, pattern);
 
@@ -387,7 +431,8 @@ export const getHttpErrorMessage = (ast: AST.AST): string | undefined =>
 export const httpMultipartResponseSymbol = Symbol.for(
   "distilled-cloudflare/http-multipart-response",
 );
-export const HttpMultipartResponse = () => makeAnnotation(httpMultipartResponseSymbol, true);
+export const HttpMultipartResponse = () =>
+  makeAnnotation(httpMultipartResponseSymbol, true);
 
 export const getHttpMultipartResponse = (ast: AST.AST): boolean | undefined =>
   getAnnotationUnwrap<boolean>(ast, httpMultipartResponseSymbol);

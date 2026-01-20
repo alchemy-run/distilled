@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Address
@@ -24,7 +28,9 @@ export interface GetAddressRequest {
 }
 
 export const GetAddressRequest = Schema.Struct({
-  destinationAddressIdentifier: Schema.String.pipe(T.HttpPath("destinationAddressIdentifier")),
+  destinationAddressIdentifier: Schema.String.pipe(
+    T.HttpPath("destinationAddressIdentifier"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -74,7 +80,10 @@ export const CreateAddressRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   email: Schema.String,
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/email/routing/addresses" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/email/routing/addresses",
+  }),
 ) as unknown as Schema.Schema<CreateAddressRequest>;
 
 export interface CreateAddressResponse {
@@ -114,7 +123,9 @@ export interface DeleteAddressRequest {
 }
 
 export const DeleteAddressRequest = Schema.Struct({
-  destinationAddressIdentifier: Schema.String.pipe(T.HttpPath("destinationAddressIdentifier")),
+  destinationAddressIdentifier: Schema.String.pipe(
+    T.HttpPath("destinationAddressIdentifier"),
+  ),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -186,8 +197,16 @@ export type GetDnsResponse =
         source?: { pointer?: string };
       }[];
       success: true;
-      result?: { errors?: { code?: string; missing?: unknown }[]; record?: unknown[] };
-      resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+      result?: {
+        errors?: { code?: string; missing?: unknown }[];
+        record?: unknown[];
+      };
+      resultInfo?: {
+        count?: number;
+        page?: number;
+        perPage?: number;
+        totalCount?: number;
+      };
     }
   | {
       errors: {
@@ -204,7 +223,12 @@ export type GetDnsResponse =
       }[];
       success: true;
       result?: unknown[];
-      resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+      resultInfo?: {
+        count?: number;
+        page?: number;
+        perPage?: number;
+        totalCount?: number;
+      };
     };
 
 export const GetDnsResponse = Schema.Union(
@@ -213,7 +237,9 @@ export const GetDnsResponse = Schema.Union(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+        documentationUrl: Schema.optional(Schema.String).pipe(
+          T.JsonName("documentation_url"),
+        ),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
@@ -225,7 +251,9 @@ export const GetDnsResponse = Schema.Union(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+        documentationUrl: Schema.optional(Schema.String).pipe(
+          T.JsonName("documentation_url"),
+        ),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
@@ -252,7 +280,9 @@ export const GetDnsResponse = Schema.Union(
         count: Schema.optional(Schema.Number),
         page: Schema.optional(Schema.Number),
         perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-        totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+        totalCount: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_count"),
+        ),
       }),
     ).pipe(T.JsonName("result_info")),
   }),
@@ -261,7 +291,9 @@ export const GetDnsResponse = Schema.Union(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+        documentationUrl: Schema.optional(Schema.String).pipe(
+          T.JsonName("documentation_url"),
+        ),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
@@ -273,7 +305,9 @@ export const GetDnsResponse = Schema.Union(
       Schema.Struct({
         code: Schema.Number,
         message: Schema.String,
-        documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+        documentationUrl: Schema.optional(Schema.String).pipe(
+          T.JsonName("documentation_url"),
+        ),
         source: Schema.optional(
           Schema.Struct({
             pointer: Schema.optional(Schema.String),
@@ -288,7 +322,9 @@ export const GetDnsResponse = Schema.Union(
         count: Schema.optional(Schema.Number),
         page: Schema.optional(Schema.Number),
         perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-        totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+        totalCount: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_count"),
+        ),
       }),
     ).pipe(T.JsonName("result_info")),
   }),
@@ -316,7 +352,8 @@ export const CreateDnsRequest = Schema.Struct({
 
 export type CreateDnsResponse = unknown;
 
-export const CreateDnsResponse = Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
+export const CreateDnsResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateDnsResponse>;
 
 export const createDns = API.make(() => ({
   input: CreateDnsRequest,
@@ -340,7 +377,8 @@ export const PatchDnsRequest = Schema.Struct({
 
 export type PatchDnsResponse = unknown;
 
-export const PatchDnsResponse = Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
+export const PatchDnsResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchDnsResponse>;
 
 export const patchDns = API.make(() => ({
   input: PatchDnsRequest,
@@ -377,7 +415,12 @@ export interface GetEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -388,9 +431,17 @@ export const GetEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(T.JsonName("skip_wizard")),
+  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(
+    T.JsonName("skip_wizard"),
+  ),
   status: Schema.optional(
-    Schema.Literal("ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"),
+    Schema.Literal(
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ),
   ),
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetEmailRoutingResponse>;
@@ -429,7 +480,12 @@ export interface EnableEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -440,9 +496,17 @@ export const EnableEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(T.JsonName("skip_wizard")),
+  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(
+    T.JsonName("skip_wizard"),
+  ),
   status: Schema.optional(
-    Schema.Literal("ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"),
+    Schema.Literal(
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ),
   ),
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<EnableEmailRoutingResponse>;
@@ -481,7 +545,12 @@ export interface DisableEmailRoutingResponse {
   /** Flag to check if the user skipped the configuration wizard. */
   skipWizard?: true | false;
   /** Show the state of your account, and the type or configuration error. */
-  status?: "ready" | "unconfigured" | "misconfigured" | "misconfigured/locked" | "unlocked";
+  status?:
+    | "ready"
+    | "unconfigured"
+    | "misconfigured"
+    | "misconfigured/locked"
+    | "unlocked";
   /** @deprecated Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
   tag?: string;
 }
@@ -492,9 +561,17 @@ export const DisableEmailRoutingResponse = Schema.Struct({
   name: Schema.String,
   created: Schema.optional(Schema.String),
   modified: Schema.optional(Schema.String),
-  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(T.JsonName("skip_wizard")),
+  skipWizard: Schema.optional(Schema.Literal(true, false)).pipe(
+    T.JsonName("skip_wizard"),
+  ),
   status: Schema.optional(
-    Schema.Literal("ready", "unconfigured", "misconfigured", "misconfigured/locked", "unlocked"),
+    Schema.Literal(
+      "ready",
+      "unconfigured",
+      "misconfigured",
+      "misconfigured/locked",
+      "unlocked",
+    ),
   ),
   tag: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DisableEmailRoutingResponse>;
@@ -519,7 +596,10 @@ export const GetRuleRequest = Schema.Struct({
   ruleIdentifier: Schema.String.pipe(T.HttpPath("ruleIdentifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
 ) as unknown as Schema.Schema<GetRuleRequest>;
 
 export interface GetRuleResponse {
@@ -691,7 +771,10 @@ export const UpdateRuleRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   priority: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
 ) as unknown as Schema.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
@@ -752,7 +835,10 @@ export const DeleteRuleRequest = Schema.Struct({
   ruleIdentifier: Schema.String.pipe(T.HttpPath("ruleIdentifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/email/routing/rules/{ruleIdentifier}",
+  }),
 ) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
@@ -815,7 +901,10 @@ export interface GetRuleCatchAllRequest {
 export const GetRuleCatchAllRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/email/routing/rules/catch_all" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/email/routing/rules/catch_all",
+  }),
 ) as unknown as Schema.Schema<GetRuleCatchAllRequest>;
 
 export interface GetRuleCatchAllResponse {
@@ -890,7 +979,10 @@ export const PutRuleCatchAllRequest = Schema.Struct({
   enabled: Schema.optional(Schema.Literal(true, false)),
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/email/routing/rules/catch_all" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/email/routing/rules/catch_all",
+  }),
 ) as unknown as Schema.Schema<PutRuleCatchAllRequest>;
 
 export interface PutRuleCatchAllResponse {

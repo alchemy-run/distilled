@@ -1,130 +1,67 @@
 {
   "operations": {
     "getTopicAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "deleteTopic": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "setTopicAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "subscribe": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "tagResource": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "untagResource": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "listTagsForResource": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "getDataProtectionPolicy": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "putDataProtectionPolicy": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "addPermission": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "removePermission": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "getPlatformApplicationAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "deletePlatformApplication": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "createPlatformEndpoint": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "setPlatformApplicationAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "listSubscriptionsByTopic": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "listEndpointsByPlatformApplication": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "publish": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "getEndpointAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "setEndpointAttributes": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     },
     "deleteEndpoint": {
-      "errors": [
-        "RequestLimitExceeded",
-        "InvalidClientTokenId"
-      ]
+      "errors": ["RequestLimitExceeded", "InvalidClientTokenId"]
     }
   }
 }

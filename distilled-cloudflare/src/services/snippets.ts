@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Content
@@ -27,12 +31,16 @@ export const GetContentRequest = Schema.Struct({
   snippetName: Schema.String.pipe(T.HttpPath("snippetName")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/snippets/{snippetName}/content" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/snippets/{snippetName}/content",
+  }),
 ) as unknown as Schema.Schema<GetContentRequest>;
 
 export type GetContentResponse = unknown;
 
-export const GetContentResponse = Schema.Unknown as unknown as Schema.Schema<GetContentResponse>;
+export const GetContentResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetContentResponse>;
 
 export const getContent = API.make(() => ({
   input: GetContentRequest,

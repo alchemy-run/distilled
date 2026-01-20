@@ -55,11 +55,12 @@ Example use cases:
   dependencies: [LanguageModel.LanguageModel],
   parameters: {
     tasks: S.Array(SubAgentTaskInput).annotations({
-      description: "Array of tasks to run in parallel. Each task gets its own sub-agent.",
+      description:
+        "Array of tasks to run in parallel. Each task gets its own sub-agent.",
     }),
   },
   success: S.Array(SubAgentResultSchema),
-  failure: S.Any,
+  failure: S.Never,
 });
 
 export const spawnToolkit = Toolkit.make(spawn);
@@ -67,37 +68,45 @@ export const spawnToolkit = Toolkit.make(spawn);
 export const spawnToolkitLayer = spawnToolkit.toLayer(
   Effect.gen(function* () {
     return {
-      spawn: ({ tasks }: { tasks: readonly { id: string; prompt: string }[] }) =>
+      spawn: ({
+        tasks,
+      }: {
+        tasks: readonly { id: string; prompt: string }[];
+      }) =>
         Effect.gen(function* () {
           // Run all tasks in parallel
           const results: SubAgentResult[] = yield* Effect.all(
             tasks.map((task) =>
               Effect.gen(function* () {
-                const result: SubAgentResult = yield* LanguageModel.generateText({
-                  prompt: task.prompt,
-                }).pipe(
-                  Effect.map((response): SubAgentResult => ({
-                    id: task.id,
-                    status: "success",
-                    result: response.text,
-                  })),
-                  Effect.catchAll((error): Effect.Effect<SubAgentResult> =>
-                    Effect.succeed({
-                      id: task.id,
-                      status: "error",
-                      error: String(error),
-                    })
-                  )
-                );
+                const result: SubAgentResult =
+                  yield* LanguageModel.generateText({
+                    prompt: task.prompt,
+                  }).pipe(
+                    Effect.map(
+                      (response): SubAgentResult => ({
+                        id: task.id,
+                        status: "success",
+                        result: response.text,
+                      }),
+                    ),
+                    Effect.catchAll(
+                      (error): Effect.Effect<SubAgentResult> =>
+                        Effect.succeed({
+                          id: task.id,
+                          status: "error",
+                          error: String(error),
+                        }),
+                    ),
+                  );
 
                 return result;
-              })
+              }),
             ),
-            { concurrency: "unbounded" }
+            { concurrency: "unbounded" },
           );
 
           return results;
         }),
     };
-  })
+  }),
 );

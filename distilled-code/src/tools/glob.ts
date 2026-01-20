@@ -1,11 +1,11 @@
 import { Tool, Toolkit } from "@effect/ai";
-import * as Option from "effect/Option";
-import * as S from "effect/Schema";
-import * as Effect from "effect/Effect";
+import { CommandExecutor } from "@effect/platform/CommandExecutor";
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Path from "@effect/platform/Path";
+import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
+import * as S from "effect/Schema";
 import * as Ripgrep from "../util/ripgrep.ts";
-import { CommandExecutor } from "@effect/platform/CommandExecutor";
 
 export const glob = Tool.make("glob", {
   description: `- Fast file pattern matching tool that works with any codebase size
@@ -25,7 +25,7 @@ export const glob = Tool.make("glob", {
     }),
   },
   success: S.String,
-  failure: S.Any,
+  failure: S.Never,
 });
 
 export const globTooklit = Toolkit.make(glob);
@@ -35,36 +35,48 @@ export const globTooklitLayer = globTooklit.toLayer(
     const path = yield* Path.Path;
     const fs = yield* FileSystem.FileSystem;
     return {
-      glob: Effect.fn(function* (params) {
-        let searchPath = params.path || process.cwd();
-        searchPath = path.isAbsolute(searchPath)
-          ? searchPath
-          : path.resolve(process.cwd(), searchPath);
-        const files: { path: string; mtime: number }[] = [];
-        const limit = 100;
-        let truncated = false;
-        for (const filePath of yield* Ripgrep.findFiles({
-          cwd: searchPath,
-          glob: [params.pattern],
-        })) {
-          if (files.length >= limit) {
-            truncated = true;
-            break;
+      glob: (params: { readonly pattern: string; readonly path?: string }) =>
+        Effect.gen(function* () {
+          yield* Effect.logDebug(
+            `[glob] pattern=${params.pattern} path=${params.path}`,
+          );
+
+          let searchPath = params.path || process.cwd();
+          searchPath = path.isAbsolute(searchPath)
+            ? searchPath
+            : path.resolve(process.cwd(), searchPath);
+          const files: { path: string; mtime: number }[] = [];
+          const limit = 100;
+          let truncated = false;
+          for (const filePath of yield* Ripgrep.findFiles({
+            cwd: searchPath,
+            glob: [params.pattern],
+          })) {
+            if (files.length >= limit) {
+              truncated = true;
+              break;
+            }
+            const stats = yield* fs
+              .stat(filePath)
+              .pipe(Effect.catchAll(() => Effect.succeed(null)));
+            if (!stats) continue;
+            files.push({
+              path: filePath,
+              mtime: stats.mtime.pipe(Option.getOrUndefined)?.getTime() || 0,
+            });
           }
-          const stats = yield* fs.stat(filePath);
-          if (!stats) continue;
-          files.push({
-            path: filePath,
-            mtime: stats.mtime.pipe(Option.getOrUndefined)?.getTime() || 0,
-          });
-        }
-        files.sort((a, b) => b.mtime - a.mtime);
-        const output = files.map((f) => f.path);
-        if (truncated) {
-          return `${output.join("\n")}\n\n(${output.length} files found. Results are truncated, consider using a more specific pattern.)`;
-        }
-        return output.join("\n");
-      }),
+          files.sort((a, b) => b.mtime - a.mtime);
+          const output = files.map((f) => f.path);
+          if (output.length === 0) {
+            return `No files found matching pattern "${params.pattern}" in ${searchPath}`;
+          }
+          if (truncated) {
+            return `${output.join("\n")}\n\n(${output.length} files found. Results are truncated, consider using a more specific pattern.)`;
+          }
+          return output.join("\n");
+        }).pipe(
+          Effect.catchAll((e) => Effect.succeed(`Glob search failed: ${e}`)),
+        ),
     };
   }),
 );

@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AbuseReport
@@ -24,7 +28,10 @@ export interface CreateAbuseReportRequest {
 export const CreateAbuseReportRequest = Schema.Struct({
   reportType: Schema.String.pipe(T.HttpPath("reportType")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/abuse-reports/{reportType}" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/abuse-reports/{reportType}",
+  }),
 ) as unknown as Schema.Schema<CreateAbuseReportRequest>;
 
 export type CreateAbuseReportResponse = string;

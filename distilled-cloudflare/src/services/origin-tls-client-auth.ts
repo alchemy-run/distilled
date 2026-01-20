@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Hostname
@@ -27,7 +31,10 @@ export const GetHostnameRequest = Schema.Struct({
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/origin_tls_client_auth/hostnames/{hostname}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/origin_tls_client_auth/hostnames/{hostname}",
+  }),
 ) as unknown as Schema.Schema<GetHostnameRequest>;
 
 export interface GetHostnameResponse {
@@ -88,15 +95,21 @@ export const GetHostnameResponse = Schema.Struct({
       "deletion_timed_out",
     ),
   ).pipe(T.JsonName("cert_status")),
-  certUpdatedAt: Schema.optional(Schema.String).pipe(T.JsonName("cert_updated_at")),
-  certUploadedOn: Schema.optional(Schema.String).pipe(T.JsonName("cert_uploaded_on")),
+  certUpdatedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("cert_updated_at"),
+  ),
+  certUploadedOn: Schema.optional(Schema.String).pipe(
+    T.JsonName("cert_uploaded_on"),
+  ),
   certificate: Schema.optional(Schema.String),
   createdAt: Schema.optional(Schema.String).pipe(T.JsonName("created_at")),
   enabled: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   hostname: Schema.optional(Schema.String),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literal(
@@ -169,7 +182,9 @@ export const GetHostnameCertificateResponse = Schema.Struct({
   certificate: Schema.optional(Schema.String),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literal(
@@ -242,7 +257,9 @@ export const CreateHostnameCertificateResponse = Schema.Struct({
   certificate: Schema.optional(Schema.String),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literal(
@@ -311,7 +328,9 @@ export const DeleteHostnameCertificateResponse = Schema.Struct({
   certificate: Schema.optional(Schema.String),
   expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
   issuer: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String).pipe(T.JsonName("serial_number")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
   signature: Schema.optional(Schema.String),
   status: Schema.optional(
     Schema.Literal(
@@ -347,7 +366,10 @@ export const GetOriginTlsClientAuthRequest = Schema.Struct({
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/origin_tls_client_auth/{certificateId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/origin_tls_client_auth/{certificateId}",
+  }),
 ) as unknown as Schema.Schema<GetOriginTlsClientAuthRequest>;
 
 export interface GetOriginTlsClientAuthResponse {
@@ -425,7 +447,10 @@ export const DeleteOriginTlsClientAuthRequest = Schema.Struct({
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/origin_tls_client_auth/{certificateId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/origin_tls_client_auth/{certificateId}",
+  }),
 ) as unknown as Schema.Schema<DeleteOriginTlsClientAuthRequest>;
 
 export interface DeleteOriginTlsClientAuthResponse {
@@ -464,7 +489,10 @@ export interface GetSettingRequest {
 export const GetSettingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/origin_tls_client_auth/settings" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/origin_tls_client_auth/settings",
+  }),
 ) as unknown as Schema.Schema<GetSettingRequest>;
 
 export interface GetSettingResponse {
@@ -493,7 +521,10 @@ export const PutSettingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.Boolean,
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/origin_tls_client_auth/settings" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/origin_tls_client_auth/settings",
+  }),
 ) as unknown as Schema.Schema<PutSettingRequest>;
 
 export interface PutSettingResponse {

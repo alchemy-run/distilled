@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // PageRule
@@ -43,7 +47,11 @@ export interface GetPageRuleResponse {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -57,7 +65,10 @@ export interface GetPageRuleResponse {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -103,17 +114,17 @@ export const GetPageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -126,16 +137,24 @@ export const GetPageRuleResponse = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -204,7 +223,13 @@ export const GetPageRuleResponse = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),
@@ -234,10 +259,18 @@ export interface ListPageRulesRequest {
 
 export const ListPageRulesRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  direction: Schema.optional(Schema.Literal("asc", "desc")).pipe(T.HttpQuery("direction")),
-  match: Schema.optional(Schema.Literal("any", "all")).pipe(T.HttpQuery("match")),
-  order: Schema.optional(Schema.Literal("status", "priority")).pipe(T.HttpQuery("order")),
-  status: Schema.optional(Schema.Literal("active", "disabled")).pipe(T.HttpQuery("status")),
+  direction: Schema.optional(Schema.Literal("asc", "desc")).pipe(
+    T.HttpQuery("direction"),
+  ),
+  match: Schema.optional(Schema.Literal("any", "all")).pipe(
+    T.HttpQuery("match"),
+  ),
+  order: Schema.optional(Schema.Literal("status", "priority")).pipe(
+    T.HttpQuery("order"),
+  ),
+  status: Schema.optional(Schema.Literal("active", "disabled")).pipe(
+    T.HttpQuery("status"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/pagerules" }),
 ) as unknown as Schema.Schema<ListPageRulesRequest>;
@@ -253,7 +286,11 @@ export type ListPageRulesResponse = {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -267,7 +304,10 @@ export type ListPageRulesResponse = {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -309,17 +349,17 @@ export const ListPageRulesResponse = Schema.Array(
             Schema.Struct({
               cookie: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                    T.JsonName("check_presence"),
-                  ),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   include: Schema.optional(Schema.Array(Schema.String)),
                 }),
               ),
               header: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                    T.JsonName("check_presence"),
-                  ),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   exclude: Schema.optional(Schema.Array(Schema.String)),
                   include: Schema.optional(Schema.Array(Schema.String)),
                 }),
@@ -332,16 +372,24 @@ export const ListPageRulesResponse = Schema.Array(
               queryString: Schema.optional(
                 Schema.Struct({
                   exclude: Schema.optional(
-                    Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                    Schema.Union(
+                      Schema.Literal("*"),
+                      Schema.Array(Schema.String),
+                    ),
                   ),
                   include: Schema.optional(
-                    Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                    Schema.Union(
+                      Schema.Literal("*"),
+                      Schema.Array(Schema.String),
+                    ),
                   ),
                 }),
               ).pipe(T.JsonName("query_string")),
               user: Schema.optional(
                 Schema.Struct({
-                  deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                  deviceType: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("device_type"),
+                  ),
                   geo: Schema.optional(Schema.Boolean),
                   lang: Schema.optional(Schema.Boolean),
                 }),
@@ -410,7 +458,13 @@ export const ListPageRulesResponse = Schema.Array(
       Schema.Struct({
         constraint: Schema.optional(
           Schema.Struct({
-            operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+            operator: Schema.Literal(
+              "matches",
+              "contains",
+              "equals",
+              "not_equal",
+              "not_contain",
+            ),
             value: Schema.String,
           }),
         ),
@@ -439,7 +493,11 @@ export interface CreatePageRuleRequest {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -453,7 +511,10 @@ export interface CreatePageRuleRequest {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -495,17 +556,17 @@ export const CreatePageRuleRequest = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -518,16 +579,24 @@ export const CreatePageRuleRequest = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -592,7 +661,13 @@ export const CreatePageRuleRequest = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),
@@ -618,7 +693,11 @@ export interface CreatePageRuleResponse {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -632,7 +711,10 @@ export interface CreatePageRuleResponse {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -678,17 +760,17 @@ export const CreatePageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -701,16 +783,24 @@ export const CreatePageRuleResponse = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -779,7 +869,13 @@ export const CreatePageRuleResponse = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),
@@ -808,7 +904,11 @@ export interface UpdatePageRuleRequest {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -822,7 +922,10 @@ export interface UpdatePageRuleRequest {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -865,17 +968,17 @@ export const UpdatePageRuleRequest = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -888,16 +991,24 @@ export const UpdatePageRuleRequest = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -962,7 +1073,13 @@ export const UpdatePageRuleRequest = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),
@@ -988,7 +1105,11 @@ export interface UpdatePageRuleResponse {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -1002,7 +1123,10 @@ export interface UpdatePageRuleResponse {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -1048,17 +1172,17 @@ export const UpdatePageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -1071,16 +1195,24 @@ export const UpdatePageRuleResponse = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -1149,7 +1281,13 @@ export const UpdatePageRuleResponse = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),
@@ -1178,7 +1316,11 @@ export interface PatchPageRuleRequest {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -1192,7 +1334,10 @@ export interface PatchPageRuleRequest {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -1236,17 +1381,17 @@ export const PatchPageRuleRequest = Schema.Struct({
             Schema.Struct({
               cookie: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                    T.JsonName("check_presence"),
-                  ),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   include: Schema.optional(Schema.Array(Schema.String)),
                 }),
               ),
               header: Schema.optional(
                 Schema.Struct({
-                  checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                    T.JsonName("check_presence"),
-                  ),
+                  checkPresence: Schema.optional(
+                    Schema.Array(Schema.String),
+                  ).pipe(T.JsonName("check_presence")),
                   exclude: Schema.optional(Schema.Array(Schema.String)),
                   include: Schema.optional(Schema.Array(Schema.String)),
                 }),
@@ -1259,16 +1404,24 @@ export const PatchPageRuleRequest = Schema.Struct({
               queryString: Schema.optional(
                 Schema.Struct({
                   exclude: Schema.optional(
-                    Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                    Schema.Union(
+                      Schema.Literal("*"),
+                      Schema.Array(Schema.String),
+                    ),
                   ),
                   include: Schema.optional(
-                    Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                    Schema.Union(
+                      Schema.Literal("*"),
+                      Schema.Array(Schema.String),
+                    ),
                   ),
                 }),
               ).pipe(T.JsonName("query_string")),
               user: Schema.optional(
                 Schema.Struct({
-                  deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                  deviceType: Schema.optional(Schema.Boolean).pipe(
+                    T.JsonName("device_type"),
+                  ),
                   geo: Schema.optional(Schema.Boolean),
                   lang: Schema.optional(Schema.Boolean),
                 }),
@@ -1337,7 +1490,13 @@ export const PatchPageRuleRequest = Schema.Struct({
       Schema.Struct({
         constraint: Schema.optional(
           Schema.Struct({
-            operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+            operator: Schema.Literal(
+              "matches",
+              "contains",
+              "equals",
+              "not_equal",
+              "not_contain",
+            ),
             value: Schema.String,
           }),
         ),
@@ -1362,7 +1521,11 @@ export interface PatchPageRuleResponse {
         id?: "cache_key_fields";
         value?: {
           cookie?: { checkPresence?: string[]; include?: string[] };
-          header?: { checkPresence?: string[]; exclude?: string[]; include?: string[] };
+          header?: {
+            checkPresence?: string[];
+            exclude?: string[];
+            include?: string[];
+          };
           host?: { resolved?: boolean };
           queryString?: { exclude?: "*" | string[]; include?: "*" | string[] };
           user?: { deviceType?: boolean; geo?: boolean; lang?: boolean };
@@ -1376,7 +1539,10 @@ export interface PatchPageRuleResponse {
     | { id?: "disable_zaraz" }
     | { id?: "edge_cache_ttl"; value?: number }
     | { id?: "explicit_cache_control"; value?: "on" | "off" }
-    | { id?: "forwarding_url"; value?: { statusCode?: "301" | "302"; url?: string } }
+    | {
+        id?: "forwarding_url";
+        value?: { statusCode?: "301" | "302"; url?: string };
+      }
     | { id?: "host_header_override"; value?: string }
     | { id?: "resolve_override"; value?: string }
     | { id?: "respect_strong_etag"; value?: "on" | "off" }
@@ -1422,17 +1588,17 @@ export const PatchPageRuleResponse = Schema.Struct({
           Schema.Struct({
             cookie: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
             ),
             header: Schema.optional(
               Schema.Struct({
-                checkPresence: Schema.optional(Schema.Array(Schema.String)).pipe(
-                  T.JsonName("check_presence"),
-                ),
+                checkPresence: Schema.optional(
+                  Schema.Array(Schema.String),
+                ).pipe(T.JsonName("check_presence")),
                 exclude: Schema.optional(Schema.Array(Schema.String)),
                 include: Schema.optional(Schema.Array(Schema.String)),
               }),
@@ -1445,16 +1611,24 @@ export const PatchPageRuleResponse = Schema.Struct({
             queryString: Schema.optional(
               Schema.Struct({
                 exclude: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
                 include: Schema.optional(
-                  Schema.Union(Schema.Literal("*"), Schema.Array(Schema.String)),
+                  Schema.Union(
+                    Schema.Literal("*"),
+                    Schema.Array(Schema.String),
+                  ),
                 ),
               }),
             ).pipe(T.JsonName("query_string")),
             user: Schema.optional(
               Schema.Struct({
-                deviceType: Schema.optional(Schema.Boolean).pipe(T.JsonName("device_type")),
+                deviceType: Schema.optional(Schema.Boolean).pipe(
+                  T.JsonName("device_type"),
+                ),
                 geo: Schema.optional(Schema.Boolean),
                 lang: Schema.optional(Schema.Boolean),
               }),
@@ -1523,7 +1697,13 @@ export const PatchPageRuleResponse = Schema.Struct({
     Schema.Struct({
       constraint: Schema.optional(
         Schema.Struct({
-          operator: Schema.Literal("matches", "contains", "equals", "not_equal", "not_contain"),
+          operator: Schema.Literal(
+            "matches",
+            "contains",
+            "equals",
+            "not_equal",
+            "not_contain",
+          ),
           value: Schema.String,
         }),
       ),

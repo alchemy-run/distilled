@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Respon
@@ -27,12 +31,16 @@ export const GetResponsRequest = Schema.Struct({
   responseId: Schema.String.pipe(T.HttpPath("responseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/responses/{responseId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/responses/{responseId}",
+  }),
 ) as unknown as Schema.Schema<GetResponsRequest>;
 
 export type GetResponsResponse = unknown;
 
-export const GetResponsResponse = Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
+export const GetResponsResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
 
 export const getRespons = API.make(() => ({
   input: GetResponsRequest,
@@ -54,12 +62,17 @@ export const GetScanRequest = Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/result/{scanId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/result/{scanId}",
+  }),
 ) as unknown as Schema.Schema<GetScanRequest>;
 
 export interface GetScanResponse {
   data: {
-    console: { message: { level: string; source: string; text: string; url: string } }[];
+    console: {
+      message: { level: string; source: string; text: string; url: string };
+    }[];
     cookies: {
       domain: string;
       expires: number;
@@ -77,7 +90,12 @@ export interface GetScanResponse {
     }[];
     globals: { prop: string; type: string }[];
     links: { href: string; text: string }[];
-    performance: { duration: number; entryType: string; name: string; startTime: number }[];
+    performance: {
+      duration: number;
+      entryType: string;
+      name: string;
+      startTime: number;
+    }[];
     requests: {
       request: {
         initialPriority: string;
@@ -166,7 +184,12 @@ export interface GetScanResponse {
   };
   lists: {
     asns: string[];
-    certificates: { issuer: string; subjectName: string; validFrom: number; validTo: number }[];
+    certificates: {
+      issuer: string;
+      subjectName: string;
+      validFrom: number;
+      validTo: number;
+    }[];
     continents: string[];
     countries: string[];
     domains: string[];
@@ -179,10 +202,25 @@ export interface GetScanResponse {
   meta: {
     processors: {
       asn: {
-        data: { asn: string; country: string; description: string; ip: string; name: string }[];
+        data: {
+          asn: string;
+          country: string;
+          description: string;
+          ip: string;
+          name: string;
+        }[];
       };
-      dns: { data: { address: string; dnssecValid: boolean; name: string; type: string }[] };
-      domainCategories: { data: { inherited: unknown; isPrimary: boolean; name: string }[] };
+      dns: {
+        data: {
+          address: string;
+          dnssecValid: boolean;
+          name: string;
+          type: string;
+        }[];
+      };
+      domainCategories: {
+        data: { inherited: unknown; isPrimary: boolean; name: string }[];
+      };
       geoip: {
         data: {
           geoip: {
@@ -196,12 +234,19 @@ export interface GetScanResponse {
         }[];
       };
       phishing: { data: string[] };
-      radarRank: { data: { bucket: string; hostname: string; rank?: number }[] };
+      radarRank: {
+        data: { bucket: string; hostname: string; rank?: number }[];
+      };
       wappa: {
         data: {
           app: string;
           categories: { name: string; priority: number }[];
-          confidence: { confidence: number; name: string; pattern: string; patternType: string }[];
+          confidence: {
+            confidence: number;
+            name: string;
+            pattern: string;
+            patternType: string;
+          }[];
           confidenceTotal: number;
           icon: string;
           website: string;
@@ -238,7 +283,12 @@ export interface GetScanResponse {
     tlsValidDays: number;
     tlsValidFrom: string;
     url: string;
-    screenshot?: { dhash: string; mm3Hash: number; name: string; phash: string };
+    screenshot?: {
+      dhash: string;
+      mm3Hash: number;
+      name: string;
+      phash: string;
+    };
   };
   scanner: { colo: string; country: string };
   stats: {
@@ -265,7 +315,13 @@ export interface GetScanResponse {
       countries: string[];
       domains: string[];
       encodedSize: number;
-      geoip: { city: string; country: string; countryName: string; ll: number[]; region: string };
+      geoip: {
+        city: string;
+        country: string;
+        countryName: string;
+        ll: number[];
+        region: string;
+      };
       index: number;
       ip: string;
       ipv6: boolean;
@@ -333,7 +389,12 @@ export interface GetScanResponse {
     visibility: string;
   };
   verdicts: {
-    overall: { categories: string[]; hasVerdicts: boolean; malicious: boolean; tags: string[] };
+    overall: {
+      categories: string[];
+      hasVerdicts: boolean;
+      malicious: boolean;
+      tags: string[];
+    };
   };
 }
 
@@ -596,7 +657,9 @@ export const GetScanResponse = Schema.Struct({
                 Schema.Struct({
                   id: Schema.Number,
                   name: Schema.String,
-                  superCategoryId: Schema.Number.pipe(T.JsonName("super_category_id")),
+                  superCategoryId: Schema.Number.pipe(
+                    T.JsonName("super_category_id"),
+                  ),
                 }),
               ),
               inherited: Schema.Struct({
@@ -604,7 +667,9 @@ export const GetScanResponse = Schema.Struct({
                   Schema.Struct({
                     id: Schema.Number,
                     name: Schema.String,
-                    superCategoryId: Schema.Number.pipe(T.JsonName("super_category_id")),
+                    superCategoryId: Schema.Number.pipe(
+                      T.JsonName("super_category_id"),
+                    ),
                   }),
                 ),
                 from: Schema.String,
@@ -612,7 +677,9 @@ export const GetScanResponse = Schema.Struct({
                   Schema.Struct({
                     id: Schema.Number,
                     name: Schema.String,
-                    superCategoryId: Schema.Number.pipe(T.JsonName("super_category_id")),
+                    superCategoryId: Schema.Number.pipe(
+                      T.JsonName("super_category_id"),
+                    ),
                   }),
                 ),
               }),
@@ -621,7 +688,9 @@ export const GetScanResponse = Schema.Struct({
                 Schema.Struct({
                   id: Schema.Number,
                   name: Schema.String,
-                  superCategoryId: Schema.Number.pipe(T.JsonName("super_category_id")),
+                  superCategoryId: Schema.Number.pipe(
+                    T.JsonName("super_category_id"),
+                  ),
                 }),
               ),
             }),
@@ -804,7 +873,10 @@ export const ListScansRequest = Schema.Struct({
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   size: Schema.optional(Schema.Number).pipe(T.HttpQuery("size")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/search" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/search",
+  }),
 ) as unknown as Schema.Schema<ListScansRequest>;
 
 export interface ListScansResponse {
@@ -812,7 +884,12 @@ export interface ListScansResponse {
     id: string;
     page: { asn: string; country: string; ip: string; url: string };
     result: string;
-    stats: { dataLength: number; requests: number; uniqCountries: number; uniqIPs: number };
+    stats: {
+      dataLength: number;
+      requests: number;
+      uniqCountries: number;
+      uniqIPs: number;
+    };
     task: { time: string; url: string; uuid: string; visibility: string };
     verdicts: { malicious: boolean };
   }[];
@@ -1390,12 +1467,16 @@ export const DomScanRequest = Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/dom/{scanId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/dom/{scanId}",
+  }),
 ) as unknown as Schema.Schema<DomScanRequest>;
 
 export type DomScanResponse = unknown;
 
-export const DomScanResponse = Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
+export const DomScanResponse =
+  Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
 
 export const domScan = API.make(() => ({
   input: DomScanRequest,
@@ -1413,7 +1494,10 @@ export const HarScanRequest = Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/har/{scanId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/har/{scanId}",
+  }),
 ) as unknown as Schema.Schema<HarScanRequest>;
 
 export interface HarScanResponse {
@@ -1550,11 +1634,14 @@ export interface ScreenshotScanRequest {
 export const ScreenshotScanRequest = Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  resolution: Schema.optional(Schema.Literal("desktop", "mobile", "tablet")).pipe(
-    T.HttpQuery("resolution"),
-  ),
+  resolution: Schema.optional(
+    Schema.Literal("desktop", "mobile", "tablet"),
+  ).pipe(T.HttpQuery("resolution")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/urlscanner/v2/screenshots/{scanId}.png" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/urlscanner/v2/screenshots/{scanId}.png",
+  }),
 ) as unknown as Schema.Schema<ScreenshotScanRequest>;
 
 export type ScreenshotScanResponse = unknown;

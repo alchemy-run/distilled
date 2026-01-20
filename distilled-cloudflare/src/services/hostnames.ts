@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // SettingTl
@@ -27,12 +31,17 @@ export interface PutSettingTlsRequest {
 }
 
 export const PutSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(T.HttpPath("settingId")),
+  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(
+    T.HttpPath("settingId"),
+  ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   value: Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
 }).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}" }),
+  T.Http({
+    method: "PUT",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}",
+  }),
 ) as unknown as Schema.Schema<PutSettingTlsRequest>;
 
 export interface PutSettingTlsResponse {
@@ -53,7 +62,9 @@ export const PutSettingTlsResponse = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  value: Schema.optional(Schema.Union(Schema.String, Schema.Number, Schema.Unknown)),
+  value: Schema.optional(
+    Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
+  ),
 }) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
 export const putSettingTls = API.make(() => ({
@@ -70,11 +81,16 @@ export interface DeleteSettingTlsRequest {
 }
 
 export const DeleteSettingTlsRequest = Schema.Struct({
-  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(T.HttpPath("settingId")),
+  settingId: Schema.Literal("ciphers", "min_tls_version", "http2").pipe(
+    T.HttpPath("settingId"),
+  ),
   hostname: Schema.String.pipe(T.HttpPath("hostname")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/zones/{zone_id}/hostnames/settings/{settingId}/{hostname}",
+  }),
 ) as unknown as Schema.Schema<DeleteSettingTlsRequest>;
 
 export interface DeleteSettingTlsResponse {
@@ -95,7 +111,9 @@ export const DeleteSettingTlsResponse = Schema.Struct({
   hostname: Schema.optional(Schema.String),
   status: Schema.optional(Schema.String),
   updatedAt: Schema.optional(Schema.String).pipe(T.JsonName("updated_at")),
-  value: Schema.optional(Schema.Union(Schema.String, Schema.Number, Schema.Unknown)),
+  value: Schema.optional(
+    Schema.Union(Schema.String, Schema.Number, Schema.Unknown),
+  ),
 }) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
 export const deleteSettingTls = API.make(() => ({

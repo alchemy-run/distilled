@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // ActivationCheck
@@ -77,7 +81,12 @@ export interface GetCustomNameserverResponse {
   enabled?: boolean;
   /** The number of the name server set to assign to the zone. */
   nsSet?: number;
-  resultInfo?: { count?: number; page?: number; perPage?: number; totalCount?: number };
+  resultInfo?: {
+    count?: number;
+    page?: number;
+    perPage?: number;
+    totalCount?: number;
+  };
 }
 
 export const GetCustomNameserverResponse = Schema.Struct({
@@ -85,7 +94,9 @@ export const GetCustomNameserverResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -97,7 +108,9 @@ export const GetCustomNameserverResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -113,7 +126,9 @@ export const GetCustomNameserverResponse = Schema.Struct({
       count: Schema.optional(Schema.Number),
       page: Schema.optional(Schema.Number),
       perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
-      totalCount: Schema.optional(Schema.Number).pipe(T.JsonName("total_count")),
+      totalCount: Schema.optional(Schema.Number).pipe(
+        T.JsonName("total_count"),
+      ),
     }),
   ).pipe(T.JsonName("result_info")),
 }) as unknown as Schema.Schema<GetCustomNameserverResponse>;
@@ -148,7 +163,9 @@ export interface GetHoldResponse {
 export const GetHoldResponse = Schema.Struct({
   hold: Schema.optional(Schema.Boolean),
   holdAfter: Schema.optional(Schema.String).pipe(T.JsonName("hold_after")),
-  includeSubdomains: Schema.optional(Schema.String).pipe(T.JsonName("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.String).pipe(
+    T.JsonName("include_subdomains"),
+  ),
 }) as unknown as Schema.Schema<GetHoldResponse>;
 
 export const getHold = API.make(() => ({
@@ -166,7 +183,9 @@ export interface CreateHoldRequest {
 
 export const CreateHoldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  includeSubdomains: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("include_subdomains"),
+  ),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/hold" }),
 ) as unknown as Schema.Schema<CreateHoldRequest>;
@@ -180,7 +199,9 @@ export interface CreateHoldResponse {
 export const CreateHoldResponse = Schema.Struct({
   hold: Schema.optional(Schema.Boolean),
   holdAfter: Schema.optional(Schema.String).pipe(T.JsonName("hold_after")),
-  includeSubdomains: Schema.optional(Schema.String).pipe(T.JsonName("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.String).pipe(
+    T.JsonName("include_subdomains"),
+  ),
 }) as unknown as Schema.Schema<CreateHoldResponse>;
 
 export const createHold = API.make(() => ({
@@ -201,7 +222,9 @@ export interface PatchHoldRequest {
 export const PatchHoldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   holdAfter: Schema.optional(Schema.String).pipe(T.JsonName("hold_after")),
-  includeSubdomains: Schema.optional(Schema.Boolean).pipe(T.JsonName("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("include_subdomains"),
+  ),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/hold" }),
 ) as unknown as Schema.Schema<PatchHoldRequest>;
@@ -215,7 +238,9 @@ export interface PatchHoldResponse {
 export const PatchHoldResponse = Schema.Struct({
   hold: Schema.optional(Schema.Boolean),
   holdAfter: Schema.optional(Schema.String).pipe(T.JsonName("hold_after")),
-  includeSubdomains: Schema.optional(Schema.String).pipe(T.JsonName("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.String).pipe(
+    T.JsonName("include_subdomains"),
+  ),
 }) as unknown as Schema.Schema<PatchHoldResponse>;
 
 export const patchHold = API.make(() => ({
@@ -247,7 +272,9 @@ export interface DeleteHoldResponse {
 export const DeleteHoldResponse = Schema.Struct({
   hold: Schema.optional(Schema.Boolean),
   holdAfter: Schema.optional(Schema.String).pipe(T.JsonName("hold_after")),
-  includeSubdomains: Schema.optional(Schema.String).pipe(T.JsonName("include_subdomains")),
+  includeSubdomains: Schema.optional(Schema.String).pipe(
+    T.JsonName("include_subdomains"),
+  ),
 }) as unknown as Schema.Schema<DeleteHoldResponse>;
 
 export const deleteHold = API.make(() => ({
@@ -270,7 +297,10 @@ export const GetPlanRequest = Schema.Struct({
   planIdentifier: Schema.String.pipe(T.HttpPath("planIdentifier")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/available_plans/{planIdentifier}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/available_plans/{planIdentifier}",
+  }),
 ) as unknown as Schema.Schema<GetPlanRequest>;
 
 export interface GetPlanResponse {
@@ -298,12 +328,22 @@ export interface GetPlanResponse {
 
 export const GetPlanResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  canSubscribe: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_subscribe")),
+  canSubscribe: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("can_subscribe"),
+  ),
   currency: Schema.optional(Schema.String),
-  externallyManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("externally_managed")),
-  frequency: Schema.optional(Schema.Literal("weekly", "monthly", "quarterly", "yearly")),
-  isSubscribed: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_subscribed")),
-  legacyDiscount: Schema.optional(Schema.Boolean).pipe(T.JsonName("legacy_discount")),
+  externallyManaged: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("externally_managed"),
+  ),
+  frequency: Schema.optional(
+    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+  ),
+  isSubscribed: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_subscribed"),
+  ),
+  legacyDiscount: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("legacy_discount"),
+  ),
   legacyId: Schema.optional(Schema.String).pipe(T.JsonName("legacy_id")),
   name: Schema.optional(Schema.String),
   price: Schema.optional(Schema.Number),
@@ -333,14 +373,23 @@ export const GetSettingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSettingRequest>;
 
 export type GetSettingResponse =
-  | { id: "0rtt"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "0rtt";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "advanced_ddos";
       value: "on" | "off";
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "aegis"; modifiedOn?: string | null; value?: { enabled?: boolean; poolId?: string } }
+  | {
+      id: "aegis";
+      modifiedOn?: string | null;
+      value?: { enabled?: boolean; poolId?: string };
+    }
   | {
       id: "always_online";
       value: "on" | "off";
@@ -359,8 +408,18 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "brotli"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "browser_cache_ttl"; value: number; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "brotli";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "browser_cache_ttl";
+      value: number;
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "browser_check";
       value: "on" | "off";
@@ -399,7 +458,12 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "ciphers"; value: string[]; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "ciphers";
+      value: string[];
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "cname_flattening";
       value: "flatten_at_root" | "flatten_all";
@@ -413,7 +477,12 @@ export type GetSettingResponse =
       modifiedOn?: string | null;
       timeRemaining?: number;
     }
-  | { id: "early_hints"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "early_hints";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "edge_cache_ttl";
       value:
@@ -459,8 +528,18 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "http2"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "http3"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "http2";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "http3";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "image_resizing";
       value: "on" | "off" | "open";
@@ -473,7 +552,12 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "ipv6"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "ipv6";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "max_upload";
       value:
@@ -504,8 +588,18 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "mirage"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "nel"; value: { enabled?: boolean }; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "mirage";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "nel";
+      value: { enabled?: boolean };
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "opportunistic_encryption";
       value: "on" | "off";
@@ -531,7 +625,11 @@ export type GetSettingResponse =
       modifiedOn?: string | null;
     }
   | { id: "origin_h2_max_streams"; modifiedOn?: string | null; value?: number }
-  | { id: "origin_max_http_version"; modifiedOn?: string | null; value?: "2" | "1" }
+  | {
+      id: "origin_max_http_version";
+      modifiedOn?: string | null;
+      value?: "2" | "1";
+    }
   | {
       id: "polish";
       value: "off" | "lossless" | "lossy";
@@ -544,8 +642,18 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "privacy_pass"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "proxy_read_timeout"; value: number; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "privacy_pass";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "proxy_read_timeout";
+      value: number;
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "pseudo_ipv4";
       value: "off" | "add_header" | "overwrite_header";
@@ -592,7 +700,13 @@ export type GetSettingResponse =
     }
   | {
       id: "security_level";
-      value: "off" | "essentially_off" | "low" | "medium" | "high" | "under_attack";
+      value:
+        | "off"
+        | "essentially_off"
+        | "low"
+        | "medium"
+        | "high"
+        | "under_attack";
       editable?: true | false;
       modifiedOn?: string | null;
     }
@@ -602,7 +716,12 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "sha1_support"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "sha1_support";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "sort_query_string_for_cache";
       value: "on" | "off";
@@ -616,7 +735,12 @@ export type GetSettingResponse =
       modifiedOn?: string | null;
     }
   | { id?: "ssl_recommender"; enabled?: boolean }
-  | { id: "tls_1_2_only"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "tls_1_2_only";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "tls_1_3";
       value: "on" | "off" | "zrt";
@@ -647,9 +771,24 @@ export type GetSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "waf"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "webp"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "websockets"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null };
+  | {
+      id: "waf";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "webp";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "websockets";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    };
 
 export const GetSettingResponse = Schema.Union(
   Schema.Struct({
@@ -790,7 +929,9 @@ export const GetSettingResponse = Schema.Union(
     modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("modified_on"),
     ),
-    timeRemaining: Schema.optional(Schema.Number).pipe(T.JsonName("time_remaining")),
+    timeRemaining: Schema.optional(Schema.Number).pipe(
+      T.JsonName("time_remaining"),
+    ),
   }),
   Schema.Struct({
     id: Schema.Literal("early_hints"),
@@ -1071,7 +1212,9 @@ export const GetSettingResponse = Schema.Union(
       strictTransportSecurity: Schema.optional(
         Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
-          includeSubdomains: Schema.optional(Schema.Boolean).pipe(T.JsonName("include_subdomains")),
+          includeSubdomains: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("include_subdomains"),
+          ),
           maxAge: Schema.optional(Schema.Number).pipe(T.JsonName("max_age")),
           nosniff: Schema.optional(Schema.Boolean),
           preload: Schema.optional(Schema.Boolean),
@@ -1085,7 +1228,14 @@ export const GetSettingResponse = Schema.Union(
   }),
   Schema.Struct({
     id: Schema.Literal("security_level"),
-    value: Schema.Literal("off", "essentially_off", "low", "medium", "high", "under_attack"),
+    value: Schema.Literal(
+      "off",
+      "essentially_off",
+      "low",
+      "medium",
+      "high",
+      "under_attack",
+    ),
     editable: Schema.optional(Schema.Literal(true, false)),
     modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("modified_on"),
@@ -1218,14 +1368,23 @@ export const PatchSettingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchSettingRequest>;
 
 export type PatchSettingResponse =
-  | { id: "0rtt"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "0rtt";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "advanced_ddos";
       value: "on" | "off";
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "aegis"; modifiedOn?: string | null; value?: { enabled?: boolean; poolId?: string } }
+  | {
+      id: "aegis";
+      modifiedOn?: string | null;
+      value?: { enabled?: boolean; poolId?: string };
+    }
   | {
       id: "always_online";
       value: "on" | "off";
@@ -1244,8 +1403,18 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "brotli"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "browser_cache_ttl"; value: number; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "brotli";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "browser_cache_ttl";
+      value: number;
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "browser_check";
       value: "on" | "off";
@@ -1284,7 +1453,12 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "ciphers"; value: string[]; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "ciphers";
+      value: string[];
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "cname_flattening";
       value: "flatten_at_root" | "flatten_all";
@@ -1298,7 +1472,12 @@ export type PatchSettingResponse =
       modifiedOn?: string | null;
       timeRemaining?: number;
     }
-  | { id: "early_hints"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "early_hints";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "edge_cache_ttl";
       value:
@@ -1344,8 +1523,18 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "http2"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "http3"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "http2";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "http3";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "image_resizing";
       value: "on" | "off" | "open";
@@ -1358,7 +1547,12 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "ipv6"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "ipv6";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "max_upload";
       value:
@@ -1389,8 +1583,18 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "mirage"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "nel"; value: { enabled?: boolean }; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "mirage";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "nel";
+      value: { enabled?: boolean };
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "opportunistic_encryption";
       value: "on" | "off";
@@ -1416,7 +1620,11 @@ export type PatchSettingResponse =
       modifiedOn?: string | null;
     }
   | { id: "origin_h2_max_streams"; modifiedOn?: string | null; value?: number }
-  | { id: "origin_max_http_version"; modifiedOn?: string | null; value?: "2" | "1" }
+  | {
+      id: "origin_max_http_version";
+      modifiedOn?: string | null;
+      value?: "2" | "1";
+    }
   | {
       id: "polish";
       value: "off" | "lossless" | "lossy";
@@ -1429,8 +1637,18 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "privacy_pass"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "proxy_read_timeout"; value: number; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "privacy_pass";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "proxy_read_timeout";
+      value: number;
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "pseudo_ipv4";
       value: "off" | "add_header" | "overwrite_header";
@@ -1477,7 +1695,13 @@ export type PatchSettingResponse =
     }
   | {
       id: "security_level";
-      value: "off" | "essentially_off" | "low" | "medium" | "high" | "under_attack";
+      value:
+        | "off"
+        | "essentially_off"
+        | "low"
+        | "medium"
+        | "high"
+        | "under_attack";
       editable?: true | false;
       modifiedOn?: string | null;
     }
@@ -1487,7 +1711,12 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "sha1_support"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "sha1_support";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "sort_query_string_for_cache";
       value: "on" | "off";
@@ -1501,7 +1730,12 @@ export type PatchSettingResponse =
       modifiedOn?: string | null;
     }
   | { id?: "ssl_recommender"; enabled?: boolean }
-  | { id: "tls_1_2_only"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
+  | {
+      id: "tls_1_2_only";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
   | {
       id: "tls_1_3";
       value: "on" | "off" | "zrt";
@@ -1532,9 +1766,24 @@ export type PatchSettingResponse =
       editable?: true | false;
       modifiedOn?: string | null;
     }
-  | { id: "waf"; value: "on" | "off"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "webp"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null }
-  | { id: "websockets"; value: "off" | "on"; editable?: true | false; modifiedOn?: string | null };
+  | {
+      id: "waf";
+      value: "on" | "off";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "webp";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    }
+  | {
+      id: "websockets";
+      value: "off" | "on";
+      editable?: true | false;
+      modifiedOn?: string | null;
+    };
 
 export const PatchSettingResponse = Schema.Union(
   Schema.Struct({
@@ -1675,7 +1924,9 @@ export const PatchSettingResponse = Schema.Union(
     modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("modified_on"),
     ),
-    timeRemaining: Schema.optional(Schema.Number).pipe(T.JsonName("time_remaining")),
+    timeRemaining: Schema.optional(Schema.Number).pipe(
+      T.JsonName("time_remaining"),
+    ),
   }),
   Schema.Struct({
     id: Schema.Literal("early_hints"),
@@ -1956,7 +2207,9 @@ export const PatchSettingResponse = Schema.Union(
       strictTransportSecurity: Schema.optional(
         Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
-          includeSubdomains: Schema.optional(Schema.Boolean).pipe(T.JsonName("include_subdomains")),
+          includeSubdomains: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("include_subdomains"),
+          ),
           maxAge: Schema.optional(Schema.Number).pipe(T.JsonName("max_age")),
           nosniff: Schema.optional(Schema.Boolean),
           preload: Schema.optional(Schema.Boolean),
@@ -1970,7 +2223,14 @@ export const PatchSettingResponse = Schema.Union(
   }),
   Schema.Struct({
     id: Schema.Literal("security_level"),
-    value: Schema.Literal("off", "essentially_off", "low", "medium", "high", "under_attack"),
+    value: Schema.Literal(
+      "off",
+      "essentially_off",
+      "low",
+      "medium",
+      "high",
+      "under_attack",
+    ),
     editable: Schema.optional(Schema.Literal(true, false)),
     modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
       T.JsonName("modified_on"),
@@ -2129,7 +2389,9 @@ export interface CreateSubscriptionRequest {
 
 export const CreateSubscriptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  frequency: Schema.optional(Schema.Literal("weekly", "monthly", "quarterly", "yearly")),
+  frequency: Schema.optional(
+    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+  ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/subscription" }),
@@ -2157,7 +2419,9 @@ export interface UpdateSubscriptionRequest {
 
 export const UpdateSubscriptionRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  frequency: Schema.optional(Schema.Literal("weekly", "monthly", "quarterly", "yearly")),
+  frequency: Schema.optional(
+    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+  ),
   ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/subscription" }),
@@ -2263,7 +2527,9 @@ export const GetZoneResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
   }),
-  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("activated_on")),
+  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("activated_on"),
+  ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   developmentMode: Schema.Number.pipe(T.JsonName("development_mode")),
   meta: Schema.Struct({
@@ -2272,18 +2538,27 @@ export const GetZoneResponse = Schema.Struct({
       T.JsonName("custom_certificate_quota"),
     ),
     dnsOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("dns_only")),
-    foundationDns: Schema.optional(Schema.Boolean).pipe(T.JsonName("foundation_dns")),
-    pageRuleQuota: Schema.optional(Schema.Number).pipe(T.JsonName("page_rule_quota")),
-    phishingDetected: Schema.optional(Schema.Boolean).pipe(T.JsonName("phishing_detected")),
+    foundationDns: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("foundation_dns"),
+    ),
+    pageRuleQuota: Schema.optional(Schema.Number).pipe(
+      T.JsonName("page_rule_quota"),
+    ),
+    phishingDetected: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("phishing_detected"),
+    ),
     step: Schema.optional(Schema.Number),
   }),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   nameServers: Schema.Array(Schema.String).pipe(T.JsonName("name_servers")),
-  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("original_dnshost")),
-  originalNameServers: Schema.Union(Schema.Array(Schema.String), Schema.Null).pipe(
-    T.JsonName("original_name_servers"),
+  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("original_dnshost"),
   ),
+  originalNameServers: Schema.Union(
+    Schema.Array(Schema.String),
+    Schema.Null,
+  ).pipe(T.JsonName("original_name_servers")),
   originalRegistrar: Schema.Union(Schema.String, Schema.Null).pipe(
     T.JsonName("original_registrar"),
   ),
@@ -2294,12 +2569,20 @@ export const GetZoneResponse = Schema.Struct({
   }),
   plan: Schema.Struct({
     id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_subscribe")),
+    canSubscribe: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("can_subscribe"),
+    ),
     currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("externally_managed")),
+    externallyManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("externally_managed"),
+    ),
     frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_subscribed")),
-    legacyDiscount: Schema.optional(Schema.Boolean).pipe(T.JsonName("legacy_discount")),
+    isSubscribed: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_subscribed"),
+    ),
+    legacyDiscount: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("legacy_discount"),
+    ),
     legacyId: Schema.optional(Schema.String).pipe(T.JsonName("legacy_id")),
     name: Schema.optional(Schema.String),
     price: Schema.optional(Schema.Number),
@@ -2307,7 +2590,9 @@ export const GetZoneResponse = Schema.Struct({
   cnameSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cname_suffix")),
   paused: Schema.optional(Schema.Boolean),
   permissions: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("initializing", "pending", "active", "moved")),
+  status: Schema.optional(
+    Schema.Literal("initializing", "pending", "active", "moved"),
+  ),
   tenant: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -2319,11 +2604,15 @@ export const GetZoneResponse = Schema.Struct({
       id: Schema.optional(Schema.String),
     }),
   ).pipe(T.JsonName("tenant_unit")),
-  type: Schema.optional(Schema.Literal("full", "partial", "secondary", "internal")),
+  type: Schema.optional(
+    Schema.Literal("full", "partial", "secondary", "internal"),
+  ),
   vanityNameServers: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("vanity_name_servers"),
   ),
-  verificationKey: Schema.optional(Schema.String).pipe(T.JsonName("verification_key")),
+  verificationKey: Schema.optional(Schema.String).pipe(
+    T.JsonName("verification_key"),
+  ),
 }) as unknown as Schema.Schema<GetZoneResponse>;
 
 export const getZone = API.make(() => ({
@@ -2345,8 +2634,12 @@ export const CreateZoneRequest = Schema.Struct({
     id: Schema.optional(Schema.String),
   }),
   name: Schema.String,
-  type: Schema.optional(Schema.Literal("full", "partial", "secondary", "internal")),
-}).pipe(T.Http({ method: "POST", path: "/zones" })) as unknown as Schema.Schema<CreateZoneRequest>;
+  type: Schema.optional(
+    Schema.Literal("full", "partial", "secondary", "internal"),
+  ),
+}).pipe(
+  T.Http({ method: "POST", path: "/zones" }),
+) as unknown as Schema.Schema<CreateZoneRequest>;
 
 export interface CreateZoneResponse {
   /** Identifier */
@@ -2422,7 +2715,9 @@ export const CreateZoneResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
   }),
-  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("activated_on")),
+  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("activated_on"),
+  ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   developmentMode: Schema.Number.pipe(T.JsonName("development_mode")),
   meta: Schema.Struct({
@@ -2431,18 +2726,27 @@ export const CreateZoneResponse = Schema.Struct({
       T.JsonName("custom_certificate_quota"),
     ),
     dnsOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("dns_only")),
-    foundationDns: Schema.optional(Schema.Boolean).pipe(T.JsonName("foundation_dns")),
-    pageRuleQuota: Schema.optional(Schema.Number).pipe(T.JsonName("page_rule_quota")),
-    phishingDetected: Schema.optional(Schema.Boolean).pipe(T.JsonName("phishing_detected")),
+    foundationDns: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("foundation_dns"),
+    ),
+    pageRuleQuota: Schema.optional(Schema.Number).pipe(
+      T.JsonName("page_rule_quota"),
+    ),
+    phishingDetected: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("phishing_detected"),
+    ),
     step: Schema.optional(Schema.Number),
   }),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   nameServers: Schema.Array(Schema.String).pipe(T.JsonName("name_servers")),
-  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("original_dnshost")),
-  originalNameServers: Schema.Union(Schema.Array(Schema.String), Schema.Null).pipe(
-    T.JsonName("original_name_servers"),
+  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("original_dnshost"),
   ),
+  originalNameServers: Schema.Union(
+    Schema.Array(Schema.String),
+    Schema.Null,
+  ).pipe(T.JsonName("original_name_servers")),
   originalRegistrar: Schema.Union(Schema.String, Schema.Null).pipe(
     T.JsonName("original_registrar"),
   ),
@@ -2453,12 +2757,20 @@ export const CreateZoneResponse = Schema.Struct({
   }),
   plan: Schema.Struct({
     id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_subscribe")),
+    canSubscribe: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("can_subscribe"),
+    ),
     currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("externally_managed")),
+    externallyManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("externally_managed"),
+    ),
     frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_subscribed")),
-    legacyDiscount: Schema.optional(Schema.Boolean).pipe(T.JsonName("legacy_discount")),
+    isSubscribed: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_subscribed"),
+    ),
+    legacyDiscount: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("legacy_discount"),
+    ),
     legacyId: Schema.optional(Schema.String).pipe(T.JsonName("legacy_id")),
     name: Schema.optional(Schema.String),
     price: Schema.optional(Schema.Number),
@@ -2466,7 +2778,9 @@ export const CreateZoneResponse = Schema.Struct({
   cnameSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cname_suffix")),
   paused: Schema.optional(Schema.Boolean),
   permissions: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("initializing", "pending", "active", "moved")),
+  status: Schema.optional(
+    Schema.Literal("initializing", "pending", "active", "moved"),
+  ),
   tenant: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -2478,11 +2792,15 @@ export const CreateZoneResponse = Schema.Struct({
       id: Schema.optional(Schema.String),
     }),
   ).pipe(T.JsonName("tenant_unit")),
-  type: Schema.optional(Schema.Literal("full", "partial", "secondary", "internal")),
+  type: Schema.optional(
+    Schema.Literal("full", "partial", "secondary", "internal"),
+  ),
   vanityNameServers: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("vanity_name_servers"),
   ),
-  verificationKey: Schema.optional(Schema.String).pipe(T.JsonName("verification_key")),
+  verificationKey: Schema.optional(Schema.String).pipe(
+    T.JsonName("verification_key"),
+  ),
 }) as unknown as Schema.Schema<CreateZoneResponse>;
 
 export const createZone = API.make(() => ({
@@ -2505,7 +2823,9 @@ export interface PatchZoneRequest {
 export const PatchZoneRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   paused: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.Literal("full", "partial", "secondary", "internal")),
+  type: Schema.optional(
+    Schema.Literal("full", "partial", "secondary", "internal"),
+  ),
   vanityNameServers: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("vanity_name_servers"),
   ),
@@ -2587,7 +2907,9 @@ export const PatchZoneResponse = Schema.Struct({
     id: Schema.optional(Schema.String),
     name: Schema.optional(Schema.String),
   }),
-  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("activated_on")),
+  activatedOn: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("activated_on"),
+  ),
   createdOn: Schema.String.pipe(T.JsonName("created_on")),
   developmentMode: Schema.Number.pipe(T.JsonName("development_mode")),
   meta: Schema.Struct({
@@ -2596,18 +2918,27 @@ export const PatchZoneResponse = Schema.Struct({
       T.JsonName("custom_certificate_quota"),
     ),
     dnsOnly: Schema.optional(Schema.Boolean).pipe(T.JsonName("dns_only")),
-    foundationDns: Schema.optional(Schema.Boolean).pipe(T.JsonName("foundation_dns")),
-    pageRuleQuota: Schema.optional(Schema.Number).pipe(T.JsonName("page_rule_quota")),
-    phishingDetected: Schema.optional(Schema.Boolean).pipe(T.JsonName("phishing_detected")),
+    foundationDns: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("foundation_dns"),
+    ),
+    pageRuleQuota: Schema.optional(Schema.Number).pipe(
+      T.JsonName("page_rule_quota"),
+    ),
+    phishingDetected: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("phishing_detected"),
+    ),
     step: Schema.optional(Schema.Number),
   }),
   modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
   name: Schema.String,
   nameServers: Schema.Array(Schema.String).pipe(T.JsonName("name_servers")),
-  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(T.JsonName("original_dnshost")),
-  originalNameServers: Schema.Union(Schema.Array(Schema.String), Schema.Null).pipe(
-    T.JsonName("original_name_servers"),
+  originalDnshost: Schema.Union(Schema.String, Schema.Null).pipe(
+    T.JsonName("original_dnshost"),
   ),
+  originalNameServers: Schema.Union(
+    Schema.Array(Schema.String),
+    Schema.Null,
+  ).pipe(T.JsonName("original_name_servers")),
   originalRegistrar: Schema.Union(Schema.String, Schema.Null).pipe(
     T.JsonName("original_registrar"),
   ),
@@ -2618,12 +2949,20 @@ export const PatchZoneResponse = Schema.Struct({
   }),
   plan: Schema.Struct({
     id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean).pipe(T.JsonName("can_subscribe")),
+    canSubscribe: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("can_subscribe"),
+    ),
     currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean).pipe(T.JsonName("externally_managed")),
+    externallyManaged: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("externally_managed"),
+    ),
     frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_subscribed")),
-    legacyDiscount: Schema.optional(Schema.Boolean).pipe(T.JsonName("legacy_discount")),
+    isSubscribed: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_subscribed"),
+    ),
+    legacyDiscount: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("legacy_discount"),
+    ),
     legacyId: Schema.optional(Schema.String).pipe(T.JsonName("legacy_id")),
     name: Schema.optional(Schema.String),
     price: Schema.optional(Schema.Number),
@@ -2631,7 +2970,9 @@ export const PatchZoneResponse = Schema.Struct({
   cnameSuffix: Schema.optional(Schema.String).pipe(T.JsonName("cname_suffix")),
   paused: Schema.optional(Schema.Boolean),
   permissions: Schema.optional(Schema.Array(Schema.String)),
-  status: Schema.optional(Schema.Literal("initializing", "pending", "active", "moved")),
+  status: Schema.optional(
+    Schema.Literal("initializing", "pending", "active", "moved"),
+  ),
   tenant: Schema.optional(
     Schema.Struct({
       id: Schema.optional(Schema.String),
@@ -2643,11 +2984,15 @@ export const PatchZoneResponse = Schema.Struct({
       id: Schema.optional(Schema.String),
     }),
   ).pipe(T.JsonName("tenant_unit")),
-  type: Schema.optional(Schema.Literal("full", "partial", "secondary", "internal")),
+  type: Schema.optional(
+    Schema.Literal("full", "partial", "secondary", "internal"),
+  ),
   vanityNameServers: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.JsonName("vanity_name_servers"),
   ),
-  verificationKey: Schema.optional(Schema.String).pipe(T.JsonName("verification_key")),
+  verificationKey: Schema.optional(Schema.String).pipe(
+    T.JsonName("verification_key"),
+  ),
 }) as unknown as Schema.Schema<PatchZoneResponse>;
 
 export const patchZone = API.make(() => ({
@@ -2669,7 +3014,8 @@ export const DeleteZoneRequest = Schema.Struct({
 
 export type DeleteZoneResponse = unknown;
 
-export const DeleteZoneResponse = Schema.Unknown as unknown as Schema.Schema<DeleteZoneResponse>;
+export const DeleteZoneResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteZoneResponse>;
 
 export const deleteZone = API.make(() => ({
   input: DeleteZoneRequest,

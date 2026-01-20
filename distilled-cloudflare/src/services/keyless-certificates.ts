@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // KeylessCertificate
@@ -27,7 +31,10 @@ export const GetKeylessCertificateRequest = Schema.Struct({
   keylessCertificateId: Schema.String.pipe(T.HttpPath("keylessCertificateId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/keyless_certificates/{keylessCertificateId}" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/keyless_certificates/{keylessCertificateId}",
+  }),
 ) as unknown as Schema.Schema<GetKeylessCertificateRequest>;
 
 export interface GetKeylessCertificateResponse {
@@ -99,9 +106,9 @@ export const CreateKeylessCertificateRequest = Schema.Struct({
   certificate: Schema.String,
   host: Schema.String,
   port: Schema.Number,
-  bundleMethod: Schema.optional(Schema.Literal("ubiquitous", "optimal", "force")).pipe(
-    T.JsonName("bundle_method"),
-  ),
+  bundleMethod: Schema.optional(
+    Schema.Literal("ubiquitous", "optimal", "force"),
+  ).pipe(T.JsonName("bundle_method")),
   name: Schema.optional(Schema.String),
   tunnel: Schema.optional(
     Schema.Struct({
@@ -190,7 +197,10 @@ export const PatchKeylessCertificateRequest = Schema.Struct({
     }),
   ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/keyless_certificates/{keylessCertificateId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/zones/{zone_id}/keyless_certificates/{keylessCertificateId}",
+  }),
 ) as unknown as Schema.Schema<PatchKeylessCertificateRequest>;
 
 export interface PatchKeylessCertificateResponse {

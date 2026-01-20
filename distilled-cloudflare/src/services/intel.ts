@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Asn
@@ -30,7 +34,8 @@ export const GetAsnRequest = Schema.Struct({
 
 export type GetAsnResponse = unknown;
 
-export const GetAsnResponse = Schema.Unknown as unknown as Schema.Schema<GetAsnResponse>;
+export const GetAsnResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetAsnResponse>;
 
 export const getAsn = API.make(() => ({
   input: GetAsnRequest,
@@ -50,7 +55,10 @@ export interface GetAsnSubnetRequest {
 export const GetAsnSubnetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/asn/{asn}/subnets" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/asn/{asn}/subnets",
+  }),
 ) as unknown as Schema.Schema<GetAsnSubnetRequest>;
 
 export interface GetAsnSubnetResponse {
@@ -68,7 +76,9 @@ export interface GetAsnSubnetResponse {
 export const GetAsnSubnetResponse = Schema.Struct({
   asn: Schema.optional(Schema.Number),
   count: Schema.optional(Schema.Number),
-  ipCountTotal: Schema.optional(Schema.Number).pipe(T.JsonName("ip_count_total")),
+  ipCountTotal: Schema.optional(Schema.Number).pipe(
+    T.JsonName("ip_count_total"),
+  ),
   page: Schema.optional(Schema.Number),
   perPage: Schema.optional(Schema.Number).pipe(T.JsonName("per_page")),
   subnets: Schema.optional(Schema.Array(Schema.String)),
@@ -126,7 +136,9 @@ export interface ClassAttackSurfaceReportIssueRequest {
 export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("issue_class")),
+  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class"),
+  ),
   "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("'issue_class~neq'"),
   ),
@@ -152,16 +164,24 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("product")),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'product~neq'")),
-  severity: Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("severity"),
+  product: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product"),
   ),
-  "severity~neq": Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("'severity~neq'"),
+  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'product~neq'"),
   ),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("subject")),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'subject~neq'")),
+  severity: Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("severity")),
+  "severity~neq": Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("'severity~neq'")),
+  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject"),
+  ),
+  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'subject~neq'"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",
@@ -169,7 +189,10 @@ export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueRequest>;
 
-export type ClassAttackSurfaceReportIssueResponse = { count?: number; value?: string }[];
+export type ClassAttackSurfaceReportIssueResponse = {
+  count?: number;
+  value?: string;
+}[];
 
 export const ClassAttackSurfaceReportIssueResponse = Schema.Array(
   Schema.Struct({
@@ -225,7 +248,9 @@ export const DismissAttackSurfaceReportIssueResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -237,7 +262,9 @@ export const DismissAttackSurfaceReportIssueResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -296,7 +323,9 @@ export interface SeverityAttackSurfaceReportIssueRequest {
 export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("issue_class")),
+  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class"),
+  ),
   "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("'issue_class~neq'"),
   ),
@@ -322,16 +351,24 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("product")),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'product~neq'")),
-  severity: Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("severity"),
+  product: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product"),
   ),
-  "severity~neq": Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("'severity~neq'"),
+  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'product~neq'"),
   ),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("subject")),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'subject~neq'")),
+  severity: Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("severity")),
+  "severity~neq": Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("'severity~neq'")),
+  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject"),
+  ),
+  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'subject~neq'"),
+  ),
 }).pipe(
   T.Http({
     method: "GET",
@@ -339,7 +376,10 @@ export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueRequest>;
 
-export type SeverityAttackSurfaceReportIssueResponse = { count?: number; value?: string }[];
+export type SeverityAttackSurfaceReportIssueResponse = {
+  count?: number;
+  value?: string;
+}[];
 
 export const SeverityAttackSurfaceReportIssueResponse = Schema.Array(
   Schema.Struct({
@@ -396,7 +436,9 @@ export interface TypeAttackSurfaceReportIssueRequest {
 export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("issue_class")),
+  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("issue_class"),
+  ),
   "issueClass~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("'issue_class~neq'"),
   ),
@@ -422,21 +464,35 @@ export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
       ),
     ),
   ).pipe(T.HttpQuery("'issue_type~neq'")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("product")),
-  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'product~neq'")),
-  severity: Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("severity"),
+  product: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("product"),
   ),
-  "severity~neq": Schema.optional(Schema.Array(Schema.Literal("low", "moderate", "critical"))).pipe(
-    T.HttpQuery("'severity~neq'"),
+  "product~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'product~neq'"),
   ),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("subject")),
-  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("'subject~neq'")),
+  severity: Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("severity")),
+  "severity~neq": Schema.optional(
+    Schema.Array(Schema.Literal("low", "moderate", "critical")),
+  ).pipe(T.HttpQuery("'severity~neq'")),
+  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("subject"),
+  ),
+  "subject~neq": Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("'subject~neq'"),
+  ),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/attack-surface-report/issues/type" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/attack-surface-report/issues/type",
+  }),
 ) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueRequest>;
 
-export type TypeAttackSurfaceReportIssueResponse = { count?: number; value?: string }[];
+export type TypeAttackSurfaceReportIssueResponse = {
+  count?: number;
+  value?: string;
+}[];
 
 export const TypeAttackSurfaceReportIssueResponse = Schema.Array(
   Schema.Struct({
@@ -474,12 +530,24 @@ export interface GetDomainResponse {
   additionalInformation?: { suspectedMalwareFamily?: string };
   /** Application that the hostname belongs to. */
   application?: { id?: number; name?: string };
-  contentCategories?: { id?: number; name?: string; superCategoryId?: number }[];
+  contentCategories?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
   domain?: string;
-  inheritedContentCategories?: { id?: number; name?: string; superCategoryId?: number }[];
+  inheritedContentCategories?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
   /** Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable. */
   inheritedFrom?: string;
-  inheritedRiskTypes?: { id?: number; name?: string; superCategoryId?: number }[];
+  inheritedRiskTypes?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
   /** Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000. */
   popularityRank?: number;
   /** Specifies a list of references to one or more IP addresses or domain names that the domain name currently resolves to. */
@@ -508,7 +576,9 @@ export const GetDomainResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
-        superCategoryId: Schema.optional(Schema.Number).pipe(T.JsonName("super_category_id")),
+        superCategoryId: Schema.optional(Schema.Number).pipe(
+          T.JsonName("super_category_id"),
+        ),
       }),
     ),
   ).pipe(T.JsonName("content_categories")),
@@ -518,21 +588,29 @@ export const GetDomainResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
-        superCategoryId: Schema.optional(Schema.Number).pipe(T.JsonName("super_category_id")),
+        superCategoryId: Schema.optional(Schema.Number).pipe(
+          T.JsonName("super_category_id"),
+        ),
       }),
     ),
   ).pipe(T.JsonName("inherited_content_categories")),
-  inheritedFrom: Schema.optional(Schema.String).pipe(T.JsonName("inherited_from")),
+  inheritedFrom: Schema.optional(Schema.String).pipe(
+    T.JsonName("inherited_from"),
+  ),
   inheritedRiskTypes: Schema.optional(
     Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
-        superCategoryId: Schema.optional(Schema.Number).pipe(T.JsonName("super_category_id")),
+        superCategoryId: Schema.optional(Schema.Number).pipe(
+          T.JsonName("super_category_id"),
+        ),
       }),
     ),
   ).pipe(T.JsonName("inherited_risk_types")),
-  popularityRank: Schema.optional(Schema.Number).pipe(T.JsonName("popularity_rank")),
+  popularityRank: Schema.optional(Schema.Number).pipe(
+    T.JsonName("popularity_rank"),
+  ),
   resolvesToRefs: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -547,7 +625,9 @@ export const GetDomainResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.optional(Schema.Number),
         name: Schema.optional(Schema.String),
-        superCategoryId: Schema.optional(Schema.Number).pipe(T.JsonName("super_category_id")),
+        superCategoryId: Schema.optional(Schema.Number).pipe(
+          T.JsonName("super_category_id"),
+        ),
       }),
     ),
   ).pipe(T.JsonName("risk_types")),
@@ -572,7 +652,9 @@ export interface GetDomainBulkRequest {
 
 export const GetDomainBulkRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  domain: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("domain")),
+  domain: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("domain"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/domain/bulk" }),
 ) as unknown as Schema.Schema<GetDomainBulkRequest>;
@@ -603,7 +685,10 @@ export const GetDomainHistoryRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/domain-history" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/domain-history",
+  }),
 ) as unknown as Schema.Schema<GetDomainHistoryRequest>;
 
 export type GetDomainHistoryResponse = unknown;
@@ -631,7 +716,10 @@ export const GetIndicatorFeedRequest = Schema.Struct({
   feedId: Schema.Number.pipe(T.HttpPath("feedId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
+  }),
 ) as unknown as Schema.Schema<GetIndicatorFeedRequest>;
 
 export interface GetIndicatorFeedResponse {
@@ -648,7 +736,13 @@ export interface GetIndicatorFeedResponse {
   /** Whether the indicator feed is exposed to customers */
   isPublic?: boolean;
   /** Status of the latest snapshot uploaded */
-  latestUploadStatus?: "Mirroring" | "Unifying" | "Loading" | "Provisioning" | "Complete" | "Error";
+  latestUploadStatus?:
+    | "Mirroring"
+    | "Unifying"
+    | "Loading"
+    | "Provisioning"
+    | "Complete"
+    | "Error";
   /** The date and time when the data entry was last modified */
   modifiedOn?: string;
   /** The name of the indicator feed */
@@ -663,16 +757,29 @@ export const GetIndicatorFeedResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
-  isAttributable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_attributable")),
-  isDownloadable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_downloadable")),
+  isAttributable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_attributable"),
+  ),
+  isDownloadable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_downloadable"),
+  ),
   isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
   latestUploadStatus: Schema.optional(
-    Schema.Literal("Mirroring", "Unifying", "Loading", "Provisioning", "Complete", "Error"),
+    Schema.Literal(
+      "Mirroring",
+      "Unifying",
+      "Loading",
+      "Provisioning",
+      "Complete",
+      "Error",
+    ),
   ).pipe(T.JsonName("latest_upload_status")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
   providerId: Schema.optional(Schema.String).pipe(T.JsonName("provider_id")),
-  providerName: Schema.optional(Schema.String).pipe(T.JsonName("provider_name")),
+  providerName: Schema.optional(Schema.String).pipe(
+    T.JsonName("provider_name"),
+  ),
 }) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
 
 export const getIndicatorFeed = API.make(() => ({
@@ -695,7 +802,10 @@ export const CreateIndicatorFeedRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/intel/indicator-feeds" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/intel/indicator-feeds",
+  }),
 ) as unknown as Schema.Schema<CreateIndicatorFeedRequest>;
 
 export interface CreateIndicatorFeedResponse {
@@ -721,8 +831,12 @@ export const CreateIndicatorFeedResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
-  isAttributable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_attributable")),
-  isDownloadable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_downloadable")),
+  isAttributable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_attributable"),
+  ),
+  isDownloadable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_downloadable"),
+  ),
   isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
@@ -754,12 +868,19 @@ export const UpdateIndicatorFeedRequest = Schema.Struct({
   feedId: Schema.Number.pipe(T.HttpPath("feedId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   description: Schema.optional(Schema.String),
-  isAttributable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_attributable")),
-  isDownloadable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_downloadable")),
+  isAttributable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_attributable"),
+  ),
+  isDownloadable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_downloadable"),
+  ),
   isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
+  }),
 ) as unknown as Schema.Schema<UpdateIndicatorFeedRequest>;
 
 export interface UpdateIndicatorFeedResponse {
@@ -785,8 +906,12 @@ export const UpdateIndicatorFeedResponse = Schema.Struct({
   id: Schema.optional(Schema.Number),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
-  isAttributable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_attributable")),
-  isDownloadable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_downloadable")),
+  isAttributable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_attributable"),
+  ),
+  isDownloadable: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("is_downloadable"),
+  ),
   isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
@@ -808,7 +933,10 @@ export const DataIndicatorFeedRequest = Schema.Struct({
   feedId: Schema.Number.pipe(T.HttpPath("feedId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/data" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/data",
+  }),
 ) as unknown as Schema.Schema<DataIndicatorFeedRequest>;
 
 export type DataIndicatorFeedResponse = unknown;
@@ -834,7 +962,10 @@ export interface ListIndicatorFeedPermissionsRequest {
 export const ListIndicatorFeedPermissionsRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/intel/indicator-feeds/permissions/view" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/intel/indicator-feeds/permissions/view",
+  }),
 ) as unknown as Schema.Schema<ListIndicatorFeedPermissionsRequest>;
 
 export type ListIndicatorFeedPermissionsResponse = {
@@ -850,8 +981,12 @@ export const ListIndicatorFeedPermissionsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Number),
     description: Schema.optional(Schema.String),
-    isAttributable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_attributable")),
-    isDownloadable: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_downloadable")),
+    isAttributable: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_attributable"),
+    ),
+    isDownloadable: Schema.optional(Schema.Boolean).pipe(
+      T.JsonName("is_downloadable"),
+    ),
     isPublic: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_public")),
     name: Schema.optional(Schema.String),
   }),
@@ -877,7 +1012,10 @@ export const CreateIndicatorFeedPermissionRequest = Schema.Struct({
   accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
   feedId: Schema.optional(Schema.Number).pipe(T.JsonName("feed_id")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/intel/indicator-feeds/permissions/add" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/intel/indicator-feeds/permissions/add",
+  }),
 ) as unknown as Schema.Schema<CreateIndicatorFeedPermissionRequest>;
 
 export interface CreateIndicatorFeedPermissionResponse {
@@ -947,7 +1085,10 @@ export const PutIndicatorFeedSnapshotRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   source: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/snapshot" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/snapshot",
+  }),
 ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotRequest>;
 
 export interface PutIndicatorFeedSnapshotResponse {
@@ -994,7 +1135,8 @@ export const GetIpRequest = Schema.Struct({
 
 export type GetIpResponse = unknown;
 
-export const GetIpResponse = Schema.Unknown as unknown as Schema.Schema<GetIpResponse>;
+export const GetIpResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetIpResponse>;
 
 export const getIp = API.make(() => ({
   input: GetIpRequest,
@@ -1027,19 +1169,28 @@ export interface CreateMiscategorizationRequest {
 
 export const CreateMiscategorizationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  contentAdds: Schema.optional(Schema.Array(Schema.Number)).pipe(T.JsonName("content_adds")),
-  contentRemoves: Schema.optional(Schema.Array(Schema.Number)).pipe(T.JsonName("content_removes")),
-  indicatorType: Schema.optional(Schema.Literal("domain", "ipv4", "ipv6", "url")).pipe(
-    T.JsonName("indicator_type"),
+  contentAdds: Schema.optional(Schema.Array(Schema.Number)).pipe(
+    T.JsonName("content_adds"),
   ),
+  contentRemoves: Schema.optional(Schema.Array(Schema.Number)).pipe(
+    T.JsonName("content_removes"),
+  ),
+  indicatorType: Schema.optional(
+    Schema.Literal("domain", "ipv4", "ipv6", "url"),
+  ).pipe(T.JsonName("indicator_type")),
   ip: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  securityAdds: Schema.optional(Schema.Array(Schema.Number)).pipe(T.JsonName("security_adds")),
+  securityAdds: Schema.optional(Schema.Array(Schema.Number)).pipe(
+    T.JsonName("security_adds"),
+  ),
   securityRemoves: Schema.optional(Schema.Array(Schema.Number)).pipe(
     T.JsonName("security_removes"),
   ),
   url: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/intel/miscategorization" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/intel/miscategorization",
+  }),
 ) as unknown as Schema.Schema<CreateMiscategorizationRequest>;
 
 export interface CreateMiscategorizationResponse {
@@ -1064,7 +1215,9 @@ export const CreateMiscategorizationResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1076,7 +1229,9 @@ export const CreateMiscategorizationResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
@@ -1211,15 +1366,33 @@ export const GetWhoiResponse = Schema.Struct({
   registrant: Schema.String,
   registrar: Schema.String,
   id: Schema.optional(Schema.String),
-  administrativeCity: Schema.optional(Schema.String).pipe(T.JsonName("administrative_city")),
-  administrativeCountry: Schema.optional(Schema.String).pipe(T.JsonName("administrative_country")),
-  administrativeEmail: Schema.optional(Schema.String).pipe(T.JsonName("administrative_email")),
-  administrativeFax: Schema.optional(Schema.String).pipe(T.JsonName("administrative_fax")),
-  administrativeFaxExt: Schema.optional(Schema.String).pipe(T.JsonName("administrative_fax_ext")),
-  administrativeId: Schema.optional(Schema.String).pipe(T.JsonName("administrative_id")),
-  administrativeName: Schema.optional(Schema.String).pipe(T.JsonName("administrative_name")),
-  administrativeOrg: Schema.optional(Schema.String).pipe(T.JsonName("administrative_org")),
-  administrativePhone: Schema.optional(Schema.String).pipe(T.JsonName("administrative_phone")),
+  administrativeCity: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_city"),
+  ),
+  administrativeCountry: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_country"),
+  ),
+  administrativeEmail: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_email"),
+  ),
+  administrativeFax: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_fax"),
+  ),
+  administrativeFaxExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_fax_ext"),
+  ),
+  administrativeId: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_id"),
+  ),
+  administrativeName: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_name"),
+  ),
+  administrativeOrg: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_org"),
+  ),
+  administrativePhone: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_phone"),
+  ),
   administrativePhoneExt: Schema.optional(Schema.String).pipe(
     T.JsonName("administrative_phone_ext"),
   ),
@@ -1232,70 +1405,178 @@ export const GetWhoiResponse = Schema.Struct({
   administrativeReferralUrl: Schema.optional(Schema.String).pipe(
     T.JsonName("administrative_referral_url"),
   ),
-  administrativeStreet: Schema.optional(Schema.String).pipe(T.JsonName("administrative_street")),
+  administrativeStreet: Schema.optional(Schema.String).pipe(
+    T.JsonName("administrative_street"),
+  ),
   billingCity: Schema.optional(Schema.String).pipe(T.JsonName("billing_city")),
-  billingCountry: Schema.optional(Schema.String).pipe(T.JsonName("billing_country")),
-  billingEmail: Schema.optional(Schema.String).pipe(T.JsonName("billing_email")),
+  billingCountry: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_country"),
+  ),
+  billingEmail: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_email"),
+  ),
   billingFax: Schema.optional(Schema.String).pipe(T.JsonName("billing_fax")),
-  billingFaxExt: Schema.optional(Schema.String).pipe(T.JsonName("billing_fax_ext")),
+  billingFaxExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_fax_ext"),
+  ),
   billingId: Schema.optional(Schema.String).pipe(T.JsonName("billing_id")),
   billingName: Schema.optional(Schema.String).pipe(T.JsonName("billing_name")),
   billingOrg: Schema.optional(Schema.String).pipe(T.JsonName("billing_org")),
-  billingPhone: Schema.optional(Schema.String).pipe(T.JsonName("billing_phone")),
-  billingPhoneExt: Schema.optional(Schema.String).pipe(T.JsonName("billing_phone_ext")),
-  billingPostalCode: Schema.optional(Schema.String).pipe(T.JsonName("billing_postal_code")),
-  billingProvince: Schema.optional(Schema.String).pipe(T.JsonName("billing_province")),
-  billingReferralUrl: Schema.optional(Schema.String).pipe(T.JsonName("billing_referral_url")),
-  billingStreet: Schema.optional(Schema.String).pipe(T.JsonName("billing_street")),
+  billingPhone: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_phone"),
+  ),
+  billingPhoneExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_phone_ext"),
+  ),
+  billingPostalCode: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_postal_code"),
+  ),
+  billingProvince: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_province"),
+  ),
+  billingReferralUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_referral_url"),
+  ),
+  billingStreet: Schema.optional(Schema.String).pipe(
+    T.JsonName("billing_street"),
+  ),
   createdDate: Schema.optional(Schema.String).pipe(T.JsonName("created_date")),
-  createdDateRaw: Schema.optional(Schema.String).pipe(T.JsonName("created_date_raw")),
-  expirationDate: Schema.optional(Schema.String).pipe(T.JsonName("expiration_date")),
-  expirationDateRaw: Schema.optional(Schema.String).pipe(T.JsonName("expiration_date_raw")),
-  registrantCity: Schema.optional(Schema.String).pipe(T.JsonName("registrant_city")),
-  registrantCountry: Schema.optional(Schema.String).pipe(T.JsonName("registrant_country")),
-  registrantEmail: Schema.optional(Schema.String).pipe(T.JsonName("registrant_email")),
-  registrantFax: Schema.optional(Schema.String).pipe(T.JsonName("registrant_fax")),
-  registrantFaxExt: Schema.optional(Schema.String).pipe(T.JsonName("registrant_fax_ext")),
-  registrantId: Schema.optional(Schema.String).pipe(T.JsonName("registrant_id")),
-  registrantName: Schema.optional(Schema.String).pipe(T.JsonName("registrant_name")),
-  registrantOrg: Schema.optional(Schema.String).pipe(T.JsonName("registrant_org")),
-  registrantPhone: Schema.optional(Schema.String).pipe(T.JsonName("registrant_phone")),
-  registrantPhoneExt: Schema.optional(Schema.String).pipe(T.JsonName("registrant_phone_ext")),
-  registrantPostalCode: Schema.optional(Schema.String).pipe(T.JsonName("registrant_postal_code")),
-  registrantProvince: Schema.optional(Schema.String).pipe(T.JsonName("registrant_province")),
-  registrantReferralUrl: Schema.optional(Schema.String).pipe(T.JsonName("registrant_referral_url")),
-  registrantStreet: Schema.optional(Schema.String).pipe(T.JsonName("registrant_street")),
-  registrarCity: Schema.optional(Schema.String).pipe(T.JsonName("registrar_city")),
-  registrarCountry: Schema.optional(Schema.String).pipe(T.JsonName("registrar_country")),
-  registrarEmail: Schema.optional(Schema.String).pipe(T.JsonName("registrar_email")),
-  registrarFax: Schema.optional(Schema.String).pipe(T.JsonName("registrar_fax")),
-  registrarFaxExt: Schema.optional(Schema.String).pipe(T.JsonName("registrar_fax_ext")),
+  createdDateRaw: Schema.optional(Schema.String).pipe(
+    T.JsonName("created_date_raw"),
+  ),
+  expirationDate: Schema.optional(Schema.String).pipe(
+    T.JsonName("expiration_date"),
+  ),
+  expirationDateRaw: Schema.optional(Schema.String).pipe(
+    T.JsonName("expiration_date_raw"),
+  ),
+  registrantCity: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_city"),
+  ),
+  registrantCountry: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_country"),
+  ),
+  registrantEmail: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_email"),
+  ),
+  registrantFax: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_fax"),
+  ),
+  registrantFaxExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_fax_ext"),
+  ),
+  registrantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_id"),
+  ),
+  registrantName: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_name"),
+  ),
+  registrantOrg: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_org"),
+  ),
+  registrantPhone: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_phone"),
+  ),
+  registrantPhoneExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_phone_ext"),
+  ),
+  registrantPostalCode: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_postal_code"),
+  ),
+  registrantProvince: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_province"),
+  ),
+  registrantReferralUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_referral_url"),
+  ),
+  registrantStreet: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrant_street"),
+  ),
+  registrarCity: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_city"),
+  ),
+  registrarCountry: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_country"),
+  ),
+  registrarEmail: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_email"),
+  ),
+  registrarFax: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_fax"),
+  ),
+  registrarFaxExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_fax_ext"),
+  ),
   registrarId: Schema.optional(Schema.String).pipe(T.JsonName("registrar_id")),
-  registrarName: Schema.optional(Schema.String).pipe(T.JsonName("registrar_name")),
-  registrarOrg: Schema.optional(Schema.String).pipe(T.JsonName("registrar_org")),
-  registrarPhone: Schema.optional(Schema.String).pipe(T.JsonName("registrar_phone")),
-  registrarPhoneExt: Schema.optional(Schema.String).pipe(T.JsonName("registrar_phone_ext")),
-  registrarPostalCode: Schema.optional(Schema.String).pipe(T.JsonName("registrar_postal_code")),
-  registrarProvince: Schema.optional(Schema.String).pipe(T.JsonName("registrar_province")),
-  registrarReferralUrl: Schema.optional(Schema.String).pipe(T.JsonName("registrar_referral_url")),
-  registrarStreet: Schema.optional(Schema.String).pipe(T.JsonName("registrar_street")),
+  registrarName: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_name"),
+  ),
+  registrarOrg: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_org"),
+  ),
+  registrarPhone: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_phone"),
+  ),
+  registrarPhoneExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_phone_ext"),
+  ),
+  registrarPostalCode: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_postal_code"),
+  ),
+  registrarProvince: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_province"),
+  ),
+  registrarReferralUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_referral_url"),
+  ),
+  registrarStreet: Schema.optional(Schema.String).pipe(
+    T.JsonName("registrar_street"),
+  ),
   status: Schema.optional(Schema.Array(Schema.String)),
-  technicalCity: Schema.optional(Schema.String).pipe(T.JsonName("technical_city")),
-  technicalCountry: Schema.optional(Schema.String).pipe(T.JsonName("technical_country")),
-  technicalEmail: Schema.optional(Schema.String).pipe(T.JsonName("technical_email")),
-  technicalFax: Schema.optional(Schema.String).pipe(T.JsonName("technical_fax")),
-  technicalFaxExt: Schema.optional(Schema.String).pipe(T.JsonName("technical_fax_ext")),
+  technicalCity: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_city"),
+  ),
+  technicalCountry: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_country"),
+  ),
+  technicalEmail: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_email"),
+  ),
+  technicalFax: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_fax"),
+  ),
+  technicalFaxExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_fax_ext"),
+  ),
   technicalId: Schema.optional(Schema.String).pipe(T.JsonName("technical_id")),
-  technicalName: Schema.optional(Schema.String).pipe(T.JsonName("technical_name")),
-  technicalOrg: Schema.optional(Schema.String).pipe(T.JsonName("technical_org")),
-  technicalPhone: Schema.optional(Schema.String).pipe(T.JsonName("technical_phone")),
-  technicalPhoneExt: Schema.optional(Schema.String).pipe(T.JsonName("technical_phone_ext")),
-  technicalPostalCode: Schema.optional(Schema.String).pipe(T.JsonName("technical_postal_code")),
-  technicalProvince: Schema.optional(Schema.String).pipe(T.JsonName("technical_province")),
-  technicalReferralUrl: Schema.optional(Schema.String).pipe(T.JsonName("technical_referral_url")),
-  technicalStreet: Schema.optional(Schema.String).pipe(T.JsonName("technical_street")),
+  technicalName: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_name"),
+  ),
+  technicalOrg: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_org"),
+  ),
+  technicalPhone: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_phone"),
+  ),
+  technicalPhoneExt: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_phone_ext"),
+  ),
+  technicalPostalCode: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_postal_code"),
+  ),
+  technicalProvince: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_province"),
+  ),
+  technicalReferralUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_referral_url"),
+  ),
+  technicalStreet: Schema.optional(Schema.String).pipe(
+    T.JsonName("technical_street"),
+  ),
   updatedDate: Schema.optional(Schema.String).pipe(T.JsonName("updated_date")),
-  updatedDateRaw: Schema.optional(Schema.String).pipe(T.JsonName("updated_date_raw")),
+  updatedDateRaw: Schema.optional(Schema.String).pipe(
+    T.JsonName("updated_date_raw"),
+  ),
   whoisServer: Schema.optional(Schema.String).pipe(T.JsonName("whois_server")),
 }) as unknown as Schema.Schema<GetWhoiResponse>;
 

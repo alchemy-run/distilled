@@ -9,6 +9,7 @@ This document describes an iterative, convergent process for discovering all mis
 AWS Smithy models omit many error types that operations actually throw. Your mission is to systematically discover these errors and record them to `spec/{service}.json`, achieving convergence where no gaps remain.
 
 **Your role:**
+
 1. **Analyze** - Assess current coverage, identify gaps
 2. **Execute** - Run targeted discovery
 3. **Improve** - Enhance tools when you hit limitations
@@ -24,12 +25,12 @@ These errors occur when an operation references a resource that doesn't exist or
 
 **Discovery strategy:** Generate fake IDs/names and call operations directly.
 
-| Pattern | Examples |
-|---------|----------|
-| `*NotFound` | `InvalidVpcID.NotFound`, `NoSuchBucket`, `ResourceNotFoundException` |
-| `*Malformed` | `InvalidInstanceID.Malformed`, `InvalidParameterValue` |
-| `NoSuch*` | `NoSuchKey`, `NoSuchUpload` |
-| `Invalid*` | `InvalidSubnetId`, `InvalidSecurityGroupId` |
+| Pattern      | Examples                                                             |
+| ------------ | -------------------------------------------------------------------- |
+| `*NotFound`  | `InvalidVpcID.NotFound`, `NoSuchBucket`, `ResourceNotFoundException` |
+| `*Malformed` | `InvalidInstanceID.Malformed`, `InvalidParameterValue`               |
+| `NoSuch*`    | `NoSuchKey`, `NoSuchUpload`                                          |
+| `Invalid*`   | `InvalidSubnetId`, `InvalidSecurityGroupId`                          |
 
 The naming varies by service—EC2 uses `Invalid*.NotFound`, S3 uses `NoSuch*`, Lambda uses `ResourceNotFoundException`—but they all represent "this thing doesn't exist."
 
@@ -39,18 +40,19 @@ These errors occur when you try to delete or modify a resource that other resour
 
 **Discovery strategy:** Walk operations in dependency order—create parent resources, then try to delete them while children exist.
 
-| Pattern | Examples |
-|---------|----------|
-| `*InUse` | `VpcInUse`, `SubnetInUse`, `SecurityGroupInUse` |
-| `DependencyViolation` | Can't delete VPC before subnets |
-| `*HasAttachments` | Resource still has attached resources |
-| `DeleteConflict` | IAM resource has dependent policies |
+| Pattern               | Examples                                        |
+| --------------------- | ----------------------------------------------- |
+| `*InUse`              | `VpcInUse`, `SubnetInUse`, `SecurityGroupInUse` |
+| `DependencyViolation` | Can't delete VPC before subnets                 |
+| `*HasAttachments`     | Resource still has attached resources           |
+| `DeleteConflict`      | IAM resource has dependent policies             |
 
 Example: You can't delete a VPC before deleting its subnets, internet gateways, and route tables. Attempting to do so produces `DependencyViolation` or `VpcInUse` errors.
 
 ### Why These Errors Matter
 
 These errors are the most common runtime failures when working with AWS:
+
 - **Not Found:** User provides invalid ID, resource was deleted, cross-region reference
 - **Dependency Violation:** Cleanup order matters, orphaned resources block deletion
 
@@ -154,13 +156,13 @@ const prefixMatch = idGen.match(/AWS_ID_PREFIXES[^}]+\{([^}]+)\}/s);
 
 ### When to Use Ad-Hoc vs. Encode in CLI
 
-| Situation | Approach |
-|-----------|----------|
-| Coverage analysis | **Always** ad-hoc JavaScript |
-| One-time exploration | Ad-hoc JavaScript |
-| Understanding patterns | Ad-hoc JavaScript |
-| Cross-service comparison | Ad-hoc JavaScript |
-| Error discovery execution | CLI (`bun find`) |
+| Situation                 | Approach                     |
+| ------------------------- | ---------------------------- |
+| Coverage analysis         | **Always** ad-hoc JavaScript |
+| One-time exploration      | Ad-hoc JavaScript            |
+| Understanding patterns    | Ad-hoc JavaScript            |
+| Cross-service comparison  | Ad-hoc JavaScript            |
+| Error discovery execution | CLI (`bun find`)             |
 
 ## Phase 2: Decide What to Target
 
@@ -177,13 +179,13 @@ Based on your analysis, choose what to work on.
 
 Different operation types yield different error patterns:
 
-| Type | Typical Errors | Priority |
-|------|---------------|----------|
-| delete | `*NotFound`, `*Malformed` | High - easy wins |
-| read/describe | `NoSuch*`, `*NotFound` | High - easy wins |
-| create | `Invalid*`, `AlreadyExists` | Medium - may need FK refs |
-| update/modify | `*NotFound`, `Invalid*` | Medium |
-| action | Varies widely | Lower - case-by-case |
+| Type          | Typical Errors              | Priority                  |
+| ------------- | --------------------------- | ------------------------- |
+| delete        | `*NotFound`, `*Malformed`   | High - easy wins          |
+| read/describe | `NoSuch*`, `*NotFound`      | High - easy wins          |
+| create        | `Invalid*`, `AlreadyExists` | Medium - may need FK refs |
+| update/modify | `*NotFound`, `Invalid*`     | Medium                    |
+| action        | Varies widely               | Lower - case-by-case      |
 
 ```bash
 # Target delete operations first (highest success rate)
@@ -267,6 +269,7 @@ After each run, interpret what you learned.
 ### New Errors Discovered
 
 Success! The errors are now in `spec/{service}.json`. Next steps:
+
 1. Regenerate SDK: `bun generate --sdk {service}`
 2. Run again to verify convergence
 3. Commit the spec file
@@ -284,6 +287,7 @@ The ID generator doesn't know the correct prefix for `VpnGateway`. See Phase 5.
 ### No Errors / Empty Results
 
 Possible causes:
+
 - Operation doesn't validate inputs (rare)
 - Operation requires real resources to fail
 - Rate limiting prevented the call
@@ -331,6 +335,7 @@ bun vitest run scripts/find-errors/id-generator.test.ts
 **Warning:** Do NOT run `bun vitest run` or `bun test` without a path — this runs all protocol and service tests which is slow and requires AWS credentials.
 
 **Goal: Complete test coverage.** The `id-generator.test.ts` file should eventually include tests for every resource type variation:
+
 - Every prefix in `AWS_ID_PREFIXES`
 - Every entry in `NAME_BASED_RESOURCES`
 - Every entry in `SPECIAL_FORMAT_RESOURCES`
@@ -375,6 +380,7 @@ When you notice a convergence pattern, add a skip rule:
 ### Test-Driven Improvement
 
 Always follow this pattern:
+
 1. See the failure or gap
 2. Add a test for expected behavior
 3. Implement the fix
@@ -401,6 +407,7 @@ git commit -m "fix: add VpnGateway ID prefix"
 ## Resource Management & Cleanup
 
 **Critical:** The discovery process creates real AWS resources. Cleanup is essential to avoid:
+
 - Accumulating orphaned resources
 - Unexpected AWS charges
 - Resource limit exhaustion
@@ -420,13 +427,14 @@ import { cleanService, generateCleanupPlan } from "./cleaner.ts";
 const plan = await generateCleanupPlan("ec2");
 
 // Clean all resources with "itty-" prefix (test resources)
-await cleanService("ec2", ec2Module, { 
+await cleanService("ec2", ec2Module, {
   prefix: "itty-",
   dryRun: true  // Preview first!
 });
 ```
 
 Key features:
+
 - **Deletion order**: Children deleted before parents (via dependency graph)
 - **Cleanable resources**: Only resources with both list and delete operations
 - **Prefix filtering**: Clean only resources matching a pattern
@@ -445,6 +453,7 @@ bun clean:aws lambda
 ```
 
 The cleaner:
+
 1. Builds the topology to understand resource dependencies
 2. Lists all resources using list/describe operations
 3. Deletes in dependency order (children before parents)
@@ -469,13 +478,13 @@ bun clean:aws --plan ec2
 
 The topology must understand each resource's lifecycle operations:
 
-| Operation | Purpose | Examples |
-|-----------|---------|----------|
-| create | Creates the resource | `createVpc`, `runInstances` |
-| list | Lists all instances | `describeVpcs`, `listBuckets` |
-| read | Gets a single instance | `describeVpc`, `getBucket` |
-| detach | Disassociates before delete | `detachInternetGateway` |
-| delete | Removes the resource | `deleteVpc`, `terminateInstances` |
+| Operation | Purpose                     | Examples                          |
+| --------- | --------------------------- | --------------------------------- |
+| create    | Creates the resource        | `createVpc`, `runInstances`       |
+| list      | Lists all instances         | `describeVpcs`, `listBuckets`     |
+| read      | Gets a single instance      | `describeVpc`, `getBucket`        |
+| detach    | Disassociates before delete | `detachInternetGateway`           |
+| delete    | Removes the resource        | `deleteVpc`, `terminateInstances` |
 
 The topology already tracks these in `Resource.operations`:
 
@@ -498,12 +507,14 @@ interface Resource {
 AWS services follow patterns but aren't uniform. The cleanup system is:
 
 **Generic layer** (works across services):
+
 - Topology parsing from Smithy models
 - Dependency graph computation
 - Deletion order calculation
 - List → Delete execution loop
 
 **Service-specific adaptations** (case-by-case):
+
 - Response parsing (where's the list of items?)
 - Identifier extraction (what's the ID field?)
 - Special cleanup sequences (EC2 instances need terminate, not delete)
@@ -519,6 +530,7 @@ When cleanup fails for a resource:
 4. **Add service-specific logic** - Some resources need custom handling
 
 Add improvements to:
+
 - `topology.ts` - Better operation detection
 - `cleaner.ts` - Response parsing patterns
 - New service-specific cleaners if needed
@@ -537,12 +549,14 @@ Add improvements to:
 A service is converged when `bun find {service}` returns "0 new errors discovered" AND your ad-hoc analysis confirms no gaps.
 
 **Run the find tool:**
+
 ```bash
 bun find {service}
 # Should return: "New errors discovered: 0"
 ```
 
 **Then verify with ad-hoc JavaScript:**
+
 ```javascript
 // Run: bun -e "..."
 // Check that delete/read operations have appropriate errors
@@ -583,6 +597,7 @@ console.log(`\nTotal: ${total} operations across ${services.length} services`);
 ### Regression Prevention
 
 After achieving convergence:
+
 - Skip rules prevent re-testing satisfied operations
 - Tests in `id-generator.test.ts` prevent ID format regressions
 - Regenerating SDKs incorporates all discovered errors
@@ -590,25 +605,26 @@ After achieving convergence:
 ## Error Heuristics
 
 The `error-heuristics.ts` module provides intelligent predictions about which errors each operation type should throw. This helps:
+
 - Focus discovery on operations likely to yield new errors
 - Skip operations that won't throw certain error types (e.g., list never throws NotFound)
 - Identify which delete operations should have DependencyViolation errors
 
 ### Operation Type Expectations
 
-| Operation Type | NotFound | Malformed | DependencyViolation |
-|----------------|----------|-----------|---------------------|
-| `list` | Never | Never | Never |
-| `read/describe` | Sometimes* | Sometimes* | Never |
-| `delete` | Always | Always | Sometimes** |
-| `update` | Always | Always | Never |
-| `create` | Never | Never | Never |
-| `detach` | Always | Always | Never |
-| `action` | Sometimes | Sometimes | Never |
+| Operation Type  | NotFound    | Malformed   | DependencyViolation |
+| --------------- | ----------- | ----------- | ------------------- |
+| `list`          | Never       | Never       | Never               |
+| `read/describe` | Sometimes\* | Sometimes\* | Never               |
+| `delete`        | Always      | Always      | Sometimes\*\*       |
+| `update`        | Always      | Always      | Never               |
+| `create`        | Never       | Never       | Never               |
+| `detach`        | Always      | Always      | Never               |
+| `action`        | Sometimes   | Sometimes   | Never               |
 
 \* Read operations throw NotFound/Malformed if they take a specific resource ID (e.g., `getVpc`), but not if they filter by tags or return empty results (e.g., `describeVpcs`).
 
-\** Delete operations throw DependencyViolation if they delete "parent" resources that others depend on (VPC, Subnet, SecurityGroup, etc.).
+\*\* Delete operations throw DependencyViolation if they delete "parent" resources that others depend on (VPC, Subnet, SecurityGroup, etc.).
 
 ### Using Heuristics
 
@@ -628,6 +644,7 @@ if (shouldHaveError("deleteVpc", "delete", "dependencyViolation")) {
 ## Dependency Walker
 
 The `dependency-walker.ts` module discovers DependencyViolation errors by:
+
 1. Creating resources in dependency order (parent before child)
 2. Attempting to delete parents while children still exist
 3. Recording the resulting DependencyViolation/InUse errors
@@ -635,6 +652,7 @@ The `dependency-walker.ts` module discovers DependencyViolation errors by:
 ### Architecture
 
 The walker uses **resource recipes** that define:
+
 - How to create each resource type
 - What resources it depends on
 - How to extract IDs from responses
@@ -693,6 +711,7 @@ bun run scripts/find-errors/coverage-analysis.ts
 ```
 
 Output includes:
+
 - Total vs patched operations
 - Unpatched operations grouped by type
 - Delete operations with/without NotFound, Malformed, DependencyViolation
@@ -701,6 +720,7 @@ Output includes:
 ## Current Progress (EC2)
 
 As of the last session:
+
 - **Operations covered:** 675/746 (90%)
 - **With NotFound:** 357 operations
 - **With Malformed:** 248 operations
@@ -709,6 +729,7 @@ As of the last session:
 ### Known Gaps
 
 Based on heuristics, ~44 delete operations should have DependencyViolation errors, but only 10 are discovered. The remaining ~34 need:
+
 1. Resource recipes added to `dependency-walker.ts`
 2. The walker run to trigger the errors
 3. Resources cleaned up after discovery
@@ -722,42 +743,42 @@ Based on heuristics, ~44 delete operations should have DependencyViolation error
 
 ## Key Files Reference
 
-| File | Purpose | When to Modify |
-|------|---------|----------------|
-| `scripts/find-errors/index.ts` | CLI entry point | Adding new commands/options |
-| `scripts/find-errors/topology.ts` | Smithy model parsing | Improving operation/resource detection |
-| `scripts/find-errors/id-generator.ts` | Fake ID generation | Adding prefixes for new resource types |
-| `scripts/find-errors/id-generator.test.ts` | ID generation tests | Every new prefix needs a test |
-| `scripts/find-errors/runner.ts` | API calling, error recording | Adding skip rules, changing behavior |
-| `scripts/find-errors/cleaner.ts` | Resource cleanup | Adding response patterns, cleanup logic |
-| `scripts/find-errors/error-heuristics.ts` | Error type predictions | Adding heuristics for new operation patterns |
-| `scripts/find-errors/dependency-walker.ts` | DependencyViolation discovery | Adding resource recipes |
-| `scripts/find-errors/coverage-analysis.ts` | Gap analysis | Extending analysis queries |
-| `spec/*.json` | Discovered errors | Automatically updated by runner |
-| `aws-models/models/` | Smithy model source | Read-only reference |
+| File                                       | Purpose                       | When to Modify                               |
+| ------------------------------------------ | ----------------------------- | -------------------------------------------- |
+| `scripts/find-errors/index.ts`             | CLI entry point               | Adding new commands/options                  |
+| `scripts/find-errors/topology.ts`          | Smithy model parsing          | Improving operation/resource detection       |
+| `scripts/find-errors/id-generator.ts`      | Fake ID generation            | Adding prefixes for new resource types       |
+| `scripts/find-errors/id-generator.test.ts` | ID generation tests           | Every new prefix needs a test                |
+| `scripts/find-errors/runner.ts`            | API calling, error recording  | Adding skip rules, changing behavior         |
+| `scripts/find-errors/cleaner.ts`           | Resource cleanup              | Adding response patterns, cleanup logic      |
+| `scripts/find-errors/error-heuristics.ts`  | Error type predictions        | Adding heuristics for new operation patterns |
+| `scripts/find-errors/dependency-walker.ts` | DependencyViolation discovery | Adding resource recipes                      |
+| `scripts/find-errors/coverage-analysis.ts` | Gap analysis                  | Extending analysis queries                   |
+| `spec/*.json`                              | Discovered errors             | Automatically updated by runner              |
+| `aws-models/models/`                       | Smithy model source           | Read-only reference                          |
 
 ## Common Patterns
 
 ### Error Patterns by Operation Type
 
-| Operation | Expected Errors |
-|-----------|-----------------|
-| delete{Resource} | `Invalid{Resource}ID.NotFound` |
+| Operation          | Expected Errors                                    |
+| ------------------ | -------------------------------------------------- |
+| delete{Resource}   | `Invalid{Resource}ID.NotFound`                     |
 | describe{Resource} | `Invalid{Resource}ID.NotFound`, `NoSuch{Resource}` |
-| get{Resource} | `NoSuch{Resource}`, `{Resource}NotFound` |
-| create{Resource} | `Invalid*`, `{Resource}AlreadyExists` |
-| attach{A}To{B} | `Invalid{A}ID.NotFound`, `Invalid{B}ID.NotFound` |
+| get{Resource}      | `NoSuch{Resource}`, `{Resource}NotFound`           |
+| create{Resource}   | `Invalid*`, `{Resource}AlreadyExists`              |
+| attach{A}To{B}     | `Invalid{A}ID.NotFound`, `Invalid{B}ID.NotFound`   |
 
 ### ID Format Patterns
 
-| Resource Type | ID Format | Prefix |
-|---------------|-----------|--------|
-| VPC resources | `{prefix}-{hex}` | vpc, subnet, igw, rtb, sg |
-| EC2 instances | `i-{hex}` | i |
-| AMIs | `ami-{hex}` | ami |
-| S3 buckets | Name string | (none) |
-| Lambda functions | Name string | (none) |
-| IAM resources | ARN | arn:aws:iam:: |
+| Resource Type    | ID Format        | Prefix                    |
+| ---------------- | ---------------- | ------------------------- |
+| VPC resources    | `{prefix}-{hex}` | vpc, subnet, igw, rtb, sg |
+| EC2 instances    | `i-{hex}`        | i                         |
+| AMIs             | `ami-{hex}`      | ami                       |
+| S3 buckets       | Name string      | (none)                    |
+| Lambda functions | Name string      | (none)                    |
+| IAM resources    | ARN              | arn:aws:iam::             |
 
 ## Troubleshooting
 
@@ -798,6 +819,7 @@ bun find newservice
 ### Unexpected Errors
 
 If you see errors that don't fit patterns:
+
 1. Check if it's a real validation error (add to spec)
 2. Check if it's a transient error (retry)
 3. Check if input generation is wrong (improve id-generator)

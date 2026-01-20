@@ -54,7 +54,15 @@ interface ParamInfo {
 }
 
 interface TypeInfo {
-  kind: "primitive" | "literal" | "union" | "array" | "object" | "null" | "unknown" | "file";
+  kind:
+    | "primitive"
+    | "literal"
+    | "union"
+    | "array"
+    | "object"
+    | "null"
+    | "unknown"
+    | "file";
   value?: string; // For primitives and literals
   values?: TypeInfo[]; // For unions
   elementType?: TypeInfo; // For arrays
@@ -119,19 +127,28 @@ interface TypeRegistry {
  *
  * Resolution happens lazily during schema generation using resolveTypeInfo()
  */
-function createTypeRegistry(sourceFile: ts.SourceFile, checker: ts.TypeChecker): TypeRegistry {
+function createTypeRegistry(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+): TypeRegistry {
   const types = new Map<string, ParsedInterface>();
   const typeAliases = new Map<string, TypeInfo>();
   const nodeMap = new Map<string, ts.InterfaceDeclaration>();
 
   // First pass: collect all interface declarations and type aliases with qualified names
-  function collectInterface(node: ts.InterfaceDeclaration, prefix: string = "") {
+  function collectInterface(
+    node: ts.InterfaceDeclaration,
+    prefix: string = "",
+  ) {
     const name = node.name.getText();
     const qualifiedName = prefix ? `${prefix}.${name}` : name;
     nodeMap.set(qualifiedName, node);
   }
 
-  function collectTypeAlias(node: ts.TypeAliasDeclaration, prefix: string = "") {
+  function collectTypeAlias(
+    node: ts.TypeAliasDeclaration,
+    prefix: string = "",
+  ) {
     const name = node.name.getText();
     const qualifiedName = prefix ? `${prefix}.${name}` : name;
     // Parse the type alias's type
@@ -139,7 +156,10 @@ function createTypeRegistry(sourceFile: ts.SourceFile, checker: ts.TypeChecker):
     typeAliases.set(qualifiedName, typeInfo);
   }
 
-  function collectFromNamespace(node: ts.ModuleDeclaration, prefix: string = "") {
+  function collectFromNamespace(
+    node: ts.ModuleDeclaration,
+    prefix: string = "",
+  ) {
     const name = node.name.getText();
     const qualifiedName = prefix ? `${prefix}.${name}` : name;
 
@@ -186,7 +206,11 @@ function createTypeRegistry(sourceFile: ts.SourceFile, checker: ts.TypeChecker):
  * Recursively resolve a TypeInfo using the registry
  * This is called during schema/type generation, after all interfaces are parsed
  */
-function resolveTypeInfoDeep(type: TypeInfo, registry: TypeRegistry, depth: number = 0): TypeInfo {
+function resolveTypeInfoDeep(
+  type: TypeInfo,
+  registry: TypeRegistry,
+  depth: number = 0,
+): TypeInfo {
   // Prevent infinite recursion
   if (depth > 10) {
     return type;
@@ -197,14 +221,20 @@ function resolveTypeInfoDeep(type: TypeInfo, registry: TypeRegistry, depth: numb
       if (type.elementType) {
         return {
           ...type,
-          elementType: resolveTypeInfoDeep(type.elementType, registry, depth + 1),
+          elementType: resolveTypeInfoDeep(
+            type.elementType,
+            registry,
+            depth + 1,
+          ),
         };
       }
       return type;
 
     case "union":
       if (type.values) {
-        const resolvedValues = type.values.map((v) => resolveTypeInfoDeep(v, registry, depth + 1));
+        const resolvedValues = type.values.map((v) =>
+          resolveTypeInfoDeep(v, registry, depth + 1),
+        );
 
         // If all values are unknown, collapse to single unknown
         if (resolvedValues.every((v) => v.kind === "unknown")) {
@@ -269,7 +299,10 @@ function resolveTypeInfoDeep(type: TypeInfo, registry: TypeRegistry, depth: numb
 /**
  * Resolve a type reference to its full TypeInfo using the type registry
  */
-function resolveTypeReference(typeName: string, registry: TypeRegistry): TypeInfo | undefined {
+function resolveTypeReference(
+  typeName: string,
+  registry: TypeRegistry,
+): TypeInfo | undefined {
   const parsed = registry.types.get(typeName);
   if (!parsed) {
     return undefined;
@@ -404,7 +437,9 @@ function typeNodeToTypeInfo(
 
   // Union type
   if (ts.isUnionTypeNode(typeNode)) {
-    const values = typeNode.types.map((t) => typeNodeToTypeInfo(t, checker, registry));
+    const values = typeNode.types.map((t) =>
+      typeNodeToTypeInfo(t, checker, registry),
+    );
 
     // De-duplicate and simplify unions
     // Filter out unknown types if there are known types
@@ -448,7 +483,11 @@ function typeNodeToTypeInfo(
     if (typeName === "Array" && typeNode.typeArguments?.[0]) {
       return {
         kind: "array",
-        elementType: typeNodeToTypeInfo(typeNode.typeArguments[0], checker, registry),
+        elementType: typeNodeToTypeInfo(
+          typeNode.typeArguments[0],
+          checker,
+          registry,
+        ),
       };
     }
 
@@ -507,7 +546,11 @@ function typeNodeToTypeInfo(
           if (flags & ts.TypeFlags.Object) {
             const typeName = checker.typeToString(t);
             // Skip anonymous types like __type or { ... }
-            if (typeName && !typeName.startsWith("{") && !typeName.startsWith("__")) {
+            if (
+              typeName &&
+              !typeName.startsWith("{") &&
+              !typeName.startsWith("__")
+            ) {
               return { kind: "object" as const, name: typeName };
             }
           }
@@ -571,7 +614,10 @@ function extractHttpMethod(
       const expr = node.expression;
 
       // Look for this._client.get/post/put/patch/delete
-      if (ts.isPropertyAccessExpression(expr) && ts.isPropertyAccessExpression(expr.expression)) {
+      if (
+        ts.isPropertyAccessExpression(expr) &&
+        ts.isPropertyAccessExpression(expr.expression)
+      ) {
         const methodName = expr.name.getText().toUpperCase();
         if (["GET", "POST", "PUT", "PATCH", "DELETE"].includes(methodName)) {
           httpMethod = methodName as typeof httpMethod;
@@ -679,7 +725,9 @@ function extractHeaderNames(methodBody: ts.Block): Map<string, string> {
               // jurisdiction?.toString()
               const callExpr = init.expression;
               if (ts.isPropertyAccessExpression(callExpr)) {
-                const varName = callExpr.expression.getText().replace(/\?$/, "");
+                const varName = callExpr.expression
+                  .getText()
+                  .replace(/\?$/, "");
                 headerMap.set(varName, headerName);
               }
             }
@@ -763,7 +811,10 @@ function findParamsInterface(
   let result: ParsedInterface | undefined;
 
   function visit(node: ts.Node) {
-    if (ts.isInterfaceDeclaration(node) && node.name.getText() === paramsTypeName) {
+    if (
+      ts.isInterfaceDeclaration(node) &&
+      node.name.getText() === paramsTypeName
+    ) {
       result = parseInterface(node, checker, registry);
     }
 
@@ -879,7 +930,12 @@ function parseMethod(
   const addedPathParams = new Set(leadingPathParams.map((p) => p.name));
 
   if (paramsTypeName) {
-    const paramsInterface = findParamsInterface(sourceFile, paramsTypeName, checker, registry);
+    const paramsInterface = findParamsInterface(
+      sourceFile,
+      paramsTypeName,
+      checker,
+      registry,
+    );
 
     if (paramsInterface) {
       for (const prop of paramsInterface.properties) {
@@ -985,7 +1041,14 @@ function parseApiResourceClass(
   // Parse all methods
   for (const member of classDecl.members) {
     if (ts.isMethodDeclaration(member)) {
-      const operation = parseMethod(member, className, resourcePath, sourceFile, checker, registry);
+      const operation = parseMethod(
+        member,
+        className,
+        resourcePath,
+        sourceFile,
+        checker,
+        registry,
+      );
       if (operation) {
         operations.push(operation);
       }
@@ -1014,7 +1077,16 @@ const PLURALS: Record<string, string> = {
 };
 
 // Words that should NOT be singularized (acronyms, proper nouns, etc.)
-const PRESERVE_WORDS = new Set(["cors", "dns", "ssl", "tls", "api", "kv", "r2", "d1"]);
+const PRESERVE_WORDS = new Set([
+  "cors",
+  "dns",
+  "ssl",
+  "tls",
+  "api",
+  "kv",
+  "r2",
+  "d1",
+]);
 
 /**
  * Singularize a word
@@ -1053,7 +1125,12 @@ function singularize(word: string): string {
     }
     return word.slice(0, -1); // Just remove 's'
   }
-  if (word.endsWith("s") && !word.endsWith("ss") && !word.endsWith("us") && word.length > 2) {
+  if (
+    word.endsWith("s") &&
+    !word.endsWith("ss") &&
+    !word.endsWith("us") &&
+    word.length > 2
+  ) {
     return word.slice(0, -1);
   }
 
@@ -1136,13 +1213,18 @@ function buildResourceName(resourcePath: string[], className: string): string {
   }
 
   // Singularize and convert to PascalCase
-  const singularizedParts = parts.map((part) => toPascalCase(singularize(part)));
+  const singularizedParts = parts.map((part) =>
+    toPascalCase(singularize(part)),
+  );
 
   // De-duplicate consecutive identical segments
   // e.g., ["Operation", "Operation"] -> ["Operation"]
   const dedupedParts: string[] = [];
   for (const part of singularizedParts) {
-    if (dedupedParts.length === 0 || dedupedParts[dedupedParts.length - 1] !== part) {
+    if (
+      dedupedParts.length === 0 ||
+      dedupedParts[dedupedParts.length - 1] !== part
+    ) {
       dedupedParts.push(part);
     }
   }
@@ -1195,7 +1277,9 @@ function mapVerb(methodName: string, httpMethod?: string): string {
  * 3. For resources without "create", rename any "update" (PUT) operations to "put"
  * 4. Same logic applies to bulk operations: bulkUpdate -> bulkPut if no bulkCreate
  */
-function renameUpdateToPutForUpserts(operations: ParsedOperation[]): ParsedOperation[] {
+function renameUpdateToPutForUpserts(
+  operations: ParsedOperation[],
+): ParsedOperation[] {
   // Group operations by resource name
   const resourceOps = new Map<string, ParsedOperation[]>();
   for (const op of operations) {
@@ -1213,7 +1297,8 @@ function renameUpdateToPutForUpserts(operations: ParsedOperation[]): ParsedOpera
     // Check for single create
     const hasCreate = ops.some(
       (op) =>
-        op.httpMethod === "POST" && (op.methodName === "create" || op.methodName === "add"),
+        op.httpMethod === "POST" &&
+        (op.methodName === "create" || op.methodName === "add"),
     );
     if (hasCreate) {
       resourcesWithCreate.add(resource);
@@ -1225,7 +1310,8 @@ function renameUpdateToPutForUpserts(operations: ParsedOperation[]): ParsedOpera
         op.httpMethod === "POST" &&
         (op.methodName === "bulkCreate" ||
           op.methodName === "bulkAdd" ||
-          op.methodName.startsWith("bulk") && op.methodName.toLowerCase().includes("create")),
+          (op.methodName.startsWith("bulk") &&
+            op.methodName.toLowerCase().includes("create"))),
     );
     if (hasBulkCreate) {
       resourcesWithBulkCreate.add(resource);
@@ -1304,7 +1390,11 @@ function toOperationName(
 /**
  * Convert TypeInfo to Effect Schema code
  */
-function typeInfoToSchema(type: TypeInfo, indent: string = "", depth: number = 0): string {
+function typeInfoToSchema(
+  type: TypeInfo,
+  indent: string = "",
+  depth: number = 0,
+): string {
   // Prevent infinite recursion
   if (depth > 10) {
     return "Schema.Unknown";
@@ -1369,7 +1459,11 @@ function typeInfoToSchema(type: TypeInfo, indent: string = "", depth: number = 0
       if (!type.elementType) {
         return "Schema.Array(Schema.Unknown)";
       }
-      const elementSchema = typeInfoToSchema(type.elementType, indent, depth + 1);
+      const elementSchema = typeInfoToSchema(
+        type.elementType,
+        indent,
+        depth + 1,
+      );
       return `Schema.Array(${elementSchema})`;
 
     case "object":
@@ -1440,7 +1534,10 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
       // De-duplicate and filter unknowns
       const values = type.values;
       const tsTypes = values
-        .filter((v) => v.kind !== "unknown" || values.every((t) => t.kind === "unknown"))
+        .filter(
+          (v) =>
+            v.kind !== "unknown" || values.every((t) => t.kind === "unknown"),
+        )
         .map((v) => typeInfoToTsType(v, depth + 1));
       const uniqueTsTypes = [...new Set(tsTypes)];
       if (uniqueTsTypes.length === 1) {
@@ -1516,12 +1613,15 @@ function generateOperationSchema(op: ParsedOperation): string {
   );
 
   // Collect all params and resolve their types
-  const allParams = [...op.pathParams, ...op.queryParams, ...op.headerParams, ...filteredBodyParams].map(
-    (param) => ({
-      ...param,
-      type: resolveTypeInfoDeep(param.type, op.registry),
-    }),
-  );
+  const allParams = [
+    ...op.pathParams,
+    ...op.queryParams,
+    ...op.headerParams,
+    ...filteredBodyParams,
+  ].map((param) => ({
+    ...param,
+    type: resolveTypeInfoDeep(param.type, op.registry),
+  }));
 
   // Also create resolved versions for each param category
   const resolvedPathParams = op.pathParams.map((p) => ({
@@ -1548,7 +1648,9 @@ function generateOperationSchema(op: ParsedOperation): string {
     const tsType = typeInfoToTsType(param.type);
     const optMark = param.required ? "" : "?";
     if (param.description) {
-      lines.push(`  /** ${param.description.replace(/\n/g, " ").slice(0, 200)} */`);
+      lines.push(
+        `  /** ${param.description.replace(/\n/g, " ").slice(0, 200)} */`,
+      );
     }
     lines.push(`  ${propName}${optMark}: ${tsType};`);
   }
@@ -1563,7 +1665,9 @@ function generateOperationSchema(op: ParsedOperation): string {
     const propName = toCamelCase(param.name);
     const wireName = param.name;
     const schema = typeInfoToSchema(param.type);
-    requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpPath("${wireName}"))`);
+    requestProps.push(
+      `  ${propName}: ${schema}.pipe(T.HttpPath("${wireName}"))`,
+    );
   }
 
   // Add query params
@@ -1574,7 +1678,9 @@ function generateOperationSchema(op: ParsedOperation): string {
     if (!param.required) {
       schema = `Schema.optional(${schema})`;
     }
-    requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpQuery("${wireName}"))`);
+    requestProps.push(
+      `  ${propName}: ${schema}.pipe(T.HttpQuery("${wireName}"))`,
+    );
   }
 
   // Add header params
@@ -1585,7 +1691,9 @@ function generateOperationSchema(op: ParsedOperation): string {
       schema = `Schema.optional(${schema})`;
     }
     const headerName = param.headerName || param.name;
-    requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpHeader("${headerName}"))`);
+    requestProps.push(
+      `  ${propName}: ${schema}.pipe(T.HttpHeader("${headerName}"))`,
+    );
   }
 
   // Add body params
@@ -1619,7 +1727,9 @@ function generateOperationSchema(op: ParsedOperation): string {
   const httpTrait = hasFiles
     ? `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}", contentType: "multipart" })`
     : `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}" })`;
-  lines.push(`  .pipe(${httpTrait}) as unknown as Schema.Schema<${requestTypeName}>;`);
+  lines.push(
+    `  .pipe(${httpTrait}) as unknown as Schema.Schema<${requestTypeName}>;`,
+  );
   lines.push("");
 
   // Generate response interface and schema
@@ -1669,7 +1779,9 @@ function generateOperationSchema(op: ParsedOperation): string {
       const tsType = typeInfoToTsType(prop.type);
       const optMark = prop.required ? "" : "?";
       if (prop.description) {
-        lines.push(`  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`);
+        lines.push(
+          `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
+        );
       }
       lines.push(`  ${propName}${optMark}: ${tsType};`);
     }
@@ -1695,9 +1807,7 @@ function generateOperationSchema(op: ParsedOperation): string {
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
-    lines.push(
-      `}) as unknown as Schema.Schema<${responseTypeName}>;`,
-    );
+    lines.push(`}) as unknown as Schema.Schema<${responseTypeName}>;`);
     lines.push("");
   } else {
     // Fallback to unknown if we can't resolve the response type
@@ -1756,12 +1866,15 @@ function generateOperationSchemaNamed(
   );
 
   // Collect all params and resolve their types
-  const allParams = [...op.pathParams, ...op.queryParams, ...op.headerParams, ...filteredBodyParams].map(
-    (param) => ({
-      ...param,
-      type: resolveTypeInfoDeep(param.type, op.registry),
-    }),
-  );
+  const allParams = [
+    ...op.pathParams,
+    ...op.queryParams,
+    ...op.headerParams,
+    ...filteredBodyParams,
+  ].map((param) => ({
+    ...param,
+    type: resolveTypeInfoDeep(param.type, op.registry),
+  }));
 
   const resolvedPathParams = op.pathParams.map((p) => ({
     ...p,
@@ -1787,7 +1900,9 @@ function generateOperationSchemaNamed(
     const tsType = typeInfoToTsTypeNamed(param.type, sharedTypes);
     const optMark = param.required ? "" : "?";
     if (param.description) {
-      lines.push(`  /** ${param.description.replace(/\n/g, " ").slice(0, 200)} */`);
+      lines.push(
+        `  /** ${param.description.replace(/\n/g, " ").slice(0, 200)} */`,
+      );
     }
     lines.push(`  ${propName}${optMark}: ${tsType};`);
   }
@@ -1799,7 +1914,9 @@ function generateOperationSchemaNamed(
 
   for (const param of resolvedPathParams) {
     const schema = typeInfoToSchemaNamed(param.type, sharedTypes);
-    requestProps.push(`  ${param.name}: ${schema}.pipe(T.HttpPath("${param.name}"))`);
+    requestProps.push(
+      `  ${param.name}: ${schema}.pipe(T.HttpPath("${param.name}"))`,
+    );
   }
 
   for (const param of resolvedQueryParams) {
@@ -1807,7 +1924,9 @@ function generateOperationSchemaNamed(
     if (!param.required) {
       schema = `Schema.optional(${schema})`;
     }
-    requestProps.push(`  ${param.name}: ${schema}.pipe(T.HttpQuery("${param.name}"))`);
+    requestProps.push(
+      `  ${param.name}: ${schema}.pipe(T.HttpQuery("${param.name}"))`,
+    );
   }
 
   for (const param of resolvedHeaderParams) {
@@ -1816,7 +1935,9 @@ function generateOperationSchemaNamed(
       schema = `Schema.optional(${schema})`;
     }
     const headerName = param.headerName || param.name;
-    requestProps.push(`  ${param.name}: ${schema}.pipe(T.HttpHeader("${headerName}"))`);
+    requestProps.push(
+      `  ${param.name}: ${schema}.pipe(T.HttpHeader("${headerName}"))`,
+    );
   }
 
   for (const param of resolvedBodyParams) {
@@ -1839,7 +1960,9 @@ function generateOperationSchemaNamed(
   const httpTraitAlt = hasFilesAlt
     ? `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}", contentType: "multipart" })`
     : `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}" })`;
-  lines.push(`  .pipe(${httpTraitAlt}) as unknown as Schema.Schema<${requestTypeName}>;`);
+  lines.push(
+    `  .pipe(${httpTraitAlt}) as unknown as Schema.Schema<${requestTypeName}>;`,
+  );
   lines.push("");
 
   // Generate response interface and schema
@@ -1883,7 +2006,9 @@ function generateOperationSchemaNamed(
       const tsType = typeInfoToTsTypeNamed(prop.type, sharedTypes);
       const optMark = prop.required ? "" : "?";
       if (prop.description) {
-        lines.push(`  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`);
+        lines.push(
+          `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
+        );
       }
       lines.push(`  ${propName}${optMark}: ${tsType};`);
     }
@@ -1908,9 +2033,7 @@ function generateOperationSchemaNamed(
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
-    lines.push(
-      `}) as unknown as Schema.Schema<${responseTypeName}>;`,
-    );
+    lines.push(`}) as unknown as Schema.Schema<${responseTypeName}>;`);
     lines.push("");
   } else {
     lines.push(`export type ${responseTypeName} = unknown;`);
@@ -2012,7 +2135,10 @@ function areTypesEqual(a: TypeInfo, b: TypeInfo): boolean {
  */
 function collectSharedTypes(
   service: ServiceInfo,
-): Map<string, { parsed: ParsedInterface; registry: TypeRegistry; qualifiedName: string }> {
+): Map<
+  string,
+  { parsed: ParsedInterface; registry: TypeRegistry; qualifiedName: string }
+> {
   const sharedTypes = new Map<
     string,
     { parsed: ParsedInterface; registry: TypeRegistry; qualifiedName: string }
@@ -2020,7 +2146,11 @@ function collectSharedTypes(
   // Track all entries that map to each flat name for conflict detection
   const entriesByFlat = new Map<
     string,
-    Array<{ qualifiedName: string; parsed: ParsedInterface; registry: TypeRegistry }>
+    Array<{
+      qualifiedName: string;
+      parsed: ParsedInterface;
+      registry: TypeRegistry;
+    }>
   >();
 
   for (const op of service.operations) {
@@ -2106,7 +2236,9 @@ function generateNamedType(
     const tsType = typeInfoToTsTypeNamed(prop.type, allSharedTypes);
     const optMark = prop.required ? "" : "?";
     if (prop.description) {
-      lines.push(`  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`);
+      lines.push(
+        `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
+      );
     }
     lines.push(`  ${prop.name}${optMark}: ${tsType};`);
   }
@@ -2164,17 +2296,27 @@ function typeInfoToTsTypeNamed(
       return "null";
     case "union":
       if (!type.values || type.values.length === 0) return "unknown";
-      return type.values.map((v) => typeInfoToTsTypeNamed(v, sharedTypes, depth + 1)).join(" | ");
+      return type.values
+        .map((v) => typeInfoToTsTypeNamed(v, sharedTypes, depth + 1))
+        .join(" | ");
     case "array":
       if (!type.elementType) return "unknown[]";
-      const elementType = typeInfoToTsTypeNamed(type.elementType, sharedTypes, depth + 1);
+      const elementType = typeInfoToTsTypeNamed(
+        type.elementType,
+        sharedTypes,
+        depth + 1,
+      );
       if (elementType.includes("|")) return `(${elementType})[]`;
       return `${elementType}[]`;
     case "object":
       if (type.properties && type.properties.length > 0) {
         const props = type.properties
           .map((p) => {
-            const propType = typeInfoToTsTypeNamed(p.type, sharedTypes, depth + 1);
+            const propType = typeInfoToTsTypeNamed(
+              p.type,
+              sharedTypes,
+              depth + 1,
+            );
             const optMark = p.required ? "" : "?";
             return `${p.name}${optMark}: ${propType}`;
           })
@@ -2239,11 +2381,17 @@ function typeInfoToSchemaNamed(
         });
         return `Schema.Literal(${literals.join(", ")})`;
       }
-      const unionParts = type.values.map((v) => typeInfoToSchemaNamed(v, sharedTypes, depth + 1));
+      const unionParts = type.values.map((v) =>
+        typeInfoToSchemaNamed(v, sharedTypes, depth + 1),
+      );
       return `Schema.Union(${unionParts.join(", ")})`;
     case "array":
       if (!type.elementType) return "Schema.Array(Schema.Unknown)";
-      const elementSchema = typeInfoToSchemaNamed(type.elementType, sharedTypes, depth + 1);
+      const elementSchema = typeInfoToSchemaNamed(
+        type.elementType,
+        sharedTypes,
+        depth + 1,
+      );
       return `Schema.Array(${elementSchema})`;
     case "object":
       if (type.properties && type.properties.length > 0) {
@@ -2269,7 +2417,15 @@ function typeInfoToSchemaNamed(
  */
 function extractResourceFromOperationName(operationName: string): string {
   // Bulk verbs need special handling (compound verbs like bulkDelete)
-  const bulkVerbs = ["bulkCreate", "bulkUpdate", "bulkDelete", "bulkPatch", "bulkGet", "bulkPush", "bulk"];
+  const bulkVerbs = [
+    "bulkCreate",
+    "bulkUpdate",
+    "bulkDelete",
+    "bulkPatch",
+    "bulkGet",
+    "bulkPush",
+    "bulk",
+  ];
 
   for (const verb of bulkVerbs) {
     if (operationName.startsWith(verb) && operationName.length > verb.length) {
@@ -2297,11 +2453,22 @@ function extractResourceFromOperationName(operationName: string): string {
  */
 function extractVerbFromOperationName(operationName: string): string {
   // Check bulk verbs first
-  const bulkVerbs = ["bulkCreate", "bulkUpdate", "bulkDelete", "bulkPatch", "bulkGet", "bulkPush", "bulk"];
+  const bulkVerbs = [
+    "bulkCreate",
+    "bulkUpdate",
+    "bulkDelete",
+    "bulkPatch",
+    "bulkGet",
+    "bulkPush",
+    "bulk",
+  ];
   for (const verb of bulkVerbs) {
     if (operationName.startsWith(verb) && operationName.length > verb.length) {
       const nextChar = operationName[verb.length];
-      if (nextChar === nextChar.toUpperCase() && nextChar !== nextChar.toLowerCase()) {
+      if (
+        nextChar === nextChar.toUpperCase() &&
+        nextChar !== nextChar.toLowerCase()
+      ) {
         return verb;
       }
     }
@@ -2366,7 +2533,12 @@ function getVerbSortOrder(operationName: string): number {
  * Get the computed operation name for a ParsedOperation.
  */
 function getOperationName(op: ParsedOperation): string {
-  return toOperationName(op.resourcePath, op.methodName, op.className, op.httpMethod);
+  return toOperationName(
+    op.resourcePath,
+    op.methodName,
+    op.className,
+    op.httpMethod,
+  );
 }
 
 /**
@@ -2381,7 +2553,9 @@ function sortOperations(operations: ParsedOperation[]): ParsedOperation[] {
     const resourceB = extractResourceFromOperationName(opNameB);
 
     // First, sort by resource name (case-insensitive)
-    const resourceCompare = resourceA.toLowerCase().localeCompare(resourceB.toLowerCase());
+    const resourceCompare = resourceA
+      .toLowerCase()
+      .localeCompare(resourceB.toLowerCase());
     if (resourceCompare !== 0) {
       return resourceCompare;
     }
@@ -2511,15 +2685,23 @@ function getServiceName(resourcePath: string[]): string {
 /**
  * Parse all TypeScript files in a directory
  */
-async function parseServiceFiles(basePath: string, serviceFilter?: string): Promise<ServiceInfo[]> {
+async function parseServiceFiles(
+  basePath: string,
+  serviceFilter?: string,
+): Promise<ServiceInfo[]> {
   // Find all TypeScript files
-  const pattern = serviceFilter ? `${basePath}/${serviceFilter}/**/*.ts` : `${basePath}/**/*.ts`;
+  const pattern = serviceFilter
+    ? `${basePath}/${serviceFilter}/**/*.ts`
+    : `${basePath}/**/*.ts`;
 
   const files = await glob(pattern);
 
   // Filter out index files and test files
   const sourceFiles = files.filter(
-    (f) => !f.endsWith("/index.ts") && !f.includes(".test.") && !f.includes(".spec."),
+    (f) =>
+      !f.endsWith("/index.ts") &&
+      !f.includes(".test.") &&
+      !f.includes(".spec."),
   );
 
   if (sourceFiles.length === 0) {
@@ -2548,7 +2730,12 @@ async function parseServiceFiles(basePath: string, serviceFilter?: string): Prom
     // Parse all class declarations
     ts.forEachChild(sourceFile, (node) => {
       if (ts.isClassDeclaration(node)) {
-        const operations = parseApiResourceClass(node, resourcePath, sourceFile, checker);
+        const operations = parseApiResourceClass(
+          node,
+          resourcePath,
+          sourceFile,
+          checker,
+        );
 
         for (const op of operations) {
           const existing = serviceMap.get(serviceName) || [];
@@ -2587,7 +2774,10 @@ const command = Command.make(
 
       // Parse all services
       const services = yield* Effect.promise(() =>
-        parseServiceFiles(basePath, service._tag === "Some" ? service.value : undefined),
+        parseServiceFiles(
+          basePath,
+          service._tag === "Some" ? service.value : undefined,
+        ),
       );
 
       yield* Console.log(`Found ${services.length} services`);
@@ -2603,7 +2793,9 @@ const command = Command.make(
           continue;
         }
 
-        yield* Console.log(`Generating ${svc.name} (${svc.operations.length} operations)`);
+        yield* Console.log(
+          `Generating ${svc.name} (${svc.operations.length} operations)`,
+        );
 
         if (debug) {
           for (const op of svc.operations) {
@@ -2614,7 +2806,9 @@ const command = Command.make(
               op.httpMethod,
             );
             const normalizedOpName = toCamelCase(opName.replace(/-/g, "_"));
-            yield* Console.log(`  ${normalizedOpName}: ${op.httpMethod} ${op.urlTemplate}`);
+            yield* Console.log(
+              `  ${normalizedOpName}: ${op.httpMethod} ${op.urlTemplate}`,
+            );
           }
         }
 

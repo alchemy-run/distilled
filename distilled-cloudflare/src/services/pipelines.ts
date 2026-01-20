@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Pipeline
@@ -27,7 +31,10 @@ export const GetPipelineRequest = Schema.Struct({
   pipelineName: Schema.String.pipe(T.HttpPath("pipelineName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/pipelines/{pipelineName}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/pipelines/{pipelineName}",
+  }),
 ) as unknown as Schema.Schema<GetPipelineRequest>;
 
 export interface GetPipelineResponse {
@@ -37,7 +44,12 @@ export interface GetPipelineResponse {
     batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
     compression: { type?: "none" | "gzip" | "deflate" };
     format: "json";
-    path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+    path: {
+      bucket: string;
+      filename?: string;
+      filepath?: string;
+      prefix?: string;
+    };
     type: "r2";
   };
   /** Indicates the endpoint URL to send traffic. */
@@ -45,7 +57,12 @@ export interface GetPipelineResponse {
   /** Defines the name of the pipeline. */
   name: string;
   source: (
-    | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+    | {
+        format: "json";
+        type: string;
+        authentication?: boolean;
+        cors?: { origins?: string[] };
+      }
     | { format: "json"; type: string }
   )[];
   /** Indicates the version number of last saved configuration. */
@@ -57,7 +74,9 @@ export const GetPipelineResponse = Schema.Struct({
   destination: Schema.Struct({
     batch: Schema.Struct({
       maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-      maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
@@ -122,20 +141,35 @@ export const ListPipelinesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPipelinesRequest>;
 
 export interface ListPipelinesResponse {
-  resultInfo: { count: number; page: number; perPage: number; totalCount: number };
+  resultInfo: {
+    count: number;
+    page: number;
+    perPage: number;
+    totalCount: number;
+  };
   results: {
     id: string;
     destination: {
       batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
       compression: { type?: "none" | "gzip" | "deflate" };
       format: "json";
-      path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+      path: {
+        bucket: string;
+        filename?: string;
+        filepath?: string;
+        prefix?: string;
+      };
       type: "r2";
     };
     endpoint: string;
     name: string;
     source: (
-      | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+      | {
+          format: "json";
+          type: string;
+          authentication?: boolean;
+          cors?: { origins?: string[] };
+        }
       | { format: "json"; type: string }
     )[];
     version: number;
@@ -156,8 +190,12 @@ export const ListPipelinesResponse = Schema.Struct({
       id: Schema.String,
       destination: Schema.Struct({
         batch: Schema.Struct({
-          maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-          maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+          maxBytes: Schema.optional(Schema.Number).pipe(
+            T.JsonName("max_bytes"),
+          ),
+          maxDurationS: Schema.optional(Schema.Number).pipe(
+            T.JsonName("max_duration_s"),
+          ),
           maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
         }),
         compression: Schema.Struct({
@@ -211,16 +249,30 @@ export interface CreatePipelineRequest {
   destination: {
     batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
     compression: { type?: "none" | "gzip" | "deflate" };
-    credentials: { accessKeyId: string; endpoint: string; secretAccessKey: string };
+    credentials: {
+      accessKeyId: string;
+      endpoint: string;
+      secretAccessKey: string;
+    };
     format: "json";
-    path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+    path: {
+      bucket: string;
+      filename?: string;
+      filepath?: string;
+      prefix?: string;
+    };
     type: "r2";
   };
   /** Body param: Defines the name of the pipeline. */
   name: string;
   /** Body param: */
   source: (
-    | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+    | {
+        format: "json";
+        type: string;
+        authentication?: boolean;
+        cors?: { origins?: string[] };
+      }
     | { format: "json"; type: string }
   )[];
 }
@@ -230,7 +282,9 @@ export const CreatePipelineRequest = Schema.Struct({
   destination: Schema.Struct({
     batch: Schema.Struct({
       maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-      maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
@@ -280,7 +334,12 @@ export interface CreatePipelineResponse {
     batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
     compression: { type?: "none" | "gzip" | "deflate" };
     format: "json";
-    path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+    path: {
+      bucket: string;
+      filename?: string;
+      filepath?: string;
+      prefix?: string;
+    };
     type: "r2";
   };
   /** Indicates the endpoint URL to send traffic. */
@@ -288,7 +347,12 @@ export interface CreatePipelineResponse {
   /** Defines the name of the pipeline. */
   name: string;
   source: (
-    | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+    | {
+        format: "json";
+        type: string;
+        authentication?: boolean;
+        cors?: { origins?: string[] };
+      }
     | { format: "json"; type: string }
   )[];
   /** Indicates the version number of last saved configuration. */
@@ -300,7 +364,9 @@ export const CreatePipelineResponse = Schema.Struct({
   destination: Schema.Struct({
     batch: Schema.Struct({
       maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-      maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
@@ -353,15 +419,29 @@ export interface UpdatePipelineRequest {
     batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
     compression: { type?: "none" | "gzip" | "deflate" };
     format: "json";
-    path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+    path: {
+      bucket: string;
+      filename?: string;
+      filepath?: string;
+      prefix?: string;
+    };
     type: "r2";
-    credentials?: { accessKeyId: string; endpoint: string; secretAccessKey: string };
+    credentials?: {
+      accessKeyId: string;
+      endpoint: string;
+      secretAccessKey: string;
+    };
   };
   /** Body param: Defines the name of the pipeline. */
   name: string;
   /** Body param: */
   source: (
-    | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+    | {
+        format: "json";
+        type: string;
+        authentication?: boolean;
+        cors?: { origins?: string[] };
+      }
     | { format: "json"; type: string }
   )[];
 }
@@ -372,7 +452,9 @@ export const UpdatePipelineRequest = Schema.Struct({
   destination: Schema.Struct({
     batch: Schema.Struct({
       maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-      maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
@@ -414,7 +496,10 @@ export const UpdatePipelineRequest = Schema.Struct({
     ),
   ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/pipelines/{pipelineName}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/pipelines/{pipelineName}",
+  }),
 ) as unknown as Schema.Schema<UpdatePipelineRequest>;
 
 export interface UpdatePipelineResponse {
@@ -424,7 +509,12 @@ export interface UpdatePipelineResponse {
     batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
     compression: { type?: "none" | "gzip" | "deflate" };
     format: "json";
-    path: { bucket: string; filename?: string; filepath?: string; prefix?: string };
+    path: {
+      bucket: string;
+      filename?: string;
+      filepath?: string;
+      prefix?: string;
+    };
     type: "r2";
   };
   /** Indicates the endpoint URL to send traffic. */
@@ -432,7 +522,12 @@ export interface UpdatePipelineResponse {
   /** Defines the name of the pipeline. */
   name: string;
   source: (
-    | { format: "json"; type: string; authentication?: boolean; cors?: { origins?: string[] } }
+    | {
+        format: "json";
+        type: string;
+        authentication?: boolean;
+        cors?: { origins?: string[] };
+      }
     | { format: "json"; type: string }
   )[];
   /** Indicates the version number of last saved configuration. */
@@ -444,7 +539,9 @@ export const UpdatePipelineResponse = Schema.Struct({
   destination: Schema.Struct({
     batch: Schema.Struct({
       maxBytes: Schema.optional(Schema.Number).pipe(T.JsonName("max_bytes")),
-      maxDurationS: Schema.optional(Schema.Number).pipe(T.JsonName("max_duration_s")),
+      maxDurationS: Schema.optional(Schema.Number).pipe(
+        T.JsonName("max_duration_s"),
+      ),
       maxRows: Schema.optional(Schema.Number).pipe(T.JsonName("max_rows")),
     }),
     compression: Schema.Struct({
@@ -498,7 +595,10 @@ export const DeletePipelineRequest = Schema.Struct({
   pipelineName: Schema.String.pipe(T.HttpPath("pipelineName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/pipelines/{pipelineName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/pipelines/{pipelineName}",
+  }),
 ) as unknown as Schema.Schema<DeletePipelineRequest>;
 
 export type DeletePipelineResponse = unknown;

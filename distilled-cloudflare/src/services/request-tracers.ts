@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Trace
@@ -72,28 +76,43 @@ export const CreateTraceRequest = Schema.Struct({
         Schema.Struct({
           city: Schema.optional(Schema.String),
           continent: Schema.optional(Schema.String),
-          isEuCountry: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_eu_country")),
+          isEuCountry: Schema.optional(Schema.Boolean).pipe(
+            T.JsonName("is_eu_country"),
+          ),
           isoCode: Schema.optional(Schema.String).pipe(T.JsonName("iso_code")),
           latitude: Schema.optional(Schema.Number),
           longitude: Schema.optional(Schema.Number),
-          postalCode: Schema.optional(Schema.String).pipe(T.JsonName("postal_code")),
-          regionCode: Schema.optional(Schema.String).pipe(T.JsonName("region_code")),
+          postalCode: Schema.optional(Schema.String).pipe(
+            T.JsonName("postal_code"),
+          ),
+          regionCode: Schema.optional(Schema.String).pipe(
+            T.JsonName("region_code"),
+          ),
           subdivision_2IsoCode: Schema.optional(Schema.String).pipe(
             T.JsonName("subdivision_2_iso_code"),
           ),
           timezone: Schema.optional(Schema.String),
         }),
       ),
-      skipChallenge: Schema.optional(Schema.Boolean).pipe(T.JsonName("skip_challenge")),
-      threatScore: Schema.optional(Schema.Number).pipe(T.JsonName("threat_score")),
+      skipChallenge: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("skip_challenge"),
+      ),
+      threatScore: Schema.optional(Schema.Number).pipe(
+        T.JsonName("threat_score"),
+      ),
     }),
   ),
   cookies: Schema.optional(Schema.Struct({})),
   headers: Schema.optional(Schema.Struct({})),
   protocol: Schema.optional(Schema.String),
-  skipResponse: Schema.optional(Schema.Boolean).pipe(T.JsonName("skip_response")),
+  skipResponse: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("skip_response"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/request-tracer/trace" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/request-tracer/trace",
+  }),
 ) as unknown as Schema.Schema<CreateTraceRequest>;
 
 export interface CreateTraceResponse {

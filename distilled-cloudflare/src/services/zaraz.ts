@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Config
@@ -59,7 +63,11 @@ export interface GetConfigResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  analytics?: {
+    defaultPurpose?: string;
+    enabled?: boolean;
+    sessionExpTime?: number;
+  };
   /** Consent management configuration. */
   consent?: {
     enabled: boolean;
@@ -178,7 +186,11 @@ export interface PutConfigRequest {
   /** Body param: Zaraz internal version of the config. */
   zarazVersion: number;
   /** Body param: Cloudflare Monitoring settings. */
-  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  analytics?: {
+    defaultPurpose?: string;
+    enabled?: boolean;
+    sessionExpTime?: number;
+  };
   /** Body param: Consent management configuration. */
   consent?: {
     enabled: boolean;
@@ -292,7 +304,11 @@ export interface PutConfigResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: { defaultPurpose?: string; enabled?: boolean; sessionExpTime?: number };
+  analytics?: {
+    defaultPurpose?: string;
+    enabled?: boolean;
+    sessionExpTime?: number;
+  };
   /** Consent management configuration. */
   consent?: {
     enabled: boolean;
@@ -395,7 +411,8 @@ export const GetDefaultRequest = Schema.Struct({
 
 export type GetDefaultResponse = unknown;
 
-export const GetDefaultResponse = Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
+export const GetDefaultResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
 
 export const getDefault = API.make(() => ({
   input: GetDefaultRequest,
@@ -420,7 +437,8 @@ export const GetExportRequest = Schema.Struct({
 
 export type GetExportResponse = unknown;
 
-export const GetExportResponse = Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
+export const GetExportResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
 
 export const getExport = API.make(() => ({
   input: GetExportRequest,
@@ -448,7 +466,8 @@ export const PutHistoryRequest = Schema.Struct({
 
 export type PutHistoryResponse = unknown;
 
-export const PutHistoryResponse = Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
+export const PutHistoryResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
 
 export const putHistory = API.make(() => ({
   input: PutHistoryRequest,
@@ -471,7 +490,10 @@ export const GetHistoryConfigRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   ids: Schema.Array(Schema.Number).pipe(T.HttpQuery("ids")),
 }).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/history/configs" }),
+  T.Http({
+    method: "GET",
+    path: "/zones/{zone_id}/settings/zaraz/history/configs",
+  }),
 ) as unknown as Schema.Schema<GetHistoryConfigRequest>;
 
 export type GetHistoryConfigResponse = Record<string, unknown>;
@@ -563,7 +585,8 @@ export const PutZarazRequest = Schema.Struct({
 
 export type PutZarazResponse = unknown;
 
-export const PutZarazResponse = Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
+export const PutZarazResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
 
 export const putZaraz = API.make(() => ({
   input: PutZarazRequest,

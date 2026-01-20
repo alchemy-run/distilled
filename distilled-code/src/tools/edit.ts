@@ -1,11 +1,11 @@
 import { Tool, Toolkit } from "@effect/ai";
-import * as S from "effect/Schema";
-import * as Path from "@effect/platform/Path";
 import * as FileSystem from "@effect/platform/FileSystem";
+import * as Path from "@effect/platform/Path";
 import * as Effect from "effect/Effect";
+import * as S from "effect/Schema";
 import { replace } from "../util/replace.ts";
 
-export const edit = Tool.make("edit", {
+export const edit = Tool.make("AnthropicTextEditor", {
   description: `Performs exact string replacements in files. 
 
 Usage:
@@ -32,7 +32,8 @@ Usage:
       description: "Replace all occurrences of oldString (default false)",
     }),
   },
-  failure: S.Any,
+  success: S.String,
+  failure: S.Never,
 });
 
 export const editTooklit = Toolkit.make(edit);
@@ -43,51 +44,98 @@ export const editTooklitLayer = editTooklit.toLayer(
     const fs = yield* FileSystem.FileSystem;
 
     return {
-      edit: Effect.fn(function* (params) {
+      AnthropicTextEditor: Effect.fn(function* (params) {
         const {
           filePath: _filePath,
           oldString,
           newString,
           replaceAll,
         } = params;
-        if (oldString === newString) {
-          return yield* Effect.fail({
-            error: "oldString and newString must be different",
-          });
-        }
+
+        yield* Effect.logDebug(
+          `[edit] filePath=${_filePath} oldString.length=${oldString.length} newString.length=${newString.length} replaceAll=${replaceAll}`,
+        );
 
         const filePath = path.isAbsolute(_filePath)
           ? _filePath
           : path.join(process.cwd(), _filePath);
 
         if (oldString === "") {
-          yield* fs.writeFileString(filePath, newString);
-        } else {
-          const stat = yield* fs.stat(filePath).pipe(
-            Effect.catchIf(
-              (err) => err._tag === "SystemError" && err.reason === "NotFound",
-              () => Effect.void,
+          // Creating a new file
+          const writeResult = yield* fs
+            .writeFileString(filePath, newString)
+            .pipe(
+              Effect.map(() => `Created file: ${filePath}`),
+              Effect.catchAll((e) =>
+                Effect.succeed(`Failed to create file: ${e}`),
+              ),
+            );
+          return writeResult;
+        }
+
+        const stat = yield* fs
+          .stat(filePath)
+          .pipe(Effect.catchAll(() => Effect.succeed(null)));
+
+        if (!stat) {
+          return `File not found: ${filePath}`;
+        }
+
+        if (stat.type === "Directory") {
+          return `Path is a directory, not a file: ${filePath}`;
+        }
+
+        const oldContent = yield* fs
+          .readFileString(filePath)
+          .pipe(
+            Effect.catchAll((e) => Effect.succeed(`Failed to read file: ${e}`)),
+          );
+
+        // Check if we got an error message from reading
+        if (oldContent.startsWith("Failed to read")) {
+          return oldContent;
+        }
+
+        const replaceResult = yield* replace(
+          oldContent,
+          oldString,
+          newString,
+          replaceAll,
+        ).pipe(
+          Effect.catchTag("ReplaceSameStringError", () =>
+            Effect.succeed("oldString and newString must be different"),
+          ),
+          Effect.catchTag("ReplaceNotFoundError", (e) =>
+            Effect.succeed(
+              `Could not find oldString in file. The text "${e.oldString.slice(0, 100)}${e.oldString.length > 100 ? "..." : ""}" was not found in ${filePath}.`,
+            ),
+          ),
+          Effect.catchTag("ReplaceMultipleMatchesError", (e) =>
+            Effect.succeed(
+              `Found multiple matches for oldString "${e.oldString.slice(0, 50)}${e.oldString.length > 50 ? "..." : ""}". Provide more surrounding context to identify the correct match, or use replaceAll=true to replace all occurrences.`,
+            ),
+          ),
+        );
+
+        // If we got an informative message back (not actual file content), return it
+        if (
+          replaceResult.startsWith("Could not find") ||
+          replaceResult.startsWith("Found multiple") ||
+          replaceResult.startsWith("oldString and newString")
+        ) {
+          return replaceResult;
+        }
+
+        const writeResult = yield* fs
+          .writeFileString(filePath, replaceResult)
+          .pipe(
+            Effect.map(() => `Edited file: ${filePath}`),
+            Effect.catchAll((e) =>
+              Effect.succeed(`Failed to write file: ${e}`),
             ),
           );
-          if (!stat) {
-            return yield* Effect.fail({
-              error: `File not found: ${filePath}`,
-            });
-          }
-          if (stat.type === "Directory") {
-            return yield* Effect.fail({
-              error: `Path is a directory, not a file: ${filePath}`,
-            });
-          }
-          const oldContent = yield* fs.readFileString(filePath);
-          const newContent = yield* replace(
-            oldContent,
-            oldString,
-            newString,
-            replaceAll,
-          );
-          yield* fs.writeFileString(filePath, newContent);
-        }
+
+        return writeResult;
       }),
     };
   }),

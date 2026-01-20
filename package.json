@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun tsgo -b"
+    "build": "bun tsgo -b",
+    "format": "bun oxfmt ./distilled-* '!node_modules/' '!lib/'"
   },
   "workspaces": {
     "packages": [

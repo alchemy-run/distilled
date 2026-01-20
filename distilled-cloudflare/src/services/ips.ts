@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // IP
@@ -25,19 +29,34 @@ export const ListIPsRequest = Schema.Struct({}).pipe(
 
 export type ListIPsResponse =
   | { etag?: string; ipv4Cidrs?: string[]; ipv6Cidrs?: string[] }
-  | { etag?: string; ipv4Cidrs?: string[]; ipv6Cidrs?: string[]; jdcloudCidrs?: string[] };
+  | {
+      etag?: string;
+      ipv4Cidrs?: string[];
+      ipv6Cidrs?: string[];
+      jdcloudCidrs?: string[];
+    };
 
 export const ListIPsResponse = Schema.Union(
   Schema.Struct({
     etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("ipv4_cidrs")),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("ipv6_cidrs")),
+    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("ipv4_cidrs"),
+    ),
+    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("ipv6_cidrs"),
+    ),
   }),
   Schema.Struct({
     etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("ipv4_cidrs")),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("ipv6_cidrs")),
-    jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("jdcloud_cidrs")),
+    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("ipv4_cidrs"),
+    ),
+    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("ipv6_cidrs"),
+    ),
+    jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.JsonName("jdcloud_cidrs"),
+    ),
   }),
 ) as unknown as Schema.Schema<ListIPsResponse>;
 

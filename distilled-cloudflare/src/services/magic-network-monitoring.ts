@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Config
@@ -72,7 +76,9 @@ export const CreateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
   name: Schema.String,
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("router_ips"),
+  ),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -131,7 +137,9 @@ export const UpdateConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSampling: Schema.Number.pipe(T.JsonName("default_sampling")),
   name: Schema.String,
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("router_ips"),
+  ),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -188,9 +196,13 @@ export interface PatchConfigRequest {
 
 export const PatchConfigRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  defaultSampling: Schema.optional(Schema.Number).pipe(T.JsonName("default_sampling")),
+  defaultSampling: Schema.optional(Schema.Number).pipe(
+    T.JsonName("default_sampling"),
+  ),
   name: Schema.optional(Schema.String),
-  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("router_ips")),
+  routerIps: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("router_ips"),
+  ),
   warpDevices: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -313,7 +325,8 @@ export const GetRuleRequest = Schema.Struct({
 
 export type GetRuleResponse = unknown;
 
-export const GetRuleResponse = Schema.Unknown as unknown as Schema.Schema<GetRuleResponse>;
+export const GetRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetRuleResponse>;
 
 export const getRule = API.make(() => ({
   input: GetRuleRequest,
@@ -340,13 +353,24 @@ export interface CreateRuleRequest {
 
 export const CreateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
-  name: Schema.String,
-  automaticAdvertisement: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("automatic_advertisement"),
+  duration: Schema.Literal(
+    "1m",
+    "5m",
+    "10m",
+    "15m",
+    "20m",
+    "30m",
+    "45m",
+    "60m",
   ),
+  name: Schema.String,
+  automaticAdvertisement: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
-  packetThreshold: Schema.optional(Schema.Number).pipe(T.JsonName("packet_threshold")),
+  packetThreshold: Schema.optional(Schema.Number).pipe(
+    T.JsonName("packet_threshold"),
+  ),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/rules" }),
@@ -354,7 +378,8 @@ export const CreateRuleRequest = Schema.Struct({
 
 export type CreateRuleResponse = unknown;
 
-export const CreateRuleResponse = Schema.Unknown as unknown as Schema.Schema<CreateRuleResponse>;
+export const CreateRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateRuleResponse>;
 
 export const createRule = API.make(() => ({
   input: CreateRuleRequest,
@@ -383,14 +408,25 @@ export interface UpdateRuleRequest {
 
 export const UpdateRuleRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  duration: Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+  duration: Schema.Literal(
+    "1m",
+    "5m",
+    "10m",
+    "15m",
+    "20m",
+    "30m",
+    "45m",
+    "60m",
+  ),
   name: Schema.String,
   id: Schema.optional(Schema.String),
-  automaticAdvertisement: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("automatic_advertisement"),
-  ),
+  automaticAdvertisement: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
-  packetThreshold: Schema.optional(Schema.Number).pipe(T.JsonName("packet_threshold")),
+  packetThreshold: Schema.optional(Schema.Number).pipe(
+    T.JsonName("packet_threshold"),
+  ),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
   T.Http({ method: "PUT", path: "/accounts/{account_id}/mnm/rules" }),
@@ -398,7 +434,8 @@ export const UpdateRuleRequest = Schema.Struct({
 
 export type UpdateRuleResponse = unknown;
 
-export const UpdateRuleResponse = Schema.Unknown as unknown as Schema.Schema<UpdateRuleResponse>;
+export const UpdateRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpdateRuleResponse>;
 
 export const updateRule = API.make(() => ({
   input: UpdateRuleRequest,
@@ -427,21 +464,29 @@ export interface PatchRuleRequest {
 export const PatchRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  automaticAdvertisement: Schema.optional(Schema.Union(Schema.Boolean, Schema.Null)).pipe(
-    T.JsonName("automatic_advertisement"),
-  ),
+  automaticAdvertisement: Schema.optional(
+    Schema.Union(Schema.Boolean, Schema.Null),
+  ).pipe(T.JsonName("automatic_advertisement")),
   bandwidth: Schema.optional(Schema.Number),
-  duration: Schema.optional(Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m")),
+  duration: Schema.optional(
+    Schema.Literal("1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"),
+  ),
   name: Schema.optional(Schema.String),
-  packetThreshold: Schema.optional(Schema.Number).pipe(T.JsonName("packet_threshold")),
+  packetThreshold: Schema.optional(Schema.Number).pipe(
+    T.JsonName("packet_threshold"),
+  ),
   prefixes: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/rules/{ruleId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}",
+  }),
 ) as unknown as Schema.Schema<PatchRuleRequest>;
 
 export type PatchRuleResponse = unknown;
 
-export const PatchRuleResponse = Schema.Unknown as unknown as Schema.Schema<PatchRuleResponse>;
+export const PatchRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<PatchRuleResponse>;
 
 export const patchRule = API.make(() => ({
   input: PatchRuleRequest,
@@ -458,12 +503,16 @@ export const DeleteRuleRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/mnm/rules/{ruleId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}",
+  }),
 ) as unknown as Schema.Schema<DeleteRuleRequest>;
 
 export type DeleteRuleResponse = unknown;
 
-export const DeleteRuleResponse = Schema.Unknown as unknown as Schema.Schema<DeleteRuleResponse>;
+export const DeleteRuleResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export const deleteRule = API.make(() => ({
   input: DeleteRuleRequest,
@@ -488,7 +537,10 @@ export const PatchRuleAdvertisementRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Unknown,
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement",
+  }),
 ) as unknown as Schema.Schema<PatchRuleAdvertisementRequest>;
 
 export type PatchRuleAdvertisementResponse = unknown;
@@ -513,7 +565,10 @@ export interface CreateVpcFlowTokenRequest {
 export const CreateVpcFlowTokenRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/mnm/vpc-flows/token" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/mnm/vpc-flows/token",
+  }),
 ) as unknown as Schema.Schema<CreateVpcFlowTokenRequest>;
 
 export type CreateVpcFlowTokenResponse = string;

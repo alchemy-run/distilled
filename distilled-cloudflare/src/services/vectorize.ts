@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // ByIdsIndex
@@ -91,12 +95,16 @@ export const GetIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}",
+  }),
 ) as unknown as Schema.Schema<GetIndexRequest>;
 
 export type GetIndexResponse = unknown;
 
-export const GetIndexResponse = Schema.Unknown as unknown as Schema.Schema<GetIndexResponse>;
+export const GetIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetIndexResponse>;
 
 export const getIndex = API.make(() => ({
   input: GetIndexRequest,
@@ -144,12 +152,16 @@ export const CreateIndexRequest = Schema.Struct({
   name: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/vectorize/v2/indexes" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/vectorize/v2/indexes",
+  }),
 ) as unknown as Schema.Schema<CreateIndexRequest>;
 
 export type CreateIndexResponse = unknown;
 
-export const CreateIndexResponse = Schema.Unknown as unknown as Schema.Schema<CreateIndexResponse>;
+export const CreateIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<CreateIndexResponse>;
 
 export const createIndex = API.make(() => ({
   input: CreateIndexRequest,
@@ -167,12 +179,16 @@ export const DeleteIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}",
+  }),
 ) as unknown as Schema.Schema<DeleteIndexRequest>;
 
 export type DeleteIndexResponse = unknown;
 
-export const DeleteIndexResponse = Schema.Unknown as unknown as Schema.Schema<DeleteIndexResponse>;
+export const DeleteIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<DeleteIndexResponse>;
 
 export const deleteIndex = API.make(() => ({
   input: DeleteIndexRequest,
@@ -190,12 +206,16 @@ export const InfoIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/info" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/info",
+  }),
 ) as unknown as Schema.Schema<InfoIndexRequest>;
 
 export type InfoIndexResponse = unknown;
 
-export const InfoIndexResponse = Schema.Unknown as unknown as Schema.Schema<InfoIndexResponse>;
+export const InfoIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<InfoIndexResponse>;
 
 export const infoIndex = API.make(() => ({
   input: InfoIndexRequest,
@@ -229,7 +249,8 @@ export const InsertIndexRequest = Schema.Struct({
 
 export type InsertIndexResponse = unknown;
 
-export const InsertIndexResponse = Schema.Unknown as unknown as Schema.Schema<InsertIndexResponse>;
+export const InsertIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<InsertIndexResponse>;
 
 export const insertIndex = API.make(() => ({
   input: InsertIndexRequest,
@@ -262,12 +283,16 @@ export const QueryIndexRequest = Schema.Struct({
   returnValues: Schema.optional(Schema.Boolean),
   topK: Schema.optional(Schema.Number),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/query" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/query",
+  }),
 ) as unknown as Schema.Schema<QueryIndexRequest>;
 
 export type QueryIndexResponse = unknown;
 
-export const QueryIndexResponse = Schema.Unknown as unknown as Schema.Schema<QueryIndexResponse>;
+export const QueryIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<QueryIndexResponse>;
 
 export const queryIndex = API.make(() => ({
   input: QueryIndexRequest,
@@ -301,7 +326,8 @@ export const UpsertIndexRequest = Schema.Struct({
 
 export type UpsertIndexResponse = unknown;
 
-export const UpsertIndexResponse = Schema.Unknown as unknown as Schema.Schema<UpsertIndexResponse>;
+export const UpsertIndexResponse =
+  Schema.Unknown as unknown as Schema.Schema<UpsertIndexResponse>;
 
 export const upsertIndex = API.make(() => ({
   input: UpsertIndexRequest,
@@ -423,7 +449,10 @@ export const ListVectorsIndexRequest = Schema.Struct({
   count: Schema.optional(Schema.Number).pipe(T.HttpQuery("count")),
   cursor: Schema.optional(Schema.String).pipe(T.HttpQuery("cursor")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/list" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/vectorize/v2/indexes/{indexName}/list",
+  }),
 ) as unknown as Schema.Schema<ListVectorsIndexRequest>;
 
 export type ListVectorsIndexResponse = unknown;

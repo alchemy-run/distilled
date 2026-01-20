@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // CustomPage
@@ -39,7 +43,10 @@ export const GetCustomPageRequest = Schema.Struct({
     "ratelimit_block",
   ).pipe(T.HttpPath("identifier")),
 }).pipe(
-  T.Http({ method: "GET", path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}" }),
+  T.Http({
+    method: "GET",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}",
+  }),
 ) as unknown as Schema.Schema<GetCustomPageRequest>;
 
 export interface GetCustomPageResponse {
@@ -60,8 +67,12 @@ export const GetCustomPageResponse = Schema.Struct({
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(T.JsonName("preview_target")),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("required_tokens")),
+  previewTarget: Schema.optional(Schema.String).pipe(
+    T.JsonName("preview_target"),
+  ),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("required_tokens"),
+  ),
   state: Schema.optional(Schema.Literal("default", "customized")),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetCustomPageResponse>;
@@ -106,7 +117,10 @@ export const PutCustomPageRequest = Schema.Struct({
   state: Schema.Literal("default", "customized"),
   url: Schema.String,
 }).pipe(
-  T.Http({ method: "PUT", path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}" }),
+  T.Http({
+    method: "PUT",
+    path: "/{accountOrZone}/{accountOrZoneId}/custom_pages/{identifier}",
+  }),
 ) as unknown as Schema.Schema<PutCustomPageRequest>;
 
 export interface PutCustomPageResponse {
@@ -127,8 +141,12 @@ export const PutCustomPageResponse = Schema.Struct({
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   description: Schema.optional(Schema.String),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(T.JsonName("preview_target")),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("required_tokens")),
+  previewTarget: Schema.optional(Schema.String).pipe(
+    T.JsonName("preview_target"),
+  ),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("required_tokens"),
+  ),
   state: Schema.optional(Schema.Literal("default", "customized")),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<PutCustomPageResponse>;

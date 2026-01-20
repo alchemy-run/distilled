@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Sfu
@@ -145,7 +149,10 @@ export const DeleteSfuRequest = Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/calls/apps/{appId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/calls/apps/{appId}",
+  }),
 ) as unknown as Schema.Schema<DeleteSfuRequest>;
 
 export interface DeleteSfuResponse {
@@ -186,7 +193,10 @@ export const GetTurnRequest = Schema.Struct({
   keyId: Schema.String.pipe(T.HttpPath("keyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
 ) as unknown as Schema.Schema<GetTurnRequest>;
 
 export interface GetTurnResponse {
@@ -267,7 +277,10 @@ export const UpdateTurnRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
 ) as unknown as Schema.Schema<UpdateTurnRequest>;
 
 export interface UpdateTurnResponse {
@@ -304,7 +317,10 @@ export const DeleteTurnRequest = Schema.Struct({
   keyId: Schema.String.pipe(T.HttpPath("keyId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/calls/turn_keys/{keyId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/calls/turn_keys/{keyId}",
+  }),
 ) as unknown as Schema.Schema<DeleteTurnRequest>;
 
 export interface DeleteTurnResponse {

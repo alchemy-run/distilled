@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Domain
@@ -27,12 +31,16 @@ export const GetDomainRequest = Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/registrar/domains/{domainName}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/registrar/domains/{domainName}",
+  }),
 ) as unknown as Schema.Schema<GetDomainRequest>;
 
 export type GetDomainResponse = unknown;
 
-export const GetDomainResponse = Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
+export const GetDomainResponse =
+  Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
 
 export const getDomain = API.make(() => ({
   input: GetDomainRequest,
@@ -59,12 +67,16 @@ export const PutDomainRequest = Schema.Struct({
   locked: Schema.optional(Schema.Boolean),
   privacy: Schema.optional(Schema.Boolean),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/registrar/domains/{domainName}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/registrar/domains/{domainName}",
+  }),
 ) as unknown as Schema.Schema<PutDomainRequest>;
 
 export type PutDomainResponse = unknown;
 
-export const PutDomainResponse = Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
+export const PutDomainResponse =
+  Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
 
 export const putDomain = API.make(() => ({
   input: PutDomainRequest,

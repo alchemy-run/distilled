@@ -130,7 +130,9 @@ export const addErrorCode = (
 /**
  * Convert error catalog to a Map for response parser.
  */
-export const catalogToMap = (catalog: ErrorCatalogData): Map<number, ErrorCatalogEntry> => {
+export const catalogToMap = (
+  catalog: ErrorCatalogData,
+): Map<number, ErrorCatalogEntry> => {
   const map = new Map<number, ErrorCatalogEntry>();
   for (const [code, entry] of Object.entries(catalog.codes)) {
     map.set(Number(code), entry);

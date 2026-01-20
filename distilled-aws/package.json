@@ -1,34 +1,13 @@
 {
   "name": "distilled-aws",
-  "module": "index.ts",
   "version": "0.0.22",
-  "type": "module",
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false,
   "files": [
-    "src",
-    "lib"
+    "lib",
+    "src"
   ],
-  "scripts": {
-    "clean:aws": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
-    "build:clean": "bun run install:clean && bun run build",
-    "bump": "bun run ./scripts/bump.ts",
-    "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
-    "bundle:report": "bun run scripts/bundle-size-report.ts",
-    "clean": "git clean -fqdx -e .env",
-    "find": "DISTILLED_AWS_DEBUG=1 bun run scripts/find-errors/index.ts",
-    "find:errors": "bun run scripts/find-errors.ts",
-    "format": "bun oxfmt ./scripts ./src ./test",
-    "generate": "bun run scripts/generate-clients.ts",
-    "install:clean": "bun run clean && bun install",
-    "localstack:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/localstack-clean.ts",
-    "setup": "bun run scripts/setup.ts",
-    "symlink": "bun run scripts/symlink.ts",
-    "test": "DISTILLED_AWS_DEBUG=1 bun vitest run ./test",
-    "test:scripts": "DISTILLED_AWS_DEBUG=1bun vitest run ./scripts"
-  },
+  "type": "module",
+  "sideEffects": false,
+  "module": "index.ts",
   "exports": {
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -76,9 +55,26 @@
       "default": "./lib/index.js"
     }
   },
-  "peerDependencies": {
-    "effect": "latest",
-    "@effect/platform": "latest"
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean:aws": "DISTILLED_AWS_DEBUG=1 bun run scripts/topology-clean.ts",
+    "build:clean": "bun run install:clean && bun run build",
+    "bump": "bun run ./scripts/bump.ts",
+    "build": "bun generate && bun oxfmt ./src/services/* && tsgo -b",
+    "bundle:report": "bun run scripts/bundle-size-report.ts",
+    "clean": "git clean -fqdx -e .env",
+    "find": "DISTILLED_AWS_DEBUG=1 bun run scripts/find-errors/index.ts",
+    "find:errors": "bun run scripts/find-errors.ts",
+    "format": "bun oxfmt ./scripts ./src ./test",
+    "generate": "bun run scripts/generate-clients.ts",
+    "install:clean": "bun run clean && bun install",
+    "localstack:clean": "DISTILLED_AWS_DEBUG=1 bun run scripts/localstack-clean.ts",
+    "setup": "bun run scripts/setup.ts",
+    "symlink": "bun run scripts/symlink.ts",
+    "test": "DISTILLED_AWS_DEBUG=1 bun vitest run ./test",
+    "test:scripts": "DISTILLED_AWS_DEBUG=1bun vitest run ./scripts"
   },
   "dependencies": {
     "@aws-crypto/crc32": "^5.2.0",
@@ -106,5 +102,9 @@
     "dedent": "^1.7.0",
     "effect": "catalog:",
     "pathe": "catalog:"
+  },
+  "peerDependencies": {
+    "@effect/platform": "latest",
+    "effect": "latest"
   }
 }

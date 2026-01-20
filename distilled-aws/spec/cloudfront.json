@@ -2,12 +2,7 @@
   "operations": {},
   "enums": {
     "HttpVersion": {
-      "add": [
-        "HTTP1.1",
-        "HTTP2",
-        "HTTP3",
-        "HTTP2AND3"
-      ]
+      "add": ["HTTP1.1", "HTTP2", "HTTP3", "HTTP2AND3"]
     }
   },
   "structures": {

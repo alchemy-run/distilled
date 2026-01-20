@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // Consumer
@@ -29,7 +33,10 @@ export const GetConsumerRequest = Schema.Struct({
   consumerId: Schema.String.pipe(T.HttpPath("consumerId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/queues/{queueId}/consumers/{consumerId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/queues/{queueId}/consumers/{consumerId}",
+  }),
 ) as unknown as Schema.Schema<GetConsumerRequest>;
 
 export type GetConsumerResponse =
@@ -68,11 +75,21 @@ export const GetConsumerResponse = Schema.Union(
     script: Schema.optional(Schema.String),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxConcurrency: Schema.optional(Schema.Number).pipe(T.JsonName("max_concurrency")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(T.JsonName("max_wait_time_ms")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxConcurrency: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_concurrency"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_wait_time_ms"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
       }),
     ),
     type: Schema.optional(Schema.Literal("worker")),
@@ -83,9 +100,15 @@ export const GetConsumerResponse = Schema.Union(
     queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
         visibilityTimeoutMs: Schema.optional(Schema.Number).pipe(
           T.JsonName("visibility_timeout_ms"),
         ),
@@ -108,7 +131,10 @@ export interface CreateConsumerRequest {
 export const CreateConsumerRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/consumers" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/consumers",
+  }),
 ) as unknown as Schema.Schema<CreateConsumerRequest>;
 
 export type CreateConsumerResponse =
@@ -147,11 +173,21 @@ export const CreateConsumerResponse = Schema.Union(
     script: Schema.optional(Schema.String),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxConcurrency: Schema.optional(Schema.Number).pipe(T.JsonName("max_concurrency")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(T.JsonName("max_wait_time_ms")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxConcurrency: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_concurrency"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_wait_time_ms"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
       }),
     ),
     type: Schema.optional(Schema.Literal("worker")),
@@ -162,9 +198,15 @@ export const CreateConsumerResponse = Schema.Union(
     queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
         visibilityTimeoutMs: Schema.optional(Schema.Number).pipe(
           T.JsonName("visibility_timeout_ms"),
         ),
@@ -189,7 +231,10 @@ export const UpdateConsumerRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   consumerId: Schema.String.pipe(T.HttpPath("consumerId")),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/queues/{queueId}/consumers/{consumerId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/queues/{queueId}/consumers/{consumerId}",
+  }),
 ) as unknown as Schema.Schema<UpdateConsumerRequest>;
 
 export type UpdateConsumerResponse =
@@ -228,11 +273,21 @@ export const UpdateConsumerResponse = Schema.Union(
     script: Schema.optional(Schema.String),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxConcurrency: Schema.optional(Schema.Number).pipe(T.JsonName("max_concurrency")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(T.JsonName("max_wait_time_ms")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxConcurrency: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_concurrency"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        maxWaitTimeMs: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_wait_time_ms"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
       }),
     ),
     type: Schema.optional(Schema.Literal("worker")),
@@ -243,9 +298,15 @@ export const UpdateConsumerResponse = Schema.Union(
     queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
     settings: Schema.optional(
       Schema.Struct({
-        batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-        maxRetries: Schema.optional(Schema.Number).pipe(T.JsonName("max_retries")),
-        retryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("retry_delay")),
+        batchSize: Schema.optional(Schema.Number).pipe(
+          T.JsonName("batch_size"),
+        ),
+        maxRetries: Schema.optional(Schema.Number).pipe(
+          T.JsonName("max_retries"),
+        ),
+        retryDelay: Schema.optional(Schema.Number).pipe(
+          T.JsonName("retry_delay"),
+        ),
         visibilityTimeoutMs: Schema.optional(Schema.Number).pipe(
           T.JsonName("visibility_timeout_ms"),
         ),
@@ -318,25 +379,38 @@ export interface BulkPushMessagesRequest {
 export const BulkPushMessagesRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  delaySeconds: Schema.optional(Schema.Number).pipe(T.JsonName("delay_seconds")),
+  delaySeconds: Schema.optional(Schema.Number).pipe(
+    T.JsonName("delay_seconds"),
+  ),
   messages: Schema.optional(
     Schema.Array(
       Schema.Union(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.Literal("text")).pipe(T.JsonName("content_type")),
-          delaySeconds: Schema.optional(Schema.Number).pipe(T.JsonName("delay_seconds")),
+          contentType: Schema.optional(Schema.Literal("text")).pipe(
+            T.JsonName("content_type"),
+          ),
+          delaySeconds: Schema.optional(Schema.Number).pipe(
+            T.JsonName("delay_seconds"),
+          ),
         }),
         Schema.Struct({
           body: Schema.optional(Schema.Unknown),
-          contentType: Schema.optional(Schema.Literal("json")).pipe(T.JsonName("content_type")),
-          delaySeconds: Schema.optional(Schema.Number).pipe(T.JsonName("delay_seconds")),
+          contentType: Schema.optional(Schema.Literal("json")).pipe(
+            T.JsonName("content_type"),
+          ),
+          delaySeconds: Schema.optional(Schema.Number).pipe(
+            T.JsonName("delay_seconds"),
+          ),
         }),
       ),
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/messages/batch" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/messages/batch",
+  }),
 ) as unknown as Schema.Schema<BulkPushMessagesRequest>;
 
 export interface BulkPushMessagesResponse {
@@ -372,9 +446,14 @@ export const PullMessageRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   batchSize: Schema.optional(Schema.Number).pipe(T.JsonName("batch_size")),
-  visibilityTimeoutMs: Schema.optional(Schema.Number).pipe(T.JsonName("visibility_timeout_ms")),
+  visibilityTimeoutMs: Schema.optional(Schema.Number).pipe(
+    T.JsonName("visibility_timeout_ms"),
+  ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/messages/pull" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/messages/pull",
+  }),
 ) as unknown as Schema.Schema<PullMessageRequest>;
 
 export interface PullMessageResponse {
@@ -391,7 +470,9 @@ export interface PullMessageResponse {
 }
 
 export const PullMessageResponse = Schema.Struct({
-  messageBacklogCount: Schema.optional(Schema.Number).pipe(T.JsonName("message_backlog_count")),
+  messageBacklogCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("message_backlog_count"),
+  ),
   messages: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -400,7 +481,9 @@ export const PullMessageResponse = Schema.Struct({
         body: Schema.optional(Schema.String),
         leaseId: Schema.optional(Schema.String).pipe(T.JsonName("lease_id")),
         metadata: Schema.optional(Schema.Unknown),
-        timestampMs: Schema.optional(Schema.Number).pipe(T.JsonName("timestamp_ms")),
+        timestampMs: Schema.optional(Schema.Number).pipe(
+          T.JsonName("timestamp_ms"),
+        ),
       }),
     ),
   ),
@@ -419,7 +502,10 @@ export interface PushMessageRequest {
 export const PushMessageRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/messages" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/messages",
+  }),
 ) as unknown as Schema.Schema<PushMessageRequest>;
 
 export interface PushMessageResponse {
@@ -464,13 +550,18 @@ export const AckMessageRequest = Schema.Struct({
   retries: Schema.optional(
     Schema.Array(
       Schema.Struct({
-        delaySeconds: Schema.optional(Schema.Number).pipe(T.JsonName("delay_seconds")),
+        delaySeconds: Schema.optional(Schema.Number).pipe(
+          T.JsonName("delay_seconds"),
+        ),
         leaseId: Schema.optional(Schema.String).pipe(T.JsonName("lease_id")),
       }),
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/messages/ack" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/messages/ack",
+  }),
 ) as unknown as Schema.Schema<AckMessageRequest>;
 
 export interface AckMessageResponse {
@@ -512,12 +603,16 @@ export const StartPurgeRequest = Schema.Struct({
     T.JsonName("delete_messages_permanently"),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/queues/{queueId}/purge" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/queues/{queueId}/purge",
+  }),
 ) as unknown as Schema.Schema<StartPurgeRequest>;
 
 export type StartPurgeResponse = unknown;
 
-export const StartPurgeResponse = Schema.Unknown as unknown as Schema.Schema<StartPurgeResponse>;
+export const StartPurgeResponse =
+  Schema.Unknown as unknown as Schema.Schema<StartPurgeResponse>;
 
 export const startPurge = API.make(() => ({
   input: StartPurgeRequest,
@@ -535,7 +630,10 @@ export const StatusPurgeRequest = Schema.Struct({
   queueId: Schema.String.pipe(T.HttpPath("queueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/queues/{queueId}/purge" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/queues/{queueId}/purge",
+  }),
 ) as unknown as Schema.Schema<StatusPurgeRequest>;
 
 export interface StatusPurgeResponse {
@@ -585,12 +683,18 @@ export interface GetQueueResponse {
   producersTotalCount?: number;
   queueId?: string;
   queueName?: string;
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const GetQueueResponse = Schema.Struct({
   consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("consumers_total_count")),
+  consumersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("consumers_total_count"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
@@ -601,19 +705,27 @@ export const GetQueueResponse = Schema.Struct({
           type: Schema.optional(Schema.Literal("worker")),
         }),
         Schema.Struct({
-          bucketName: Schema.optional(Schema.String).pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.optional(Schema.String).pipe(
+            T.JsonName("bucket_name"),
+          ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
       ),
     ),
   ),
-  producersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("producers_total_count")),
+  producersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("producers_total_count"),
+  ),
   queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -653,12 +765,18 @@ export interface CreateQueueResponse {
   producersTotalCount?: number;
   queueId?: string;
   queueName?: string;
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const CreateQueueResponse = Schema.Struct({
   consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("consumers_total_count")),
+  consumersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("consumers_total_count"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
@@ -669,19 +787,27 @@ export const CreateQueueResponse = Schema.Struct({
           type: Schema.optional(Schema.Literal("worker")),
         }),
         Schema.Struct({
-          bucketName: Schema.optional(Schema.String).pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.optional(Schema.String).pipe(
+            T.JsonName("bucket_name"),
+          ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
       ),
     ),
   ),
-  producersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("producers_total_count")),
+  producersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("producers_total_count"),
+  ),
   queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -702,7 +828,11 @@ export interface UpdateQueueRequest {
   /** Body param: */
   queueName?: string;
   /** Body param: */
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const UpdateQueueRequest = Schema.Struct({
@@ -711,8 +841,12 @@ export const UpdateQueueRequest = Schema.Struct({
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -734,12 +868,18 @@ export interface UpdateQueueResponse {
   producersTotalCount?: number;
   queueId?: string;
   queueName?: string;
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const UpdateQueueResponse = Schema.Struct({
   consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("consumers_total_count")),
+  consumersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("consumers_total_count"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
@@ -750,19 +890,27 @@ export const UpdateQueueResponse = Schema.Struct({
           type: Schema.optional(Schema.Literal("worker")),
         }),
         Schema.Struct({
-          bucketName: Schema.optional(Schema.String).pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.optional(Schema.String).pipe(
+            T.JsonName("bucket_name"),
+          ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
       ),
     ),
   ),
-  producersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("producers_total_count")),
+  producersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("producers_total_count"),
+  ),
   queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -783,7 +931,11 @@ export interface PatchQueueRequest {
   /** Body param: */
   queueName?: string;
   /** Body param: */
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const PatchQueueRequest = Schema.Struct({
@@ -792,8 +944,12 @@ export const PatchQueueRequest = Schema.Struct({
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -815,12 +971,18 @@ export interface PatchQueueResponse {
   producersTotalCount?: number;
   queueId?: string;
   queueName?: string;
-  settings?: { deliveryDelay?: number; deliveryPaused?: boolean; messageRetentionPeriod?: number };
+  settings?: {
+    deliveryDelay?: number;
+    deliveryPaused?: boolean;
+    messageRetentionPeriod?: number;
+  };
 }
 
 export const PatchQueueResponse = Schema.Struct({
   consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("consumers_total_count")),
+  consumersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("consumers_total_count"),
+  ),
   createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   producers: Schema.optional(
@@ -831,19 +993,27 @@ export const PatchQueueResponse = Schema.Struct({
           type: Schema.optional(Schema.Literal("worker")),
         }),
         Schema.Struct({
-          bucketName: Schema.optional(Schema.String).pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.optional(Schema.String).pipe(
+            T.JsonName("bucket_name"),
+          ),
           type: Schema.optional(Schema.Literal("r2_bucket")),
         }),
       ),
     ),
   ),
-  producersTotalCount: Schema.optional(Schema.Number).pipe(T.JsonName("producers_total_count")),
+  producersTotalCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("producers_total_count"),
+  ),
   queueId: Schema.optional(Schema.String).pipe(T.JsonName("queue_id")),
   queueName: Schema.optional(Schema.String).pipe(T.JsonName("queue_name")),
   settings: Schema.optional(
     Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number).pipe(T.JsonName("delivery_delay")),
-      deliveryPaused: Schema.optional(Schema.Boolean).pipe(T.JsonName("delivery_paused")),
+      deliveryDelay: Schema.optional(Schema.Number).pipe(
+        T.JsonName("delivery_delay"),
+      ),
+      deliveryPaused: Schema.optional(Schema.Boolean).pipe(
+        T.JsonName("delivery_paused"),
+      ),
       messageRetentionPeriod: Schema.optional(Schema.Number).pipe(
         T.JsonName("message_retention_period"),
       ),
@@ -945,21 +1115,30 @@ export const CreateSubscriptionRequest = Schema.Struct({
         type: Schema.optional(Schema.Literal("vectorize")),
       }),
       Schema.Struct({
-        modelName: Schema.optional(Schema.String).pipe(T.JsonName("model_name")),
+        modelName: Schema.optional(Schema.String).pipe(
+          T.JsonName("model_name"),
+        ),
         type: Schema.optional(Schema.Literal("workersAi.model")),
       }),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-        workerName: Schema.optional(Schema.String).pipe(T.JsonName("worker_name")),
+        workerName: Schema.optional(Schema.String).pipe(
+          T.JsonName("worker_name"),
+        ),
       }),
       Schema.Struct({
         type: Schema.optional(Schema.Literal("workflows.workflow")),
-        workflowName: Schema.optional(Schema.String).pipe(T.JsonName("workflow_name")),
+        workflowName: Schema.optional(Schema.String).pipe(
+          T.JsonName("workflow_name"),
+        ),
       }),
     ),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/event_subscriptions/subscriptions" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/event_subscriptions/subscriptions",
+  }),
 ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
 export interface CreateSubscriptionResponse {
@@ -1022,11 +1201,15 @@ export const CreateSubscriptionResponse = Schema.Struct({
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String).pipe(T.JsonName("worker_name")),
+      workerName: Schema.optional(Schema.String).pipe(
+        T.JsonName("worker_name"),
+      ),
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String).pipe(T.JsonName("workflow_name")),
+      workflowName: Schema.optional(Schema.String).pipe(
+        T.JsonName("workflow_name"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<CreateSubscriptionResponse>;
@@ -1130,11 +1313,15 @@ export const PatchSubscriptionResponse = Schema.Struct({
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String).pipe(T.JsonName("worker_name")),
+      workerName: Schema.optional(Schema.String).pipe(
+        T.JsonName("worker_name"),
+      ),
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String).pipe(T.JsonName("workflow_name")),
+      workflowName: Schema.optional(Schema.String).pipe(
+        T.JsonName("workflow_name"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<PatchSubscriptionResponse>;
@@ -1221,11 +1408,15 @@ export const DeleteSubscriptionResponse = Schema.Struct({
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String).pipe(T.JsonName("worker_name")),
+      workerName: Schema.optional(Schema.String).pipe(
+        T.JsonName("worker_name"),
+      ),
     }),
     Schema.Struct({
       type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String).pipe(T.JsonName("workflow_name")),
+      workflowName: Schema.optional(Schema.String).pipe(
+        T.JsonName("workflow_name"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<DeleteSubscriptionResponse>;

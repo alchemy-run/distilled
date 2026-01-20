@@ -11,7 +11,11 @@ import type { HttpClient } from "@effect/platform";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
-import { UnknownCloudflareError, CloudflareNetworkError, CloudflareHttpError } from "../errors.ts";
+import {
+  UnknownCloudflareError,
+  CloudflareNetworkError,
+  CloudflareHttpError,
+} from "../errors.ts";
 
 // =============================================================================
 // AllCloudIntegration
@@ -24,7 +28,10 @@ export interface DiscoverAllCloudIntegrationRequest {
 export const DiscoverAllCloudIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/providers/discover" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/providers/discover",
+  }),
 ) as unknown as Schema.Schema<DiscoverAllCloudIntegrationRequest>;
 
 export interface DiscoverAllCloudIntegrationResponse {
@@ -180,8 +187,17 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   messages: {
     code:
@@ -335,8 +351,17 @@ export interface DiscoverAllCloudIntegrationResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   success: boolean;
 }
@@ -495,12 +520,18 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -668,12 +699,18 @@ export const DiscoverAllCloudIntegrationResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -710,7 +747,10 @@ export const GetCatalogSyncRequest = Schema.Struct({
   syncId: Schema.String.pipe(T.HttpPath("syncId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
+  }),
 ) as unknown as Schema.Schema<GetCatalogSyncRequest>;
 
 export interface GetCatalogSyncResponse {
@@ -732,7 +772,9 @@ export const GetCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(T.JsonName("destination_type")),
+  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+    T.JsonName("destination_type"),
+  ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
@@ -775,13 +817,18 @@ export interface CreateCatalogSyncRequest {
 export const CreateCatalogSyncRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(T.JsonName("destination_type")),
+  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+    T.JsonName("destination_type"),
+  ),
   name: Schema.String,
   updateMode: Schema.Literal("AUTO", "MANUAL").pipe(T.JsonName("update_mode")),
   description: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/catalog-syncs" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/catalog-syncs",
+  }),
 ) as unknown as Schema.Schema<CreateCatalogSyncRequest>;
 
 export interface CreateCatalogSyncResponse {
@@ -803,7 +850,9 @@ export const CreateCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(T.JsonName("destination_type")),
+  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+    T.JsonName("destination_type"),
+  ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
@@ -846,9 +895,14 @@ export const UpdateCatalogSyncRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
-  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(
+    T.JsonName("update_mode"),
+  ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
+  }),
 ) as unknown as Schema.Schema<UpdateCatalogSyncRequest>;
 
 export interface UpdateCatalogSyncResponse {
@@ -870,7 +924,9 @@ export const UpdateCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(T.JsonName("destination_type")),
+  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+    T.JsonName("destination_type"),
+  ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
@@ -913,9 +969,14 @@ export const PatchCatalogSyncRequest = Schema.Struct({
   description: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   policy: Schema.optional(Schema.String),
-  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(T.JsonName("update_mode")),
+  updateMode: Schema.optional(Schema.Literal("AUTO", "MANUAL")).pipe(
+    T.JsonName("update_mode"),
+  ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
+  }),
 ) as unknown as Schema.Schema<PatchCatalogSyncRequest>;
 
 export interface PatchCatalogSyncResponse {
@@ -937,7 +998,9 @@ export const PatchCatalogSyncResponse = Schema.Struct({
   id: Schema.String,
   description: Schema.String,
   destinationId: Schema.String.pipe(T.JsonName("destination_id")),
-  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(T.JsonName("destination_type")),
+  destinationType: Schema.Literal("NONE", "ZERO_TRUST_LIST").pipe(
+    T.JsonName("destination_type"),
+  ),
   lastUserUpdateAt: Schema.String.pipe(T.JsonName("last_user_update_at")),
   name: Schema.String,
   policy: Schema.String,
@@ -971,9 +1034,14 @@ export interface DeleteCatalogSyncRequest {
 export const DeleteCatalogSyncRequest = Schema.Struct({
   syncId: Schema.String.pipe(T.HttpPath("syncId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  deleteDestination: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("delete_destination")),
+  deleteDestination: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("delete_destination"),
+  ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}",
+  }),
 ) as unknown as Schema.Schema<DeleteCatalogSyncRequest>;
 
 export interface DeleteCatalogSyncResponse {
@@ -1033,7 +1101,10 @@ export const GetCloudIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   status: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("status")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/magic/cloud/providers/{providerId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/magic/cloud/providers/{providerId}",
+  }),
 ) as unknown as Schema.Schema<GetCloudIntegrationRequest>;
 
 export interface GetCloudIntegrationResponse {
@@ -1053,15 +1124,29 @@ export interface GetCloudIntegrationResponse {
   status?: {
     discoveryProgress: { done: number; total: number; unit: string };
     discoveryProgressV2: { done: number; total: number; unit: string };
-    lastDiscoveryStatus: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
-    lastDiscoveryStatusV2: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
+    lastDiscoveryStatus:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
+    lastDiscoveryStatusV2:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
     regions: string[];
     credentialsGoodSince?: string;
     credentialsMissingSince?: string;
     credentialsRejectedSince?: string;
     discoveryMessage?: string;
     discoveryMessageV2?: string;
-    inUseBy?: { id: string; clientType: "MAGIC_WAN_CLOUD_ONRAMP"; name: string }[];
+    inUseBy?: {
+      id: string;
+      clientType: "MAGIC_WAN_CLOUD_ONRAMP";
+      name: string;
+    }[];
     lastDiscoveryCompletedAt?: string;
     lastDiscoveryCompletedAtV2?: string;
     lastDiscoveryStartedAt?: string;
@@ -1072,21 +1157,39 @@ export interface GetCloudIntegrationResponse {
 
 export const GetCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED"),
-  stateV2: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED").pipe(
-    T.JsonName("state_v2"),
+  state: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
   ),
+  stateV2: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
+  ).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
@@ -1126,13 +1229,19 @@ export const GetCloudIntegrationResponse = Schema.Struct({
       credentialsRejectedSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_rejected_since"),
       ),
-      discoveryMessage: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message")),
-      discoveryMessageV2: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message_v2")),
+      discoveryMessage: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message"),
+      ),
+      discoveryMessageV2: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message_v2"),
+      ),
       inUseBy: Schema.optional(
         Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(T.JsonName("client_type")),
+            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(
+              T.JsonName("client_type"),
+            ),
             name: Schema.String,
           }),
         ),
@@ -1149,7 +1258,9 @@ export const GetCloudIntegrationResponse = Schema.Struct({
       lastDiscoveryStartedAtV2: Schema.optional(Schema.String).pipe(
         T.JsonName("last_discovery_started_at_v2"),
       ),
-      lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+      lastUpdated: Schema.optional(Schema.String).pipe(
+        T.JsonName("last_updated"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<GetCloudIntegrationResponse>;
@@ -1176,11 +1287,16 @@ export interface CreateCloudIntegrationRequest {
 export const CreateCloudIntegrationRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   description: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/providers" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/providers",
+  }),
 ) as unknown as Schema.Schema<CreateCloudIntegrationRequest>;
 
 export interface CreateCloudIntegrationResponse {
@@ -1200,15 +1316,29 @@ export interface CreateCloudIntegrationResponse {
   status?: {
     discoveryProgress: { done: number; total: number; unit: string };
     discoveryProgressV2: { done: number; total: number; unit: string };
-    lastDiscoveryStatus: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
-    lastDiscoveryStatusV2: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
+    lastDiscoveryStatus:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
+    lastDiscoveryStatusV2:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
     regions: string[];
     credentialsGoodSince?: string;
     credentialsMissingSince?: string;
     credentialsRejectedSince?: string;
     discoveryMessage?: string;
     discoveryMessageV2?: string;
-    inUseBy?: { id: string; clientType: "MAGIC_WAN_CLOUD_ONRAMP"; name: string }[];
+    inUseBy?: {
+      id: string;
+      clientType: "MAGIC_WAN_CLOUD_ONRAMP";
+      name: string;
+    }[];
     lastDiscoveryCompletedAt?: string;
     lastDiscoveryCompletedAtV2?: string;
     lastDiscoveryStartedAt?: string;
@@ -1219,21 +1349,39 @@ export interface CreateCloudIntegrationResponse {
 
 export const CreateCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED"),
-  stateV2: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED").pipe(
-    T.JsonName("state_v2"),
+  state: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
   ),
+  stateV2: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
+  ).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
@@ -1273,13 +1421,19 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
       credentialsRejectedSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_rejected_since"),
       ),
-      discoveryMessage: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message")),
-      discoveryMessageV2: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message_v2")),
+      discoveryMessage: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message"),
+      ),
+      discoveryMessageV2: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message_v2"),
+      ),
       inUseBy: Schema.optional(
         Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(T.JsonName("client_type")),
+            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(
+              T.JsonName("client_type"),
+            ),
             name: Schema.String,
           }),
         ),
@@ -1296,7 +1450,9 @@ export const CreateCloudIntegrationResponse = Schema.Struct({
       lastDiscoveryStartedAtV2: Schema.optional(Schema.String).pipe(
         T.JsonName("last_discovery_started_at_v2"),
       ),
-      lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+      lastUpdated: Schema.optional(Schema.String).pipe(
+        T.JsonName("last_updated"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<CreateCloudIntegrationResponse>;
@@ -1331,16 +1487,27 @@ export const UpdateCloudIntegrationRequest = Schema.Struct({
   providerId: Schema.String.pipe(T.HttpPath("providerId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  friendlyName: Schema.optional(Schema.String).pipe(T.JsonName("friendly_name")),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  friendlyName: Schema.optional(Schema.String).pipe(
+    T.JsonName("friendly_name"),
+  ),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/magic/cloud/providers/{providerId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/magic/cloud/providers/{providerId}",
+  }),
 ) as unknown as Schema.Schema<UpdateCloudIntegrationRequest>;
 
 export interface UpdateCloudIntegrationResponse {
@@ -1360,15 +1527,29 @@ export interface UpdateCloudIntegrationResponse {
   status?: {
     discoveryProgress: { done: number; total: number; unit: string };
     discoveryProgressV2: { done: number; total: number; unit: string };
-    lastDiscoveryStatus: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
-    lastDiscoveryStatusV2: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
+    lastDiscoveryStatus:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
+    lastDiscoveryStatusV2:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
     regions: string[];
     credentialsGoodSince?: string;
     credentialsMissingSince?: string;
     credentialsRejectedSince?: string;
     discoveryMessage?: string;
     discoveryMessageV2?: string;
-    inUseBy?: { id: string; clientType: "MAGIC_WAN_CLOUD_ONRAMP"; name: string }[];
+    inUseBy?: {
+      id: string;
+      clientType: "MAGIC_WAN_CLOUD_ONRAMP";
+      name: string;
+    }[];
     lastDiscoveryCompletedAt?: string;
     lastDiscoveryCompletedAtV2?: string;
     lastDiscoveryStartedAt?: string;
@@ -1379,21 +1560,39 @@ export interface UpdateCloudIntegrationResponse {
 
 export const UpdateCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED"),
-  stateV2: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED").pipe(
-    T.JsonName("state_v2"),
+  state: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
   ),
+  stateV2: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
+  ).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
@@ -1433,13 +1632,19 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
       credentialsRejectedSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_rejected_since"),
       ),
-      discoveryMessage: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message")),
-      discoveryMessageV2: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message_v2")),
+      discoveryMessage: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message"),
+      ),
+      discoveryMessageV2: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message_v2"),
+      ),
       inUseBy: Schema.optional(
         Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(T.JsonName("client_type")),
+            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(
+              T.JsonName("client_type"),
+            ),
             name: Schema.String,
           }),
         ),
@@ -1456,7 +1661,9 @@ export const UpdateCloudIntegrationResponse = Schema.Struct({
       lastDiscoveryStartedAtV2: Schema.optional(Schema.String).pipe(
         T.JsonName("last_discovery_started_at_v2"),
       ),
-      lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+      lastUpdated: Schema.optional(Schema.String).pipe(
+        T.JsonName("last_updated"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<UpdateCloudIntegrationResponse>;
@@ -1491,16 +1698,27 @@ export const PatchCloudIntegrationRequest = Schema.Struct({
   providerId: Schema.String.pipe(T.HttpPath("providerId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  friendlyName: Schema.optional(Schema.String).pipe(T.JsonName("friendly_name")),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  friendlyName: Schema.optional(Schema.String).pipe(
+    T.JsonName("friendly_name"),
+  ),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/magic/cloud/providers/{providerId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/magic/cloud/providers/{providerId}",
+  }),
 ) as unknown as Schema.Schema<PatchCloudIntegrationRequest>;
 
 export interface PatchCloudIntegrationResponse {
@@ -1520,15 +1738,29 @@ export interface PatchCloudIntegrationResponse {
   status?: {
     discoveryProgress: { done: number; total: number; unit: string };
     discoveryProgressV2: { done: number; total: number; unit: string };
-    lastDiscoveryStatus: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
-    lastDiscoveryStatusV2: "UNSPECIFIED" | "PENDING" | "DISCOVERING" | "FAILED" | "SUCCEEDED";
+    lastDiscoveryStatus:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
+    lastDiscoveryStatusV2:
+      | "UNSPECIFIED"
+      | "PENDING"
+      | "DISCOVERING"
+      | "FAILED"
+      | "SUCCEEDED";
     regions: string[];
     credentialsGoodSince?: string;
     credentialsMissingSince?: string;
     credentialsRejectedSince?: string;
     discoveryMessage?: string;
     discoveryMessageV2?: string;
-    inUseBy?: { id: string; clientType: "MAGIC_WAN_CLOUD_ONRAMP"; name: string }[];
+    inUseBy?: {
+      id: string;
+      clientType: "MAGIC_WAN_CLOUD_ONRAMP";
+      name: string;
+    }[];
     lastDiscoveryCompletedAt?: string;
     lastDiscoveryCompletedAtV2?: string;
     lastDiscoveryStartedAt?: string;
@@ -1539,21 +1771,39 @@ export interface PatchCloudIntegrationResponse {
 
 export const PatchCloudIntegrationResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   friendlyName: Schema.String.pipe(T.JsonName("friendly_name")),
   lastUpdated: Schema.String.pipe(T.JsonName("last_updated")),
   lifecycleState: Schema.Literal("ACTIVE", "PENDING_SETUP", "RETIRED").pipe(
     T.JsonName("lifecycle_state"),
   ),
-  state: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED"),
-  stateV2: Schema.Literal("UNSPECIFIED", "PENDING", "DISCOVERING", "FAILED", "SUCCEEDED").pipe(
-    T.JsonName("state_v2"),
+  state: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
   ),
+  stateV2: Schema.Literal(
+    "UNSPECIFIED",
+    "PENDING",
+    "DISCOVERING",
+    "FAILED",
+    "SUCCEEDED",
+  ).pipe(T.JsonName("state_v2")),
   awsArn: Schema.optional(Schema.String).pipe(T.JsonName("aws_arn")),
-  azureSubscriptionId: Schema.optional(Schema.String).pipe(T.JsonName("azure_subscription_id")),
-  azureTenantId: Schema.optional(Schema.String).pipe(T.JsonName("azure_tenant_id")),
+  azureSubscriptionId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_subscription_id"),
+  ),
+  azureTenantId: Schema.optional(Schema.String).pipe(
+    T.JsonName("azure_tenant_id"),
+  ),
   description: Schema.optional(Schema.String),
-  gcpProjectId: Schema.optional(Schema.String).pipe(T.JsonName("gcp_project_id")),
+  gcpProjectId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gcp_project_id"),
+  ),
   gcpServiceAccountEmail: Schema.optional(Schema.String).pipe(
     T.JsonName("gcp_service_account_email"),
   ),
@@ -1593,13 +1843,19 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
       credentialsRejectedSince: Schema.optional(Schema.String).pipe(
         T.JsonName("credentials_rejected_since"),
       ),
-      discoveryMessage: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message")),
-      discoveryMessageV2: Schema.optional(Schema.String).pipe(T.JsonName("discovery_message_v2")),
+      discoveryMessage: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message"),
+      ),
+      discoveryMessageV2: Schema.optional(Schema.String).pipe(
+        T.JsonName("discovery_message_v2"),
+      ),
       inUseBy: Schema.optional(
         Schema.Array(
           Schema.Struct({
             id: Schema.String,
-            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(T.JsonName("client_type")),
+            clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(
+              T.JsonName("client_type"),
+            ),
             name: Schema.String,
           }),
         ),
@@ -1616,7 +1872,9 @@ export const PatchCloudIntegrationResponse = Schema.Struct({
       lastDiscoveryStartedAtV2: Schema.optional(Schema.String).pipe(
         T.JsonName("last_discovery_started_at_v2"),
       ),
-      lastUpdated: Schema.optional(Schema.String).pipe(T.JsonName("last_updated")),
+      lastUpdated: Schema.optional(Schema.String).pipe(
+        T.JsonName("last_updated"),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<PatchCloudIntegrationResponse>;
@@ -1636,7 +1894,10 @@ export const DeleteCloudIntegrationRequest = Schema.Struct({
   providerId: Schema.String.pipe(T.HttpPath("providerId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/magic/cloud/providers/{providerId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/magic/cloud/providers/{providerId}",
+  }),
 ) as unknown as Schema.Schema<DeleteCloudIntegrationRequest>;
 
 export interface DeleteCloudIntegrationResponse {
@@ -1825,8 +2086,17 @@ export interface DiscoverCloudIntegrationResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   messages: {
     code:
@@ -1980,8 +2250,17 @@ export interface DiscoverCloudIntegrationResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   success: boolean;
 }
@@ -2140,12 +2419,18 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -2313,12 +2598,18 @@ export const DiscoverCloudIntegrationResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -2363,12 +2654,19 @@ export interface GetOnRampRequest {
 export const GetOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  plannedResources: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("planned_resources")),
-  postApplyResources: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("post_apply_resources")),
+  plannedResources: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("planned_resources"),
+  ),
+  postApplyResources: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("post_apply_resources"),
+  ),
   status: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("status")),
   vpcs: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("vpcs")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}",
+  }),
 ) as unknown as Schema.Schema<GetOnRampRequest>;
 
 export interface GetOnRampResponse {
@@ -2509,19 +2807,35 @@ export interface GetOnRampResponse {
 
 export const GetOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(T.JsonName("cloud_type")),
-  installRoutesInCloud: Schema.Boolean.pipe(T.JsonName("install_routes_in_cloud")),
-  installRoutesInMagicWan: Schema.Boolean.pipe(T.JsonName("install_routes_in_magic_wan")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+    T.JsonName("cloud_type"),
+  ),
+  installRoutesInCloud: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
+  installRoutesInMagicWan: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_magic_wan"),
+  ),
   name: Schema.String,
   type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
-  lastAppliedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_applied_at")),
-  lastExportedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_exported_at")),
-  lastPlannedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_planned_at")),
+  lastAppliedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_applied_at"),
+  ),
+  lastExportedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_exported_at"),
+  ),
+  lastPlannedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_planned_at"),
+  ),
   manageHubToHubAttachments: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("manage_hub_to_hub_attachments"),
   ),
@@ -2531,9 +2845,13 @@ export const GetOnRampResponse = Schema.Struct({
   plannedMonthlyCostEstimate: Schema.optional(
     Schema.Struct({
       currency: Schema.String,
-      currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+      currentMonthlyCost: Schema.Number.pipe(
+        T.JsonName("current_monthly_cost"),
+      ),
       diff: Schema.Number,
-      proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+      proposedMonthlyCost: Schema.Number.pipe(
+        T.JsonName("proposed_monthly_cost"),
+      ),
     }),
   ).pipe(T.JsonName("planned_monthly_cost_estimate")),
   plannedResources: Schema.optional(
@@ -2546,21 +2864,34 @@ export const GetOnRampResponse = Schema.Struct({
           rightDescription: Schema.String.pipe(T.JsonName("right_description")),
           rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
         }),
-        keysRequireReplace: Schema.Array(Schema.String).pipe(T.JsonName("keys_require_replace")),
+        keysRequireReplace: Schema.Array(Schema.String).pipe(
+          T.JsonName("keys_require_replace"),
+        ),
         monthlyCostEstimateDiff: Schema.Struct({
           currency: Schema.String,
-          currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+          currentMonthlyCost: Schema.Number.pipe(
+            T.JsonName("current_monthly_cost"),
+          ),
           diff: Schema.Number,
-          proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+          proposedMonthlyCost: Schema.Number.pipe(
+            T.JsonName("proposed_monthly_cost"),
+          ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal("no_op", "create", "update", "replace", "destroy").pipe(
-          T.JsonName("planned_action"),
-        ),
+        plannedAction: Schema.Literal(
+          "no_op",
+          "create",
+          "update",
+          "replace",
+          "destroy",
+        ).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-            T.JsonName("cloud_type"),
-          ),
+          cloudType: Schema.Literal(
+            "AWS",
+            "AZURE",
+            "GOOGLE",
+            "CLOUDFLARE",
+          ).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
           resourceType: Schema.Literal(
@@ -2636,7 +2967,9 @@ export const GetOnRampResponse = Schema.Struct({
       monthlyCost: Schema.Number.pipe(T.JsonName("monthly_cost")),
     }),
   ).pipe(T.JsonName("post_apply_monthly_cost_estimate")),
-  postApplyResources: Schema.optional(Schema.Struct({})).pipe(T.JsonName("post_apply_resources")),
+  postApplyResources: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("post_apply_resources"),
+  ),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("post_apply_resources_unavailable"),
   ),
@@ -2667,7 +3000,9 @@ export const GetOnRampResponse = Schema.Struct({
       }).pipe(T.JsonName("plan_progress")),
       routes: Schema.Array(Schema.String),
       tunnels: Schema.Array(Schema.String),
-      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(T.JsonName("lifecycle_errors")),
+      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(
+        T.JsonName("lifecycle_errors"),
+      ),
     }),
   ),
   vpc: Schema.optional(Schema.String),
@@ -2721,16 +3056,30 @@ export interface CreateOnRampRequest {
 export const CreateOnRampRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   forwarded: Schema.optional(Schema.String).pipe(T.HttpHeader("forwarded")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(T.JsonName("cloud_type")),
-  installRoutesInCloud: Schema.Boolean.pipe(T.JsonName("install_routes_in_cloud")),
-  installRoutesInMagicWan: Schema.Boolean.pipe(T.JsonName("install_routes_in_magic_wan")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+    T.JsonName("cloud_type"),
+  ),
+  installRoutesInCloud: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
+  installRoutesInMagicWan: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_magic_wan"),
+  ),
   name: Schema.String,
   type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
-  adoptedHubId: Schema.optional(Schema.String).pipe(T.JsonName("adopted_hub_id")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  adoptedHubId: Schema.optional(Schema.String).pipe(
+    T.JsonName("adopted_hub_id"),
+  ),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
-  hubProviderId: Schema.optional(Schema.String).pipe(T.JsonName("hub_provider_id")),
+  hubProviderId: Schema.optional(Schema.String).pipe(
+    T.JsonName("hub_provider_id"),
+  ),
   manageHubToHubAttachments: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("manage_hub_to_hub_attachments"),
   ),
@@ -2740,7 +3089,10 @@ export const CreateOnRampRequest = Schema.Struct({
   region: Schema.optional(Schema.String),
   vpc: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/onramps" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/onramps",
+  }),
 ) as unknown as Schema.Schema<CreateOnRampRequest>;
 
 export interface CreateOnRampResponse {
@@ -2881,19 +3233,35 @@ export interface CreateOnRampResponse {
 
 export const CreateOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(T.JsonName("cloud_type")),
-  installRoutesInCloud: Schema.Boolean.pipe(T.JsonName("install_routes_in_cloud")),
-  installRoutesInMagicWan: Schema.Boolean.pipe(T.JsonName("install_routes_in_magic_wan")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+    T.JsonName("cloud_type"),
+  ),
+  installRoutesInCloud: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
+  installRoutesInMagicWan: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_magic_wan"),
+  ),
   name: Schema.String,
   type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
-  lastAppliedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_applied_at")),
-  lastExportedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_exported_at")),
-  lastPlannedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_planned_at")),
+  lastAppliedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_applied_at"),
+  ),
+  lastExportedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_exported_at"),
+  ),
+  lastPlannedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_planned_at"),
+  ),
   manageHubToHubAttachments: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("manage_hub_to_hub_attachments"),
   ),
@@ -2903,9 +3271,13 @@ export const CreateOnRampResponse = Schema.Struct({
   plannedMonthlyCostEstimate: Schema.optional(
     Schema.Struct({
       currency: Schema.String,
-      currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+      currentMonthlyCost: Schema.Number.pipe(
+        T.JsonName("current_monthly_cost"),
+      ),
       diff: Schema.Number,
-      proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+      proposedMonthlyCost: Schema.Number.pipe(
+        T.JsonName("proposed_monthly_cost"),
+      ),
     }),
   ).pipe(T.JsonName("planned_monthly_cost_estimate")),
   plannedResources: Schema.optional(
@@ -2918,21 +3290,34 @@ export const CreateOnRampResponse = Schema.Struct({
           rightDescription: Schema.String.pipe(T.JsonName("right_description")),
           rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
         }),
-        keysRequireReplace: Schema.Array(Schema.String).pipe(T.JsonName("keys_require_replace")),
+        keysRequireReplace: Schema.Array(Schema.String).pipe(
+          T.JsonName("keys_require_replace"),
+        ),
         monthlyCostEstimateDiff: Schema.Struct({
           currency: Schema.String,
-          currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+          currentMonthlyCost: Schema.Number.pipe(
+            T.JsonName("current_monthly_cost"),
+          ),
           diff: Schema.Number,
-          proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+          proposedMonthlyCost: Schema.Number.pipe(
+            T.JsonName("proposed_monthly_cost"),
+          ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal("no_op", "create", "update", "replace", "destroy").pipe(
-          T.JsonName("planned_action"),
-        ),
+        plannedAction: Schema.Literal(
+          "no_op",
+          "create",
+          "update",
+          "replace",
+          "destroy",
+        ).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-            T.JsonName("cloud_type"),
-          ),
+          cloudType: Schema.Literal(
+            "AWS",
+            "AZURE",
+            "GOOGLE",
+            "CLOUDFLARE",
+          ).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
           resourceType: Schema.Literal(
@@ -3008,7 +3393,9 @@ export const CreateOnRampResponse = Schema.Struct({
       monthlyCost: Schema.Number.pipe(T.JsonName("monthly_cost")),
     }),
   ).pipe(T.JsonName("post_apply_monthly_cost_estimate")),
-  postApplyResources: Schema.optional(Schema.Struct({})).pipe(T.JsonName("post_apply_resources")),
+  postApplyResources: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("post_apply_resources"),
+  ),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("post_apply_resources_unavailable"),
   ),
@@ -3039,7 +3426,9 @@ export const CreateOnRampResponse = Schema.Struct({
       }).pipe(T.JsonName("plan_progress")),
       routes: Schema.Array(Schema.String),
       tunnels: Schema.Array(Schema.String),
-      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(T.JsonName("lifecycle_errors")),
+      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(
+        T.JsonName("lifecycle_errors"),
+      ),
     }),
   ),
   vpc: Schema.optional(Schema.String),
@@ -3082,10 +3471,16 @@ export interface UpdateOnRampRequest {
 export const UpdateOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
-  installRoutesInCloud: Schema.optional(Schema.Boolean).pipe(T.JsonName("install_routes_in_cloud")),
+  installRoutesInCloud: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
   installRoutesInMagicWan: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("install_routes_in_magic_wan"),
   ),
@@ -3098,7 +3493,10 @@ export const UpdateOnRampRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   vpc: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PUT", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}" }),
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}",
+  }),
 ) as unknown as Schema.Schema<UpdateOnRampRequest>;
 
 export interface UpdateOnRampResponse {
@@ -3239,19 +3637,35 @@ export interface UpdateOnRampResponse {
 
 export const UpdateOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(T.JsonName("cloud_type")),
-  installRoutesInCloud: Schema.Boolean.pipe(T.JsonName("install_routes_in_cloud")),
-  installRoutesInMagicWan: Schema.Boolean.pipe(T.JsonName("install_routes_in_magic_wan")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+    T.JsonName("cloud_type"),
+  ),
+  installRoutesInCloud: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
+  installRoutesInMagicWan: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_magic_wan"),
+  ),
   name: Schema.String,
   type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
-  lastAppliedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_applied_at")),
-  lastExportedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_exported_at")),
-  lastPlannedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_planned_at")),
+  lastAppliedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_applied_at"),
+  ),
+  lastExportedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_exported_at"),
+  ),
+  lastPlannedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_planned_at"),
+  ),
   manageHubToHubAttachments: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("manage_hub_to_hub_attachments"),
   ),
@@ -3261,9 +3675,13 @@ export const UpdateOnRampResponse = Schema.Struct({
   plannedMonthlyCostEstimate: Schema.optional(
     Schema.Struct({
       currency: Schema.String,
-      currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+      currentMonthlyCost: Schema.Number.pipe(
+        T.JsonName("current_monthly_cost"),
+      ),
       diff: Schema.Number,
-      proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+      proposedMonthlyCost: Schema.Number.pipe(
+        T.JsonName("proposed_monthly_cost"),
+      ),
     }),
   ).pipe(T.JsonName("planned_monthly_cost_estimate")),
   plannedResources: Schema.optional(
@@ -3276,21 +3694,34 @@ export const UpdateOnRampResponse = Schema.Struct({
           rightDescription: Schema.String.pipe(T.JsonName("right_description")),
           rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
         }),
-        keysRequireReplace: Schema.Array(Schema.String).pipe(T.JsonName("keys_require_replace")),
+        keysRequireReplace: Schema.Array(Schema.String).pipe(
+          T.JsonName("keys_require_replace"),
+        ),
         monthlyCostEstimateDiff: Schema.Struct({
           currency: Schema.String,
-          currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+          currentMonthlyCost: Schema.Number.pipe(
+            T.JsonName("current_monthly_cost"),
+          ),
           diff: Schema.Number,
-          proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+          proposedMonthlyCost: Schema.Number.pipe(
+            T.JsonName("proposed_monthly_cost"),
+          ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal("no_op", "create", "update", "replace", "destroy").pipe(
-          T.JsonName("planned_action"),
-        ),
+        plannedAction: Schema.Literal(
+          "no_op",
+          "create",
+          "update",
+          "replace",
+          "destroy",
+        ).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-            T.JsonName("cloud_type"),
-          ),
+          cloudType: Schema.Literal(
+            "AWS",
+            "AZURE",
+            "GOOGLE",
+            "CLOUDFLARE",
+          ).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
           resourceType: Schema.Literal(
@@ -3366,7 +3797,9 @@ export const UpdateOnRampResponse = Schema.Struct({
       monthlyCost: Schema.Number.pipe(T.JsonName("monthly_cost")),
     }),
   ).pipe(T.JsonName("post_apply_monthly_cost_estimate")),
-  postApplyResources: Schema.optional(Schema.Struct({})).pipe(T.JsonName("post_apply_resources")),
+  postApplyResources: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("post_apply_resources"),
+  ),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("post_apply_resources_unavailable"),
   ),
@@ -3397,7 +3830,9 @@ export const UpdateOnRampResponse = Schema.Struct({
       }).pipe(T.JsonName("plan_progress")),
       routes: Schema.Array(Schema.String),
       tunnels: Schema.Array(Schema.String),
-      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(T.JsonName("lifecycle_errors")),
+      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(
+        T.JsonName("lifecycle_errors"),
+      ),
     }),
   ),
   vpc: Schema.optional(Schema.String),
@@ -3440,10 +3875,16 @@ export interface PatchOnRampRequest {
 export const PatchOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
-  installRoutesInCloud: Schema.optional(Schema.Boolean).pipe(T.JsonName("install_routes_in_cloud")),
+  installRoutesInCloud: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
   installRoutesInMagicWan: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("install_routes_in_magic_wan"),
   ),
@@ -3456,7 +3897,10 @@ export const PatchOnRampRequest = Schema.Struct({
   name: Schema.optional(Schema.String),
   vpc: Schema.optional(Schema.String),
 }).pipe(
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}" }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}",
+  }),
 ) as unknown as Schema.Schema<PatchOnRampRequest>;
 
 export interface PatchOnRampResponse {
@@ -3597,19 +4041,35 @@ export interface PatchOnRampResponse {
 
 export const PatchOnRampResponse = Schema.Struct({
   id: Schema.String,
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(T.JsonName("cloud_type")),
-  installRoutesInCloud: Schema.Boolean.pipe(T.JsonName("install_routes_in_cloud")),
-  installRoutesInMagicWan: Schema.Boolean.pipe(T.JsonName("install_routes_in_magic_wan")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE").pipe(
+    T.JsonName("cloud_type"),
+  ),
+  installRoutesInCloud: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_cloud"),
+  ),
+  installRoutesInMagicWan: Schema.Boolean.pipe(
+    T.JsonName("install_routes_in_magic_wan"),
+  ),
   name: Schema.String,
   type: Schema.Literal("OnrampTypeSingle", "OnrampTypeHub"),
   updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_hubs")),
-  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(T.JsonName("attached_vpcs")),
+  attachedHubs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_hubs"),
+  ),
+  attachedVpcs: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("attached_vpcs"),
+  ),
   description: Schema.optional(Schema.String),
   hub: Schema.optional(Schema.String),
-  lastAppliedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_applied_at")),
-  lastExportedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_exported_at")),
-  lastPlannedAt: Schema.optional(Schema.String).pipe(T.JsonName("last_planned_at")),
+  lastAppliedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_applied_at"),
+  ),
+  lastExportedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_exported_at"),
+  ),
+  lastPlannedAt: Schema.optional(Schema.String).pipe(
+    T.JsonName("last_planned_at"),
+  ),
   manageHubToHubAttachments: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("manage_hub_to_hub_attachments"),
   ),
@@ -3619,9 +4079,13 @@ export const PatchOnRampResponse = Schema.Struct({
   plannedMonthlyCostEstimate: Schema.optional(
     Schema.Struct({
       currency: Schema.String,
-      currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+      currentMonthlyCost: Schema.Number.pipe(
+        T.JsonName("current_monthly_cost"),
+      ),
       diff: Schema.Number,
-      proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+      proposedMonthlyCost: Schema.Number.pipe(
+        T.JsonName("proposed_monthly_cost"),
+      ),
     }),
   ).pipe(T.JsonName("planned_monthly_cost_estimate")),
   plannedResources: Schema.optional(
@@ -3634,21 +4098,34 @@ export const PatchOnRampResponse = Schema.Struct({
           rightDescription: Schema.String.pipe(T.JsonName("right_description")),
           rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
         }),
-        keysRequireReplace: Schema.Array(Schema.String).pipe(T.JsonName("keys_require_replace")),
+        keysRequireReplace: Schema.Array(Schema.String).pipe(
+          T.JsonName("keys_require_replace"),
+        ),
         monthlyCostEstimateDiff: Schema.Struct({
           currency: Schema.String,
-          currentMonthlyCost: Schema.Number.pipe(T.JsonName("current_monthly_cost")),
+          currentMonthlyCost: Schema.Number.pipe(
+            T.JsonName("current_monthly_cost"),
+          ),
           diff: Schema.Number,
-          proposedMonthlyCost: Schema.Number.pipe(T.JsonName("proposed_monthly_cost")),
+          proposedMonthlyCost: Schema.Number.pipe(
+            T.JsonName("proposed_monthly_cost"),
+          ),
         }).pipe(T.JsonName("monthly_cost_estimate_diff")),
-        plannedAction: Schema.Literal("no_op", "create", "update", "replace", "destroy").pipe(
-          T.JsonName("planned_action"),
-        ),
+        plannedAction: Schema.Literal(
+          "no_op",
+          "create",
+          "update",
+          "replace",
+          "destroy",
+        ).pipe(T.JsonName("planned_action")),
         resource: Schema.Struct({
           id: Schema.String,
-          cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-            T.JsonName("cloud_type"),
-          ),
+          cloudType: Schema.Literal(
+            "AWS",
+            "AZURE",
+            "GOOGLE",
+            "CLOUDFLARE",
+          ).pipe(T.JsonName("cloud_type")),
           detail: Schema.String,
           name: Schema.String,
           resourceType: Schema.Literal(
@@ -3724,7 +4201,9 @@ export const PatchOnRampResponse = Schema.Struct({
       monthlyCost: Schema.Number.pipe(T.JsonName("monthly_cost")),
     }),
   ).pipe(T.JsonName("post_apply_monthly_cost_estimate")),
-  postApplyResources: Schema.optional(Schema.Struct({})).pipe(T.JsonName("post_apply_resources")),
+  postApplyResources: Schema.optional(Schema.Struct({})).pipe(
+    T.JsonName("post_apply_resources"),
+  ),
   postApplyResourcesUnavailable: Schema.optional(Schema.Boolean).pipe(
     T.JsonName("post_apply_resources_unavailable"),
   ),
@@ -3755,7 +4234,9 @@ export const PatchOnRampResponse = Schema.Struct({
       }).pipe(T.JsonName("plan_progress")),
       routes: Schema.Array(Schema.String),
       tunnels: Schema.Array(Schema.String),
-      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(T.JsonName("lifecycle_errors")),
+      lifecycleErrors: Schema.optional(Schema.Struct({})).pipe(
+        T.JsonName("lifecycle_errors"),
+      ),
     }),
   ),
   vpc: Schema.optional(Schema.String),
@@ -3787,7 +4268,10 @@ export const DeleteOnRampRequest = Schema.Struct({
   destroy: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("destroy")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}" }),
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}",
+  }),
 ) as unknown as Schema.Schema<DeleteOnRampRequest>;
 
 export interface DeleteOnRampResponse {
@@ -3813,7 +4297,10 @@ export const ApplyOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/apply" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/apply",
+  }),
 ) as unknown as Schema.Schema<ApplyOnRampRequest>;
 
 export interface ApplyOnRampResponse {
@@ -3969,8 +4456,17 @@ export interface ApplyOnRampResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   messages: {
     code:
@@ -4124,8 +4620,17 @@ export interface ApplyOnRampResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   success: boolean;
 }
@@ -4284,12 +4789,18 @@ export const ApplyOnRampResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -4457,12 +4968,18 @@ export const ApplyOnRampResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -4495,7 +5012,10 @@ export const ExportOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/export" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/export",
+  }),
 ) as unknown as Schema.Schema<ExportOnRampRequest>;
 
 export type ExportOnRampResponse = unknown;
@@ -4518,7 +5038,10 @@ export const PlanOnRampRequest = Schema.Struct({
   onrampId: Schema.String.pipe(T.HttpPath("onrampId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/plan" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/onramps/{onrampId}/plan",
+  }),
 ) as unknown as Schema.Schema<PlanOnRampRequest>;
 
 export interface PlanOnRampResponse {
@@ -4674,8 +5197,17 @@ export interface PlanOnRampResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   messages: {
     code:
@@ -4829,8 +5361,17 @@ export interface PlanOnRampResponse {
       | "103008";
     message: string;
     documentationUrl?: string;
-    meta?: { l10nKey?: string; loggableError?: string; templateData?: unknown; traceId?: string };
-    source?: { parameter?: string; parameterValueIndex?: number; pointer?: string };
+    meta?: {
+      l10nKey?: string;
+      loggableError?: string;
+      templateData?: unknown;
+      traceId?: string;
+    };
+    source?: {
+      parameter?: string;
+      parameterValueIndex?: number;
+      pointer?: string;
+    };
   }[];
   success: boolean;
 }
@@ -4989,12 +5530,18 @@ export const PlanOnRampResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -5162,12 +5709,18 @@ export const PlanOnRampResponse = Schema.Struct({
         "103008",
       ),
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(T.JsonName("documentation_url")),
+      documentationUrl: Schema.optional(Schema.String).pipe(
+        T.JsonName("documentation_url"),
+      ),
       meta: Schema.optional(
         Schema.Struct({
           l10nKey: Schema.optional(Schema.String).pipe(T.JsonName("l10n_key")),
-          loggableError: Schema.optional(Schema.String).pipe(T.JsonName("loggable_error")),
-          templateData: Schema.optional(Schema.Unknown).pipe(T.JsonName("template_data")),
+          loggableError: Schema.optional(Schema.String).pipe(
+            T.JsonName("loggable_error"),
+          ),
+          templateData: Schema.optional(Schema.Unknown).pipe(
+            T.JsonName("template_data"),
+          ),
           traceId: Schema.optional(Schema.String).pipe(T.JsonName("trace_id")),
         }),
       ),
@@ -5299,7 +5852,10 @@ export const PolicyPreviewResourceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   policy: Schema.String,
 }).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/magic/cloud/resources/policy-preview" }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/magic/cloud/resources/policy-preview",
+  }),
 ) as unknown as Schema.Schema<PolicyPreviewResourceRequest>;
 
 export type PolicyPreviewResourceResponse = string;
@@ -5330,7 +5886,10 @@ export const GetResourceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   v2: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("v2")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/magic/cloud/resources/{resourceId}" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/magic/cloud/resources/{resourceId}",
+  }),
 ) as unknown as Schema.Schema<GetResourceRequest>;
 
 export interface GetResourceResponse {
@@ -5618,13 +6177,19 @@ export interface GetResourceResponse {
   tags: Record<string, unknown>;
   updatedAt: string;
   url: string;
-  managedBy?: { id: string; clientType: "MAGIC_WAN_CLOUD_ONRAMP"; name: string }[];
+  managedBy?: {
+    id: string;
+    clientType: "MAGIC_WAN_CLOUD_ONRAMP";
+    name: string;
+  }[];
 }
 
 export const GetResourceResponse = Schema.Struct({
   id: Schema.String,
   accountId: Schema.String.pipe(T.JsonName("account_id")),
-  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(T.JsonName("cloud_type")),
+  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
+    T.JsonName("cloud_type"),
+  ),
   config: Schema.Struct({}),
   deploymentProvider: Schema.String.pipe(T.JsonName("deployment_provider")),
   managed: Schema.Boolean,
@@ -5718,9 +6283,13 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 yamlDiff: Schema.Struct({
                   diff: Schema.String,
-                  leftDescription: Schema.String.pipe(T.JsonName("left_description")),
+                  leftDescription: Schema.String.pipe(
+                    T.JsonName("left_description"),
+                  ),
                   leftYaml: Schema.String.pipe(T.JsonName("left_yaml")),
-                  rightDescription: Schema.String.pipe(T.JsonName("right_description")),
+                  rightDescription: Schema.String.pipe(
+                    T.JsonName("right_description"),
+                  ),
                   rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
                 }).pipe(T.JsonName("yaml_diff")),
               }),
@@ -5728,9 +6297,12 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 resourcePreview: Schema.Struct({
                   id: Schema.String,
-                  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-                    T.JsonName("cloud_type"),
-                  ),
+                  cloudType: Schema.Literal(
+                    "AWS",
+                    "AZURE",
+                    "GOOGLE",
+                    "CLOUDFLARE",
+                  ).pipe(T.JsonName("cloud_type")),
                   detail: Schema.String,
                   name: Schema.String,
                   resourceType: Schema.Literal(
@@ -5807,9 +6379,12 @@ export const GetResourceResponse = Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       resourcePreview: Schema.Struct({
                         id: Schema.String,
-                        cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-                          T.JsonName("cloud_type"),
-                        ),
+                        cloudType: Schema.Literal(
+                          "AWS",
+                          "AZURE",
+                          "GOOGLE",
+                          "CLOUDFLARE",
+                        ).pipe(T.JsonName("cloud_type")),
                         detail: Schema.String,
                         name: Schema.String,
                         resourceType: Schema.Literal(
@@ -5900,9 +6475,13 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 yamlDiff: Schema.Struct({
                   diff: Schema.String,
-                  leftDescription: Schema.String.pipe(T.JsonName("left_description")),
+                  leftDescription: Schema.String.pipe(
+                    T.JsonName("left_description"),
+                  ),
                   leftYaml: Schema.String.pipe(T.JsonName("left_yaml")),
-                  rightDescription: Schema.String.pipe(T.JsonName("right_description")),
+                  rightDescription: Schema.String.pipe(
+                    T.JsonName("right_description"),
+                  ),
                   rightYaml: Schema.String.pipe(T.JsonName("right_yaml")),
                 }).pipe(T.JsonName("yaml_diff")),
               }),
@@ -5910,9 +6489,12 @@ export const GetResourceResponse = Schema.Struct({
                 itemType: Schema.String.pipe(T.JsonName("item_type")),
                 resourcePreview: Schema.Struct({
                   id: Schema.String,
-                  cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-                    T.JsonName("cloud_type"),
-                  ),
+                  cloudType: Schema.Literal(
+                    "AWS",
+                    "AZURE",
+                    "GOOGLE",
+                    "CLOUDFLARE",
+                  ).pipe(T.JsonName("cloud_type")),
                   detail: Schema.String,
                   name: Schema.String,
                   resourceType: Schema.Literal(
@@ -5989,9 +6571,12 @@ export const GetResourceResponse = Schema.Struct({
                       itemType: Schema.String.pipe(T.JsonName("item_type")),
                       resourcePreview: Schema.Struct({
                         id: Schema.String,
-                        cloudType: Schema.Literal("AWS", "AZURE", "GOOGLE", "CLOUDFLARE").pipe(
-                          T.JsonName("cloud_type"),
-                        ),
+                        cloudType: Schema.Literal(
+                          "AWS",
+                          "AZURE",
+                          "GOOGLE",
+                          "CLOUDFLARE",
+                        ).pipe(T.JsonName("cloud_type")),
                         detail: Schema.String,
                         name: Schema.String,
                         resourceType: Schema.Literal(
@@ -6074,7 +6659,9 @@ export const GetResourceResponse = Schema.Struct({
     Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(T.JsonName("client_type")),
+        clientType: Schema.Literal("MAGIC_WAN_CLOUD_ONRAMP").pipe(
+          T.JsonName("client_type"),
+        ),
         name: Schema.String,
       }),
     ),
@@ -6174,8 +6761,12 @@ export const ExportResourceRequest = Schema.Struct({
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("order_by")),
   providerId: Schema.optional(Schema.String).pipe(T.HttpQuery("provider_id")),
   region: Schema.optional(Schema.String).pipe(T.HttpQuery("region")),
-  resourceGroup: Schema.optional(Schema.String).pipe(T.HttpQuery("resource_group")),
-  resourceId: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("resource_id")),
+  resourceGroup: Schema.optional(Schema.String).pipe(
+    T.HttpQuery("resource_group"),
+  ),
+  resourceId: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("resource_id"),
+  ),
   resourceType: Schema.optional(
     Schema.Array(
       Schema.Literal(
@@ -6239,10 +6830,15 @@ export const ExportResourceRequest = Schema.Struct({
       ),
     ),
   ).pipe(T.HttpQuery("resource_type")),
-  search: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("search")),
+  search: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.HttpQuery("search"),
+  ),
   v2: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("v2")),
 }).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/magic/cloud/resources/export" }),
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/magic/cloud/resources/export",
+  }),
 ) as unknown as Schema.Schema<ExportResourceRequest>;
 
 export type ExportResourceResponse = unknown;
@@ -6292,12 +6888,16 @@ export const InitialSetupCloudIntegrationResponse = Schema.Union(
   }),
   Schema.Struct({
     azureConsentUrl: Schema.String.pipe(T.JsonName("azure_consent_url")),
-    integrationIdentityTag: Schema.String.pipe(T.JsonName("integration_identity_tag")),
+    integrationIdentityTag: Schema.String.pipe(
+      T.JsonName("integration_identity_tag"),
+    ),
     itemType: Schema.String.pipe(T.JsonName("item_type")),
     tagCliCommand: Schema.String.pipe(T.JsonName("tag_cli_command")),
   }),
   Schema.Struct({
-    integrationIdentityTag: Schema.String.pipe(T.JsonName("integration_identity_tag")),
+    integrationIdentityTag: Schema.String.pipe(
+      T.JsonName("integration_identity_tag"),
+    ),
     itemType: Schema.String.pipe(T.JsonName("item_type")),
     tagCliCommand: Schema.String.pipe(T.JsonName("tag_cli_command")),
   }),

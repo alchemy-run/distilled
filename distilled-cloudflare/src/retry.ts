@@ -26,7 +26,11 @@ import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import type * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
-import { isRetryable, isThrottlingError, isTransientError } from "./category.ts";
+import {
+  isRetryable,
+  isThrottlingError,
+  isTransientError,
+} from "./category.ts";
 
 /**
  * Retry policy options that match the Effect.retry contract.
@@ -96,11 +100,16 @@ export class Retry extends Context.Tag("Retry")<Retry, Policy>() {}
 export const policy: {
   (
     options: Options,
-  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
+  ): <A, E, R>(
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
   (
     factory: Factory,
-  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
-} = (optionsOrFactory: Options | Factory) => Effect.provide(Layer.succeed(Retry, optionsOrFactory));
+  ): <A, E, R>(
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
+} = (optionsOrFactory: Options | Factory) =>
+  Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /**
  * Disables all automatic retries.
@@ -130,14 +139,18 @@ export const none: <A, E, R>(
  * - Applies jitter to avoid thundering herd
  */
 export const makeDefault: Factory = (lastError) => ({
-  while: (error) => isTransientError(error) || isThrottlingError(error) || isRetryable(error),
+  while: (error) =>
+    isTransientError(error) || isThrottlingError(error) || isRetryable(error),
   schedule: pipe(
     Schedule.exponential(100, 2),
     Schedule.modifyDelayEffect(
       Effect.fnUntraced(function* (duration) {
         const error = yield* lastError;
         if (isRetryable(error)) {
-          const retryable = error as { retryAfterSeconds?: number; RetryAfterSeconds?: number };
+          const retryable = error as {
+            retryAfterSeconds?: number;
+            RetryAfterSeconds?: number;
+          };
           const retryAfter = Number(
             retryable.retryAfterSeconds ?? retryable.RetryAfterSeconds ?? 0,
           );
