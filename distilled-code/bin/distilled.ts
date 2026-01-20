@@ -93,7 +93,7 @@ const mainCommand = Command.make(
         loadedConfig.model = model;
       }
 
-      const allAgents = loadedConfig.agents ?? [];
+      const allAgents = yield* resolveAgents(loadedConfig.agents);
 
       // List agents mode
       if (list) {
@@ -198,6 +198,21 @@ const getModelLayer = (modelName: string) => {
   };
   const resolvedModel = modelMap[modelName] || modelName;
   return AnthropicLanguageModel.model(resolvedModel as any);
+};
+
+/**
+ * Resolve agents from config - handles both array and Effect.
+ */
+const resolveAgents = (
+  agents: DistilledConfig["agents"],
+): Effect.Effect<AgentDefinition[]> => {
+  if (!agents) {
+    return Effect.succeed([]);
+  }
+  if (Effect.isEffect(agents)) {
+    return agents;
+  }
+  return Effect.succeed(agents);
 };
 
 /**

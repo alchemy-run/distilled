@@ -1,3 +1,4 @@
+import * as Effect from "effect/Effect";
 import { agent, defineConfig } from "../../src/config.ts";
 import { Toolkit } from "../../src/tools/index.ts";
 
@@ -38,11 +39,12 @@ export const operations = [
 export default defineConfig({
   name: "api-gen",
   model: "claude-opus-4-5",
-  agents: operations.map((op) =>
-    agent(`api/${op.id}`, {
-      toolkit: Toolkit.Coding,
-      tags: ["api", op.method.toLowerCase()],
-      description: `You implement the ${op.id} operation for a Hono Todo API.
+  agents: Effect.sync(() =>
+    operations.map((op) =>
+      agent(`api/${op.id}`, {
+        toolkit: Toolkit.Coding,
+        tags: ["api", op.method.toLowerCase()],
+        description: `You implement the ${op.id} operation for a Hono Todo API.
 
 Your task:
 1. Create ./src/routes/${op.id}.ts - the Hono route handler
@@ -74,6 +76,7 @@ describe("${op.method} ${op.path}", () => {
   // tests
 });
 \`\`\``,
-    }),
+      }),
+    ),
   ),
 });

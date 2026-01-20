@@ -2,6 +2,7 @@
  * Configuration types and helpers for distilled-code
  */
 
+import type { Effect } from "effect";
 import type { AgentDefinition } from "./agent.ts";
 
 export { agent } from "./agent.ts";
@@ -14,9 +15,9 @@ export interface DistilledConfig {
   name?: string;
 
   /**
-   * List of agent definitions.
+   * List of agent definitions, or an Effect that resolves to them.
    */
-  agents?: AgentDefinition<any>[];
+  agents?: AgentDefinition<any>[] | Effect.Effect<AgentDefinition<any>[]>;
 
   /**
    * Default model to use

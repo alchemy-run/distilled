@@ -123,6 +123,27 @@ const result = yield* someOperation().pipe(
 );
 ```
 
+## Effect-First I/O
+
+distilled tooling is Effect-native. Avoid raw `Promise`/`async` usage for I/O and prefer
+Effect services so failures are modeled and handled consistently.
+
+**Use Effect services:**
+- `FileSystem.FileSystem` for filesystem work
+- `Command` for running subprocesses
+- `Console` for logs
+
+**Avoid** `Effect.promise` and ad-hoc `async` I/O wrappers in scripts.
+
+Example:
+
+```typescript
+const fs = yield* FileSystem.FileSystem;
+yield* fs.makeDirectory("out", { recursive: true });
+yield* fs.writeFileString("out/file.ts", content);
+yield* Command.make("bun", "format").pipe(Command.string);
+```
+
 ## Architecture
 
 ```
