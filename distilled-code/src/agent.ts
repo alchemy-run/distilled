@@ -198,6 +198,9 @@ export const spawn = <
           loopCount++;
           let finishReason: string | undefined;
 
+          // Reset finalText each loop so we only return text from the final iteration
+          finalText = "";
+
           yield* Effect.logDebug(
             `[agent:${key}] Loop ${loopCount}, prompt: ${isFirst ? "initial" : "Continue"}`,
           );
