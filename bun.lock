@@ -42,6 +42,7 @@
         "dedent": "^1.7.0",
         "effect": "catalog:",
         "pathe": "catalog:",
+        "vitest": "catalog:",
       },
       "peerDependencies": {
         "@effect/platform": "latest",

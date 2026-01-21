@@ -1,10 +1,13 @@
 import type { LanguageModel, Tool, Toolkit } from "@effect/ai";
 import * as Chat from "@effect/ai/Chat";
 import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { getSystemPrompt } from "./prompt.ts";
 import { AgentState } from "./services/state.ts";
+import { ToolCallFormatter } from "./services/tool-call-formatter.ts";
+import { formatToolCall } from "./util/format-tool-call.ts";
 
 export interface AgentMetadata {
   /**
@@ -141,6 +144,20 @@ export const spawn = <
   Effect.gen(function* () {
     const state = yield* AgentState;
 
+    // Get optional custom formatter
+    const customFormatter = yield* Effect.serviceOption(ToolCallFormatter).pipe(
+      Effect.map(Option.getOrUndefined),
+    );
+
+    // Helper that tries custom formatter first, then falls back to built-in
+    const format = (name: string, params: unknown): string => {
+      const custom = customFormatter?.format(name, params);
+      if (custom !== undefined) {
+        return custom;
+      }
+      return formatToolCall(name, params);
+    };
+
     const { key, toolkit } = definition;
     const onText = options?.onText;
     const modelId = options?.modelId;
@@ -201,11 +218,8 @@ export const spawn = <
                   if (onText) onText(part.delta);
                   break;
                 case "tool-call":
-                  // anthropic has been utter retards by not using the name bash lol
-                  const toolName =
-                    part.name === "AnthropicBash" ? "bash" : part.name;
                   yield* Effect.logInfo(
-                    `[agent:${key}] ${toolName}(${JSON.stringify(part.params)})`,
+                    `[agent:${key}] ${format(part.name, part.params)}`,
                   );
                   break;
                 case "tool-result":

@@ -1,14 +1,15 @@
 {
-  "include": ["test/**/*.ts"],
+  "include": [
+    "test/**/*.ts"
+  ],
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "outDir": "./lib",
     "rootDir": "."
   },
   "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
+    // {
+    //   "path": "./tsconfig.lib.json"
+    // }
   ]
 }

@@ -101,7 +101,8 @@
     "archiver": "^7.0.1",
     "dedent": "^1.7.0",
     "effect": "catalog:",
-    "pathe": "catalog:"
+    "pathe": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@effect/platform": "latest",
