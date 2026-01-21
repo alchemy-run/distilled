@@ -5,44 +5,51 @@ import { editTooklit, editTooklitLayer } from "./edit.ts";
 import { globTooklit, globTooklitLayer } from "./glob.ts";
 import { grepTooklit, grepTooklitLayer } from "./grep.ts";
 import { readTooklit, readTooklitLayer } from "./read.ts";
-import { spawnToolkit, spawnToolkitLayer } from "./spawn.ts";
-import { writeTooklit, writeTooklitLayer } from "./write.ts";
+import { defaultTaskToolkitLayer, taskToolkit } from "./task.ts";
+import { todoToolkit, todoToolkitLayer } from "./todo.ts";
 
 export {
-  ToolValidationError,
   SecurityViolationError,
   ToolError,
+  ToolValidationError,
 } from "./errors.ts";
 
 export type CodingTools = typeof CodingTools;
 
+/**
+ * All coding tools including bash, edit, glob, grep, read, write, spawn, task, and todo.
+ */
 export const CodingTools = EffectToolkit.merge(
-  EffectToolkit.merge(
-    EffectToolkit.merge(editTooklit, globTooklit),
-    EffectToolkit.merge(grepTooklit, readTooklit),
-  ),
-  EffectToolkit.merge(
-    EffectToolkit.merge(writeTooklit, spawnToolkit),
-    bashTooklit,
-  ),
+  bashTooklit,
+  editTooklit,
+  globTooklit,
+  grepTooklit,
+  readTooklit,
+  todoToolkit,
+  taskToolkit,
 );
 
-export const CodingToolsLayer = Layer.mergeAll(
-  bashTooklitLayer,
-  editTooklitLayer,
-  globTooklitLayer,
-  grepTooklitLayer,
-  readTooklitLayer,
-  writeTooklitLayer,
-  spawnToolkitLayer,
-);
+/**
+ * Layer providing all coding tools.
+ * @param agentKey - The agent key for todo persistence
+ */
+export const CodingToolsLayer = (agentKey: string) =>
+  Layer.mergeAll(
+    bashTooklitLayer,
+    editTooklitLayer,
+    globTooklitLayer,
+    grepTooklitLayer,
+    readTooklitLayer,
+    todoToolkitLayer(agentKey),
+    defaultTaskToolkitLayer,
+  );
 
 /**
  * Pre-built toolkits for common use cases.
  */
 export const Toolkit = {
   /**
-   * Coding toolkit with bash, edit, glob, grep, read, spawn, and write tools.
+   * Full coding toolkit including all tools.
    */
   Coding: CodingTools,
 } as const;

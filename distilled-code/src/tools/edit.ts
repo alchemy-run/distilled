@@ -11,7 +11,7 @@ import {
 } from "../lsp/index.ts";
 import { replace } from "../util/replace.ts";
 
-export const edit = Tool.make("AnthropicTextEditor", {
+export const edit = Tool.make("edit", {
   description: `Performs exact string replacements in files. 
 
 Usage:
@@ -50,7 +50,7 @@ export const editTooklitLayer = editTooklit.toLayer(
     const fs = yield* FileSystem.FileSystem;
 
     return {
-      AnthropicTextEditor: Effect.fn(function* (params) {
+      edit: Effect.fn(function* (params) {
         const {
           filePath: _filePath,
           oldString,
@@ -66,111 +66,103 @@ export const editTooklitLayer = editTooklit.toLayer(
           ? _filePath
           : path.join(process.cwd(), _filePath);
 
+        // Determine new content and whether this is a create operation
+        let newContent: string;
+
         if (oldString === "") {
-          // Creating a new file
-          const writeResult = yield* fs
-            .writeFileString(filePath, newString)
+          // Create new file
+          newContent = newString;
+        } else {
+          // Edit existing file - validate it exists
+          const stat = yield* fs
+            .stat(filePath)
+            .pipe(Effect.catchAll(() => Effect.succeed(null)));
+
+          if (!stat) {
+            return `File not found: ${filePath}`;
+          }
+          if (stat.type === "Directory") {
+            return `Path is a directory, not a file: ${filePath}`;
+          }
+
+          // Read existing content
+          const oldContent = yield* fs
+            .readFileString(filePath)
             .pipe(
               Effect.catchAll((e) =>
-                Effect.succeed(`Failed to create file: ${e.message}` as const),
+                Effect.succeed(`Failed to read file: ${e}`),
               ),
             );
-
-          if (typeof writeResult === "string") {
-            return writeResult;
+          if (oldContent.startsWith("Failed to read")) {
+            return oldContent;
           }
 
-          // Get diagnostics from LSP servers for new file
-          const diagnostics = yield* getDiagnosticsIfAvailable(
-            filePath,
+          // Perform replacement
+          const replaceResult = yield* replace(
+            oldContent,
+            oldString,
             newString,
+            replaceAll,
+          ).pipe(
+            Effect.catchTag("ReplaceSameStringError", () =>
+              Effect.succeed("oldString and newString must be different"),
+            ),
+            Effect.catchTag("ReplaceNotFoundError", (e) =>
+              Effect.succeed(
+                `Could not find oldString in file. The text "${e.oldString.slice(0, 100)}${e.oldString.length > 100 ? "..." : ""}" was not found in ${filePath}.`,
+              ),
+            ),
+            Effect.catchTag("ReplaceMultipleMatchesError", (e) =>
+              Effect.succeed(
+                `Found multiple matches for oldString "${e.oldString.slice(0, 50)}${e.oldString.length > 50 ? "..." : ""}". Provide more surrounding context to identify the correct match, or use replaceAll=true to replace all occurrences.`,
+              ),
+            ),
           );
-          const formatted = formatDiagnostics(diagnostics);
 
-          if (formatted) {
-            return `Created file: ${filePath}\n\n${formatted}`;
+          // Check for replace errors
+          if (
+            replaceResult.startsWith("Could not find") ||
+            replaceResult.startsWith("Found multiple") ||
+            replaceResult.startsWith("oldString and newString")
+          ) {
+            yield* Effect.logDebug(`[edit] ${replaceResult}`);
+            return replaceResult;
           }
-
-          return `Created file: ${filePath}`;
+          newContent = replaceResult;
         }
 
-        const stat = yield* fs
-          .stat(filePath)
-          .pipe(Effect.catchAll(() => Effect.succeed(null)));
+        const isCreate = oldString === "";
 
-        if (!stat) {
-          return `File not found: ${filePath}`;
-        }
-
-        if (stat.type === "Directory") {
-          return `Path is a directory, not a file: ${filePath}`;
-        }
-
-        const oldContent = yield* fs
-          .readFileString(filePath)
-          .pipe(
-            Effect.catchAll((e) => Effect.succeed(`Failed to read file: ${e}`)),
-          );
-
-        // Check if we got an error message from reading
-        if (oldContent.startsWith("Failed to read")) {
-          return oldContent;
-        }
-
-        const replaceResult = yield* replace(
-          oldContent,
-          oldString,
-          newString,
-          replaceAll,
-        ).pipe(
-          Effect.catchTag("ReplaceSameStringError", () =>
-            Effect.succeed("oldString and newString must be different"),
-          ),
-          Effect.catchTag("ReplaceNotFoundError", (e) =>
-            Effect.succeed(
-              `Could not find oldString in file. The text "${e.oldString.slice(0, 100)}${e.oldString.length > 100 ? "..." : ""}" was not found in ${filePath}.`,
-            ),
-          ),
-          Effect.catchTag("ReplaceMultipleMatchesError", (e) =>
-            Effect.succeed(
-              `Found multiple matches for oldString "${e.oldString.slice(0, 50)}${e.oldString.length > 50 ? "..." : ""}". Provide more surrounding context to identify the correct match, or use replaceAll=true to replace all occurrences.`,
-            ),
-          ),
-        );
-
-        // If we got an informative message back (not actual file content), return it
-        if (
-          replaceResult.startsWith("Could not find") ||
-          replaceResult.startsWith("Found multiple") ||
-          replaceResult.startsWith("oldString and newString")
-        ) {
-          return replaceResult;
-        }
-
+        // Write file
         const writeResult = yield* fs
-          .writeFileString(filePath, replaceResult)
+          .writeFileString(filePath, newContent)
           .pipe(
             Effect.catchAll((e) =>
-              Effect.succeed(`Failed to write file: ${e}` as const),
+              Effect.succeed(
+                `Failed to ${isCreate ? "create" : "write"} file: ${e.message}`,
+              ),
             ),
           );
-
         if (typeof writeResult === "string") {
+          yield* Effect.logDebug(`[edit] ${writeResult}`);
           return writeResult;
         }
 
         // Get diagnostics from LSP servers
         const diagnostics = yield* getDiagnosticsIfAvailable(
           filePath,
-          replaceResult,
+          newContent,
         );
         const formatted = formatDiagnostics(diagnostics);
 
-        if (formatted) {
-          return `Edited file: ${filePath}\n\n${formatted}`;
-        }
+        yield* Effect.logDebug(
+          `[edit] diagnostics for ${filePath}: ${formatted || "(none)"}`,
+        );
 
-        return `Edited file: ${filePath}`;
+        const action = isCreate ? "Created" : "Edited";
+        return formatted
+          ? `${action} file: ${filePath}\n\n${formatted}`
+          : `${action} file: ${filePath}`;
       }),
     };
   }),

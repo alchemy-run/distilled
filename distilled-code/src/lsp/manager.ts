@@ -1,16 +1,70 @@
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HashMap from "effect/HashMap";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
 import { type Diagnostic, type LSPClient, makeLSPClient } from "./client.ts";
-import { AllServers, type ServerConfig } from "./servers.ts";
+import { type ServerConfig, DefaultServers } from "./servers.ts";
 
 /**
- * LSP Manager - manages multiple LSP clients and aggregates diagnostics.
+ * Spawn an LSP server process.
  */
-export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
-  effect: Effect.gen(function* () {
+const spawnServer = (config: ServerConfig, cwd: string) =>
+  Effect.sync(() =>
+    Bun.spawn(config.command, {
+      cwd,
+      stdin: "pipe",
+      stdout: "pipe",
+      stderr: "inherit",
+    }),
+  );
+
+/**
+ * LSP Manager interface.
+ */
+export interface LSPManager {
+  /**
+   * Initialize all available LSP servers.
+   */
+  readonly initialize: (root: string) => Effect.Effect<void, never, never>;
+
+  /**
+   * Notify all servers that a file has changed.
+   */
+  readonly notifyFileChanged: (
+    path: string,
+    content: string,
+  ) => Effect.Effect<void, never, never>;
+
+  /**
+   * Wait for diagnostics from all servers and return aggregated results.
+   */
+  readonly waitForDiagnostics: (
+    path: string,
+    timeout?: number,
+  ) => Effect.Effect<Diagnostic[], never, never>;
+
+  /**
+   * Get current diagnostics for a file (without waiting).
+   */
+  readonly getDiagnostics: (
+    path: string,
+  ) => Effect.Effect<Diagnostic[], never, never>;
+
+  /**
+   * Shutdown all servers.
+   */
+  readonly shutdown: Effect.Effect<void, never, never>;
+}
+
+export const LSPManager = Context.GenericTag<LSPManager>("LSPManager");
+
+/**
+ * Create an LSPManager implementation.
+ */
+const makeLSPManager = (servers: ServerConfig[]) =>
+  Effect.gen(function* () {
     // Map of serverId -> LSPClient
     const clients = yield* Ref.make(HashMap.empty<string, LSPClient>());
 
@@ -22,10 +76,7 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
     // Initialization state
     const initialized = yield* Ref.make(false);
 
-    return {
-      /**
-       * Initialize all available LSP servers.
-       */
+    return LSPManager.of({
       initialize: (root: string) =>
         Effect.gen(function* () {
           const alreadyInitialized = yield* Ref.get(initialized);
@@ -35,14 +86,14 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
 
           // Spawn all available servers in parallel
           yield* Effect.forEach(
-            AllServers,
+            servers,
             (config) =>
               Effect.gen(function* () {
                 yield* Effect.logDebug(
                   `[LSPManager] Starting ${config.id} server...`,
                 );
 
-                const proc = yield* config.spawn(root);
+                const proc = yield* spawnServer(config, root);
                 if (!proc) {
                   yield* Effect.logWarning(
                     `[LSPManager] ${config.id} server not available`,
@@ -85,11 +136,9 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
           yield* Effect.logDebug("[LSPManager] All LSP servers initialized");
         }),
 
-      /**
-       * Notify all servers that a file has changed.
-       */
       notifyFileChanged: (path: string, content: string) =>
         Effect.gen(function* () {
+          yield* Effect.logDebug(`[LSPManager] Notifying ${path} of changes`);
           const allClients = yield* Ref.get(clients);
           yield* Effect.forEach(
             HashMap.values(allClients),
@@ -98,11 +147,11 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
           ).pipe(Effect.catchAll(() => Effect.void));
         }),
 
-      /**
-       * Wait for diagnostics from all servers and return aggregated results.
-       */
       waitForDiagnostics: (path: string, timeout = 3000) =>
         Effect.gen(function* () {
+          yield* Effect.logDebug(
+            `[LSPManager] Waiting for diagnostics for ${path}`,
+          );
           const allClients = yield* Ref.get(clients);
           const uri = `file://${path}`;
 
@@ -126,9 +175,6 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
           return allDiagnostics;
         }),
 
-      /**
-       * Get current diagnostics for a file (without waiting).
-       */
       getDiagnostics: (path: string) =>
         Effect.gen(function* () {
           const uri = `file://${path}`;
@@ -143,9 +189,6 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
           return allDiagnostics;
         }),
 
-      /**
-       * Shutdown all servers.
-       */
       shutdown: Effect.gen(function* () {
         yield* Effect.logDebug("[LSPManager] Shutting down LSP servers...");
         const allClients = yield* Ref.get(clients);
@@ -158,11 +201,13 @@ export class LSPManager extends Effect.Service<LSPManager>()("LSPManager", {
         yield* Ref.set(initialized, false);
         yield* Effect.logDebug("[LSPManager] All LSP servers shut down");
       }),
-    };
-  }),
-}) {}
+    });
+  });
 
 /**
- * Live layer for LSPManager.
+ * Create an LSPManager layer.
+ *
+ * @param servers - List of servers to use. Defaults to DefaultServers.
  */
-export const LSPManagerLive = LSPManager.Default;
+export const LSPManagerLive = (servers: ServerConfig[] = DefaultServers) =>
+  Layer.effect(LSPManager, makeLSPManager(servers));

@@ -28,6 +28,8 @@ import * as Option from "effect/Option";
 import { spawn } from "../src/agent.ts";
 import type { AgentDefinition, DistilledConfig } from "../src/config.ts";
 import { loadConfig } from "../src/config.ts";
+import { LSPManagerLive } from "../src/lsp/index.ts";
+import { FileSystemTodoBackend } from "../src/services/todo.ts";
 import { CodingToolsLayer } from "../src/tools/index.ts";
 import { match } from "../src/util/wildcard.ts";
 
@@ -137,6 +139,9 @@ const mainCommand = Command.make(
       // Create model layer
       const modelLayer = getModelLayer(loadedConfig.model || "claude-sonnet");
 
+      // Create LSP manager layer from config
+      const lspLayer = LSPManagerLive(loadedConfig.lsp?.servers);
+
       // TODO: make this configurable
       const isParallel = true;
 
@@ -159,10 +164,11 @@ const mainCommand = Command.make(
               yield* agent.send(contextPrompt);
               yield* Console.log("\n");
             }).pipe(
-              Effect.provide(CodingToolsLayer),
+              Effect.provide(CodingToolsLayer(agentDef.key)),
               Effect.provide(modelLayer),
               Effect.provide(Anthropic),
               Effect.provide(NodeHttpClient.layer),
+              Effect.provide(lspLayer),
               Effect.scoped,
             );
           }),
@@ -262,6 +268,7 @@ Effect.gen(function* () {
     process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
   ),
   Effect.scoped,
+  Effect.provide(FileSystemTodoBackend),
   Effect.provide(NodeContext.layer),
   Effect.provide(NodeHttpClient.layer),
   Effect.provide(Persistence.layerMemory),

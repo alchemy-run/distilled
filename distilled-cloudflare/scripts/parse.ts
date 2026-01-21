@@ -1,5 +1,5 @@
 import { FileSystem } from "@effect/platform";
-import { Console, Effect } from "effect";
+import { Effect } from "effect";
 import * as path from "node:path";
 import * as ts from "typescript";
 import {
@@ -10,12 +10,12 @@ import {
   type ServiceInfo,
   type TypeInfo,
   type TypeRegistry,
-  resolveTypeReference,
   // Naming functions for computing operation metadata
   buildResourceName,
   computeOperationName,
   computeResources,
   normalizeOperations,
+  resolveTypeReference,
 } from "./model.ts";
 
 interface ParseOptions {
@@ -896,12 +896,8 @@ const parseServiceFiles = (basePath: string, serviceFilter?: string) =>
     );
 
     if (sourceFiles.length === 0) {
-      yield* Console.log("No source files found");
-      return [];
+      return yield* Effect.die("No source files found");
     }
-
-    yield* Console.log(`Found ${sourceFiles.length} source files`);
-
     // Create TypeScript program
     const program = createProgram(sourceFiles);
     const checker = program.getTypeChecker();

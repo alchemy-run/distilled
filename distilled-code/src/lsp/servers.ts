@@ -1,6 +1,3 @@
-import * as Effect from "effect/Effect";
-import type { Subprocess } from "bun";
-
 /**
  * Configuration for an LSP server.
  */
@@ -11,10 +8,9 @@ export interface ServerConfig {
   id: string;
 
   /**
-   * Spawn the server process.
-   * Returns null if the server is not available.
+   * Command to run (e.g. ["typescript-language-server", "--stdio"])
    */
-  spawn: (cwd: string) => Effect.Effect<Subprocess | null>;
+  command: string[];
 }
 
 /**
@@ -23,20 +19,7 @@ export interface ServerConfig {
  */
 export const TypeScriptServer: ServerConfig = {
   id: "typescript",
-  spawn: (cwd: string) =>
-    Effect.sync(() => {
-      const bin = Bun.which("typescript-language-server");
-      const cmd = bin
-        ? ["typescript-language-server", "--stdio"]
-        : ["bunx", "typescript-language-server", "--stdio"];
-
-      return Bun.spawn(cmd, {
-        cwd,
-        stdin: "pipe",
-        stdout: "pipe",
-        stderr: "inherit",
-      });
-    }),
+  command: ["typescript-language-server", "--stdio"],
 };
 
 /**
@@ -45,18 +28,10 @@ export const TypeScriptServer: ServerConfig = {
  */
 export const OxlintServer: ServerConfig = {
   id: "oxlint",
-  spawn: (cwd: string) =>
-    Effect.sync(() =>
-      Bun.spawn(["bun", "oxlint", "--lsp"], {
-        cwd,
-        stdin: "pipe",
-        stdout: "pipe",
-        stderr: "inherit",
-      }),
-    ),
+  command: ["bun", "oxlint", "--lsp"],
 };
 
 /**
- * All available LSP servers.
+ * Default LSP servers.
  */
-export const AllServers: ServerConfig[] = [TypeScriptServer, OxlintServer];
+export const DefaultServers: ServerConfig[] = [TypeScriptServer, OxlintServer];

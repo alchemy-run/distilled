@@ -1,9 +1,11 @@
 import type { LanguageModel, Tool, Toolkit } from "@effect/ai";
 import * as Chat from "@effect/ai/Chat";
+import type { MessageEncoded } from "@effect/ai/Prompt";
 import { FileSystem, Path } from "@effect/platform";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { getSystemPrompt } from "./prompt.ts";
 
 export interface AgentMetadata {
   /**
@@ -103,6 +105,13 @@ export interface SpawnOptions {
    * Optional callback for streaming text output.
    */
   onText?: (delta: string) => void;
+
+  /**
+   * Model ID for selecting the appropriate system prompt.
+   * If provided, the agent will use provider-specific prompts
+   * (e.g., "claude-3-5-sonnet" for Anthropic prompts).
+   */
+  modelId?: string;
 }
 
 /**
@@ -136,24 +145,30 @@ export const spawn = <
 
     const { key, toolkit } = definition;
     const onText = options?.onText;
+    const modelId = options?.modelId;
 
     yield* Effect.logDebug(`[agent:${key}] Spawning agent`);
 
     const sessionPath = pathService.join(".distilled", `${key}.json`);
     const sessionDir = pathService.dirname(sessionPath);
 
-    // Load existing session or create empty chat
-    const existingJson = yield* fs
-      .readFileString(sessionPath)
-      .pipe(Effect.catchAll(() => Effect.succeed(null)));
+    // Load system prompt based on model provider
+    const systemPrompt = getSystemPrompt(modelId);
 
-    const chat = existingJson
-      ? yield* Chat.fromJson(existingJson)
-      : yield* Chat.empty;
-
-    yield* Effect.logDebug(
-      `[agent:${key}] Session ${existingJson ? "loaded" : "created"}`,
-    );
+    const chat = yield* Chat.fromPrompt([
+      { role: "system", content: systemPrompt },
+      ...(yield* fs.readFileString(sessionPath).pipe(
+        Effect.map(JSON.parse),
+        Effect.map(({ content: messages }) =>
+          messages.filter((m: MessageEncoded) => m.role !== "system"),
+        ),
+        Effect.catchIf(
+          (e) => e._tag === "SystemError" && e.reason === "NotFound",
+          () => Effect.succeed([]),
+        ),
+        Effect.orDie,
+      )),
+    ]);
 
     // Helper to persist after each interaction
     const persist = Effect.gen(function* () {
@@ -178,7 +193,6 @@ export const spawn = <
         while (true) {
           loopCount++;
           let finishReason: string | undefined;
-          let toolCallCount = 0;
 
           yield* Effect.logDebug(
             `[agent:${key}] Loop ${loopCount}, prompt: ${isFirst ? "initial" : "Continue"}`,
@@ -200,9 +214,11 @@ export const spawn = <
                   if (onText) onText(part.delta);
                   break;
                 case "tool-call":
-                  toolCallCount++;
+                  // anthropic has been utter retards by not using the name bash lol
+                  const toolName =
+                    part.name === "AnthropicBash" ? "bash" : part.name;
                   yield* Effect.logInfo(
-                    `[agent:${key}] Tool call: ${part.name}`,
+                    `[agent:${key}] ${toolName}(${JSON.stringify(part.params)})`,
                   );
                   break;
                 case "tool-result":
@@ -217,12 +233,6 @@ export const spawn = <
               }
             }),
           );
-
-          if (toolCallCount > 0) {
-            yield* Effect.logInfo(
-              `[agent:${key}] Executed ${toolCallCount} tool calls`,
-            );
-          }
 
           if (finishReason !== "tool-calls") {
             yield* Effect.logDebug(

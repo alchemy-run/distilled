@@ -4,9 +4,11 @@
 
 import * as Effect from "effect/Effect";
 import type { AgentDefinition } from "./agent.ts";
+import type { ServerConfig } from "./lsp/servers.ts";
 
 export { agent } from "./agent.ts";
 export type { AgentDefinition, AgentMetadata } from "./agent.ts";
+export type { ServerConfig } from "./lsp/servers.ts";
 
 /**
  * Type for agents configuration - can be a static array or an Effect.
@@ -57,6 +59,26 @@ export interface DistilledConfig<E = unknown, R = unknown> {
    * Default model to use
    */
   model?: string;
+
+  /**
+   * LSP server configuration.
+   *
+   * @example
+   * ```typescript
+   * lsp: {
+   *   servers: [
+   *     { id: "typescript", command: ["typescript-language-server", "--stdio"] },
+   *     { id: "biome", command: ["biome", "lsp-proxy"] },
+   *   ],
+   * }
+   * ```
+   */
+  lsp?: {
+    /**
+     * LSP servers to use. Defaults to TypeScript + Oxlint.
+     */
+    servers?: ServerConfig[];
+  };
 }
 
 /**

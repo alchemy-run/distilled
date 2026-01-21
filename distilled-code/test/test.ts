@@ -83,7 +83,7 @@ function provideTestEnv(effect: Effect.Effect<void, any, any>) {
     });
 
     return yield* effect.pipe(
-      Effect.provide(CodingToolsLayer),
+      Effect.provide(CodingToolsLayer("test")),
       Effect.provide(chatLayer),
       Effect.provide(modelLayer),
       Effect.withConfigProvider(configProvider),

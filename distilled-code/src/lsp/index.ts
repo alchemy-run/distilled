@@ -24,7 +24,7 @@ export {
 } from "./client.ts";
 
 export {
-  AllServers,
+  DefaultServers,
   OxlintServer,
   type ServerConfig,
   TypeScriptServer,

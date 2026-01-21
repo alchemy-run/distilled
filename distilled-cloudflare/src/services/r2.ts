@@ -198,6 +198,21 @@ export const listBuckets: (
   errors: [],
 }));
 
+export class BucketAlreadyExists extends Schema.TaggedError<BucketAlreadyExists>()(
+  "BucketAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10004 }])) {}
+
+export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
+  "InvalidBucketName",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
+
+export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
 export interface CreateBucketRequest {
   /** Path param: Account ID. */
   accountId: string;
@@ -244,7 +259,20 @@ export const CreateBucketResponse = Schema.Struct({
   ),
   jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
   location: Schema.optional(
-    Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+    Schema.Literal(
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
@@ -256,12 +284,15 @@ export const createBucket: (
   input: CreateBucketRequest,
 ) => Effect.Effect<
   CreateBucketResponse,
-  CommonErrors,
+  | CommonErrors
+  | BucketAlreadyExists
+  | InvalidBucketName
+  | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResponse,
-  errors: [],
+  errors: [BucketAlreadyExists, InvalidBucketName, InvalidObjectIdentifier],
 }));
 
 export interface PatchBucketRequest {
