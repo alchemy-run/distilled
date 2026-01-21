@@ -29,7 +29,7 @@ import { spawn } from "../src/agent.ts";
 import type { AgentDefinition, DistilledConfig } from "../src/config.ts";
 import { loadConfig } from "../src/config.ts";
 import { LSPManagerLive } from "../src/lsp/index.ts";
-import { FileSystemTodoBackend } from "../src/services/todo.ts";
+import { AgentState, FileSystemAgentState } from "../src/services/state.ts";
 import { CodingToolsLayer } from "../src/tools/index.ts";
 import { match } from "../src/util/wildcard.ts";
 
@@ -129,12 +129,6 @@ const mainCommand = Command.make(
         yield* Console.error("Use --list to see available agents.");
         return;
       }
-
-      yield* Console.log(`Sending to ${matchedAgents.length} agent(s):\n`);
-      for (const { key } of matchedAgents) {
-        yield* Console.log(`  ${key}`);
-      }
-      yield* Console.log();
 
       // Create model layer
       const modelLayer = getModelLayer(loadedConfig.model || "claude-sonnet");
@@ -253,7 +247,69 @@ const resolveConfigPath = Effect.fn(function* (inputPath: string | undefined) {
   return pathService.resolve(targetPath);
 });
 
-const cli = Command.run(mainCommand, {
+/**
+ * Clean command - removes agent state and files created by agents.
+ */
+const cleanCommand = Command.make(
+  "clean",
+  {
+    filter: Options.text("filter").pipe(
+      Options.withAlias("f"),
+      Options.withDescription(
+        "Glob pattern to filter agents (default: '*' for all)",
+      ),
+      Options.optional,
+    ),
+    files: Options.boolean("files").pipe(
+      Options.withDescription("Also delete files created by agents"),
+      Options.withDefault(false),
+    ),
+    dryRun: Options.boolean("dry-run").pipe(
+      Options.withDescription("Show what would be deleted without deleting"),
+      Options.withDefault(false),
+    ),
+  },
+  ({ filter, files, dryRun }) =>
+    Effect.gen(function* () {
+      const agentState = yield* AgentState;
+      const fs = yield* FileSystem.FileSystem;
+
+      // List all agents with state
+      const allAgents = yield* agentState.listAgents();
+
+      // Filter by pattern
+      const pattern = Option.getOrElse(filter, () => "*");
+      const matchedAgents = allAgents.filter((agent) => match(agent, pattern));
+
+      if (matchedAgents.length === 0) {
+        return;
+      }
+
+      const prefix = dryRun ? "would delete" : "deleted";
+
+      for (const agentKey of matchedAgents) {
+        const state = yield* agentState.get(agentKey);
+
+        // Delete files created by this agent if --files flag is set
+        if (files) {
+          for (const file of state.filesCreated) {
+            if (!dryRun) {
+              yield* fs.remove(file).pipe(Effect.catchAll(() => Effect.void));
+            }
+            yield* Console.log(`${prefix}: ${file}`);
+          }
+        }
+
+        // Delete state
+        if (!dryRun) {
+          yield* agentState.delete(agentKey);
+        }
+        yield* Console.log(`${prefix}: ${agentKey}`);
+      }
+    }),
+);
+
+const cli = Command.run(Command.withSubcommands(mainCommand, [cleanCommand]), {
   name: "distilled",
   version: "0.1.0",
 });
@@ -268,7 +324,7 @@ Effect.gen(function* () {
     process.env.DEBUG ? LogLevel.Debug : LogLevel.Info,
   ),
   Effect.scoped,
-  Effect.provide(FileSystemTodoBackend),
+  Effect.provide(FileSystemAgentState),
   Effect.provide(NodeContext.layer),
   Effect.provide(NodeHttpClient.layer),
   Effect.provide(Persistence.layerMemory),

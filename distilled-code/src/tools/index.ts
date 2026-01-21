@@ -31,12 +31,12 @@ export const CodingTools = EffectToolkit.merge(
 
 /**
  * Layer providing all coding tools.
- * @param agentKey - The agent key for todo persistence
+ * @param agentKey - The agent key for state persistence (todos, file tracking)
  */
 export const CodingToolsLayer = (agentKey: string) =>
   Layer.mergeAll(
     bashTooklitLayer,
-    editTooklitLayer,
+    editTooklitLayer(agentKey),
     globTooklitLayer,
     grepTooklitLayer,
     readTooklitLayer,

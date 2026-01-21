@@ -1,7 +1,19 @@
 import { Tool, Toolkit } from "@effect/ai";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
-import { Todo, TodoBackend, TodoError } from "../services/todo.ts";
+import { AgentState, AgentStateError } from "../services/state.ts";
+
+/**
+ * Todo item schema matching opencode's structure.
+ * Used by AgentState service for todo persistence.
+ */
+export const Todo = S.Struct({
+  id: S.String,
+  content: S.String,
+  status: S.Literal("pending", "in_progress", "completed", "cancelled"),
+  priority: S.optional(S.Literal("high", "medium", "low")),
+});
+export type Todo = S.Schema.Type<typeof Todo>;
 
 export const todowrite = Tool.make("todowrite", {
   description: `Use this tool to create and manage a structured task list for your current coding session. This helps you track progress, organize complex tasks, and demonstrate thoroughness to the user.
@@ -193,13 +205,13 @@ export const todoToolkit = Toolkit.make(todowrite, todoread);
 export const todoToolkitLayer = (agentKey: string) =>
   todoToolkit.toLayer(
     Effect.gen(function* () {
-      const backend = yield* TodoBackend;
+      const state = yield* AgentState;
 
       return {
         todowrite: Effect.fn(function* (params) {
           const todos = [...params.todos] as Todo[];
-          const updateResult = yield* catchTodoError(
-            backend.update(agentKey, todos).pipe(
+          const updateResult = yield* catchStateError(
+            state.updateTodos(agentKey, todos).pipe(
               Effect.map(() => {
                 const pending = todos.filter(
                   (t) => t.status !== "completed" && t.status !== "cancelled",
@@ -214,8 +226,8 @@ export const todoToolkitLayer = (agentKey: string) =>
           return updateResult;
         }),
         todoread: Effect.fn(function* () {
-          const result = yield* catchTodoError(
-            backend.get(agentKey).pipe(
+          const result = yield* catchStateError(
+            state.getTodos(agentKey).pipe(
               Effect.map((todos) => {
                 if (todos.length === 0) {
                   return "No todos found. Use todowrite to create a todo list.";
@@ -237,11 +249,11 @@ export const todoToolkitLayer = (agentKey: string) =>
   );
 
 /**
- * Helper to catch TodoError and return error message as string for LLM.
+ * Helper to catch AgentStateError and return error message as string for LLM.
  */
-const catchTodoError = <A>(effect: Effect.Effect<A, TodoError>) =>
+const catchStateError = <A>(effect: Effect.Effect<A, AgentStateError>) =>
   effect.pipe(
-    Effect.catchTag("TodoError", (e) =>
+    Effect.catchTag("AgentStateError", (e) =>
       Effect.succeed(`Error: ${e.message}` as unknown as A),
     ),
   );

@@ -1,11 +1,10 @@
 import type { LanguageModel, Tool, Toolkit } from "@effect/ai";
 import * as Chat from "@effect/ai/Chat";
-import type { MessageEncoded } from "@effect/ai/Prompt";
-import { FileSystem, Path } from "@effect/platform";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { getSystemPrompt } from "./prompt.ts";
+import { AgentState } from "./services/state.ts";
 
 export interface AgentMetadata {
   /**
@@ -140,8 +139,7 @@ export const spawn = <
 > =>
   // @ts-expect-error
   Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem;
-    const pathService = yield* Path.Path;
+    const state = yield* AgentState;
 
     const { key, toolkit } = definition;
     const onText = options?.onText;
@@ -149,34 +147,23 @@ export const spawn = <
 
     yield* Effect.logDebug(`[agent:${key}] Spawning agent`);
 
-    const sessionPath = pathService.join(".distilled", `${key}.json`);
-    const sessionDir = pathService.dirname(sessionPath);
-
     // Load system prompt based on model provider
     const systemPrompt = getSystemPrompt(modelId);
 
     const chat = yield* Chat.fromPrompt([
       { role: "system", content: systemPrompt },
-      ...(yield* fs.readFileString(sessionPath).pipe(
-        Effect.map(JSON.parse),
-        Effect.map(({ content: messages }) =>
-          messages.filter((m: MessageEncoded) => m.role !== "system"),
-        ),
-        Effect.catchIf(
-          (e) => e._tag === "SystemError" && e.reason === "NotFound",
-          () => Effect.succeed([]),
-        ),
-        Effect.orDie,
+      // Load existing chat messages from state, filtering out system messages
+      // as we add a fresh system prompt each time
+      ...(yield* state.getMessages(key).pipe(
+        Effect.map((messages) => messages.filter((m) => m.role !== "system")),
+        Effect.catchAll(() => Effect.succeed([])),
       )),
     ]);
 
     // Helper to persist after each interaction
     const persist = Effect.gen(function* () {
-      yield* fs.makeDirectory(sessionDir, { recursive: true });
       const exported = yield* chat.exportJson;
-      // re-format it so we can read it
-      const formatted = JSON.stringify(JSON.parse(exported), null, 2);
-      yield* fs.writeFileString(sessionPath, formatted);
+      yield* state.saveMessages(key, exported);
       yield* Effect.logDebug(`[agent:${key}] Session persisted`);
     });
 
