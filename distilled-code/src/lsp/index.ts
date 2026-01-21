@@ -8,17 +8,17 @@
  */
 
 export {
-  type JsonRpcConnection,
   JsonRpcParseError,
   JsonRpcProtocolError,
   make as makeJsonRpc,
+  type JsonRpcConnection,
 } from "./jsonrpc.ts";
 
 export {
-  type Diagnostic,
   DiagnosticSeverity,
-  type LSPClient,
   makeLSPClient,
+  type Diagnostic,
+  type LSPClient,
   type Position,
   type Range,
 } from "./client.ts";
@@ -26,8 +26,8 @@ export {
 export {
   DefaultServers,
   OxlintServer,
-  type ServerConfig,
   TypeScriptServer,
+  type ServerConfig,
 } from "./servers.ts";
 
 export { LSPManager, LSPManagerLive } from "./manager.ts";

@@ -5,8 +5,10 @@ import { editTooklit, editTooklitLayer } from "./edit.ts";
 import { globTooklit, globTooklitLayer } from "./glob.ts";
 import { grepTooklit, grepTooklitLayer } from "./grep.ts";
 import { readTooklit, readTooklitLayer } from "./read.ts";
+import { readLintsToolkit, readLintsToolkitLayer } from "./readlints.ts";
 import { defaultTaskToolkitLayer, taskToolkit } from "./task.ts";
 import { todoToolkit, todoToolkitLayer } from "./todo.ts";
+import { writeTooklit, writeTooklitLayer } from "./write.ts";
 
 export {
   SecurityViolationError,
@@ -17,14 +19,16 @@ export {
 export type CodingTools = typeof CodingTools;
 
 /**
- * All coding tools including bash, edit, glob, grep, read, write, spawn, task, and todo.
+ * All coding tools including bash, diagnostics, edit, glob, grep, read, write, spawn, task, and todo.
  */
 export const CodingTools = EffectToolkit.merge(
   bashTooklit,
+  readLintsToolkit,
   editTooklit,
   globTooklit,
   grepTooklit,
   readTooklit,
+  writeTooklit,
   todoToolkit,
   taskToolkit,
 );
@@ -36,12 +40,14 @@ export const CodingTools = EffectToolkit.merge(
 export const CodingToolsLayer = (agentKey: string) =>
   Layer.mergeAll(
     bashTooklitLayer,
+    readLintsToolkitLayer,
     editTooklitLayer(agentKey),
     globTooklitLayer,
     grepTooklitLayer,
     readTooklitLayer,
     todoToolkitLayer(agentKey),
     defaultTaskToolkitLayer,
+    writeTooklitLayer(agentKey),
   );
 
 /**
