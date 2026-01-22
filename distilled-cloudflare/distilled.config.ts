@@ -1,15 +1,15 @@
 /**
  * Distilled-code configuration for generating Cloudflare API tests.
  *
- * This config:
- * 1. Uses parseCode() to extract operations from the Cloudflare TypeScript SDK
- * 2. Generates skeleton test files with TODOs before spawning agents
- * 3. Provides detailed coding conventions in agent descriptions
+ * This config dynamically generates agents from the Cloudflare TypeScript SDK:
+ * 1. Uses parseCode() to extract operations from the SDK
+ * 2. Creates one agent per operation (e.g., "r2/getBucket", "workers/createScript")
+ * 3. Each agent implements and patches tests for its operation
  */
 
 import { agent, defineConfig, Toolkit } from "distilled-code";
 import { Effect } from "effect";
-import type { ParsedOperation, ServiceInfo } from "./scripts/model.ts";
+import type { ParsedOperation } from "./scripts/model.ts";
 import { parseCode } from "./scripts/parse.ts";
 
 const SDK_PATH = "../../cloudflare-typescript/src/resources";
@@ -18,29 +18,31 @@ export default defineConfig({
   name: "distilled-cloudflare-tests",
   model: "claude-opus-4-5",
   agents: Effect.gen(function* () {
-    const services: ServiceInfo[] = yield* parseCode({ basePath: SDK_PATH });
+    const services = yield* parseCode({ basePath: SDK_PATH });
 
-    return services.flatMap((service) =>
-      service.operations.map((op) =>
-        agent(`${service.name}/${op.operationName}`, {
-          toolkit: Toolkit.Coding,
-          tags: [service.name, op.httpMethod.toLowerCase()],
-          description: generateAgentDescription(
-            service.name,
-            op,
-            op.operationName,
-          ),
-        }),
+    return yield* Effect.all(
+      services.flatMap((service) =>
+        service.operations.map((op) =>
+          agent(`${service.name}/${op.operationName}`, {
+            toolkit: Toolkit.Coding,
+            tags: [service.name, op.httpMethod.toLowerCase()],
+            description: generateAgentDescription(service.name, op),
+          }),
+        ),
       ),
     );
   }),
 });
 
+// ============================================================================
+// Agent Description Generator
+// ============================================================================
+
 function generateAgentDescription(
   service: string,
   op: ParsedOperation,
-  opName: string,
 ): string {
+  const opName = op.operationName;
   const resources = op.resources;
   const pathParams = op.pathParams
     .map((p) => `  - ${p.name}: ${p.type.kind}`)

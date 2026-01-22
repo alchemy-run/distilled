@@ -1,5 +1,7 @@
-import type { LanguageModel, Tool, Toolkit } from "@effect/ai";
+import type { Toolkit as EffectToolkit } from "@effect/ai";
 import * as Chat from "@effect/ai/Chat";
+import * as Context from "effect/Context";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import type * as Schema from "effect/Schema";
@@ -7,149 +9,227 @@ import * as Stream from "effect/Stream";
 import { getSystemPrompt } from "./prompt.ts";
 import { AgentState } from "./services/state.ts";
 import { ToolCallFormatter } from "./services/tool-call-formatter.ts";
+import {
+  CodingTools,
+  CodingToolsLayer,
+  type CodingTools as CodingToolsType,
+  PlanningTools,
+  PlanningToolsLayer,
+  type PlanningTools as PlanningToolsType,
+  ReadOnlyTools,
+  ReadOnlyToolsLayer,
+  type ReadOnlyTools as ReadOnlyToolsType,
+  type ToolLayerOptions,
+} from "./tools/index.ts";
 import { formatToolCall } from "./util/format-tool-call.ts";
 
-export interface AgentMetadata {
-  /**
-   * Tags for filtering/searching agents
-   */
-  tags?: string[];
+// ============================================================================
+// AgentScope - Context for nested agent keys in workflows
+// ============================================================================
 
-  /**
-   * Description of what this agent does (passed to the agent as context)
-   */
-  description?: string;
+export interface AgentScope {
+  readonly path: string;
+  readonly todoScope?: string;
 }
 
-/**
- * An agent definition - defines what toolkit the agent uses.
- * Agents are spawned at runtime, not in the config.
- */
-export interface AgentDefinition<Tools extends Record<string, Tool.Any> = any> {
-  /**
-   * Unique key for the agent (e.g., "api/listTodos", "test/unit")
-   */
-  key: string;
+export const AgentScope = Context.GenericTag<AgentScope>("AgentScope");
 
-  /**
-   * The toolkit the agent uses.
-   */
-  toolkit: Toolkit.Toolkit<Tools>;
+// ============================================================================
+// AgentError - Tagged error for agent interface
+// ============================================================================
 
-  /**
-   * Optional metadata
-   */
-  metadata?: AgentMetadata;
-}
+export class AgentError extends Data.TaggedError("AgentError")<{
+  readonly message: string;
+  readonly cause?: unknown;
+}> {}
 
-export interface AgentOptions<
-  Tools extends Record<string, Tool.Any> = Record<string, Tool.Any>,
-> extends AgentMetadata {
-  toolkit: Toolkit.Toolkit<Tools>;
-}
+// ============================================================================
+// Toolkit Types
+// ============================================================================
 
 /**
- * Define an agent with a key and options.
- *
- * @example
- * ```ts
- * import { agent, Toolkit } from "distilled-code";
- *
- * const config = defineConfig({
- *   agents: [
- *     agent("api/listTodos", { toolkit: Toolkit.Coding, description: "Implements GET /todos" }),
- *     agent("api/getTodo", { toolkit: Toolkit.Coding, description: "Implements GET /todos/:id" }),
- *   ],
- * });
- * ```
+ * Union of all available toolkit types.
  */
-export const agent = <Tools extends Record<string, Tool.Any>>(
-  key: string,
-  options: AgentOptions<Tools>,
-): AgentDefinition<Tools> => ({
-  key,
-  toolkit: options.toolkit,
-  metadata: {
-    tags: options.tags,
-    description: options.description,
-  },
-});
+export type ToolkitType =
+  | CodingToolsType
+  | PlanningToolsType
+  | ReadOnlyToolsType;
 
-/**
- * A spawned agent that can receive multiple commands.
- * State persists to .distilled/{key}.json
- */
+// ============================================================================
+// Agent Interface - returned when you yield* agent(...)
+// ============================================================================
+
 export interface Agent<
-  Tools extends Record<string, Tool.Any> = Record<string, Tool.Any>,
-  SendError = never,
-  QueryError = never,
+  TReturn = string,
+  TToolkit extends ToolkitType = CodingToolsType,
+  SendReq = never,
+  SendErr = AgentError,
+  QueryReq = never,
+  QueryErr = AgentError,
 > {
   readonly key: string;
-  readonly definition: AgentDefinition<Tools>;
-  /**
-   * Send a command to the agent and get the response text.
-   */
-  readonly send: (prompt: string) => Effect.Effect<string, SendError, never>;
-  /**
-   * Query the agent for structured data matching the given schema.
-   */
+  readonly tags?: string[];
+  readonly description?: string;
+  readonly toolkit: TToolkit;
+  readonly send: (prompt: string) => Effect.Effect<TReturn, SendErr, SendReq>;
   readonly query: <A, I extends Record<string, unknown>, R>(
     prompt: string,
     schema: Schema.Schema<A, I, R>,
-  ) => Effect.Effect<A, QueryError, never>;
+  ) => Effect.Effect<A, QueryErr, R | QueryReq>;
 }
 
-/**
- * Options for spawning an agent.
- */
-export interface SpawnOptions {
-  /**
-   * Optional callback for streaming text output.
-   */
-  onText?: (delta: string) => void;
+// ============================================================================
+// Agent Options
+// ============================================================================
 
-  /**
-   * Model ID for selecting the appropriate system prompt.
-   * If provided, the agent will use provider-specific prompts
-   * (e.g., "claude-3-5-sonnet" for Anthropic prompts).
-   */
+export interface AgentOptions<TToolkit extends ToolkitType = CodingToolsType> {
+  toolkit?: TToolkit;
+  tags?: string[];
+  description?: string;
+  todoScope?: "parent" | "agent" | string;
+  onText?: (delta: string) => void;
   modelId?: string;
 }
 
+export type WorkflowFn<
+  Args = string,
+  Out = string,
+  Err = never,
+  Req = never,
+> = (args: Args) => Effect.Effect<Out, Err, Req | AgentScope>;
+
+// ============================================================================
+// Toolkit resolution
+// ============================================================================
+
+const getLayerForToolkit = <T extends ToolkitType>(
+  toolkit: T,
+  opts: ToolLayerOptions,
+) => {
+  if (toolkit === PlanningTools) {
+    return PlanningToolsLayer(opts);
+  }
+  if (toolkit === ReadOnlyTools) {
+    return ReadOnlyToolsLayer(opts);
+  }
+  return CodingToolsLayer(opts);
+};
+
+// ============================================================================
+// agent() - Single function for all agent types
+// ============================================================================
+
 /**
- * Spawn a persistent agent from its definition.
- * Session state is persisted to .distilled/{key}.json
+ * Create an agent. Returns an Effect that spawns when yielded.
  *
- * @example
+ * @example Leaf agent
  * ```ts
- * import { agent, Toolkit } from "distilled-code";
+ * import { agent, CodingTools } from "distilled-code";
  *
- * const myAgent = agent("my-agent", Toolkit.Coding, { description: "..." });
- * const spawned = yield* spawn(myAgent);
- * yield* spawned.send("read src/index.ts");
+ * const myAgent = yield* agent("api/getTodo", {
+ *   toolkit: CodingTools,
+ *   tags: ["api"],
+ *   description: "Implement GET /todos/:id",
+ * });
+ * yield* myAgent.send("implement it");
+ * ```
+ *
+ * @example Workflow agent
+ * ```ts
+ * import { agent, PlanningTools, CodingTools } from "distilled-code";
+ *
+ * const workflow = yield* agent(
+ *   "feature/implement",
+ *   Effect.fn(function* (prompt) {
+ *     const planner = yield* agent("planner", { toolkit: PlanningTools });
+ *     const executor = yield* agent("executor", { toolkit: CodingTools });
+ *     yield* planner.send(prompt);
+ *     yield* executor.send("complete todos");
+ *   }),
+ *   { tags: ["feature"] },
+ * );
+ * yield* workflow.send("add auth");
  * ```
  */
-export const spawn = <
-  Tools extends Record<string, Tool.Any> = Record<string, Tool.Any>,
->(
-  definition: AgentDefinition<Tools>,
-  options?: SpawnOptions,
+export function agent<TToolkit extends ToolkitType = CodingToolsType>(
+  key: string,
+  options?: AgentOptions<TToolkit>,
 ): Effect.Effect<
-  Agent,
-  any,
-  | LanguageModel.LanguageModel
-  | LanguageModel.ExtractContext<Toolkit.Toolkit<Tools>>
-> =>
+  Agent<string, TToolkit, never, AgentError, never, AgentError>,
+  AgentError,
+  AgentState
+>;
+
+export function agent<
+  Out,
+  Err,
+  Req,
+  TToolkit extends ToolkitType = CodingToolsType,
+>(
+  key: string,
+  workflow: WorkflowFn<string, Out, Err, Req>,
+  options?: AgentOptions<TToolkit>,
+): Effect.Effect<
+  Agent<Out, TToolkit, Req, Err | AgentError, never, AgentError>,
+  AgentError,
+  AgentState | Req
+>;
+
+export function agent<Out, Err, Req, TToolkit extends ToolkitType>(
+  key: string,
+  workflowOrOptions?:
+    | WorkflowFn<string, Out, Err, Req>
+    | AgentOptions<TToolkit>,
+  maybeOptions?: AgentOptions<TToolkit>,
+): Effect.Effect<Agent, AgentError, AgentState | Req> {
+  // Parse overloaded arguments
+  const isWorkflow = typeof workflowOrOptions === "function";
+  const workflow = isWorkflow
+    ? (workflowOrOptions as WorkflowFn<string, Out, Err, Req>)
+    : undefined;
+  const options: AgentOptions<TToolkit> = isWorkflow
+    ? (maybeOptions ?? {})
+    : ((workflowOrOptions as AgentOptions<TToolkit>) ?? {});
+
   // @ts-expect-error
-  Effect.gen(function* () {
+  return Effect.gen(function* () {
+    // Check for parent scope (nested agent in workflow)
+    const parentScope = yield* Effect.serviceOption(AgentScope);
+    const hasParent = Option.isSome(parentScope);
+
+    // Construct agent key
+    const agentKey = hasParent ? `${parentScope.value.path}/${key}` : key;
+
+    // Resolve todo scope
+    let todoScope: string;
+    if (options.todoScope === "parent" && hasParent) {
+      todoScope = parentScope.value.todoScope ?? parentScope.value.path;
+    } else if (
+      options.todoScope === "agent" ||
+      options.todoScope === undefined
+    ) {
+      todoScope = agentKey;
+    } else {
+      todoScope = options.todoScope;
+    }
+
+    // Get toolkit and layer
+    const toolkit = (options.toolkit ?? CodingTools) as TToolkit;
+    const layer = getLayerForToolkit(toolkit, {
+      agentKey,
+      todoScope,
+    });
+
+    // ========================================================================
+    // Spawn the agent inline
+    // ========================================================================
+
     const state = yield* AgentState;
 
-    // Get optional custom formatter
     const customFormatter = yield* Effect.serviceOption(ToolCallFormatter).pipe(
       Effect.map(Option.getOrUndefined),
     );
 
-    // Helper that tries custom formatter first, then falls back to built-in
     const format = (name: string, params: unknown): string => {
       const custom = customFormatter?.format(name, params);
       if (custom !== undefined) {
@@ -158,36 +238,47 @@ export const spawn = <
       return formatToolCall(name, params);
     };
 
-    const { key, toolkit } = definition;
-    const onText = options?.onText;
-    const modelId = options?.modelId;
-
-    yield* Effect.logDebug(`[agent:${key}] Spawning agent`);
-
-    // Load system prompt based on model provider
+    const modelId = options.modelId;
     const systemPrompt = getSystemPrompt(modelId);
+    const contextPrompt = options.description
+      ? `${systemPrompt}\n\nContext: ${options.description}`
+      : systemPrompt;
 
     const chat = yield* Chat.fromPrompt([
-      { role: "system", content: systemPrompt },
-      // Load existing chat messages from state, filtering out system messages
-      // as we add a fresh system prompt each time
-      ...(yield* state.getMessages(key).pipe(
+      { role: "system", content: contextPrompt },
+      ...(yield* state.getMessages(agentKey).pipe(
         Effect.map((messages) => messages.filter((m) => m.role !== "system")),
         Effect.catchAll(() => Effect.succeed([])),
       )),
     ]);
 
-    // Helper to persist after each interaction
     const persist = Effect.gen(function* () {
       const exported = yield* chat.exportJson;
-      yield* state.saveMessages(key, exported);
-      yield* Effect.logDebug(`[agent:${key}] Session persisted`);
+      yield* state.saveMessages(agentKey, exported);
+      yield* Effect.logDebug(`[agent:${agentKey}] Session persisted`);
     });
 
+    const onText = options.onText;
+
+    // Send implementation
     const send = (prompt: string) =>
       Effect.gen(function* () {
+        // If workflow, run it with AgentScope and return its result
+        if (workflow) {
+          yield* Effect.logInfo(`[workflow:${agentKey}] Starting`);
+          const result = yield* workflow(prompt).pipe(
+            Effect.provideService(AgentScope, {
+              path: agentKey,
+              todoScope: agentKey,
+            }),
+          );
+          yield* Effect.logInfo(`[workflow:${agentKey}] Complete`);
+          return result as string;
+        }
+
+        // Regular agent - agentic loop
         yield* Effect.logInfo(
-          `[agent:${key}] Sending prompt: ${prompt.slice(0, 100).split("\n")[0]}...`,
+          `[agent:${agentKey}] Sending prompt: ${prompt.slice(0, 100).split("\n")[0]}...`,
         );
 
         let finalText = "";
@@ -198,15 +289,8 @@ export const spawn = <
           loopCount++;
           let finishReason: string | undefined;
 
-          // Reset finalText each loop so we only return text from the final iteration
-          finalText = "";
-
-          yield* Effect.logDebug(
-            `[agent:${key}] Loop ${loopCount}, prompt: ${isFirst ? "initial" : "Continue"}`,
-          );
-
           const stream = chat.streamText({
-            toolkit: toolkit,
+            toolkit: toolkit as EffectToolkit.Toolkit<any>,
             prompt: isFirst ? prompt : "Continue",
           });
           isFirst = false;
@@ -222,62 +306,75 @@ export const spawn = <
                   break;
                 case "tool-call":
                   yield* Effect.logInfo(
-                    `[agent:${key}] ${format(part.name, part.params)}`,
+                    `[agent:${agentKey}] ${format(part.name, part.params)}`,
                   );
                   break;
                 case "tool-result":
-                  yield* Effect.logDebug(`[agent:${key}] Tool result received`);
+                  yield* Effect.logDebug(
+                    `[agent:${agentKey}] Tool result received`,
+                  );
                   break;
                 case "finish":
                   finishReason = part.reason;
-                  yield* Effect.logDebug(
-                    `[agent:${key}] Finish reason: ${finishReason}`,
-                  );
                   break;
               }
             }),
           );
 
           if (finishReason !== "tool-calls") {
-            yield* Effect.log(`[agent:${key}] Done after ${loopCount} loops`);
+            yield* Effect.log(
+              `[agent:${agentKey}] Done after ${loopCount} loops`,
+            );
             break;
           }
         }
 
         yield* persist;
-        yield* Effect.logInfo(
-          `[agent:${key}] Response: ${finalText.slice(0, 100)}...`,
-        );
         return finalText;
-      });
+      }).pipe(
+        Effect.provide(layer),
+        Effect.scoped,
+        Effect.mapError(
+          (cause) => new AgentError({ message: "Agent send failed", cause }),
+        ),
+      );
 
+    // Query implementation
     const query = <A, I extends Record<string, unknown>, R>(
       prompt: string,
       schema: Schema.Schema<A, I, R>,
     ) =>
       Effect.gen(function* () {
         yield* Effect.logInfo(
-          `[agent:${key}] Query: ${prompt.slice(0, 100)}...`,
+          `[agent:${agentKey}] Query: ${prompt.slice(0, 100)}...`,
         );
-
         const response = yield* chat.generateObject({
           prompt,
           schema,
-          toolkit,
+          toolkit: toolkit as EffectToolkit.Toolkit<any>,
         });
-
         yield* persist;
-        yield* Effect.logDebug(`[agent:${key}] Query complete`);
         return response.value;
-      });
+      }).pipe(
+        Effect.provide(layer),
+        Effect.scoped,
+        Effect.mapError(
+          (cause) => new AgentError({ message: "Agent query failed", cause }),
+        ),
+      );
 
-    const agent = {
-      key,
-      definition,
+    return {
+      key: agentKey,
+      tags: options.tags,
+      description: options.description,
+      toolkit,
       send,
       query,
-    } as Agent<Tools>;
-
-    yield* Effect.logDebug(`[agent:${key}] Agent ready`);
-    return agent;
-  });
+    };
+  }).pipe(
+    Effect.mapError(
+      (cause) =>
+        new AgentError({ message: "Agent initialization failed", cause }),
+    ),
+  );
+}

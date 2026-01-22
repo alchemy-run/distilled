@@ -10,14 +10,14 @@ Programmatic coding agent library with a simple CLI.
 # Send a prompt to all agents
 distill "implement the API endpoints"
 
-# Send a prompt to agents matching a pattern
-distill "api/*" "implement the API endpoints"
+# Filter agents by pattern
+distill --filter "api/*" "implement the API endpoints"
 
 # List all configured agents
 distill --list
 
 # List agents matching a pattern
-distill --list "api/*"
+distill --list --filter "api/*"
 
 # Use a specific config file
 distill -c ./my.config.ts "implement the API"
@@ -26,27 +26,26 @@ distill -c ./my.config.ts "implement the API"
 distill -m claude-opus "implement the API"
 ```
 
-Agents run in parallel by default.
-
 ## Configuration
 
-Create a `distilled.config.ts` in your project:
+Create a `distilled.config.ts`:
 
 ```typescript
-import { agent, defineConfig, Toolkit } from "distilled-code";
+import { agent, defineConfig } from "distilled-code";
 
 export default defineConfig({
   name: "my-project",
   model: "claude-sonnet",
   agents: [
     agent("api/listTodos", {
-      toolkit: Toolkit.Coding,
+      toolkit: "Coding",
+      tags: ["api", "get"],
       description: "Implements GET /todos",
     }),
     agent("api/createTodo", {
-      toolkit: Toolkit.Coding,
-      description: "Implements POST /todos",
+      toolkit: "Coding",
       tags: ["api", "post"],
+      description: "Implements POST /todos",
     }),
   ],
 });
@@ -54,132 +53,151 @@ export default defineConfig({
 
 ## Core API
 
-```typescript
-import { agent, spawn, Toolkit } from "distilled-code";
+### `agent()` - Single Unified Function
 
-// Define an agent
-const myAgent = agent("api/listTodos", {
-  toolkit: Toolkit.Coding,
+The `agent()` function handles both simple and workflow agents:
+
+```typescript
+import { agent } from "distilled-code";
+import { Effect } from "effect";
+
+// Leaf agent - just key and options
+const myAgent = yield* agent("api/listTodos", {
+  toolkit: "Coding",
+  tags: ["api"],
   description: "Implements GET /todos",
 });
 
-// Spawn it - persists to .distilled/{key}.json
-const spawned = yield* spawn(myAgent, {
-  onText: (delta) => process.stdout.write(delta),
+yield* myAgent.send("implement the endpoint");
+const result = yield* myAgent.query("what files did you create?", MySchema);
+```
+
+### Workflow Agents
+
+Pass a workflow function as the second argument:
+
+```typescript
+const workflow = yield* agent(
+  "feature/implement",
+  Effect.fn(function* (prompt) {
+    // Sub-agents get nested keys: "feature/implement/planner"
+    const planner = yield* agent("planner", { toolkit: "Planning" });
+    const executor = yield* agent("executor", { toolkit: "Coding" });
+    const reviewer = yield* agent("reviewer", { toolkit: "ReadOnly" });
+
+    // Orchestrate
+    yield* planner.send(prompt);
+
+    for (let i = 0; i < 3; i++) {
+      yield* executor.send("Complete todos");
+      const review = yield* reviewer.send("Review. Say APPROVED if done.");
+      if (review.includes("APPROVED")) break;
+    }
+  }),
+  { tags: ["feature"], description: "Multi-agent workflow" },
+);
+
+yield* workflow.send("add user authentication");
+```
+
+### Agent Interface
+
+When you `yield* agent(...)`, you get:
+
+```typescript
+interface Agent {
+  key: string;           // "api/listTodos"
+  tags?: string[];       // ["api", "get"]
+  description?: string;  // "Implements GET /todos"
+
+  send: (prompt: string) => Effect<string>;
+  query: <A>(prompt: string, schema: Schema<A>) => Effect<A>;
+}
+```
+
+### Options
+
+```typescript
+interface AgentOptions {
+  toolkit?: "Coding" | "Planning" | "ReadOnly";
+  tags?: string[];
+  description?: string;
+  todoScope?: "parent" | "agent" | string;
+  onText?: (delta: string) => void;
+}
+```
+
+### Toolkits
+
+| Toolkit | Description | Tools |
+| ------- | ----------- | ----- |
+| `Coding` | Full toolkit | bash, edit, write, read, glob, grep, todo |
+| `Planning` | Read/write, no bash | edit, write, read, glob, grep, todo |
+| `ReadOnly` | Analysis only | read, glob, grep, todo (read) |
+
+### Todo Scoping
+
+```typescript
+// Share todos with parent workflow
+const planner = yield* agent("planner", { todoScope: "parent" });
+
+// Isolated (default)
+const executor = yield* agent("executor", { todoScope: "agent" });
+
+// Custom scope
+const reviewer = yield* agent("reviewer", { todoScope: "shared" });
+```
+
+## Dynamic Agents
+
+Generate agents from parsed code:
+
+```typescript
+import { agent, defineConfig } from "distilled-code";
+import { Effect } from "effect";
+
+export default defineConfig({
+  agents: Effect.gen(function* () {
+    const services = yield* parseCode({ basePath: "./src" });
+
+    return services.flatMap((s) =>
+      s.operations.map((op) =>
+        agent(`${s.name}/${op.name}`, {
+          toolkit: "Coding",
+          tags: [s.name, op.method],
+          description: `Test ${op.name}`,
+        }),
+      ),
+    );
+  }),
 });
-
-// Send prompts - conversation persists across calls
-yield* spawned.send("Read the API spec and implement GET /todos");
-yield* spawned.send("Now add pagination support");
-
-// Access the definition
-spawned.definition.metadata?.description;
 ```
 
 ## Persistence
 
-Sessions stream to disk:
+Sessions persist to `.distilled/{key}.json`:
 
 ```
 .distilled/
 ├── api/
 │   ├── listTodos.json
-│   ├── getTodo.json
 │   └── createTodo.json
-└── test/
-    └── unit.json
+└── feature/
+    └── implement.json
 ```
 
-Keys are paths. Nested keys create directories.
-
-## Available Tools
-
-| Tool    | Description                                |
-| ------- | ------------------------------------------ |
-| `read`  | Read file contents                         |
-| `write` | Write file contents                        |
-| `edit`  | Edit existing files with smart replacement |
-| `glob`  | Find files by pattern                      |
-| `grep`  | Search file contents                       |
-| `bash`  | Execute shell commands                     |
-| `spawn` | Spawn parallel sub-agents                  |
-
-## Tool Error Handling
-
-**Philosophy**: LLMs benefit from information, not exceptions. Most "errors" are helpful data the LLM can use to adjust.
-
-Return as success strings:
-- **File not found**: `"File not found: foo.ts. Did you mean?\nbar.ts"`
-- **No matches**: `"No matches found for pattern \"xyz\""`
-- **Command output**: `"Command failed: npm ERR! ..."`
-- **Edit failures**: `"Could not find oldString in file..."`
-
-Tools use `failure: S.Never` - all results go through the success channel.
-
-```typescript
-// In tool implementation - catch errors and return as success
-const result = yield* someOperation().pipe(
-  Effect.catchAll((e) => Effect.succeed(`Operation failed: ${e}`)),
-);
-```
-
-## Effect-First I/O
-
-distilled tooling is Effect-native. Avoid raw `Promise`/`async` usage for I/O and prefer
-Effect services so failures are modeled and handled consistently.
-
-**Use Effect services:**
-- `FileSystem.FileSystem` for filesystem work
-- `Command` for running subprocesses
-- `Console` for logs
-
-**Avoid** `Effect.promise` and ad-hoc `async` I/O wrappers in scripts.
-
-Example:
-
-```typescript
-const fs = yield* FileSystem.FileSystem;
-yield* fs.makeDirectory("out", { recursive: true });
-yield* fs.writeFileString("out/file.ts", content);
-yield* Command.make("bun", "format").pipe(Command.string);
-```
-
-## Architecture
+## Project Structure
 
 ```
 distilled-code/
 ├── bin/
-│   └── distilled.ts       # CLI entry point
+│   └── distill.ts         # CLI
 ├── src/
-│   ├── agent.ts           # agent(), spawn(), AgentDefinition
-│   ├── config.ts          # defineConfig, config loading
-│   ├── tools/
-│   │   ├── index.ts       # CodingTools, Toolkit namespace
-│   │   ├── bash.ts        # Execute shell commands
-│   │   ├── read.ts        # Read files
-│   │   ├── write.ts       # Write files
-│   │   ├── edit.ts        # Edit files
-│   │   ├── glob.ts        # Find files
-│   │   ├── grep.ts        # Search content
-│   │   └── spawn.ts       # Sub-agents
-│   └── util/
-│       ├── replace.ts     # Edit replacement logic
-│       └── wildcard.ts    # Glob pattern matching
-└── .distilled/            # Persisted sessions
-```
-
-## Development
-
-```bash
-bun install
-bun vitest run
-bun tsgo -b
-bun run bin/distilled.ts --list
-```
-
-## Environment
-
-```bash
-ANTHROPIC_API_KEY=xxx    # Required
-DEBUG=1                  # Enable debug logging
+│   ├── agent.ts           # agent(), AgentScope
+│   ├── config.ts          # defineConfig, helpers
+│   ├── tools/             # Toolkits
+│   ├── services/          # AgentState, etc.
+│   └── lsp/               # Language server
+└── test/
+    └── agent.test.ts
 ```

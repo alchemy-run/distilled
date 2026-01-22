@@ -3,94 +3,34 @@
  */
 
 import * as Effect from "effect/Effect";
-import type { AgentDefinition } from "./agent.ts";
+import type { Agent } from "./agent.ts";
 import type { ServerConfig } from "./lsp/servers.ts";
 
-export { agent } from "./agent.ts";
-export type { AgentDefinition, AgentMetadata } from "./agent.ts";
+export { agent, AgentScope } from "./agent.ts";
+export type {
+  Agent,
+  AgentOptions,
+  AgentScope as AgentScopeType,
+  ToolkitType,
+  WorkflowFn,
+} from "./agent.ts";
 export type { ServerConfig } from "./lsp/servers.ts";
 
-/**
- * Type for agents configuration - can be a static array or an Effect.
- *
- * Using Effect allows dynamic agent generation based on:
- * - Parsing source files
- * - Reading configuration
- * - Generating skeleton files before agent runs
- */
-export type AgentsConfig<E = unknown, R = unknown> =
-  | AgentDefinition<any>[]
-  | Effect.Effect<AgentDefinition<any>[], E, R>;
-
-export interface DistilledConfig<E = unknown, R = unknown> {
-  /**
-   * Name of this project/workspace
-   */
+export interface DistilledConfig<E = never, R = never> {
   name?: string;
-
-  /**
-   * List of agent definitions, or an Effect that resolves to them.
-   *
-   * When an Effect is provided, it will be run before spawning agents.
-   * This allows for dynamic agent generation, such as:
-   * - Parsing source files to discover operations
-   * - Generating skeleton files before agents run
-   * - Loading configuration from external sources
-   *
-   * @example
-   * ```typescript
-   * // Static agents
-   * agents: [
-   *   agent("api/getTodo", { toolkit: Toolkit.Coding }),
-   * ]
-   *
-   * // Dynamic agents using Effect
-   * agents: Effect.gen(function* () {
-   *   const services = yield* parseCode({ basePath: "./src" });
-   *   return services.flatMap(s =>
-   *     s.operations.map(op => agent(`${s.name}/${op.name}`, { ... }))
-   *   );
-   * })
-   * ```
-   */
-  agents?: AgentsConfig<E, R>;
-
-  /**
-   * Default model to use
-   */
   model?: string;
-
   /**
-   * LSP server configuration.
-   *
-   * @example
-   * ```typescript
-   * lsp: {
-   *   servers: [
-   *     { id: "typescript", command: ["typescript-language-server", "--stdio"] },
-   *     { id: "biome", command: ["biome", "lsp-proxy"] },
-   *   ],
-   * }
-   * ```
+   * Effect that yields all top-level agents.
+   * Each agent must return string from send().
    */
-  lsp?: {
-    /**
-     * LSP servers to use. Defaults to TypeScript + Oxlint.
-     */
-    servers?: ServerConfig[];
-  };
+  agents?: Effect.Effect<Agent<string>[], E, R>;
+  lsp?: { servers?: ServerConfig[] };
 }
 
-/**
- * Define a distilled configuration.
- */
 export const defineConfig = <E = unknown, R = unknown>(
   config: DistilledConfig<E, R>,
 ): DistilledConfig<E, R> => config;
 
-/**
- * Load a configuration file.
- */
 export const loadConfig = async (
   configPath: string,
 ): Promise<DistilledConfig> => {
@@ -99,38 +39,18 @@ export const loadConfig = async (
 };
 
 /**
- * Resolve agents from a config, handling both static arrays and Effects.
- *
- * @param config - The distilled configuration
- * @returns An Effect that resolves to the array of agent definitions
+ * Get agents from config, returning empty array if not defined.
  */
-export const resolveAgents = <E, R>(
+export const getAgents = <E, R>(
   config: DistilledConfig<E, R>,
-): Effect.Effect<AgentDefinition<any>[], E, R> => {
-  if (!config.agents) {
-    return Effect.succeed([]);
-  }
+): Effect.Effect<Agent<string>[], E, R> => config.agents ?? Effect.succeed([]);
 
-  if (Array.isArray(config.agents)) {
-    return Effect.succeed(config.agents);
-  }
+/** Filter agents by tag */
+export const byTag = (agents: Agent<string>[], tag: string): Agent<string>[] =>
+  agents.filter((a) => a.tags?.includes(tag));
 
-  // It's an Effect - return it directly
-  return config.agents;
-};
-
-/**
- * Filter agents by tag.
- */
-export const byTag = (
-  agents: AgentDefinition[],
-  tag: string,
-): AgentDefinition[] => agents.filter((a) => a.metadata?.tags?.includes(tag));
-
-/**
- * Filter agents by key prefix.
- */
+/** Filter agents by key prefix */
 export const byPrefix = (
-  agents: AgentDefinition[],
+  agents: Agent<string>[],
   prefix: string,
-): AgentDefinition[] => agents.filter((a) => a.key.startsWith(prefix));
+): Agent<string>[] => agents.filter((a) => a.key.startsWith(prefix));

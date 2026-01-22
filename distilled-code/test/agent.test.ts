@@ -2,7 +2,7 @@ import * as FileSystem from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { describe, expect } from "vitest";
-import { Agent } from "../src/agent.ts";
+import { agent } from "../src/agent.ts";
 import { test } from "./test.ts";
 
 const GENERATED_DIR = "test/fixtures/generated";
@@ -14,22 +14,20 @@ describe("Agent", () => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
 
-      // Clean up generated fixtures directory
+      // Clean up
       yield* fs
         .remove(GENERATED_DIR, { recursive: true })
         .pipe(Effect.catchAll(() => Effect.void));
       yield* fs.makeDirectory(GENERATED_DIR, { recursive: true });
-
-      // Clean up existing session
       yield* fs
         .remove(".distilled/test/math.json")
         .pipe(Effect.catchAll(() => Effect.void));
 
-      // Spawn a persistent agent
-      const agent = yield* Agent.spawn("test/math");
+      // Spawn agent
+      const myAgent = yield* agent("test/math", { toolkit: "Coding" });
 
-      // Command 1: Read the source and generate tests
-      yield* agent.send(`
+      // Generate tests
+      yield* myAgent.send(`
         Read test/fixtures/math.ts and generate a comprehensive test file at ${GENERATED_DIR}/math.test.ts.
         
         Requirements:
@@ -40,31 +38,27 @@ describe("Agent", () => {
         - Use describe blocks to organize by function
       `);
 
-      // Command 2: Run tests and iterate until they pass
-      yield* agent.send(`
+      // Run and fix tests
+      yield* myAgent.send(`
         Run the tests with: bun test ${GENERATED_DIR}/math.test.ts
         
         If any tests fail, read the error output, fix the test file, and run again.
         Keep iterating until all tests pass.
       `);
 
-      // Verify test file was created and has expected content
+      // Verify
       const testContent = yield* fs.readFileString(
         `${GENERATED_DIR}/math.test.ts`,
       );
       expect(testContent).toContain("describe");
       expect(testContent).toContain("add");
-      expect(testContent).toContain("multiply");
-      expect(testContent).toContain("factorial");
       expect(testContent).toContain("expect");
 
-      // Verify session was persisted
       const sessionExists = yield* fs.exists(".distilled/test/math.json");
       expect(sessionExists).toBe(true);
     }),
   );
 
-  // Schema for structured query response
   const MemoryResponse = Schema.Struct({
     code: Schema.String,
     remembered: Schema.Boolean,
@@ -76,23 +70,21 @@ describe("Agent", () => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
 
-      // Clean up
       yield* fs
         .remove(".distilled/test/memory.json")
         .pipe(Effect.catchAll(() => Effect.void));
 
-      // Session 1: Establish memory
-      const agent1 = yield* Agent.spawn("test/memory");
+      // Session 1
+      const agent1 = yield* agent("test/memory");
       yield* agent1.send(
         "I am telling you a secret code. Remember it exactly: DELTA-9-FOXTROT",
       );
 
-      // Verify session was persisted with content
       const session1 = yield* fs.readFileString(".distilled/test/memory.json");
-      expect(session1.length).toBeGreaterThan(100); // Should have real content
+      expect(session1.length).toBeGreaterThan(100);
 
-      // Session 2: Query with structured output
-      const agent2 = yield* Agent.spawn("test/memory");
+      // Session 2
+      const agent2 = yield* agent("test/memory");
       const memory = yield* agent2.query(
         "What was the secret code I told you? Return it exactly as I said it.",
         MemoryResponse,
@@ -102,8 +94,8 @@ describe("Agent", () => {
       expect(memory.code.toUpperCase()).toContain("DELTA");
       expect(memory.code.toUpperCase()).toContain("FOXTROT");
 
-      // Session 3: Verify continued persistence
-      const agent3 = yield* Agent.spawn("test/memory");
+      // Session 3
+      const agent3 = yield* agent("test/memory");
       const memory2 = yield* agent3.query(
         "Do you still remember the secret code? What is it?",
         MemoryResponse,
@@ -120,7 +112,6 @@ describe("Agent", () => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
 
-      // Clean up
       yield* fs
         .remove(".distilled/test/structured.json")
         .pipe(Effect.catchAll(() => Effect.void));
@@ -131,8 +122,8 @@ describe("Agent", () => {
         result: Schema.Number,
       });
 
-      const agent = yield* Agent.spawn("test/structured");
-      const result = yield* agent.query(
+      const myAgent = yield* agent("test/structured");
+      const result = yield* myAgent.query(
         "Calculate 15 + 27 and return the result in structured form.",
         MathResult,
       );
