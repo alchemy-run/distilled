@@ -5,27 +5,27 @@ import * as Option from "effect/Option";
 import * as S from "effect/Schema";
 import { input } from "../input.ts";
 import { output } from "../output.ts";
-import { tool } from "../tool.ts";
 import { exec } from "../util/exec.ts";
+import { tool } from "./tool.ts";
 
 const MAX_LINE_LENGTH = 2000;
 
-export const pattern = input(
+const pattern = input(
   "pattern",
 )`The regex pattern to search for in file contents.
 Supports full regex syntax (e.g., "log.*Error", "function\\s+\\w+", etc.)`;
 
-export const path = input(
+const path = input(
   "path",
   S.optional(S.String),
 )`The directory to search in. Defaults to ${process.cwd()} if not specified.`;
 
-export const include = input(
+const include = input(
   "include",
   S.optional(S.String),
 )`File pattern to include in the search (e.g., "*.js", "*.{ts,tsx}")`;
 
-export const matches = output(
+const matches = output(
   "matches",
 )`The search results showing file paths and matching lines, sorted by modification time.`;
 

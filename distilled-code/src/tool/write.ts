@@ -1,23 +1,21 @@
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Path from "@effect/platform/Path";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import { input } from "../input.ts";
 import {
   formatDiagnostics,
   getDiagnosticsIfAvailable,
 } from "../lsp/diagnostics.ts";
 import { output } from "../output.ts";
-import { AgentState } from "../state.ts";
-import { tool } from "../tool.ts";
+import { tool } from "./tool.ts";
 
-export const filePath = input(
+const filePath = input(
   "filePath",
 )`The path to the file to write. Use relative paths from the current working directory (e.g., "src/index.ts", "test/fixtures/math.test.ts"). Do NOT use paths starting with "/" - use relative paths instead.`;
 
-export const content = input("content")`The content to write to the file.`;
+const content = input("content")`The content to write to the file.`;
 
-export const result = output(
+const result = output(
   "result",
 )`The result of the write operation, including any diagnostics from LSP.`;
 
@@ -36,9 +34,6 @@ Given a ${filePath} and ${content}:
 
   const path = yield* Path.Path;
   const fs = yield* FileSystem.FileSystem;
-  const stateOption = yield* Effect.serviceOption(AgentState).pipe(
-    Effect.map(Option.getOrUndefined),
-  );
 
   const filePath = path.isAbsolute(_filePath)
     ? _filePath
@@ -61,14 +56,6 @@ Given a ${filePath} and ${content}:
   if (typeof writeResult === "string") {
     yield* Effect.logDebug(`[write] ${writeResult}`);
     return { result: writeResult };
-  }
-
-  // Track file in agent state if available
-  if (stateOption) {
-    const agentKey = "default";
-    yield* stateOption
-      .trackFileCreated(agentKey, filePath)
-      .pipe(Effect.catchAll(() => Effect.void));
   }
 
   // Get diagnostics from LSP servers

@@ -8,27 +8,25 @@ import {
   getDiagnosticsIfAvailable,
 } from "../lsp/diagnostics.ts";
 import { output } from "../output.ts";
-import { tool } from "../tool.ts";
 import { replace } from "../util/replace.ts";
+import { tool } from "./tool.ts";
 
-export const filePath = input(
-  "filePath",
-)`The absolute path to the file to modify`;
+const filePath = input("filePath")`The absolute path to the file to modify`;
 
-export const oldString = input(
+const oldString = input(
   "oldString",
 )`The text to replace. Use an empty string "" to create a new file.`;
 
-export const newString = input(
+const newString = input(
   "newString",
 )`The text to replace it with (must be different from oldString)`;
 
-export const replaceAll = input(
+const replaceAll = input(
   "replaceAll",
   S.optional(S.Boolean),
 )`Replace all occurrences of oldString (default false). Use this when renaming variables or updating repeated patterns.`;
 
-export const result = output(
+const result = output(
   "result",
 )`The result of the edit operation, including any diagnostics from LSP.`;
 

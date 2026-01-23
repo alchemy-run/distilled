@@ -5,14 +5,14 @@ import { input } from "../input.ts";
 import { formatDiagnostic } from "../lsp/diagnostics.ts";
 import { LSPManager } from "../lsp/index.ts";
 import { output } from "../output.ts";
-import { tool } from "../tool.ts";
+import { tool } from "./tool.ts";
 
-export const paths = input(
+const paths = input(
   "paths",
   S.optional(S.Array(S.String)),
 )`Optional array of paths to files or directories to read linter errors for. If not provided, returns diagnostics for all files in the workspace.`;
 
-export const diagnostics = output(
+const diagnostics = output(
   "diagnostics",
 )`The linter errors and diagnostics for the specified paths.`;
 

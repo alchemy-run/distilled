@@ -1,13 +1,13 @@
+import { bash } from "../tool/bash.ts";
+import { edit } from "../tool/edit.ts";
+import { glob } from "../tool/glob.ts";
+import { grep } from "../tool/grep.ts";
+import { read } from "../tool/read.ts";
+import { readlints } from "../tool/readlints.ts";
 import { Toolkit } from "../toolkit.ts";
-import { bash } from "../tools/bash.ts";
-import { edit } from "../tools/edit.ts";
-import { glob } from "../tools/glob.ts";
-import { grep } from "../tools/grep.ts";
-import { read } from "../tools/read.ts";
-import { readlints } from "../tools/readlints.ts";
 // import { task } from "./task.ts";
 // import { todo } from "./todo.ts";
-import { write } from "../tools/write.ts";
+import { write } from "../tool/write.ts";
 
 export class Coding extends Toolkit("Coding")`
 A set of tools for reading, writing, and editing code:

@@ -6,22 +6,21 @@
  * Designer, Developer, and Reviewer agents working on specific files.
  */
 
-import * as File from "distilled-code/file";
-import * as Toolkit from "distilled-code/toolkits";
+import { Agent, File, Tool, Toolkit } from "distilled-code";
 import { loadModel } from "./scripts/parse.ts";
 
 const SDK_PATH = "../../cloudflare-typescript/src/resources";
 
 const services = await loadModel({ basePath: SDK_PATH });
 
-export default class DistilledCloudflare extends Agent("Project")`
+export default class DistilledCloudflare extends Agent("distilled-cloudflare")`
 Cloudflare API test suite coordinator.
 
 ## Services (${services.length} services, ${services.reduce((n, s) => n + s.operations.length, 0)} operations)
 
 ${services.map(
-  (s) =>
-    `### ${s.name} (${s.operations.length})
+  (s) => `
+### ${s.name} (${s.operations.length})
 ${s.operations.map((o) => `- ${o.operationName}`)}`,
 )}
 
@@ -39,15 +38,20 @@ ${s.operations.map((o) => `- ${o.operationName}`)}`,
 ${services.map(
   (service) =>
     class Service extends Agent(`${service.name}`)`
-Coordinate ${service.name} service (${service.operations.length} operations).
+Coordinate development of ${service.name}'s ${service.operations.length} operations.
+
+## Commands
+Use ${Tool.bash} to run commands:
+- Generate: \`bun generate --service ${service.name}\`
+- Test all: \`bun vitest run test/services/${service.name}/\`
 
 ## Operations
 ${service.operations.map((op) => `- ${op.operationName} (${op.httpMethod})`)}
 
 ## Sub-Agents
-${service.operations.map((op) => {
-  const resources = op.resources;
 
+Delegate tasks to the corresponding sub-agents (each operation has its own dedicated team).
+${service.operations.map((op) => {
   // Files for this operation
   class ServiceClient extends File.TypeScript(`src/services/${service}.ts`)`
 Generated Effect-based service client for the ${service} Cloudflare service.
@@ -102,7 +106,7 @@ Design tests for ${op.operationName}. Read ${ServiceClient} for signatures.
 ## Design
 1. **Happy Path:** inputs, assertions, optional params
 2. **Errors:** NotFound, BadRequest, Forbidden, Conflict with descriptive tags
-3. **Helpers:** \`with${resources[0] || "Resource"}\` using cleanup-first pattern
+3. **Helpers:** \`with${op.resources[0] || "Resource"}\` using cleanup-first pattern
  - \`Effect.ensuring()\` for cleanup
  - Names: \`distilled-cf-${service}-${op.operationName.toLowerCase()}\`
 
@@ -194,13 +198,5 @@ Coordinate ${service}/${op.operationName} test implementation.
 5. ${Reviewer} approves or requests changes
 6. Loop until approved, then commit
 ` {};
-})}
-
-## Commands
-- Generate: \`bun generate --service ${service.name}\`
-- Test all: \`bun vitest run test/services/${service.name}/\`
-
-Delegate to operation sub-agents for implementation.
-` {},
-)}
-` {}
+})}` {},
+)}` {}

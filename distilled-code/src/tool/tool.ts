@@ -1,9 +1,9 @@
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import type { YieldWrap } from "effect/Utils";
-import type { Fragment } from "./fragment.ts";
-import { isInput, type Input } from "./input.ts";
-import { isOutput, type Output } from "./output.ts";
+import type { Fragment } from "../fragment.ts";
+import { isInput, type Input } from "../input.ts";
+import { isOutput, type Output } from "../output.ts";
 
 export interface ITool<
   Name extends string,
@@ -19,6 +19,8 @@ export interface ITool<
   readonly handler: (
     ...args: void extends Input ? [] : [Input]
   ) => Effect.Effect<Output, Err, Req>;
+  /** @internal phantom */
+  readonly Req: Req;
 }
 export interface Tool<
   Name extends string = string,

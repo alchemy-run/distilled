@@ -1,5 +1,5 @@
 import type { Fragment } from "./fragment.ts";
-import type { Tool } from "./tool.ts";
+import type { Tool } from "./tool/tool.ts";
 
 export interface IToolkit<
   Name extends string,

@@ -4,21 +4,25 @@ import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { input } from "../input.ts";
 import { output } from "../output.ts";
-import { tool } from "../tool.ts";
+import { tool } from "./tool.ts";
 
-export const filePath = input("filePath")`The path to the file to read. Use relative paths from the current working directory (e.g., "src/index.ts", "test/fixtures/math.ts"). Do NOT use paths starting with "/" - use relative paths instead.`;
+const filePath = input(
+  "filePath",
+)`The path to the file to read. Use relative paths from the current working directory (e.g., "src/index.ts", "test/fixtures/math.ts"). Do NOT use paths starting with "/" - use relative paths instead.`;
 
-export const offset = input(
+const offset = input(
   "offset",
   S.optional(S.Number),
 )`The line number to start reading from (0-based). Defaults to 0.`;
 
-export const limit = input(
+const limit = input(
   "limit",
   S.optional(S.Number),
 )`The number of lines to read. Defaults to 2000.`;
 
-export const content = output("content")`The file content, or an error message if the file cannot be read.`;
+const content = output(
+  "content",
+)`The file content, or an error message if the file cannot be read.`;
 
 export const read = tool("read")`Reads a file from the local filesystem.
 Returns the ${content} of the file.
@@ -38,7 +42,9 @@ Given a ${filePath} and optional ${offset} and ${limit}:
   const limit = _limit ?? 2000;
 
   if (_filePath.includes(".env")) {
-    return { content: "Environment files (.env) are not readable for security reasons" };
+    return {
+      content: "Environment files (.env) are not readable for security reasons",
+    };
   }
 
   const filePath = path.isAbsolute(_filePath)

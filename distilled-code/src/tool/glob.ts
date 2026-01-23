@@ -5,10 +5,10 @@ import * as Option from "effect/Option";
 import * as S from "effect/Schema";
 import { input } from "../input.ts";
 import { output } from "../output.ts";
-import { tool } from "../tool.ts";
 import * as Ripgrep from "../util/ripgrep.ts";
+import { tool } from "./tool.ts";
 
-export const pattern = input("pattern")`The glob pattern to match files against.
+const pattern = input("pattern")`The glob pattern to match files against.
 Patterns not starting with "**/" are automatically prepended with "**/" to enable recursive searching.
 
 Examples:
@@ -16,12 +16,12 @@ Examples:
   - "**/node_modules/**" - find all node_modules directories
   - "**/test/**/test_*.ts" - find all test_*.ts files in any test directory`;
 
-export const path = input(
+const path = input(
   "path",
   S.optional(S.String),
 )`The directory to search in. Defaults to ${process.cwd()} if not specified.`;
 
-export const files = output(
+const files = output(
   "files",
 )`The list of matching file paths, sorted by modification time (most recent first). Returns a message if no files are found.`;
 
