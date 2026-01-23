@@ -7,4 +7,4 @@ export * from "./output.ts";
 export * from "./state.ts";
 export * from "./tool.ts";
 export * from "./toolkit.ts";
-export * from "./toolkits/index.ts";
+export * from "./toolkit/index.ts";

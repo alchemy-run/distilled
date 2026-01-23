@@ -1,6 +1,6 @@
 import { Agent } from "./agent.ts";
 import * as File from "./file/index.ts";
-import * as Toolkit from "./toolkits/index.ts";
+import * as Toolkit from "./toolkit/index.ts";
 
 class Design extends File.Document("design/todo.md")`
 A TODO service for a user to manage their TODO items.

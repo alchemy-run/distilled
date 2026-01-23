@@ -1,394 +1,212 @@
 /**
  * Distilled-code configuration for generating Cloudflare API tests.
  *
- * This config dynamically generates agents from the Cloudflare TypeScript SDK:
- * 1. Uses parseCode() to extract operations from the SDK
- * 2. Creates one workflow agent per operation (e.g., "r2/getBucket", "workers/createScript")
- * 3. Each workflow orchestrates designer -> coder -> reviewer loop
+ * This config parses the Cloudflare TypeScript SDK and builds a network of
+ * agents for each service and operation. Each operation gets its own
+ * Designer, Developer, and Reviewer agents working on specific files.
  */
 
-import { FileSystem } from "@effect/platform";
-import { agent, defineConfig, Toolkit } from "distilled-code";
-import { Effect, Schema } from "effect";
-import { parseCode } from "./scripts/parse.ts";
+import * as File from "distilled-code/file";
+import * as Toolkit from "distilled-code/toolkits";
+import { loadModel } from "./scripts/parse.ts";
 
 const SDK_PATH = "../../cloudflare-typescript/src/resources";
 
-// ============================================================================
-// Review Result Schema - structured response from reviewer
-// ============================================================================
+const services = await loadModel({ basePath: SDK_PATH });
 
-const ReviewResult = Schema.Struct({
-  complete: Schema.Boolean.annotations({
-    description: "Whether the implementation is complete",
-  }),
-  feedback: Schema.optional(Schema.String).annotations({
-    description: "Feedback for the coder if not complete",
-  }),
-  missingTests: Schema.optional(Schema.Array(Schema.String)).annotations({
-    description: "List of missing test cases",
-  }),
-  issues: Schema.optional(Schema.Array(Schema.String)).annotations({
-    description: "Issues found in the implementation",
-  }),
-});
+export default class Project extends Agent("Project")`
+Cloudflare API test suite coordinator.
 
-// ============================================================================
-// Config Export
-// ============================================================================
+## Services (${services.length} services, ${services.reduce((n, s) => n + s.operations.length, 0)} operations)
 
-export default defineConfig({
-  name: "distilled-cloudflare-tests",
-  model: "claude-opus-4-5",
-  agents: Effect.gen(function* () {
-    const services = yield* parseCode({ basePath: SDK_PATH });
+${services.map(
+  (s) =>
+    `### ${s.name} (${s.operations.length})
+${s.operations.map((o) => `- ${o.operationName}`)}`,
+)}
 
-    return yield* Effect.all(
-      services.flatMap((service) =>
-        service.operations.map((op) => {
-          const pathParams = op.pathParams
-            .map((p) => `  - ${p.name}: ${p.type.kind}`)
-            .join("\n");
-          const queryParams = op.queryParams
-            .map((p) => `  - ${p.name}${p.required ? "" : "?"}: ${p.type.kind}`)
-            .join("\n");
-          const resources = op.resources;
+## Commands
+- Parse: \`bun scripts/parse.ts\`
+- Generate: \`bun generate --service {service}\`
+- Test: \`bun vitest run test/services/{service}/\`
 
-          return agent(
-            `${service.name}/${op.operationName}`,
-            { tags: [service.name, op.httpMethod.toLowerCase()] },
-            Effect.fn(function* (prompt) {
-              // 1. Designer phase - creates test plan and returns it as a message
-              const designer = yield* agent("designer", {
-                toolkit: Toolkit.Planning,
-                todoScope: "parent",
-                description: `You are a test plan designer for the Cloudflare ${op.operationName} operation.
+## Workflow
+- Given a service: delegate to service agent
+- Given an operation (e.g., r2/createBucket): delegate to operation agent
+- Finding work: prioritize operations without tests, core CRUD first
 
-## IMPORTANT: Do NOT search or glob for files
-All file paths are provided below. Read them directly - do not use glob or grep to find files.
+## Service Agents
+${services.map(
+  (service) =>
+    class Service extends Agent(`${service.name}`)`
+Coordinate ${service.name} service (${service.operations.length} operations).
 
-## Relevant Files (read these directly)
-- \`src/services/${service.name}.ts\` - Generated service with operation signatures and error types
-- \`test/services/${service.name}/${op.operationName}.test.ts\` - Test file (may not exist yet)
-- \`test/test.ts\` - Test utilities (getAccountId, test helper)
-- \`patch/${service.name}/${op.operationName}.json\` - Error patches (may not exist yet)
+## Operations
+${service.operations.map((op) => `- ${op.operationName} (${op.httpMethod})`)}
 
-## Operation Details
+## Sub-Agents
+${service.operations.map((op) => {
+  const pathParams =
+    op.pathParams.map((p) => `  - ${p.name}: ${p.type.kind}`).join("\n") ||
+    "  (none)";
+  const queryParams =
+    op.queryParams
+      .map((p) => `  - ${p.name}${p.required ? "" : "?"}: ${p.type.kind}`)
+      .join("\n") || "  (none)";
+  const resources = op.resources;
+
+  // Files for this operation
+  class ServiceClient extends File.TypeScript(`src/services/${service}.ts`)`
+Generated Effect-based service client for the ${service} Cloudflare service.
+Contains operation functions, schemas, and error classes.
+Regenerate with: \`bun generate --service ${service}\`
+` {}
+
+  class TestPlan extends File.Document(
+    `plan/${service}/${op.operationName}.md`,
+  )`
+Test plan for ${service}/${op.operationName}.
+
+## Operation
 - **Method:** ${op.httpMethod} ${op.urlTemplate}
+- **Resource:** ${op.resourceName}
 - **Path params:**
-${pathParams || "  (none)"}
+${pathParams}
 - **Query params:**
-${queryParams || "  (none)"}
+${queryParams}
 
-## Your Task
-Design a comprehensive test plan. First read \`src/services/${service.name}.ts\` to understand the operation signature and any existing error types.
+## Coverage
+1. Happy path with minimal params
+2. Optional parameter variations
+3. Error scenarios
+4. Helper functions with cleanup-first pattern
+` {}
 
-### 1. Happy Path Tests
-Design tests that verify the operation works correctly:
-- What inputs should we test?
-- What response properties should we assert on?
-- Are there optional parameters that change behavior?
+  class TestFile extends File.TypeScript(
+    `test/services/${service}/${op.operationName}.test.ts`,
+  )`
+Test implementation for ${service}/${op.operationName}.
+Uses \`test()\` from \`../../test.ts\`, \`Effect.gen\`, \`yield*\`, and \`Effect.flip\` for errors.
+` {}
 
-### 2. Error Cases
-Identify errors this operation might return:
-- What happens with invalid input (bad IDs, malformed data)?
-- What happens when resources don't exist?
-- What happens with permission issues?
-- What happens with conflicts (e.g., deleting a resource that another depends on)?
-- Name each error case with a descriptive tag (e.g., \`NoSuchBucket\`, \`InvalidBucketName\`, \`BucketNotEmpty\`)
+  class ErrorPatch extends File.Document(
+    `patch/${service}/${op.operationName}.json`,
+  )`
+Error patch mapping discovered error codes to typed classes.
+Format: \`{ "errors": { "ErrorTag": [{ "code": XXXX }] } }\`
+After updating: \`bun generate --service ${service}\`
+` {}
 
-### 3. Helper Design
-Design \`with${resources[0] || "Resource"}\` helper functions:
-- **Pattern:** cleanup first → create resource → run test → cleanup in finally
-- Use \`Effect.ensuring()\` for guaranteed cleanup
-- Cleanup should never throw: \`Effect.catchAll(() => Effect.void)\`
-- Use deterministic names: \`distilled-cf-${service.name}-${op.operationName.toLowerCase()}\`
+  // Agents for this operation
+  class Designer extends Agent(`${service}/${op.operationName}/Designer`)`
+Design tests for ${op.operationName}. Read ${ServiceClient} for signatures.
 
-### 4. Create Todo List
-Use the \`todowrite\` tool to create specific, actionable todos:
-- One todo per test case or helper function
-- Be specific about what each todo should accomplish
-- Order todos logically (helpers first, then happy path, then errors)
+## Operation
+- ${op.httpMethod} ${op.urlTemplate}
+- Path: ${pathParams}
+- Query: ${queryParams}
 
-## Output Format
-Return your test plan as a structured response with these sections:
+## Design
+1. **Happy Path:** inputs, assertions, optional params
+2. **Errors:** NotFound, BadRequest, Forbidden, Conflict with descriptive tags
+3. **Helpers:** \`with${resources[0] || "Resource"}\` using cleanup-first pattern
+ - \`Effect.ensuring()\` for cleanup
+ - Names: \`distilled-cf-${service}-${op.operationName.toLowerCase()}\`
 
-### Overview
-Brief description of what will be tested.
+Write plan to ${TestPlan}.
+` {}
 
-### Happy Path Tests
-List each test case with:
-- Test name
-- Description of what it tests
-- Expected assertions
+  class Developer extends Agent(`${service}/${op.operationName}/Developer`)`
+Implement tests per ${TestPlan} using ${Toolkit.Coding}.
 
-### Error Cases
-List each error case with:
-- Error tag name (e.g., \`NoSuchBucket\`)
-- Condition that triggers it
-- How to test it
+## Files
+- ${ServiceClient} - signatures
+- ${TestFile} - implement here
+- ${ErrorPatch} - patch errors
 
-### Helpers
-For each helper function:
-- Function name and signature
-- What it does
-- Cleanup strategy
-
-### Notes
-Any additional considerations or edge cases.
-
-Do NOT write any files. Return the plan directly in your response.`,
-              });
-
-              // Coder executes the plan and returns a summary
-              const coder = yield* agent("coder", {
-                toolkit: Toolkit.Coding,
-                todoScope: "parent",
-                description: `You are a test implementer for the Cloudflare ${op.operationName} operation.
-
-## Input
-You will receive a test plan as your input message. This plan contains:
-- Happy path tests to implement
-- Error cases to test
-- Helper functions to create
-- A todo list to work through
-
-## IMPORTANT: Do NOT search or glob for files
-All file paths are provided below. Read them directly - do not use glob or grep to find files.
-
-## Relevant Files (read these directly)
-- \`src/services/${service.name}.ts\` - Generated service with operation signatures and error types
-- \`test/services/${service.name}/${op.operationName}.test.ts\` - Test file to create/edit
-- \`test/test.ts\` - Test utilities (getAccountId, test helper)
-- \`patch/${service.name}/${op.operationName}.json\` - Error patches to create/edit
-
-## Your Task
-Execute the test plan by implementing each pending todo item.
-
-## Step-by-Step Process
-
-### 1. Read Your Todos
-Use \`todoread\` to see your current task list.
-
-### 2. Implement Each Todo
-For each pending todo:
-
-#### Test Structure
+## Template
 \`\`\`typescript
 import { describe, expect } from "@effect/vitest";
 import * as Effect from "effect/Effect";
-import { ${op.operationName} } from "~/services/${service.name}.ts";
+import { ${op.operationName} } from "~/services/${service}.ts";
 import { getAccountId, test } from "../../test.ts";
 
-describe("${service.name}/${op.operationName}", () => {
+describe("${service}/${op.operationName}", () => {
 describe("success", () => {
-  test("descriptive test name", () =>
-    Effect.gen(function* () {
-      const result = yield* ${op.operationName}({
-        accountId: getAccountId(),
-        // ... other params
-      });
-      expect(result.someProperty).toBeDefined();
-    }));
+  test("works", () => Effect.gen(function* () {
+    const result = yield* ${op.operationName}({ accountId: getAccountId() });
+    expect(result).toBeDefined();
+  }));
 });
-
-describe("ErrorTagName", () => {
-  test("condition that triggers error", () =>
-    ${op.operationName}({
-      accountId: getAccountId(),
-      // ... params that trigger error
-    }).pipe(
+describe("ErrorTag", () => {
+  test("returns error", () =>
+    ${op.operationName}({ accountId: getAccountId() }).pipe(
       Effect.flip,
-      Effect.map((e) => expect(e._tag).toBe("ErrorTagName")),
+      Effect.map((e) => expect(e._tag).toBe("ErrorTag")),
     ));
 });
 });
 \`\`\`
 
-#### Helper Pattern
-\`\`\`typescript
-const RESOURCE_NAME = "distilled-cf-${service.name}-${op.operationName.toLowerCase()}";
+## On UnknownCloudflareError
+1. Extract code from failure
+2. Update ${ErrorPatch}
+3. Run \`bun generate --service ${service}\`
+4. Import new error, update test
 
-const cleanup = (name: string) =>
-deleteResource({
-  accountId: getAccountId(),
-  name,
-}).pipe(Effect.catchAll(() => Effect.void));
+Run: \`bun vitest run test/services/${service}/${op.operationName}.test.ts\`
+Names: \`distilled-cf-${service}-${op.operationName.toLowerCase()}\`
+` {}
 
-const withResource = <A, E, R>(
-name: string,
-effect: Effect.Effect<A, E, R>,
-) =>
-Effect.gen(function* () {
-  yield* cleanup(name);  // Cleanup first (idempotent)
-  yield* createResource({ accountId: getAccountId(), name });
-  return yield* effect;
-}).pipe(Effect.ensuring(cleanup(name)));
-\`\`\`
+  class Reviewer extends Agent(`${service}/${op.operationName}/Reviewer`)`
+Review ${TestFile} against ${TestPlan}.
 
-### 3. Run Tests
-\`\`\`bash
-bun vitest run test/services/${service.name}/${op.operationName}.test.ts
-\`\`\`
+## Checklist
+- [ ] Uses \`test()\` from \`../../test.ts\`
+- [ ] Uses \`Effect.gen(function* () { ... })\`
+- [ ] Uses \`yield*\` not await
+- [ ] Error tests use \`Effect.flip\`
+- [ ] Helpers use cleanup-first + \`Effect.ensuring()\`
+- [ ] Names: \`distilled-cf-${service}-*\`
+- [ ] No Date.now/Math.random/UUIDs
 
-### 4. Handle UnknownCloudflareError
-When you see \`UnknownCloudflareError\` in test output:
+Check ${ErrorPatch} for any patches.
+` {}
 
-1. **Extract the error code** from the failure message
-2. **Create/update patch file** at \`patch/${service.name}/${op.operationName}.json\`:
- \`\`\`json
- {
-   "errors": {
-     "ErrorTagName": [{ "code": XXXX }]
-   }
- }
- \`\`\`
-3. **Regenerate the service:**
- \`\`\`bash
- bun generate --service ${service.name}
- \`\`\`
-4. **Import the new error class** and update your test
+  // Operation coordinator
+  return class Operation extends Agent(`${service}/${op.operationName}`)`
+Coordinate ${service}/${op.operationName} test implementation.
 
-### 5. Mark Todos Complete
-After implementing each todo, update its status to \`completed\` using \`todowrite\`.
+## Operation
+- ${op.httpMethod} ${op.urlTemplate}
+- Resource: ${op.resourceName}
 
-## Important Conventions
-- **Resource names:** Always use \`distilled-cf-${service.name}-{testname}\` (deterministic, no random values)
-- **Never use:** \`Date.now()\`, \`Math.random()\`, UUIDs
-- **Use \`yield*\`** to call operations (not \`await\`)
-- **Use \`Effect.gen(function* () { ... })\`** for test bodies
+## Team
+- ${Designer} → ${TestPlan}
+- ${Developer} → ${TestFile}, ${ErrorPatch}
+- ${Reviewer} verifies
 
-## Output Format
-When you are done (or blocked), return a summary of your work:
+## Artifacts
+- ${ServiceClient}
+- ${TestPlan}
+- ${TestFile}
+- ${ErrorPatch}
 
-### Files Changed
-List each file you created or modified.
+## Workflow
+1. ${Designer} creates ${TestPlan}
+2. ${Developer} implements ${TestFile}
+3. Run: \`bun vitest run test/services/${service}/${op.operationName}.test.ts\`
+4. On UnknownCloudflareError: update ${ErrorPatch}, regenerate, retry
+5. ${Reviewer} approves or requests changes
+6. Loop until approved, then commit
+` {};
+})}
 
-### Tests Added
-List each test case you implemented with a brief description.
+## Commands
+- Generate: \`bun generate --service ${service.name}\`
+- Test all: \`bun vitest run test/services/${service.name}/\`
 
-### Patches Created
-List any error patches you added to \`patch/${service.name}/${op.operationName}.json\`.
-
-### Blockers
-If you encountered any blockers, describe them here.
-
-### Status
-Either "complete" (all todos done) or "in_progress" (more work needed).`,
-              });
-
-              // Reviewer evaluates the coder's work against the plan
-              const reviewer = yield* agent("reviewer", {
-                toolkit: Toolkit.ReadOnly,
-                description: `You are a code reviewer for the Cloudflare ${op.operationName} test implementation.
-
-## Input
-You will receive a message containing:
-1. **The Test Plan** - What the coder was supposed to implement
-2. **The Coder's Summary** - What the coder claims to have done
-
-Your job is to verify the coder's work matches the plan by reading the actual files.
-
-## IMPORTANT: Do NOT search or glob for files
-All file paths are provided below. Read them directly - do not use glob or grep to find files.
-
-## Files to Review (read these directly)
-- \`test/services/${service.name}/${op.operationName}.test.ts\` - Main test file
-- \`patch/${service.name}/${op.operationName}.json\` - Error patches (if any)
-- \`src/services/${service.name}.ts\` - Reference for operation signature
-
-## Review Checklist
-
-### 1. Todo Completion
-Use \`todoread\` to check the todo list:
-- Are all todos marked as \`completed\`?
-- If any are \`pending\` or \`in_progress\`, the implementation is NOT complete
-
-### 2. Test Structure
-Verify the test file follows conventions:
-- Uses \`test()\` from \`"../../test.ts"\` (not vitest's \`it\`)
-- Test bodies use \`Effect.gen(function* () { ... })\`
-- Uses \`yield*\` to call operations
-
-### 3. Happy Path Coverage
-Check that success cases are tested:
-- Basic operation with minimal required params
-- Variations with optional params (if applicable)
-- Assertions on response properties
-
-### 4. Error Coverage
-Check that error cases are handled:
-- Each \`UnknownCloudflareError\` should be patched and tested
-- Error tests use \`Effect.flip\` pattern
-- Error assertions check \`e._tag\`
-
-### 5. Helper Quality
-If helpers exist, verify:
-- Cleanup-first pattern (idempotent)
-- Uses \`Effect.ensuring()\` for guaranteed cleanup
-- Cleanup catches all errors: \`Effect.catchAll(() => Effect.void)\`
-- Uses deterministic names: \`distilled-cf-${service.name}-*\`
-
-### 6. Resource Naming
-Verify no random values:
-- No \`Date.now()\`
-- No \`Math.random()\`
-- No UUIDs
-- All names follow \`distilled-cf-${service.name}-{testname}\` pattern
-
-## Your Response
-Return a structured response indicating:
-- \`complete: true\` if all checks pass
-- \`complete: false\` with \`feedback\` explaining what's missing
-- Include \`missingTests\` array if test cases are missing
-- Include \`issues\` array if there are problems to fix`,
-              });
-
-              // Get the initial plan from designer
-              let plan = yield* designer.send(prompt);
-
-              // Write the plan to a file for reference
-              const fs = yield* FileSystem.FileSystem;
-              const planPath = `plan/${service.name}/${op.operationName}.md`;
-              yield* fs.makeDirectory(`plan/${service.name}`, {
-                recursive: true,
-              });
-              yield* fs.writeFileString(planPath, plan);
-
-              // 2. Coder/Reviewer loop
-              let isComplete = false;
-              let iteration = 0;
-              const maxIterations = 5;
-
-              while (!isComplete && iteration < maxIterations) {
-                iteration++;
-
-                // Coder receives the plan and returns a summary
-                const coderSummary = yield* coder.send(plan);
-
-                // Reviewer receives both the plan and coder's summary
-                const reviewerInput = `## Test Plan\n\n${plan}\n\n---\n\n## Coder's Summary\n\n${coderSummary}`;
-                const review = yield* reviewer.query(
-                  reviewerInput,
-                  ReviewResult,
-                );
-
-                isComplete = review.complete;
-                if (!isComplete) {
-                  // Designer receives coder's summary + reviewer feedback to create updated plan
-                  const designerInput = `## Previous Plan\n\n${plan}\n\n---\n\n## Coder's Work Summary\n\n${coderSummary}\n\n---\n\n## Reviewer Feedback\n\n${review.feedback}\n\nPlease provide an updated plan addressing the reviewer's feedback. The coder has already completed the work described in their summary - focus on what still needs to be done.`;
-                  plan = yield* designer.send(designerInput);
-
-                  // Update the plan file
-                  yield* fs.writeFileString(planPath, plan);
-                }
-              }
-
-              return `Workflow complete after ${iteration} iteration(s)`;
-            }),
-          );
-        }),
-      ),
-    );
-  }),
-});
+Delegate to operation sub-agents for implementation.
+` {},
+)}
+` {}

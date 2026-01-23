@@ -1,4 +1,5 @@
 import { FileSystem } from "@effect/platform";
+import { NodeContext } from "@effect/platform-node";
 import { Effect } from "effect";
 import * as path from "node:path";
 import * as ts from "typescript";
@@ -948,3 +949,6 @@ export const parseCode = (options: ParseOptions) => {
   const { basePath, serviceFilter } = options;
   return parseServiceFiles(basePath, serviceFilter);
 };
+
+export const loadModel = (options: ParseOptions) =>
+  parseCode(options).pipe(Effect.provide(NodeContext.layer), Effect.runPromise);

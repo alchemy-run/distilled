@@ -10,6 +10,21 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "default": "./lib/index.js"
+    },
+    "./file": {
+      "types": "./lib/file/index.d.ts",
+      "bun": "./src/file/index.ts",
+      "default": "./lib/file/index.js"
+    },
+    "./tool": {
+      "types": "./lib/tool/index.d.ts",
+      "bun": "./src/tool/index.ts",
+      "default": "./lib/tool/index.js"
+    },
+    "./toolkit": {
+      "types": "./lib/toolkit/index.d.ts",
+      "bun": "./src/toolkit/index.ts",
+      "default": "./lib/toolkit/index.js"
     }
   },
   "publishConfig": {

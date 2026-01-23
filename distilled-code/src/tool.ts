@@ -31,6 +31,24 @@ export interface Tool<
   new (_: never): ITool<Name, Input, Output, Err, Req, References>;
 }
 
+export declare namespace Tools {
+  export type Of<References extends any[]> = References extends [
+    infer Ref,
+    ...infer Rest,
+  ]
+    ? Ref extends ITool<
+        infer _Name extends string,
+        infer _Input,
+        infer _Output,
+        infer _Err,
+        infer _Req,
+        infer _References
+      >
+      ? [Ref, ...Tools.Of<Rest>]
+      : Tools.Of<Rest>
+    : [];
+}
+
 export const tool =
   <Name extends string>(
     name: Name,

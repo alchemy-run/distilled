@@ -1,5 +1,4 @@
 import type { Fragment } from "../fragment.ts";
-import type { Tool } from "../tool.ts";
 
 export interface IDocument<
   Name extends string,
@@ -15,10 +14,7 @@ export type Document<Name extends string, References extends any[]> = Fragment<
 };
 
 export const Document =
-  <Name extends string, Tools extends Record<string, Tool<any, any, any>> = {}>(
-    name: Name,
-    tools?: Tools,
-  ) =>
+  <Name extends string>(name: Name) =>
   <References extends any[]>(
     template: TemplateStringsArray,
     ...references: References
