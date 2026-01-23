@@ -309,52 +309,55 @@ const withDataSource = <A, E, R>(
 
   test(
     "create, get, list, and delete a type",
-    withGraphqlApi("distilled-appsync-types", { withSchema: true }, ({ apiId }) =>
-      Effect.gen(function* () {
-        const typeName = "TestCustomType";
-        const typeDefinition = `
+    withGraphqlApi(
+      "distilled-appsync-types",
+      { withSchema: true },
+      ({ apiId }) =>
+        Effect.gen(function* () {
+          const typeName = "TestCustomType";
+          const typeDefinition = `
         type ${typeName} {
           id: ID!
           value: String!
         }
       `;
 
-        // Create a type
-        const createResult = yield* createType({
-          apiId,
-          definition: typeDefinition,
-          format: "SDL",
-        }).pipe(Effect.retry(retrySchedule));
-
-        expect(createResult.type).toBeDefined();
-
-        try {
-          // Get the type
-          const getResult = yield* getType({
+          // Create a type
+          const createResult = yield* createType({
             apiId,
-            typeName,
+            definition: typeDefinition,
             format: "SDL",
-          });
+          }).pipe(Effect.retry(retrySchedule));
 
-          expect(getResult.type?.name).toEqual(typeName);
+          expect(createResult.type).toBeDefined();
 
-          // List types
-          const listResult = yield* listTypes({
-            apiId,
-            format: "SDL",
-          });
+          try {
+            // Get the type
+            const getResult = yield* getType({
+              apiId,
+              typeName,
+              format: "SDL",
+            });
 
-          expect(listResult.types).toBeDefined();
-          const found = listResult.types?.find((t) => t.name === typeName);
-          expect(found).toBeDefined();
-        } finally {
-          // Delete the type
-          yield* deleteType({
-            apiId,
-            typeName,
-          }).pipe(Effect.ignore);
-        }
-      }),
+            expect(getResult.type?.name).toEqual(typeName);
+
+            // List types
+            const listResult = yield* listTypes({
+              apiId,
+              format: "SDL",
+            });
+
+            expect(listResult.types).toBeDefined();
+            const found = listResult.types?.find((t) => t.name === typeName);
+            expect(found).toBeDefined();
+          } finally {
+            // Delete the type
+            yield* deleteType({
+              apiId,
+              typeName,
+            }).pipe(Effect.ignore);
+          }
+        }),
     ),
   );
 
