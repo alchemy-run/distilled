@@ -5,14 +5,16 @@ import type { Fragment } from "../fragment.ts";
 import { isInput, type Input } from "../input.ts";
 import { isOutput, type Output } from "../output.ts";
 
+export const isTool = (x: any): x is Tool => x?.type === "tool";
+
 export interface ITool<
-  Name extends string,
+  ID extends string,
   Input,
   Output,
   Err = never,
   Req = never,
   References extends any[] = any[],
-> extends Fragment<"tool", Name, References> {
+> extends Fragment<"tool", ID, References> {
   readonly input: S.Schema<Input>;
   readonly output: S.Schema<Output>;
   readonly alias: ((model: string) => string | undefined) | undefined;
@@ -22,15 +24,16 @@ export interface ITool<
   /** @internal phantom */
   readonly Req: Req;
 }
+
 export interface Tool<
-  Name extends string = string,
+  ID extends string = string,
   Input = any,
   Output = any,
   Err = any,
   Req = any,
   References extends any[] = any[],
-> extends ITool<Name, Input, Output, Err, Req, References> {
-  new (_: never): ITool<Name, Input, Output, Err, Req, References>;
+> extends ITool<ID, Input, Output, Err, Req, References> {
+  new (_: never): ITool<ID, Input, Output, Err, Req, References>;
 }
 
 export declare namespace Tools {
@@ -39,7 +42,7 @@ export declare namespace Tools {
     ...infer Rest,
   ]
     ? Ref extends ITool<
-        infer _Name extends string,
+        infer _ID extends string,
         infer _Input,
         infer _Output,
         infer _Err,
@@ -52,8 +55,8 @@ export declare namespace Tools {
 }
 
 export const tool =
-  <Name extends string>(
-    name: Name,
+  <ID extends string>(
+    id: ID,
     options?: {
       alias?: (model: string) => string | undefined;
     },
@@ -69,7 +72,7 @@ export const tool =
   ) =>
     ({
       type: "tool",
-      name,
+      id,
       alias: options?.alias,
       input: deriveSchema(references, isInput),
       output: deriveSchema(references, isOutput) ?? S.Any,
@@ -77,7 +80,7 @@ export const tool =
       template,
       handler: Effect.fn(handler),
     }) as any as Tool<
-      Name,
+      ID,
       {
         [prop in keyof Input.Of<References>]: Input.Of<References>[prop];
       },
@@ -105,9 +108,17 @@ const deriveSchema = (
   }
   return S.Struct(
     Object.fromEntries(
-      references
-        .filter(predicate)
-        .map((artifact) => [artifact.name, artifact.schema]),
+      references.filter(predicate).map((artifact) => {
+        // Get the description from the template if available
+        const description = artifact.template
+          ? artifact.template.join("").trim()
+          : undefined;
+        // Annotate the schema with the description if present
+        const schema = description
+          ? artifact.schema.annotations({ description })
+          : artifact.schema;
+        return [artifact.id, schema];
+      }),
     ),
   );
 };

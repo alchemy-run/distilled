@@ -41,7 +41,8 @@
       "pathe": "^2.0.3",
       "typescript": "^5",
       "vitest": "latest",
-      "web-tree-sitter": "latest"
+      "web-tree-sitter": "latest",
+      "yaml": "^2.8.2"
     }
   },
   "devDependencies": {

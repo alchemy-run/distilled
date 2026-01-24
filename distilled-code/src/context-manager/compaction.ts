@@ -2,7 +2,7 @@ import * as LLM from "@effect/ai/LanguageModel";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { AgentState, type MessageEncoded } from "../state.ts";
-import { ContextManager, ContextManagerError } from "./context.ts";
+import { ContextManager, ContextManagerError } from "./context-manager.ts";
 import { estimateTokens, estimateTotalTokens } from "./estimate.ts";
 
 /**

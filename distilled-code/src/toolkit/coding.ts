@@ -4,7 +4,7 @@ import { glob } from "../tool/glob.ts";
 import { grep } from "../tool/grep.ts";
 import { read } from "../tool/read.ts";
 import { readlints } from "../tool/readlints.ts";
-import { Toolkit } from "../toolkit.ts";
+import { Toolkit } from "./toolkit.ts";
 // import { task } from "./task.ts";
 // import { todo } from "./todo.ts";
 import { write } from "../tool/write.ts";

@@ -4,7 +4,12 @@ export interface Fragment<
   References extends any[],
 > {
   readonly type: Type;
-  readonly name: Name;
+  /**
+   * The identifier for this fragment.
+   * Uses `id` instead of `name` to avoid conflicts with JavaScript's
+   * built-in `name` property on classes/functions.
+   */
+  readonly id: Name;
   readonly template: TemplateStringsArray;
   readonly references: References;
 }

@@ -40,21 +40,21 @@ export declare namespace Input {
 }
 
 export const input = <
-  const Name extends string,
+  const ID extends string,
   Schema extends S.Struct.Field = S.Schema<string>,
 >(
-  name: Name,
+  id: ID,
   schema: Schema = S.String as any as Schema,
   options: {
     description?: string;
   } = {},
-): Input<Name, Schema, []> => {
+): Input<ID, Schema, []> => {
   const props = (
     template: TemplateStringsArray | undefined,
     references: any[],
   ) => ({
     type: "input",
-    name,
+    id,
     schema,
     description: options?.description,
     template,
@@ -63,7 +63,7 @@ export const input = <
   const input = (template: TemplateStringsArray, ...references: any[]) =>
     Object.assign(input, props(template, references));
   return Object.assign(input, props(undefined, [])) as any as Input<
-    Name,
+    ID,
     Schema,
     []
   >;

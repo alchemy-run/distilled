@@ -1,27 +1,11 @@
-import type { Fragment } from "../fragment.ts";
+import { File } from "./file.ts";
 
-export interface ITypeScript<
-  Name extends string,
-  References extends any[],
-> extends Fragment<"typescript", Name, References> {}
-
-export type TypeScript<
-  Name extends string,
-  References extends any[],
-> = Fragment<"typescript", Name, References> & {
-  new (_: never): ITypeScript<Name, References>;
-};
+export type TypeScriptID = `${string}.ts` | `${string}.tsx`;
 
 export const TypeScript =
-  <Name extends string>(name: Name) =>
+  <ID extends TypeScriptID>(id: ID) =>
   <References extends any[]>(
     template: TemplateStringsArray,
     ...references: References
   ) =>
-    class {
-      static readonly type = "typescript";
-      static readonly name = name;
-      static readonly references = references;
-      static readonly template = template;
-      constructor(_: never) {}
-    } as TypeScript<Name, References>;
+    File(id, "typescript")(template, ...references);

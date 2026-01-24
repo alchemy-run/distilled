@@ -2,16 +2,13 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/context/passthrough.ts"
+    "src/context-manager/passthrough.ts"
   ],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./lib",
     // Enable latest features
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "moduleDetection": "force",
     "allowJs": true,

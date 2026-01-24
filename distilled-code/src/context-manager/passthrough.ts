@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { AgentState, type MessageEncoded } from "../state.ts";
-import { ContextManager, ContextManagerError } from "./context.ts";
+import { ContextManager, ContextManagerError } from "./context-manager.ts";
 /**
  * Naive context manager - passes through messages unmodified.
  * Filters out system messages from history (system prompt is added fresh).

@@ -33,7 +33,9 @@ export declare namespace Output {
     Outputs = never,
     Primitives = never,
   > = References extends []
-    ? Outputs | Primitives
+    ? Outputs | Primitives extends never
+      ? void
+      : Outputs | Primitives
     : References extends [infer Ref, ...infer Rest]
       ? Ref extends IOutput<
           infer Name extends string,
@@ -55,15 +57,27 @@ export declare namespace Output {
 }
 
 export const output = <
-  Name extends string,
+  ID extends string,
   Schema extends S.Schema<any> = S.Schema<string>,
 >(
-  name: Name,
+  id: ID,
   schema: Schema = S.String as any as Schema,
-): Output<Name, Schema, []> => {
-  return Object.assign(function () {}, {
+): Output<ID, Schema, []> => {
+  const props = (
+    template: TemplateStringsArray | undefined,
+    references: any[],
+  ) => ({
     type: "output",
-    name,
+    id,
     schema,
-  }) as any as Output<Name, Schema, []>;
+    template,
+    references,
+  });
+  const output = (template: TemplateStringsArray, ...references: any[]) =>
+    Object.assign(output, props(template, references));
+  return Object.assign(output, props(undefined, [])) as any as Output<
+    ID,
+    Schema,
+    []
+  >;
 };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { AiError } from "@effect/ai/AiError";
 import * as Chat from "@effect/ai/Chat";
 import type {
@@ -12,7 +11,6 @@ import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import type { Fragment } from "./fragment.ts";
 import { AgentState } from "./state.ts";
-import type { Tool } from "./tool/tool.ts";
 
 export const isAgent = (x: any): x is Agent => x?.type === "agent";
 
@@ -29,18 +27,18 @@ export type Agent<
 };
 
 export const Agent =
-  <Name extends string>(name: Name) =>
+  <ID extends string>(id: ID) =>
   <References extends any[]>(
     template: TemplateStringsArray,
     ...references: References
   ) =>
     class {
       static readonly type = "agent";
-      static readonly name = name;
+      static readonly id = id;
       static readonly references = references;
       static readonly template = template;
       constructor(_: never) {}
-    } as Agent<Name, References>;
+    } as Agent<ID, References>;
 
 export interface SpawnedAgent {
   send: (prompt: string) => Effect.Effect<void, AiError, LanguageModel>;
@@ -57,7 +55,7 @@ export const spawn: (
 ) {
   const state = yield* AgentState;
 
-  const agentState = yield* state.get(agent.name);
+  const agentState = yield* state.get(agent.id);
 
   const chat = yield* Chat.fromPrompt(agentState.messages);
 
@@ -131,28 +129,4 @@ export const spawn: (
         }),
       ),
   } satisfies SpawnedAgent;
-});
-
-const createContext = (agent: Agent) => {
-  // TODO
-  // return agent.references
-  //   .filter(isAgent)
-  //   .map(spawn)
-  //   .map(createContext)
-  //   .join("\n");
-};
-
-const createEffectTool = Effect.fn(function* <T extends Tool>(tool: T) {
-  EffectTool.make(tool.name, {
-    description: tool.template.map((t, i) => {
-      return `${t}${i}`;
-    }),
-  }) as any as EffectTool.Tool<
-    T["name"],
-    any,
-    // {
-    //   parameters: T["input"]["Fields"];
-    // },
-    T["Req"]
-  >;
 });

@@ -46,7 +46,8 @@
     "@effect/platform-node": "catalog:",
     "diff": "catalog:",
     "effect": "catalog:",
-    "web-tree-sitter": "catalog:"
+    "web-tree-sitter": "catalog:",
+    "yaml": "catalog:"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",

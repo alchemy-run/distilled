@@ -6,7 +6,7 @@
  * Designer, Developer, and Reviewer agents working on specific files.
  */
 
-import { Agent, File, Tool, Toolkit } from "distilled-code";
+import { Agent, File, Toolkit } from "distilled-code";
 import { loadModel } from "./scripts/parse.ts";
 
 const SDK_PATH = "../../cloudflare-typescript/src/resources";
@@ -39,11 +39,6 @@ ${services.map(
   (service) =>
     class Service extends Agent(`${service.name}`)`
 Coordinate development of ${service.name}'s ${service.operations.length} operations.
-
-## Commands
-Use ${Tool.bash} to run commands:
-- Generate: \`bun generate --service ${service.name}\`
-- Test all: \`bun vitest run test/services/${service.name}/\`
 
 ## Operations
 ${service.operations.map((op) => `- ${op.operationName} (${op.httpMethod})`)}
