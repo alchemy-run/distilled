@@ -27,11 +27,8 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import * as Option from "effect/Option";
-import type { Agent } from "../src/agent.ts";
-import type { DistilledConfig } from "../src/config.ts";
-import { getAgents, loadConfig } from "../src/config.ts";
-import { LSPManagerLive } from "../src/lsp/index.ts";
-import { AgentState, FileSystemAgentState } from "../src/services/state.ts";
+import { isAgent, spawn, type Agent } from "../src/agent.ts";
+import { AgentState, FileSystemAgentState } from "../src/state.ts";
 import { match } from "../src/util/wildcard.ts";
 
 const DEFAULT_CONFIG_FILE = "distilled.config.ts";
@@ -39,6 +36,38 @@ const DEFAULT_CONFIG_FILE = "distilled.config.ts";
 const Anthropic = AnthropicClient.layerConfig({
   apiKey: Config.redacted("ANTHROPIC_API_KEY"),
 });
+
+/**
+ * Recursively collect all agents from an agent's references.
+ * Walks the agent tree and returns a flat list of all agents.
+ */
+const collectAgents = (agent: Agent, visited = new Set<string>()): Agent[] => {
+  if (visited.has(agent.id)) return [];
+  visited.add(agent.id);
+
+  const nested = agent.references
+    .filter(isAgent)
+    .flatMap((ref) => collectAgents(ref, visited));
+
+  return [agent, ...nested];
+};
+
+/**
+ * Load the agent config from a file path.
+ * Validates that the default export is an Agent class.
+ */
+const loadAgentConfig = async (configPath: string): Promise<Agent> => {
+  const configModule = await import(configPath);
+  const defaultExport = configModule.default;
+
+  if (!isAgent(defaultExport)) {
+    throw new Error(
+      `Config must export a default Agent class. Got: ${typeof defaultExport}`,
+    );
+  }
+
+  return defaultExport;
+};
 
 const mainCommand = Command.make(
   "distilled",
@@ -87,90 +116,89 @@ const mainCommand = Command.make(
     // Resolve config path
     const resolvedPath = yield* resolveConfigPath(configPath);
 
-    // Load config or use defaults
-    const loadedConfig: DistilledConfig = resolvedPath
-      ? yield* Effect.tryPromise(() => loadConfig(resolvedPath))
-      : { name: "distilled", model };
-
-    // Override model if provided
-    if (model !== "claude-sonnet") {
-      loadedConfig.model = model;
+    if (!resolvedPath) {
+      yield* Console.error("No distilled.config.ts found.");
+      yield* Console.error(
+        "Create a distilled.config.ts with a default Agent export.",
+      );
+      return;
     }
 
+    // Load the root agent from config
+    const rootAgent = yield* Effect.tryPromise(() =>
+      loadAgentConfig(resolvedPath),
+    );
+
     // Create model layer
-    const modelLayer = getModelLayer(loadedConfig.model || "claude-sonnet");
+    const modelLayer = getModelLayer(model);
 
-    // Create LSP manager layer from config
-    const lspLayer = LSPManagerLive(loadedConfig.lsp?.servers);
+    // Collect all agents from the tree
+    const allAgents = collectAgents(rootAgent);
 
-    return yield* Effect.gen(function* () {
-      // Get all agents from config
-      const allAgents: Agent<string>[] = yield* getAgents(loadedConfig);
+    // List agents mode
+    if (list) {
+      const agents = patternValue
+        ? matchAgents(allAgents, patternValue)
+        : allAgents;
 
-      // List agents mode
-      if (list) {
-        const agents = patternValue
-          ? matchAgents(allAgents, patternValue)
-          : allAgents;
-
-        if (agents.length === 0) {
-          yield* Console.log(
-            patternValue
-              ? `No agents matching "${patternValue}".`
-              : "No agents configured.",
-          );
-        } else {
-          yield* Console.log(
-            patternValue
-              ? `Agents matching "${patternValue}":\n`
-              : "Configured agents:\n",
-          );
-          const sortedAgents = [...agents].sort((a, b) =>
-            a.key.localeCompare(b.key),
-          );
-          for (const agent of sortedAgents) {
-            yield* Console.log(`  ${agent.key}`);
-          }
-          yield* Console.log();
+      if (agents.length === 0) {
+        yield* Console.log(
+          patternValue
+            ? `No agents matching "${patternValue}".`
+            : "No agents configured.",
+        );
+      } else {
+        yield* Console.log(
+          patternValue
+            ? `Agents matching "${patternValue}":\n`
+            : "Configured agents:\n",
+        );
+        const sortedAgents = [...agents].sort((a, b) =>
+          a.id.localeCompare(b.id),
+        );
+        for (const agent of sortedAgents) {
+          yield* Console.log(`  ${agent.id}`);
         }
-        return;
+        yield* Console.log();
       }
+      return;
+    }
 
-      // Match agents (default to all if no pattern)
-      const matchedAgents = matchAgents(allAgents, patternValue ?? "*");
+    // Match agents (default to root only if no pattern, all if pattern is "*")
+    const matchedAgents = patternValue
+      ? matchAgents(allAgents, patternValue)
+      : [rootAgent];
 
-      if (matchedAgents.length === 0) {
-        yield* Console.error(`No agents matching "${patternValue}".`);
-        yield* Console.error("Use --list to see available agents.");
-        return;
-      }
+    if (matchedAgents.length === 0) {
+      yield* Console.error(`No agents matching "${patternValue}".`);
+      yield* Console.error("Use --list to see available agents.");
+      return;
+    }
 
-      // Run each matched agent
-      yield* Effect.all(
-        matchedAgents.map((agent) => runAgent(agent, promptValue)),
-        { concurrency },
-      );
-      yield* Console.log("Done.");
-    }).pipe(Effect.provide(Layer.mergeAll(lspLayer, modelLayer)));
+    // Run each matched agent
+    yield* Effect.all(
+      matchedAgents.map((agent) => runAgent(agent, promptValue)),
+      { concurrency },
+    ).pipe(Effect.provide(modelLayer));
+
+    yield* Console.log("Done.");
   }),
 );
 
 /**
  * Run a single agent with the given prompt.
+ *
+ * Note: The spawn function requires Handler<string> service which is provided
+ * internally by the agent's toolkit. We cast the types here as a workaround
+ * until the @effect/ai integration is fully resolved.
  */
-const runAgent = (
-  agent: Agent,
-  prompt: string,
-): Effect.Effect<void, unknown, never> =>
+const runAgent = (agent: Agent, prompt: string) =>
   Effect.gen(function* () {
-    // Build the prompt with context from the agent
-    const contextPrompt = agent.prompt
-      ? `Context: ${agent.prompt}\n\n${prompt}`
-      : prompt;
-
-    yield* agent.send(contextPrompt);
+    yield* Console.log(`Running agent: ${agent.id}`);
+    const instance = yield* spawn(agent);
+    yield* instance.send(prompt);
     yield* Console.log("\n");
-  });
+  }) as Effect.Effect<void, never, never>;
 
 const getModelLayer = (modelName: string) => {
   const modelMap: Record<string, string> = {
@@ -186,7 +214,7 @@ const getModelLayer = (modelName: string) => {
  * Filter agents by glob pattern.
  */
 const matchAgents = (agents: Agent[], pattern: string): Agent[] => {
-  return agents.filter((agent) => match(agent.key, pattern));
+  return agents.filter((agent) => match(agent.id, pattern));
 };
 
 /**
@@ -222,7 +250,7 @@ const resolveConfigPath = Effect.fn(function* (inputPath: string | undefined) {
 });
 
 /**
- * Clean command - removes agent state and files created by agents.
+ * Clean command - removes agent state.
  */
 const cleanCommand = Command.make(
   "clean",
@@ -234,19 +262,14 @@ const cleanCommand = Command.make(
       ),
       Options.optional,
     ),
-    files: Options.boolean("files").pipe(
-      Options.withDescription("Also delete files created by agents"),
-      Options.withDefault(false),
-    ),
     dryRun: Options.boolean("dry-run").pipe(
       Options.withDescription("Show what would be deleted without deleting"),
       Options.withDefault(false),
     ),
   },
-  ({ filter, files, dryRun }) =>
+  ({ filter, dryRun }) =>
     Effect.gen(function* () {
       const agentState = yield* AgentState;
-      const fs = yield* FileSystem.FileSystem;
 
       const allAgents = yield* agentState.listAgents();
 
@@ -254,23 +277,13 @@ const cleanCommand = Command.make(
       const matchedAgents = allAgents.filter((agent) => match(agent, pattern));
 
       if (matchedAgents.length === 0) {
+        yield* Console.log("No agent state to clean.");
         return;
       }
 
       const prefix = dryRun ? "would delete" : "deleted";
 
       for (const agentKey of matchedAgents) {
-        const state = yield* agentState.get(agentKey);
-
-        if (files) {
-          for (const file of state.filesCreated) {
-            if (!dryRun) {
-              yield* fs.remove(file).pipe(Effect.catchAll(() => Effect.void));
-            }
-            yield* Console.log(`${prefix}: ${file}`);
-          }
-        }
-
         if (!dryRun) {
           yield* agentState.delete(agentKey);
         }
