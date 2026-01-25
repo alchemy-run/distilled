@@ -49,6 +49,17 @@ export interface AgentContext {
   toolkit: EffectToolkit.Toolkit<Record<string, EffectTool.Any>>;
 }
 
+/**
+ * Options for creating an agent context.
+ */
+export interface CreateContextOptions {
+  /**
+   * Additional toolkits to include in the context.
+   * These are merged with toolkits discovered from the agent's references.
+   */
+  tools?: Toolkit[];
+}
+
 interface FileEntry {
   id: string;
   language: string;
@@ -56,7 +67,10 @@ interface FileEntry {
   content: string;
 }
 
-export const createContext: (agent: Agent) => Effect.Effect<
+export const createContext: (
+  agent: Agent,
+  options?: CreateContextOptions,
+) => Effect.Effect<
   {
     system: string;
     toolkit: EffectToolkit.Toolkit<{
@@ -65,7 +79,8 @@ export const createContext: (agent: Agent) => Effect.Effect<
   },
   never,
   FileSystem.FileSystem
-> = Effect.fn(function* (agent: Agent) {
+> = Effect.fn(function* (agent: Agent, options?: CreateContextOptions) {
+  const additionalToolkits = options?.tools ?? [];
   const fs = yield* FileSystem.FileSystem;
 
   const visited = new Set<string>();
@@ -76,7 +91,15 @@ export const createContext: (agent: Agent) => Effect.Effect<
   // Collect all references first (sync), then read files (async)
   const pendingFiles: Array<{ ref: File }> = [];
 
-  const collect = (rawRef: any): void => {
+  /**
+   * Collects references with depth tracking.
+   * Only direct references (depth=1) are embedded in the context.
+   * Transitive references (depth>1) are accessible via send/query tools.
+   *
+   * @param rawRef - The reference to collect
+   * @param depth - Current depth level (1 = direct reference from root)
+   */
+  const collect = (rawRef: any, depth: number): void => {
     // Resolve thunks to get the actual reference
     const ref = resolveThunk(rawRef);
 
@@ -88,31 +111,57 @@ export const createContext: (agent: Agent) => Effect.Effect<
     visited.add(key);
 
     if (isAgent(ref)) {
-      agents.push({
-        id: ref.id,
-        content: renderTemplate(ref.template, ref.references),
-      });
-      ref.references.forEach(collect);
+      // Only embed direct agent references (depth=1)
+      if (depth <= 1) {
+        agents.push({
+          id: ref.id,
+          content: renderTemplate(ref.template, ref.references),
+        });
+      }
+      // Do NOT recurse into agent references - transitive agents are accessed via tools
     } else if (isFile(ref)) {
-      pendingFiles.push({ ref });
-      ref.references.forEach(collect);
+      // Only embed files from direct references (depth=1)
+      if (depth <= 1) {
+        pendingFiles.push({ ref });
+        // Continue collecting from file references at same depth
+        ref.references.forEach((r: any) => collect(r, depth));
+      }
     } else if (isToolkit(ref)) {
-      toolkits.push({
-        id: ref.id,
-        content: renderTemplate(ref.template, ref.references).trim(),
-      });
-      ref.references.forEach(collect);
+      // Only embed toolkits from direct references (depth=1)
+      if (depth <= 1) {
+        toolkits.push({
+          id: ref.id,
+          content: renderTemplate(ref.template, ref.references).trim(),
+        });
+        // Continue collecting from toolkit references at same depth (for files, etc.)
+        ref.references.forEach((r: any) => collect(r, depth));
+      }
     } else if (isTool(ref)) {
       // Tools can reference files, agents, etc. in their descriptions
-      ref.references?.forEach(collect);
+      // Only collect if at depth 1
+      if (depth <= 1) {
+        ref.references?.forEach((r: any) => collect(r, depth));
+      }
     }
   };
 
   // Render the root agent template
   const rootContent = renderTemplate(agent.template, agent.references);
 
-  // Collect all references from root
-  agent.references.forEach(collect);
+  // Collect all references from root at depth=1 (direct references)
+  agent.references.forEach((r) => collect(r, 1));
+
+  // Add additional toolkits to the system prompt
+  for (const toolkit of additionalToolkits) {
+    const key = `${toolkit.type}:${toolkit.id}`;
+    if (!visited.has(key)) {
+      visited.add(key);
+      toolkits.push({
+        id: toolkit.id,
+        content: renderTemplate(toolkit.template, toolkit.references).trim(),
+      });
+    }
+  }
 
   // Read all files in parallel
   for (const { ref } of pendingFiles) {
@@ -170,11 +219,12 @@ export const createContext: (agent: Agent) => Effect.Effect<
     sections.push("\n");
   }
 
-  // Build the combined Effect toolkit from all collected toolkits
+  // Build the combined Effect toolkit from all collected and additional toolkits
   const collectedToolkits = collectToolkits(agent);
+  const allToolkits = [...collectedToolkits, ...additionalToolkits];
   const effectToolkit =
-    collectedToolkits.length > 0
-      ? EffectToolkit.merge(...collectedToolkits.map(createEffectToolkit))
+    allToolkits.length > 0
+      ? EffectToolkit.merge(...allToolkits.map(createEffectToolkit))
       : EffectToolkit.empty;
 
   return {
@@ -193,12 +243,23 @@ export const createPreamble = (agentId: string): string =>
 
 Throughout this context, you will see the following symbols:
 
-- \`@name\` - References an agent you can delegate tasks to
+- \`@name\` - References an agent you can communicate with
 - \`🧰name\` - References a toolkit containing related tools
 - \`🛠️name\` - References a tool you can use
 - \`[filename](path)\` - References a file in the codebase
-- \`\${input:name}\` - References a tool input parameter
-- \`\${output:name}\` - References a tool output field
+- \`\${name}\` - References a tool input parameter
+- \`^{name}\` - References a tool output field
+
+## Agent Communication
+
+Your context includes only your **direct collaborators** (agents you reference directly).
+To gather information from other agents in the organization:
+
+- Use \`🛠️send\` to send a message to an agent and receive a response
+- Use \`🛠️query\` to request structured data from an agent
+
+Direct collaborators can themselves communicate with their own collaborators,
+forming a delegation chain. Don't hesitate to ask your collaborators for help.
 
 ---
 
@@ -221,8 +282,8 @@ function serialize(rawValue: unknown): unknown {
   }
   if (isToolkit(value)) return `🧰${value.id}`;
   if (isTool(value)) return `🛠️${value.id}`;
-  if (isInput(value)) return `\${input:${value.id}}`;
-  if (isOutput(value)) return `\${output:${value.id}}`;
+  if (isInput(value)) return `\${${value.id}}`;
+  if (isOutput(value)) return `^{${value.id}}`;
 
   // Handle primitives and functions
   if (value === null || value === undefined) return value;
@@ -256,8 +317,8 @@ function serialize(rawValue: unknown): unknown {
  * - File: [filename](path) markdown link
  * - Toolkit: 🧰{id}
  * - Tool: 🛠️{id}
- * - Input: ${input:{id}}
- * - Output: ${output:{id}}
+ * - Input: ${id}
+ * - Output: ^{id}
  * - Thunk: resolved to its actual value first
  */
 function stringify(rawValue: unknown): string {
@@ -272,8 +333,8 @@ function stringify(rawValue: unknown): string {
   }
   if (isToolkit(value)) return `🧰${value.id}`;
   if (isTool(value)) return `🛠️${value.id}`;
-  if (isInput(value)) return `\${input:${value.id}}`;
-  if (isOutput(value)) return `\${output:${value.id}}`;
+  if (isInput(value)) return `\${${value.id}}`;
+  if (isOutput(value)) return `^{${value.id}}`;
 
   // Handle primitives
   if (value === null) return "null";
@@ -303,14 +364,19 @@ function renderTemplate(
 }
 
 /**
- * Collects all toolkits from an agent's reference tree.
- * Walks through the agent and all nested agents to find toolkit references.
+ * Collects toolkits from an agent's direct references only.
+ * Only collects from depth=1 references - transitive toolkits are not included.
  */
 export const collectToolkits = (agent: Agent): Toolkit[] => {
   const toolkits: Toolkit[] = [];
   const visited = new Set<string>();
 
-  const collect = (rawRef: any): void => {
+  /**
+   * Collects toolkit references with depth tracking.
+   * @param rawRef - The reference to check
+   * @param depth - Current depth level (1 = direct reference from root)
+   */
+  const collect = (rawRef: any, depth: number): void => {
     // Resolve thunks to get the actual reference
     const ref = resolveThunk(rawRef);
 
@@ -322,18 +388,28 @@ export const collectToolkits = (agent: Agent): Toolkit[] => {
     visited.add(key);
 
     if (isToolkit(ref)) {
-      toolkits.push(ref);
-      ref.references?.forEach(collect);
+      // Only collect toolkits at depth=1
+      if (depth <= 1) {
+        toolkits.push(ref);
+        // Continue at same depth for nested toolkit references (files, etc.)
+        ref.references?.forEach((r: any) => collect(r, depth));
+      }
     } else if (isAgent(ref)) {
-      ref.references?.forEach(collect);
+      // Do NOT recurse into agent references - transitive toolkits are not included
     } else if (isFile(ref)) {
-      ref.references?.forEach(collect);
+      // Only process at depth=1
+      if (depth <= 1) {
+        ref.references?.forEach((r: any) => collect(r, depth));
+      }
     } else if (isTool(ref)) {
-      ref.references?.forEach(collect);
+      // Only process at depth=1
+      if (depth <= 1) {
+        ref.references?.forEach((r: any) => collect(r, depth));
+      }
     }
   };
 
-  agent.references?.forEach(collect);
+  agent.references?.forEach((r) => collect(r, 1));
   return toolkits;
 };
 

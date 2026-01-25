@@ -41,7 +41,7 @@ export declare namespace Input {
 
 export const input = <
   const ID extends string,
-  Schema extends S.Struct.Field = S.Schema<string>,
+  Schema extends S.Struct.Field = typeof S.String,
 >(
   id: ID,
   schema: Schema = S.String as any as Schema,

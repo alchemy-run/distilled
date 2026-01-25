@@ -127,18 +127,15 @@ A set of tools for reading, writing, and editing code:
 
   it.effect("does not visit same reference twice", () =>
     Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      yield* fs.writeFileString("test/fixtures/shared.ts", "// shared");
-
-      class SharedFile extends File.TypeScript(
-        "test/fixtures/shared.ts",
-      )`Shared` {}
-      class Agent1 extends Agent("a1")`Uses ${SharedFile}` {}
-      class Agent2 extends Agent("a2")`Also uses ${SharedFile}` {}
+      // Note: With depth-limited context, files referenced by nested agents
+      // are NOT embedded in the root context. Only direct references are embedded.
+      class Agent1 extends Agent("a1")`I handle task A` {}
+      class Agent2 extends Agent("a2")`I handle task B` {}
       class Root extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
 
       const ctx = yield* createContext(Root);
 
+      // Agent1 and Agent2 should appear exactly once each
       expect(ctx.system).toEqual(`${createPreamble("root")}Has @a1 and @a2
 
 ---
@@ -149,23 +146,11 @@ Below is a list and description of each agent you can delegate tasks to, their r
 
 ### a1
 
-Uses [shared.ts](test/fixtures/shared.ts)
+I handle task A
 
 ### a2
 
-Also uses [shared.ts](test/fixtures/shared.ts)
-
-## Files
-
-In this section, we document important files that you must be aware of and may need to read, write, or request another agent interact with.
-
-### test/fixtures/shared.ts
-
-Shared
-
-\`\`\`typescript
-// shared
-\`\`\`
+I handle task B
 `);
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -385,8 +370,7 @@ A simple echo toolkit:
       // Verify tool description
       expect(ctx.toolkit.tools.echo).toMatchObject({
         name: "echo",
-        description:
-          "Echoes the ${input:message} back.\nReturns the ${output:result}.",
+        description: "Echoes the ${message} back.\nReturns the ^{result}.",
       });
 
       // Verify tool parameters schema
@@ -467,7 +451,7 @@ Configuration tools:
       expect(ctx.toolkit.tools.loadConfig).toMatchObject({
         name: "loadConfig",
         description:
-          "Loads configuration from [config.json](test/fixtures/config.json).\nTakes ${input:configPath} and returns ${output:config}.",
+          "Loads configuration from [config.json](test/fixtures/config.json).\nTakes ${configPath} and returns ^{config}.",
       });
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -522,7 +506,7 @@ Delegation tools:
       expect(ctx.toolkit.tools.delegate).toMatchObject({
         name: "delegate",
         description:
-          "Delegates a task to @helper.\nTakes ${input:task} and returns ${output:result}.",
+          "Delegates a task to @helper.\nTakes ${task} and returns ^{result}.",
       });
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -595,7 +579,7 @@ Data processing tools:
       expect(ctx.toolkit.tools.process).toMatchObject({
         name: "process",
         description:
-          "Reads from [data.json](test/fixtures/data.json) and sends to @processor.\nTakes ${input:data} and returns ${output:processed}.",
+          "Reads from [data.json](test/fixtures/data.json) and sends to @processor.\nTakes ${data} and returns ^{processed}.",
       });
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -706,7 +690,7 @@ Has 🛠️toolB
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect("collects toolkit from nested agent", () =>
+  it.effect("does NOT collect toolkit from nested agent (depth-limited)", () =>
     Effect.gen(function* () {
       const inp = input("x")`Input`;
       const out = output("y")`Output`;
@@ -726,6 +710,8 @@ Nested toolkit with ${nestedTool}
 
       const ctx = yield* createContext(ParentAgent);
 
+      // With depth-limited context, toolkits from nested agents are NOT embedded
+      // The child agent is listed, but its toolkit is not included
       expect(ctx.system).toEqual(`${createPreamble("parent")}Delegates to @child
 
 ---
@@ -737,18 +723,10 @@ Below is a list and description of each agent you can delegate tasks to, their r
 ### child
 
 Uses 🧰NestedToolkit
-
-## Toolkits
-
-You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
-
-### NestedToolkit
-
-Nested toolkit with 🛠️nestedTool
 `);
 
-      // Verify the nested tool is included
-      expect(Object.keys(ctx.toolkit.tools)).toEqual(["nestedTool"]);
+      // Toolkit from nested agent is NOT included - accessible via send/query tools
+      expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -764,28 +742,31 @@ Nested toolkit with 🛠️nestedTool
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect("does not duplicate toolkit referenced multiple times", () =>
-    Effect.gen(function* () {
-      const inp = input("s")`String`;
-      const out = output("r")`Result`;
+  it.effect(
+    "does NOT include toolkit from nested agents (depth-limited)",
+    () =>
+      Effect.gen(function* () {
+        const inp = input("s")`String`;
+        const out = output("r")`Result`;
 
-      const sharedTool = tool("shared")`Takes ${inp}, returns ${out}.`(
-        function* ({ s }) {
-          return { r: s };
-        },
-      );
+        const sharedTool = tool("shared")`Takes ${inp}, returns ${out}.`(
+          function* ({ s }) {
+            return { r: s };
+          },
+        );
 
-      class SharedToolkit extends ToolkitFactory("SharedToolkit")`
+        class SharedToolkit extends ToolkitFactory("SharedToolkit")`
 Shared: ${sharedTool}
 ` {}
 
-      class Agent1 extends Agent("a1")`Uses ${SharedToolkit}` {}
-      class Agent2 extends Agent("a2")`Also uses ${SharedToolkit}` {}
-      class RootAgent extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
+        class Agent1 extends Agent("a1")`Uses ${SharedToolkit}` {}
+        class Agent2 extends Agent("a2")`Also uses ${SharedToolkit}` {}
+        class RootAgent extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
 
-      const ctx = yield* createContext(RootAgent);
+        const ctx = yield* createContext(RootAgent);
 
-      expect(ctx.system).toEqual(`${createPreamble("root")}Has @a1 and @a2
+        // With depth-limited context, toolkits from nested agents are NOT embedded
+        expect(ctx.system).toEqual(`${createPreamble("root")}Has @a1 and @a2
 
 ---
 
@@ -800,19 +781,11 @@ Uses 🧰SharedToolkit
 ### a2
 
 Also uses 🧰SharedToolkit
-
-## Toolkits
-
-You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
-
-### SharedToolkit
-
-Shared: 🛠️shared
 `);
 
-      // Verify tool is included once
-      expect(Object.keys(ctx.toolkit.tools)).toEqual(["shared"]);
-    }).pipe(Effect.provide(TestLayer)),
+        // Toolkit from nested agents is NOT included
+        expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
+      }).pipe(Effect.provide(TestLayer)),
   );
 
   // ============================================================
@@ -853,14 +826,12 @@ Shared: 🛠️shared
       const ctx = yield* createContext(MyAgent);
 
       // Verify the array is rendered as YAML with quoted references
-      expect(ctx.system).toContain(`these agents:
+      expect(ctx.system).toEqual(
+        `${createPreamble("coordinator")}Coordinate between these agents:
 - "@alpha"
 - "@beta"
-- "@gamma" to complete tasks.`);
-
-      // Note: Agents embedded in arrays are NOT collected into the Agents section
-      // Only direct template references trigger collection
-      expect(ctx.system).not.toContain("## Agents");
+- "@gamma" to complete tasks.`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -911,12 +882,11 @@ Shared: 🛠️shared
       const ctx = yield* createContext(MyAgent);
 
       // Verify array is rendered as YAML list with quoted links
-      expect(ctx.system).toContain(`Required assets:
+      expect(ctx.system).toEqual(
+        `${createPreamble("assets")}Required assets:
 - "[config.json](test/fixtures/config.json)"
-- "[styles.css](test/fixtures/styles.css)"`);
-
-      // Note: Files embedded in arrays are NOT collected into Files section
-      expect(ctx.system).not.toContain("## Files");
+- "[styles.css](test/fixtures/styles.css)"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -955,13 +925,12 @@ worker: "@worker"`,
       const ctx = yield* createContext(MyAgent);
 
       // Verify object is rendered as YAML with quoted agent references
-      expect(ctx.system).toContain(`Project roles:
+      expect(ctx.system).toEqual(
+        `${createPreamble("project")}Project roles:
 ui: "@frontend"
 api: "@backend"
-infra: "@devops"`);
-
-      // Note: Agents embedded in objects are NOT collected into Agents section
-      expect(ctx.system).not.toContain("## Agents");
+infra: "@devops"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -988,12 +957,11 @@ infra: "@devops"`);
       const ctx = yield* createContext(MyAgent);
 
       // Verify object is rendered as YAML with quoted file links
-      expect(ctx.system).toContain(`Documentation files:
+      expect(ctx.system).toEqual(
+        `${createPreamble("docs")}Documentation files:
 schema: "[schema.json](test/fixtures/schema.json)"
-readme: "[readme.md](test/fixtures/readme.md)"`);
-
-      // Note: Files embedded in objects are NOT collected into Files section
-      expect(ctx.system).not.toContain("## Files");
+readme: "[readme.md](test/fixtures/readme.md)"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1015,10 +983,23 @@ readme: "[readme.md](test/fixtures/readme.md)"`);
       const ctx = yield* createContext(MyAgent);
 
       // Direct reference includes file content
-      expect(ctx.system).toContain(
-        "```typescript\nexport default { port: 3000 };\n```",
-      );
-      expect(ctx.system).toContain("## Files");
+      expect(ctx.system)
+        .toEqual(`${createPreamble("config")}Configuration file: [app.config.ts](test/fixtures/app.config.ts)
+
+---
+
+## Files
+
+In this section, we document important files that you must be aware of and may need to read, write, or request another agent interact with.
+
+### test/fixtures/app.config.ts
+
+Application config
+
+\`\`\`typescript
+export default { port: 3000 };
+\`\`\`
+`);
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1035,15 +1016,14 @@ readme: "[readme.md](test/fixtures/readme.md)"`);
       const ctx = yield* createContext(MyAgent);
 
       // Verify nested structure is rendered correctly with quoted references
-      expect(ctx.system).toContain(`Workflow:
+      expect(ctx.system).toEqual(
+        `${createPreamble("workflow")}Workflow:
 reviewers:
   - "@reviewer-a"
   - "@reviewer-b"
 approvers:
-  - "@approver-a"`);
-
-      // Note: Agents embedded in nested structures are NOT collected
-      expect(ctx.system).not.toContain("## Agents");
+  - "@approver-a"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1076,15 +1056,14 @@ approvers:
       const ctx = yield* createContext(MyAgent);
 
       // Verify deeply nested structure with quoted links
-      expect(ctx.system).toContain(`Code structure:
+      expect(ctx.system).toEqual(
+        `${createPreamble("codebase")}Code structure:
 source:
   entry: "[index-src.ts](test/fixtures/index-src.ts)"
   types: "[types-src.ts](test/fixtures/types-src.ts)"
 tests:
-  - "[main-test.ts](test/fixtures/main-test.ts)"`);
-
-      // Note: Files embedded in nested structures are NOT collected
-      expect(ctx.system).not.toContain("## Files");
+  - "[main-test.ts](test/fixtures/main-test.ts)"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1122,15 +1101,12 @@ tests:
         const ctx = yield* createContext(MyAgent);
 
         // Verify mixed references in object with appropriate symbols
-        expect(ctx.system).toContain(`Project:
+        expect(ctx.system).toEqual(
+          `${createPreamble("project")}Project:
 spec: "[spec.md](test/fixtures/spec.md)"
 agent: "@implementer"
-toolkit: 🧰TaskToolkit`);
-
-        // Note: References embedded in objects are NOT collected into sections
-        expect(ctx.system).not.toContain("## Agents");
-        expect(ctx.system).not.toContain("## Files");
-        expect(ctx.system).not.toContain("## Toolkits");
+toolkit: 🧰TaskToolkit`,
+        );
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1146,11 +1122,13 @@ toolkit: 🧰TaskToolkit`);
       const ctx = yield* createContext(MyAgent);
 
       // Verify array of objects with references
-      expect(ctx.system).toContain(`Tasks:
+      expect(ctx.system).toEqual(
+        `${createPreamble("manager")}Tasks:
 - name: Task 1
   assignee: "@agent-a"
 - name: Task 2
-  assignee: "@agent-b"`);
+  assignee: "@agent-b"`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1182,13 +1160,11 @@ toolkit: 🧰TaskToolkit`);
 
       // Verify tool description contains array of quoted agent references
       // Note: YAML serialization puts last item on same line as following text
-      expect(ctx.toolkit.tools.dispatch.description)
-        .toContain(`Dispatches tasks to workers:
+      expect(ctx.toolkit.tools.dispatch.description).toEqual(
+        `Dispatches tasks to workers:
 - "@worker-a"
-- "@worker-b". Takes \${input:task}. Returns \${output:dispatched}.`);
-
-      // Note: Agents embedded in arrays in tool descriptions are NOT collected
-      expect(ctx.system).not.toContain("## Agents");
+- "@worker-b". Takes \${task}. Returns ^{dispatched}.`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1224,13 +1200,11 @@ toolkit: 🧰TaskToolkit`);
 
       // Verify tool description contains array of quoted file references
       // Note: YAML serialization puts last item on same line as following text
-      expect(ctx.toolkit.tools.render.description)
-        .toContain(`Renders one of these templates:
+      expect(ctx.toolkit.tools.render.description).toEqual(
+        `Renders one of these templates:
 - "[template1.html](test/fixtures/template1.html)"
-- "[template2.html](test/fixtures/template2.html)". Takes \${input:name}. Returns \${output:html}.`);
-
-      // Note: Files embedded in arrays in tool descriptions are NOT collected
-      expect(ctx.system).not.toContain("## Files");
+- "[template2.html](test/fixtures/template2.html)". Takes \${name}. Returns ^{html}.`,
+      );
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1261,13 +1235,11 @@ toolkit: 🧰TaskToolkit`);
 
         // Verify tool description contains object with quoted agent references
         // Note: YAML serialization puts last item on same line as following text
-        expect(ctx.toolkit.tools.transform.description)
-          .toContain(`Transforms data using:
+        expect(ctx.toolkit.tools.transform.description).toEqual(
+          `Transforms data using:
 encode: "@encoder"
-decode: "@decoder". Takes \${input:data}.`);
-
-        // Note: Agents embedded in objects in tool descriptions are NOT collected
-        expect(ctx.system).not.toContain("## Agents");
+decode: "@decoder". Takes \${data}. Returns ^{transformed}.`,
+        );
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1301,13 +1273,11 @@ decode: "@decoder". Takes \${input:data}.`);
 
         // Verify tool description contains object with quoted file references
         // Note: YAML serialization puts last item on same line as following text
-        expect(ctx.toolkit.tools.validate.description)
-          .toContain(`Validates against schemas:
+        expect(ctx.toolkit.tools.validate.description).toEqual(
+          `Validates against schemas:
 input: "[input.json](test/fixtures/input.json)"
-output: "[output.json](test/fixtures/output.json)". Takes \${input:payload}.`);
-
-        // Note: Files embedded in objects in tool descriptions are NOT collected
-        expect(ctx.system).not.toContain("## Files");
+output: "[output.json](test/fixtures/output.json)". Takes \${payload}.`,
+        );
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1339,16 +1309,13 @@ output: "[output.json](test/fixtures/output.json)". Takes \${input:payload}.`);
 
         // Verify tool description contains nested structure with quoted refs
         // Note: YAML serialization puts last item on same line as following text
-        expect(ctx.toolkit.tools.process.description)
-          .toContain(`Processes data with:
+        expect(ctx.toolkit.tools.process.description).toEqual(
+          `Processes data with:
 config: "[rules.json](test/fixtures/rules.json)"
 pipeline:
   - "@validator"
-  - "@formatter". Takes \${input:data}.`);
-
-        // Note: References embedded in nested structures are NOT collected
-        expect(ctx.system).not.toContain("## Files");
-        expect(ctx.system).not.toContain("## Agents");
+  - "@formatter". Takes \${data}.`,
+        );
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1554,7 +1521,18 @@ pipeline:
 
         // Note: References in input templates are NOT collected into system prompt
         // The collection only walks direct references, not nested in input templates
-        expect(ctx.system).not.toContain("## Agents");
+        expect(ctx.system).toEqual(`${createPreamble("sender")}Uses 🧰SendToolkit
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### SendToolkit
+
+Send tools: 🛠️send
+`);
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1615,7 +1593,18 @@ pipeline:
 
         // Note: References in input templates are NOT collected into system prompt
         // The collection only walks direct references, not nested in input templates
-        expect(ctx.system).not.toContain("## Files");
+        expect(ctx.system).toEqual(`${createPreamble("formatter")}Uses 🧰FormatToolkit
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### FormatToolkit
+
+Format tools: 🛠️format
+`);
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1659,11 +1648,23 @@ I am the child
 
       const ctx = yield* createContext(Orchestrator);
 
-      expect(ctx.system).toContain("Coordinates @worker-a and @worker-b");
-      expect(ctx.system).toContain("### worker-a");
-      expect(ctx.system).toContain("I handle task A");
-      expect(ctx.system).toContain("### worker-b");
-      expect(ctx.system).toContain("I handle task B");
+      expect(ctx.system)
+        .toEqual(`${createPreamble("orchestrator")}Coordinates @worker-a and @worker-b
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### worker-a
+
+I handle task A
+
+### worker-b
+
+I handle task B
+`);
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1683,11 +1684,23 @@ I am the child
 
       const ctx = yield* createContext(MyAgent);
 
-      expect(ctx.system).toContain(
-        "Reads [forward-ref.ts](test/fixtures/forward-ref.ts)",
-      );
-      expect(ctx.system).toContain("### test/fixtures/forward-ref.ts");
-      expect(ctx.system).toContain("export const value = 42;");
+      expect(ctx.system)
+        .toEqual(`${createPreamble("reader")}Reads [forward-ref.ts](test/fixtures/forward-ref.ts)
+
+---
+
+## Files
+
+In this section, we document important files that you must be aware of and may need to read, write, or request another agent interact with.
+
+### test/fixtures/forward-ref.ts
+
+Config file
+
+\`\`\`typescript
+export const value = 42;
+\`\`\`
+`);
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1707,8 +1720,18 @@ I am the child
 
       const ctx = yield* createContext(MyAgent);
 
-      expect(ctx.system).toContain("Uses 🧰MyToolkit");
-      expect(ctx.system).toContain("### MyToolkit");
+      expect(ctx.system).toEqual(`${createPreamble("worker")}Uses 🧰MyToolkit
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### MyToolkit
+
+Tools: 🛠️myTool
+`);
       expect(Object.keys(ctx.toolkit.tools)).toEqual(["myTool"]);
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -1723,11 +1746,22 @@ I am the child
 
       const ctx = yield* createContext(MyAgent);
 
-      expect(ctx.system).toContain("Has @direct and @forward");
-      expect(ctx.system).toContain("### direct");
-      expect(ctx.system).toContain("I am direct");
-      expect(ctx.system).toContain("### forward");
-      expect(ctx.system).toContain("I am forward");
+      expect(ctx.system).toEqual(`${createPreamble("mixed")}Has @direct and @forward
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### direct
+
+I am direct
+
+### forward
+
+I am forward
+`);
     }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1741,8 +1775,8 @@ I am the child
 
       const ctx = yield* createContext(MyAgent);
 
-      // Forward refs in arrays are resolved and serialized
-      expect(ctx.system).toContain(`Workers:
+      // Forward refs in arrays are resolved and serialized (not collected)
+      expect(ctx.system).toEqual(`${createPreamble("coordinator")}Workers:
 - "@worker-x"
 - "@worker-y"`);
     }).pipe(Effect.provide(TestLayer)),
@@ -1759,8 +1793,8 @@ I am the child
 
       const ctx = yield* createContext(MyAgent);
 
-      // Forward refs in objects are resolved and serialized
-      expect(ctx.system).toContain(`Team:
+      // Forward refs in objects are resolved and serialized (not collected)
+      expect(ctx.system).toEqual(`${createPreamble("team")}Team:
 leader: "@leader"
 member: "@member"`);
     }).pipe(Effect.provide(TestLayer)),
@@ -1779,7 +1813,8 @@ member: "@member"`);
 
       const ctx = yield* createContext(MyAgent);
 
-      expect(ctx.system).toContain(`Workflow:
+      // Refs in nested objects are serialized (not collected)
+      expect(ctx.system).toEqual(`${createPreamble("workflow")}Workflow:
 stages:
   - name: build
     agent: "@build"
@@ -1788,24 +1823,41 @@ stages:
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect("does not visit forward-referenced agent twice", () =>
-    Effect.gen(function* () {
-      // Both agents reference the same shared agent via forward ref
-      class Agent1 extends Agent("a1")`Uses ${() => SharedAgent}` {}
-      class Agent2 extends Agent("a2")`Also uses ${() => SharedAgent}` {}
-      class Root extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
-      class SharedAgent extends Agent("shared")`I am shared` {}
+  it.effect(
+    "does not include transitive forward-referenced agent (depth-limited)",
+    () =>
+      Effect.gen(function* () {
+        // Agent1 and Agent2 reference SharedAgent, but SharedAgent is at depth 2
+        class Agent1 extends Agent("a1")`Uses ${() => SharedAgent}` {}
+        class Agent2 extends Agent("a2")`Also uses ${() => SharedAgent}` {}
+        class Root extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
+        class SharedAgent extends Agent("shared")`I am shared` {}
 
-      const ctx = yield* createContext(Root);
+        const ctx = yield* createContext(Root);
 
-      // SharedAgent should only appear once in the output
-      const sharedMatches = ctx.system.match(/### shared/g);
-      expect(sharedMatches?.length).toBe(1);
-    }).pipe(Effect.provide(TestLayer)),
+        // SharedAgent should NOT appear in the output (depth > 1)
+        // Agent1 and Agent2 should appear (depth = 1)
+        expect(ctx.system).toEqual(`${createPreamble("root")}Has @a1 and @a2
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### a1
+
+Uses @shared
+
+### a2
+
+Also uses @shared
+`);
+      }).pipe(Effect.provide(TestLayer)),
   );
 
   it.effect(
-    "collects toolkit from forward-referenced agent in nested structure",
+    "does NOT collect toolkit from forward-referenced nested agent (depth-limited)",
     () =>
       Effect.gen(function* () {
         const inp = input("s")`String`;
@@ -1826,8 +1878,22 @@ Tools: ${sharedTool}
 
         const ctx = yield* createContext(Parent);
 
-        // Toolkit from forward-referenced agent should be collected
-        expect(Object.keys(ctx.toolkit.tools)).toEqual(["sharedTool"]);
+        // Toolkit from nested agent is NOT collected (depth > 1)
+        expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
+
+        // Child agent is listed but its toolkit is not included
+        expect(ctx.system).toEqual(`${createPreamble("parent")}Uses @child
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### child
+
+Has 🧰SharedToolkit
+`);
       }).pipe(Effect.provide(TestLayer)),
   );
 
@@ -1852,8 +1918,8 @@ Tools: ${sharedTool}
       const ctx = yield* createContext(MyAgent);
 
       // Tool description should contain resolved forward reference
-      expect(ctx.toolkit.tools.delegate.description).toContain(
-        "Delegates to @helper",
+      expect(ctx.toolkit.tools.delegate.description).toEqual(
+        "Delegates to @helper. Takes ${task}. Returns ^{result}.",
       );
     }).pipe(Effect.provide(TestLayer)),
   );
@@ -1881,9 +1947,438 @@ Tools: ${sharedTool}
       const ctx = yield* createContext(MyAgent);
 
       // Tool description should contain resolved forward reference
-      expect(ctx.toolkit.tools.validate.description).toContain(
-        "Validates against [schema-forward.json](test/fixtures/schema-forward.json)",
+      expect(ctx.toolkit.tools.validate.description).toEqual(
+        "Validates against [schema-forward.json](test/fixtures/schema-forward.json). Takes ${data}.",
       );
     }).pipe(Effect.provide(TestLayer)),
+  );
+
+  // ============================================================
+  // Tests for additional toolkits via options
+  // ============================================================
+
+  it.effect("includes single additional toolkit via options", () =>
+    Effect.gen(function* () {
+      const inp = input("msg")`Message`;
+      const out = output("result")`Result`;
+      const echoTool = tool("echo")`Echoes ${inp}. Returns ${out}.`(function* ({
+        msg,
+      }) {
+        return { result: msg };
+      });
+
+      class EchoToolkit extends ToolkitFactory("EchoToolkit")`
+Echo toolkit: ${echoTool}
+` {}
+
+      class SimpleAgent extends Agent("simple")`A simple agent` {}
+
+      const ctx = yield* createContext(SimpleAgent, { tools: [EchoToolkit] });
+
+      expect(ctx.system).toEqual(`${createPreamble("simple")}A simple agent
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### EchoToolkit
+
+Echo toolkit: 🛠️echo
+`);
+
+      expect(Object.keys(ctx.toolkit.tools)).toEqual(["echo"]);
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("includes multiple additional toolkits via options", () =>
+    Effect.gen(function* () {
+      const inp1 = input("a")`Input A`;
+      const out1 = output("b")`Output B`;
+      const tool1 = tool("toolOne")`Takes ${inp1}. Returns ${out1}.`(
+        function* ({ a }) {
+          return { b: a };
+        },
+      );
+
+      const inp2 = input("c")`Input C`;
+      const out2 = output("d")`Output D`;
+      const tool2 = tool("toolTwo")`Takes ${inp2}. Returns ${out2}.`(
+        function* ({ c }) {
+          return { d: c };
+        },
+      );
+
+      class ToolkitOne extends ToolkitFactory("ToolkitOne")`Has ${tool1}` {}
+      class ToolkitTwo extends ToolkitFactory("ToolkitTwo")`Has ${tool2}` {}
+
+      class SimpleAgent extends Agent("simple")`A simple agent` {}
+
+      const ctx = yield* createContext(SimpleAgent, {
+        tools: [ToolkitOne, ToolkitTwo],
+      });
+
+      expect(ctx.system).toEqual(`${createPreamble("simple")}A simple agent
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### ToolkitOne
+
+Has 🛠️toolOne
+
+### ToolkitTwo
+
+Has 🛠️toolTwo
+`);
+
+      expect(Object.keys(ctx.toolkit.tools).sort()).toEqual([
+        "toolOne",
+        "toolTwo",
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("merges additional toolkits with agent-referenced toolkits", () =>
+    Effect.gen(function* () {
+      const inp1 = input("x")`X`;
+      const out1 = output("y")`Y`;
+      const refTool = tool("refTool")`Takes ${inp1}. Returns ${out1}.`(
+        function* ({ x }) {
+          return { y: x };
+        },
+      );
+
+      const inp2 = input("p")`P`;
+      const out2 = output("q")`Q`;
+      const addTool = tool("addTool")`Takes ${inp2}. Returns ${out2}.`(
+        function* ({ p }) {
+          return { q: p };
+        },
+      );
+
+      class ReferencedToolkit extends ToolkitFactory("ReferencedToolkit")`
+Referenced: ${refTool}
+` {}
+
+      class AdditionalToolkit extends ToolkitFactory("AdditionalToolkit")`
+Additional: ${addTool}
+` {}
+
+      class MyAgent extends Agent("merger")`Uses ${ReferencedToolkit}` {}
+
+      const ctx = yield* createContext(MyAgent, {
+        tools: [AdditionalToolkit],
+      });
+
+      expect(ctx.system)
+        .toEqual(`${createPreamble("merger")}Uses 🧰ReferencedToolkit
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### ReferencedToolkit
+
+Referenced: 🛠️refTool
+
+### AdditionalToolkit
+
+Additional: 🛠️addTool
+`);
+
+      expect(Object.keys(ctx.toolkit.tools).sort()).toEqual([
+        "addTool",
+        "refTool",
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "deduplicates toolkit when both referenced and passed as additional",
+    () =>
+      Effect.gen(function* () {
+        const inp = input("s")`String`;
+        const out = output("r")`Result`;
+        const sharedTool = tool("sharedTool")`Takes ${inp}. Returns ${out}.`(
+          function* ({ s }) {
+            return { r: s };
+          },
+        );
+
+        class SharedToolkit extends ToolkitFactory("SharedToolkit")`
+Shared: ${sharedTool}
+` {}
+
+        // Agent references the toolkit AND we pass it as additional
+        class MyAgent extends Agent("dedup")`Uses ${SharedToolkit}` {}
+
+        const ctx = yield* createContext(MyAgent, { tools: [SharedToolkit] });
+
+        expect(ctx.system)
+          .toEqual(`${createPreamble("dedup")}Uses 🧰SharedToolkit
+
+---
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### SharedToolkit
+
+Shared: 🛠️sharedTool
+`);
+
+        expect(Object.keys(ctx.toolkit.tools)).toEqual(["sharedTool"]);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("works without options (backward compatible)", () =>
+    Effect.gen(function* () {
+      class SimpleAgent extends Agent("backward")`No toolkits here` {}
+
+      // Call without options - should work as before
+      const ctx = yield* createContext(SimpleAgent);
+
+      expect(ctx.system).toEqual(
+        `${createPreamble("backward")}No toolkits here`,
+      );
+      expect(ctx.toolkit.tools).toEqual({});
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("works with empty tools array", () =>
+    Effect.gen(function* () {
+      class SimpleAgent extends Agent("empty")`No toolkits` {}
+
+      const ctx = yield* createContext(SimpleAgent, { tools: [] });
+
+      expect(ctx.system).toEqual(`${createPreamble("empty")}No toolkits`);
+      expect(ctx.toolkit.tools).toEqual({});
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  // ============================================================
+  // Tests for depth-limited context (transitive exclusion)
+  // ============================================================
+
+  it.effect(
+    "excludes transitive agents (depth > 1) from context",
+    () =>
+      Effect.gen(function* () {
+        // CEO -> VP -> Developer (transitive chain)
+        class Developer extends Agent("developer")`I write code` {}
+        class VP extends Agent("vp")`I manage ${Developer}` {}
+        class CEO extends Agent("ceo")`I lead ${VP}` {}
+
+        const ctx = yield* createContext(CEO);
+
+        // VP should be included (depth = 1), Developer should NOT (depth = 2)
+        expect(ctx.system).toEqual(`${createPreamble("ceo")}I lead @vp
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### vp
+
+I manage @developer
+`);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "excludes files from transitive agents (depth > 1)",
+    () =>
+      Effect.gen(function* () {
+        const fs = yield* FileSystem.FileSystem;
+        yield* fs.writeFileString(
+          "test/fixtures/ceo-report.md",
+          "# CEO Report",
+        );
+        yield* fs.writeFileString(
+          "test/fixtures/developer-code.ts",
+          "// Developer code",
+        );
+
+        class CEOReport extends File.Markdown(
+          "test/fixtures/ceo-report.md",
+        )`CEO quarterly report` {}
+        class DeveloperCode extends File.TypeScript(
+          "test/fixtures/developer-code.ts",
+        )`Developer source code` {}
+
+        class Developer extends Agent("developer")`Uses ${DeveloperCode}` {}
+        class CEO extends Agent("ceo")`Reviews ${CEOReport} and leads ${Developer}` {}
+
+        const ctx = yield* createContext(CEO);
+
+        // CEOReport should be included (direct reference)
+        // DeveloperCode should NOT be included (referenced by nested agent)
+        expect(ctx.system)
+          .toEqual(`${createPreamble("ceo")}Reviews [ceo-report.md](test/fixtures/ceo-report.md) and leads @developer
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### developer
+
+Uses [developer-code.ts](test/fixtures/developer-code.ts)
+
+## Files
+
+In this section, we document important files that you must be aware of and may need to read, write, or request another agent interact with.
+
+### test/fixtures/ceo-report.md
+
+CEO quarterly report
+
+\`\`\`markdown
+# CEO Report
+\`\`\`
+`);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "excludes toolkits from transitive agents (depth > 1)",
+    () =>
+      Effect.gen(function* () {
+        const codeInput = input("code")`The code to review`;
+        const reviewTool = tool("review")`Reviews ${codeInput}`(function* ({
+          code: _,
+        }) {});
+
+        class CodingToolkit extends ToolkitFactory("CodingToolkit")`
+Developer tools: ${reviewTool}
+` {}
+
+        class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
+        class CEO extends Agent("ceo")`Leads ${Developer}` {}
+
+        const ctx = yield* createContext(CEO);
+
+        // Developer is listed but CodingToolkit is NOT included (from nested agent)
+        expect(ctx.system).toEqual(`${createPreamble("ceo")}Leads @developer
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### developer
+
+Uses 🧰CodingToolkit
+`);
+        expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "includes direct toolkit but excludes nested agent toolkit",
+    () =>
+      Effect.gen(function* () {
+        const planInput = input("plan")`The plan`;
+        const planTool = tool("plan")`Creates ${planInput}`(function* ({
+          plan: _,
+        }) {});
+        const codeInput = input("code")`The code`;
+        const codeTool = tool("code")`Writes ${codeInput}`(function* ({
+          code: _,
+        }) {});
+
+        class PlanningToolkit extends ToolkitFactory("PlanningToolkit")`
+CEO tools: ${planTool}
+` {}
+        class CodingToolkit extends ToolkitFactory("CodingToolkit")`
+Developer tools: ${codeTool}
+` {}
+
+        class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
+        class CEO extends Agent(
+          "ceo",
+        )`Uses ${PlanningToolkit} and leads ${Developer}` {}
+
+        const ctx = yield* createContext(CEO);
+
+        // PlanningToolkit is included (direct reference)
+        // CodingToolkit is NOT included (from nested agent)
+        expect(ctx.system)
+          .toEqual(`${createPreamble("ceo")}Uses 🧰PlanningToolkit and leads @developer
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### developer
+
+Uses 🧰CodingToolkit
+
+## Toolkits
+
+You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.
+
+### PlanningToolkit
+
+CEO tools: 🛠️plan
+`);
+        expect(Object.keys(ctx.toolkit.tools)).toEqual(["plan"]);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "preamble includes agent communication guidance",
+    () =>
+      Effect.gen(function* () {
+        class SimpleAgent extends Agent("test")`Test agent` {}
+
+        const ctx = yield* createContext(SimpleAgent);
+
+        // Verify full context with agent communication section in preamble
+        expect(ctx.system).toEqual(`${createPreamble("test")}Test agent`);
+      }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect(
+    "deep chain only includes direct level",
+    () =>
+      Effect.gen(function* () {
+        // 5-level deep chain: A -> B -> C -> D -> E
+        class E extends Agent("e")`Level E` {}
+        class D extends Agent("d")`Level D, uses ${E}` {}
+        class C extends Agent("c")`Level C, uses ${D}` {}
+        class B extends Agent("b")`Level B, uses ${C}` {}
+        class A extends Agent("a")`Level A, uses ${B}` {}
+
+        const ctx = yield* createContext(A);
+
+        // Only B should be included (depth = 1), C/D/E should NOT (depth > 1)
+        expect(ctx.system).toEqual(`${createPreamble("a")}Level A, uses @b
+
+---
+
+## Agents
+
+Below is a list and description of each agent you can delegate tasks to, their role, and their capabilities.
+
+### b
+
+Level B, uses @c
+`);
+      }).pipe(Effect.provide(TestLayer)),
   );
 });

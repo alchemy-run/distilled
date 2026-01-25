@@ -35,7 +35,7 @@ Returns the ${result} of the operation.
 
 Given a ${filePath}, ${oldString}, and ${newString}:
 - Replaces the first occurrence of oldString with newString
-- Use ${replaceAll} to replace all occurrences
+- Use ${replaceAll} to replace all occurrences (defaults to false)
 - Use empty oldString ("") to create a new file with newString as content
 
 Usage:

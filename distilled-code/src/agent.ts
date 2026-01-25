@@ -4,13 +4,20 @@ import type {
   GenerateObjectResponse,
   LanguageModel,
 } from "@effect/ai/LanguageModel";
-import * as EffectTool from "@effect/ai/Tool";
-import * as EffectToolkit from "@effect/ai/Toolkit";
+import type { Handler } from "@effect/ai/Tool";
+import type { FileSystem } from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { createContext } from "./context.ts";
 import type { Fragment } from "./fragment.ts";
-import { AgentState } from "./state.ts";
+import { input } from "./input.ts";
+import { output } from "./output.ts";
+import { AgentState, AgentStateError, type MessageEncoded } from "./state.ts";
+import { tool } from "./tool/tool.ts";
+import { Toolkit } from "./toolkit/toolkit.ts";
+
+type _ = MessageEncoded;
 
 export const isAgent = (x: any): x is Agent => x?.type === "agent";
 
@@ -40,19 +47,32 @@ export const Agent =
       constructor(_: never) {}
     } as Agent<ID, References>;
 
-export interface SpawnedAgent {
-  send: (prompt: string) => Effect.Effect<void, AiError, LanguageModel>;
+export interface AgentInstance<A extends Agent<string, any[]>> {
+  agent: A;
+  send: (
+    prompt: string,
+  ) => Effect.Effect<
+    void,
+    AiError | AgentStateError,
+    LanguageModel | Handler<string> | AgentState
+  >;
   query: <A>(
     prompt: string,
     schema: S.Schema<A, any>,
-  ) => Effect.Effect<GenerateObjectResponse<{}, A>, AiError, LanguageModel>;
+  ) => Effect.Effect<
+    GenerateObjectResponse<{}, A>,
+    AiError | AgentStateError,
+    LanguageModel | Handler<string> | AgentState
+  >;
 }
 
-export const spawn: (
-  agent: Agent,
-) => Effect.Effect<SpawnedAgent, AiError, LanguageModel> = Effect.fn(function* (
-  agent: Agent,
-) {
+export const spawn: <A extends Agent<string, any[]>>(
+  agent: A,
+) => Effect.Effect<
+  AgentInstance<A>,
+  AiError | AgentStateError,
+  LanguageModel | Handler<string> | AgentState | FileSystem
+> = Effect.fn(function* <A extends Agent<string, any[]>>(agent: A) {
   const state = yield* AgentState;
 
   const agentState = yield* state.get(agent.id);
@@ -68,58 +88,77 @@ export const spawn: (
     agent.references.filter(isAgent).map(spawn),
   );
 
-  const send = EffectTool.make("send", {
-    description: "Send a message to the agent",
-    parameters: {
-      glob: S.String.annotations({
-        description:
-          "A glob pattern describing which agents to send this message to",
-      }),
-      message: S.String.annotations({
-        description: "The message to send to the agents",
-      }),
+  const message = input("message")`The message to send`;
+  const recipient = input(
+    "recipient",
+    S.Literal(...children.map((a) => a.agent.id)),
+  )`The recipient agent, can be one of:${children}`;
+  const send = tool(
+    "send",
+  )`Send a ${message} to ${recipient}, receive a response as a ${S.String}`(
+    function* ({ message, recipient }) {
+      return "TODO(sam): implement send";
     },
+  );
+
+  const schema = input("schema")`The expected schema of the query response`;
+  const object = output("object", S.Any);
+  const query = tool(
+    "query",
+  )`Send a query ${message} to the ${recipient} agent and receive back a structured ${object} with the expected schema ${schema}`(
+    function* ({ recipient, schema, message }) {
+      return {
+        object: "TODO(sam): implement query",
+      };
+    },
+  );
+
+  class Comms extends Toolkit(
+    "Comms",
+  )`Tools for communicating with other agents. Use these tools to coordinate work with other agents.
+${[query, schema]}` {}
+
+  const context = yield* createContext(agent, {
+    tools: [Comms],
   });
 
-  const toolkit = EffectToolkit.make();
-
   return {
+    agent,
     send: (prompt: string) =>
       locked(
-        Effect.gen(function* () {
-          yield* Stream.runForEach(
-            chat.streamText({
-              prompt: [
-                {
-                  role: "system",
-                  content: "TODO(sam): generate context from the references",
-                },
-                {
-                  role: "user",
-                  content: prompt,
-                },
-              ],
-              // toolkit
+        Stream.runForEach(
+          chat.streamText({
+            toolkit: context.toolkit,
+            prompt: [
+              {
+                role: "system",
+                content: context.system,
+              },
+              {
+                role: "user",
+                content: prompt,
+              },
+            ],
+          }),
+          (part) =>
+            Effect.sync(() => {
+              switch (part.type) {
+                case "text-delta":
+                  process.stdout.write(part.delta);
+                  break;
+              }
             }),
-            (part) =>
-              Effect.sync(() => {
-                switch (part.type) {
-                  case "text-delta":
-                    process.stdout.write(part.delta);
-                    break;
-                }
-              }),
-          );
-        }),
+        ),
       ),
     query: <A>(prompt: string, schema: S.Schema<A, any>) =>
       locked(
         chat.generateObject({
+          toolkit: context.toolkit,
           schema,
           prompt: [
             {
               role: "system",
-              content: "TODO(sam): generate context from the references",
+              content: context.system,
             },
             {
               role: "user",
@@ -128,5 +167,5 @@ export const spawn: (
           ],
         }),
       ),
-  } satisfies SpawnedAgent;
+  } satisfies AgentInstance<A>;
 });
