@@ -11,8 +11,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import { LSPManagerLive } from "../src/lsp/index.ts";
-import { FileSystemAgentState } from "../src/services/state.ts";
-import { CodingToolsLayer } from "../src/tools/index.ts";
+import { FileSystemAgentState } from "../src/state.ts";
 
 const agentStateLayer = Layer.provideMerge(
   FileSystemAgentState,
@@ -94,7 +93,6 @@ function provideTestEnv(effect: Effect.Effect<void, any, any>) {
     });
 
     return yield* effect.pipe(
-      Effect.provide(CodingToolsLayer("test")),
       Effect.provide(chatLayer),
       Effect.provide(modelLayer),
       Effect.withConfigProvider(configProvider),

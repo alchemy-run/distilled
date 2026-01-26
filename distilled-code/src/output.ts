@@ -1,6 +1,6 @@
 import * as S from "effect/Schema";
 import type { Fragment } from "./fragment.ts";
-import type { IsNever } from "./util.ts";
+import type { IsNever } from "./util/types.ts";
 
 export const isOutput = (
   artifact: any,

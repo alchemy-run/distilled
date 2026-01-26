@@ -13,7 +13,13 @@ import { createContext } from "./context.ts";
 import type { Fragment } from "./fragment.ts";
 import { input } from "./input.ts";
 import { output } from "./output.ts";
-import { AgentState, AgentStateError, type MessageEncoded } from "./state.ts";
+import {
+  AgentState,
+  AgentStateError,
+  type MessageEncoded,
+  type ThreadPart,
+} from "./state.ts";
+import { toText } from "./stream.ts";
 import { tool } from "./tool/tool.ts";
 import { Toolkit } from "./toolkit/toolkit.ts";
 import {
@@ -55,8 +61,8 @@ export interface AgentInstance<A extends Agent<string, any[]>> {
   agent: A;
   send: (
     prompt: string,
-  ) => Effect.Effect<
-    string,
+  ) => Stream.Stream<
+    ThreadPart,
     AiError | AgentStateError,
     LanguageModel | Handler<string> | AgentState
   >;
@@ -89,11 +95,6 @@ export const spawn: <A extends Agent<string, any[]>>(
   const agentState = yield* state.get(agentKey);
 
   const chat = yield* Chat.fromPrompt(agentState.messages);
-
-  const saveState = Effect.fnUntraced(function* () {
-    const exported = yield* chat.exportJson;
-    yield* state.saveMessages(agentKey, exported);
-  });
 
   // TODO(sam): support interrupts/parallel threads
   const sem = yield* Effect.makeSemaphore(1);
@@ -136,7 +137,8 @@ export const spawn: <A extends Agent<string, any[]>>(
     "send",
   )`Send a ${message} to ${recipient}, receive a response as a ${S.String}`(
     function* ({ message, recipient }) {
-      return yield* (yield* lookupAgent(recipient)).send(message);
+      const childAgent = yield* lookupAgent(recipient);
+      return yield* toText("last-message", childAgent.send(message));
     },
   );
 
@@ -169,52 +171,49 @@ ${[send, query]}` {}
   return {
     agent,
     send: (prompt: string) =>
-      locked(
-        Effect.gen(function* () {
-          let text = "";
-          yield* Stream.runForEach(
-            chat.streamText({
-              toolkit: context.toolkit,
-              prompt: [
-                ...context.messages,
-                {
-                  role: "user" as const,
-                  content: prompt,
-                },
-              ],
-            }),
-            (part) =>
-              Effect.sync(() => {
-                if (part.type === "text-start") {
-                  // we only want to collect the final message
-                  text = "";
-                } else if (part.type === "text-delta") {
-                  // process.stdout.write(part.delta);
-                  text += part.delta;
-                }
-              }),
-          );
-          yield* saveState();
-          return text;
-        }),
+      Stream.unwrap(
+        locked(
+          Effect.gen(function* () {
+            // Append user input part
+            yield* state.appendPart(agentKey, {
+              type: "user-input",
+              content: prompt,
+              timestamp: Date.now(),
+            });
+
+            return chat
+              .streamText({
+                toolkit: context.toolkit,
+                prompt: [
+                  ...context.messages,
+                  {
+                    role: "user" as const,
+                    content: prompt,
+                  },
+                ],
+              })
+              .pipe(
+                // Forward parts to state (which handles PubSub + persistence)
+                Stream.tap((part) =>
+                  state.appendPart(agentKey, part as ThreadPart),
+                ),
+                Stream.map((part) => part as ThreadPart),
+              );
+          }),
+        ),
       ),
     query: <A>(prompt: string, schema: S.Schema<A, any>) =>
       locked(
-        Effect.gen(function* () {
-          const result = yield* chat.generateObject({
-            toolkit: context.toolkit,
-            schema,
-            prompt: [
-              ...context.messages,
-              {
-                role: "user" as const,
-                content: prompt,
-              },
-            ],
-          });
-          // Persist updated chat history
-          yield* saveState();
-          return result;
+        chat.generateObject({
+          toolkit: context.toolkit,
+          schema,
+          prompt: [
+            ...context.messages,
+            {
+              role: "user" as const,
+              content: prompt,
+            },
+          ],
         }),
       ),
   } satisfies AgentInstance<A>;

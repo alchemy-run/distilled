@@ -1,137 +1,97 @@
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import { describe, expect } from "vitest";
-import { agent } from "../src/agent.ts";
+import { Agent, spawn } from "../src/agent.ts";
+import { toText } from "../src/stream.ts";
 import { test } from "./test.ts";
 
-const GENERATED_DIR = "test/fixtures/generated";
+// Simple test agent
+class TestAgent extends Agent("test-agent")`A simple test agent` {}
 
 describe("Agent", () => {
   test(
-    "generates and validates test file",
-    { timeout: 300_000 },
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-
-      // Clean up
-      yield* fs
-        .remove(GENERATED_DIR, { recursive: true })
-        .pipe(Effect.catchAll(() => Effect.void));
-      yield* fs.makeDirectory(GENERATED_DIR, { recursive: true });
-      yield* fs
-        .remove(".distilled/test/math.json")
-        .pipe(Effect.catchAll(() => Effect.void));
-
-      // Spawn agent
-      const myAgent = yield* agent("test/math", { toolkit: "Coding" });
-
-      // Generate tests
-      yield* myAgent.send(`
-        Read test/fixtures/math.ts and generate a comprehensive test file at ${GENERATED_DIR}/math.test.ts.
-        
-        Requirements:
-        - Use vitest (import { describe, it, expect } from "vitest")
-        - Import from "../math.ts" (relative path)
-        - Test all functions: add, multiply, factorial, isPrime, fibonacci
-        - Include edge cases (0, 1, negative numbers)
-        - Use describe blocks to organize by function
-      `);
-
-      // Run and fix tests
-      yield* myAgent.send(`
-        Run the tests with: bun test ${GENERATED_DIR}/math.test.ts
-        
-        If any tests fail, read the error output, fix the test file, and run again.
-        Keep iterating until all tests pass.
-      `);
-
-      // Verify
-      const testContent = yield* fs.readFileString(
-        `${GENERATED_DIR}/math.test.ts`,
-      );
-      expect(testContent).toContain("describe");
-      expect(testContent).toContain("add");
-      expect(testContent).toContain("expect");
-
-      const sessionExists = yield* fs.exists(".distilled/test/math.json");
-      expect(sessionExists).toBe(true);
-    }),
-  );
-
-  const MemoryResponse = Schema.Struct({
-    code: Schema.String,
-    remembered: Schema.Boolean,
-  });
-
-  test(
-    "persists chat history across sessions",
-    { timeout: 120_000 },
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-
-      yield* fs
-        .remove(".distilled/test/memory.json")
-        .pipe(Effect.catchAll(() => Effect.void));
-
-      // Session 1
-      const agent1 = yield* agent("test/memory");
-      yield* agent1.send(
-        "I am telling you a secret code. Remember it exactly: DELTA-9-FOXTROT",
-      );
-
-      const session1 = yield* fs.readFileString(".distilled/test/memory.json");
-      expect(session1.length).toBeGreaterThan(100);
-
-      // Session 2
-      const agent2 = yield* agent("test/memory");
-      const memory = yield* agent2.query(
-        "What was the secret code I told you? Return it exactly as I said it.",
-        MemoryResponse,
-      );
-
-      expect(memory.remembered).toBe(true);
-      expect(memory.code.toUpperCase()).toContain("DELTA");
-      expect(memory.code.toUpperCase()).toContain("FOXTROT");
-
-      // Session 3
-      const agent3 = yield* agent("test/memory");
-      const memory2 = yield* agent3.query(
-        "Do you still remember the secret code? What is it?",
-        MemoryResponse,
-      );
-
-      expect(memory2.remembered).toBe(true);
-      expect(memory2.code.toUpperCase()).toContain("DELTA");
-    }),
-  );
-
-  test(
-    "query returns structured data matching schema",
+    "send returns a stream of ThreadParts",
     { timeout: 60_000 },
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
 
+      // Clean state
       yield* fs
-        .remove(".distilled/test/structured.json")
+        .remove(".distilled/state/test-agent.state.json")
         .pipe(Effect.catchAll(() => Effect.void));
 
-      const MathResult = Schema.Struct({
-        operation: Schema.String,
-        operands: Schema.Array(Schema.Number),
-        result: Schema.Number,
-      });
+      const myAgent = yield* spawn(TestAgent);
 
-      const myAgent = yield* agent("test/structured");
-      const result = yield* myAgent.query(
-        "Calculate 15 + 27 and return the result in structured form.",
-        MathResult,
+      // Collect stream parts
+      const parts: unknown[] = [];
+      yield* Stream.runForEach(myAgent.send("Say hello"), (part) =>
+        Effect.sync(() => parts.push(part)),
       );
 
-      expect(result.operation).toContain("add");
-      expect(result.operands).toContain(15);
-      expect(result.operands).toContain(27);
-      expect(result.result).toBe(42);
+      // Verify we received stream parts
+      expect(parts.length).toBeGreaterThan(0);
+
+      // Verify part types
+      const partTypes = parts.map((p: any) => p.type);
+      expect(partTypes).toContain("text-start");
+      expect(partTypes).toContain("text-delta");
+      expect(partTypes).toContain("text-end");
+    }),
+  );
+
+  test(
+    "toText extracts text from stream",
+    { timeout: 60_000 },
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+
+      // Clean state
+      yield* fs
+        .remove(".distilled/state/test-agent.state.json")
+        .pipe(Effect.catchAll(() => Effect.void));
+
+      const myAgent = yield* spawn(TestAgent);
+
+      // Use toText to extract the response
+      const response = yield* myAgent
+        .send("Say exactly: HELLO_WORLD")
+        .pipe(toText("last-message"));
+
+      expect(response.toUpperCase()).toContain("HELLO");
+    }),
+  );
+
+  test(
+    "agent persists chat history",
+    { timeout: 120_000 },
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+
+      // Clean state
+      yield* fs
+        .remove(".distilled/state/test-agent.state.json")
+        .pipe(Effect.catchAll(() => Effect.void));
+
+      // Session 1: Tell agent a secret
+      const agent1 = yield* spawn(TestAgent);
+      yield* agent1
+        .send("Remember this code: ALPHA-123")
+        .pipe(toText("last-message"));
+
+      // Verify state was persisted
+      const stateExists = yield* fs.exists(
+        ".distilled/state/test-agent.state.json",
+      );
+      expect(stateExists).toBe(true);
+
+      // Session 2: Ask agent to recall
+      const agent2 = yield* spawn(TestAgent);
+      const response = yield* agent2
+        .send("What code did I tell you to remember?")
+        .pipe(toText("last-message"));
+
+      expect(response.toUpperCase()).toContain("ALPHA");
     }),
   );
 });
