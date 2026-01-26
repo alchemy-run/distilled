@@ -17,8 +17,10 @@ export class ContextManagerError extends Data.TaggedError(
  * Parameters for preparing context.
  */
 export interface PrepareContextParams {
-  /** The agent key for state lookup */
-  readonly agentKey: string;
+  /** The agent ID */
+  readonly agentId: string;
+  /** The thread ID */
+  readonly threadId: string;
   /** The system prompt (will be prepended to messages) */
   readonly systemPrompt: string;
 }

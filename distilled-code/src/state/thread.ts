@@ -2,7 +2,7 @@ import type { AnyPart } from "@effect/ai/Response";
 import type { Fiber } from "effect/Fiber";
 import type * as PubSub from "effect/PubSub";
 
-import type { StateStoreError } from "./store.ts";
+import type { StateStoreError } from "./state-store.ts";
 
 export type Thread = {
   pubsub: PubSub.PubSub<MessagePart>;

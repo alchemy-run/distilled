@@ -44,6 +44,7 @@
     "@effect/experimental": "catalog:",
     "@effect/platform": "catalog:",
     "@effect/platform-node": "catalog:",
+    "@libsql/client": "^0.17.0",
     "diff": "catalog:",
     "effect": "catalog:",
     "web-tree-sitter": "catalog:",
@@ -52,5 +53,13 @@
   "devDependencies": {
     "@effect/vitest": "catalog:",
     "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@libsql/client": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@libsql/client": {
+      "optional": true
+    }
   }
 }

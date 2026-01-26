@@ -13,6 +13,7 @@
     ],
     "catalog": {
       "@effect/ai-anthropic": "latest",
+      "@libsql/client": "^0.15.0",
       "@effect/ai-openai": "latest",
       "@effect/ai": "latest",
       "@effect/cli": "latest",

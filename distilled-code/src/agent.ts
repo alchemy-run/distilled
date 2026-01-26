@@ -76,25 +76,25 @@ export interface AgentInstance<A extends Agent<string, any[]>> {
 
 export const spawn: <A extends Agent<string, any[]>>(
   agent: A,
-  scope?: string,
+  threadId?: string,
 ) => Effect.Effect<
   AgentInstance<A>,
   AiError | StateStoreError,
   LanguageModel | Handler<string> | StateStore | FileSystem
 > = Effect.fn(function* <A extends Agent<string, any[]>>(
   agent: A,
-  scope: string = agent.id,
+  threadId: string = agent.id,
 ) {
   const store = yield* StateStore;
 
-  // Compute scoped key: root agent uses scope directly, children use scope/agentId
-  const agentKey = scope === agent.id ? scope : `${scope}/${agent.id}`;
+  // Agent ID is the agent's unique identifier
+  const agentId = agent.id;
 
   // Recover from crash: flush any partial parts from previous session
-  yield* flush(store, agentKey);
+  yield* flush(store, agentId, threadId);
 
   // Get messages to hydrate chat
-  const messages = yield* store.readMessages(agentKey);
+  const messages = yield* store.readThreadMessages(agentId, threadId);
   const chat = yield* Chat.fromPrompt(messages);
 
   // Semaphore for exclusive access
@@ -123,7 +123,7 @@ export const spawn: <A extends Agent<string, any[]>>(
           `Agent "${recipient}" not found. Available agents: ${[...agents.keys()].join(", ")}`,
         );
       }
-      spawned.set(recipient, yield* spawn(childAgent, scope));
+      spawned.set(recipient, yield* spawn(childAgent, threadId));
     }
     return spawned.get(recipient)!;
   });
@@ -176,14 +176,14 @@ ${[send, query]}` {}
         locked(
           Effect.gen(function* () {
             // Append user input part
-            yield* store.appendPart(agentKey, {
+            yield* store.appendThreadPart(agentId, threadId, {
               type: "user-input",
               content: prompt,
               timestamp: Date.now(),
             });
 
             // Flush user input immediately
-            yield* flush(store, agentKey);
+            yield* flush(store, agentId, threadId);
 
             return chat
               .streamText({
@@ -201,10 +201,14 @@ ${[send, query]}` {}
                 Stream.tap((part) => {
                   const threadPart = part as MessagePart;
                   return Effect.gen(function* () {
-                    yield* store.appendPart(agentKey, threadPart);
+                    yield* store.appendThreadPart(
+                      agentId,
+                      threadId,
+                      threadPart,
+                    );
                     // Check if message boundary reached
                     if (isMessageBoundary(threadPart)) {
-                      yield* flush(store, agentKey);
+                      yield* flush(store, agentId, threadId);
                     }
                   });
                 }),
@@ -246,25 +250,29 @@ const isMessageBoundary = (part: MessagePart): boolean =>
  */
 const flush = (
   store: StateStore,
-  agentKey: string,
+  agentId: string,
+  threadId: string,
 ): Effect.Effect<void, StateStoreError> =>
   Effect.gen(function* () {
-    const parts = yield* store.readParts(agentKey);
+    const parts = yield* store.readThreadParts(agentId, threadId);
     if (parts.length === 0) return;
 
     // Check for user-input first (not a Response part)
     const firstPart = parts[0];
     if (firstPart.type === "user-input") {
       // User input becomes a user message
-      const currentMessages = yield* store.readMessages(agentKey);
-      yield* store.writeMessages(agentKey, [
+      const currentMessages = yield* store.readThreadMessages(
+        agentId,
+        threadId,
+      );
+      yield* store.writeThreadMessages(agentId, threadId, [
         ...currentMessages,
         {
           role: "user" as const,
           content: firstPart.content,
         },
       ]);
-      yield* store.truncateParts(agentKey);
+      yield* store.truncateThreadParts(agentId, threadId);
       return;
     }
 
@@ -282,9 +290,15 @@ const flush = (
     );
 
     if (messages.length > 0) {
-      const currentMessages = yield* store.readMessages(agentKey);
-      yield* store.writeMessages(agentKey, [...currentMessages, ...messages]);
+      const currentMessages = yield* store.readThreadMessages(
+        agentId,
+        threadId,
+      );
+      yield* store.writeThreadMessages(agentId, threadId, [
+        ...currentMessages,
+        ...messages,
+      ]);
     }
 
-    yield* store.truncateParts(agentKey);
+    yield* store.truncateThreadParts(agentId, threadId);
   });

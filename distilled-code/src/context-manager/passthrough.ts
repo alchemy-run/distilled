@@ -1,6 +1,7 @@
+import type { MessageEncoded } from "@effect/ai/Prompt";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { type MessageEncoded, StateStore } from "../state/index.ts";
+import { StateStore } from "../state/index.ts";
 import { ContextManager, ContextManagerError } from "./context-manager.ts";
 /**
  * Naive context manager - passes through messages unmodified.
@@ -12,13 +13,15 @@ export const passthrough = Layer.effect(
     const store = yield* StateStore;
 
     return {
-      prepareContext: ({ agentKey, systemPrompt }) =>
+      prepareContext: ({ agentId, threadId, systemPrompt }) =>
         Effect.gen(function* () {
           // Load messages from state, filter out old system messages
-          const messages = yield* store.readMessages(agentKey).pipe(
-            Effect.map((msgs) => msgs.filter((m) => m.role !== "system")),
-            Effect.catchAll(() => Effect.succeed([] as MessageEncoded[])),
-          );
+          const messages = yield* store
+            .readThreadMessages(agentId, threadId)
+            .pipe(
+              Effect.map((msgs) => msgs.filter((m) => m.role !== "system")),
+              Effect.catchAll(() => Effect.succeed([] as MessageEncoded[])),
+            );
 
           // Prepend fresh system prompt
           return [

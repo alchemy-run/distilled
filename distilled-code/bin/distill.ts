@@ -11,7 +11,6 @@
  */
 import { AnthropicClient, AnthropicLanguageModel } from "@effect/ai-anthropic";
 import { Args, Command, Options } from "@effect/cli";
-import * as Persistence from "@effect/experimental/Persistence";
 import { FileSystem, Path } from "@effect/platform";
 import {
   NodeContext,
@@ -29,10 +28,7 @@ import * as Logger from "effect/Logger";
 import * as Option from "effect/Option";
 import * as Stream from "effect/Stream";
 import { isAgent, spawn, type Agent } from "../src/agent.ts";
-import {
-  FileSystemStateStore,
-  StateStore,
-} from "../src/state/index.ts";
+import { SqliteStateStore, StateStore } from "../src/state/index.ts";
 import { match } from "../src/util/wildcard.ts";
 
 const DEFAULT_CONFIG_FILE = "distilled.config.ts";
@@ -254,7 +250,7 @@ const resolveConfigPath = Effect.fn(function* (inputPath: string | undefined) {
 });
 
 /**
- * Clean command - removes agent state.
+ * Clean command - removes thread state.
  */
 const cleanCommand = Command.make(
   "clean",
@@ -262,7 +258,7 @@ const cleanCommand = Command.make(
     filter: Options.text("filter").pipe(
       Options.withAlias("f"),
       Options.withDescription(
-        "Glob pattern to filter agents (default: '*' for all)",
+        "Glob pattern to filter threads (default: '*' for all)",
       ),
       Options.optional,
     ),
@@ -275,23 +271,26 @@ const cleanCommand = Command.make(
     Effect.gen(function* () {
       const store = yield* StateStore;
 
-      const allAgents = yield* store.listAgents();
+      const allThreads = yield* store.listThreads();
 
       const pattern = Option.getOrElse(filter, () => "*");
-      const matchedAgents = allAgents.filter((agent) => match(agent, pattern));
+      // Match against "agentId/threadId" format for pattern matching
+      const matchedThreads = allThreads.filter((t) =>
+        match(`${t.agentId}/${t.threadId}`, pattern),
+      );
 
-      if (matchedAgents.length === 0) {
-        yield* Console.log("No agent state to clean.");
+      if (matchedThreads.length === 0) {
+        yield* Console.log("No thread state to clean.");
         return;
       }
 
       const prefix = dryRun ? "would delete" : "deleted";
 
-      for (const agentKey of matchedAgents) {
+      for (const thread of matchedThreads) {
         if (!dryRun) {
-          yield* store.deleteAgent(agentKey);
+          yield* store.deleteThread(thread.agentId, thread.threadId);
         }
-        yield* Console.log(`${prefix}: ${agentKey}`);
+        yield* Console.log(`${prefix}: ${thread.agentId}/${thread.threadId}`);
       }
     }),
 );
@@ -314,8 +313,7 @@ Effect.gen(function* () {
   Effect.provide(
     Layer.mergeAll(
       Layer.provideMerge(Anthropic, NodeHttpClient.layer),
-      Layer.provideMerge(FileSystemStateStore, NodeContext.layer),
-      Persistence.layerMemory,
+      Layer.provideMerge(SqliteStateStore, NodeContext.layer),
     ),
   ),
   NodeRuntime.runMain,

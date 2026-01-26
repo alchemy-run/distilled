@@ -11,21 +11,18 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import { LSPManagerLive } from "../src/lsp/index.ts";
-import { FileSystemStateStore } from "../src/state/index.ts";
-
-const stateStoreLayer = Layer.provideMerge(
-  FileSystemStateStore,
-  NodeContext.layer,
-);
+import { LibsqlSqlite, sqliteStateStore } from "../src/state/index.ts";
 
 const lspLayer = LSPManagerLive([]);
 
 const platform = Layer.mergeAll(
-  NodeContext.layer,
+  Layer.provideMerge(
+    Layer.provide(sqliteStateStore(), LibsqlSqlite),
+    NodeContext.layer,
+  ),
   FetchHttpClient.layer,
   Logger.pretty,
   Persistence.layerMemory,
-  stateStoreLayer,
   lspLayer,
 );
 

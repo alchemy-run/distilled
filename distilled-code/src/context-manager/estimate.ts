@@ -1,4 +1,4 @@
-import type { MessageEncoded } from "../state/index.ts";
+import type { MessageEncoded } from "@effect/ai/Prompt";
 
 // TODO(sam): use a tokenizer to estimate tokens?
 

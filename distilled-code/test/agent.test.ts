@@ -14,13 +14,6 @@ describe("Agent", () => {
     "send returns a stream of ThreadParts",
     { timeout: 60_000 },
     Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-
-      // Clean state
-      yield* fs
-        .remove(".distilled/state/test-agent.state.json")
-        .pipe(Effect.catchAll(() => Effect.void));
-
       const myAgent = yield* spawn(TestAgent);
 
       // Collect stream parts
@@ -44,13 +37,6 @@ describe("Agent", () => {
     "toText extracts text from stream",
     { timeout: 60_000 },
     Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-
-      // Clean state
-      yield* fs
-        .remove(".distilled/state/test-agent.state.json")
-        .pipe(Effect.catchAll(() => Effect.void));
-
       const myAgent = yield* spawn(TestAgent);
 
       // Use toText to extract the response
@@ -68,21 +54,14 @@ describe("Agent", () => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
 
-      // Clean state
-      yield* fs
-        .remove(".distilled/state/test-agent.state.json")
-        .pipe(Effect.catchAll(() => Effect.void));
-
       // Session 1: Tell agent a secret
       const agent1 = yield* spawn(TestAgent);
       yield* agent1
         .send("Remember this code: ALPHA-123")
         .pipe(toText("last-message"));
 
-      // Verify state was persisted
-      const stateExists = yield* fs.exists(
-        ".distilled/state/test-agent.state.json",
-      );
+      // Verify state was persisted (SQLite database file)
+      const stateExists = yield* fs.exists(".distilled/state.db");
       expect(stateExists).toBe(true);
 
       // Session 2: Ask agent to recall
