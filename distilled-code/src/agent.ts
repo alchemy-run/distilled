@@ -4,6 +4,7 @@ import type {
   GenerateObjectResponse,
   LanguageModel,
 } from "@effect/ai/LanguageModel";
+import * as Prompt from "@effect/ai/Prompt";
 import type { Handler } from "@effect/ai/Tool";
 import type { FileSystem } from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
@@ -14,11 +15,10 @@ import type { Fragment } from "./fragment.ts";
 import { input } from "./input.ts";
 import { output } from "./output.ts";
 import {
-  AgentState,
-  AgentStateError,
-  type MessageEncoded,
-  type ThreadPart,
-} from "./state.ts";
+  StateStore,
+  StateStoreError,
+  type MessagePart,
+} from "./state/index.ts";
 import { toText } from "./stream.ts";
 import { tool } from "./tool/tool.ts";
 import { Toolkit } from "./toolkit/toolkit.ts";
@@ -26,8 +26,6 @@ import {
   schemaFromJsonSchema,
   type JsonSchema7Root,
 } from "./util/json-schema.ts";
-
-type _ = MessageEncoded;
 
 export const isAgent = (x: any): x is Agent => x?.type === "agent";
 
@@ -62,17 +60,17 @@ export interface AgentInstance<A extends Agent<string, any[]>> {
   send: (
     prompt: string,
   ) => Stream.Stream<
-    ThreadPart,
-    AiError | AgentStateError,
-    LanguageModel | Handler<string> | AgentState
+    MessagePart,
+    AiError | StateStoreError,
+    LanguageModel | Handler<string> | StateStore
   >;
   query: <A>(
     prompt: string,
     schema: S.Schema<A, any>,
   ) => Effect.Effect<
     GenerateObjectResponse<{}, A>,
-    AiError | AgentStateError,
-    LanguageModel | Handler<string> | AgentState
+    AiError | StateStoreError,
+    LanguageModel | Handler<string> | StateStore
   >;
 }
 
@@ -81,22 +79,25 @@ export const spawn: <A extends Agent<string, any[]>>(
   scope?: string,
 ) => Effect.Effect<
   AgentInstance<A>,
-  AiError | AgentStateError,
-  LanguageModel | Handler<string> | AgentState | FileSystem
+  AiError | StateStoreError,
+  LanguageModel | Handler<string> | StateStore | FileSystem
 > = Effect.fn(function* <A extends Agent<string, any[]>>(
   agent: A,
   scope: string = agent.id,
 ) {
-  const state = yield* AgentState;
+  const store = yield* StateStore;
 
   // Compute scoped key: root agent uses scope directly, children use scope/agentId
   const agentKey = scope === agent.id ? scope : `${scope}/${agent.id}`;
 
-  const agentState = yield* state.get(agentKey);
+  // Recover from crash: flush any partial parts from previous session
+  yield* flush(store, agentKey);
 
-  const chat = yield* Chat.fromPrompt(agentState.messages);
+  // Get messages to hydrate chat
+  const messages = yield* store.readMessages(agentKey);
+  const chat = yield* Chat.fromPrompt(messages);
 
-  // TODO(sam): support interrupts/parallel threads
+  // Semaphore for exclusive access
   const sem = yield* Effect.makeSemaphore(1);
   const locked = <A, E, R>(fn: Effect.Effect<A, E, R>) =>
     sem.withPermits(1)(fn);
@@ -175,11 +176,14 @@ ${[send, query]}` {}
         locked(
           Effect.gen(function* () {
             // Append user input part
-            yield* state.appendPart(agentKey, {
+            yield* store.appendPart(agentKey, {
               type: "user-input",
               content: prompt,
               timestamp: Date.now(),
             });
+
+            // Flush user input immediately
+            yield* flush(store, agentKey);
 
             return chat
               .streamText({
@@ -193,11 +197,18 @@ ${[send, query]}` {}
                 ],
               })
               .pipe(
-                // Forward parts to state (which handles PubSub + persistence)
-                Stream.tap((part) =>
-                  state.appendPart(agentKey, part as ThreadPart),
-                ),
-                Stream.map((part) => part as ThreadPart),
+                // Forward parts to store
+                Stream.tap((part) => {
+                  const threadPart = part as MessagePart;
+                  return Effect.gen(function* () {
+                    yield* store.appendPart(agentKey, threadPart);
+                    // Check if message boundary reached
+                    if (isMessageBoundary(threadPart)) {
+                      yield* flush(store, agentKey);
+                    }
+                  });
+                }),
+                Stream.map((part) => part as MessagePart),
               );
           }),
         ),
@@ -218,3 +229,62 @@ ${[send, query]}` {}
       ),
   } satisfies AgentInstance<A>;
 });
+
+/**
+ * Check if a part completes a message boundary.
+ */
+const isMessageBoundary = (part: MessagePart): boolean =>
+  part.type === "user-input" ||
+  part.type === "text-end" ||
+  part.type === "reasoning-end" ||
+  part.type === "tool-call" ||
+  part.type === "tool-result";
+
+/**
+ * Flush parts to messages: reads accumulated parts, converts them to messages
+ * using Prompt.fromResponseParts, writes messages, and truncates parts.
+ */
+const flush = (
+  store: StateStore,
+  agentKey: string,
+): Effect.Effect<void, StateStoreError> =>
+  Effect.gen(function* () {
+    const parts = yield* store.readParts(agentKey);
+    if (parts.length === 0) return;
+
+    // Check for user-input first (not a Response part)
+    const firstPart = parts[0];
+    if (firstPart.type === "user-input") {
+      // User input becomes a user message
+      const currentMessages = yield* store.readMessages(agentKey);
+      yield* store.writeMessages(agentKey, [
+        ...currentMessages,
+        {
+          role: "user" as const,
+          content: firstPart.content,
+        },
+      ]);
+      yield* store.truncateParts(agentKey);
+      return;
+    }
+
+    // Use @effect/ai's Prompt.fromResponseParts for all AI response parts
+    // It handles all the streaming accumulation logic properly
+    const prompt = Prompt.fromResponseParts(
+      parts.filter((p) => p.type !== "user-input") as any[],
+    );
+
+    const encode = S.encode(Prompt.Message);
+
+    // Extract messages from the Prompt
+    const messages = yield* Effect.all(
+      prompt.content.map((msg) => encode(msg).pipe(Effect.orDie)),
+    );
+
+    if (messages.length > 0) {
+      const currentMessages = yield* store.readMessages(agentKey);
+      yield* store.writeMessages(agentKey, [...currentMessages, ...messages]);
+    }
+
+    yield* store.truncateParts(agentKey);
+  });

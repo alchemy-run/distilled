@@ -1,7 +1,7 @@
 import * as LLM from "@effect/ai/LanguageModel";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { AgentState, type MessageEncoded } from "../state.ts";
+import { type MessageEncoded, StateStore } from "../state/index.ts";
 import { ContextManager, ContextManagerError } from "./context-manager.ts";
 import { estimateTokens, estimateTotalTokens } from "./estimate.ts";
 
@@ -36,14 +36,14 @@ export const compaction = (
   Layer.effect(
     ContextManager,
     Effect.gen(function* () {
-      const state = yield* AgentState;
+      const store = yield* StateStore;
       const model = yield* LLM.LanguageModel;
 
       return {
         prepareContext: ({ agentKey, systemPrompt }) =>
           Effect.gen(function* () {
             // Load messages from state
-            const allMessages = yield* state.getMessages(agentKey).pipe(
+            const allMessages = yield* store.readMessages(agentKey).pipe(
               Effect.map((msgs) => msgs.filter((m) => m.role !== "system")),
               Effect.catchAll(() => Effect.succeed([] as MessageEncoded[])),
             );
@@ -88,11 +88,8 @@ export const compaction = (
             ];
 
             // Persist compacted state
-            yield* state
-              .saveMessages(
-                agentKey,
-                JSON.stringify({ content: compactedMessages }),
-              )
+            yield* store
+              .writeMessages(agentKey, compactedMessages)
               .pipe(Effect.catchAll(() => Effect.void));
 
             yield* Effect.logInfo(

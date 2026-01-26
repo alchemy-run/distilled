@@ -16,8 +16,6 @@ import { isInput } from "./input.ts";
 import { isOutput } from "./output.ts";
 import { isTool, type Tool } from "./tool/tool.ts";
 import { isToolkit, type Toolkit } from "./toolkit/toolkit.ts";
-export type { MessageEncoded } from "@effect/ai/Prompt";
-export type { Toolkit } from "./toolkit/toolkit.ts";
 
 /**
  * A thunk is a function that returns a reference, enabling forward references.

@@ -27,8 +27,12 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import * as Option from "effect/Option";
+import * as Stream from "effect/Stream";
 import { isAgent, spawn, type Agent } from "../src/agent.ts";
-import { AgentState, FileSystemAgentState } from "../src/state.ts";
+import {
+  FileSystemStateStore,
+  StateStore,
+} from "../src/state/index.ts";
 import { match } from "../src/util/wildcard.ts";
 
 const DEFAULT_CONFIG_FILE = "distilled.config.ts";
@@ -196,7 +200,7 @@ const runAgent = (agent: Agent, prompt: string) =>
   Effect.gen(function* () {
     yield* Console.log(`Running agent: ${agent.id}`);
     const instance = yield* spawn(agent);
-    yield* instance.send(prompt);
+    yield* Stream.runDrain(instance.send(prompt));
     yield* Console.log("\n");
   }) as Effect.Effect<void, never, never>;
 
@@ -269,9 +273,9 @@ const cleanCommand = Command.make(
   },
   ({ filter, dryRun }) =>
     Effect.gen(function* () {
-      const agentState = yield* AgentState;
+      const store = yield* StateStore;
 
-      const allAgents = yield* agentState.listAgents();
+      const allAgents = yield* store.listAgents();
 
       const pattern = Option.getOrElse(filter, () => "*");
       const matchedAgents = allAgents.filter((agent) => match(agent, pattern));
@@ -285,7 +289,7 @@ const cleanCommand = Command.make(
 
       for (const agentKey of matchedAgents) {
         if (!dryRun) {
-          yield* agentState.delete(agentKey);
+          yield* store.deleteAgent(agentKey);
         }
         yield* Console.log(`${prefix}: ${agentKey}`);
       }
@@ -310,7 +314,7 @@ Effect.gen(function* () {
   Effect.provide(
     Layer.mergeAll(
       Layer.provideMerge(Anthropic, NodeHttpClient.layer),
-      Layer.provideMerge(FileSystemAgentState, NodeContext.layer),
+      Layer.provideMerge(FileSystemStateStore, NodeContext.layer),
       Persistence.layerMemory,
     ),
   ),

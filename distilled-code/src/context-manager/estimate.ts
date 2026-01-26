@@ -1,4 +1,4 @@
-import type { MessageEncoded } from "../state.ts";
+import type { MessageEncoded } from "../state/index.ts";
 
 // TODO(sam): use a tokenizer to estimate tokens?
 

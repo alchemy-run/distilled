@@ -11,10 +11,10 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import { LSPManagerLive } from "../src/lsp/index.ts";
-import { FileSystemAgentState } from "../src/state.ts";
+import { FileSystemStateStore } from "../src/state/index.ts";
 
-const agentStateLayer = Layer.provideMerge(
-  FileSystemAgentState,
+const stateStoreLayer = Layer.provideMerge(
+  FileSystemStateStore,
   NodeContext.layer,
 );
 
@@ -25,7 +25,7 @@ const platform = Layer.mergeAll(
   FetchHttpClient.layer,
   Logger.pretty,
   Persistence.layerMemory,
-  agentStateLayer,
+  stateStoreLayer,
   lspLayer,
 );
 

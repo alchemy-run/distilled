@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { AgentState, type MessageEncoded } from "../state.ts";
+import { type MessageEncoded, StateStore } from "../state/index.ts";
 import { ContextManager, ContextManagerError } from "./context-manager.ts";
 /**
  * Naive context manager - passes through messages unmodified.
@@ -9,13 +9,13 @@ import { ContextManager, ContextManagerError } from "./context-manager.ts";
 export const passthrough = Layer.effect(
   ContextManager,
   Effect.gen(function* () {
-    const state = yield* AgentState;
+    const store = yield* StateStore;
 
     return {
       prepareContext: ({ agentKey, systemPrompt }) =>
         Effect.gen(function* () {
           // Load messages from state, filter out old system messages
-          const messages = yield* state.getMessages(agentKey).pipe(
+          const messages = yield* store.readMessages(agentKey).pipe(
             Effect.map((msgs) => msgs.filter((m) => m.role !== "system")),
             Effect.catchAll(() => Effect.succeed([] as MessageEncoded[])),
           );

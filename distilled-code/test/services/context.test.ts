@@ -3,19 +3,21 @@ import { NodeContext } from "@effect/platform-node";
 import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import { defaultCompactionConfig } from "../../src/context-manager/compaction.ts";
 import {
   ContextManager,
   ContextManagerError,
-  defaultCompactionConfig,
+} from "../../src/context-manager/context-manager.ts";
+import {
   estimateTokens,
   estimateTotalTokens,
-  NaiveContextManager,
-} from "../../src/services/context.ts";
-import { AgentState, FileSystemAgentState } from "../../src/services/state.ts";
+} from "../../src/context-manager/estimate.ts";
+import { passthrough as NaiveContextManager } from "../../src/context-manager/passthrough.ts";
+import { FileSystemStateStore, StateStore } from "../../src/state/index.ts";
 
-// Test layer that provides AgentState
+// Test layer that provides StateStore
 const testStateLayer = Layer.provideMerge(
-  FileSystemAgentState,
+  FileSystemStateStore,
   NodeContext.layer,
 );
 
@@ -77,7 +79,7 @@ describe("ContextManager", () => {
 
     it.effect("filters out existing system messages from history", () =>
       Effect.gen(function* () {
-        const state = yield* AgentState;
+        const store = yield* StateStore;
         const agentKey = "test-naive-filter";
 
         // Save some messages including a system message
@@ -86,10 +88,7 @@ describe("ContextManager", () => {
           { role: "user", content: "Hello" },
           { role: "assistant", content: "Hi there!" },
         ];
-        yield* state.saveMessages(
-          agentKey,
-          JSON.stringify({ content: messages }),
-        );
+        yield* store.writeMessages(agentKey, messages);
 
         const manager = yield* ContextManager;
         const result = yield* manager.prepareContext({
@@ -105,7 +104,7 @@ describe("ContextManager", () => {
         expect(result[2].role).toBe("assistant");
 
         // Clean up
-        yield* state.delete(agentKey);
+        yield* store.deleteAgent(agentKey);
       }).pipe(
         Effect.provide(NaiveContextManager),
         Effect.provide(testStateLayer),
