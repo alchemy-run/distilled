@@ -4,7 +4,6 @@ import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
-import * as String from "effect/String";
 import { input } from "../input.ts";
 import { output } from "../output.ts";
 import { CommandValidator } from "../util/command-validator.ts";
@@ -205,8 +204,3 @@ Important:
     output,
   };
 });
-
-const runString = <E, R>(
-  stream: Stream.Stream<Uint8Array, E, R>,
-): Effect.Effect<string, E, R> =>
-  stream.pipe(Stream.decodeText(), Stream.runFold(String.empty, String.concat));

@@ -5,7 +5,7 @@ import { JSONSchema } from "effect";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { Agent } from "../src/agent.ts";
-import { createContext, createPreamble } from "../src/context.ts";
+import { createContext, preamble } from "../src/context.ts";
 import * as File from "../src/file/index.ts";
 import { input } from "../src/input.ts";
 import { output } from "../src/output.ts";
@@ -26,7 +26,7 @@ describe("createContext", () => {
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("simple")}Hello world`,
+          content: `${preamble("simple")}Hello world`,
         },
       ]);
     }).pipe(Effect.provide(TestLayer)),
@@ -51,7 +51,7 @@ describe("createContext", () => {
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("app")}Uses [app.ts](test/fixtures/app.ts) for main logic`,
+          content: `${preamble("app")}Uses [app.ts](test/fixtures/app.ts) for main logic`,
         },
         {
           role: "assistant",
@@ -92,7 +92,7 @@ describe("createContext", () => {
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("parent")}Delegates to @child`,
+          content: `${preamble("parent")}Delegates to @child`,
         },
         {
           role: "assistant",
@@ -132,7 +132,7 @@ describe("createContext", () => {
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("worker")}Uses 🧰Coding
+          content: `${preamble("worker")}Uses 🧰Coding
 
 ---
 
@@ -181,7 +181,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("root")}Has @a1 and @a2`,
+          content: `${preamble("root")}Has @a1 and @a2`,
         },
         {
           role: "assistant",
@@ -256,7 +256,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("order")}[a.ts](test/fixtures/a.ts) then [b.ts](test/fixtures/b.ts) then [c.ts](test/fixtures/c.ts)`,
+          content: `${preamble("order")}[a.ts](test/fixtures/a.ts) then [b.ts](test/fixtures/b.ts) then [c.ts](test/fixtures/c.ts)`,
         },
         {
           role: "assistant",
@@ -349,7 +349,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("missing")}Uses [exist.ts](does/not/exist.ts)`,
+          content: `${preamble("missing")}Uses [exist.ts](does/not/exist.ts)`,
         },
         {
           role: "assistant",
@@ -394,7 +394,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("primitives")}Count: 42, Name: Alice, Active: true`,
+          content: `${preamble("primitives")}Count: 42, Name: Alice, Active: true`,
         },
       ]);
     }).pipe(Effect.provide(TestLayer)),
@@ -410,7 +410,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("arrays")}Items:
+          content: `${preamble("arrays")}Items:
 - hello
 - world`,
         },
@@ -428,7 +428,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("sets")}Tags:
+          content: `${preamble("sets")}Tags:
 - typescript
 - effect`,
         },
@@ -446,7 +446,7 @@ A set of tools for reading, writing, and editing code:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("objects")}Config:
+          content: `${preamble("objects")}Config:
 host: localhost
 port: 3000`,
         },
@@ -467,7 +467,7 @@ port: 3000`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("nested")}Data:
+          content: `${preamble("nested")}Data:
 names:
   - Sam
   - John
@@ -491,7 +491,7 @@ settings:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("array-objects")}Users:
+          content: `${preamble("array-objects")}Users:
 - name: Alice
   age: 30
 - name: Bob
@@ -523,7 +523,7 @@ A simple echo toolkit:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("echo-agent")}Uses 🧰EchoToolkit
+          content: `${preamble("echo-agent")}Uses 🧰EchoToolkit
 
 ---
 
@@ -598,7 +598,7 @@ Configuration tools:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("config-agent")}Uses 🧰ConfigToolkit
+          content: `${preamble("config-agent")}Uses 🧰ConfigToolkit
 
 ---
 
@@ -674,7 +674,7 @@ Delegation tools:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("delegator")}Uses 🧰DelegationToolkit to work with @helper
+          content: `${preamble("delegator")}Uses 🧰DelegationToolkit to work with @helper
 
 ---
 
@@ -756,7 +756,7 @@ Data processing tools:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("data-agent")}Uses 🧰DataToolkit
+          content: `${preamble("data-agent")}Uses 🧰DataToolkit
 
 ---
 
@@ -854,7 +854,7 @@ Math operations:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("math-agent")}Uses 🧰MathToolkit
+          content: `${preamble("math-agent")}Uses 🧰MathToolkit
 
 ---
 
@@ -921,7 +921,7 @@ Math operations:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("multi")}Uses 🧰ToolkitA and 🧰ToolkitB
+          content: `${preamble("multi")}Uses 🧰ToolkitA and 🧰ToolkitB
 
 ---
 
@@ -970,7 +970,7 @@ Nested toolkit with ${nestedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("parent")}Delegates to @child`,
+          content: `${preamble("parent")}Delegates to @child`,
         },
         {
           role: "assistant",
@@ -1013,7 +1013,7 @@ Nested toolkit with ${nestedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("simple")}No toolkits here`,
+          content: `${preamble("simple")}No toolkits here`,
         },
       ]);
 
@@ -1021,90 +1021,88 @@ Nested toolkit with ${nestedTool}
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "does NOT include toolkit from nested agents (depth-limited)",
-    () =>
-      Effect.gen(function* () {
-        const inp = input("s")`String`;
-        const out = output("r")`Result`;
+  it.effect("does NOT include toolkit from nested agents (depth-limited)", () =>
+    Effect.gen(function* () {
+      const inp = input("s")`String`;
+      const out = output("r")`Result`;
 
-        const sharedTool = tool("shared")`Takes ${inp}, returns ${out}.`(
-          function* ({ s }) {
-            return { r: s };
-          },
-        );
+      const sharedTool = tool("shared")`Takes ${inp}, returns ${out}.`(
+        function* ({ s }) {
+          return { r: s };
+        },
+      );
 
-        class SharedToolkit extends ToolkitFactory("SharedToolkit")`
+      class SharedToolkit extends ToolkitFactory("SharedToolkit")`
 Shared: ${sharedTool}
 ` {}
 
-        class Agent1 extends Agent("a1")`Uses ${SharedToolkit}` {}
-        class Agent2 extends Agent("a2")`Also uses ${SharedToolkit}` {}
-        class RootAgent extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
+      class Agent1 extends Agent("a1")`Uses ${SharedToolkit}` {}
+      class Agent2 extends Agent("a2")`Also uses ${SharedToolkit}` {}
+      class RootAgent extends Agent("root")`Has ${Agent1} and ${Agent2}` {}
 
-        const ctx = yield* createContext(RootAgent);
+      const ctx = yield* createContext(RootAgent);
 
-        // With depth-limited context, toolkits from nested agents are NOT embedded
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("root")}Has @a1 and @a2`,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/a1.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @a1\n\nUses 🧰SharedToolkit" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-1",
-                name: "read",
-                params: { filePath: ".distilled/agents/a2.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-1",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @a2\n\nAlso uses 🧰SharedToolkit" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
+      // With depth-limited context, toolkits from nested agents are NOT embedded
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("root")}Has @a1 and @a2`,
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/a1.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @a1\n\nUses 🧰SharedToolkit" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-1",
+              name: "read",
+              params: { filePath: ".distilled/agents/a2.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-1",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @a2\n\nAlso uses 🧰SharedToolkit" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
 
-        // Toolkit from nested agents is NOT included
-        expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
-      }).pipe(Effect.provide(TestLayer)),
+      // Toolkit from nested agents is NOT included
+      expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
   // ============================================================
@@ -1128,7 +1126,7 @@ Shared: ${sharedTool}
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("orchestrator")}Available workers:
+            content: `${preamble("orchestrator")}Available workers:
 - "@worker-a"
 - "@worker-b"`,
           },
@@ -1151,7 +1149,7 @@ Shared: ${sharedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("coordinator")}Coordinate between these agents:
+          content: `${preamble("coordinator")}Coordinate between these agents:
 - "@alpha"
 - "@beta"
 - "@gamma" to complete tasks.`,
@@ -1183,7 +1181,7 @@ Shared: ${sharedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("codebase")}Important files:
+          content: `${preamble("codebase")}Important files:
 - "[main.ts](test/fixtures/main.ts)"
 - "[utils.ts](test/fixtures/utils.ts)"`,
         },
@@ -1213,7 +1211,7 @@ Shared: ${sharedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("assets")}Required assets:
+          content: `${preamble("assets")}Required assets:
 - "[config.json](test/fixtures/config.json)"
 - "[styles.css](test/fixtures/styles.css)"`,
         },
@@ -1237,7 +1235,7 @@ Shared: ${sharedTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("team")}Team structure:
+          content: `${preamble("team")}Team structure:
 leader: "@leader"
 worker: "@worker"`,
         },
@@ -1262,7 +1260,7 @@ worker: "@worker"`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("project")}Project roles:
+          content: `${preamble("project")}Project roles:
 ui: "@frontend"
 api: "@backend"
 infra: "@devops"`,
@@ -1297,7 +1295,7 @@ infra: "@devops"`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("docs")}Documentation files:
+          content: `${preamble("docs")}Documentation files:
 schema: "[schema.json](test/fixtures/schema.json)"
 readme: "[readme.md](test/fixtures/readme.md)"`,
         },
@@ -1326,7 +1324,7 @@ readme: "[readme.md](test/fixtures/readme.md)"`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("config")}Configuration file: [app.config.ts](test/fixtures/app.config.ts)`,
+          content: `${preamble("config")}Configuration file: [app.config.ts](test/fixtures/app.config.ts)`,
         },
         {
           role: "assistant",
@@ -1373,7 +1371,7 @@ readme: "[readme.md](test/fixtures/readme.md)"`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("workflow")}Workflow:
+          content: `${preamble("workflow")}Workflow:
 reviewers:
   - "@reviewer-a"
   - "@reviewer-b"
@@ -1416,7 +1414,7 @@ approvers:
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("codebase")}Code structure:
+          content: `${preamble("codebase")}Code structure:
 source:
   entry: "[index-src.ts](test/fixtures/index-src.ts)"
   types: "[types-src.ts](test/fixtures/types-src.ts)"
@@ -1464,7 +1462,7 @@ tests:
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("project")}Project:
+            content: `${preamble("project")}Project:
 spec: "[spec.md](test/fixtures/spec.md)"
 agent: "@implementer"
 toolkit: 🧰TaskToolkit`,
@@ -1488,7 +1486,7 @@ toolkit: 🧰TaskToolkit`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("manager")}Tasks:
+          content: `${preamble("manager")}Tasks:
 - name: Task 1
   assignee: "@agent-a"
 - name: Task 2
@@ -1890,7 +1888,7 @@ pipeline:
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("sender")}Uses 🧰SendToolkit
+            content: `${preamble("sender")}Uses 🧰SendToolkit
 
 ---
 
@@ -1967,7 +1965,7 @@ Send tools: 🛠️send
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("formatter")}Uses 🧰FormatToolkit
+            content: `${preamble("formatter")}Uses 🧰FormatToolkit
 
 ---
 
@@ -2001,7 +1999,7 @@ Format tools: 🛠️format
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("parent")}Delegates to @child`,
+          content: `${preamble("parent")}Delegates to @child`,
         },
         {
           role: "assistant",
@@ -2046,7 +2044,7 @@ Format tools: 🛠️format
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("orchestrator")}Coordinates @worker-a and @worker-b`,
+          content: `${preamble("orchestrator")}Coordinates @worker-a and @worker-b`,
         },
         {
           role: "assistant",
@@ -2121,7 +2119,7 @@ Format tools: 🛠️format
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("reader")}Reads [forward-ref.ts](test/fixtures/forward-ref.ts)`,
+          content: `${preamble("reader")}Reads [forward-ref.ts](test/fixtures/forward-ref.ts)`,
         },
         {
           role: "assistant",
@@ -2171,7 +2169,7 @@ Format tools: 🛠️format
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("worker")}Uses 🧰MyToolkit
+          content: `${preamble("worker")}Uses 🧰MyToolkit
 
 ---
 
@@ -2202,7 +2200,7 @@ Tools: 🛠️myTool
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("mixed")}Has @direct and @forward`,
+          content: `${preamble("mixed")}Has @direct and @forward`,
         },
         {
           role: "assistant",
@@ -2272,7 +2270,7 @@ Tools: 🛠️myTool
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("coordinator")}Workers:
+          content: `${preamble("coordinator")}Workers:
 - "@worker-x"
 - "@worker-y"`,
         },
@@ -2295,7 +2293,7 @@ Tools: 🛠️myTool
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("team")}Team:
+          content: `${preamble("team")}Team:
 leader: "@leader"
 member: "@member"`,
         },
@@ -2320,7 +2318,7 @@ member: "@member"`,
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("workflow")}Workflow:
+          content: `${preamble("workflow")}Workflow:
 stages:
   - name: build
     agent: "@build"
@@ -2348,7 +2346,7 @@ stages:
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("root")}Has @a1 and @a2`,
+            content: `${preamble("root")}Has @a1 and @a2`,
           },
           {
             role: "assistant",
@@ -2433,7 +2431,7 @@ Tools: ${sharedTool}
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("parent")}Uses @child`,
+            content: `${preamble("parent")}Uses @child`,
           },
           {
             role: "assistant",
@@ -2545,7 +2543,7 @@ Echo toolkit: ${echoTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("simple")}A simple agent
+          content: `${preamble("simple")}A simple agent
 
 ---
 
@@ -2594,7 +2592,7 @@ Echo toolkit: 🛠️echo
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("simple")}A simple agent
+          content: `${preamble("simple")}A simple agent
 
 ---
 
@@ -2655,7 +2653,7 @@ Additional: ${addTool}
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("merger")}Uses 🧰ReferencedToolkit
+          content: `${preamble("merger")}Uses 🧰ReferencedToolkit
 
 ---
 
@@ -2705,7 +2703,7 @@ Shared: ${sharedTool}
         expect(ctx.messages).toEqual([
           {
             role: "system",
-            content: `${createPreamble("dedup")}Uses 🧰SharedToolkit
+            content: `${preamble("dedup")}Uses 🧰SharedToolkit
 
 ---
 
@@ -2734,7 +2732,7 @@ Shared: 🛠️sharedTool
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("backward")}No toolkits here`,
+          content: `${preamble("backward")}No toolkits here`,
         },
       ]);
       expect(ctx.toolkit.tools).toEqual({});
@@ -2750,7 +2748,7 @@ Shared: 🛠️sharedTool
       expect(ctx.messages).toEqual([
         {
           role: "system",
-          content: `${createPreamble("empty")}No toolkits`,
+          content: `${preamble("empty")}No toolkits`,
         },
       ]);
       expect(ctx.toolkit.tools).toEqual({});
@@ -2761,229 +2759,220 @@ Shared: 🛠️sharedTool
   // Tests for depth-limited context (transitive exclusion)
   // ============================================================
 
-  it.effect(
-    "excludes transitive agents (depth > 1) from context",
-    () =>
-      Effect.gen(function* () {
-        // CEO -> VP -> Developer (transitive chain)
-        class Developer extends Agent("developer")`I write code` {}
-        class VP extends Agent("vp")`I manage ${Developer}` {}
-        class CEO extends Agent("ceo")`I lead ${VP}` {}
+  it.effect("excludes transitive agents (depth > 1) from context", () =>
+    Effect.gen(function* () {
+      // CEO -> VP -> Developer (transitive chain)
+      class Developer extends Agent("developer")`I write code` {}
+      class VP extends Agent("vp")`I manage ${Developer}` {}
+      class CEO extends Agent("ceo")`I lead ${VP}` {}
 
-        const ctx = yield* createContext(CEO);
+      const ctx = yield* createContext(CEO);
 
-        // VP should be included (depth = 1), Developer should NOT (depth = 2)
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("ceo")}I lead @vp`,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/vp.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @vp\n\nI manage @developer" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
-      }).pipe(Effect.provide(TestLayer)),
+      // VP should be included (depth = 1), Developer should NOT (depth = 2)
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("ceo")}I lead @vp`,
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/vp.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @vp\n\nI manage @developer" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "excludes files from transitive agents (depth > 1)",
-    () =>
-      Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        yield* fs.writeFileString(
-          "test/fixtures/ceo-report.md",
-          "# CEO Report",
-        );
-        yield* fs.writeFileString(
-          "test/fixtures/developer-code.ts",
-          "// Developer code",
-        );
+  it.effect("excludes files from transitive agents (depth > 1)", () =>
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      yield* fs.writeFileString("test/fixtures/ceo-report.md", "# CEO Report");
+      yield* fs.writeFileString(
+        "test/fixtures/developer-code.ts",
+        "// Developer code",
+      );
 
-        class CEOReport extends File.Markdown(
-          "test/fixtures/ceo-report.md",
-        )`CEO quarterly report` {}
-        class DeveloperCode extends File.TypeScript(
-          "test/fixtures/developer-code.ts",
-        )`Developer source code` {}
+      class CEOReport extends File.Markdown(
+        "test/fixtures/ceo-report.md",
+      )`CEO quarterly report` {}
+      class DeveloperCode extends File.TypeScript(
+        "test/fixtures/developer-code.ts",
+      )`Developer source code` {}
 
-        class Developer extends Agent("developer")`Uses ${DeveloperCode}` {}
-        class CEO extends Agent("ceo")`Reviews ${CEOReport} and leads ${Developer}` {}
+      class Developer extends Agent("developer")`Uses ${DeveloperCode}` {}
+      class CEO extends Agent(
+        "ceo",
+      )`Reviews ${CEOReport} and leads ${Developer}` {}
 
-        const ctx = yield* createContext(CEO);
+      const ctx = yield* createContext(CEO);
 
-        // CEOReport should be included (direct reference)
-        // DeveloperCode should NOT be included (referenced by nested agent)
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("ceo")}Reviews [ceo-report.md](test/fixtures/ceo-report.md) and leads @developer`,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/developer.md" },
-                providerExecuted: false,
+      // CEOReport should be included (direct reference)
+      // DeveloperCode should NOT be included (referenced by nested agent)
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("ceo")}Reviews [ceo-report.md](test/fixtures/ceo-report.md) and leads @developer`,
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/developer.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: {
+                content:
+                  "# @developer\n\nUses [developer-code.ts](test/fixtures/developer-code.ts)",
               },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: {
-                  content:
-                    "# @developer\n\nUses [developer-code.ts](test/fixtures/developer-code.ts)",
-                },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-file-1",
-                name: "read",
-                params: { filePath: "test/fixtures/ceo-report.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-file-1",
-                name: "read",
-                isFailure: false,
-                result: { content: "# CEO Report" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
-      }).pipe(Effect.provide(TestLayer)),
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-file-1",
+              name: "read",
+              params: { filePath: "test/fixtures/ceo-report.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-file-1",
+              name: "read",
+              isFailure: false,
+              result: { content: "# CEO Report" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "excludes toolkits from transitive agents (depth > 1)",
-    () =>
-      Effect.gen(function* () {
-        const codeInput = input("code")`The code to review`;
-        const reviewTool = tool("review")`Reviews ${codeInput}`(function* ({
-          code: _,
-        }) {});
+  it.effect("excludes toolkits from transitive agents (depth > 1)", () =>
+    Effect.gen(function* () {
+      const codeInput = input("code")`The code to review`;
+      const reviewTool = tool("review")`Reviews ${codeInput}`(function* ({
+        code: _,
+      }) {});
 
-        class CodingToolkit extends ToolkitFactory("CodingToolkit")`
+      class CodingToolkit extends ToolkitFactory("CodingToolkit")`
 Developer tools: ${reviewTool}
 ` {}
 
-        class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
-        class CEO extends Agent("ceo")`Leads ${Developer}` {}
+      class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
+      class CEO extends Agent("ceo")`Leads ${Developer}` {}
 
-        const ctx = yield* createContext(CEO);
+      const ctx = yield* createContext(CEO);
 
-        // Developer is listed but CodingToolkit is NOT included (from nested agent)
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("ceo")}Leads @developer`,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/developer.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @developer\n\nUses 🧰CodingToolkit" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
-        expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
-      }).pipe(Effect.provide(TestLayer)),
+      // Developer is listed but CodingToolkit is NOT included (from nested agent)
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("ceo")}Leads @developer`,
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/developer.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @developer\n\nUses 🧰CodingToolkit" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
+      expect(Object.keys(ctx.toolkit.tools)).toEqual([]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "includes direct toolkit but excludes nested agent toolkit",
-    () =>
-      Effect.gen(function* () {
-        const planInput = input("plan")`The plan`;
-        const planTool = tool("plan")`Creates ${planInput}`(function* ({
-          plan: _,
-        }) {});
-        const codeInput = input("code")`The code`;
-        const codeTool = tool("code")`Writes ${codeInput}`(function* ({
-          code: _,
-        }) {});
+  it.effect("includes direct toolkit but excludes nested agent toolkit", () =>
+    Effect.gen(function* () {
+      const planInput = input("plan")`The plan`;
+      const planTool = tool("plan")`Creates ${planInput}`(function* ({
+        plan: _,
+      }) {});
+      const codeInput = input("code")`The code`;
+      const codeTool = tool("code")`Writes ${codeInput}`(function* ({
+        code: _,
+      }) {});
 
-        class PlanningToolkit extends ToolkitFactory("PlanningToolkit")`
+      class PlanningToolkit extends ToolkitFactory("PlanningToolkit")`
 CEO tools: ${planTool}
 ` {}
-        class CodingToolkit extends ToolkitFactory("CodingToolkit")`
+      class CodingToolkit extends ToolkitFactory("CodingToolkit")`
 Developer tools: ${codeTool}
 ` {}
 
-        class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
-        class CEO extends Agent(
-          "ceo",
-        )`Uses ${PlanningToolkit} and leads ${Developer}` {}
+      class Developer extends Agent("developer")`Uses ${CodingToolkit}` {}
+      class CEO extends Agent(
+        "ceo",
+      )`Uses ${PlanningToolkit} and leads ${Developer}` {}
 
-        const ctx = yield* createContext(CEO);
+      const ctx = yield* createContext(CEO);
 
-        // PlanningToolkit is included (direct reference)
-        // CodingToolkit is NOT included (from nested agent)
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("ceo")}Uses 🧰PlanningToolkit and leads @developer
+      // PlanningToolkit is included (direct reference)
+      // CodingToolkit is NOT included (from nested agent)
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("ceo")}Uses 🧰PlanningToolkit and leads @developer
 
 ---
 
@@ -2995,100 +2984,96 @@ You can (and should) use the following tools to accomplish your tasks. Tool defi
 
 CEO tools: 🛠️plan
 `,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/developer.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @developer\n\nUses 🧰CodingToolkit" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
-        expect(Object.keys(ctx.toolkit.tools)).toEqual(["plan"]);
-      }).pipe(Effect.provide(TestLayer)),
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/developer.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @developer\n\nUses 🧰CodingToolkit" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
+      expect(Object.keys(ctx.toolkit.tools)).toEqual(["plan"]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "preamble includes agent communication guidance",
-    () =>
-      Effect.gen(function* () {
-        class SimpleAgent extends Agent("test")`Test agent` {}
+  it.effect("preamble includes agent communication guidance", () =>
+    Effect.gen(function* () {
+      class SimpleAgent extends Agent("test")`Test agent` {}
 
-        const ctx = yield* createContext(SimpleAgent);
+      const ctx = yield* createContext(SimpleAgent);
 
-        // Verify full context with agent communication section in preamble
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("test")}Test agent`,
-          },
-        ]);
-      }).pipe(Effect.provide(TestLayer)),
+      // Verify full context with agent communication section in preamble
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("test")}Test agent`,
+        },
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect(
-    "deep chain only includes direct level",
-    () =>
-      Effect.gen(function* () {
-        // 5-level deep chain: A -> B -> C -> D -> E
-        class E extends Agent("e")`Level E` {}
-        class D extends Agent("d")`Level D, uses ${E}` {}
-        class C extends Agent("c")`Level C, uses ${D}` {}
-        class B extends Agent("b")`Level B, uses ${C}` {}
-        class A extends Agent("a")`Level A, uses ${B}` {}
+  it.effect("deep chain only includes direct level", () =>
+    Effect.gen(function* () {
+      // 5-level deep chain: A -> B -> C -> D -> E
+      class E extends Agent("e")`Level E` {}
+      class D extends Agent("d")`Level D, uses ${E}` {}
+      class C extends Agent("c")`Level C, uses ${D}` {}
+      class B extends Agent("b")`Level B, uses ${C}` {}
+      class A extends Agent("a")`Level A, uses ${B}` {}
 
-        const ctx = yield* createContext(A);
+      const ctx = yield* createContext(A);
 
-        // Only B should be included (depth = 1), C/D/E should NOT (depth > 1)
-        expect(ctx.messages).toEqual([
-          {
-            role: "system",
-            content: `${createPreamble("a")}Level A, uses @b`,
-          },
-          {
-            role: "assistant",
-            content: [
-              {
-                type: "tool-call",
-                id: "ctx-agent-0",
-                name: "read",
-                params: { filePath: ".distilled/agents/b.md" },
-                providerExecuted: false,
-              },
-            ],
-          },
-          {
-            role: "tool",
-            content: [
-              {
-                type: "tool-result",
-                id: "ctx-agent-0",
-                name: "read",
-                isFailure: false,
-                result: { content: "# @b\n\nLevel B, uses @c" },
-                providerExecuted: false,
-              },
-            ],
-          },
-        ]);
-      }).pipe(Effect.provide(TestLayer)),
+      // Only B should be included (depth = 1), C/D/E should NOT (depth > 1)
+      expect(ctx.messages).toEqual([
+        {
+          role: "system",
+          content: `${preamble("a")}Level A, uses @b`,
+        },
+        {
+          role: "assistant",
+          content: [
+            {
+              type: "tool-call",
+              id: "ctx-agent-0",
+              name: "read",
+              params: { filePath: ".distilled/agents/b.md" },
+              providerExecuted: false,
+            },
+          ],
+        },
+        {
+          role: "tool",
+          content: [
+            {
+              type: "tool-result",
+              id: "ctx-agent-0",
+              name: "read",
+              isFailure: false,
+              result: { content: "# @b\n\nLevel B, uses @c" },
+              providerExecuted: false,
+            },
+          ],
+        },
+      ]);
+    }).pipe(Effect.provide(TestLayer)),
   );
 });

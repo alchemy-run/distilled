@@ -192,7 +192,7 @@ export const createContext: (
   const messages: MessageEncoded[] = [];
 
   // Build system message with preamble, root content, and toolkit descriptions
-  const systemParts: string[] = [createPreamble(agent.id), rootContent];
+  const systemParts: string[] = [preamble(agent.id), rootContent];
 
   if (toolkits.length > 0) {
     systemParts.push("\n\n---\n");
@@ -280,7 +280,7 @@ export const createContext: (
 /**
  * Creates the preamble for an agent context, including the agent identifier and symbol reference.
  */
-export const createPreamble = (agentId: string): string =>
+export const preamble = (agentId: string): string =>
   `You are @${agentId}, an agent configured with the following context.
 
 ## Symbol Reference
