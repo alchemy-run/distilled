@@ -1,5 +1,6 @@
 import type { Fragment } from "../fragment.ts";
-import type { Tool } from "../tool/tool.ts";
+import { isTool, type Tool } from "../tool/tool.ts";
+import { collectFlat } from "../util/collect-references.ts";
 
 export const isToolkit = (x: any): x is Toolkit => x?.type === "toolkit";
 
@@ -25,7 +26,7 @@ export const Toolkit =
     template: TemplateStringsArray,
     ...references: References
   ) => {
-    const tools = references.filter((ref): ref is Tool => ref?.type === "tool");
+    const tools = collectFlat(references, isTool);
     return class {
       static readonly type = "toolkit";
       static readonly id = id;

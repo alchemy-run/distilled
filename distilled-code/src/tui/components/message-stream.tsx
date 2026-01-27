@@ -10,6 +10,7 @@ import { createStore, produce } from "solid-js/store";
 import { TextAttributes } from "@opentui/core";
 import type { MessagePart } from "../../state/index.ts";
 import { useTheme } from "../context/theme.tsx";
+import { ToolPart } from "./tool-parts.tsx";
 
 /**
  * Props for MessageStream
@@ -34,6 +35,10 @@ interface AccumulatedMessage {
   role: "user" | "assistant" | "tool";
   content: string;
   toolName?: string;
+  toolParams?: Record<string, unknown>;
+  toolResult?: unknown;
+  toolError?: string;
+  isComplete?: boolean;
   isStreaming: boolean;
 }
 
@@ -64,6 +69,22 @@ function Message(props: { message: AccumulatedMessage }) {
         return "Tool";
     }
   };
+
+  // Render tool messages with specialized tool rendering
+  if (props.message.role === "tool") {
+    return (
+      <ToolPart
+        tool={{
+          id: props.message.id,
+          name: props.message.toolName || "unknown",
+          params: props.message.toolParams || {},
+          result: props.message.toolResult,
+          error: props.message.toolError,
+          isComplete: props.message.isComplete ?? false,
+        }}
+      />
+    );
+  }
 
   return (
     <box flexDirection="column" marginBottom={1}>
@@ -158,24 +179,49 @@ export function MessageStream(props: MessageStreamProps) {
               isStreaming = false;
               break;
 
-            case "tool-call":
+            case "tool-call": {
+              const toolPart = part as any;
               newMessages.push({
-                id: `tool-${toolCount++}`,
+                id: `tool-call-${toolPart.id || toolCount++}`,
                 role: "tool",
-                content: `Calling: ${(part as any).name || "tool"}`,
-                toolName: (part as any).name,
+                content: toolPart.name || "tool",
+                toolName: toolPart.name,
+                toolParams: toolPart.params || {},
+                isComplete: false,
                 isStreaming: false,
               });
               break;
+            }
 
-            case "tool-result":
-              newMessages.push({
-                id: `tool-${toolCount++}`,
-                role: "tool",
-                content: `Result: ${JSON.stringify((part as any).value || (part as any).result).slice(0, 100)}...`,
-                isStreaming: false,
-              });
+            case "tool-result": {
+              const resultPart = part as any;
+              // Find matching tool-call and update it, or create standalone result
+              const matchingIdx = newMessages.findIndex(
+                (m) => m.role === "tool" && m.id === `tool-call-${resultPart.id}` && !m.isComplete
+              );
+              if (matchingIdx >= 0) {
+                // Update the existing tool-call with its result
+                newMessages[matchingIdx] = {
+                  ...newMessages[matchingIdx],
+                  toolResult: resultPart.value ?? resultPart.result,
+                  toolError: resultPart.error ? String(resultPart.error) : undefined,
+                  isComplete: true,
+                };
+              } else {
+                // Standalone result (shouldn't normally happen)
+                newMessages.push({
+                  id: `tool-result-${resultPart.id || toolCount++}`,
+                  role: "tool",
+                  content: "unknown",
+                  toolName: "unknown",
+                  toolResult: resultPart.value ?? resultPart.result,
+                  toolError: resultPart.error ? String(resultPart.error) : undefined,
+                  isComplete: true,
+                  isStreaming: false,
+                });
+              }
               break;
+            }
           }
         }
 
@@ -202,6 +248,12 @@ export function MessageStream(props: MessageStreamProps) {
                   // Same message, update properties
                   existing.content = updated.content;
                   existing.isStreaming = updated.isStreaming;
+                  // Update tool-specific properties
+                  if (updated.role === "tool") {
+                    existing.toolResult = updated.toolResult;
+                    existing.toolError = updated.toolError;
+                    existing.isComplete = updated.isComplete;
+                  }
                 } else {
                   // Different message, replace
                   draft[i] = updated;

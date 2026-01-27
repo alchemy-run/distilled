@@ -105,11 +105,13 @@ export const spawn: <A extends Agent<string, any[]>>(
 
   // Build a map of agent ID -> Agent for O(1) lookups
   const agents = new Map<string, Agent>();
-  (function collectAgents(agent: Agent): void {
-    if (agents.has(agent.id) || agent.id === self.id) return;
-    agents.set(agent.id, agent);
-    agent.references.filter(isAgent).forEach(collectAgents);
-  })(agent);
+  const collectAgents = (ref: Agent): void => {
+    if (agents.has(ref.id) || ref.id === self.id) return;
+    agents.set(ref.id, ref);
+    ref.references.filter(isAgent).forEach(collectAgents);
+  };
+  // Start by collecting from the root agent's references (not the root itself)
+  agent.references.filter(isAgent).forEach(collectAgents);
 
   // Map of spawned agent instances (lazy - spawned on first use)
   const spawned = new Map<string, AgentInstance<any>>();
@@ -133,7 +135,7 @@ export const spawn: <A extends Agent<string, any[]>>(
     "recipient",
     // we shouldn't do this because more agents can be discovered later
     // S.Literal(...children.map((a) => a.agent.id)),
-  )`The recipient agent.`;
+  )`The absolute path/ID of the recipient agent, e.g. a/b/c for agent @a/b/c`;
   const send = tool(
     "send",
   )`Send a ${message} to ${recipient}, receive a response as a ${S.String}`(
@@ -163,7 +165,9 @@ export const spawn: <A extends Agent<string, any[]>>(
   class Comms extends Toolkit(
     "Comms",
   )`Tools for communicating with other agents. Use these tools to coordinate work with other agents.
-${[send, query]}` {}
+
+- ${send}
+- ${query}` {}
 
   const context = yield* createContext(agent, {
     tools: [Comms],
@@ -197,6 +201,8 @@ ${[send, query]}` {}
                 ],
               })
               .pipe(
+                // Provide the handler layer for tool execution
+                Stream.provideLayer(context.toolkitHandlers),
                 // Forward parts to store
                 Stream.tap((part) => {
                   const threadPart = part as MessagePart;
@@ -219,17 +225,20 @@ ${[send, query]}` {}
       ),
     query: <A>(prompt: string, schema: S.Schema<A, any>) =>
       locked(
-        chat.generateObject({
-          toolkit: context.toolkit,
-          schema,
-          prompt: [
-            ...context.messages,
-            {
-              role: "user" as const,
-              content: prompt,
-            },
-          ],
-        }),
+        Effect.provide(
+          chat.generateObject({
+            toolkit: context.toolkit,
+            schema,
+            prompt: [
+              ...context.messages,
+              {
+                role: "user" as const,
+                content: prompt,
+              },
+            ],
+          }),
+          context.toolkitHandlers,
+        ),
       ),
   } satisfies AgentInstance<A>;
 });

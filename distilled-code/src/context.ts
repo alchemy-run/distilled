@@ -1,3 +1,4 @@
+import type { LanguageModel } from "@effect/ai/LanguageModel";
 import type {
   AssistantMessageEncoded,
   MessageEncoded,
@@ -10,25 +11,32 @@ import * as EffectTool from "@effect/ai/Tool";
 import * as EffectToolkit from "@effect/ai/Toolkit";
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as S from "effect/Schema";
 import { isAgent, type Agent } from "./agent.ts";
 import { isFile, type File } from "./file/file.ts";
 import { isTool, type Tool } from "./tool/tool.ts";
 import { isToolkit, type Toolkit } from "./toolkit/toolkit.ts";
+import { collectReferences } from "./util/collect-references.ts";
 import {
-  type Thunk,
   isThunk,
-  resolveThunk,
   renderTemplate,
+  resolveThunk,
+  type Thunk,
 } from "./util/render-template.ts";
 
 // Re-export thunk utilities for backwards compatibility
-export type { Thunk };
 export { isThunk, resolveThunk };
+export type { Thunk };
 
 export interface AgentContext {
   messages: MessageEncoded[];
   toolkit: EffectToolkit.Toolkit<Record<string, EffectTool.Any>>;
+  toolkitHandlers: Layer.Layer<
+    EffectTool.Handler<string> | LanguageModel,
+    never,
+    never
+  >;
 }
 
 /**
@@ -52,225 +60,221 @@ interface FileEntry {
 export const createContext: (
   agent: Agent,
   options?: CreateContextOptions,
-) => Effect.Effect<
-  {
-    messages: MessageEncoded[];
-    toolkit: EffectToolkit.Toolkit<{
-      readonly [x: string]: EffectTool.Any;
-    }>;
-  },
-  never,
-  FileSystem.FileSystem
-> = Effect.fn(function* (agent: Agent, options?: CreateContextOptions) {
-  const additionalToolkits = options?.tools ?? [];
-  const fs = yield* FileSystem.FileSystem;
+) => Effect.Effect<AgentContext, never, FileSystem.FileSystem> = Effect.fn(
+  function* (agent: Agent, options?: CreateContextOptions) {
+    const additionalToolkits = options?.tools ?? [];
+    const fs = yield* FileSystem.FileSystem;
 
-  const visited = new Set<string>();
-  const agents: Array<{ id: string; content: string }> = [];
-  const files: Array<FileEntry> = [];
-  const toolkits: Array<{ id: string; content: string }> = [];
+    const visited = new Set<string>();
+    const agents: Array<{ id: string; content: string }> = [];
+    const files: Array<FileEntry> = [];
+    const toolkits: Array<{ id: string; content: string }> = [];
 
-  // Collect all references first (sync), then read files (async)
-  const pendingFiles: Array<{ ref: File }> = [];
+    // Collect all references first (sync), then read files (async)
+    const pendingFiles: Array<{ ref: File }> = [];
 
-  /**
-   * Collects references with depth tracking.
-   * Only direct references (depth=1) are embedded in the context.
-   * Transitive references (depth>1) are accessible via send/query tools.
-   *
-   * @param rawRef - The reference to collect
-   * @param depth - Current depth level (1 = direct reference from root)
-   */
-  const collect = (rawRef: any, depth: number): void => {
-    // Resolve thunks to get the actual reference
-    const ref = resolveThunk(rawRef);
+    /**
+     * Collects references with depth tracking.
+     * Only direct references (depth=1) are embedded in the context.
+     * Transitive references (depth>1) are accessible via send/query tools.
+     *
+     * @param rawRef - The reference to collect
+     * @param depth - Current depth level (1 = direct reference from root)
+     */
+    const collect = (rawRef: any, depth: number): void => {
+      // Resolve thunks to get the actual reference
+      const ref = resolveThunk(rawRef);
 
-    if (!ref) return;
-    // Skip primitives - only process objects and classes (functions with type/id)
-    if (typeof ref !== "object" && typeof ref !== "function") return;
-    const key = `${ref.type}:${ref.id}`;
-    if (visited.has(key)) return;
-    visited.add(key);
+      if (!ref) return;
+      // Skip primitives - only process objects and classes (functions with type/id)
+      if (typeof ref !== "object" && typeof ref !== "function") return;
+      const key = `${ref.type}:${ref.id}`;
+      if (visited.has(key)) return;
+      visited.add(key);
 
-    if (isAgent(ref)) {
-      // Only embed direct agent references (depth=1)
-      if (depth <= 1) {
-        agents.push({
-          id: ref.id,
-          content: renderTemplate(ref.template, ref.references),
-        });
+      if (isAgent(ref)) {
+        // Only embed direct agent references (depth=1)
+        if (depth <= 1) {
+          agents.push({
+            id: ref.id,
+            content: renderTemplate(ref.template, ref.references),
+          });
+        }
+        // Do NOT recurse into agent references - transitive agents are accessed via tools
+      } else if (isFile(ref)) {
+        // Only embed files from direct references (depth=1)
+        if (depth <= 1) {
+          pendingFiles.push({ ref });
+          // Continue collecting from file references at same depth
+          ref.references.forEach((r: any) => collect(r, depth));
+        }
+      } else if (isToolkit(ref)) {
+        // Only embed toolkits from direct references (depth=1)
+        if (depth <= 1) {
+          toolkits.push({
+            id: ref.id,
+            content: renderTemplate(ref.template, ref.references).trim(),
+          });
+          // Continue collecting from toolkit references at same depth (for files, etc.)
+          ref.references.forEach((r: any) => collect(r, depth));
+        }
+      } else if (isTool(ref)) {
+        // Tools can reference files, agents, etc. in their descriptions
+        // Only collect if at depth 1
+        if (depth <= 1) {
+          ref.references?.forEach((r: any) => collect(r, depth));
+        }
       }
-      // Do NOT recurse into agent references - transitive agents are accessed via tools
-    } else if (isFile(ref)) {
-      // Only embed files from direct references (depth=1)
-      if (depth <= 1) {
-        pendingFiles.push({ ref });
-        // Continue collecting from file references at same depth
-        ref.references.forEach((r: any) => collect(r, depth));
-      }
-    } else if (isToolkit(ref)) {
-      // Only embed toolkits from direct references (depth=1)
-      if (depth <= 1) {
+    };
+
+    // Render the root agent template
+    const rootContent = renderTemplate(agent.template, agent.references);
+
+    // Collect all references from root at depth=1 (direct references)
+    agent.references.forEach((r) => collect(r, 1));
+
+    // Add additional toolkits to the system prompt
+    for (const toolkit of additionalToolkits) {
+      const key = `${toolkit.type}:${toolkit.id}`;
+      if (!visited.has(key)) {
+        visited.add(key);
         toolkits.push({
-          id: ref.id,
-          content: renderTemplate(ref.template, ref.references).trim(),
+          id: toolkit.id,
+          content: renderTemplate(toolkit.template, toolkit.references).trim(),
         });
-        // Continue collecting from toolkit references at same depth (for files, etc.)
-        ref.references.forEach((r: any) => collect(r, depth));
-      }
-    } else if (isTool(ref)) {
-      // Tools can reference files, agents, etc. in their descriptions
-      // Only collect if at depth 1
-      if (depth <= 1) {
-        ref.references?.forEach((r: any) => collect(r, depth));
       }
     }
-  };
 
-  // Render the root agent template
-  const rootContent = renderTemplate(agent.template, agent.references);
-
-  // Collect all references from root at depth=1 (direct references)
-  agent.references.forEach((r) => collect(r, 1));
-
-  // Add additional toolkits to the system prompt
-  for (const toolkit of additionalToolkits) {
-    const key = `${toolkit.type}:${toolkit.id}`;
-    if (!visited.has(key)) {
-      visited.add(key);
-      toolkits.push({
-        id: toolkit.id,
-        content: renderTemplate(toolkit.template, toolkit.references).trim(),
+    // Read all files in parallel
+    for (const { ref } of pendingFiles) {
+      const content = yield* fs
+        .readFileString(ref.id)
+        .pipe(Effect.catchAll(() => Effect.succeed("// File not found")));
+      files.push({
+        id: ref.id,
+        language: ref.language,
+        description: renderTemplate(ref.template, ref.references),
+        content,
       });
     }
-  }
 
-  // Read all files in parallel
-  for (const { ref } of pendingFiles) {
-    const content = yield* fs
-      .readFileString(ref.id)
-      .pipe(Effect.catchAll(() => Effect.succeed("// File not found")));
-    files.push({
-      id: ref.id,
-      language: ref.language,
-      description: renderTemplate(ref.template, ref.references),
-      content,
-    });
-  }
+    // Local counter for generating unique tool call IDs within this context
+    let toolCallIdCounter = 0;
+    const createToolCallId = (prefix: string): string =>
+      `ctx-${prefix}-${toolCallIdCounter++}`;
 
-  // Local counter for generating unique tool call IDs within this context
-  let toolCallIdCounter = 0;
-  const createToolCallId = (prefix: string): string =>
-    `ctx-${prefix}-${toolCallIdCounter++}`;
+    // Build the messages array
+    const messages: MessageEncoded[] = [];
 
-  // Build the messages array
-  const messages: MessageEncoded[] = [];
+    // Build system message with preamble, root content, and toolkit descriptions
+    const systemParts: string[] = [preamble(agent.id), rootContent];
 
-  // Build system message with preamble, root content, and toolkit descriptions
-  const systemParts: string[] = [preamble(agent.id), rootContent];
+    if (toolkits.length > 0) {
+      systemParts.push("\n\n---\n");
+      systemParts.push("\n## Toolkits\n\n");
+      systemParts.push(
+        "You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.\n\n",
+      );
+      systemParts.push(
+        toolkits.map((t) => `### ${t.id}\n\n${t.content}`).join("\n\n"),
+      );
+      systemParts.push("\n");
+    }
 
-  if (toolkits.length > 0) {
-    systemParts.push("\n\n---\n");
-    systemParts.push("\n## Toolkits\n\n");
-    systemParts.push(
-      "You can (and should) use the following tools to accomplish your tasks. Tool definitions are provided separately.\n\n",
-    );
-    systemParts.push(
-      toolkits.map((t) => `### ${t.id}\n\n${t.content}`).join("\n\n"),
-    );
-    systemParts.push("\n");
-  }
+    const systemMessage: SystemMessageEncoded = {
+      role: "system",
+      content: systemParts.join(""),
+    };
+    messages.push(systemMessage);
 
-  const systemMessage: SystemMessageEncoded = {
-    role: "system",
-    content: systemParts.join(""),
-  };
-  messages.push(systemMessage);
+    // Collect all tool calls and results for batching
+    const toolCalls: ToolCallPartEncoded[] = [];
+    const toolResults: ToolResultPartEncoded[] = [];
 
-  // Collect all tool calls and results for batching
-  const toolCalls: ToolCallPartEncoded[] = [];
-  const toolResults: ToolResultPartEncoded[] = [];
-
-  // Write agent context files and collect read tool parts for each agent
-  if (agents.length > 0) {
-    // Ensure .distilled/agents directory exists
-    yield* fs
-      .makeDirectory(".distilled/agents", { recursive: true })
-      .pipe(Effect.catchAll(() => Effect.void));
-
-    for (const a of agents) {
-      const agentContent = `# @${a.id}\n\n${a.content}`;
-      const agentFilePath = `.distilled/agents/${a.id}.md`;
-
-      // Write the agent context file
+    // Write agent context files and collect read tool parts for each agent
+    if (agents.length > 0) {
+      // Ensure .distilled/agents directory exists
       yield* fs
-        .writeFileString(agentFilePath, agentContent)
+        .makeDirectory(".distilled/agents", { recursive: true })
         .pipe(Effect.catchAll(() => Effect.void));
 
-      // Collect tool call and result parts for this agent
-      const [toolCall, toolResult] = createAgentReadParts(
-        createToolCallId("agent"),
-        a.id,
-        agentContent,
-      );
-      toolCalls.push(toolCall);
-      toolResults.push(toolResult);
+      for (const a of agents) {
+        const agentContent = `# @${a.id}\n\n${a.content}`;
+        const agentFilePath = `.distilled/agents/${a.id}.md`;
+
+        // Write the agent context file
+        yield* fs
+          .writeFileString(agentFilePath, agentContent)
+          .pipe(Effect.catchAll(() => Effect.void));
+
+        // Collect tool call and result parts for this agent
+        const [toolCall, toolResult] = createAgentReadParts(
+          createToolCallId("agent"),
+          a.id,
+          agentContent,
+        );
+        toolCalls.push(toolCall);
+        toolResults.push(toolResult);
+      }
     }
-  }
 
-  // Collect read/glob tool parts for each file/folder
-  for (const f of files) {
-    if (f.language === "folder") {
-      // For folders, use glob to list contents
-      const folderFiles = f.content
-        .split("\n")
-        .filter((line) => line.trim() !== "");
-      const [toolCall, toolResult] = createGlobToolParts(
-        createToolCallId("folder"),
-        f.id,
-        "**/*",
-        folderFiles,
-      );
-      toolCalls.push(toolCall);
-      toolResults.push(toolResult);
-    } else {
-      // For regular files, use read
-      const [toolCall, toolResult] = createReadToolParts(
-        createToolCallId("file"),
-        f.id,
-        f.content,
-      );
-      toolCalls.push(toolCall);
-      toolResults.push(toolResult);
+    // Collect read/glob tool parts for each file/folder
+    for (const f of files) {
+      if (f.language === "folder") {
+        // For folders, use glob to list contents
+        const folderFiles = f.content
+          .split("\n")
+          .filter((line) => line.trim() !== "");
+        const [toolCall, toolResult] = createGlobToolParts(
+          createToolCallId("folder"),
+          f.id,
+          "**/*",
+          folderFiles,
+        );
+        toolCalls.push(toolCall);
+        toolResults.push(toolResult);
+      } else {
+        // For regular files, use read
+        const [toolCall, toolResult] = createReadToolParts(
+          createToolCallId("file"),
+          f.id,
+          f.content,
+        );
+        toolCalls.push(toolCall);
+        toolResults.push(toolResult);
+      }
     }
-  }
 
-  // Add single batched message pair if there are any tool calls
-  if (toolCalls.length > 0) {
-    const assistantMsg: AssistantMessageEncoded = {
-      role: "assistant",
-      content: toolCalls,
-    };
-    const toolMsg: ToolMessageEncoded = {
-      role: "tool",
-      content: toolResults,
-    };
-    messages.push(assistantMsg, toolMsg);
-  }
+    // Add single batched message pair if there are any tool calls
+    if (toolCalls.length > 0) {
+      const assistantMsg: AssistantMessageEncoded = {
+        role: "assistant",
+        content: toolCalls,
+      };
+      const toolMsg: ToolMessageEncoded = {
+        role: "tool",
+        content: toolResults,
+      };
+      messages.push(assistantMsg, toolMsg);
+    }
 
-  // Build the combined Effect toolkit from all collected and additional toolkits
-  const collectedToolkits = collectToolkits(agent);
-  const allToolkits = [...collectedToolkits, ...additionalToolkits];
-  const effectToolkit =
-    allToolkits.length > 0
-      ? EffectToolkit.merge(...allToolkits.map(createEffectToolkit))
-      : EffectToolkit.empty;
+    // Build the combined Effect toolkit from all collected and additional toolkits
+    const collectedToolkits = collectToolkits(agent);
+    const allToolkits = [...collectedToolkits, ...additionalToolkits];
+    const effectToolkit =
+      allToolkits.length > 0
+        ? EffectToolkit.merge(...allToolkits.map(createEffectToolkit))
+        : EffectToolkit.empty;
 
-  return {
-    messages,
-    toolkit: effectToolkit,
-  } satisfies AgentContext;
-});
+    // Create the handler layer from all toolkits
+
+    return {
+      messages,
+      toolkit: effectToolkit,
+      toolkitHandlers: createHandlerLayer(allToolkits) as any,
+    } satisfies AgentContext;
+  },
+);
 
 /**
  * Creates the preamble for an agent context, including the agent identifier and symbol reference.
@@ -504,53 +508,16 @@ export const createAgentReadParts = (
 
 /**
  * Collects toolkits from an agent's direct references only.
- * Only collects from depth=1 references - transitive toolkits are not included.
+ * Recurses into files, tools, and toolkits but NOT into agents.
+ * Handles arrays and plain objects in references (e.g., ${[toolkit1, toolkit2]}).
  */
-export const collectToolkits = (agent: Agent): Toolkit[] => {
-  const toolkits: Toolkit[] = [];
-  const visited = new Set<string>();
-
-  /**
-   * Collects toolkit references with depth tracking.
-   * @param rawRef - The reference to check
-   * @param depth - Current depth level (1 = direct reference from root)
-   */
-  const collect = (rawRef: any, depth: number): void => {
-    // Resolve thunks to get the actual reference
-    const ref = resolveThunk(rawRef);
-
-    if (!ref) return;
-    // Check for both objects and classes (functions with type/id properties)
-    if (typeof ref !== "object" && typeof ref !== "function") return;
-    const key = `${ref.type}:${ref.id}`;
-    if (visited.has(key)) return;
-    visited.add(key);
-
-    if (isToolkit(ref)) {
-      // Only collect toolkits at depth=1
-      if (depth <= 1) {
-        toolkits.push(ref);
-        // Continue at same depth for nested toolkit references (files, etc.)
-        ref.references?.forEach((r: any) => collect(r, depth));
-      }
-    } else if (isAgent(ref)) {
-      // Do NOT recurse into agent references - transitive toolkits are not included
-    } else if (isFile(ref)) {
-      // Only process at depth=1
-      if (depth <= 1) {
-        ref.references?.forEach((r: any) => collect(r, depth));
-      }
-    } else if (isTool(ref)) {
-      // Only process at depth=1
-      if (depth <= 1) {
-        ref.references?.forEach((r: any) => collect(r, depth));
-      }
-    }
-  };
-
-  agent.references?.forEach((r) => collect(r, 1));
-  return toolkits;
-};
+export const collectToolkits = (agent: Agent): Toolkit[] =>
+  collectReferences(agent.references ?? [], {
+    matches: isToolkit,
+    // Recurse into toolkits, files, and tools to find nested toolkits
+    // Do NOT recurse into agents - transitive toolkits are not included
+    shouldRecurse: (v) => isToolkit(v) || isFile(v) || isTool(v),
+  });
 
 /**
  * Converts a distilled-code Toolkit to an @effect/ai Toolkit.
@@ -560,6 +527,37 @@ export const createEffectToolkit = <T extends Toolkit>(
 ): EffectToolkit.Toolkit<EffectToolkit.ToolsByName<EffectTool.Any[]>> => {
   const effectTools = toolkit.tools.map(createEffectTool);
   return EffectToolkit.make(...effectTools);
+};
+
+/**
+ * Creates a handler layer from distilled-code toolkits.
+ * This layer provides the handler implementations for the @effect/ai toolkit.
+ */
+export const createHandlerLayer = (
+  toolkits: Toolkit[],
+): Layer.Layer<EffectTool.Handler<string>, never, never> => {
+  if (toolkits.length === 0) {
+    return Layer.empty as any;
+  }
+
+  // Collect all tools from all toolkits
+  const allTools = toolkits.flatMap((tk) => tk.tools);
+
+  // Build handlers map from the original distilled-code tools
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlers: any = {};
+  for (const tool of allTools) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handlers[tool.id] = (params: any) => (tool.handler as any)(params);
+  }
+
+  // Create the @effect/ai toolkit from all toolkits
+  const effectToolkit = EffectToolkit.merge(
+    ...toolkits.map(createEffectToolkit),
+  );
+
+  // Use toLayer to create the handler layer
+  return effectToolkit.toLayer(handlers) as any;
 };
 
 /**

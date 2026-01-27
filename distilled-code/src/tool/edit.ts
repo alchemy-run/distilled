@@ -23,7 +23,7 @@ const newString = input(
 
 const replaceAll = input(
   "replaceAll",
-  S.optional(S.Boolean),
+  S.Boolean,
 )`Replace all occurrences of oldString (default false). Use this when renaming variables or updating repeated patterns.`;
 
 const result = output(
