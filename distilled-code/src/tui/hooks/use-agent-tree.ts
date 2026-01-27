@@ -4,8 +4,8 @@
  * Builds a tree structure from agent paths for hierarchical display.
  */
 
+import { Fzf, byLengthAsc, byStartAsc, extendedMatch } from "fzf";
 import { createMemo } from "solid-js";
-import * as fuzzysort from "fuzzysort";
 
 /**
  * Tree node representing a path segment
@@ -98,26 +98,25 @@ export function flattenTree(node: TreeNode, indent: number = 0): DisplayRow[] {
 }
 
 /**
- * Filter agent paths using fuzzy search
+ * Filter agent paths using fuzzy search (FZF algorithm like Telescope)
  */
 export function filterAgentPaths(paths: string[], needle: string): string[] {
   if (!needle) return paths;
 
-  const results = fuzzysort
-    .go(needle.toLowerCase().trim(), paths, { threshold: -10000 })
-    .map((r) => r.target);
+  const fzf = new Fzf(paths, {
+    match: extendedMatch, // Allows space-separated terms as AND conditions
+    tiebreakers: [byStartAsc, byLengthAsc], // Prefer earlier matches, then shorter
+  });
 
-  return results;
+  const results = fzf.find(needle.trim());
+  return results.map((r) => r.item);
 }
 
 /**
  * Hook to build and manage agent tree display
  */
-export function useAgentTree(
-  allPaths: () => string[],
-  filter: () => string,
-) {
-  // Filtered agent paths using fuzzy search
+export function useAgentTree(allPaths: () => string[], filter: () => string) {
+  // Filtered agent paths using fuzzy search (ordered by score when filtered)
   const filteredPaths = createMemo(() =>
     filterAgentPaths(allPaths(), filter()),
   );
@@ -125,18 +124,12 @@ export function useAgentTree(
   // Build tree from filtered paths
   const tree = createMemo(() => buildTree(filteredPaths()));
 
-  // Flatten tree for display
-  const displayRows = createMemo(() => flattenTree(tree()));
-
-  // Selectable rows (agents only)
-  const selectableRows = createMemo(() =>
-    displayRows().filter((row) => row.isAgent),
-  );
+  // Flatten tree for display (alphabetical order)
+  const treeRows = createMemo(() => flattenTree(tree()));
 
   return {
     tree,
-    displayRows,
-    selectableRows,
+    treeRows,
     filteredPaths,
   };
 }
