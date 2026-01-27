@@ -3,3 +3,4 @@ node_modules
 vendor/
 test/fixtures
 smoke-test/src
+*.log
