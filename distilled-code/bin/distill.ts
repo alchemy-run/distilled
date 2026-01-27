@@ -30,7 +30,7 @@ import * as Option from "effect/Option";
 import { isAgent, type Agent } from "../src/agent.ts";
 import { BunSqlite, sqliteStateStore } from "../src/state/index.ts";
 import { tui } from "../src/tui/index.tsx";
-import { log, logError } from "../src/util/log.ts";
+import { logError } from "../src/util/log.ts";
 
 const DEFAULT_CONFIG_FILE = "distilled.config.ts";
 
@@ -61,10 +61,6 @@ const collectAgents = (agent: Agent, visited = new Set<string>()): Agent[] => {
   };
 
   const flatRefs = flattenRefs(agent.references);
-  log(
-    "collectAgents",
-    `Agent ${agent.id} has ${flatRefs.length} flat references`,
-  );
 
   const nested = flatRefs
     .filter(isAgent)
@@ -153,25 +149,18 @@ const mainCommand = Command.make(
     ),
   },
   Effect.fn(function* ({ config, model, cwd }) {
-    log("CLI", "Starting distilled CLI", { config, model, cwd });
-
     // Change to the specified directory if provided
     const cwdPath = Option.getOrUndefined(cwd);
     if (cwdPath) {
-      log("CLI", "Changing directory", { cwd: cwdPath });
       process.chdir(cwdPath);
-      log("CLI", "Changed to directory", { cwd: process.cwd() });
     }
 
     const configPath = Option.getOrUndefined(config);
-    log("CLI", "Config path from args", { configPath });
 
     // Resolve config path
     const resolvedPath = yield* resolveConfigPath(configPath);
-    log("CLI", "Resolved config path", { resolvedPath });
 
     if (!resolvedPath) {
-      log("CLI", "No config file found");
       yield* Console.error("No distilled.config.ts found.");
       yield* Console.error(
         "Create a distilled.config.ts with a default Agent export.",
@@ -180,7 +169,6 @@ const mainCommand = Command.make(
     }
 
     // Load the root agent from config
-    log("CLI", "Loading agent config...");
     const rootAgent = yield* Effect.tryPromise(() =>
       loadAgentConfig(resolvedPath),
     ).pipe(
@@ -188,17 +176,11 @@ const mainCommand = Command.make(
         Effect.sync(() => logError("CLI", "Failed to load config", err)),
       ),
     );
-    log("CLI", "Loaded root agent", { id: rootAgent.id });
 
     // Collect all agents from the tree
     const allAgents = collectAgents(rootAgent);
-    log("CLI", "Collected agents", {
-      count: allAgents.length,
-      ids: allAgents.map((a) => a.id),
-    });
 
     // Create the layer with model + state store
-    log("CLI", "Creating layer with model", { model });
     const modelLayer = getModelLayer(model);
     const stateStoreLayer = Layer.provideMerge(
       sqliteStateStore(),
@@ -208,10 +190,8 @@ const mainCommand = Command.make(
     const anthropicLayer = Layer.provideMerge(Anthropic, NodeHttpClient.layer);
     const fullModelLayer = Layer.provideMerge(modelLayer, anthropicLayer);
     const layer = Layer.merge(fullModelLayer, stateStoreLayer);
-    log("CLI", "Layer created");
 
     // Launch the TUI
-    log("CLI", "Launching TUI...");
     yield* Effect.tryPromise(() =>
       tui({
         agents: allAgents,
@@ -222,7 +202,6 @@ const mainCommand = Command.make(
         Effect.sync(() => logError("CLI", "TUI failed", err)),
       ),
     );
-    log("CLI", "TUI exited");
   }),
 );
 
@@ -243,8 +222,6 @@ process.on("unhandledRejection", (reason) => {
   console.error("Unhandled rejection:", reason);
   process.exit(1);
 });
-
-log("CLI", "Starting CLI process");
 
 Effect.gen(function* () {
   const dotEnvProvider = yield* PlatformConfigProvider.fromDotEnv(".env").pipe(
