@@ -6,7 +6,9 @@
 
 import { TextAttributes } from "@opentui/core";
 import { useKeyboard, useTerminalDimensions } from "@opentui/solid";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as Fiber from "effect/Fiber";
 import * as Stream from "effect/Stream";
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
@@ -104,10 +106,13 @@ export function ChatView(props: ChatViewProps) {
             ),
           );
         }        ).pipe(
-          Effect.catchAll((e) =>
+          Effect.catchAllCause((cause) =>
             Effect.sync(() => {
-              logError("ChatView", "subscription stream error", e);
-              setError(String(e));
+              // Only log if it's not an interruption (normal cleanup)
+              if (!Cause.isInterruptedOnly(cause)) {
+                logError("ChatView", "subscription stream error", cause);
+                setError(Cause.pretty(cause));
+              }
             }),
           ),
         );
@@ -115,9 +120,17 @@ export function ChatView(props: ChatViewProps) {
         subscriptionFiber = store.runtime.runFork(effect);
 
         // Observe the fiber for errors (e.g., layer initialization failures)
-        Effect.runPromise(Fiber.join(subscriptionFiber)).catch((err) => {
-          logError("ChatView", "fiber join error", err);
-          setError(String(err));
+        // Use Fiber.await to get an Exit which provides proper error details
+        Effect.runPromise(Fiber.await(subscriptionFiber)).then((exit) => {
+          if (Exit.isFailure(exit)) {
+            const cause = exit.cause;
+            // Only log if it's not an interruption (normal cleanup)
+            if (!Cause.isInterruptedOnly(cause)) {
+              const prettyError = Cause.pretty(cause);
+              logError("ChatView", "fiber error", cause);
+              setError(prettyError);
+            }
+          }
         });
       },
     ),
@@ -168,10 +181,10 @@ export function ChatView(props: ChatViewProps) {
       // We receive them via our subscription
       yield* instance.send(message).pipe(Stream.runDrain);
     }).pipe(
-      Effect.catchAll((e) =>
+      Effect.catchAllCause((cause) =>
         Effect.sync(() => {
-          logError("ChatView", "send message error", e);
-          setError(String(e));
+          logError("ChatView", "send message error", cause);
+          setError(Cause.pretty(cause));
         }),
       ),
       Effect.ensuring(Effect.sync(() => setLoading(false))),
@@ -180,7 +193,9 @@ export function ChatView(props: ChatViewProps) {
     // Use runPromise to catch any layer initialization errors
     store.runtime.runPromise(sendEffect).catch((err) => {
       logError("ChatView", "layer initialization error", err);
-      setError(String(err));
+      // Format the error properly for display
+      const errorStr = err instanceof Error ? err.message : String(err);
+      setError(errorStr);
       setLoading(false);
     });
   };

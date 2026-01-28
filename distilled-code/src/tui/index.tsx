@@ -17,6 +17,7 @@ export { MessageStream } from "./components/message-stream.tsx";
 export { RegistryProvider, useRegistry } from "./context/registry.tsx";
 export { StoreProvider, useStore } from "./context/store.tsx";
 export { discoverAgents } from "./util/discover-agents.ts";
+export { discoverOrg, type DiscoveredOrg } from "./util/discover-org.ts";
 
 import type { LanguageModel } from "@effect/ai/LanguageModel";
 import { render } from "@opentui/solid";

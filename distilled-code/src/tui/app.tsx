@@ -30,7 +30,7 @@ interface Selection {
  * Navigation item for the sidebar
  */
 interface NavItem {
-  type: ChannelType;
+  type: ChannelType | "header";
   id: string;
   label: string;
 }
@@ -44,25 +44,65 @@ export function App() {
   const store = useStore();
   const registry = useRegistry();
 
-  // Build navigation items from registry
+  // Build navigation items from registry with section headers
   const navItems = createMemo<NavItem[]>(() => {
     const items: NavItem[] = [];
 
-    // Add DMs (agents) first
-    for (const agent of registry.agents) {
+    // Channels section
+    if (registry.channels.length > 0) {
       items.push({
-        type: "dm",
-        id: agent.id,
-        label: `@${agent.id}`,
+        type: "header",
+        id: "header-channels",
+        label: "Channels",
       });
+      for (const channel of registry.channels) {
+        items.push({
+          type: "channel",
+          id: channel.id,
+          label: `#${channel.id}`,
+        });
+      }
     }
 
-    // TODO: Add groups and channels when available in registry
-    // for (const group of registry.groups) { ... }
-    // for (const channel of registry.channels) { ... }
+    // Group Chats section
+    if (registry.groupChats.length > 0) {
+      items.push({
+        type: "header",
+        id: "header-groups",
+        label: "Group Chats",
+      });
+      for (const groupChat of registry.groupChats) {
+        items.push({
+          type: "group",
+          id: groupChat.id,
+          label: `&${groupChat.id}`,
+        });
+      }
+    }
+
+    // Agents section
+    if (registry.agents.length > 0) {
+      items.push({
+        type: "header",
+        id: "header-agents",
+        label: "Agents",
+      });
+      for (const agent of registry.agents) {
+        items.push({
+          type: "dm",
+          id: agent.id,
+          label: `@${agent.id}`,
+        });
+      }
+    }
 
     return items;
   });
+
+  // Get selectable items only (exclude headers)
+  const selectableItems = createMemo(() =>
+    navItems().filter((item) => item.type !== "header")
+  );
 
   // Currently selected index in sidebar
   const [selectedIndex, setSelectedIndex] = createSignal(0);
@@ -73,12 +113,23 @@ export function App() {
   // View mode for right panel: "chat" or "document"
   const [viewMode, setViewMode] = createSignal<"chat" | "document">("chat");
 
-  // Get current selection
+  // Get current selection (from selectable items)
   const currentSelection = createMemo<Selection | undefined>(() => {
-    const items = navItems();
+    const items = selectableItems();
     const index = selectedIndex();
     if (index >= 0 && index < items.length) {
-      return { type: items[index].type, id: items[index].id };
+      const item = items[index];
+      return { type: item.type as ChannelType, id: item.id };
+    }
+    return undefined;
+  });
+
+  // Get the currently selected item ID for highlighting
+  const selectedItemId = createMemo(() => {
+    const items = selectableItems();
+    const index = selectedIndex();
+    if (index >= 0 && index < items.length) {
+      return items[index].id;
     }
     return undefined;
   });
@@ -129,8 +180,8 @@ export function App() {
       return;
     }
 
-    // Sidebar navigation
-    const items = navItems();
+    // Sidebar navigation (use selectable items for navigation)
+    const items = selectableItems();
 
     // Navigate up
     if (evt.name === "up" || (evt.ctrl && evt.name === "k")) {
@@ -203,7 +254,7 @@ export function App() {
         >
           {/* Header */}
           <box paddingLeft={1} paddingRight={1}>
-            <text fg="#fab283">Agents</text>
+            <text fg="#fab283">Organization</text>
           </box>
 
           {/* Separator */}
@@ -215,8 +266,29 @@ export function App() {
           <scrollbox height={dimensions().height - 5}>
             <box flexDirection="column">
               <For each={navItems()}>
-                {(item, index) => {
-                  const isSelected = () => selectedIndex() === index();
+                {(item) => {
+                  // Headers are rendered differently
+                  if (item.type === "header") {
+                    return (
+                      <box paddingLeft={1} paddingTop={1}>
+                        <text fg="#6a6a6a">{item.label}</text>
+                      </box>
+                    );
+                  }
+
+                  const isSelected = () => selectedItemId() === item.id;
+                  // Color based on item type: channels green, groups purple, agents blue
+                  const itemColor = () => {
+                    if (isSelected()) return "#ffffff";
+                    switch (item.type) {
+                      case "channel":
+                        return "#a3be8c"; // Green for channels
+                      case "group":
+                        return "#b48ead"; // Purple for groups
+                      default:
+                        return "#88c0d0"; // Blue for DMs
+                    }
+                  };
                   return (
                     <box
                       backgroundColor={isSelected() ? "#2a2a4e" : undefined}
@@ -226,7 +298,7 @@ export function App() {
                       <text fg={isSelected() ? "#ffffff" : "#a0a0a0"}>
                         {isSelected() ? "> " : "  "}
                       </text>
-                      <text fg={isSelected() ? "#ffffff" : "#88c0d0"}>
+                      <text fg={itemColor()}>
                         {item.label}
                       </text>
                     </box>
@@ -257,7 +329,7 @@ export function App() {
                 justifyContent="center"
                 alignItems="center"
               >
-                <text fg="#666666">Select an agent to start chatting</text>
+                <text fg="#666666">Select a channel or agent to start chatting</text>
               </box>
             }
           >

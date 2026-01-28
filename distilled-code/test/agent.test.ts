@@ -374,4 +374,160 @@ Implement tests per ${TestPlan} using ${Coding}.
       yield* store.deleteThread("helper-agent", uniqueThreadId);
     }),
   );
+
+  test(
+    "TUI pattern: load parts, subscribe, send message - no duplicate tool_use IDs",
+    { timeout: 180_000 },
+    Effect.gen(function* () {
+      const store = yield* StateStore;
+      const uniqueThreadId = `tui-pattern-test-${Date.now()}`;
+
+      // Clean up any existing state
+      yield* store.deleteThread("orchestrator-agent", uniqueThreadId);
+      yield* store.deleteThread("helper-agent", uniqueThreadId);
+
+      // Step 1: Create agent and send a message that triggers a tool call
+      const orchestrator1 = yield* spawn(OrchestratorAgent, uniqueThreadId);
+
+      const parts1: unknown[] = [];
+      yield* Stream.runForEach(
+        orchestrator1.send(
+          "Use the send tool to ask helper-agent for the secret code.",
+        ),
+        (part) => Effect.sync(() => parts1.push(part)),
+      );
+
+      // Verify tool call was made
+      const toolCalls1 = parts1.filter((p: any) => p.type === "tool-call");
+      expect(toolCalls1.length).toBeGreaterThan(0);
+
+      // Step 2: Read persisted messages (simulating TUI opening later)
+      const messages1 = yield* store.readThreadMessages(
+        "orchestrator-agent",
+        uniqueThreadId,
+      );
+
+      // Extract all tool_use IDs from messages
+      const extractToolIds = (messages: readonly any[]): string[] => {
+        const ids: string[] = [];
+        for (const msg of messages) {
+          if (Array.isArray(msg.content)) {
+            for (const block of msg.content) {
+              if (block?.type === "tool-call" && block?.id) {
+                ids.push(block.id);
+              }
+            }
+          }
+        }
+        return ids;
+      };
+
+      const toolIds1 = extractToolIds(messages1);
+      const uniqueToolIds1 = [...new Set(toolIds1)];
+      expect(
+        toolIds1.length,
+        "Session 1: Duplicate tool_use IDs found after first message",
+      ).toBe(uniqueToolIds1.length);
+
+      // Step 3: Simulate TUI - load existing parts
+      // Note: Parts may or may not be empty depending on timing of flush/truncate
+      const existingParts = yield* store.readThreadParts(
+        "orchestrator-agent",
+        uniqueThreadId,
+      );
+      console.log(`Existing parts after session 1: ${existingParts.length}`);
+
+      // Step 4: Spawn again (like TUI reopening) and send another message
+      const orchestrator2 = yield* spawn(OrchestratorAgent, uniqueThreadId);
+
+      const parts2: unknown[] = [];
+      yield* Stream.runForEach(
+        orchestrator2.send(
+          "Ask the helper-agent another question: what is their purpose?",
+        ),
+        (part) => Effect.sync(() => parts2.push(part)),
+      );
+
+      // Step 5: Verify all tool_use IDs are unique across all messages
+      const messages2 = yield* store.readThreadMessages(
+        "orchestrator-agent",
+        uniqueThreadId,
+      );
+
+      const toolIds2 = extractToolIds(messages2);
+      const uniqueToolIds2 = [...new Set(toolIds2)];
+
+      // Log for debugging
+      console.log(
+        `Session 1 tool_use IDs: ${toolIds1.length}, Session 2 total: ${toolIds2.length}`,
+      );
+      if (toolIds2.length !== uniqueToolIds2.length) {
+        const seen = new Set<string>();
+        const duplicates: string[] = [];
+        for (const id of toolIds2) {
+          if (seen.has(id)) {
+            duplicates.push(id);
+          }
+          seen.add(id);
+        }
+        console.log(`Duplicate tool_use IDs: ${duplicates.join(", ")}`);
+      }
+
+      expect(
+        toolIds2.length,
+        "Session 2: Duplicate tool_use IDs found after second message",
+      ).toBe(uniqueToolIds2.length);
+
+      // Clean up
+      yield* store.deleteThread("orchestrator-agent", uniqueThreadId);
+      yield* store.deleteThread("helper-agent", uniqueThreadId);
+    }),
+  );
+
+  test(
+    "concurrent flush operations don't create duplicates",
+    { timeout: 120_000 },
+    Effect.gen(function* () {
+      const store = yield* StateStore;
+      const uniqueThreadId = `concurrent-flush-test-${Date.now()}`;
+
+      // Clean up any existing state
+      yield* store.deleteThread("test-agent", uniqueThreadId);
+
+      // Create agent
+      const agent = yield* spawn(TestAgent, uniqueThreadId);
+
+      // Send multiple messages concurrently to stress-test the flush semaphore
+      const results = yield* Effect.all(
+        [
+          agent.send("Count to 3").pipe(toText("last-message")),
+          agent.send("Count to 5").pipe(toText("last-message")),
+          agent.send("Count to 7").pipe(toText("last-message")),
+        ],
+        { concurrency: "unbounded" },
+      );
+
+      // Verify we got responses
+      expect(results.length).toBe(3);
+
+      // Read persisted messages
+      const messages = yield* store.readThreadMessages(
+        "test-agent",
+        uniqueThreadId,
+      );
+
+      // Collect all content block IDs (text blocks don't have IDs, but tool-calls do)
+      // For this test, we verify no duplicate user messages
+      const userMessages = messages.filter((m) => m.role === "user");
+      const assistantMessages = messages.filter((m) => m.role === "assistant");
+
+      // We should have exactly 3 user messages and at least 3 assistant responses
+      // (could be more if the model makes multiple responses per turn)
+      expect(userMessages.length).toBe(3);
+      expect(assistantMessages.length).toBeGreaterThanOrEqual(3);
+
+      // Clean up
+      yield* store.deleteThread("test-agent", uniqueThreadId);
+    }),
+  );
 });

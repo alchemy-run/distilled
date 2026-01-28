@@ -28,6 +28,116 @@ import {
   type JsonSchema7Root,
 } from "./util/json-schema.ts";
 import { log } from "./util/log.ts";
+import type { MessageEncoded } from "@effect/ai/Prompt";
+
+/**
+ * Extracts all tool_use IDs from a message's content.
+ * Tool calls have type "tool-call" and an "id" property.
+ */
+function extractToolUseIds(message: MessageEncoded): string[] {
+  const ids: string[] = [];
+  if (Array.isArray(message.content)) {
+    for (const block of message.content) {
+      if (
+        typeof block === "object" &&
+        block !== null &&
+        "type" in block &&
+        block.type === "tool-call" &&
+        "id" in block &&
+        typeof block.id === "string"
+      ) {
+        ids.push(block.id);
+      }
+    }
+  }
+  return ids;
+}
+
+/**
+ * Validates and repairs messages to ensure all tool_use IDs are unique.
+ * Returns the repaired messages and logs a warning if duplicates were found.
+ */
+function validateAndRepairMessages(
+  messages: readonly MessageEncoded[],
+  agentId: string,
+  threadId: string,
+): readonly MessageEncoded[] {
+  const seenIds = new Set<string>();
+  const duplicateIds = new Set<string>();
+
+  // First pass: identify duplicates
+  for (const message of messages) {
+    const ids = extractToolUseIds(message);
+    for (const id of ids) {
+      if (seenIds.has(id)) {
+        duplicateIds.add(id);
+      } else {
+        seenIds.add(id);
+      }
+    }
+  }
+
+  // If no duplicates, return original messages
+  if (duplicateIds.size === 0) {
+    return messages;
+  }
+
+  // Log warning about duplicates
+  log(
+    "spawn",
+    "WARNING: Found duplicate tool_use IDs in persisted messages, repairing",
+    {
+      agentId,
+      threadId,
+      duplicateIds: Array.from(duplicateIds),
+    },
+  );
+
+  // Second pass: repair by removing duplicate tool-call blocks
+  const repairedSeenIds = new Set<string>();
+  const repairedMessages: MessageEncoded[] = [];
+
+  for (const message of messages) {
+    if (!Array.isArray(message.content)) {
+      repairedMessages.push(message);
+      continue;
+    }
+
+    // Filter out duplicate tool-call blocks
+    const repairedContent = message.content.filter((block) => {
+      if (
+        typeof block === "object" &&
+        block !== null &&
+        "type" in block &&
+        block.type === "tool-call" &&
+        "id" in block &&
+        typeof block.id === "string"
+      ) {
+        if (repairedSeenIds.has(block.id)) {
+          return false; // Remove duplicate
+        }
+        repairedSeenIds.add(block.id);
+      }
+      return true;
+    });
+
+    // Only include message if it still has content
+    if (repairedContent.length > 0) {
+      repairedMessages.push({
+        ...message,
+        content: repairedContent as any,
+      });
+    }
+  }
+
+  log("spawn", "Repaired messages", {
+    originalCount: messages.length,
+    repairedCount: repairedMessages.length,
+    removedDuplicates: duplicateIds.size,
+  });
+
+  return repairedMessages;
+}
 
 /**
  * Agent type - an AI agent defined via template.
@@ -112,8 +222,17 @@ export const spawn: <A extends Agent<string, any[]>>(
   yield* flush(store, agentId, threadId);
 
   // Get messages to hydrate chat
-  const storedMessages = yield* store.readThreadMessages(agentId, threadId);
-  log("spawn", "loaded chat history", JSON.stringify(storedMessages, null, 2));
+  const rawStoredMessages = yield* store.readThreadMessages(agentId, threadId);
+  log("spawn", "loaded chat history", JSON.stringify(rawStoredMessages, null, 2));
+
+  // Validate and repair messages to ensure unique tool_use IDs
+  const storedMessages = validateAndRepairMessages(rawStoredMessages, agentId, threadId);
+
+  // If messages were repaired, persist the fixed version
+  if (storedMessages !== rawStoredMessages) {
+    yield* store.writeThreadMessages(agentId, threadId, storedMessages);
+    log("spawn", "persisted repaired messages");
+  }
 
   // Track whether context messages have been sent
   // They should only be sent once at the start of a conversation
@@ -121,10 +240,17 @@ export const spawn: <A extends Agent<string, any[]>>(
 
   const chat = yield* Chat.fromPrompt(storedMessages);
 
-  // Semaphore for exclusive access
+  // Semaphore for exclusive access to send/query operations
   const sem = yield* Effect.makeSemaphore(1);
   const locked = <A, E, R>(fn: Effect.Effect<A, E, R>) =>
     sem.withPermits(1)(fn);
+
+  // Dedicated semaphore for flush operations to prevent race conditions
+  // The main semaphore doesn't protect Stream.tap operations after Stream.unwrap
+  const flushSem = yield* Effect.makeSemaphore(1);
+  const lockedFlush = (fn: Effect.Effect<void, StateStoreError>) =>
+    flushSem.withPermits(1)(fn);
+
   const self = agent;
 
   // Build a map of agent ID -> Agent for O(1) lookups
@@ -242,8 +368,8 @@ export const spawn: <A extends Agent<string, any[]>>(
               timestamp: Date.now(),
             });
 
-            // Flush user input immediately
-            yield* flush(store, agentId, threadId);
+            // Flush user input immediately (protected by flush semaphore)
+            yield* lockedFlush(flush(store, agentId, threadId));
 
             // Only include context messages on first call (when history is empty)
             // Otherwise the context messages are already in the chat history
@@ -304,8 +430,9 @@ export const spawn: <A extends Agent<string, any[]>>(
                       threadPart,
                     );
                     // Check if message boundary reached
+                    // Use lockedFlush to prevent race conditions in concurrent streams
                     if (isMessageBoundary(threadPart)) {
-                      yield* flush(store, agentId, threadId);
+                      yield* lockedFlush(flush(store, agentId, threadId));
                     }
                   });
                 }),
@@ -462,10 +589,61 @@ const flush = (
         agentId,
         threadId,
       );
-      yield* store.writeThreadMessages(agentId, threadId, [
-        ...currentMessages,
-        ...messages,
-      ]);
+
+      // Collect existing tool_use IDs to prevent duplicates
+      const existingToolIds = new Set<string>();
+      for (const msg of currentMessages) {
+        for (const id of extractToolUseIds(msg)) {
+          existingToolIds.add(id);
+        }
+      }
+
+      // Deduplicate new messages - remove any tool-call blocks with existing IDs
+      const deduplicatedMessages = messages.map((msg: MessageEncoded) => {
+        if (!Array.isArray(msg.content)) {
+          return msg;
+        }
+
+        const filteredContent = msg.content.filter((block: any) => {
+          if (
+            typeof block === "object" &&
+            block !== null &&
+            "type" in block &&
+            block.type === "tool-call" &&
+            "id" in block &&
+            typeof block.id === "string"
+          ) {
+            if (existingToolIds.has(block.id)) {
+              log("flush", "WARNING: Skipping duplicate tool_use ID", {
+                id: block.id,
+                agentId,
+                threadId,
+              });
+              return false;
+            }
+            // Track this ID so we don't duplicate within the new messages either
+            existingToolIds.add(block.id);
+          }
+          return true;
+        });
+
+        // Skip messages that are now empty
+        if (filteredContent.length === 0) {
+          return null;
+        }
+
+        return {
+          ...msg,
+          content: filteredContent,
+        };
+      }).filter((msg): msg is MessageEncoded => msg !== null);
+
+      if (deduplicatedMessages.length > 0) {
+        yield* store.writeThreadMessages(agentId, threadId, [
+          ...currentMessages,
+          ...deduplicatedMessages,
+        ]);
+      }
     }
 
     yield* store.truncateThreadParts(agentId, threadId);

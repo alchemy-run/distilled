@@ -67,22 +67,21 @@ You are the ultimate escalation point and receive status reports.
 
 \`\`\`mermaid
 flowchart TD
-    CEO["${() => CEO}<br/>Direction"]
-    CTO["${() => CTO}<br/>Quality"]
-    VPE["${() => VPE}<br/>Delivery"]
-    Writer["${() => Writer}<br/>Docs"]
-    PM["${() => PM}<br/>Design"]
-    SDET["${() => SDET}<br/>Testing"]
-    SDE["${() => SDE}<br/>Patching"]
+    ${() => CEO}
+    ${() => CTO}
+    ${() => VPE}
+    ${() => Writer}
+    ${() => PM}
+    ${() => SDET}
+    ${() => SDE}
 
-    CEO --> CTO
-    CEO --> VPE
-    CEO --> Writer
-    VPE --> PM
-    PM --> SDET
-    CTO --> SDET
-    SDET --> SDE
-    SDE --> SDET
+    ${() => CEO} --> ${() => CTO}
+    ${() => CEO} --> ${() => VPE}
+    ${() => CEO} --> ${() => Writer}
+    ${() => VPE} --> ${() => PM}
+    ${() => PM} --> ${() => SDET}
+    ${() => CTO} --> ${() => SDET}
+    ${() => SDET} --> ${() => SDE}
 \`\`\`
 
 ## Membership
