@@ -23,6 +23,7 @@ import { render } from "@opentui/solid";
 import type { Layer } from "effect/Layer";
 import type { Agent } from "../agent.ts";
 import type { StateStore, StateStoreError } from "../state/index.ts";
+import { logError } from "../util/log.ts";
 import { App } from "./app.tsx";
 import { RegistryProvider } from "./context/registry.tsx";
 import { StoreProvider } from "./context/store.tsx";
@@ -79,6 +80,7 @@ export function tui(options: TuiOptions): Promise<void> {
         },
       );
     } catch (err) {
+      logError("tui", "render error", err);
       reject(err);
     }
   });

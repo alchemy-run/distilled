@@ -9,9 +9,10 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/solid";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Stream from "effect/Stream";
-import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
 import { spawn } from "../../agent.ts";
 import { StateStore, type MessagePart } from "../../state/index.ts";
+import { logError } from "../../util/log.ts";
 import { useRegistry } from "../context/registry.tsx";
 import { useStore } from "../context/store.tsx";
 import { InputBox } from "./input-box.tsx";
@@ -64,48 +65,66 @@ export function ChatView(props: ChatViewProps) {
   // Track subscription fiber for cleanup
   let subscriptionFiber: Fiber.RuntimeFiber<void, unknown> | undefined;
 
-  // Load existing parts and subscribe to new ones
-  onMount(() => {
-    // Load and subscribe in one effect
-    const effect = Effect.gen(function* () {
-      const stateStore = yield* StateStore;
-
-      // Read existing parts
-      const existingParts = yield* stateStore.readThreadParts(props.agentId, threadId());
-      setParts(existingParts);
-
-      // Subscribe to new parts
-      const stream = yield* stateStore.subscribeThread(props.agentId, threadId());
-
-      yield* stream.pipe(
-        Stream.runForEach((part) =>
-          Effect.sync(() => {
-            setParts((prev) => [...prev, part]);
-          }),
-        ),
-      );
-    }).pipe(
-      Effect.catchAll((e) =>
-        Effect.sync(() => {
-          setError(String(e));
-        }),
-      ),
-    );
-
-    subscriptionFiber = store.runtime.runFork(effect);
-    
-    // Observe the fiber for errors (e.g., layer initialization failures)
-    Effect.runPromise(Fiber.join(subscriptionFiber)).catch((err) => {
-      setError(String(err));
-    });
-  });
-
-  // Cleanup on unmount
-  onCleanup(() => {
+  // Helper to cleanup current subscription
+  const cleanupSubscription = () => {
     if (subscriptionFiber) {
       Effect.runFork(Fiber.interrupt(subscriptionFiber));
+      subscriptionFiber = undefined;
     }
-  });
+  };
+
+  // Load existing parts and subscribe to new ones when agent/thread changes
+  createEffect(
+    on(
+      () => [props.agentId, threadId()] as const,
+      ([agentId, currentThreadId]) => {
+        // Cleanup previous subscription
+        cleanupSubscription();
+
+        // Clear previous state
+        setParts([]);
+        setError(undefined);
+
+        // Load and subscribe in one effect
+        const effect = Effect.gen(function* () {
+          const stateStore = yield* StateStore;
+
+          // Read existing parts
+          const existingParts = yield* stateStore.readThreadParts(agentId, currentThreadId);
+          setParts(existingParts);
+
+          // Subscribe to new parts
+          const stream = yield* stateStore.subscribeThread(agentId, currentThreadId);
+
+          yield* stream.pipe(
+            Stream.runForEach((part) =>
+              Effect.sync(() => {
+                setParts((prev) => [...prev, part]);
+              }),
+            ),
+          );
+        }        ).pipe(
+          Effect.catchAll((e) =>
+            Effect.sync(() => {
+              logError("ChatView", "subscription stream error", e);
+              setError(String(e));
+            }),
+          ),
+        );
+
+        subscriptionFiber = store.runtime.runFork(effect);
+
+        // Observe the fiber for errors (e.g., layer initialization failures)
+        Effect.runPromise(Fiber.join(subscriptionFiber)).catch((err) => {
+          logError("ChatView", "fiber join error", err);
+          setError(String(err));
+        });
+      },
+    ),
+  );
+
+  // Cleanup on unmount
+  onCleanup(cleanupSubscription);
 
   // Handle keyboard
   useKeyboard((evt) => {
@@ -133,7 +152,9 @@ export function ChatView(props: ChatViewProps) {
 
     const agent = registry.getAgent(props.agentId);
     if (!agent) {
-      setError(`Agent "${props.agentId}" not found`);
+      const errorMsg = `Agent "${props.agentId}" not found`;
+      logError("ChatView", "agent not found", new Error(errorMsg));
+      setError(errorMsg);
       setLoading(false);
       return;
     }
@@ -149,6 +170,7 @@ export function ChatView(props: ChatViewProps) {
     }).pipe(
       Effect.catchAll((e) =>
         Effect.sync(() => {
+          logError("ChatView", "send message error", e);
           setError(String(e));
         }),
       ),
@@ -157,6 +179,7 @@ export function ChatView(props: ChatViewProps) {
 
     // Use runPromise to catch any layer initialization errors
     store.runtime.runPromise(sendEffect).catch((err) => {
+      logError("ChatView", "layer initialization error", err);
       setError(String(err));
       setLoading(false);
     });

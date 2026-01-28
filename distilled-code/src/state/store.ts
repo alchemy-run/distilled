@@ -114,7 +114,9 @@ export const createStateStore = (
       return existing;
     }
 
-    const pubsub = yield* PubSub.unbounded<MessagePart>({ replay: Infinity });
+    // Use replay: 0 - ChatView reads existing parts from persistence,
+    // then subscribes for new parts only. Using Infinity caused duplicates.
+    const pubsub = yield* PubSub.unbounded<MessagePart>({ replay: 0 });
 
     // Daemon that persists parts as they are published
     const daemon = yield* Stream.fromPubSub(pubsub).pipe(
@@ -142,14 +144,9 @@ export const createStateStore = (
     ...persistence,
 
     // Override appendThreadPart to publish to PubSub (daemon persists)
+    // Only publish to PubSub - the daemon handles persistence to avoid double writes
     appendThreadPart: Effect.fnUntraced(function* (agentId, threadId, part) {
-      yield* Effect.all(
-        [
-          persistence.appendThreadPart(agentId, threadId, part),
-          PubSub.publish(yield* getPubSub(agentId, threadId), part),
-        ],
-        { concurrency: "unbounded" },
-      );
+      yield* PubSub.publish(yield* getPubSub(agentId, threadId), part);
     }),
 
     // Override deleteThread to also clean up thread

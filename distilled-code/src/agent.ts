@@ -8,10 +8,11 @@ import * as Prompt from "@effect/ai/Prompt";
 import type { Handler } from "@effect/ai/Tool";
 import type { FileSystem } from "@effect/platform/FileSystem";
 import * as Effect from "effect/Effect";
+import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
-import { createContext } from "./context.ts";
-import { createFragment, type Fragment } from "./fragment.ts";
+import { createContext, resolveThunk } from "./context.ts";
+import { defineFragment, type Fragment } from "./fragment.ts";
 import { input } from "./input.ts";
 import { output } from "./output.ts";
 import {
@@ -35,14 +36,12 @@ import { log } from "./util/log.ts";
 export interface Agent<
   Name extends string = string,
   References extends any[] = any[],
-> extends Fragment<"agent", Name, References> {
-  new (_: never): this;
-}
+> extends Fragment<"agent", Name, References> {}
 
 /**
  * Create an Agent - an AI agent that can be spawned and communicate with other agents.
  */
-export const Agent = createFragment("agent")();
+export const Agent = defineFragment("agent")();
 
 /**
  * Type guard for Agent entities
@@ -129,26 +128,48 @@ export const spawn: <A extends Agent<string, any[]>>(
   const self = agent;
 
   // Build a map of agent ID -> Agent for O(1) lookups
+  // Uses a queue-based approach to properly resolve thunks before checking isAgent
   const agents = new Map<string, Agent>();
-  const collectAgents = (ref: Agent): void => {
-    if (agents.has(ref.id) || ref.id === self.id) return;
-    agents.set(ref.id, ref);
-    ref.references.filter(isAgent).forEach(collectAgents);
-  };
-  // Start by collecting from the root agent's references (not the root itself)
-  agent.references.filter(isAgent).forEach(collectAgents);
+  const visited = new Set<unknown>();
+  const queue: unknown[] = [...agent.references];
+
+  while (queue.length > 0) {
+    const item = queue.shift()!;
+    const resolved = resolveThunk(item);
+
+    if (resolved === undefined || resolved === null || visited.has(resolved)) {
+      continue;
+    }
+    visited.add(resolved);
+
+    if (isAgent(resolved) && resolved.id !== self.id) {
+      if (!agents.has(resolved.id)) {
+        agents.set(resolved.id, resolved);
+        // Queue its references for processing
+        queue.push(...resolved.references);
+      }
+    }
+  }
 
   // Map of spawned agent instances (lazy - spawned on first use)
   const spawned = new Map<string, AgentInstance<any>>();
 
+  // Error type for agent lookup failures
+  type AgentLookupError = { error: true; message: string };
+
   // Get or spawn a child agent by ID
-  const lookupAgent = Effect.fn(function* (recipient: string) {
+  // Returns an error object instead of failing, allowing the AI to adapt
+  const lookupAgent = Effect.fn(function* (
+    recipient: string,
+  ): Generator<any, AgentInstance<any> | AgentLookupError, any> {
     if (!spawned.has(recipient)) {
       const childAgent = agents.get(recipient);
       if (!childAgent) {
-        return yield* Effect.fail(
-          `Agent "${recipient}" not found. Available agents: ${[...agents.keys()].join(", ")}`,
-        );
+        // Return error as a result so the AI can see it and adapt
+        return {
+          error: true as const,
+          message: `Agent "${recipient}" not found. Available agents: ${[...agents.keys()].join(", ")}`,
+        };
       }
       spawned.set(recipient, yield* spawn(childAgent, threadId));
     }
@@ -165,9 +186,12 @@ export const spawn: <A extends Agent<string, any[]>>(
     "send",
   )`Send a ${message} to ${recipient}, receive a response as a ${S.String}`(
     function* ({ message, recipient }) {
-      return yield* (yield* lookupAgent(recipient))
-        .send(message)
-        .pipe(toText("last-message"));
+      const result = yield* lookupAgent(recipient);
+      if ("error" in result) {
+        // Return error message to AI so it can adapt
+        return result.message;
+      }
+      return yield* result.send(message).pipe(toText("last-message"));
     },
   );
 
@@ -177,8 +201,13 @@ export const spawn: <A extends Agent<string, any[]>>(
     "query",
   )`Send a query ${message} to the ${recipient} agent and receive back a structured ${object} with the expected schema ${schema}`(
     function* ({ recipient, message, schema: jsonSchema }) {
+      const result = yield* lookupAgent(recipient);
+      if ("error" in result) {
+        // Return error message to AI so it can adapt
+        return { object: { error: result.message } };
+      }
       return {
-        object: (yield* (yield* lookupAgent(recipient)).query(
+        object: (yield* result.query(
           message,
           schemaFromJsonSchema(
             JSON.parse(jsonSchema) as JsonSchema7Root,
@@ -256,6 +285,12 @@ export const spawn: <A extends Agent<string, any[]>>(
               .pipe(
                 // Provide the handler layer for tool execution
                 Stream.provideLayer(context.toolkitHandlers),
+                // Retry on transient AI errors (rate limits, server errors)
+                Stream.retry(
+                  Schedule.recurWhile(isRetryableAiError).pipe(
+                    Schedule.intersect(aiRetrySchedule),
+                  ),
+                ),
                 Stream.tapError((error) =>
                   Effect.sync(() => log("send", "error", error)),
                 ),
@@ -295,6 +330,12 @@ export const spawn: <A extends Agent<string, any[]>>(
               ],
             })
             .pipe(
+              // Retry on transient AI errors (rate limits, server errors)
+              Effect.retry(
+                Schedule.recurWhile(isRetryableAiError).pipe(
+                  Schedule.intersect(aiRetrySchedule),
+                ),
+              ),
               Effect.tapError((error) =>
                 Effect.sync(() => log("query", "error", error)),
               ),
@@ -314,6 +355,36 @@ const isMessageBoundary = (part: MessagePart): boolean =>
   part.type === "reasoning-end" ||
   part.type === "tool-call" ||
   part.type === "tool-result";
+
+/**
+ * Check if an AI error is retryable (transient failures like rate limits, server errors).
+ */
+const isRetryableAiError = (error: unknown): boolean => {
+  if (error && typeof error === "object") {
+    const err = error as Record<string, unknown>;
+    // Rate limit errors (429)
+    if (err.status === 429) return true;
+    // Server errors (5xx)
+    if (typeof err.status === "number" && err.status >= 500 && err.status < 600)
+      return true;
+    // Timeout errors
+    if (
+      typeof err.message === "string" &&
+      (err.message.includes("timeout") || err.message.includes("Timeout"))
+    )
+      return true;
+  }
+  return false;
+};
+
+/**
+ * Retry schedule for transient AI errors.
+ * Uses exponential backoff starting at 1 second, with max 3 retries.
+ */
+const aiRetrySchedule = Schedule.intersect(
+  Schedule.exponential("1 second"),
+  Schedule.recurs(3),
+);
 
 /**
  * Flush parts to messages: reads accumulated parts, converts them to messages

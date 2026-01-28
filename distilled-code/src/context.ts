@@ -14,9 +14,10 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as S from "effect/Schema";
 import { isAgent, type Agent } from "./agent.ts";
-import { isChannel, type Channel } from "./chat/channel.ts";
-import { isGroup, type Group } from "./chat/group.ts";
+import { isChannel } from "./chat/channel.ts";
+import { isGroupChat } from "./chat/group-chat.ts";
 import { isFile, type File } from "./file/file.ts";
+import { isRole } from "./org/role.ts";
 import { isTool, type Tool } from "./tool/tool.ts";
 import { isToolkit, type Toolkit } from "./toolkit/toolkit.ts";
 import { collectReferences } from "./util/collect-references.ts";
@@ -77,7 +78,7 @@ export const createContext: (
     const visited = new Set<string>();
     const agents: Array<{ id: string; content: string }> = [];
     const channels: Array<{ id: string; content: string }> = [];
-    const groups: Array<{ id: string; content: string }> = [];
+    const groupChats: Array<{ id: string; content: string }> = [];
     const files: Array<FileEntry> = [];
     const toolkits: Array<{ id: string; content: string }> = [];
 
@@ -122,14 +123,14 @@ export const createContext: (
           // Continue collecting from channel references (agents, files, etc.)
           ref.references.forEach((r: any) => collect(r, depth));
         }
-      } else if (isGroup(ref)) {
-        // Only embed direct group references (depth=1)
+      } else if (isGroupChat(ref)) {
+        // Only embed direct group chat references (depth=1)
         if (depth <= 1) {
-          groups.push({
+          groupChats.push({
             id: ref.id,
             content: renderTemplate(ref.template, ref.references),
           });
-          // Continue collecting from group references (agents, files, etc.)
+          // Continue collecting from group chat references (agents, files, etc.)
           ref.references.forEach((r: any) => collect(r, depth));
         }
       } else if (isFile(ref)) {
@@ -276,27 +277,27 @@ export const createContext: (
       }
     }
 
-    // Write group context files and collect read tool parts for each group
-    if (groups.length > 0) {
-      // Ensure .distilled/groups directory exists
+    // Write group chat context files and collect read tool parts for each group chat
+    if (groupChats.length > 0) {
+      // Ensure .distilled/group-chats directory exists
       yield* fs
-        .makeDirectory(".distilled/groups", { recursive: true })
+        .makeDirectory(".distilled/group-chats", { recursive: true })
         .pipe(Effect.catchAll(() => Effect.void));
 
-      for (const g of groups) {
-        const groupContent = `# ${g.id}\n\n${g.content}`;
-        const groupFilePath = `.distilled/groups/${g.id}.md`;
+      for (const gc of groupChats) {
+        const groupChatContent = `# ${gc.id}\n\n${gc.content}`;
+        const groupChatFilePath = `.distilled/group-chats/${gc.id}.md`;
 
-        // Write the group context file
+        // Write the group chat context file
         yield* fs
-          .writeFileString(groupFilePath, groupContent)
+          .writeFileString(groupChatFilePath, groupChatContent)
           .pipe(Effect.catchAll(() => Effect.void));
 
-        // Collect tool call and result parts for this group
-        const [toolCall, toolResult] = createGroupReadParts(
-          createToolCallId("group"),
-          g.id,
-          groupContent,
+        // Collect tool call and result parts for this group chat
+        const [toolCall, toolResult] = createGroupChatReadParts(
+          createToolCallId("group-chat"),
+          gc.id,
+          groupChatContent,
         );
         toolCalls.push(toolCall);
         toolResults.push(toolResult);
@@ -626,16 +627,16 @@ export const createChannelReadParts = (
 };
 
 /**
- * Creates tool call and result parts for reading a group context file.
- * Group context is stored in .distilled/groups/{group-id}.md
- * Used for batching multiple group reads into a single message pair.
+ * Creates tool call and result parts for reading a group chat context file.
+ * Group chat context is stored in .distilled/group-chats/{group-chat-id}.md
+ * Used for batching multiple group chat reads into a single message pair.
  */
-export const createGroupReadParts = (
+export const createGroupChatReadParts = (
   id: string,
-  groupId: string,
+  groupChatId: string,
   content: string,
 ): [ToolCallPartEncoded, ToolResultPartEncoded] => {
-  const filePath = `.distilled/groups/${groupId}.md`;
+  const filePath = `.distilled/group-chats/${groupChatId}.md`;
   return [
     {
       type: "tool-call",
@@ -657,15 +658,18 @@ export const createGroupReadParts = (
 
 /**
  * Collects toolkits from an agent's direct references only.
- * Recurses into files, tools, and toolkits but NOT into agents.
+ * Recurses into files, tools, toolkits, and roles but NOT into agents.
  * Handles arrays and plain objects in references (e.g., ${[toolkit1, toolkit2]}).
+ *
+ * When an agent references a Role, the toolkits from that Role (and any
+ * inherited Roles) are collected and added to the agent's context.
  */
 export const collectToolkits = (agent: Agent): Toolkit[] =>
   collectReferences(agent.references ?? [], {
     matches: isToolkit,
-    // Recurse into toolkits, files, and tools to find nested toolkits
+    // Recurse into toolkits, files, tools, and roles to find nested toolkits
     // Do NOT recurse into agents - transitive toolkits are not included
-    shouldRecurse: (v) => isToolkit(v) || isFile(v) || isTool(v),
+    shouldRecurse: (v) => isToolkit(v) || isFile(v) || isTool(v) || isRole(v),
   });
 
 /**

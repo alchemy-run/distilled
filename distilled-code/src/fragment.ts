@@ -33,15 +33,16 @@ export interface FragmentClass<
  * @example
  * ```typescript
  * // Basic usage (Agent, Channel, Group pattern)
- * export const Channel = createFragment("channel")();
+ * export const Channel = defineFragment("channel")();
  * // Usage: Channel("my-channel")`description`
  *
  * // With extra static properties (File pattern)
- * export const File = createFragment("file")<{ language: string }>();
+ * export const File = defineFragment("file")<{ language: string }>();
  * // Usage: File("my-file", { language: "typescript" as const })`description`
  * ```
  */
-export const createFragment = <Type extends string>(type: Type) =>
+export const defineFragment =
+  <Type extends string>(type: Type) =>
   <Extra extends Record<string, unknown> = {}>() => {
     const builder = <ID extends string, Props extends Extra>(
       id: ID,
@@ -64,7 +65,9 @@ export const createFragment = <Type extends string>(type: Type) =>
       };
     };
 
-    builder.is = <T extends Fragment<Type, string, any[]> = Fragment<Type, string, any[]>>(
+    builder.is = <
+      T extends Fragment<Type, string, any[]> = Fragment<Type, string, any[]>,
+    >(
       x: any,
     ): x is T => x?.type === type;
     return builder;

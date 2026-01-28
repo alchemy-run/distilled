@@ -1,7 +1,9 @@
 import { describe, expect, it } from "@effect/vitest";
 import { Agent } from "../src/agent.ts";
 import { Channel } from "../src/chat/channel.ts";
-import { Group } from "../src/chat/group.ts";
+import { GroupChat } from "../src/chat/group-chat.ts";
+import { Group } from "../src/org/group.ts";
+import { Role } from "../src/org/role.ts";
 import { discoverAgents } from "../src/tui/util/discover-agents.ts";
 
 describe("discoverAgents", () => {
@@ -49,10 +51,10 @@ describe("discoverAgents", () => {
     expect(agents.map((a) => a.id).sort()).toEqual(["ceo", "dev", "pm"]);
   });
 
-  it("discovers agents through groups", () => {
+  it("discovers agents through group chats", () => {
     class Alice extends Agent("alice")`Alice` {}
     class Bob extends Agent("bob")`Bob` {}
-    class TeamChat extends Group("team")`
+    class TeamChat extends GroupChat("team")`
       Team chat: ${Alice}, ${Bob}
     ` {}
     class Manager extends Agent("manager")`Manages ${TeamChat}` {}
@@ -82,7 +84,12 @@ describe("discoverAgents", () => {
     const agents = discoverAgents([Root]);
 
     expect(agents).toHaveLength(4);
-    expect(agents.map((a) => a.id).sort()).toEqual(["a", "b", "root", "shared"]);
+    expect(agents.map((a) => a.id).sort()).toEqual([
+      "a",
+      "b",
+      "root",
+      "shared",
+    ]);
   });
 
   it("discovers agents from multiple roots", () => {
@@ -103,5 +110,87 @@ describe("discoverAgents", () => {
     const agents = discoverAgents([Zebra, Alpha, Middle]);
 
     expect(agents.map((a) => a.id)).toEqual(["alpha", "middle", "zebra"]);
+  });
+
+  // ============================================================
+  // Tests for Role and Group (org) traversal
+  // ============================================================
+
+  it("discovers agents through org groups", () => {
+    class Alice extends Agent("alice")`Alice` {}
+    class Bob extends Agent("bob")`Bob` {}
+    class Engineering extends Group("engineering")`
+      The engineering team: ${Alice}, ${Bob}
+    ` {}
+    class Manager extends Agent("manager")`Manages ${Engineering}` {}
+
+    const agents = discoverAgents([Manager]);
+
+    expect(agents).toHaveLength(3);
+    expect(agents.map((a) => a.id).sort()).toEqual([
+      "alice",
+      "bob",
+      "manager",
+    ]);
+  });
+
+  it("discovers agents through nested org groups", () => {
+    class Alice extends Agent("alice")`Alice` {}
+    class Bob extends Agent("bob")`Bob` {}
+    class Carol extends Agent("carol")`Carol` {}
+
+    class SubTeam extends Group("sub")`${Alice}` {}
+    class ParentTeam extends Group("parent")`${SubTeam}, ${Bob}` {}
+    class Manager extends Agent("manager")`Manages ${ParentTeam} and ${Carol}` {}
+
+    const agents = discoverAgents([Manager]);
+
+    expect(agents).toHaveLength(4);
+    expect(agents.map((a) => a.id).sort()).toEqual([
+      "alice",
+      "bob",
+      "carol",
+      "manager",
+    ]);
+  });
+
+  it("discovers agents through roles", () => {
+    class Helper extends Agent("helper")`Helper agent` {}
+    class Admin extends Role("admin")`Admin role with ${Helper}` {}
+    class Root extends Agent("root")`Has ${Admin}` {}
+
+    const agents = discoverAgents([Root]);
+
+    expect(agents).toHaveLength(2);
+    expect(agents.map((a) => a.id).sort()).toEqual(["helper", "root"]);
+  });
+
+  it("discovers agents through inherited roles", () => {
+    class Alice extends Agent("alice")`Alice` {}
+    class Bob extends Agent("bob")`Bob` {}
+
+    class BaseRole extends Role("base")`Base with ${Alice}` {}
+    class ExtendedRole extends Role("extended")`Extended with ${BaseRole} and ${Bob}` {}
+    class Root extends Agent("root")`Has ${ExtendedRole}` {}
+
+    const agents = discoverAgents([Root]);
+
+    expect(agents).toHaveLength(3);
+    expect(agents.map((a) => a.id).sort()).toEqual(["alice", "bob", "root"]);
+  });
+
+  it("discovers agents through group with role", () => {
+    class Alice extends Agent("alice")`Alice` {}
+    class Bob extends Agent("bob")`Bob` {}
+    class Admin extends Role("admin")`Admin with ${Bob}` {}
+    class AdminGroup extends Group("admins")`
+      ${Alice} with ${Admin}
+    ` {}
+    class Root extends Agent("root")`Manages ${AdminGroup}` {}
+
+    const agents = discoverAgents([Root]);
+
+    expect(agents).toHaveLength(3);
+    expect(agents.map((a) => a.id).sort()).toEqual(["alice", "bob", "root"]);
   });
 });

@@ -8,12 +8,14 @@ import * as S from "effect/Schema";
 import * as yaml from "yaml";
 import { isAgent, type Agent } from "../agent.ts";
 import { isChannel, type Channel } from "../chat/channel.ts";
-import { isGroup, type Group } from "../chat/group.ts";
-import { isFile, type File } from "../file/file.ts";
+import { isGroupChat, type GroupChat } from "../chat/group-chat.ts";
+import { isFile } from "../file/file.ts";
 import { isInput } from "../input.ts";
+import { isGroup, type Group } from "../org/group.ts";
+import { isRole, type Role } from "../org/role.ts";
 import { isOutput } from "../output.ts";
-import { isTool, type Tool } from "../tool/tool.ts";
-import { isToolkit, type Toolkit } from "../toolkit/toolkit.ts";
+import { isTool } from "../tool/tool.ts";
+import { isToolkit } from "../toolkit/toolkit.ts";
 
 /**
  * A thunk is a function that returns a reference, enabling forward references.
@@ -32,6 +34,8 @@ export const isThunk = (value: unknown): value is Thunk =>
   (value as Function).length === 0 &&
   !isAgent(value) &&
   !isChannel(value) &&
+  !isGroupChat(value) &&
+  !isRole(value) &&
   !isGroup(value) &&
   !isFile(value) &&
   !isToolkit(value) &&
@@ -54,16 +58,24 @@ export function serialize(rawValue: unknown): unknown {
   // Resolve thunks first to get the actual value
   const value = resolveThunk(rawValue);
 
-  // Handle Agent, Channel, Group, File, Toolkit, Tool, Input, Output references
+  // Handle Agent, Channel, GroupChat, Role, Group, File, Toolkit, Tool, Input, Output references
   // These can be classes (functions) so check before typeof checks
   if (isAgent(value)) return `@${value.id}`;
   if (isChannel(value)) return `#${value.id}`;
-  if (isGroup(value)) {
+  if (isGroupChat(value)) {
     // Extract agent members from references and format as @{member1, member2}
     const members = value.references
       .filter((ref: unknown) => isAgent(resolveThunk(ref)))
       .map((ref: unknown) => (resolveThunk(ref) as Agent).id);
     return members.length > 0 ? `@{${members.join(", ")}}` : `@{${value.id}}`;
+  }
+  if (isRole(value)) return `&${value.id}`;
+  if (isGroup(value)) {
+    // Extract agent members from references and format as %{member1, member2}
+    const members = value.references
+      .filter((ref: unknown) => isAgent(resolveThunk(ref)))
+      .map((ref: unknown) => (resolveThunk(ref) as Agent).id);
+    return members.length > 0 ? `%{${members.join(", ")}}` : `%${value.id}`;
   }
   if (isFile(value)) {
     const filename = value.id.split("/").pop() || value.id;
@@ -104,7 +116,9 @@ export function serialize(rawValue: unknown): unknown {
  * - Arrays/Sets/Objects: serialized to YAML
  * - Agent: @{id} reference link
  * - Channel: #{id} channel reference
- * - Group: 👥{id} group reference
+ * - GroupChat: @{member1, member2} group chat reference
+ * - Role: &{id} role reference
+ * - Group: %{member1, member2} or %{id} group reference
  * - File: [filename](path) markdown link
  * - Toolkit: 🧰{id}
  * - Tool: 🛠️{id}
@@ -116,15 +130,23 @@ export function stringify(rawValue: unknown): string {
   // Resolve thunks first to get the actual value
   const value = resolveThunk(rawValue);
 
-  // Handle Agent, Channel, Group, File, Toolkit, Tool, Input, Output references
+  // Handle Agent, Channel, GroupChat, Role, Group, File, Toolkit, Tool, Input, Output references
   if (isAgent(value)) return `@${value.id}`;
   if (isChannel(value)) return `#${value.id}`;
-  if (isGroup(value)) {
+  if (isGroupChat(value)) {
     // Extract agent members from references and format as @{member1, member2}
     const members = value.references
       .filter((ref: unknown) => isAgent(resolveThunk(ref)))
       .map((ref: unknown) => (resolveThunk(ref) as Agent).id);
     return members.length > 0 ? `@{${members.join(", ")}}` : `@{${value.id}}`;
+  }
+  if (isRole(value)) return `&${value.id}`;
+  if (isGroup(value)) {
+    // Extract agent members from references and format as %{member1, member2}
+    const members = value.references
+      .filter((ref: unknown) => isAgent(resolveThunk(ref)))
+      .map((ref: unknown) => (resolveThunk(ref) as Agent).id);
+    return members.length > 0 ? `%{${members.join(", ")}}` : `%${value.id}`;
   }
   if (isFile(value)) {
     const filename = value.id.split("/").pop() || value.id;
@@ -174,6 +196,20 @@ export function renderAgentTemplate(agent: Agent): string {
  */
 export function renderChannelTemplate(channel: Channel): string {
   return renderTemplate(channel.template, channel.references);
+}
+
+/**
+ * Renders a group chat's template to a displayable string.
+ */
+export function renderGroupChatTemplate(groupChat: GroupChat): string {
+  return renderTemplate(groupChat.template, groupChat.references);
+}
+
+/**
+ * Renders a role's template to a displayable string.
+ */
+export function renderRoleTemplate(role: Role): string {
+  return renderTemplate(role.template, role.references);
 }
 
 /**

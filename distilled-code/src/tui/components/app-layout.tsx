@@ -4,8 +4,8 @@
  * Discord-like two-column layout with sidebar and main content area.
  */
 
-import { createSignal, type JSX } from "solid-js";
 import { useTerminalDimensions } from "@opentui/solid";
+import { createSignal, type JSX } from "solid-js";
 import type { ChannelType } from "../../state/thread.ts";
 import { Sidebar, type SidebarSelection } from "./sidebar/sidebar.tsx";
 

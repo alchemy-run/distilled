@@ -1,27 +1,52 @@
 /**
  * Distilled-code configuration for Cloudflare API test generation.
  *
- * Organizational structure (top-down):
- * 1. Executive leadership sets direction
- * 2. Middle management coordinates execution
- * 3. Individual contributors do the work
- * 4. Artifacts are where work is tracked
+ * ORGANIZATIONAL STRUCTURE (Top-Down):
+ *
+ * ┌─────────────────────────────────────────────────────────────────────────┐
+ * │  EXECUTIVE LAYER                                                        │
+ * │    CEO ─── Sets direction, receives status                              │
+ * │     ├── CTO ─── Quality gate, approves work                             │
+ * │     ├── VPE ─── Delivery, removes blockers                              │
+ * │     └── Writer ─── Documentation consistency                            │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  MANAGEMENT LAYER                                                       │
+ * │    PM ─── Designs expected errors (reports to VPE)                      │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  ENGINEERING LAYER                                                      │
+ * │    SDET ─── Writes tests, discovers errors (reports to VPE)             │
+ * │    SDE ─── Patches error specs (reports to VPE)                         │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  ORGANIZATIONAL UNITS (Groups)                                          │
+ * │    Leadership, Management, Engineering, AllHands                        │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  COMMUNICATION (Channels & GroupChats)                                  │
+ * │    #engineering, #testing, #status                                      │
+ * │    TestToPatch, DesignToTest, ReviewQueue                               │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  CAPABILITIES (Roles)                                                   │
+ * │    Reviewer, Designer, Tester, Patcher, Documenter                      │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  ARTIFACTS (Files & Folders)                                            │
+ * │    Design docs, Generated clients, Tests, Patches                       │
+ * └─────────────────────────────────────────────────────────────────────────┘
  */
 
-import { Agent, File } from "distilled-code";
+import { Agent, Chat, File, Org } from "distilled-code";
 import { loadModel } from "./scripts/parse.ts";
 
 const SDK_PATH = "../../cloudflare-typescript/src/resources";
 const services = await loadModel({ basePath: SDK_PATH });
 
 // ============================================================================
-// ORGANIZATION
+// EXECUTIVE LAYER - Top of the Organization
 // ============================================================================
 
 /**
  * Chief Executive Officer - Sets direction and receives status.
+ * THE TOP OF THE ORG CHART.
  */
-class CEO extends Agent("ceo")`
+export default class CEO extends Agent("ceo")`
 # Chief Executive Officer
 
 ## Responsibility 
@@ -50,9 +75,17 @@ flowchart TD
     SDE --> SDET
 \`\`\`
 
+## Membership
+- ${() => Leadership} (leader)
+- ${() => AllHands}
+
 ## Direct Reports
 - ${() => CTO} - Technical direction and quality
 - ${() => VPE} - Delivery and coordination
+
+## Channels
+- ${() => StatusChannel} - Progress updates
+- ${() => EngineeringChannel} - Technical decisions
 
 ## Process
 
@@ -60,13 +93,6 @@ flowchart TD
 2. Receive status from ${() => VPE}
 3. Make decisions on priority changes, resources
 4. Delegate technical direction to ${() => CTO}
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => CTO} | Technical direction, architecture |
-| ${() => VPE} | Progress updates, blockers |
 
 ## Overview
 
@@ -87,6 +113,7 @@ ${services
 
 /**
  * Chief Technology Officer - Reviews and approves completed work.
+ * Reports to: CEO
  */
 class CTO extends Agent("cto")`
 # Chief Technology Officer
@@ -95,29 +122,34 @@ class CTO extends Agent("cto")`
 Review and approve completed work. Set technical standards.
 You are the quality gate before work is considered done.
 
+## Membership
+- ${() => Leadership}
+- ${() => AllHands}
+
+## Roles
+${() => ReviewerRole}
+
 ## Reports to
 ${() => CEO}
 
+## Channels
+- ${() => EngineeringChannel} - Technical standards
+- ${() => TestingChannel} - Review results
+- ${() => StatusChannel} - Completions
+
+## Group Chats
+- ${() => ReviewQueue} - Work ready for review
+
 ## Process
 
-1. Check Handoff Logs for "→ CTO: Ready for review"
+1. Check ${() => ReviewQueue} for "Ready for review"
 2. Review checklist:
    - [ ] All expected errors verified
    - [ ] Patch file complete (see ${() => PatchDir})
    - [ ] Tests pass (see ${() => TestServices})
    - [ ] Error tags follow naming conventions
-3. If issues: Add "CTO → SDET: Changes requested" to Handoff Log
-4. If approved: Mark "Approved" ✅, notify ${() => VPE}
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => SDET} | Request changes, provide feedback |
-| ${() => SDE} | Discuss error naming conventions |
-| ${() => PM} | Clarify expected behavior disputes |
-| ${() => VPE} | Report service completion |
-| ${() => CEO} | Escalate major technical decisions |
+3. If issues: Post in ${() => ReviewQueue}: "Changes requested"
+4. If approved: Mark "Approved" ✅, notify ${() => VPE} in ${() => StatusChannel}
 
 ## Standards
 
@@ -126,20 +158,13 @@ ${() => CEO}
 - Descriptive: \`BucketAlreadyExists\` not \`Conflict\`
 - Prefix when ambiguous: \`R2NoSuchBucket\` vs \`KVNoSuchKey\`
 
-## Tracking
-
-| What | Where |
-|------|-------|
-| Review queue | Handoff Logs with "→ CTO" |
-| Approvals | "Approved" column in service design docs |
-| Patch format | ${() => PatchDir} |
-
 ## Artifacts
 ${() => ServiceArtifacts.map((s) => `- ${s.ServiceDesignDoc}`).join("\n")}
 ` {}
 
 /**
  * VP Engineering - Tracks delivery and removes blockers.
+ * Reports to: CEO
  */
 class VPE extends Agent("vpe")`
 # VP Engineering
@@ -147,6 +172,10 @@ class VPE extends Agent("vpe")`
 ## Responsibility
 Track delivery progress and remove blockers.
 You ensure work flows smoothly and priorities are clear.
+
+## Membership
+- ${() => Management}
+- ${() => AllHands}
 
 ## Reports to
 ${() => CEO}
@@ -156,23 +185,20 @@ ${() => CEO}
 - ${() => SDET} - Test execution
 - ${() => SDE} - Patching
 
+## Channels
+- ${() => StatusChannel} - Progress and blockers
+- ${() => EngineeringChannel} - Technical discussions
+
+## Group Chats
+- ${() => ReviewQueue} - Completion notifications
+
 ## Process
 
 1. Set service priorities (P1: r2, workers, queues, kv, d1)
 2. Monitor Progress tables in ${() => DesignIndex} weekly
 3. Check Blockers sections, escalate to ${() => CTO} if technical
-4. Report to ${() => CEO}
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => PM} | Assign priorities |
-| ${() => SDET} | Check progress, unblock |
-| ${() => SDE} | Check patch progress |
-| ${() => CTO} | Escalate technical blockers |
-| ${() => CEO} | Report progress, request decisions |
-| ${() => Writer} | Need report formatting |
+4. Post updates to ${() => StatusChannel}
+5. Report to ${() => CEO}
 
 ## Priority Matrix
 
@@ -184,14 +210,6 @@ ${() => CEO}
 | kv | P1 | ⬜ |
 | d1 | P1 | ⬜ |
 
-## Tracking
-
-| What | Where |
-|------|-------|
-| All services | ${() => DesignIndex} |
-| Per-service progress | Progress table in service design doc |
-| Blockers | Blockers section in service design doc |
-
 ## Artifacts
 - ${() => DesignIndex}
 ${() => ServiceArtifacts.map((s) => `- ${s.ServiceDesignDoc}`).join("\n")}
@@ -199,6 +217,7 @@ ${() => ServiceArtifacts.map((s) => `- ${s.ServiceDesignDoc}`).join("\n")}
 
 /**
  * Technical Writer - Maintains documentation consistency.
+ * Reports to: CEO
  */
 class Writer extends Agent("writer")`
 # Technical Writer
@@ -206,8 +225,18 @@ class Writer extends Agent("writer")`
 ## Responsibility
 Maintain documentation consistency and clarity.
 
+## Membership
+- ${() => Engineering}
+- ${() => AllHands}
+
+## Roles
+${() => DocumenterRole}
+
 ## Reports to
 ${() => CEO}
+
+## Channels
+- ${() => EngineeringChannel} - Documentation standards
 
 ## Process
 
@@ -216,35 +245,23 @@ ${() => CEO}
 3. Document discoveries in Notes sections
 4. Update status tables as work completes
 
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => PM} | Unclear design doc format needed |
-| ${() => SDET} | Need to document discovered quirks |
-| ${() => CTO} | Need guidance on documentation standards |
-| ${() => VPE} | Progress reporting needs cleanup |
-
 ## Standards
 - Status: ⬜ pending, ✅ complete, 🔄 in progress
 - Links: Always bi-directional (parent ↔ child)
 - Tables: Markdown tables, aligned columns
-
-## Tracking
-
-| What | Where |
-|------|-------|
-| All designs | ${() => DesignIndex} |
-| Service docs | ${() => Design}/{service}/index.md |
-| Operation docs | ${() => Design}/{service}/{operation}.md |
 
 ## Artifacts
 - ${() => DesignIndex}
 - ${() => Design}
 ` {}
 
+// ============================================================================
+// MANAGEMENT LAYER
+// ============================================================================
+
 /**
  * Product Manager - Defines expected errors before implementation.
+ * Reports to: VPE
  */
 class PM extends Agent("pm")`
 # Product Manager
@@ -253,11 +270,22 @@ class PM extends Agent("pm")`
 Define expected error tags BEFORE implementation.
 You are the source of truth for what errors SHOULD exist.
 
+## Membership
+- ${() => Management}
+- ${() => AllHands}
+
+## Roles
+${() => DesignerRole}
+
 ## Reports to
 ${() => VPE}
 
-## Hands off to
-${() => SDET}
+## Channels
+- ${() => TestingChannel} - Design discussions
+- ${() => StatusChannel} - Progress updates
+
+## Group Chats
+- ${() => DesignToTest} - Hand off to ${() => SDET}
 
 ## Process
 
@@ -268,16 +296,7 @@ ${() => SDET}
    b. Fill in "Expected Errors" table
    c. Define test plan
    d. Mark "Designed" ✅
-4. Hand off to ${() => SDET} via Handoff Log
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => VPE} | Need priority guidance |
-| ${() => SDET} | Hand off completed designs |
-| ${() => CTO} | Need technical guidance on error categorization |
-| ${() => Writer} | Need help with documentation format |
+4. Post in ${() => DesignToTest}: "Design complete for {operation}"
 
 ## Prioritization
 1. CRUD: create, get, list, update, delete
@@ -285,21 +304,18 @@ ${() => SDET}
 3. Bulk: batch operations
 4. Advanced: streaming, webhooks
 
-## Tracking
-
-| What | Where |
-|------|-------|
-| Service progress | Progress table in service design doc |
-| Operation design | Expected Errors table in operation doc |
-| Handoffs | Handoff Log in operation doc |
-
 ## Artifacts
 - ${() => DesignIndex}
 ${() => ServiceArtifacts.map((s) => `- ${s.ServiceDesignDoc}`).join("\n")}
 ` {}
 
+// ============================================================================
+// ENGINEERING LAYER
+// ============================================================================
+
 /**
  * Software Development Engineer in Test - Writes tests to discover errors.
+ * Reports to: VPE
  */
 class SDET extends Agent("sdet")`
 # Software Development Engineer in Test
@@ -308,45 +324,36 @@ class SDET extends Agent("sdet")`
 Write tests that discover and verify error tags.
 You are the primary driver of the TDD loop.
 
+## Membership
+- ${() => Engineering}
+- ${() => AllHands}
+
+## Roles
+${() => TesterRole}
+
 ## Reports to
 ${() => VPE}
 
-## Receives from
-${() => PM}
+## Channels
+- ${() => TestingChannel} - Test results and discoveries
+- ${() => StatusChannel} - Progress updates
 
-## Coordinates with
-${() => SDE}
-
-## Hands off to
-${() => CTO}
+## Group Chats
+- ${() => DesignToTest} - Receive designs from ${() => PM}
+- ${() => TestToPatch} - Request patches from ${() => SDE}
+- ${() => ReviewQueue} - Submit for review
 
 ## Process
 
-1. Receive handoff from ${() => PM} via Handoff Log
+1. Monitor ${() => DesignToTest} for design completions
 2. Read design doc for expected errors
 3. Write test (see ${() => TestServices} for standards)
 4. Run: \`DEBUG=1 bun vitest run test/services/{service}/{op}.test.ts\`
 5. If \`UnknownCloudflareError\`:
-   - Add to Handoff Log: "SDET → SDE: Patch needed (code: XXXXX)"
+   - Post in ${() => TestToPatch}: "Patch needed (code: XXXXX)"
    - Wait for ${() => SDE} to patch and regenerate
-6. When verified, mark "Tested" ✅ and hand off to ${() => CTO}
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => PM} | Unclear expected behavior |
-| ${() => SDE} | Need error patched |
-| ${() => CTO} | Ready for review |
-| ${() => VPE} | Blocked on infrastructure |
-
-## Tracking
-
-| What | Where |
-|------|-------|
-| Test standards | ${() => TestServices} |
-| Test files | ${() => TestServices}/{service}/{operation}.test.ts |
-| Test status | "Tested" column in service design doc |
+6. When verified, mark "Tested" ✅ 
+7. Post in ${() => ReviewQueue}: "Ready for review: {operation}"
 
 ## Artifacts
 - ${() => TestServices}
@@ -355,6 +362,7 @@ ${() => ServiceArtifacts.map((s) => `- ${s.Tests}`).join("\n")}
 
 /**
  * Software Development Engineer - Patches error specs.
+ * Reports to: VPE
  */
 class SDE extends Agent("sde")`
 # Software Development Engineer
@@ -363,35 +371,30 @@ class SDE extends Agent("sde")`
 Patch error specs when tests discover undocumented errors.
 You translate discovered error codes into typed error classes.
 
+## Membership
+- ${() => Engineering}
+- ${() => AllHands}
+
+## Roles
+${() => PatcherRole}
+
 ## Reports to
 ${() => VPE}
 
-## Receives from
-${() => SDET}
+## Channels
+- ${() => TestingChannel} - Patch discussions
+- ${() => StatusChannel} - Progress updates
+
+## Group Chats
+- ${() => TestToPatch} - Receive patch requests from ${() => SDET}
 
 ## Process
 
-1. Receive request from ${() => SDET} via Handoff Log
+1. Monitor ${() => TestToPatch} for patch requests
 2. Get error details (code, status, message pattern)
 3. Create/update patch file (see ${() => PatchDir} for format)
 4. Regenerate: \`bun generate --service {service}\`
-5. Hand back to ${() => SDET} via Handoff Log
-
-## Talk to
-
-| Agent | When |
-|-------|------|
-| ${() => SDET} | Receive patch requests, confirm regeneration |
-| ${() => CTO} | Unclear error categorization |
-| ${() => VPE} | Blocked on generator issues |
-
-## Tracking
-
-| What | Where |
-|------|-------|
-| Patch requests | Handoff Log in operation design doc |
-| Patch format | ${() => PatchDir} |
-| Service progress | "Patched" column in service design doc |
+5. Post in ${() => TestToPatch}: "Patched and regenerated"
 
 ## Artifacts
 - ${() => PatchDir}
@@ -399,7 +402,332 @@ ${() => ServiceArtifacts.map((s) => `- ${s.Patches}`).join("\n")}
 ` {}
 
 // ============================================================================
-// ARTIFACTS - Where work is tracked and documented
+// ORGANIZATIONAL UNITS (Groups)
+// ============================================================================
+
+/**
+ * Leadership Group - Sets direction and quality standards.
+ */
+class Leadership extends Org.Group("leadership")`
+## Leadership Team
+
+Strategic direction and quality gate.
+
+### Members
+- ${() => CEO} - Direction
+- ${() => CTO} - Quality
+
+### Responsibilities
+- Set service priorities
+- Review and approve completed work
+- Make high-level decisions
+
+### Has Roles
+${() => ReviewerRole}
+` {}
+
+/**
+ * Management Group - Coordinates execution.
+ */
+class Management extends Org.Group("management")`
+## Management Team
+
+Coordinates execution and tracks delivery.
+
+### Members
+- ${() => VPE} - Delivery
+- ${() => PM} - Design
+
+### Responsibilities
+- Track delivery progress
+- Remove blockers
+- Assign priorities
+- Define expected errors
+
+### Has Roles
+${() => DesignerRole}
+${() => DocumenterRole}
+` {}
+
+/**
+ * Engineering Group - Does the hands-on work.
+ */
+class Engineering extends Org.Group("engineering")`
+## Engineering Team
+
+Hands-on implementation and testing.
+
+### Members
+- ${() => SDET} - Testing
+- ${() => SDE} - Patching
+- ${() => Writer} - Docs
+
+### Responsibilities
+- Write tests
+- Patch errors
+- Maintain documentation
+
+### Has Roles
+${() => TesterRole}
+${() => PatcherRole}
+${() => DocumenterRole}
+` {}
+
+/**
+ * All Hands - Everyone in the organization.
+ */
+class AllHands extends Org.Group("all-hands")`
+## All Hands
+
+Entire organization.
+
+### Groups
+- ${() => Leadership}
+- ${() => Management}
+- ${() => Engineering}
+` {}
+
+// ============================================================================
+// COMMUNICATION CHANNELS
+// ============================================================================
+
+/**
+ * Engineering Channel - Technical discussions.
+ */
+class EngineeringChannel extends Chat.Channel("engineering")`
+## #engineering
+
+Technical discussions and decisions.
+
+### Members
+${() => AllHands}
+
+### Topics
+- Architecture decisions
+- Error naming conventions
+- Test standards
+- Patch format discussions
+` {}
+
+/**
+ * Testing Channel - Test-related discussions.
+ */
+class TestingChannel extends Chat.Channel("testing")`
+## #testing
+
+Test execution and results.
+
+### Members
+${() => SDET}
+${() => SDE}
+${() => PM}
+${() => CTO}
+
+### Topics
+- Test failures and discoveries
+- Patch requests
+- Verification results
+- Bug reports
+` {}
+
+/**
+ * Status Channel - Progress updates.
+ */
+class StatusChannel extends Chat.Channel("status")`
+## #status
+
+Progress updates and blockers.
+
+### Members
+${() => AllHands}
+
+### Topics
+- Daily progress
+- Blockers
+- Completions
+- Priority changes
+` {}
+
+// ============================================================================
+// GROUP CHATS - Ad-hoc discussions for specific work
+// ============================================================================
+
+/**
+ * Test-to-Patch GroupChat - SDET and SDE coordination.
+ */
+class TestToPatch extends Chat.GroupChat("test-to-patch")`
+## Test-to-Patch Coordination
+
+Coordination between testing and patching.
+
+### Members
+${() => SDET}
+${() => SDE}
+
+### Purpose
+When ${() => SDET} discovers an undocumented error:
+1. SDET posts error details (code, status, message)
+2. ${() => SDE} creates patch
+3. ${() => SDE} confirms regeneration
+4. ${() => SDET} verifies fix
+` {}
+
+/**
+ * Design-to-Test GroupChat - PM and SDET coordination.
+ */
+class DesignToTest extends Chat.GroupChat("design-to-test")`
+## Design-to-Test Handoff
+
+Coordination between design and testing.
+
+### Members
+${() => PM}
+${() => SDET}
+
+### Purpose
+When ${() => PM} completes an operation design:
+1. PM posts design completion
+2. ${() => SDET} acknowledges and starts testing
+3. SDET reports discoveries back to PM
+` {}
+
+/**
+ * Review GroupChat - CTO review coordination.
+ */
+class ReviewQueue extends Chat.GroupChat("review-queue")`
+## Review Queue
+
+Work ready for CTO review.
+
+### Members
+${() => CTO}
+${() => SDET}
+${() => VPE}
+
+### Purpose
+When ${() => SDET} completes verification:
+1. SDET posts "Ready for review"
+2. ${() => CTO} reviews and approves/requests changes
+3. If approved, ${() => VPE} is notified
+` {}
+
+// ============================================================================
+// ROLES - Shared responsibilities and capabilities (LEAF NODES)
+// ============================================================================
+
+/**
+ * Review Role - Ability to review and approve work.
+ */
+class ReviewerRole extends Org.Role("reviewer")`
+## Review Responsibilities
+
+Can review and approve completed work.
+
+### Checklist
+- [ ] All expected errors verified
+- [ ] Tests pass
+- [ ] Error tags follow naming conventions
+- [ ] Documentation complete
+
+### Standards
+- Error Tag Naming: PascalCase (e.g., \`NoSuchBucket\`)
+- Descriptive names: \`BucketAlreadyExists\` not \`Conflict\`
+- Prefix when ambiguous: \`R2NoSuchBucket\` vs \`KVNoSuchKey\`
+` {}
+
+/**
+ * Design Role - Ability to design expected errors and test plans.
+ */
+class DesignerRole extends Org.Role("designer")`
+## Design Responsibilities
+
+Can define expected error tags and test plans.
+
+### Process
+1. Research the API (Cloudflare docs, similar services)
+2. Fill in "Expected Errors" table
+3. Define test plan
+4. Mark "Designed" ✅
+
+### Prioritization
+1. CRUD: create, get, list, update, delete
+2. Config: cors, lifecycle, settings
+3. Bulk: batch operations
+4. Advanced: streaming, webhooks
+` {}
+
+/**
+ * Testing Role - Ability to write and run tests.
+ */
+class TesterRole extends Org.Role("tester")`
+## Testing Responsibilities
+
+Can write tests that discover and verify error tags.
+
+### Process
+1. Read design doc for expected errors
+2. Write test following standards
+3. Run: \`DEBUG=1 bun vitest run test/services/{service}/{op}.test.ts\`
+4. If \`UnknownCloudflareError\`: request patch from ${() => PatcherRole}
+5. When verified, mark "Tested" ✅
+
+### Standards
+- Deterministic names: \`distilled-cf-{service}-{operation}\`
+- Use \`Effect.flip\` for error assertions
+- Use \`Effect.ensuring\` for cleanup
+- No \`Date.now()\`, \`Math.random()\`, or UUIDs
+` {}
+
+/**
+ * Patcher Role - Ability to patch error specs.
+ */
+class PatcherRole extends Org.Role("patcher")`
+## Patching Responsibilities
+
+Can patch error specs when tests discover undocumented errors.
+
+### Process
+1. Get error details (code, status, message pattern)
+2. Create/update patch file (see ${() => PatchDir})
+3. Regenerate: \`bun generate --service {service}\`
+4. Confirm regeneration
+
+### Patch Format
+\`\`\`json
+{
+  "errors": {
+    "NoSuchBucket": [{ "code": 10006 }],
+    "BucketAlreadyExists": [{ "code": 10002, "status": 409 }]
+  }
+}
+\`\`\`
+
+### Matcher Priority
+Most specific wins: code + status + message > code + status > code + message > code
+` {}
+
+/**
+ * Documentation Role - Ability to write and maintain documentation.
+ */
+class DocumenterRole extends Org.Role("documenter")`
+## Documentation Responsibilities
+
+Can maintain documentation consistency and clarity.
+
+### Standards
+- Status symbols: ⬜ pending, ✅ complete, 🔄 in progress
+- Links: Always bi-directional (parent ↔ child)
+- Tables: Markdown tables, aligned columns
+
+### Process
+1. Monitor design docs for incomplete or inconsistent content
+2. Standardize format (tables, links, status symbols)
+3. Document discoveries in Notes sections
+4. Update status tables as work completes
+` {}
+
+// ============================================================================
+// ARTIFACTS - Files and Folders (LEAF NODES)
 // ============================================================================
 
 /**
@@ -638,7 +966,7 @@ Most specific matcher wins: code + status + message > code + status > code + mes
 ` {}
 
 // ============================================================================
-// PER-SERVICE ARTIFACTS
+// PER-SERVICE ARTIFACTS (DEEPEST LEAF NODES)
 // ============================================================================
 
 const ServiceArtifacts = services.map((service) => {
@@ -769,5 +1097,3 @@ ${service.operations.map((op) => `- \`${op.operationName}.test.ts\``).join("\n")
     Tests,
   };
 });
-
-export default CEO;

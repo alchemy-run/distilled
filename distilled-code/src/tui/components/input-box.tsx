@@ -6,7 +6,7 @@
 
 import type { InputRenderable } from "@opentui/core";
 import { useKeyboard } from "@opentui/solid";
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 /**
  * Props for InputBox
@@ -45,7 +45,8 @@ export function InputBox(props: InputBoxProps) {
   const [value, setValue] = createSignal("");
   let inputRef: InputRenderable | undefined;
 
-  onMount(() => {
+  // Focus the input whenever the focused prop becomes true
+  createEffect(() => {
     if (props.focused && inputRef) {
       inputRef.focus();
     }

@@ -5,33 +5,33 @@
  */
 
 import { For } from "solid-js";
-import { useGroups, useOrg } from "../../context/org.tsx";
+import { useGroupChats, useOrg } from "../../context/org.tsx";
 
 export interface GroupListProps {
   /**
-   * Currently selected group ID
+   * Currently selected group chat ID
    */
-  selectedGroupId?: string;
+  selectedGroupChatId?: string;
 
   /**
-   * Callback when a group is selected
+   * Callback when a group chat is selected
    */
-  onSelectGroup?: (groupId: string) => void;
+  onSelectGroupChat?: (groupChatId: string) => void;
 }
 
 /**
- * List of available groups
+ * List of available group chats
  */
 export function GroupList(props: GroupListProps) {
-  const groups = useGroups();
+  const groupChats = useGroupChats();
   const org = useOrg();
 
   return (
     <box flexDirection="column" width="100%">
-      <For each={groups}>
-        {(group) => {
-          const isSelected = () => props.selectedGroupId === group.id;
-          const members = () => org.getGroupMembers(group.id);
+      <For each={groupChats}>
+        {(groupChat) => {
+          const isSelected = () => props.selectedGroupChatId === groupChat.id;
+          const members = () => org.getGroupChatMembers(groupChat.id);
 
           return (
             <box

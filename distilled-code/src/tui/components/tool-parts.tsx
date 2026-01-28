@@ -705,23 +705,30 @@ const TOOL_COMPONENTS: Record<string, (props: { tool: ToolState }) => JSX.Elemen
 export function ToolPart(props: { tool: ToolState }) {
   log("ToolPart", "received props", { tool: props.tool, hasProps: !!props });
 
-  // Guard against undefined tool
-  if (!props.tool) {
-    log("ToolPart", "ERROR: tool is undefined", { props });
-    return (
-      <box>
-        <text fg="#fa8383">Error: Tool state is undefined</text>
-      </box>
-    );
-  }
-
-  const Component = createMemo(() => {
+  // Get the component directly (not via memo to avoid dynamic component issues)
+  const getComponent = () => {
     const name = props.tool?.name ?? "unknown";
     log("ToolPart", "selecting component", { name, hasComponent: !!TOOL_COMPONENTS[name] });
     return TOOL_COMPONENTS[name] ?? TOOL_COMPONENTS[name.toLowerCase()] ?? GenericTool;
-  });
+  };
 
-  return <Component tool={props.tool} />;
+  // Use Show to ensure props.tool is available before rendering
+  return (
+    <Show
+      when={props.tool}
+      fallback={
+        <box>
+          <text fg="#fa8383">Error: Tool state is undefined</text>
+        </box>
+      }
+      keyed
+    >
+      {(tool) => {
+        const Comp = getComponent();
+        return <Comp tool={tool} />;
+      }}
+    </Show>
+  );
 }
 
 // ============================================================================

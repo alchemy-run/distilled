@@ -13,6 +13,7 @@ import { useKeyboard, useRenderer, useTerminalDimensions } from "@opentui/solid"
 import { createMemo, createSignal, For, Show } from "solid-js";
 import type { ChannelType } from "../state/thread.ts";
 import { ChatView } from "./components/chat-view.tsx";
+import { DocumentView } from "./components/document-view.tsx";
 import { useRegistry } from "./context/registry.tsx";
 import { useStore } from "./context/store.tsx";
 import { ThemeProvider } from "./context/theme.tsx";
@@ -69,6 +70,9 @@ export function App() {
   // Whether chat is focused (vs sidebar)
   const [chatFocused, setChatFocused] = createSignal(false);
 
+  // View mode for right panel: "chat" or "document"
+  const [viewMode, setViewMode] = createSignal<"chat" | "document">("chat");
+
   // Get current selection
   const currentSelection = createMemo<Selection | undefined>(() => {
     const items = navItems();
@@ -104,6 +108,16 @@ export function App() {
       return;
     }
 
+    // If document view is showing, ESC returns to chat view
+    if (viewMode() === "document") {
+      if (evt.name === "escape") {
+        evt.preventDefault();
+        evt.stopPropagation();
+        setViewMode("chat");
+      }
+      return;
+    }
+
     // If chat is focused, let ChatView handle keyboard
     // Only handle Escape to return to sidebar
     if (chatFocused()) {
@@ -134,11 +148,22 @@ export function App() {
       return;
     }
 
+    // p to open document view (preview)
+    if (evt.name === "p") {
+      evt.preventDefault();
+      evt.stopPropagation();
+      if (currentSelection()) {
+        setViewMode("document");
+      }
+      return;
+    }
+
     // Enter to focus chat
     if (evt.name === "return") {
       evt.preventDefault();
       evt.stopPropagation();
       if (currentSelection()) {
+        setViewMode("chat");
         setChatFocused(true);
       }
       return;
@@ -152,6 +177,13 @@ export function App() {
       return;
     }
   });
+
+  // Determine help text based on current state
+  const helpText = () => {
+    if (viewMode() === "document") return "ESC: back";
+    if (chatFocused()) return "ESC: back";
+    return "j/k ent:chat p:doc q";
+  };
 
   return (
     <ThemeProvider mode="dark">
@@ -167,7 +199,7 @@ export function App() {
           height={dimensions().height}
           flexDirection="column"
           borderStyle="single"
-          borderColor={chatFocused() ? "#3a3a3a" : "#fab283"}
+          borderColor={chatFocused() || viewMode() === "document" ? "#3a3a3a" : "#fab283"}
         >
           {/* Header */}
           <box paddingLeft={1} paddingRight={1}>
@@ -206,13 +238,11 @@ export function App() {
 
           {/* Help text */}
           <box paddingLeft={1} paddingRight={1}>
-            <text fg="#666666">
-              {chatFocused() ? "ESC: back" : "↑↓: nav  ⏎: chat  q: quit"}
-            </text>
+            <text fg="#666666">{helpText()}</text>
           </box>
         </box>
 
-        {/* Chat area */}
+        {/* Right panel: Chat or Document view */}
         <box
           width={contentWidth()}
           height={dimensions().height}
@@ -232,12 +262,19 @@ export function App() {
             }
           >
             {(selection) => (
-              <ChatView
-                agentId={selection().id}
-                focused={chatFocused()}
-                onBack={handleBack}
-                onExit={handleExit}
-              />
+              <Show
+                when={viewMode() === "document"}
+                fallback={
+                  <ChatView
+                    agentId={selection().id}
+                    focused={chatFocused()}
+                    onBack={handleBack}
+                    onExit={handleExit}
+                  />
+                }
+              >
+                <DocumentView id={selection().id} />
+              </Show>
             )}
           </Show>
         </box>

@@ -6,8 +6,10 @@
 
 import { isAgent, type Agent } from "../../agent.ts";
 import { isChannel } from "../../chat/channel.ts";
-import { isGroup } from "../../chat/group.ts";
+import { isGroupChat } from "../../chat/group-chat.ts";
 import type { Fragment } from "../../fragment.ts";
+import { isGroup } from "../../org/group.ts";
+import { isRole } from "../../org/role.ts";
 
 /**
  * Resolve a potential thunk to its value
@@ -35,8 +37,8 @@ function isFragment(value: unknown): value is Fragment<string, string, any[]> {
 /**
  * Recursively discover all agents starting from a root agent or list of agents.
  *
- * This walks the entire reference graph (including through Channels, Groups,
- * Files, and any other Fragment types) to find all Agent entities.
+ * This walks the entire reference graph (including through Channels, GroupChats,
+ * Roles, Groups, Files, and any other Fragment types) to find all Agent entities.
  *
  * @example
  * ```typescript
@@ -83,8 +85,13 @@ export function discoverAgents(roots: Agent | Agent[]): Agent[] {
       continue;
     }
 
-    // If it's a Channel or Group, queue their references (they may contain agents)
-    if (isChannel(resolved) || isGroup(resolved)) {
+    // If it's a Channel, GroupChat, Role, or Group, queue their references (they may contain agents)
+    if (
+      isChannel(resolved) ||
+      isGroupChat(resolved) ||
+      isRole(resolved) ||
+      isGroup(resolved)
+    ) {
       for (const ref of resolved.references) {
         queue.push(ref);
       }

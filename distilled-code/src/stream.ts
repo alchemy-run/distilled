@@ -1,7 +1,24 @@
+import * as Chunk from "effect/Chunk";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 
 export type TextMode = "last-message" | "all-messages";
+
+/**
+ * Collect all elements from a stream into an array.
+ *
+ * @example
+ * // Pipeable form
+ * const parts = yield* agent.send(prompt).pipe(collect);
+ *
+ * @example
+ * // Direct call form
+ * const parts = yield* collect(stream);
+ */
+export const collect = <A, E, R>(
+  stream: Stream.Stream<A, E, R>,
+): Effect.Effect<A[], E, R> =>
+  Stream.runCollect(stream).pipe(Effect.map(Chunk.toArray));
 
 type StreamPartLike = {
   readonly type: string;

@@ -1,4 +1,4 @@
-import { createFragment, type Fragment } from "../fragment.ts";
+import { defineFragment, type Fragment } from "../fragment.ts";
 
 /**
  * Channel type - a named channel with multiple participants defined via template.
@@ -7,9 +7,7 @@ import { createFragment, type Fragment } from "../fragment.ts";
 export interface Channel<
   ID extends string = string,
   References extends any[] = any[],
-> extends Fragment<"channel", ID, References> {
-  new (_: never): this;
-}
+> extends Fragment<"channel", ID, References> {}
 
 /**
  * Create a Channel - a named communication channel where agents collaborate.
@@ -48,7 +46,7 @@ export interface Channel<
  * ` {}
  * ```
  */
-export const Channel = createFragment("channel")();
+export const Channel = defineFragment("channel")();
 
 /**
  * Type guard for Channel entities

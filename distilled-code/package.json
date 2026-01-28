@@ -38,6 +38,8 @@
   "scripts": {
     "distill": "bun run bin/distill.ts",
     "test": "vitest run",
+    "test:tui": "bun test --preload @opentui/solid/preload ./test/tui/ --",
+    "test:tui:update": "bun test --preload @opentui/solid/preload ./test/tui/ --update-snapshots",
     "test:watch": "vitest",
     "download:env": "doppler secrets download --no-file --format env > .env"
   },
@@ -50,6 +52,7 @@
     "@effect/platform": "catalog:",
     "@effect/platform-node": "catalog:",
     "@libsql/client": "^0.17.0",
+    "@mermaid-js/parser": "^0.6.3",
     "@opentui/core": "^0.1.75",
     "@opentui/solid": "^0.1.75",
     "diff": "catalog:",
@@ -61,6 +64,7 @@
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
+    "vite-plugin-solid": "^2.11.10",
     "vitest": "catalog:"
   },
   "peerDependencies": {

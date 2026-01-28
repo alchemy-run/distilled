@@ -71,14 +71,14 @@ export const defineFile = <const Language extends string>(
   language: Language,
 ) => {
   // This function handles both calling conventions
-  function variant<ID extends string>(
+  function defineFile<ID extends string>(
     id: ID,
   ): DescriptionBuilder<ID, Language, []>;
-  function variant<ID extends string>(
+  function defineFile<ID extends string>(
     pathTemplate: TemplateStringsArray,
     ...references: any[]
   ): DescriptionBuilder<ID, Language, typeof references>;
-  function variant<ID extends string>(
+  function defineFile<ID extends string>(
     idOrTemplate: ID | TemplateStringsArray,
     ...references: any[]
   ): DescriptionBuilder<ID, Language, typeof references> {
@@ -99,7 +99,7 @@ export const defineFile = <const Language extends string>(
       return createDescriptionBuilder(id, language, syntheticTemplate, []);
     }
   }
-  return variant;
+  return defineFile;
 };
 
 type DescriptionBuilder<

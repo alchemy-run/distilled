@@ -8,7 +8,7 @@
 import { createContext, useContext, type JSX } from "solid-js";
 import type { Agent } from "../../agent.ts";
 import type { Channel } from "../../chat/channel.ts";
-import type { Group } from "../../chat/group.ts";
+import type { GroupChat } from "../../chat/group-chat.ts";
 import type { OrgConfig } from "../../state/org.ts";
 
 /**
@@ -26,9 +26,9 @@ export interface OrgContextValue {
   channels: readonly Channel[];
 
   /**
-   * Available group definitions
+   * Available group chat definitions
    */
-  groups: readonly Group[];
+  groupChats: readonly GroupChat[];
 
   /**
    * Get an agent by ID
@@ -41,14 +41,14 @@ export interface OrgContextValue {
   getChannel: (id: string) => Channel | undefined;
 
   /**
-   * Get a group by ID
+   * Get a group chat by ID
    */
-  getGroup: (id: string) => Group | undefined;
+  getGroupChat: (id: string) => GroupChat | undefined;
 
   /**
-   * Get participants of a group (agent IDs)
+   * Get participants of a group chat (agent IDs)
    */
-  getGroupMembers: (groupId: string) => readonly string[];
+  getGroupChatMembers: (groupChatId: string) => readonly string[];
 }
 
 const OrgContext = createContext<OrgContextValue>();
@@ -69,11 +69,11 @@ export interface OrgProviderProps {
 }
 
 /**
- * Extract agent members from a Group's references
+ * Extract agent members from a GroupChat's references
  */
-function extractGroupMembers(group: Group, agentMap: Map<string, Agent>): readonly string[] {
+function extractGroupChatMembers(groupChat: GroupChat, agentMap: Map<string, Agent>): readonly string[] {
   const members: string[] = [];
-  for (const ref of group.references) {
+  for (const ref of groupChat.references) {
     // References could be Agent classes or thunks
     const resolved = typeof ref === "function" && "id" in ref ? ref : undefined;
     if (resolved && agentMap.has(resolved.id)) {
@@ -100,25 +100,25 @@ export function OrgProvider(props: OrgProviderProps) {
     channelMap.set(channel.id, channel);
   }
 
-  const groupMap = new Map<string, Group>();
-  for (const group of config.groups) {
-    groupMap.set(group.id, group);
+  const groupChatMap = new Map<string, GroupChat>();
+  for (const groupChat of config.groupChats) {
+    groupChatMap.set(groupChat.id, groupChat);
   }
 
-  // Pre-compute group members
-  const groupMembersMap = new Map<string, readonly string[]>();
-  for (const group of config.groups) {
-    groupMembersMap.set(group.id, extractGroupMembers(group, agentMap));
+  // Pre-compute group chat members
+  const groupChatMembersMap = new Map<string, readonly string[]>();
+  for (const groupChat of config.groupChats) {
+    groupChatMembersMap.set(groupChat.id, extractGroupChatMembers(groupChat, agentMap));
   }
 
   const value: OrgContextValue = {
     agents: config.agents,
     channels: config.channels,
-    groups: config.groups,
+    groupChats: config.groupChats,
     getAgent: (id: string) => agentMap.get(id),
     getChannel: (id: string) => channelMap.get(id),
-    getGroup: (id: string) => groupMap.get(id),
-    getGroupMembers: (groupId: string) => groupMembersMap.get(groupId) ?? [],
+    getGroupChat: (id: string) => groupChatMap.get(id),
+    getGroupChatMembers: (groupChatId: string) => groupChatMembersMap.get(groupChatId) ?? [],
   };
 
   return (
@@ -154,8 +154,8 @@ export function useChannels(): readonly Channel[] {
 }
 
 /**
- * Hook to get groups (convenience wrapper)
+ * Hook to get group chats (convenience wrapper)
  */
-export function useGroups(): readonly Group[] {
-  return useOrg().groups;
+export function useGroupChats(): readonly GroupChat[] {
+  return useOrg().groupChats;
 }

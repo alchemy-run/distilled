@@ -213,18 +213,14 @@ describe("Agent", () => {
       );
 
       // Define file classes
-      class ServiceClient extends File.TypeScript(
-        "test/fixtures/agent-test-service.ts",
-      )`Service client` {}
-      class TestPlan extends File.Markdown(
-        "test/fixtures/agent-test-plan.md",
-      )`Test plan` {}
-      class TestImpl extends File.TypeScript(
-        "test/fixtures/agent-test-impl.ts",
-      )`Test implementation` {}
-      class ErrorPatch extends File.Json(
-        "test/fixtures/agent-test-errors.json",
-      )`Error patches` {}
+      class ServiceClient extends File.TypeScript`test/fixtures/agent-test-service.ts``
+      Service client` {}
+      class TestPlan extends File.Markdown`test/fixtures/agent-test-plan.md``
+      Test plan` {}
+      class TestImpl extends File.TypeScript`test/fixtures/agent-test-impl.ts``
+      Test implementation` {}
+      class ErrorPatch extends File.Json`test/fixtures/agent-test-errors.json``
+      Error patches` {}
 
       // Mirrors Developer agent from distilled-cloudflare with duplicate ErrorPatch ref
       class DeveloperAgent extends Agent("developer-api-test")`

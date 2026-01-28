@@ -82,8 +82,8 @@ export function Sidebar(props: SidebarProps) {
       {/* Groups Section */}
       <Section title="Groups">
         <GroupList
-          selectedGroupId={selectedGroupId()}
-          onSelectGroup={handleSelectGroup}
+          selectedGroupChatId={selectedGroupId()}
+          onSelectGroupChat={handleSelectGroup}
         />
       </Section>
 

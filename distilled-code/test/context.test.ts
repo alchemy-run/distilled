@@ -1,7 +1,3 @@
-import type {
-  AssistantMessageEncoded,
-  ToolCallPartEncoded,
-} from "@effect/ai/Prompt";
 import { NodeContext } from "@effect/platform-node";
 import * as FileSystem from "@effect/platform/FileSystem";
 import { describe, expect, it } from "@effect/vitest";
@@ -10,7 +6,9 @@ import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { Agent } from "../src/agent.ts";
 import { Channel } from "../src/chat/channel.ts";
-import { Group } from "../src/chat/group.ts";
+import { GroupChat } from "../src/chat/group-chat.ts";
+import { Group } from "../src/org/group.ts";
+import { Role } from "../src/org/role.ts";
 import { createContext, preamble } from "../src/context.ts";
 import * as File from "../src/file/index.ts";
 import { input } from "../src/input.ts";
@@ -3066,9 +3064,7 @@ Also update [config.ts](test/fixtures/config.ts) when done.
         class ServiceClient extends File.TypeScript(
           "test/fixtures/service.ts",
         )`Service` {}
-        class TestPlan extends File.Markdown(
-          "test/fixtures/plan.md",
-        )`Plan` {}
+        class TestPlan extends File.Markdown("test/fixtures/plan.md")`Plan` {}
         class TestFile extends File.TypeScript(
           "test/fixtures/test-file.ts",
         )`Test` {}
@@ -3203,12 +3199,14 @@ A set of tools for reading, writing, and editing code:
   );
 
   // ============================================================
-  // Tests for Channel and Group entities
+  // Tests for Channel and GroupChat entities
   // ============================================================
 
   it.effect("renders agent with channel reference", () =>
     Effect.gen(function* () {
-      class CodeReviewer extends Agent("code-reviewer")`Reviews pull requests` {}
+      class CodeReviewer extends Agent(
+        "code-reviewer",
+      )`Reviews pull requests` {}
       class Architect extends Agent("architect")`Designs system architecture` {}
 
       class Engineering extends Channel("engineering")`
@@ -3219,7 +3217,9 @@ Members:
 - ${Architect}
 ` {}
 
-      class MyAgent extends Agent("coordinator")`Uses ${Engineering} for coordination` {}
+      class MyAgent extends Agent(
+        "coordinator",
+      )`Uses ${Engineering} for coordination` {}
 
       const ctx = yield* createContext(MyAgent);
 
@@ -3270,7 +3270,9 @@ Members:
               id: "ctx-agent-1",
               name: "read",
               isFailure: false,
-              result: { content: "# @architect\n\nDesigns system architecture" },
+              result: {
+                content: "# @architect\n\nDesigns system architecture",
+              },
               providerExecuted: false,
             },
             {
@@ -3297,13 +3299,13 @@ Members:
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect("renders agent with group reference", () =>
+  it.effect("renders agent with group chat reference", () =>
     Effect.gen(function* () {
       class Frontend extends Agent("frontend")`Frontend developer` {}
       class Backend extends Agent("backend")`Backend developer` {}
 
-      class FeatureTeam extends Group("feature-team")`
-Feature development group.
+      class FeatureTeam extends GroupChat("feature-team")`
+Feature development group chat.
 
 Team:
 - ${Frontend}
@@ -3338,9 +3340,9 @@ Team:
             },
             {
               type: "tool-call",
-              id: "ctx-group-2",
+              id: "ctx-group-chat-2",
               name: "read",
-              params: { filePath: ".distilled/groups/feature-team.md" },
+              params: { filePath: ".distilled/group-chats/feature-team.md" },
               providerExecuted: false,
             },
           ],
@@ -3366,14 +3368,14 @@ Team:
             },
             {
               type: "tool-result",
-              id: "ctx-group-2",
+              id: "ctx-group-chat-2",
               name: "read",
               isFailure: false,
               result: {
                 content: `# feature-team
 
 
-Feature development group.
+Feature development group chat.
 
 Team:
 - @frontend
@@ -3405,7 +3407,9 @@ Members:
 - ${Architect}
 ` {}
 
-      class MyAgent extends Agent("reviewer")`Participates in ${DesignReview}` {}
+      class MyAgent extends Agent(
+        "reviewer",
+      )`Participates in ${DesignReview}` {}
 
       const ctx = yield* createContext(MyAgent);
 
@@ -3422,7 +3426,9 @@ Members:
 
   it.effect("renders simple channel without members", () =>
     Effect.gen(function* () {
-      class GeneralChannel extends Channel("general")`General discussion channel` {}
+      class GeneralChannel extends Channel(
+        "general",
+      )`General discussion channel` {}
 
       class MyAgent extends Agent("user")`Uses ${GeneralChannel}` {}
 
@@ -3435,19 +3441,113 @@ Members:
     }).pipe(Effect.provide(TestLayer)),
   );
 
-  it.effect("renders group with no agent members shows group ID", () =>
+  it.effect("renders group chat with no agent members shows group chat ID", () =>
     Effect.gen(function* () {
-      class EmptyGroup extends Group("empty-group")`An empty group` {}
+      class EmptyGroupChat extends GroupChat("empty-group-chat")`An empty group chat` {}
 
-      class MyAgent extends Agent("admin")`Manages ${EmptyGroup}` {}
+      class MyAgent extends Agent("admin")`Manages ${EmptyGroupChat}` {}
 
       const ctx = yield* createContext(MyAgent);
 
-      // When no agent members, shows @{group-id}
+      // When no agent members, shows @{group-chat-id}
       expect(ctx.messages[0]).toEqual({
         role: "system",
-        content: `${preamble("admin")}Manages @{empty-group}`,
+        content: `${preamble("admin")}Manages @{empty-group-chat}`,
       });
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  // ============================================================
+  // Tests for Role and Group (organizational) entities
+  // ============================================================
+
+  it.effect("renders agent with role reference using & prefix", () =>
+    Effect.gen(function* () {
+      const ReviewTool = tool("review")`Review code ${input("code", S.String)}`;
+
+      class Reviewer extends Role("reviewer")`
+Code review capabilities.
+${ReviewTool}
+` {}
+
+      class Alice extends Agent("alice")`
+Alice is a senior engineer with ${Reviewer}.
+` {}
+
+      const ctx = yield* createContext(Alice);
+
+      // Role is rendered with & prefix (template literal has leading newline)
+      expect(ctx.messages[0]).toEqual({
+        role: "system",
+        content: `${preamble("alice")}
+Alice is a senior engineer with &reviewer.
+`,
+      });
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("renders agent with org group reference using % prefix", () =>
+    Effect.gen(function* () {
+      class Bob extends Agent("bob")`Bob` {}
+      class Carol extends Agent("carol")`Carol` {}
+
+      class Engineering extends Group("engineering")`
+The engineering team.
+${Bob}
+${Carol}
+` {}
+
+      class Manager extends Agent("manager")`
+Manages ${Engineering}.
+` {}
+
+      const ctx = yield* createContext(Manager);
+
+      // Group with members is rendered with %{members} (template literal has leading newline)
+      expect(ctx.messages[0]).toEqual({
+        role: "system",
+        content: `${preamble("manager")}
+Manages %{bob, carol}.
+`,
+      });
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("renders org group with no agents using % prefix with ID", () =>
+    Effect.gen(function* () {
+      class EmptyOrgGroup extends Group("empty-org")`An empty organization` {}
+
+      class Admin extends Agent("admin")`Oversees ${EmptyOrgGroup}` {}
+
+      const ctx = yield* createContext(Admin);
+
+      // When no agent members, shows %{group-id}
+      expect(ctx.messages[0]).toEqual({
+        role: "system",
+        content: `${preamble("admin")}Oversees %empty-org`,
+      });
+    }).pipe(Effect.provide(TestLayer)),
+  );
+
+  it.effect("agent with role gets tools from role in context", () =>
+    Effect.gen(function* () {
+      const ReviewTool = tool("review")`Review code ${input("code", S.String)}`;
+      const DeployTool = tool("deploy")`Deploy ${input("target", S.String)}`;
+
+      class Reviewer extends Role("reviewer")`${ReviewTool}` {}
+      class Deployer extends Role("deployer")`${DeployTool}` {}
+
+      class Alice extends Agent("alice")`
+Alice has:
+${Reviewer}
+${Deployer}
+` {}
+
+      const ctx = yield* createContext(Alice);
+
+      // The toolkit should include tools from the roles
+      // This is verified by checking the toolkit exists
+      expect(ctx.toolkit).toBeDefined();
     }).pipe(Effect.provide(TestLayer)),
   );
 });

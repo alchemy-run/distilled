@@ -1,8 +1,11 @@
 export * from "./agent.ts";
+export * as Chat from "./chat/index.ts";
 export * as File from "./file/index.ts";
 export * from "./fragment.ts";
 export * from "./input.ts";
+export * as Org from "./org/index.ts";
 export * from "./output.ts";
 export * from "./state/index.ts";
+export * from "./thread.ts";
 export * as Tool from "./tool/index.ts";
 export * as Toolkit from "./toolkit/index.ts";
