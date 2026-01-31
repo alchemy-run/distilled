@@ -1,8 +1,6 @@
 # distilled
 
-**Effect-native SDKs for cloud providers**
-
-Tagged errors. Retry policies. Streaming pagination.
+Effect-native SDKs for cloud providers with tagged errors, retry policies and streaming pagination.
 
 ```typescript
 import * as S3 from "distilled-aws/s3"
@@ -16,22 +14,7 @@ const bucket = yield* S3.getBucket({
 )
 ```
 
-See:
-- [distilled-aws](./distilled-aws/README.md)
-- [distilled-cloudflare](./distilled-cloudflare/README.md)
-
-## The Problem
-
-Cloud APIs are notoriously under-documented. Every cloud provider ships incomplete specs. Errors are discovered at runtime, not compile time.
-
-| Problem | Description |
-|---------|-------------|
-| **Missing Error Codes** | APIs return cryptic error codes that aren't in the documentation. You only discover them in production. |
-| **Incomplete Specs** | OpenAPI and Smithy specs are missing properties, wrong types, or outdated. The docs lie. |
-| **Runtime Surprises** | Errors you can't catch because they're not in the types. Your "exhaustive" switch statement isn't. |
-| **Bundle Bloat** | Import one function, bundle hundreds. Class-based SDKs can't tree-shake. |
-
-## SDKs
+## Cloud Providers
 
 Effect-native clients for major cloud providers, with tagged errors and tree-shakeable imports.
 
