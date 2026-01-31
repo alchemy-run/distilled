@@ -1,0 +1,90 @@
+{
+  "name": "distilled-planetscale",
+  "version": "0.0.1",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "index.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./index.ts",
+      "default": "./lib/index.js"
+    },
+    "./Category": {
+      "types": "./lib/src/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/src/category.js"
+    },
+    "./Client": {
+      "types": "./lib/src/client.d.ts",
+      "bun": "./src/client.ts",
+      "default": "./lib/src/client.js"
+    },
+    "./Credentials": {
+      "types": "./lib/src/credentials.d.ts",
+      "bun": "./src/credentials.ts",
+      "default": "./lib/src/credentials.js"
+    },
+    "./Errors": {
+      "types": "./lib/src/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/src/errors.js"
+    },
+    "./Operations": {
+      "types": "./lib/src/operations/index.d.ts",
+      "bun": "./src/operations/index.ts",
+      "default": "./lib/src/operations/index.js"
+    },
+    "./Pagination": {
+      "types": "./lib/src/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "default": "./lib/src/pagination.js"
+    },
+    "./Retry": {
+      "types": "./lib/src/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/src/retry.js"
+    },
+    "./Sensitive": {
+      "types": "./lib/src/sensitive.d.ts",
+      "bun": "./src/sensitive.ts",
+      "default": "./lib/src/sensitive.js"
+    },
+    "./Traits": {
+      "types": "./lib/src/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/src/traits.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "setup": "bun run scripts/setup.ts",
+    "generate": "bun run scripts/generate-operations.ts",
+    "build": "bun run generate && tsgo -b",
+    "write-tests": "bun run scripts/write-tests.ts",
+    "typecheck": "tsgo",
+    "lint": "oxlint",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@effect/platform": "^0.94.1",
+    "@effect/platform-bun": "^0.87.0",
+    "@effect/vitest": "^0.27.0",
+    "@types/bun": "catalog:",
+    "dotenv": "^17.2.3",
+    "effect": "^3.19.14",
+    "vitest": "^4.0.16"
+  },
+  "peerDependencies": {
+    "@effect/platform": "catalog:",
+    "effect": "catalog:"
+  }
+}

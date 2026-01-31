@@ -1,0 +1,55 @@
+{
+  "description": "Fix DatabaseBranch and PaginatedDatabaseBranch schemas: many fields can be null (deleted_at, restore_checklist_completed_at, cluster_iops, restored_from_branch, parent_branch)",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/definitions/DatabaseBranch/properties/deleted_at/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/DatabaseBranch/properties/restore_checklist_completed_at/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/DatabaseBranch/properties/cluster_iops/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/DatabaseBranch/properties/restored_from_branch/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/DatabaseBranch/properties/parent_branch/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/deleted_at/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/restore_checklist_completed_at/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/cluster_iops/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/restored_from_branch/x-nullable",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/definitions/PaginatedDatabaseBranch/properties/data/items/properties/parent_branch/x-nullable",
+      "value": true
+    }
+  ]
+}

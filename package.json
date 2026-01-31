@@ -3,11 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "git clean -fqdx . -e .env -e ./distilled-code/.env -e ./distilled-cloudflare/.env",
+    "clean": "git clean -fqdx . -e .env",
+    "download:env": "doppler secrets download --no-file --format env > .env",
     "clean:install": "bun clean && bun i",
-    "build:clean": "bun run clean && bun i && bun tsc -b",
-    "build": "bun tsgo -b",
-    "generate": "bun run --filter distilled-aws generate && bun run --filter distilled-cloudflare generate",
+    "build:clean": "bun clean:install && bun run build",
+    "build": "bun generate && bun tsgo -b",
+    "generate:aws": "bun run --filter distilled-aws generate",
+    "generate:cloudflare": "bun run --filter distilled-cloudflare generate",
+    "generate:planetscale": "bun run --filter distilled-planetscale generate",
+    "generate": "bun run generate:aws && bun run generate:cloudflare && bun run generate:planetscale",
     "format": "bun oxfmt ./distilled-* '!node_modules/' '!lib/'"
   },
   "workspaces": {

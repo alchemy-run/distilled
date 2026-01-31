@@ -66,6 +66,31 @@ yield* R2.getBucket({
 
 [Read the full documentation →](./distilled-cloudflare/README.md)
 
+### [distilled-planetscale](./distilled-planetscale)
+
+PlanetScale MySQL serverless database client. Type-safe database management, branching, deploy requests, and schema migrations with complete error coverage.
+
+```bash
+npm install distilled-planetscale effect @effect/platform
+```
+
+```typescript
+import * as ps from "distilled-planetscale"
+
+// Database and branch management
+const databases = yield* ps.listDatabases({ organization })
+
+// Typed error handling
+yield* ps.getDatabase({
+  organization: "my-org",
+  database: "my-db"
+}).pipe(
+  Effect.catchTag("GetDatabaseNotfound", () => createDatabase())
+)
+```
+
+[Read the full documentation →](./distilled-planetscale/README.md)
+
 ## Why distilled?
 
 ### Tagged Errors
@@ -199,6 +224,7 @@ See the individual package READMEs for detailed contribution guidelines:
 
 - [distilled-aws/README.md](./distilled-aws/README.md)
 - [distilled-cloudflare/README.md](./distilled-cloudflare/README.md)
+- [distilled-planetscale/README.md](./distilled-planetscale/README.md)
 
 ## License
 
