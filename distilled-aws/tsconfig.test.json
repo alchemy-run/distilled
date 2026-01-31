@@ -1,0 +1,13 @@
+{
+  "include": ["test/**/*.ts"],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "references": [
+    // {
+    //   "path": "./tsconfig.lib.json"
+    // }
+  ]
+}
