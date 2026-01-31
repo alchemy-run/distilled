@@ -1,3 +1,0 @@
-[submodule "vendor/opencode"]
-	path = vendor/opencode
-	url = https://github.com/anomalyco/opencode.git

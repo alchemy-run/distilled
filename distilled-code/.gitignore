@@ -1,6 +1,0 @@
-node_modules
-.env
-vendor/
-test/fixtures
-smoke-test/src
-*.log

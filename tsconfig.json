@@ -7,8 +7,5 @@
     {
       "path": "./distilled-cloudflare/tsconfig.json"
     },
-    {
-      "path": "./distilled-code/tsconfig.json"
-    },
   ]
 }

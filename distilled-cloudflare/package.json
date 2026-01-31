@@ -40,7 +40,7 @@
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",
     "@types/bun": "catalog:",
-    "distilled-code": "workspace:*",
+    "fragment": "link:fragment",
     "fast-json-patch": "catalog:",
     "jsonc-parser": "catalog:",
     "oxfmt": "catalog:",
