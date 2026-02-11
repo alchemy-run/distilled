@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { TimedOut } from "../errors";
 
 // Input Schema
 export const GetSQLGrammarInput = Schema.Struct({
@@ -23,4 +24,5 @@ export type GetSQLGrammarOutput = typeof GetSQLGrammarOutput.Type;
 export const getSQLGrammar = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetSQLGrammarInput,
   outputSchema: GetSQLGrammarOutput,
+  errors: [TimedOut],
 }));

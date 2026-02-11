@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const ListDataTokenBalancesInput = Schema.Struct({
@@ -44,4 +45,5 @@ export type ListDataTokenBalancesOutput = typeof ListDataTokenBalancesOutput.Typ
 export const listDataTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListDataTokenBalancesInput,
   outputSchema: ListDataTokenBalancesOutput,
+  errors: [InvalidRequest, NotFound],
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const ListEvmTokenBalancesInput = Schema.Struct({
@@ -44,4 +45,5 @@ export type ListEvmTokenBalancesOutput = typeof ListEvmTokenBalancesOutput.Type;
 export const listEvmTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListEvmTokenBalancesInput,
   outputSchema: ListEvmTokenBalancesOutput,
+  errors: [InvalidRequest, NotFound],
 }));

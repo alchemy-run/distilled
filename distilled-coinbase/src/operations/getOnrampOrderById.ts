@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { NotFound } from "../errors";
 
 // Input Schema
 export const GetOnrampOrderByIdInput = Schema.Struct({
@@ -46,4 +47,5 @@ export type GetOnrampOrderByIdOutput = typeof GetOnrampOrderByIdOutput.Type;
 export const getOnrampOrderById = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetOnrampOrderByIdInput,
   outputSchema: GetOnrampOrderByIdOutput,
+  errors: [NotFound],
 }));

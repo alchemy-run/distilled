@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const ImportSolanaAccountInput = Schema.Struct({
@@ -28,5 +29,6 @@ export type ImportSolanaAccountOutput = typeof ImportSolanaAccountOutput.Type;
 export const importSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ImportSolanaAccountInput,
   outputSchema: ImportSolanaAccountOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired],
   walletAuth: true,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const SignSolanaMessageInput = Schema.Struct({
@@ -27,5 +28,6 @@ export type SignSolanaMessageOutput = typeof SignSolanaMessageOutput.Type;
 export const signSolanaMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SignSolanaMessageInput,
   outputSchema: SignSolanaMessageOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
   walletAuth: true,
 }));

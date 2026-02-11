@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, InvalidRequest, InvalidSignature, NotFound, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const PrepareAndSendUserOperationInput = Schema.Struct({
@@ -52,5 +53,6 @@ export type PrepareAndSendUserOperationOutput = typeof PrepareAndSendUserOperati
 export const prepareAndSendUserOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: PrepareAndSendUserOperationInput,
   outputSchema: PrepareAndSendUserOperationOutput,
+  errors: [Forbidden, InvalidRequest, InvalidSignature, NotFound, PaymentMethodRequired],
   walletAuth: true,
 }));

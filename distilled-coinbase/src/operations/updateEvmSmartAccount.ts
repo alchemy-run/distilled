@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateEvmSmartAccountInput = Schema.Struct({
@@ -31,4 +32,5 @@ export type UpdateEvmSmartAccountOutput = typeof UpdateEvmSmartAccountOutput.Typ
 export const updateEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: UpdateEvmSmartAccountInput,
   outputSchema: UpdateEvmSmartAccountOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound],
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const ListSpendPermissionsInput = Schema.Struct({
@@ -47,4 +48,5 @@ export type ListSpendPermissionsOutput = typeof ListSpendPermissionsOutput.Type;
 export const listSpendPermissions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListSpendPermissionsInput,
   outputSchema: ListSpendPermissionsOutput,
+  errors: [InvalidRequest],
 }));

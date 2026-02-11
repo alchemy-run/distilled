@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const CreateSpendPermissionInput = Schema.Struct({
@@ -54,5 +55,6 @@ export type CreateSpendPermissionOutput = typeof CreateSpendPermissionOutput.Typ
 export const createSpendPermission = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateSpendPermissionInput,
   outputSchema: CreateSpendPermissionOutput,
+  errors: [InvalidRequest, NotFound],
   walletAuth: true,
 }));

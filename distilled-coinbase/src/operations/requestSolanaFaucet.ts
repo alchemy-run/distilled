@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { FaucetLimitExceeded, Forbidden, InvalidRequest } from "../errors";
 
 // Input Schema
 export const RequestSolanaFaucetInput = Schema.Struct({
@@ -28,4 +29,5 @@ export type RequestSolanaFaucetOutput = typeof RequestSolanaFaucetOutput.Type;
 export const requestSolanaFaucet = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: RequestSolanaFaucetInput,
   outputSchema: RequestSolanaFaucetOutput,
+  errors: [FaucetLimitExceeded, Forbidden, InvalidRequest],
 }));

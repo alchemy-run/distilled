@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, NotFound, PolicyInUse } from "../errors";
 
 // Input Schema
 export const DeletePolicyInput = Schema.Struct({
@@ -23,4 +24,5 @@ export type DeletePolicyOutput = typeof DeletePolicyOutput.Type;
 export const deletePolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeletePolicyInput,
   outputSchema: DeletePolicyOutput,
+  errors: [AlreadyExists, IdempotencyError, NotFound, PolicyInUse],
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const CreateEvmAccountInput = Schema.Struct({
@@ -28,5 +29,6 @@ export type CreateEvmAccountOutput = typeof CreateEvmAccountOutput.Type;
 export const createEvmAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateEvmAccountInput,
   outputSchema: CreateEvmAccountOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired],
   walletAuth: true,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const ListEvmSmartAccountsInput = Schema.Struct({
@@ -36,4 +37,5 @@ export type ListEvmSmartAccountsOutput = typeof ListEvmSmartAccountsOutput.Type;
 export const listEvmSmartAccounts = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListEvmSmartAccountsInput,
   outputSchema: ListEvmSmartAccountsOutput,
+  errors: [InvalidRequest],
 }));

@@ -17,11 +17,39 @@ import {
   NotFound,
   AlreadyExists,
   InvalidRequest,
+  InvalidSignature,
+  MalformedTransaction,
+  InvalidSqlQuery,
+  IdempotencyError,
+  PaymentMethodRequired,
   RateLimitExceeded,
+  FaucetLimitExceeded,
+  AccountLimitExceeded,
   InternalServerError,
   BadGateway,
   ServiceUnavailable,
   TimedOut,
+  RequestCanceled,
+  PolicyViolation,
+  PolicyInUse,
+  NetworkNotTradable,
+  GuestPermissionDenied,
+  GuestRegionForbidden,
+  GuestTransactionLimit,
+  GuestTransactionCount,
+  PhoneNumberVerificationExpired,
+  DocumentVerificationFailed,
+  RecipientAllowlistViolation,
+  RecipientAllowlistPending,
+  TravelRulesRecipientViolation,
+  TransferAmountOutOfBounds,
+  TransferRecipientAddressInvalid,
+  TransferQuoteExpired,
+  MfaAlreadyEnrolled,
+  MfaInvalidCode,
+  MfaFlowExpired,
+  MfaRequired,
+  MfaNotEnrolled,
 } from "./errors";
 import {
   type PaginatedResponse,
@@ -315,7 +343,8 @@ const matchApiError = (
 // ============================================================================
 
 /**
- * Base API error type - any error class with a message field.
+ * Base API error type - any error class that can appear in an operation's `errors` tuple.
+ * Includes all known Coinbase API error types from the ErrorType enum.
  */
 export type ApiErrorClass =
   | typeof Unauthorized
@@ -323,11 +352,39 @@ export type ApiErrorClass =
   | typeof NotFound
   | typeof AlreadyExists
   | typeof InvalidRequest
+  | typeof InvalidSignature
+  | typeof MalformedTransaction
+  | typeof InvalidSqlQuery
+  | typeof IdempotencyError
+  | typeof PaymentMethodRequired
   | typeof RateLimitExceeded
+  | typeof FaucetLimitExceeded
+  | typeof AccountLimitExceeded
   | typeof InternalServerError
   | typeof BadGateway
   | typeof ServiceUnavailable
-  | typeof TimedOut;
+  | typeof TimedOut
+  | typeof RequestCanceled
+  | typeof PolicyViolation
+  | typeof PolicyInUse
+  | typeof NetworkNotTradable
+  | typeof GuestPermissionDenied
+  | typeof GuestRegionForbidden
+  | typeof GuestTransactionLimit
+  | typeof GuestTransactionCount
+  | typeof PhoneNumberVerificationExpired
+  | typeof DocumentVerificationFailed
+  | typeof RecipientAllowlistViolation
+  | typeof RecipientAllowlistPending
+  | typeof TravelRulesRecipientViolation
+  | typeof TransferAmountOutOfBounds
+  | typeof TransferRecipientAddressInvalid
+  | typeof TransferQuoteExpired
+  | typeof MfaAlreadyEnrolled
+  | typeof MfaInvalidCode
+  | typeof MfaFlowExpired
+  | typeof MfaRequired
+  | typeof MfaNotEnrolled;
 
 /**
  * Default errors that apply to ALL operations.
@@ -651,9 +708,37 @@ export {
   NotFound,
   AlreadyExists,
   InvalidRequest,
+  InvalidSignature,
+  MalformedTransaction,
+  InvalidSqlQuery,
+  IdempotencyError,
+  PaymentMethodRequired,
   RateLimitExceeded,
+  FaucetLimitExceeded,
+  AccountLimitExceeded,
   InternalServerError,
   BadGateway,
   ServiceUnavailable,
   TimedOut,
+  RequestCanceled,
+  PolicyViolation,
+  PolicyInUse,
+  NetworkNotTradable,
+  GuestPermissionDenied,
+  GuestRegionForbidden,
+  GuestTransactionLimit,
+  GuestTransactionCount,
+  PhoneNumberVerificationExpired,
+  DocumentVerificationFailed,
+  RecipientAllowlistViolation,
+  RecipientAllowlistPending,
+  TravelRulesRecipientViolation,
+  TransferAmountOutOfBounds,
+  TransferRecipientAddressInvalid,
+  TransferQuoteExpired,
+  MfaAlreadyEnrolled,
+  MfaInvalidCode,
+  MfaFlowExpired,
+  MfaRequired,
+  MfaNotEnrolled,
 } from "./errors";

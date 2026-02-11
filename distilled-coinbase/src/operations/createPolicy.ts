@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest } from "../errors";
 
 // Input Schema
 export const CreatePolicyInput = Schema.Struct({
@@ -772,4 +773,5 @@ export type CreatePolicyOutput = typeof CreatePolicyOutput.Type;
 export const createPolicy = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreatePolicyInput,
   outputSchema: CreatePolicyOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest],
 }));

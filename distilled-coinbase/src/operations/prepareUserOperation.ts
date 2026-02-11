@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const PrepareUserOperationInput = Schema.Struct({
@@ -53,4 +54,5 @@ export type PrepareUserOperationOutput = typeof PrepareUserOperationOutput.Type;
 export const prepareUserOperation = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: PrepareUserOperationInput,
   outputSchema: PrepareUserOperationOutput,
+  errors: [Forbidden, InvalidRequest, NotFound],
 }));

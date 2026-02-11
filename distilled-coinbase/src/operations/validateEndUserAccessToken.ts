@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const ValidateEndUserAccessTokenInput = Schema.Struct({
@@ -67,4 +68,5 @@ export type ValidateEndUserAccessTokenOutput = typeof ValidateEndUserAccessToken
 export const validateEndUserAccessToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ValidateEndUserAccessTokenInput,
   outputSchema: ValidateEndUserAccessTokenOutput,
+  errors: [InvalidRequest, NotFound],
 }));

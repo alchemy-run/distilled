@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { GuestPermissionDenied, GuestRegionForbidden, GuestTransactionCount, GuestTransactionLimit, InvalidRequest, NetworkNotTradable, PhoneNumberVerificationExpired } from "../errors";
 
 // Input Schema
 export const CreateOnrampOrderInput = Schema.Struct({
@@ -65,4 +66,5 @@ export type CreateOnrampOrderOutput = typeof CreateOnrampOrderOutput.Type;
 export const createOnrampOrder = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateOnrampOrderInput,
   outputSchema: CreateOnrampOrderOutput,
+  errors: [GuestPermissionDenied, GuestRegionForbidden, GuestTransactionCount, GuestTransactionLimit, InvalidRequest, NetworkNotTradable, PhoneNumberVerificationExpired],
 }));

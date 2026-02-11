@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, InvalidRequest } from "../errors";
 
 // Input Schema
 export const GetEvmSwapPriceInput = Schema.Struct({
@@ -62,4 +63,5 @@ export type GetEvmSwapPriceOutput = typeof GetEvmSwapPriceOutput.Type;
 export const getEvmSwapPrice = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetEvmSwapPriceInput,
   outputSchema: GetEvmSwapPriceOutput,
+  errors: [Forbidden, InvalidRequest],
 }));

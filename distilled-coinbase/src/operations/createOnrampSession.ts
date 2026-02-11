@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const CreateOnrampSessionInput = Schema.Struct({
@@ -62,4 +63,5 @@ export type CreateOnrampSessionOutput = typeof CreateOnrampSessionOutput.Type;
 export const createOnrampSession = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateOnrampSessionInput,
   outputSchema: CreateOnrampSessionOutput,
+  errors: [InvalidRequest],
 }));

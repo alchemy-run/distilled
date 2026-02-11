@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const SendEvmTransactionInput = Schema.Struct({
@@ -43,5 +44,6 @@ export type SendEvmTransactionOutput = typeof SendEvmTransactionOutput.Type;
 export const sendEvmTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SendEvmTransactionInput,
   outputSchema: SendEvmTransactionOutput,
+  errors: [AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired],
   walletAuth: true,
 }));

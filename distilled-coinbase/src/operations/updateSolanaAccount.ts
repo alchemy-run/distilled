@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateSolanaAccountInput = Schema.Struct({
@@ -31,4 +32,5 @@ export type UpdateSolanaAccountOutput = typeof UpdateSolanaAccountOutput.Type;
 export const updateSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: UpdateSolanaAccountInput,
   outputSchema: UpdateSolanaAccountOutput,
+  errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound],
 }));

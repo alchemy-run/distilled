@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const SettleX402PaymentInput = Schema.Struct({
@@ -97,4 +98,5 @@ export type SettleX402PaymentOutput = typeof SettleX402PaymentOutput.Type;
 export const settleX402Payment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SettleX402PaymentInput,
   outputSchema: SettleX402PaymentOutput,
+  errors: [InvalidRequest, PaymentMethodRequired],
 }));

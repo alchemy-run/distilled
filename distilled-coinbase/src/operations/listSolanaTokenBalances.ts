@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const ListSolanaTokenBalancesInput = Schema.Struct({
@@ -43,4 +44,5 @@ export type ListSolanaTokenBalancesOutput = typeof ListSolanaTokenBalancesOutput
 export const listSolanaTokenBalances = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListSolanaTokenBalancesInput,
   outputSchema: ListSolanaTokenBalancesOutput,
+  errors: [InvalidRequest, NotFound],
 }));

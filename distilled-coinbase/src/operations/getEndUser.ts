@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { NotFound } from "../errors";
 
 // Input Schema
 export const GetEndUserInput = Schema.Struct({
@@ -69,4 +70,5 @@ export type GetEndUserOutput = typeof GetEndUserOutput.Type;
 export const getEndUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetEndUserInput,
   outputSchema: GetEndUserOutput,
+  errors: [NotFound],
 }));

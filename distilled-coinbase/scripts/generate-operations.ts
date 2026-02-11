@@ -409,6 +409,153 @@ function generateStructSchema(
 }
 
 // ============================================================================
+// Error Extraction from OpenAPI Responses
+// ============================================================================
+
+/**
+ * Map from Coinbase API `errorType` strings to the TypeScript error class name
+ * in `src/errors.ts`. Must be kept in sync with ERROR_CODE_MAP.
+ */
+const ERROR_TYPE_TO_CLASS: Record<string, string> = {
+  unauthorized: "Unauthorized",
+  forbidden: "Forbidden",
+  not_found: "NotFound",
+  already_exists: "AlreadyExists",
+  invalid_request: "InvalidRequest",
+  invalid_signature: "InvalidSignature",
+  malformed_transaction: "MalformedTransaction",
+  invalid_sql_query: "InvalidSqlQuery",
+  idempotency_error: "IdempotencyError",
+  payment_method_required: "PaymentMethodRequired",
+  rate_limit_exceeded: "RateLimitExceeded",
+  faucet_limit_exceeded: "FaucetLimitExceeded",
+  account_limit_exceeded: "AccountLimitExceeded",
+  internal_server_error: "InternalServerError",
+  bad_gateway: "BadGateway",
+  service_unavailable: "ServiceUnavailable",
+  timed_out: "TimedOut",
+  request_canceled: "RequestCanceled",
+  policy_violation: "PolicyViolation",
+  policy_in_use: "PolicyInUse",
+  network_not_tradable: "NetworkNotTradable",
+  guest_permission_denied: "GuestPermissionDenied",
+  guest_region_forbidden: "GuestRegionForbidden",
+  guest_transaction_limit: "GuestTransactionLimit",
+  guest_transaction_count: "GuestTransactionCount",
+  phone_number_verification_expired: "PhoneNumberVerificationExpired",
+  document_verification_failed: "DocumentVerificationFailed",
+  recipient_allowlist_violation: "RecipientAllowlistViolation",
+  recipient_allowlist_pending: "RecipientAllowlistPending",
+  travel_rules_recipient_violation: "TravelRulesRecipientViolation",
+  transfer_amount_out_of_bounds: "TransferAmountOutOfBounds",
+  transfer_recipient_address_invalid: "TransferRecipientAddressInvalid",
+  transfer_quote_expired: "TransferQuoteExpired",
+  mfa_already_enrolled: "MfaAlreadyEnrolled",
+  mfa_invalid_code: "MfaInvalidCode",
+  mfa_flow_expired: "MfaFlowExpired",
+  mfa_required: "MfaRequired",
+  mfa_not_enrolled: "MfaNotEnrolled",
+};
+
+/**
+ * Fallback: map HTTP status codes to errorType strings when no example is available.
+ */
+const STATUS_TO_ERROR_TYPE: Record<string, string> = {
+  "400": "invalid_request",
+  "401": "unauthorized",
+  "402": "payment_method_required",
+  "403": "forbidden",
+  "404": "not_found",
+  "409": "already_exists",
+  "422": "idempotency_error",
+  "429": "rate_limit_exceeded",
+  "500": "internal_server_error",
+  "502": "bad_gateway",
+  "503": "service_unavailable",
+};
+
+/**
+ * Default error types that are included for ALL operations automatically.
+ * These should NOT appear in the per-operation `errors` tuple.
+ */
+const DEFAULT_ERROR_TYPES = new Set([
+  "unauthorized",
+  "rate_limit_exceeded",
+  "internal_server_error",
+  "bad_gateway",
+  "service_unavailable",
+]);
+
+/**
+ * Extract operation-specific error class names from the OpenAPI responses.
+ *
+ * Strategy:
+ * 1. Iterate over non-2xx response codes
+ * 2. For each, look at the example `errorType` values in the response
+ * 3. Fall back to status code → errorType mapping when no examples exist
+ * 4. Filter out default errors (they're always included)
+ * 5. Return deduplicated, sorted array of TypeScript error class names
+ */
+function getOperationErrors(
+  spec: OpenAPISpec,
+  operation: Operation,
+): string[] {
+  const errorTypes = new Set<string>();
+
+  for (const [statusCode, responseRef] of Object.entries(operation.responses)) {
+    // Skip success responses
+    if (statusCode.startsWith("2")) continue;
+
+    const response = resolveResponse(spec, responseRef);
+
+    // Try to extract errorType from response examples
+    const jsonContent = response.content?.["application/json"];
+    let foundFromExamples = false;
+
+    if (jsonContent) {
+      // Check examples (plural) - Coinbase uses this format
+      const examples = (jsonContent as unknown as { examples?: Record<string, { value?: { errorType?: string } }> }).examples;
+      if (examples) {
+        for (const example of Object.values(examples)) {
+          if (example.value?.errorType) {
+            errorTypes.add(example.value.errorType);
+            foundFromExamples = true;
+          }
+        }
+      }
+
+      // Check single example
+      const example = (jsonContent as unknown as { example?: { errorType?: string } }).example;
+      if (example?.errorType) {
+        errorTypes.add(example.errorType);
+        foundFromExamples = true;
+      }
+    }
+
+    // Fall back to status code mapping if no examples found
+    if (!foundFromExamples) {
+      const fallback = STATUS_TO_ERROR_TYPE[statusCode];
+      if (fallback) {
+        errorTypes.add(fallback);
+      }
+    }
+  }
+
+  // Filter out default errors and map to class names
+  const operationSpecificErrors: string[] = [];
+  for (const errorType of errorTypes) {
+    if (DEFAULT_ERROR_TYPES.has(errorType)) continue;
+    const className = ERROR_TYPE_TO_CLASS[errorType];
+    if (className) {
+      operationSpecificErrors.push(className);
+    }
+  }
+
+  // Sort for deterministic output
+  return operationSpecificErrors.sort();
+}
+
+// ============================================================================
 // Code Generation
 // ============================================================================
 
@@ -772,23 +919,34 @@ function generateOperation(
   const { outputSchemaCode, outputSchemaName, sensitiveImports } =
     generateOutputSchema(operationId, responseSchema, spec);
 
+  // Extract operation-specific errors
+  const errorClassNames = getOperationErrors(spec, operation);
+
   // Generate the operation function
   const walletAuthOption = requiresWalletAuth ? "\n  walletAuth: true," : "";
+  const errorsOption = errorClassNames.length > 0
+    ? `\n  errors: [${errorClassNames.join(", ")}],`
+    : "";
   const operationCodeWithJsDoc = jsDoc
     ? `${jsDoc}
 export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ${inputSchemaName},
-  outputSchema: ${outputSchemaName},${walletAuthOption}
+  outputSchema: ${outputSchemaName},${errorsOption}${walletAuthOption}
 }));`
     : `export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ${inputSchemaName},
-  outputSchema: ${outputSchemaName},${walletAuthOption}
+  outputSchema: ${outputSchemaName},${errorsOption}${walletAuthOption}
 }));`;
 
   // Build imports
   let imports = `import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";`;
+
+  // Add error imports if needed
+  if (errorClassNames.length > 0) {
+    imports += `\nimport { ${errorClassNames.join(", ")} } from "../errors";`;
+  }
 
   const sensitiveTypesToImport: string[] = [];
   if (sensitiveImports.usesSensitiveString) {

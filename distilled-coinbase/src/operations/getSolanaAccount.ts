@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const GetSolanaAccountInput = Schema.Struct({
@@ -29,4 +30,5 @@ export type GetSolanaAccountOutput = typeof GetSolanaAccountOutput.Type;
 export const getSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetSolanaAccountInput,
   outputSchema: GetSolanaAccountOutput,
+  errors: [InvalidRequest, NotFound],
 }));

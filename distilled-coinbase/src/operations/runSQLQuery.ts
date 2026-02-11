@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidSqlQuery, TimedOut } from "../errors";
 
 // Input Schema
 export const RunSQLQueryInput = Schema.Struct({
@@ -54,4 +55,5 @@ export type RunSQLQueryOutput = typeof RunSQLQueryOutput.Type;
 export const runSQLQuery = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: RunSQLQueryInput,
   outputSchema: RunSQLQueryOutput,
+  errors: [InvalidSqlQuery, TimedOut],
 }));

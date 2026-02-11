@@ -1,0 +1,9 @@
+{
+  "description": "Remove incorrect 404 from listSpendPermissions - API returns 200 with empty array for non-existent addresses",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/paths/~1v2~1evm~1smart-accounts~1{address}~1spend-permissions~1list/get/responses/404"
+    }
+  ]
+}

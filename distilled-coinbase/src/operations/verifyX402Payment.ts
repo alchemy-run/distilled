@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const VerifyX402PaymentInput = Schema.Struct({
@@ -95,4 +96,5 @@ export type VerifyX402PaymentOutput = typeof VerifyX402PaymentOutput.Type;
 export const verifyX402Payment = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: VerifyX402PaymentInput,
   outputSchema: VerifyX402PaymentOutput,
+  errors: [InvalidRequest],
 }));

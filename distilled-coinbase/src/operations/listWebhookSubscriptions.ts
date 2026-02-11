@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const ListWebhookSubscriptionsInput = Schema.Struct({
@@ -49,4 +50,5 @@ export type ListWebhookSubscriptionsOutput = typeof ListWebhookSubscriptionsOutp
 export const listWebhookSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListWebhookSubscriptionsInput,
   outputSchema: ListWebhookSubscriptionsOutput,
+  errors: [InvalidRequest],
 }));

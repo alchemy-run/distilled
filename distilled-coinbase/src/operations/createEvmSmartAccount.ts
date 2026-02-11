@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const CreateEvmSmartAccountInput = Schema.Struct({
@@ -29,4 +30,5 @@ export type CreateEvmSmartAccountOutput = typeof CreateEvmSmartAccountOutput.Typ
 export const createEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateEvmSmartAccountInput,
   outputSchema: CreateEvmSmartAccountOutput,
+  errors: [InvalidRequest, PaymentMethodRequired],
 }));

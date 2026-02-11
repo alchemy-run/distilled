@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { InvalidRequest, NotFound } from "../errors";
 
 // Input Schema
 export const GetEvmSmartAccountByNameInput = Schema.Struct({
@@ -30,4 +31,5 @@ export type GetEvmSmartAccountByNameOutput = typeof GetEvmSmartAccountByNameOutp
 export const getEvmSmartAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetEvmSmartAccountByNameInput,
   outputSchema: GetEvmSmartAccountByNameOutput,
+  errors: [InvalidRequest, NotFound],
 }));

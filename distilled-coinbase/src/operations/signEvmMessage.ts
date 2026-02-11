@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { AlreadyExists, IdempotencyError, NotFound, PaymentMethodRequired } from "../errors";
 
 // Input Schema
 export const SignEvmMessageInput = Schema.Struct({
@@ -27,5 +28,6 @@ export type SignEvmMessageOutput = typeof SignEvmMessageOutput.Type;
 export const signEvmMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SignEvmMessageInput,
   outputSchema: SignEvmMessageOutput,
+  errors: [AlreadyExists, IdempotencyError, NotFound, PaymentMethodRequired],
   walletAuth: true,
 }));
