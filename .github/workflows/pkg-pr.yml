@@ -1,0 +1,89 @@
+name: Publish Preview Package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      aws: ${{ steps.changes.outputs.aws }}
+      coinbase: ${{ steps.changes.outputs.coinbase }}
+      neon: ${{ steps.changes.outputs.neon }}
+      planetscale: ${{ steps.changes.outputs.planetscale }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            aws:
+              - 'distilled-aws/**'
+            coinbase:
+              - 'distilled-coinbase/**'
+            neon:
+              - 'distilled-neon/**'
+            planetscale:
+              - 'distilled-planetscale/**'
+
+  pkg-pr-aws:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.aws == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: distilled-aws
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-aws
+
+  pkg-pr-coinbase:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.coinbase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: distilled-coinbase
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-coinbase
+
+  pkg-pr-neon:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.neon == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: distilled-neon
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-neon
+
+  pkg-pr-planetscale:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.planetscale == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: distilled-planetscale
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-planetscale

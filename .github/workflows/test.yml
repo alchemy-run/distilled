@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      aws: ${{ steps.changes.outputs.aws }}
+      cloudflare: ${{ steps.changes.outputs.cloudflare }}
+      coinbase: ${{ steps.changes.outputs.coinbase }}
+      neon: ${{ steps.changes.outputs.neon }}
+      planetscale: ${{ steps.changes.outputs.planetscale }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            aws:
+              - 'distilled-aws/**'
+            cloudflare:
+              - 'distilled-cloudflare/**'
+            coinbase:
+              - 'distilled-coinbase/**'
+            neon:
+              - 'distilled-neon/**'
+            planetscale:
+              - 'distilled-planetscale/**'
+
+  ci-aws:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.aws == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+        working-directory: distilled-aws
+      - run: bun run test
+        working-directory: distilled-aws
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+
+  ci-cloudflare:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.cloudflare == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+        working-directory: distilled-cloudflare
+      - run: bun run test
+        working-directory: distilled-cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  ci-coinbase:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.coinbase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+        working-directory: distilled-coinbase
+      - run: bun run test
+        working-directory: distilled-coinbase
+        env:
+          COINBASE_API_KEY_ID: ${{ secrets.COINBASE_API_KEY_ID }}
+          COINBASE_API_KEY_SECRET: ${{ secrets.COINBASE_API_KEY_SECRET }}
+
+  ci-neon:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.neon == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+        working-directory: distilled-neon
+      - run: bun run test
+        working-directory: distilled-neon
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+  ci-planetscale:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.planetscale == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint
+        working-directory: distilled-planetscale
+      - run: bun run test
+        working-directory: distilled-planetscale
+        env:
+          PLANETSCALE_API_TOKEN: ${{ secrets.PLANETSCALE_API_TOKEN }}
+          PLANETSCALE_ORGANIZATION: ${{ secrets.PLANETSCALE_ORGANIZATION }}
