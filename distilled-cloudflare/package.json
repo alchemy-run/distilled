@@ -29,6 +29,7 @@
     "test:watch": "vitest watch",
     "test": "vitest run",
     "typecheck": "tsc -b",
+    "lint": "oxlint",
     "format": "oxfmt './src' './test' './scripts'"
   },
   "dependencies": {

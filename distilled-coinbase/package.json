@@ -7,57 +7,57 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "module": "index.ts",
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "bun": "./index.ts",
+      "bun": "./src/index.ts",
       "default": "./lib/index.js"
     },
     "./Category": {
-      "types": "./lib/src/category.d.ts",
+      "types": "./lib/category.d.ts",
       "bun": "./src/category.ts",
-      "default": "./lib/src/category.js"
+      "default": "./lib/category.js"
     },
     "./Client": {
-      "types": "./lib/src/client.d.ts",
+      "types": "./lib/client.d.ts",
       "bun": "./src/client.ts",
-      "default": "./lib/src/client.js"
+      "default": "./lib/client.js"
     },
     "./Credentials": {
-      "types": "./lib/src/credentials.d.ts",
+      "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
-      "default": "./lib/src/credentials.js"
+      "default": "./lib/credentials.js"
     },
     "./Errors": {
-      "types": "./lib/src/errors.d.ts",
+      "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
-      "default": "./lib/src/errors.js"
+      "default": "./lib/errors.js"
     },
     "./Operations": {
-      "types": "./lib/src/operations/index.d.ts",
+      "types": "./lib/operations/index.d.ts",
       "bun": "./src/operations/index.ts",
-      "default": "./lib/src/operations/index.js"
+      "default": "./lib/operations/index.js"
     },
     "./Pagination": {
-      "types": "./lib/src/pagination.d.ts",
+      "types": "./lib/pagination.d.ts",
       "bun": "./src/pagination.ts",
-      "default": "./lib/src/pagination.js"
+      "default": "./lib/pagination.js"
     },
     "./Retry": {
-      "types": "./lib/src/retry.d.ts",
+      "types": "./lib/retry.d.ts",
       "bun": "./src/retry.ts",
-      "default": "./lib/src/retry.js"
+      "default": "./lib/retry.js"
     },
     "./Sensitive": {
-      "types": "./lib/src/sensitive.d.ts",
+      "types": "./lib/sensitive.d.ts",
       "bun": "./src/sensitive.ts",
-      "default": "./lib/src/sensitive.js"
+      "default": "./lib/sensitive.js"
     },
     "./Traits": {
-      "types": "./lib/src/traits.d.ts",
+      "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",
-      "default": "./lib/src/traits.js"
+      "default": "./lib/traits.js"
     }
   },
   "publishConfig": {
