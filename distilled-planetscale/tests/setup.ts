@@ -77,12 +77,10 @@ export const setupTestDatabase = (suffix?: string) =>
           log(prefix, `found existing database: state=${db.state}`),
         ),
       ),
-      // @ts-expect-error - TODO(pear): fix this
       Effect.catchTag("NotFound", () => {
         log(prefix, "database not found, will create");
         return Effect.succeed(null);
       }),
-      // @ts-expect-error - TODO(pear): fix this
       Effect.catchTag("Forbidden", () => {
         log(prefix, "forbidden error, treating as not found");
         return Effect.succeed(null);
