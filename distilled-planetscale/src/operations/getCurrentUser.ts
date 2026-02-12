@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const GetCurrentUserInput = Schema.Struct({}).pipe(
@@ -43,4 +44,5 @@ export type GetCurrentUserOutput = typeof GetCurrentUserOutput.Type;
 export const getCurrentUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetCurrentUserInput,
   outputSchema: GetCurrentUserOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

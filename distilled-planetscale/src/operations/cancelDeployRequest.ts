@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const CancelDeployRequestInput = Schema.Struct({
@@ -228,4 +229,5 @@ export type CancelDeployRequestOutput = typeof CancelDeployRequestOutput.Type;
 export const cancelDeployRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CancelDeployRequestInput,
   outputSchema: CancelDeployRequestOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

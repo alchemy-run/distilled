@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const WorkflowCompleteInput = Schema.Struct({
@@ -156,4 +157,5 @@ export type WorkflowCompleteOutput = typeof WorkflowCompleteOutput.Type;
 export const workflowComplete = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: WorkflowCompleteInput,
   outputSchema: WorkflowCompleteOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

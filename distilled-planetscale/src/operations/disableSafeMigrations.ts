@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DisableSafeMigrationsInput = Schema.Struct({
@@ -93,5 +94,6 @@ export const disableSafeMigrations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: DisableSafeMigrationsInput,
     outputSchema: DisableSafeMigrationsOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

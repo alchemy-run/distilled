@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteServiceTokenInput = Schema.Struct({
@@ -30,4 +31,5 @@ export type DeleteServiceTokenOutput = typeof DeleteServiceTokenOutput.Type;
 export const deleteServiceToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteServiceTokenInput,
   outputSchema: DeleteServiceTokenOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

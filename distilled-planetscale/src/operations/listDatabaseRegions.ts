@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListDatabaseRegionsInput = Schema.Struct({
@@ -50,4 +51,5 @@ export type ListDatabaseRegionsOutput = typeof ListDatabaseRegionsOutput.Type;
 export const listDatabaseRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListDatabaseRegionsInput,
   outputSchema: ListDatabaseRegionsOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

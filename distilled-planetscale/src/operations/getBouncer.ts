@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const GetBouncerInput = Schema.Struct({
@@ -97,4 +98,5 @@ export type GetBouncerOutput = typeof GetBouncerOutput.Type;
 export const getBouncer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetBouncerInput,
   outputSchema: GetBouncerOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

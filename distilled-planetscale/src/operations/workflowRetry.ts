@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const WorkflowRetryInput = Schema.Struct({
@@ -156,4 +157,5 @@ export type WorkflowRetryOutput = typeof WorkflowRetryOutput.Type;
 export const workflowRetry = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: WorkflowRetryInput,
   outputSchema: WorkflowRetryOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

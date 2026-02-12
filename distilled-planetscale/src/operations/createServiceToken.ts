@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 import { SensitiveString } from "../sensitive";
 
 // Input Schema
@@ -126,4 +127,5 @@ export type CreateServiceTokenOutput = typeof CreateServiceTokenOutput.Type;
 export const createServiceToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateServiceTokenInput,
   outputSchema: CreateServiceTokenOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteOauthTokenInput = Schema.Struct({
@@ -30,4 +31,5 @@ export type DeleteOauthTokenOutput = typeof DeleteOauthTokenOutput.Type;
 export const deleteOauthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteOauthTokenInput,
   outputSchema: DeleteOauthTokenOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

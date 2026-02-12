@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateBouncerResizeRequestInput = Schema.Struct({
@@ -78,5 +79,6 @@ export const updateBouncerResizeRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: UpdateBouncerResizeRequestInput,
     outputSchema: UpdateBouncerResizeRequestOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

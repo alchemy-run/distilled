@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
 export const ListDatabasePostgresCidrsInput = Schema.Struct({
@@ -57,5 +58,6 @@ export const listDatabasePostgresCidrs = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: ListDatabasePostgresCidrsInput,
     outputSchema: ListDatabasePostgresCidrsOutput,
+    errors: [Forbidden, NotFound, UnprocessableEntity] as const,
   }),
 );

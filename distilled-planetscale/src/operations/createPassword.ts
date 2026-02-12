@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
@@ -87,4 +88,5 @@ export type CreatePasswordOutput = typeof CreatePasswordOutput.Type;
 export const createPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreatePasswordInput,
   outputSchema: CreatePasswordOutput,
+  errors: [Forbidden, NotFound, UnprocessableEntity] as const,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListWebhooksInput = Schema.Struct({
@@ -75,4 +76,5 @@ export type ListWebhooksOutput = typeof ListWebhooksOutput.Type;
 export const listWebhooks = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListWebhooksInput,
   outputSchema: ListWebhooksOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

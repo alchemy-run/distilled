@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListBranchesInput = Schema.Struct({
@@ -110,4 +111,5 @@ export type ListBranchesOutput = typeof ListBranchesOutput.Type;
 export const listBranches = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListBranchesInput,
   outputSchema: ListBranchesOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

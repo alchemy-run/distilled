@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteKeyspaceInput = Schema.Struct({
@@ -32,4 +33,5 @@ export type DeleteKeyspaceOutput = typeof DeleteKeyspaceOutput.Type;
 export const deleteKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteKeyspaceInput,
   outputSchema: DeleteKeyspaceOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const GetQueryPatternsReportInput = Schema.Struct({
@@ -35,5 +36,6 @@ export const getQueryPatternsReport = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: GetQueryPatternsReportInput,
     outputSchema: GetQueryPatternsReportOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

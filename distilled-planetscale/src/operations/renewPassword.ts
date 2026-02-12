@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
@@ -75,4 +76,5 @@ export type RenewPasswordOutput = typeof RenewPasswordOutput.Type;
 export const renewPassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: RenewPasswordInput,
   outputSchema: RenewPasswordOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

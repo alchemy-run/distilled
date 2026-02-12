@@ -1,7 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
-import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
 export const CreateDatabaseInput = Schema.Struct({
@@ -107,5 +107,5 @@ export type CreateDatabaseOutput = typeof CreateDatabaseOutput.Type;
 export const createDatabase = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateDatabaseInput,
   outputSchema: CreateDatabaseOutput,
-  errors: [NotFound, Forbidden, UnprocessableEntity] as const,
+  errors: [Forbidden, NotFound, UnprocessableEntity] as const,
 }));

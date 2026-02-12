@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteBouncerInput = Schema.Struct({
@@ -32,4 +33,5 @@ export type DeleteBouncerOutput = typeof DeleteBouncerOutput.Type;
 export const deleteBouncer = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteBouncerInput,
   outputSchema: DeleteBouncerOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

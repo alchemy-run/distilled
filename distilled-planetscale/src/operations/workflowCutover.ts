@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const WorkflowCutoverInput = Schema.Struct({
@@ -156,4 +157,5 @@ export type WorkflowCutoverOutput = typeof WorkflowCutoverOutput.Type;
 export const workflowCutover = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: WorkflowCutoverInput,
   outputSchema: WorkflowCutoverOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

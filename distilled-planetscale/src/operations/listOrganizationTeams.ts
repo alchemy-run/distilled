@@ -1,6 +1,12 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import {
+  BadRequest,
+  Forbidden,
+  NotFound,
+  UnprocessableEntity,
+} from "../errors";
 
 // Input Schema
 export const ListOrganizationTeamsInput = Schema.Struct({
@@ -79,5 +85,6 @@ export const listOrganizationTeams = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: ListOrganizationTeamsInput,
     outputSchema: ListOrganizationTeamsOutput,
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity] as const,
   }),
 );

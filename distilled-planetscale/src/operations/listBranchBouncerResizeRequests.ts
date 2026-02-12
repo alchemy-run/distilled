@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListBranchBouncerResizeRequestsInput = Schema.Struct({
@@ -83,4 +84,5 @@ export const listBranchBouncerResizeRequests =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     inputSchema: ListBranchBouncerResizeRequestsInput,
     outputSchema: ListBranchBouncerResizeRequestsOutput,
+    errors: [Forbidden, NotFound] as const,
   }));

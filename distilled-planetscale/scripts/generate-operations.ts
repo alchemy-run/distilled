@@ -498,7 +498,34 @@ export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
 }
 
 // Error classes are now global - see src/errors.ts
-// No per-operation error generation needed
+// Map HTTP status codes to error class names for operation-specific errors
+const STATUS_TO_ERROR_CLASS: Record<string, string> = {
+  "400": "BadRequest",
+  "403": "Forbidden",
+  "404": "NotFound",
+  "409": "Conflict",
+  "422": "UnprocessableEntity",
+};
+
+// Default error status codes that are handled globally (not operation-specific)
+const DEFAULT_ERROR_STATUSES = new Set(["401", "429", "500", "503"]);
+
+/**
+ * Extract operation-specific error classes from OpenAPI response codes.
+ * Excludes default errors (401, 429, 500, 503) and success codes.
+ */
+function getOperationErrors(responses: Record<string, Response>): string[] {
+  const errors: string[] = [];
+  for (const status of Object.keys(responses)) {
+    // Skip success codes and default error codes
+    if (status.startsWith("2") || DEFAULT_ERROR_STATUSES.has(status)) continue;
+    const errorClass = STATUS_TO_ERROR_CLASS[status];
+    if (errorClass) {
+      errors.push(errorClass);
+    }
+  }
+  return errors;
+}
 
 function generateOperation(
   spec: OpenAPISpec,
@@ -537,22 +564,35 @@ function generateOperation(
   const { outputSchemaCode, outputSchemaName, sensitiveImports } =
     generateOutputSchema(operationId, responseSchema, spec);
 
-  // Generate the operation function (errors are handled globally by the client)
+  // Extract operation-specific errors from response codes
+  const operationErrors = getOperationErrors(operation.responses);
+
+  // Generate the operation function
+  const hasErrors = operationErrors.length > 0;
+  const errorsLine = hasErrors
+    ? `\n  errors: [${operationErrors.join(", ")}] as const,`
+    : "";
+
   const operationCodeWithJsDoc = jsDoc
     ? `${jsDoc}
 export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ${inputSchemaName},
-  outputSchema: ${outputSchemaName},
+  outputSchema: ${outputSchemaName},${errorsLine}
 }));`
     : `export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ${inputSchemaName},
-  outputSchema: ${outputSchemaName},
+  outputSchema: ${outputSchemaName},${errorsLine}
 }));`;
 
   // Combine all code
   let imports = `import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";`;
+
+  // Add error imports if needed
+  if (hasErrors) {
+    imports += `\nimport { ${operationErrors.join(", ")} } from "../errors";`;
+  }
 
   // Add sensitive imports only for the types actually used
   const sensitiveTypesToImport: string[] = [];

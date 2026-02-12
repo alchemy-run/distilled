@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
 export const DeleteDatabasePostgresCidrInput = Schema.Struct({
@@ -33,5 +34,6 @@ export const deleteDatabasePostgresCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: DeleteDatabasePostgresCidrInput,
     outputSchema: DeleteDatabasePostgresCidrOutput,
+    errors: [Forbidden, NotFound, UnprocessableEntity] as const,
   }),
 );

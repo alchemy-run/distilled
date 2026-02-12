@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const WorkflowSwitchPrimariesInput = Schema.Struct({
@@ -159,5 +160,6 @@ export const workflowSwitchPrimaries = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: WorkflowSwitchPrimariesInput,
     outputSchema: WorkflowSwitchPrimariesOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

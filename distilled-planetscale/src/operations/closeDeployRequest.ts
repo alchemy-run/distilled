@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const CloseDeployRequestInput = Schema.Struct({
@@ -230,4 +231,5 @@ export type CloseDeployRequestOutput = typeof CloseDeployRequestOutput.Type;
 export const closeDeployRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CloseDeployRequestInput,
   outputSchema: CloseDeployRequestOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

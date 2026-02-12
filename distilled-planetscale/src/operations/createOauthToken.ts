@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 import { SensitiveString } from "../sensitive";
 
 // Input Schema
@@ -138,4 +139,5 @@ export type CreateOauthTokenOutput = typeof CreateOauthTokenOutput.Type;
 export const createOauthToken = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateOauthTokenInput,
   outputSchema: CreateOauthTokenOutput,
+  errors: [Forbidden, NotFound, UnprocessableEntity] as const,
 }));

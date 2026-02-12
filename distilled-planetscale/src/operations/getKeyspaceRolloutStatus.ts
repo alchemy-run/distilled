@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const GetKeyspaceRolloutStatusInput = Schema.Struct({
@@ -46,5 +47,6 @@ export const getKeyspaceRolloutStatus = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: GetKeyspaceRolloutStatusInput,
     outputSchema: GetKeyspaceRolloutStatusOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

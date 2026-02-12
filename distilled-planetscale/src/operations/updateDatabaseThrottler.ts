@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateDatabaseThrottlerInput = Schema.Struct({
@@ -50,5 +51,6 @@ export const updateDatabaseThrottler = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: UpdateDatabaseThrottlerInput,
     outputSchema: UpdateDatabaseThrottlerOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

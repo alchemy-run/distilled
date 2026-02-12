@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const GetOauthApplicationInput = Schema.Struct({
@@ -39,4 +40,5 @@ export type GetOauthApplicationOutput = typeof GetOauthApplicationOutput.Type;
 export const getOauthApplication = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetOauthApplicationInput,
   outputSchema: GetOauthApplicationOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

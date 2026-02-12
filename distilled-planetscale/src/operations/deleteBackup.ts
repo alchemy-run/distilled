@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteBackupInput = Schema.Struct({
@@ -32,4 +33,5 @@ export type DeleteBackupOutput = typeof DeleteBackupOutput.Type;
 export const deleteBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteBackupInput,
   outputSchema: DeleteBackupOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

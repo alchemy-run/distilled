@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
 export const UpdateKeyspaceVschemaInput = Schema.Struct({
@@ -38,5 +39,6 @@ export const updateKeyspaceVschema = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: UpdateKeyspaceVschemaInput,
     outputSchema: UpdateKeyspaceVschemaOutput,
+    errors: [Forbidden, NotFound, UnprocessableEntity] as const,
   }),
 );

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const CreateKeyspaceInput = Schema.Struct({
@@ -64,4 +65,5 @@ export type CreateKeyspaceOutput = typeof CreateKeyspaceOutput.Type;
 export const createKeyspace = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateKeyspaceInput,
   outputSchema: CreateKeyspaceOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

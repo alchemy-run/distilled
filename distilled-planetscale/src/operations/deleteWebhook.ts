@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeleteWebhookInput = Schema.Struct({
@@ -30,4 +31,5 @@ export type DeleteWebhookOutput = typeof DeleteWebhookOutput.Type;
 export const deleteWebhook = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeleteWebhookInput,
   outputSchema: DeleteWebhookOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

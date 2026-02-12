@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
 export const CreateDatabasePostgresCidrInput = Schema.Struct({
@@ -50,5 +51,6 @@ export const createDatabasePostgresCidr = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: CreateDatabasePostgresCidrInput,
     outputSchema: CreateDatabasePostgresCidrOutput,
+    errors: [Forbidden, NotFound, UnprocessableEntity] as const,
   }),
 );

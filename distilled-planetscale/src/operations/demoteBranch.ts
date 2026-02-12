@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DemoteBranchInput = Schema.Struct({
@@ -93,4 +94,5 @@ export type DemoteBranchOutput = typeof DemoteBranchOutput.Type;
 export const demoteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DemoteBranchInput,
   outputSchema: DemoteBranchOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

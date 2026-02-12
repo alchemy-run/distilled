@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListBranchChangeRequestsInput = Schema.Struct({
@@ -89,5 +90,6 @@ export const listBranchChangeRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: ListBranchChangeRequestsInput,
     outputSchema: ListBranchChangeRequestsOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

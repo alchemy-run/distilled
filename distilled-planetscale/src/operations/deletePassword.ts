@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const DeletePasswordInput = Schema.Struct({
@@ -32,4 +33,5 @@ export type DeletePasswordOutput = typeof DeletePasswordOutput.Type;
 export const deletePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: DeletePasswordInput,
   outputSchema: DeletePasswordOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListPublicRegionsInput = Schema.Struct({
@@ -42,4 +43,5 @@ export type ListPublicRegionsOutput = typeof ListPublicRegionsOutput.Type;
 export const listPublicRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListPublicRegionsInput,
   outputSchema: ListPublicRegionsOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

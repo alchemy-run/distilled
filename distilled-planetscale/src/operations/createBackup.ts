@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const CreateBackupInput = Schema.Struct({
@@ -110,4 +111,5 @@ export type CreateBackupOutput = typeof CreateBackupOutput.Type;
 export const createBackup = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateBackupInput,
   outputSchema: CreateBackupOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

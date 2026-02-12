@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListDeployRequestsInput = Schema.Struct({
@@ -251,4 +252,5 @@ export type ListDeployRequestsOutput = typeof ListDeployRequestsOutput.Type;
 export const listDeployRequests = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListDeployRequestsInput,
   outputSchema: ListDeployRequestsOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

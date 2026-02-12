@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListReadOnlyRegionsInput = Schema.Struct({
@@ -65,4 +66,5 @@ export type ListReadOnlyRegionsOutput = typeof ListReadOnlyRegionsOutput.Type;
 export const listReadOnlyRegions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListReadOnlyRegionsInput,
   outputSchema: ListReadOnlyRegionsOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateBranchClusterConfigInput = Schema.Struct({
@@ -35,5 +36,6 @@ export const updateBranchClusterConfig = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: UpdateBranchClusterConfigInput,
     outputSchema: UpdateBranchClusterConfigOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

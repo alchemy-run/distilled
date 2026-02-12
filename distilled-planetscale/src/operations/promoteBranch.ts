@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const PromoteBranchInput = Schema.Struct({
@@ -93,4 +94,5 @@ export type PromoteBranchOutput = typeof PromoteBranchOutput.Type;
 export const promoteBranch = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: PromoteBranchInput,
   outputSchema: PromoteBranchOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

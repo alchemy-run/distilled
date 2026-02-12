@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ResetRoleInput = Schema.Struct({
@@ -80,4 +81,5 @@ export type ResetRoleOutput = typeof ResetRoleOutput.Type;
 export const resetRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ResetRoleInput,
   outputSchema: ResetRoleOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

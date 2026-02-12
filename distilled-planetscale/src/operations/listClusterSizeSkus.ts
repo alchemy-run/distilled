@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListClusterSizeSkusInput = Schema.Struct({
@@ -53,4 +54,5 @@ export type ListClusterSizeSkusOutput = typeof ListClusterSizeSkusOutput.Type;
 export const listClusterSizeSkus = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListClusterSizeSkusInput,
   outputSchema: ListClusterSizeSkusOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

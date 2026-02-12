@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListOauthTokensInput = Schema.Struct({
@@ -138,4 +139,5 @@ export type ListOauthTokensOutput = typeof ListOauthTokensOutput.Type;
 export const listOauthTokens = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListOauthTokensInput,
   outputSchema: ListOauthTokensOutput,
+  errors: [Forbidden, NotFound] as const,
 }));

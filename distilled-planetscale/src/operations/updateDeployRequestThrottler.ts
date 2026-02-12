@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const UpdateDeployRequestThrottlerInput = Schema.Struct({
@@ -52,4 +53,5 @@ export const updateDeployRequestThrottler =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
     inputSchema: UpdateDeployRequestThrottlerInput,
     outputSchema: UpdateDeployRequestThrottlerOutput,
+    errors: [Forbidden, NotFound] as const,
   }));

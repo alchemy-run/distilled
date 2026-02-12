@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const CompleteGatedDeployRequestInput = Schema.Struct({
@@ -231,5 +232,6 @@ export const completeGatedDeployRequest = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: CompleteGatedDeployRequestInput,
     outputSchema: CompleteGatedDeployRequestOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );

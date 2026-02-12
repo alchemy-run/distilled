@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
 export const ListDeployRequestReviewsInput = Schema.Struct({
@@ -54,5 +55,6 @@ export const listDeployRequestReviews = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
     inputSchema: ListDeployRequestReviewsInput,
     outputSchema: ListDeployRequestReviewsOutput,
+    errors: [Forbidden, NotFound] as const,
   }),
 );
