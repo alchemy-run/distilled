@@ -1,0 +1,18 @@
+import { FetchHttpClient } from "@effect/platform";
+import { config } from "dotenv";
+import { Effect, Layer } from "effect";
+import { Credentials, CredentialsFromEnv } from "../src/credentials";
+
+// Load environment variables from .env file
+config();
+
+// Main layer providing credentials and HTTP client for all tests
+export const MainLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
+
+/**
+ * Run an Effect with the MainLayer provided.
+ */
+export const runEffect = <A, E>(effect: Effect.Effect<A, E, any>): Promise<A> =>
+  Effect.runPromise(
+    effect.pipe(Effect.provide(MainLayer)) as Effect.Effect<A, E, never>,
+  );
