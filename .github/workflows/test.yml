@@ -44,6 +44,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run setup --http
+        working-directory: distilled-aws
       - run: bun run lint
         working-directory: distilled-aws
       - run: bun run test

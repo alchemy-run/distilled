@@ -38,6 +38,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run setup --http
+        working-directory: distilled-aws
       - run: bun run build
         working-directory: distilled-aws
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
