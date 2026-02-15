@@ -180,7 +180,7 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     Each error category should have its own separate test case.
     Error tests should call the operation with bad input and let the resulting error propagate uncaught (no try/catch, no .catch(), no expect().toThrow(), no Effect.flip()).
 
-    Make sure all tests clean up after themselves even if they fail.
+    Make sure all tests clean up after themselves even if they fail. This means deleting any resources that were created.
 
     Before writing any tests, read the existing test file at ${testPath} (if it exists).
     Identify which operations are missing:
@@ -192,10 +192,13 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     DO NOT MODIFY EXISTING TESTS, but more tests can be added to test files.
     DO NOT RUN THE NEWLY CREATED TESTS.
   `;
-  const cmd = Command.make("opencode", "run", prompt).pipe(
-    Command.stdin("inherit"),
-    Command.workingDirectory(PROJECT_ROOT),
-  );
+  const cmd = Command.make(
+    "opencode",
+    "run",
+    "--model",
+    "anthropic/claude-opus-4-6",
+    prompt,
+  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
 
   if (showChat) {
     yield* cmd.pipe(
@@ -244,10 +247,13 @@ const updateErrors = Effect.fn(function* (svc: string, showChat: boolean) {
 
     Only create patch files for operations that had at least one failed test.
     DO NOT MODIFY ANY EXISTING FILES IN src.`;
-  const cmd = Command.make("opencode", "run", prompt).pipe(
-    Command.stdin("inherit"),
-    Command.workingDirectory(PROJECT_ROOT),
-  );
+  const cmd = Command.make(
+    "opencode",
+    "run",
+    "--model",
+    "opencode/minimax-m2.5",
+    prompt,
+  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
 
   if (showChat) {
     yield* cmd.pipe(
@@ -275,7 +281,9 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
     "opencode",
     "run",
     "--model",
-    "anthropic/claude-haiku-4-5",
+    "opencode/kimi-k2.5",
+    // "--model",
+    // "anthropic/claude-haiku-4-5",
     prompt,
   ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
 
