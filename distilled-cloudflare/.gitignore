@@ -5,3 +5,6 @@ node_modules
 lib/
 .env
 **/*.tsbuildinfo
+
+# cloned dependencies (bun run setup)
+/cloudflare-typescript/

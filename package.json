@@ -49,6 +49,7 @@
       "oxlint": "1.36.0",
       "pathe": "^2.0.3",
       "typescript": "^5",
+      "vite": "latest",
       "vitest": "latest",
       "web-tree-sitter": "0.25.10",
       "yaml": "^2.8.2"

@@ -24,6 +24,7 @@
   },
   "scripts": {
     "distill": "bun run ../distilled-code/bin/distill.ts",
+    "setup": "bun run scripts/setup.ts",
     "download:env": "doppler secrets download --no-file --format env > .env",
     "generate": "bun scripts/generate-from-sdk.ts",
     "test:watch": "vitest watch",
@@ -42,9 +43,9 @@
     "@effect/vitest": "catalog:",
     "@types/bun": "catalog:",
     "fast-json-patch": "catalog:",
-    "fragment": "link:fragment",
     "jsonc-parser": "catalog:",
     "oxfmt": "catalog:",
+    "vite": "catalog:",
     "vitest": "catalog:"
   }
 }

@@ -47,7 +47,7 @@ interface OperationPatch {
   >;
 }
 
-const SDK_PATH = "../../cloudflare-typescript/src/resources";
+const SDK_PATH = "./cloudflare-typescript/src/resources";
 const OUTPUT_PATH = "./src/services";
 const PATCH_PATH = "./patch";
 

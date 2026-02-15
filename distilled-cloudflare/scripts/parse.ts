@@ -1080,8 +1080,8 @@ const parseServiceFiles = (
   force?: boolean,
 ) =>
   Effect.gen(function* () {
-    // Resolve the repo root (basePath is like "../../cloudflare-typescript/src/resources")
-    const repoRoot = path.resolve(basePath, "../..");
+    // Resolve the repo root (basePath is like "./cloudflare-typescript/src/resources")
+    const repoRoot = path.resolve(basePath, "./");
 
     // Get git hash for caching
     const hash = yield* getGitHash(repoRoot);

@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   return {
     test: {
       include: ["test/**/*.test.ts"],
+      exclude: ["cloudflare-typescript"],
       testTimeout: 120000,
       env,
     },
