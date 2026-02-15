@@ -19,6 +19,35 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InternalError extends Schema.TaggedError<InternalError>()(
+  "InternalError",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7500 }])) {}
+
+export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
+  "InvalidRequest",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+
+export class NoHistoryAvailable extends Schema.TaggedError<NoHistoryAvailable>()(
+  "NoHistoryAvailable",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7500 }])) {}
+
+export class TimestampTooOld extends Schema.TaggedError<TimestampTooOld>()(
+  "TimestampTooOld",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+
+// =============================================================================
 // BookmarkDatabaseTimeTravel
 // =============================================================================
 
@@ -54,12 +83,12 @@ export const getBookmarkDatabaseTimeTravel: (
   input: GetBookmarkDatabaseTimeTravelRequest,
 ) => Effect.Effect<
   GetBookmarkDatabaseTimeTravelResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NoHistoryAvailable | TimestampTooOld,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBookmarkDatabaseTimeTravelRequest,
   output: GetBookmarkDatabaseTimeTravelResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NoHistoryAvailable, TimestampTooOld],
 }));
 
 // =============================================================================
@@ -91,12 +120,12 @@ export const getDatabase: (
   input: GetDatabaseRequest,
 ) => Effect.Effect<
   GetDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatabaseRequest,
   output: GetDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 export interface CreateDatabaseRequest {
@@ -130,12 +159,12 @@ export const createDatabase: (
   input: CreateDatabaseRequest,
 ) => Effect.Effect<
   CreateDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDatabaseRequest,
   output: CreateDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 export interface UpdateDatabaseRequest {
@@ -168,12 +197,12 @@ export const updateDatabase: (
   input: UpdateDatabaseRequest,
 ) => Effect.Effect<
   UpdateDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | InternalError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, InternalError],
 }));
 
 export interface PatchDatabaseRequest {
@@ -208,12 +237,12 @@ export const patchDatabase: (
   input: PatchDatabaseRequest,
 ) => Effect.Effect<
   PatchDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | InternalError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDatabaseRequest,
   output: PatchDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, InternalError],
 }));
 
 export interface DeleteDatabaseRequest {
@@ -241,12 +270,12 @@ export const deleteDatabase: (
   input: DeleteDatabaseRequest,
 ) => Effect.Effect<
   DeleteDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 export interface ExportDatabaseRequest {
@@ -315,12 +344,12 @@ export const exportDatabase: (
   input: ExportDatabaseRequest,
 ) => Effect.Effect<
   ExportDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | InvalidRequest,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportDatabaseRequest,
   output: ExportDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, InvalidRequest],
 }));
 
 export interface ImportDatabaseRequest {
@@ -432,12 +461,12 @@ export const importDatabase: (
   input: ImportDatabaseRequest,
 ) => Effect.Effect<
   ImportDatabaseResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ImportDatabaseRequest,
   output: ImportDatabaseResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 // =============================================================================
@@ -487,10 +516,10 @@ export const restoreDatabaseTimeTravel: (
   input: RestoreDatabaseTimeTravelRequest,
 ) => Effect.Effect<
   RestoreDatabaseTimeTravelResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NoHistoryAvailable,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RestoreDatabaseTimeTravelRequest,
   output: RestoreDatabaseTimeTravelResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NoHistoryAvailable],
 }));

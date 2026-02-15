@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "InvalidRequest": [{ "code": 7400 }]
+  }
+}
