@@ -484,7 +484,7 @@ export interface PutHistoryRequest {
 
 export const PutHistoryRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Number,
+  body: Schema.Number.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/settings/zaraz/history" }),
 ) as unknown as Schema.Schema<PutHistoryRequest>;
@@ -558,7 +558,7 @@ export interface CreatePublishRequest {
 
 export const CreatePublishRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.optional(Schema.String),
+  body: Schema.optional(Schema.String).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/settings/zaraz/publish" }),
 ) as unknown as Schema.Schema<CreatePublishRequest>;

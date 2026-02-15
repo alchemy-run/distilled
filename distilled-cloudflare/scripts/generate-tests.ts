@@ -6,6 +6,8 @@
  *   bun scripts/generate-tests.ts                        # Process all services
  *   bun scripts/generate-tests.ts --service r2            # Single service
  *   bun scripts/generate-tests.ts -s r2,workers,queues    # Multiple services
+ *   bun scripts/generate-tests.ts --repair-only           # Only run post-generation steps (repairTests)
+ *   bun scripts/generate-tests.ts -s r2 --repair-only     # Repair only for specific service(s)
  */
 
 import { Command as CliCommand, Options } from "@effect/cli";
@@ -62,10 +64,21 @@ const showChatOption = Options.boolean("show-chat").pipe(
   Options.withDefault(false),
 );
 
+const repairOnlyOption = Options.boolean("repair-only").pipe(
+  Options.withDescription(
+    "Skip generation and testing, only run post-generation steps (e.g. repairTests)",
+  ),
+  Options.withDefault(false),
+);
+
 const command = CliCommand.make(
   "generate-tests",
-  { service: serviceOption, showChat: showChatOption },
-  ({ service, showChat }) =>
+  {
+    service: serviceOption,
+    showChat: showChatOption,
+    repairOnly: repairOnlyOption,
+  },
+  ({ service, showChat, repairOnly }) =>
     Effect.gen(function* () {
       let services = yield* listServices;
 
@@ -84,36 +97,40 @@ const command = CliCommand.make(
         yield* Console.log(`Found ${services.length} services`);
       }
 
-      const fs = yield* FileSystem.FileSystem;
+      if (!repairOnly) {
+        const fs = yield* FileSystem.FileSystem;
 
-      yield* Effect.forEach(
-        services,
-        Effect.fn(function* (svc) {
-          yield* Console.log(`[${svc}] Generating tests`);
-          yield* generateTests(svc, showChat);
-          yield* Console.log(`[${svc}] Running tests`);
-          const testResults = yield* runVitest(svc);
-          const outPath = path.join(
-            PROJECT_ROOT,
-            TESTS_PATH,
-            `${svc}-test-errors.temp.json`,
-          );
-          yield* fs.writeFileString(
-            outPath,
-            JSON.stringify(testResults, null, 2) + "\n",
-          );
-          yield* Console.log(`[${svc}] Wrote test results to ${outPath}`);
-          yield* Console.log(`[${svc}] Updating errors`);
-          yield* updateErrors(svc, showChat);
-          yield* Console.log(`[${svc}] Removing temp test results`);
-          yield* fs.remove(outPath);
-        }),
-        {
-          concurrency: "unbounded",
-        },
-      );
+        yield* Effect.forEach(
+          services,
+          Effect.fn(function* (svc) {
+            yield* Console.log(`[${svc}] Generating tests`);
+            yield* generateTests(svc, showChat);
+            yield* Console.log(`[${svc}] Running tests`);
+            const testResults = yield* runVitest(svc);
+            const outPath = path.join(
+              PROJECT_ROOT,
+              TESTS_PATH,
+              `${svc}-test-errors.temp.json`,
+            );
+            yield* fs.writeFileString(
+              outPath,
+              JSON.stringify(testResults, null, 2) + "\n",
+            );
+            yield* Console.log(`[${svc}] Wrote test results to ${outPath}`);
+            yield* Console.log(`[${svc}] Updating errors`);
+            yield* updateErrors(svc, showChat);
+            yield* Console.log(`[${svc}] Removing temp test results`);
+            yield* fs.remove(outPath);
+          }),
+          {
+            concurrency: "unbounded",
+          },
+        );
 
-      yield* generateSdk();
+        yield* generateSdk();
+      } else {
+        yield* Console.log("Skipping generation and testing (--repair-only)");
+      }
 
       yield* Effect.forEach(
         services,
@@ -163,12 +180,14 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     Each error category should have its own separate test case.
     Error tests should call the operation with bad input and let the resulting error propagate uncaught (no try/catch, no .catch(), no expect().toThrow(), no Effect.flip()).
 
-    make sure all tests clean up after themselves even if they fail.
+    Make sure all tests clean up after themselves even if they fail.
 
     Before writing any tests, read the existing test file at ${testPath} (if it exists).
-    Identify which operations and error categories already have test coverage.
-    Only add tests for operations or error categories that are NOT already covered.
-    If all operations and error categories are already covered, make no changes.
+    Identify which operations are missing:
+    - At least one happy path test with expect() assertions
+    - Test coverage for each applicable error category
+    Only add tests for gaps found above.
+    If all operations have both happy path and error coverage, make no changes.
 
     DO NOT MODIFY EXISTING TESTS, but more tests can be added to test files.
     DO NOT RUN THE NEWLY CREATED TESTS.
@@ -249,12 +268,16 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
     Repair the tests for ${svc} service found at ${testPath}.
     Fix any tests that can be fixed by modifying the tests.
 
-    DO NOT MODIFY THE FILES IN THE src DIRECTORY.
+    DO NOT MODIFY THE FILES IN THE src DIRECTORY DIRECTLY.
+    you are allowed to write patch files and run \`bun generate\` to regenerate the sdk with new errors.
     `;
-  const cmd = Command.make("opencode", "run", prompt).pipe(
-    Command.stdin("inherit"),
-    Command.workingDirectory(PROJECT_ROOT),
-  );
+  const cmd = Command.make(
+    "opencode",
+    "run",
+    "--model",
+    "anthropic/claude-haiku-4-5",
+    prompt,
+  ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
 
   if (showChat) {
     yield* cmd.pipe(

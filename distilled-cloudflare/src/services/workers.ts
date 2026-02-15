@@ -129,7 +129,7 @@ export interface CreateAssetUploadRequest {
 export const CreateAssetUploadRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   base64: Schema.Literal(true).pipe(T.HttpQuery("base64")),
-  body: Schema.Struct({}),
+  body: Schema.Struct({}).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -4656,7 +4656,7 @@ export const PutScriptScheduleRequest = Schema.Struct({
     Schema.Struct({
       cron: Schema.String,
     }),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -6380,7 +6380,7 @@ export interface CreateScriptTailRequest {
 export const CreateScriptTailRequest = Schema.Struct({
   scriptName: Schema.String.pipe(T.HttpPath("scriptName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

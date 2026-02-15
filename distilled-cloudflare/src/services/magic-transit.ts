@@ -3327,7 +3327,7 @@ export interface PskGenerateIpsecTunnelRequest {
 export const PskGenerateIpsecTunnelRequest = Schema.Struct({
   ipsecTunnelId: Schema.String.pipe(T.HttpPath("ipsecTunnelId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -5714,7 +5714,7 @@ export const BulkPutCfInterconnectsRequest = Schema.Struct({
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
     T.HttpHeader("'x-magic-new-hc-target'"),
   ),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -5810,7 +5810,7 @@ export const BulkPutGreTunnelsRequest = Schema.Struct({
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
     T.HttpHeader("'x-magic-new-hc-target'"),
   ),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PUT", path: "/accounts/{account_id}/magic/gre_tunnels" }),
 ) as unknown as Schema.Schema<BulkPutGreTunnelsRequest>;
@@ -5964,7 +5964,7 @@ export const BulkPutIpsecTunnelsRequest = Schema.Struct({
   xMagicNewHcTarget: Schema.optional(Schema.Boolean).pipe(
     T.HttpHeader("'x-magic-new-hc-target'"),
   ),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "PUT", path: "/accounts/{account_id}/magic/ipsec_tunnels" }),
 ) as unknown as Schema.Schema<BulkPutIpsecTunnelsRequest>;

@@ -1,0 +1,8 @@
+{
+  "errors": {
+    "InvalidRequestBody": [{ "code": 10012 }],
+    "MinimumKeysRequired": [{ "code": 10029 }],
+    "NamespaceNotFound": [{ "code": 10013 }],
+    "InvalidObjectIdentifier": [{ "code": 7003 }]
+  }
+}

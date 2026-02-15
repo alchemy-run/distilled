@@ -602,7 +602,7 @@ export interface PatchRuleAdvertisementRequest {
 export const PatchRuleAdvertisementRequest = Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PATCH",

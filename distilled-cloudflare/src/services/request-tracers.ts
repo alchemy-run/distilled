@@ -69,7 +69,7 @@ export const CreateTraceRequest = Schema.Struct({
       json: Schema.optional(Schema.Unknown),
       plainText: Schema.optional(Schema.String).pipe(T.JsonName("plain_text")),
     }),
-  ),
+  ).pipe(T.HttpBody()),
   context: Schema.optional(
     Schema.Struct({
       botScore: Schema.optional(Schema.Number).pipe(T.JsonName("bot_score")),

@@ -1735,7 +1735,7 @@ export const CreateSilenceRequest = Schema.Struct({
       policyId: Schema.optional(Schema.String).pipe(T.JsonName("policy_id")),
       startTime: Schema.optional(Schema.String).pipe(T.JsonName("start_time")),
     }),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

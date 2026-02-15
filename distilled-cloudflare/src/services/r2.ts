@@ -19,6 +19,20 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
+  "InvalidBucketName",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
+
+export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
+  "NoSuchBucket",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
+
+// =============================================================================
 // AllSuperSlurperJob
 // =============================================================================
 
@@ -726,16 +740,6 @@ export const listBucketDomainCustoms: (
   output: ListBucketDomainCustomsResponse,
   errors: [],
 }));
-
-export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
-  "NoSuchBucket",
-  { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10006 }])) {}
-
-export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
-  "InvalidBucketName",
-  { code: Schema.Number, message: Schema.String },
-).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
 
 export interface CreateBucketDomainCustomRequest {
   bucketName: string;

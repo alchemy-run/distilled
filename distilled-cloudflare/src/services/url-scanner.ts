@@ -1447,7 +1447,7 @@ export const BulkCreateScansRequest = Schema.Struct({
         visibility: Schema.optional(Schema.Literal("Public", "Unlisted")),
       }),
     ),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/urlscanner/v2/bulk" }),
 ) as unknown as Schema.Schema<BulkCreateScansRequest>;

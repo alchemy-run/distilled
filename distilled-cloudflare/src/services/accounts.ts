@@ -891,7 +891,7 @@ export interface PutTokenValueRequest {
 export const PutTokenValueRequest = Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",

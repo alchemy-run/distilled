@@ -386,7 +386,7 @@ export interface PutAddressMapAccountRequest {
 export const PutAddressMapAccountRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -581,7 +581,7 @@ export const PutAddressMapIpRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   ipAddress: Schema.String.pipe(T.HttpPath("ipAddress")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -779,7 +779,7 @@ export const PutAddressMapZoneRequest = Schema.Struct({
   addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",

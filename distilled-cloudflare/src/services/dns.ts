@@ -522,7 +522,7 @@ export interface ForceNotifyZoneTransferOutgoingRequest {
 
 export const ForceNotifyZoneTransferOutgoingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -3870,7 +3870,7 @@ export interface ScanRecordRequest {
 
 export const ScanRecordRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/dns_records/scan" }),
 ) as unknown as Schema.Schema<ScanRecordRequest>;
@@ -5807,7 +5807,7 @@ export interface CreateZoneTransferForceAxfrRequest {
 
 export const CreateZoneTransferForceAxfrRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/force_axfr" }),
 ) as unknown as Schema.Schema<CreateZoneTransferForceAxfrRequest>;
@@ -6255,7 +6255,7 @@ export interface EnableZoneTransferOutgoingRequest {
 
 export const EnableZoneTransferOutgoingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -6289,7 +6289,7 @@ export interface DisableZoneTransferOutgoingRequest {
 
 export const DisableZoneTransferOutgoingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

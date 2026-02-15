@@ -705,7 +705,7 @@ export interface CreateDownloadRequest {
 export const CreateDownloadRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -823,7 +823,7 @@ export interface CreateKeyRequest {
 
 export const CreateKeyRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/stream/keys" }),
 ) as unknown as Schema.Schema<CreateKeyRequest>;
@@ -1495,7 +1495,7 @@ export const CreateStreamRequest = Schema.Struct({
   "Upload-Metadata": Schema.optional(Schema.String).pipe(
     T.HttpHeader("'Upload-Metadata'"),
   ),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/stream" }),
 ) as unknown as Schema.Schema<CreateStreamRequest>;

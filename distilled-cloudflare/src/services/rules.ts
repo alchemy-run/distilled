@@ -431,7 +431,7 @@ export const CreateListItemRequest = Schema.Struct({
         comment: Schema.optional(Schema.String),
       }),
     ),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -495,7 +495,7 @@ export const UpdateListItemRequest = Schema.Struct({
         comment: Schema.optional(Schema.String),
       }),
     ),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",

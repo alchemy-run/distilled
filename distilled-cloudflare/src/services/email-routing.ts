@@ -504,7 +504,7 @@ export interface EnableEmailRoutingRequest {
 
 export const EnableEmailRoutingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/enable" }),
 ) as unknown as Schema.Schema<EnableEmailRoutingRequest>;
@@ -575,7 +575,7 @@ export interface DisableEmailRoutingRequest {
 
 export const DisableEmailRoutingRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/email/routing/disable" }),
 ) as unknown as Schema.Schema<DisableEmailRoutingRequest>;

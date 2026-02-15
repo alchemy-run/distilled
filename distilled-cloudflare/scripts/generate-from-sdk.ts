@@ -491,8 +491,12 @@ function generateOperationSchema(
     if (!param.required) {
       schema = `Schema.optional(${schema})`;
     }
-    // Add JsonName if property name differs from wire name (for JSON body serialization)
-    if (propName !== wireName) {
+    // If param is named "body", it IS the entire HTTP body (e.g. raw array),
+    // not a named field within a JSON object
+    if (wireName === "body") {
+      requestProps.push(`  ${propName}: ${schema}.pipe(T.HttpBody())`);
+    } else if (propName !== wireName) {
+      // Add JsonName if property name differs from wire name (for JSON body serialization)
       requestProps.push(
         `  ${propName}: ${schema}.pipe(T.JsonName("${wireName}"))`,
       );

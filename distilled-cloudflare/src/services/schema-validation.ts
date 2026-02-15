@@ -536,7 +536,7 @@ export interface BulkPatchSettingOperationsRequest {
 
 export const BulkPatchSettingOperationsRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Struct({}),
+  body: Schema.Struct({}).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PATCH",

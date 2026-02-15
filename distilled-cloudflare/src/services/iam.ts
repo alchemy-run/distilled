@@ -886,7 +886,7 @@ export const CreateUserGroupMemberRequest = Schema.Struct({
     Schema.Struct({
       id: Schema.String,
     }),
-  ),
+  ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

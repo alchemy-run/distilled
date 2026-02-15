@@ -6965,7 +6965,7 @@ export interface CreateAccessBookmarkRequest {
 export const CreateAccessBookmarkRequest = Schema.Struct({
   bookmarkId: Schema.String.pipe(T.HttpPath("bookmarkId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -7019,7 +7019,7 @@ export interface UpdateAccessBookmarkRequest {
 export const UpdateAccessBookmarkRequest = Schema.Struct({
   bookmarkId: Schema.String.pipe(T.HttpPath("bookmarkId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "PUT",
@@ -12750,7 +12750,7 @@ export interface CreateDeviceRevokeRequest {
 
 export const CreateDeviceRevokeRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Array(Schema.String),
+  body: Schema.Array(Schema.String).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/revoke" }),
 ) as unknown as Schema.Schema<CreateDeviceRevokeRequest>;
@@ -12989,7 +12989,7 @@ export interface CreateDeviceUnrevokeRequest {
 
 export const CreateDeviceUnrevokeRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Array(Schema.String),
+  body: Schema.Array(Schema.String).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/unrevoke" }),
 ) as unknown as Schema.Schema<CreateDeviceUnrevokeRequest>;
@@ -21139,7 +21139,7 @@ export interface ActivateGatewayCertificateRequest {
 export const ActivateGatewayCertificateRequest = Schema.Struct({
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -21219,7 +21219,7 @@ export interface DeactivateGatewayCertificateRequest {
 export const DeactivateGatewayCertificateRequest = Schema.Struct({
   certificateId: Schema.String.pipe(T.HttpPath("certificateId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

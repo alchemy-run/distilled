@@ -314,7 +314,7 @@ export const CreateInstanceEventRequest = Schema.Struct({
   instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
   eventType: Schema.String.pipe(T.HttpPath("eventType")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.optional(Schema.Unknown),
+  body: Schema.optional(Schema.Unknown).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

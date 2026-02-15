@@ -277,7 +277,7 @@ export const InsertIndexRequest = Schema.Struct({
   unparsableBehavior: Schema.optional(Schema.Literal("error", "discard")).pipe(
     T.HttpQuery("'unparsable-behavior'"),
   ),
-  body: UploadableSchema.pipe(T.HttpFormDataFile()),
+  body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
@@ -367,7 +367,7 @@ export const UpsertIndexRequest = Schema.Struct({
   unparsableBehavior: Schema.optional(Schema.Literal("error", "discard")).pipe(
     T.HttpQuery("'unparsable-behavior'"),
   ),
-  body: UploadableSchema.pipe(T.HttpFormDataFile()),
+  body: UploadableSchema.pipe(T.HttpFormDataFile()).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",

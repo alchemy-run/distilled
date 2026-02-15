@@ -193,7 +193,7 @@ export interface ClearCacheReserveRequest {
 
 export const ClearCacheReserveRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown,
+  body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
   T.Http({
     method: "POST",
