@@ -110,6 +110,51 @@ const loadServicePatches = (
     return patches;
   });
 
+/**
+ * A single merged error definition: tag name → deduplicated matchers.
+ */
+type MergedErrorDef = {
+  tag: string;
+  matchers: OperationPatch["errors"][string];
+};
+
+/**
+ * Merge all error definitions across every operation patch in a service.
+ *
+ * When two patch files both define the same error tag (e.g. "NamespaceNotFound"),
+ * their matcher arrays are merged and deduplicated so the error class is only
+ * emitted once in the generated service file.
+ */
+function mergeServiceErrors(
+  patches: Map<string, OperationPatch>,
+): MergedErrorDef[] {
+  const merged = new Map<string, OperationPatch["errors"][string]>();
+
+  for (const patch of patches.values()) {
+    for (const [tag, matchers] of Object.entries(patch.errors)) {
+      const existing = merged.get(tag);
+      if (!existing) {
+        merged.set(tag, [...matchers]);
+      } else {
+        // Merge matchers, deduplicating by JSON equality
+        const existingKeys = new Set(existing.map((m) => JSON.stringify(m)));
+        for (const m of matchers) {
+          const key = JSON.stringify(m);
+          if (!existingKeys.has(key)) {
+            existing.push(m);
+            existingKeys.add(key);
+          }
+        }
+      }
+    }
+  }
+
+  // Return sorted by tag name for stable output
+  return [...merged.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([tag, matchers]) => ({ tag, matchers }));
+}
+
 // CLI Options
 const serviceOption = Options.text("service").pipe(
   Options.withDescription("Generate only this service (e.g., r2, workers)"),
@@ -317,7 +362,10 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
 }
 
 /**
- * Generate Effect Schema code for an operation
+ * Generate Effect Schema code for an operation.
+ * Error classes are NOT emitted here — they are emitted once at the service
+ * level by generateServiceFile. This function only references the error tag
+ * names from the patch in the operation's type signature and errors array.
  */
 function generateOperationSchema(
   op: ParsedOperation,
@@ -331,18 +379,11 @@ function generateOperationSchema(
 
   const lines: string[] = [];
 
-  // Generate error classes from patch if present
+  // Collect error tag names from patch (classes are emitted at the service level)
   const errorClassNames: string[] = [];
   if (patch?.errors) {
-    for (const [errorTag, matchers] of Object.entries(patch.errors)) {
+    for (const errorTag of Object.keys(patch.errors)) {
       errorClassNames.push(errorTag);
-
-      // Generate the error class with HttpErrorMatchers trait
-      lines.push(`export class ${errorTag} extends Schema.TaggedError<${errorTag}>()(
-  "${errorTag}",
-  { code: Schema.Number, message: Schema.String }
-).pipe(T.HttpErrorMatchers(${JSON.stringify(matchers)})) {}`);
-      lines.push("");
     }
   }
 
@@ -797,6 +838,22 @@ function generateServiceFile(
     lines.push(`import { UploadableSchema } from "../schemas.ts";`);
   }
   lines.push("");
+
+  // Merge all error definitions across patches and emit each class once
+  const mergedErrors = mergeServiceErrors(patches);
+  if (mergedErrors.length > 0) {
+    lines.push(`// ${"=".repeat(77)}`);
+    lines.push(`// Errors`);
+    lines.push(`// ${"=".repeat(77)}`);
+    lines.push("");
+    for (const { tag, matchers } of mergedErrors) {
+      lines.push(`export class ${tag} extends Schema.TaggedError<${tag}>()(
+  "${tag}",
+  { code: Schema.Number, message: Schema.String }
+).pipe(T.HttpErrorMatchers(${JSON.stringify(matchers)})) {}`);
+      lines.push("");
+    }
+  }
 
   // Operations are already normalized by parse.ts (update -> put renaming, etc.)
   // Sort operations by resource, then by verb order
