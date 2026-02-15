@@ -283,10 +283,29 @@ export const parseResponse = <O>(
     const bodyText = new TextDecoder().decode(bodyBytes);
 
     // Parse JSON
-    let json: CloudflareResponse<unknown>;
+    let json: unknown;
     try {
       json = JSON.parse(bodyText);
     } catch {
+      // Not valid JSON — could be raw text/bytes (e.g. KV value responses)
+      if (response.status >= 200 && response.status < 300) {
+        // For successful non-JSON responses, try to decode the raw body as the output.
+        // This handles cases like KV getNamespaceValue which returns raw bytes/text.
+        const result = yield* Schema.decodeUnknown(outputSchema, {
+          onExcessProperty: "ignore",
+          propertyOrder: "none",
+        })(bodyText).pipe(
+          Effect.mapError(
+            () =>
+              new CloudflareHttpError({
+                status: response.status,
+                statusText: response.statusText,
+                body: bodyText,
+              }),
+          ),
+        );
+        return result;
+      }
       return yield* Effect.fail(
         new CloudflareHttpError({
           status: response.status,
@@ -296,9 +315,50 @@ export const parseResponse = <O>(
       );
     }
 
+    // Determine if this is a Cloudflare envelope response by duck-typing.
+    // The Cloudflare envelope always has { success: boolean, errors: [...], result: ... }.
+    // Some APIs return raw JSON directly (no envelope wrapper).
+    const isEnvelope =
+      json !== null &&
+      typeof json === "object" &&
+      "success" in json &&
+      typeof (json as Record<string, unknown>).success === "boolean";
+
+    if (!isEnvelope) {
+      // Raw JSON response (not wrapped in Cloudflare envelope).
+      // For 2xx responses, decode the raw JSON directly as the output.
+      if (response.status >= 200 && response.status < 300) {
+        const result = yield* Schema.decodeUnknown(outputSchema, {
+          onExcessProperty: "ignore",
+          propertyOrder: "none",
+        })(json).pipe(
+          Effect.mapError(
+            () =>
+              new CloudflareHttpError({
+                status: response.status,
+                statusText: "Schema decode failed",
+                body: bodyText,
+              }),
+          ),
+        );
+        return result;
+      }
+      // Non-2xx raw JSON — treat as HTTP error
+      return yield* Effect.fail(
+        new CloudflareHttpError({
+          status: response.status,
+          statusText: response.statusText,
+          body: bodyText,
+        }),
+      );
+    }
+
+    // From here on, we know it's a Cloudflare envelope response
+    const envelope = json as CloudflareResponse<unknown>;
+
     // Check for success: false
-    if (!json.success) {
-      const errors = json.errors ?? [];
+    if (!envelope.success) {
+      const errors = envelope.errors ?? [];
       const error = errors[0];
       if (!error) {
         return yield* Effect.fail(
@@ -359,7 +419,7 @@ export const parseResponse = <O>(
     const result = yield* Schema.decodeUnknown(outputSchema, {
       onExcessProperty: "ignore",
       propertyOrder: "none",
-    })(json.result ?? {}).pipe(
+    })(envelope.result ?? {}).pipe(
       Effect.mapError(
         () =>
           new CloudflareHttpError({
