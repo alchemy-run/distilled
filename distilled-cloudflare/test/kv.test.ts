@@ -109,6 +109,17 @@ describe("KV", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
+
+    test("error - NamespaceTitleAlreadyExists when creating with duplicate title", () =>
+      withNamespace(nsTitle("create-duplicate"), (namespaceId) =>
+        KV.createNamespace({
+          accountId: accountId(),
+          title: nsTitle("create-duplicate"),
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("NamespaceTitleAlreadyExists")),
+        ),
+      ));
   });
 
   // --------------------------------------------------------------------------
@@ -213,6 +224,43 @@ describe("KV", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
+
+    test("error - NamespaceTitleAlreadyExists when updating to duplicate title", () =>
+      Effect.gen(function* () {
+        // Create first namespace
+        const ns1 = yield* KV.createNamespace({
+          accountId: accountId(),
+          title: nsTitle("update-duplicate-1"),
+        });
+
+        // Create second namespace
+        const ns2 = yield* KV.createNamespace({
+          accountId: accountId(),
+          title: nsTitle("update-duplicate-2"),
+        });
+
+        // Try to update second namespace to have the same title as the first
+        yield* KV.updateNamespace({
+          accountId: accountId(),
+          namespaceId: ns2.id,
+          title: nsTitle("update-duplicate-1"),
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("NamespaceTitleAlreadyExists")),
+          Effect.ensuring(
+            Effect.gen(function* () {
+              yield* KV.deleteNamespace({
+                accountId: accountId(),
+                namespaceId: ns1.id,
+              }).pipe(Effect.catchAll(() => Effect.void));
+              yield* KV.deleteNamespace({
+                accountId: accountId(),
+                namespaceId: ns2.id,
+              }).pipe(Effect.catchAll(() => Effect.void));
+            }),
+          ),
+        );
+      }));
   });
 
   // --------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 {
   "errors": {
     "TitleRequired": [{ "code": 10019 }],
-    "InvalidObjectIdentifier": [{ "code": 7003 }]
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "NamespaceTitleAlreadyExists": [{ "code": 10014 }]
   }
 }

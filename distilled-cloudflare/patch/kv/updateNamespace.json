@@ -2,6 +2,7 @@
   "errors": {
     "NamespaceNotFound": [{ "code": 10013 }],
     "TitleRequired": [{ "code": 10019 }],
-    "InvalidObjectIdentifier": [{ "code": 7003 }]
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "NamespaceTitleAlreadyExists": [{ "code": 10014 }]
   }
 }

@@ -52,6 +52,11 @@ export class NamespaceNotFound extends Schema.TaggedError<NamespaceNotFound>()(
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10013 }])) {}
 
+export class NamespaceTitleAlreadyExists extends Schema.TaggedError<NamespaceTitleAlreadyExists>()(
+  "NamespaceTitleAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10014 }])) {}
+
 export class TitleRequired extends Schema.TaggedError<TitleRequired>()(
   "TitleRequired",
   { code: Schema.Number, message: Schema.String },
@@ -144,12 +149,15 @@ export const createNamespace: (
   input: CreateNamespaceRequest,
 ) => Effect.Effect<
   CreateNamespaceResponse,
-  CommonErrors | TitleRequired | InvalidObjectIdentifier,
+  | CommonErrors
+  | TitleRequired
+  | InvalidObjectIdentifier
+  | NamespaceTitleAlreadyExists,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateNamespaceRequest,
   output: CreateNamespaceResponse,
-  errors: [TitleRequired, InvalidObjectIdentifier],
+  errors: [TitleRequired, InvalidObjectIdentifier, NamespaceTitleAlreadyExists],
 }));
 
 export interface UpdateNamespaceRequest {
@@ -192,12 +200,21 @@ export const updateNamespace: (
   input: UpdateNamespaceRequest,
 ) => Effect.Effect<
   UpdateNamespaceResponse,
-  CommonErrors | NamespaceNotFound | TitleRequired | InvalidObjectIdentifier,
+  | CommonErrors
+  | NamespaceNotFound
+  | TitleRequired
+  | InvalidObjectIdentifier
+  | NamespaceTitleAlreadyExists,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateNamespaceRequest,
   output: UpdateNamespaceResponse,
-  errors: [NamespaceNotFound, TitleRequired, InvalidObjectIdentifier],
+  errors: [
+    NamespaceNotFound,
+    TitleRequired,
+    InvalidObjectIdentifier,
+    NamespaceTitleAlreadyExists,
+  ],
 }));
 
 export interface DeleteNamespaceRequest {
