@@ -45,6 +45,12 @@ interface OperationPatch {
       message?: { includes?: string; matches?: string };
     }>
   >;
+  /**
+   * Override the response type shape when the SDK type is incorrect.
+   * - "array": wraps the SDK response type in an array (e.g., when `list` returns an array
+   *   of items but the SDK declares the response type as a single object)
+   */
+  responseType?: "array";
 }
 
 const SDK_PATH = "./cloudflare-typescript/src/resources";
@@ -545,6 +551,16 @@ function generateOperationSchema(
         isTypeAlias = true;
       }
     }
+  }
+
+  // Apply responseType override from patch (e.g., wrap in array when SDK type is wrong)
+  if (patch?.responseType === "array" && resolvedResponseType) {
+    resolvedResponseType = {
+      kind: "array",
+      elementType: resolvedResponseType,
+    };
+    // Array responses are always emitted as type aliases, not interfaces
+    isTypeAlias = true;
   }
 
   if (isTypeAlias && resolvedResponseType) {
