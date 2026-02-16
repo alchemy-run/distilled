@@ -1,0 +1,5 @@
+{
+  "errors": {
+    "MissingAuthenticationToken": [{ "code": 1001 }]
+  }
+}

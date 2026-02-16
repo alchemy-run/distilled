@@ -19,6 +19,85 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AddressMapNotFound extends Schema.TaggedError<AddressMapNotFound>()(
+  "AddressMapNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class AuthenticationError extends Schema.TaggedError<AuthenticationError>()(
+  "AuthenticationError",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10000 }])) {}
+
+export class BgpPrefixNotFound extends Schema.TaggedError<BgpPrefixNotFound>()(
+  "BgpPrefixNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class BindingNotFound extends Schema.TaggedError<BindingNotFound>()(
+  "BindingNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class DelegationNotFound extends Schema.TaggedError<DelegationNotFound>()(
+  "DelegationNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class FeatureNotEnabled extends Schema.TaggedError<FeatureNotEnabled>()(
+  "FeatureNotEnabled",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+
+export class Forbidden extends Schema.TaggedError<Forbidden>()("Forbidden", {
+  code: Schema.Number,
+  message: Schema.String,
+}).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+
+export class InvalidAccountId extends Schema.TaggedError<InvalidAccountId>()(
+  "InvalidAccountId",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidLoaForm extends Schema.TaggedError<InvalidLoaForm>()(
+  "InvalidLoaForm",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+
+export class InvalidNetworkCidr extends Schema.TaggedError<InvalidNetworkCidr>()(
+  "InvalidNetworkCidr",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+
+export class InvalidZoneId extends Schema.TaggedError<InvalidZoneId>()(
+  "InvalidZoneId",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class IrrEntryNotFound extends Schema.TaggedError<IrrEntryNotFound>()(
+  "IrrEntryNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+
+export class LoaDocumentNotFound extends Schema.TaggedError<LoaDocumentNotFound>()(
+  "LoaDocumentNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class NonexistentAccountPrefix extends Schema.TaggedError<NonexistentAccountPrefix>()(
+  "NonexistentAccountPrefix",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+
+export class PrefixNotFound extends Schema.TaggedError<PrefixNotFound>()(
+  "PrefixNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+// =============================================================================
 // AddressMap
 // =============================================================================
 
@@ -98,12 +177,12 @@ export const getAddressMap: (
   input: GetAddressMapRequest,
 ) => Effect.Effect<
   GetAddressMapResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | AddressMapNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAddressMapRequest,
   output: GetAddressMapResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, AddressMapNotFound, InvalidAccountId],
 }));
 
 export interface CreateAddressMapRequest {
@@ -199,12 +278,12 @@ export const createAddressMap: (
   input: CreateAddressMapRequest,
 ) => Effect.Effect<
   CreateAddressMapResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAddressMapRequest,
   output: CreateAddressMapResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 export interface PatchAddressMapRequest {
@@ -270,12 +349,12 @@ export const patchAddressMap: (
   input: PatchAddressMapRequest,
 ) => Effect.Effect<
   PatchAddressMapResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId | AddressMapNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchAddressMapRequest,
   output: PatchAddressMapResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId, AddressMapNotFound],
 }));
 
 export interface DeleteAddressMapRequest {
@@ -363,12 +442,12 @@ export const deleteAddressMap: (
   input: DeleteAddressMapRequest,
 ) => Effect.Effect<
   DeleteAddressMapResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId | AddressMapNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapRequest,
   output: DeleteAddressMapResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId, AddressMapNotFound],
 }));
 
 // =============================================================================
@@ -463,12 +542,12 @@ export const putAddressMapAccount: (
   input: PutAddressMapAccountRequest,
 ) => Effect.Effect<
   PutAddressMapAccountResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapAccountRequest,
   output: PutAddressMapAccountResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 export interface DeleteAddressMapAccountRequest {
@@ -556,12 +635,12 @@ export const deleteAddressMapAccount: (
   input: DeleteAddressMapAccountRequest,
 ) => Effect.Effect<
   DeleteAddressMapAccountResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapAccountRequest,
   output: DeleteAddressMapAccountResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -658,12 +737,12 @@ export const putAddressMapIp: (
   input: PutAddressMapIpRequest,
 ) => Effect.Effect<
   PutAddressMapIpResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapIpRequest,
   output: PutAddressMapIpResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 export interface DeleteAddressMapIpRequest {
@@ -753,12 +832,12 @@ export const deleteAddressMapIp: (
   input: DeleteAddressMapIpRequest,
 ) => Effect.Effect<
   DeleteAddressMapIpResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapIpRequest,
   output: DeleteAddressMapIpResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -856,12 +935,12 @@ export const putAddressMapZone: (
   input: PutAddressMapZoneRequest,
 ) => Effect.Effect<
   PutAddressMapZoneResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutAddressMapZoneRequest,
   output: PutAddressMapZoneResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 export interface DeleteAddressMapZoneRequest {
@@ -952,12 +1031,12 @@ export const deleteAddressMapZone: (
   input: DeleteAddressMapZoneRequest,
 ) => Effect.Effect<
   DeleteAddressMapZoneResponse,
-  CommonErrors,
+  CommonErrors | FeatureNotEnabled | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAddressMapZoneRequest,
   output: DeleteAddressMapZoneResponse,
-  errors: [],
+  errors: [FeatureNotEnabled, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -991,12 +1070,12 @@ export const getLoaDocument: (
   input: GetLoaDocumentRequest,
 ) => Effect.Effect<
   GetLoaDocumentResponse,
-  CommonErrors,
+  CommonErrors | LoaDocumentNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetLoaDocumentRequest,
   output: GetLoaDocumentResponse,
-  errors: [],
+  errors: [LoaDocumentNotFound, InvalidAccountId],
 }));
 
 export interface CreateLoaDocumentRequest {
@@ -1053,12 +1132,12 @@ export const createLoaDocument: (
   input: CreateLoaDocumentRequest,
 ) => Effect.Effect<
   CreateLoaDocumentResponse,
-  CommonErrors,
+  CommonErrors | InvalidAccountId | InvalidLoaForm,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateLoaDocumentRequest,
   output: CreateLoaDocumentResponse,
-  errors: [],
+  errors: [InvalidAccountId, InvalidLoaForm],
 }));
 
 // =============================================================================
@@ -1161,12 +1240,12 @@ export const getPrefix: (
   input: GetPrefixRequest,
 ) => Effect.Effect<
   GetPrefixResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixRequest,
   output: GetPrefixResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 export interface CreatePrefixRequest {
@@ -1282,12 +1361,12 @@ export const createPrefix: (
   input: CreatePrefixRequest,
 ) => Effect.Effect<
   CreatePrefixResponse,
-  CommonErrors,
+  CommonErrors | InvalidNetworkCidr | InvalidAccountId | IrrEntryNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixRequest,
   output: CreatePrefixResponse,
-  errors: [],
+  errors: [InvalidNetworkCidr, InvalidAccountId, IrrEntryNotFound],
 }));
 
 export interface PatchPrefixRequest {
@@ -1389,12 +1468,12 @@ export const patchPrefix: (
   input: PatchPrefixRequest,
 ) => Effect.Effect<
   PatchPrefixResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixRequest,
   output: PatchPrefixResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 export interface DeletePrefixRequest {
@@ -1466,12 +1545,12 @@ export const deletePrefix: (
   input: DeletePrefixRequest,
 ) => Effect.Effect<
   DeletePrefixResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixRequest,
   output: DeletePrefixResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -1512,12 +1591,12 @@ export const getPrefixAdvertisementStatus: (
   input: GetPrefixAdvertisementStatusRequest,
 ) => Effect.Effect<
   GetPrefixAdvertisementStatusResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixAdvertisementStatusRequest,
   output: GetPrefixAdvertisementStatusResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 export interface PatchPrefixAdvertisementStatusRequest {
@@ -1557,12 +1636,12 @@ export const patchPrefixAdvertisementStatus: (
   input: PatchPrefixAdvertisementStatusRequest,
 ) => Effect.Effect<
   PatchPrefixAdvertisementStatusResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixAdvertisementStatusRequest,
   output: PatchPrefixAdvertisementStatusResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -1649,12 +1728,12 @@ export const getPrefixBgpPrefix: (
   input: GetPrefixBgpPrefixRequest,
 ) => Effect.Effect<
   GetPrefixBgpPrefixResponse,
-  CommonErrors,
+  CommonErrors | Forbidden | InvalidAccountId | BgpPrefixNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixBgpPrefixRequest,
   output: GetPrefixBgpPrefixResponse,
-  errors: [],
+  errors: [Forbidden, InvalidAccountId, BgpPrefixNotFound],
 }));
 
 export interface CreatePrefixBgpPrefixRequest {
@@ -1738,12 +1817,15 @@ export const createPrefixBgpPrefix: (
   input: CreatePrefixBgpPrefixRequest,
 ) => Effect.Effect<
   CreatePrefixBgpPrefixResponse,
-  CommonErrors,
+  | CommonErrors
+  | NonexistentAccountPrefix
+  | InvalidAccountId
+  | InvalidNetworkCidr,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixBgpPrefixRequest,
   output: CreatePrefixBgpPrefixResponse,
-  errors: [],
+  errors: [NonexistentAccountPrefix, InvalidAccountId, InvalidNetworkCidr],
 }));
 
 export interface PatchPrefixBgpPrefixRequest {
@@ -1843,12 +1925,12 @@ export const patchPrefixBgpPrefix: (
   input: PatchPrefixBgpPrefixRequest,
 ) => Effect.Effect<
   PatchPrefixBgpPrefixResponse,
-  CommonErrors,
+  CommonErrors | Forbidden | InvalidAccountId | BgpPrefixNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchPrefixBgpPrefixRequest,
   output: PatchPrefixBgpPrefixResponse,
-  errors: [],
+  errors: [Forbidden, InvalidAccountId, BgpPrefixNotFound],
 }));
 
 // =============================================================================
@@ -1907,12 +1989,12 @@ export const createPrefixDelegation: (
   input: CreatePrefixDelegationRequest,
 ) => Effect.Effect<
   CreatePrefixDelegationResponse,
-  CommonErrors,
+  CommonErrors | InvalidNetworkCidr | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixDelegationRequest,
   output: CreatePrefixDelegationResponse,
-  errors: [],
+  errors: [InvalidNetworkCidr, InvalidAccountId],
 }));
 
 export interface DeletePrefixDelegationRequest {
@@ -1946,12 +2028,12 @@ export const deletePrefixDelegation: (
   input: DeletePrefixDelegationRequest,
 ) => Effect.Effect<
   DeletePrefixDelegationResponse,
-  CommonErrors,
+  CommonErrors | DelegationNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixDelegationRequest,
   output: DeletePrefixDelegationResponse,
-  errors: [],
+  errors: [DelegationNotFound, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -2005,12 +2087,12 @@ export const getPrefixServiceBinding: (
   input: GetPrefixServiceBindingRequest,
 ) => Effect.Effect<
   GetPrefixServiceBindingResponse,
-  CommonErrors,
+  CommonErrors | Forbidden | InvalidAccountId | BindingNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPrefixServiceBindingRequest,
   output: GetPrefixServiceBindingResponse,
-  errors: [],
+  errors: [Forbidden, InvalidAccountId, BindingNotFound],
 }));
 
 export interface CreatePrefixServiceBindingRequest {
@@ -2064,12 +2146,12 @@ export const createPrefixServiceBinding: (
   input: CreatePrefixServiceBindingRequest,
 ) => Effect.Effect<
   CreatePrefixServiceBindingResponse,
-  CommonErrors,
+  CommonErrors | PrefixNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePrefixServiceBindingRequest,
   output: CreatePrefixServiceBindingResponse,
-  errors: [],
+  errors: [PrefixNotFound, InvalidAccountId],
 }));
 
 export interface DeletePrefixServiceBindingRequest {
@@ -2143,12 +2225,12 @@ export const deletePrefixServiceBinding: (
   input: DeletePrefixServiceBindingRequest,
 ) => Effect.Effect<
   DeletePrefixServiceBindingResponse,
-  CommonErrors,
+  CommonErrors | BindingNotFound | InvalidAccountId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePrefixServiceBindingRequest,
   output: DeletePrefixServiceBindingResponse,
-  errors: [],
+  errors: [BindingNotFound, InvalidAccountId],
 }));
 
 // =============================================================================
@@ -2193,12 +2275,12 @@ export const getRegionalHostname: (
   input: GetRegionalHostnameRequest,
 ) => Effect.Effect<
   GetRegionalHostnameResponse,
-  CommonErrors,
+  CommonErrors | InvalidZoneId | AuthenticationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRegionalHostnameRequest,
   output: GetRegionalHostnameResponse,
-  errors: [],
+  errors: [InvalidZoneId, AuthenticationError],
 }));
 
 export interface CreateRegionalHostnameRequest {
@@ -2246,12 +2328,12 @@ export const createRegionalHostname: (
   input: CreateRegionalHostnameRequest,
 ) => Effect.Effect<
   CreateRegionalHostnameResponse,
-  CommonErrors,
+  CommonErrors | InvalidZoneId | AuthenticationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateRegionalHostnameRequest,
   output: CreateRegionalHostnameResponse,
-  errors: [],
+  errors: [InvalidZoneId, AuthenticationError],
 }));
 
 export interface PatchRegionalHostnameRequest {
@@ -2295,12 +2377,12 @@ export const patchRegionalHostname: (
   input: PatchRegionalHostnameRequest,
 ) => Effect.Effect<
   PatchRegionalHostnameResponse,
-  CommonErrors,
+  CommonErrors | InvalidZoneId | AuthenticationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchRegionalHostnameRequest,
   output: PatchRegionalHostnameResponse,
-  errors: [],
+  errors: [InvalidZoneId, AuthenticationError],
 }));
 
 export interface DeleteRegionalHostnameRequest {
@@ -2372,10 +2454,10 @@ export const deleteRegionalHostname: (
   input: DeleteRegionalHostnameRequest,
 ) => Effect.Effect<
   DeleteRegionalHostnameResponse,
-  CommonErrors,
+  CommonErrors | InvalidZoneId | AuthenticationError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteRegionalHostnameRequest,
   output: DeleteRegionalHostnameResponse,
-  errors: [],
+  errors: [InvalidZoneId, AuthenticationError],
 }));

@@ -210,8 +210,18 @@ describe("R2", () => {
           }
           if (result.location) {
             expect([
-              "apac", "eeur", "enam", "weur", "wnam", "oc",
-              "APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC",
+              "apac",
+              "eeur",
+              "enam",
+              "weur",
+              "wnam",
+              "oc",
+              "APAC",
+              "EEUR",
+              "ENAM",
+              "WEUR",
+              "WNAM",
+              "OC",
             ]).toContain(result.location);
           }
         }),
@@ -235,7 +245,7 @@ describe("R2", () => {
         Effect.map((e) => expect(e._tag).toBeDefined()),
       ));
 
-    test.skip("error - returns error for empty bucket name (SDK doesn't handle empty path params)", () =>
+    test("error - returns error for empty bucket name (SDK doesn't handle empty path params)", () =>
       R2.getBucket({
         accountId: accountId(),
         bucketName: "",

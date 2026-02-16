@@ -19,6 +19,15 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class MissingAuthenticationToken extends Schema.TaggedError<MissingAuthenticationToken>()(
+  "MissingAuthenticationToken",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+
+// =============================================================================
 // Account
 // =============================================================================
 
@@ -816,12 +825,12 @@ export const verifyToken: (
   input: VerifyTokenRequest,
 ) => Effect.Effect<
   VerifyTokenResponse,
-  CommonErrors,
+  CommonErrors | MissingAuthenticationToken,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerifyTokenRequest,
   output: VerifyTokenResponse,
-  errors: [],
+  errors: [MissingAuthenticationToken],
 }));
 
 // =============================================================================

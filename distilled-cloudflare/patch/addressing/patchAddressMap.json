@@ -1,7 +1,0 @@
-{
-  "errors": {
-    "FeatureNotEnabled": [{ "code": 1002 }],
-    "InvalidAccountId": [{ "code": 7003 }],
-    "AddressMapNotFound": [{ "code": 1000 }]
-  }
-}
