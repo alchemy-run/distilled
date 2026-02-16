@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "LoaDocumentNotFound": [{ "code": 1000 }],
+    "InvalidAccountId": [{ "code": 7003 }]
+  }
+}

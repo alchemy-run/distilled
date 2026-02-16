@@ -174,14 +174,12 @@ const debugOption = Options.boolean("debug").pipe(
 
 /**
  * Convert TypeInfo to Effect Schema code.
- * When `allOptional` is true, all struct properties are treated as optional.
  * This is used for response schemas where the API may omit "required" fields.
  */
 function typeInfoToSchema(
   type: TypeInfo,
   indent: string = "",
   depth: number = 0,
-  allOptional: boolean = false,
 ): string {
   // Prevent infinite recursion
   if (depth > 10) {
@@ -228,12 +226,6 @@ function typeInfoToSchema(
             literalSet.add(v.value);
           } else {
             literalSet.add(`"${v.value}"`);
-            // Add case variants for string literals to handle API responses
-            // returning different casing than the spec declares
-            const upper = v.value!.toUpperCase();
-            const lower = v.value!.toLowerCase();
-            if (upper !== v.value) literalSet.add(`"${upper}"`);
-            if (lower !== v.value) literalSet.add(`"${lower}"`);
           }
         }
         return `Schema.Literal(${[...literalSet].join(", ")})`;
@@ -241,7 +233,7 @@ function typeInfoToSchema(
       // General union - de-duplicate and filter unknowns
       const unionParts = type.values
         .filter((v) => v.kind !== "unknown")
-        .map((v) => typeInfoToSchema(v, indent, depth + 1, allOptional));
+        .map((v) => typeInfoToSchema(v, indent, depth + 1));
       const uniqueUnionParts = [...new Set(unionParts)];
       if (uniqueUnionParts.length === 0) {
         return "Schema.Unknown";
@@ -259,7 +251,6 @@ function typeInfoToSchema(
         type.elementType,
         indent,
         depth + 1,
-        allOptional,
       );
       return `Schema.Array(${elementSchema})`;
 
@@ -273,8 +264,8 @@ function typeInfoToSchema(
           .map((p) => {
             const wireName = p.name;
             const propName = toCamelCase(wireName);
-            let propSchema = typeInfoToSchema(p.type, indent + "  ", depth + 1, allOptional);
-            if (allOptional || !p.required) {
+            let propSchema = typeInfoToSchema(p.type, indent + "  ", depth + 1);
+            if (!p.required) {
               propSchema = `Schema.optional(${propSchema})`;
             }
             // Add JsonName if property name differs from wire name (for JSON serialization)
@@ -300,9 +291,8 @@ function typeInfoToSchema(
 
 /**
  * Convert TypeInfo to TypeScript type string for interfaces.
- * When `allOptional` is true, all struct properties are treated as optional.
  */
-function typeInfoToTsType(type: TypeInfo, depth: number = 0, allOptional: boolean = false): string {
+function typeInfoToTsType(type: TypeInfo, depth: number = 0): string {
   // Prevent infinite recursion
   if (depth > 10) {
     return "unknown";
@@ -333,18 +323,14 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0, allOptional: boolea
       const values = type.values;
       const tsTypeSet = new Set<string>();
       for (const v of values) {
-        if (v.kind === "unknown" && !values.every((t) => t.kind === "unknown")) {
+        if (
+          v.kind === "unknown" &&
+          !values.every((t) => t.kind === "unknown")
+        ) {
           continue;
         }
-        const t = typeInfoToTsType(v, depth + 1, allOptional);
+        const t = typeInfoToTsType(v, depth + 1);
         tsTypeSet.add(t);
-        // Add case variants for string literals
-        if (v.kind === "literal" && v.value !== "true" && v.value !== "false" && v.value !== undefined) {
-          const upper = v.value.toUpperCase();
-          const lower = v.value.toLowerCase();
-          if (upper !== v.value) tsTypeSet.add(`"${upper}"`);
-          if (lower !== v.value) tsTypeSet.add(`"${lower}"`);
-        }
       }
       const uniqueTsTypes = [...tsTypeSet];
       if (uniqueTsTypes.length === 1) {
@@ -356,7 +342,7 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0, allOptional: boolea
       if (!type.elementType) {
         return "unknown[]";
       }
-      const elementType = typeInfoToTsType(type.elementType, depth + 1, allOptional);
+      const elementType = typeInfoToTsType(type.elementType, depth + 1);
       // Wrap union types in parentheses
       if (elementType.includes("|")) {
         return `(${elementType})[]`;
@@ -372,8 +358,8 @@ function typeInfoToTsType(type: TypeInfo, depth: number = 0, allOptional: boolea
         const props = type.properties
           .map((p) => {
             const propName = toCamelCase(p.name);
-            const optMark = (allOptional || !p.required) ? "?" : "";
-            return `${propName}${optMark}: ${typeInfoToTsType(p.type, depth + 1, allOptional)}`;
+            const optMark = !p.required ? "?" : "";
+            return `${propName}${optMark}: ${typeInfoToTsType(p.type, depth + 1)}`;
           })
           .join("; ");
         return `{ ${props} }`;
@@ -587,8 +573,8 @@ function generateOperationSchema(
 
   if (isTypeAlias && resolvedResponseType) {
     // Type alias response (e.g., `type Response = string` or `type Response = unknown`)
-    const tsType = typeInfoToTsType(resolvedResponseType, 0, /* allOptional */ true);
-    const schema = typeInfoToSchema(resolvedResponseType, "", 0, /* allOptional */ true);
+    const tsType = typeInfoToTsType(resolvedResponseType, 0);
+    const schema = typeInfoToSchema(resolvedResponseType, "", 0);
 
     lines.push(`export type ${responseTypeName} = ${tsType};`);
     lines.push("");
@@ -602,12 +588,10 @@ function generateOperationSchema(
     resolvedResponseType.properties
   ) {
     // Generate interface with resolved types
-    // Pass allOptional=true for nested types so deeply nested properties
-    // are optional (Cloudflare APIs often omit "required" fields in nested objects)
     lines.push(`export interface ${responseTypeName} {`);
     for (const prop of resolvedResponseType.properties) {
       const propName = toCamelCase(prop.name);
-      const tsType = typeInfoToTsType(prop.type, 0, /* allOptional */ true);
+      const tsType = typeInfoToTsType(prop.type, 0);
       const optMark = prop.required ? "" : "?";
       if (prop.description) {
         lines.push(
@@ -620,13 +604,12 @@ function generateOperationSchema(
     lines.push("");
 
     // Generate schema with resolved types
-    // Pass allOptional=true to nested types so that deeply nested properties
     // are treated as optional — Cloudflare APIs often omit "required" fields
     // in nested objects (e.g. lifecycle conditions.prefix)
     const responseProps = resolvedResponseType.properties.map((prop) => {
       const wireName = prop.name;
       const propName = toCamelCase(wireName);
-      let schema = typeInfoToSchema(prop.type, "", 0, /* allOptional */ true);
+      let schema = typeInfoToSchema(prop.type, "", 0);
       if (!prop.required) {
         schema = `Schema.optional(${schema})`;
       }

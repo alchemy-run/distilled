@@ -19,6 +19,20 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AdvancedCertificateManagerRequired extends Schema.TaggedError<AdvancedCertificateManagerRequired>()(
+  "AdvancedCertificateManagerRequired",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1450 }])) {}
+
+export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+// =============================================================================
 // TotalTl
 // =============================================================================
 
@@ -56,12 +70,12 @@ export const getTotalTl: (
   input: GetTotalTlRequest,
 ) => Effect.Effect<
   GetTotalTlResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTotalTlRequest,
   output: GetTotalTlResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired],
 }));
 
 export interface CreateTotalTlRequest {
@@ -106,10 +120,10 @@ export const createTotalTl: (
   input: CreateTotalTlRequest,
 ) => Effect.Effect<
   CreateTotalTlResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTotalTlRequest,
   output: CreateTotalTlResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired],
 }));

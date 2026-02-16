@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "InvalidZoneId": [{ "code": 7003 }],
+    "AuthenticationError": [{ "code": 10000 }]
+  }
+}
