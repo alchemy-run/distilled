@@ -3265,10 +3265,14 @@ export const DeleteZoneRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}" }),
 ) as unknown as Schema.Schema<DeleteZoneRequest>;
 
-export type DeleteZoneResponse = unknown;
+export interface DeleteZoneResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteZoneResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteZoneResponse>;
+export const DeleteZoneResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteZoneResponse>;
 
 export const deleteZone: (
   input: DeleteZoneRequest,

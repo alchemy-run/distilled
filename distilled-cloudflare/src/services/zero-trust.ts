@@ -9630,10 +9630,83 @@ export const GetDeviceRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/devices/{deviceId}" }),
 ) as unknown as Schema.Schema<GetDeviceRequest>;
 
-export type GetDeviceResponse = unknown;
+export interface GetDeviceResponse {
+  /** Registration ID. Equal to Device ID except for accounts which enabled [multi-user mode](https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/deployment/mdm-deployment/wind */
+  id?: string;
+  account?: { id?: string; accountType?: string; name?: string };
+  /** When the device was created. */
+  created?: string;
+  /** True if the device was deleted. */
+  deleted?: boolean;
+  deviceType?: string;
+  /** @deprecated */
+  gatewayDeviceId?: string;
+  /** IPv4 or IPv6 address. */
+  ip?: string;
+  /** The device's public key. */
+  key?: string;
+  /** Type of the key. */
+  keyType?: string;
+  /** When the device last connected to Cloudflare services. */
+  lastSeen?: string;
+  /** The device mac address. */
+  macAddress?: string;
+  /** The device model name. */
+  model?: string;
+  /** The device name. */
+  name?: string;
+  /** The operating system version. */
+  osVersion?: string;
+  /** The device serial number. */
+  serialNumber?: string;
+  /** Type of the tunnel connection used. */
+  tunnelType?: string;
+  /** When the device was updated. */
+  updated?: string;
+  user?: { id?: string; email?: string; name?: string };
+  /** The WARP client version. */
+  version?: string;
+}
 
-export const GetDeviceResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDeviceResponse>;
+export const GetDeviceResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  account: Schema.optional(
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      accountType: Schema.optional(Schema.String).pipe(
+        T.JsonName("account_type"),
+      ),
+      name: Schema.optional(Schema.String),
+    }),
+  ),
+  created: Schema.optional(Schema.String),
+  deleted: Schema.optional(Schema.Boolean),
+  deviceType: Schema.optional(Schema.String).pipe(T.JsonName("device_type")),
+  gatewayDeviceId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gateway_device_id"),
+  ),
+  ip: Schema.optional(Schema.String),
+  key: Schema.optional(Schema.String),
+  keyType: Schema.optional(Schema.String).pipe(T.JsonName("key_type")),
+  lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
+  macAddress: Schema.optional(Schema.String).pipe(T.JsonName("mac_address")),
+  model: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  osVersion: Schema.optional(Schema.String).pipe(T.JsonName("os_version")),
+  serialNumber: Schema.optional(Schema.String).pipe(
+    T.JsonName("serial_number"),
+  ),
+  tunnelType: Schema.optional(Schema.String).pipe(T.JsonName("tunnel_type")),
+  updated: Schema.optional(Schema.String),
+  user: Schema.optional(
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ),
+  version: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetDeviceResponse>;
 
 export const getDevice: (
   input: GetDeviceRequest,
@@ -10576,10 +10649,28 @@ export const GetDeviceNetworkRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDeviceNetworkRequest>;
 
-export type GetDeviceNetworkResponse = unknown;
+export interface GetDeviceNetworkResponse {
+  /** The configuration object containing information for the WARP client to detect the managed network. */
+  config?: { tlsSockaddr: string; sha256?: string };
+  /** The name of the device managed network. This name must be unique. */
+  name?: string;
+  /** API UUID. */
+  networkId?: string;
+  /** The type of device managed network. */
+  type?: "tls";
+}
 
-export const GetDeviceNetworkResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDeviceNetworkResponse>;
+export const GetDeviceNetworkResponse = Schema.Struct({
+  config: Schema.optional(
+    Schema.Struct({
+      tlsSockaddr: Schema.String.pipe(T.JsonName("tls_sockaddr")),
+      sha256: Schema.optional(Schema.String),
+    }),
+  ),
+  name: Schema.optional(Schema.String),
+  networkId: Schema.optional(Schema.String).pipe(T.JsonName("network_id")),
+  type: Schema.optional(Schema.Literal("tls")),
+}) as unknown as Schema.Schema<GetDeviceNetworkResponse>;
 
 export const getDeviceNetwork: (
   input: GetDeviceNetworkRequest,
@@ -10616,10 +10707,28 @@ export const CreateDeviceNetworkRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/networks" }),
 ) as unknown as Schema.Schema<CreateDeviceNetworkRequest>;
 
-export type CreateDeviceNetworkResponse = unknown;
+export interface CreateDeviceNetworkResponse {
+  /** The configuration object containing information for the WARP client to detect the managed network. */
+  config?: { tlsSockaddr: string; sha256?: string };
+  /** The name of the device managed network. This name must be unique. */
+  name?: string;
+  /** API UUID. */
+  networkId?: string;
+  /** The type of device managed network. */
+  type?: "tls";
+}
 
-export const CreateDeviceNetworkResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDeviceNetworkResponse>;
+export const CreateDeviceNetworkResponse = Schema.Struct({
+  config: Schema.optional(
+    Schema.Struct({
+      tlsSockaddr: Schema.String.pipe(T.JsonName("tls_sockaddr")),
+      sha256: Schema.optional(Schema.String),
+    }),
+  ),
+  name: Schema.optional(Schema.String),
+  networkId: Schema.optional(Schema.String).pipe(T.JsonName("network_id")),
+  type: Schema.optional(Schema.Literal("tls")),
+}) as unknown as Schema.Schema<CreateDeviceNetworkResponse>;
 
 export const createDeviceNetwork: (
   input: CreateDeviceNetworkRequest,
@@ -10663,10 +10772,28 @@ export const UpdateDeviceNetworkRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateDeviceNetworkRequest>;
 
-export type UpdateDeviceNetworkResponse = unknown;
+export interface UpdateDeviceNetworkResponse {
+  /** The configuration object containing information for the WARP client to detect the managed network. */
+  config?: { tlsSockaddr: string; sha256?: string };
+  /** The name of the device managed network. This name must be unique. */
+  name?: string;
+  /** API UUID. */
+  networkId?: string;
+  /** The type of device managed network. */
+  type?: "tls";
+}
 
-export const UpdateDeviceNetworkResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateDeviceNetworkResponse>;
+export const UpdateDeviceNetworkResponse = Schema.Struct({
+  config: Schema.optional(
+    Schema.Struct({
+      tlsSockaddr: Schema.String.pipe(T.JsonName("tls_sockaddr")),
+      sha256: Schema.optional(Schema.String),
+    }),
+  ),
+  name: Schema.optional(Schema.String),
+  networkId: Schema.optional(Schema.String).pipe(T.JsonName("network_id")),
+  type: Schema.optional(Schema.Literal("tls")),
+}) as unknown as Schema.Schema<UpdateDeviceNetworkResponse>;
 
 export const updateDeviceNetwork: (
   input: UpdateDeviceNetworkRequest,
@@ -11022,10 +11149,94 @@ export const GetDevicePolicyDefaultRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/devices/policy" }),
 ) as unknown as Schema.Schema<GetDevicePolicyDefaultRequest>;
 
-export type GetDevicePolicyDefaultResponse = unknown;
+export interface GetDevicePolicyDefaultResponse {
+  /** Whether to allow the user to switch WARP between modes. */
+  allowModeSwitch?: boolean;
+  /** Whether to receive update notifications when a new version of the client is available. */
+  allowUpdates?: boolean;
+  /** Whether to allow devices to leave the organization. */
+  allowedToLeave?: boolean;
+  /** The amount of time in seconds to reconnect after having been disabled. */
+  autoConnect?: number;
+  /** Turn on the captive portal after the specified amount of time. */
+  captivePortal?: number;
+  /** Whether the policy will be applied to matching devices. */
+  default?: boolean;
+  /** If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`. */
+  disableAutoFallback?: boolean;
+  /** Whether the policy will be applied to matching devices. */
+  enabled?: boolean;
+  /** List of routes excluded in the WARP client's tunnel. */
+  exclude?: unknown[];
+  /** Whether to add Microsoft IPs to Split Tunnel exclusions. */
+  excludeOfficeIps?: boolean;
+  fallbackDomains?: unknown[];
+  gatewayUniqueId?: string;
+  /** List of routes included in the WARP client's tunnel. */
+  include?: unknown[];
+  /** Determines if the operating system will register WARP's local interface IP with your on-premises DNS server. */
+  registerInterfaceIpWithDns?: boolean;
+  /** Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only). */
+  sccmVpnBoundarySupport?: boolean;
+  serviceModeV2?: { mode?: string; port?: number };
+  /** The URL to launch when the Send Feedback button is clicked. */
+  supportUrl?: string;
+  /** Whether to allow the user to turn off the WARP switch and disconnect the client. */
+  switchLocked?: boolean;
+  /** Determines which tunnel protocol to use. */
+  tunnelProtocol?: string;
+}
 
-export const GetDevicePolicyDefaultResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDevicePolicyDefaultResponse>;
+export const GetDevicePolicyDefaultResponse = Schema.Struct({
+  allowModeSwitch: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_mode_switch"),
+  ),
+  allowUpdates: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_updates"),
+  ),
+  allowedToLeave: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allowed_to_leave"),
+  ),
+  autoConnect: Schema.optional(Schema.Number).pipe(T.JsonName("auto_connect")),
+  captivePortal: Schema.optional(Schema.Number).pipe(
+    T.JsonName("captive_portal"),
+  ),
+  default: Schema.optional(Schema.Boolean),
+  disableAutoFallback: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("disable_auto_fallback"),
+  ),
+  enabled: Schema.optional(Schema.Boolean),
+  exclude: Schema.optional(Schema.Array(Schema.Unknown)),
+  excludeOfficeIps: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("exclude_office_ips"),
+  ),
+  fallbackDomains: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
+    T.JsonName("fallback_domains"),
+  ),
+  gatewayUniqueId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gateway_unique_id"),
+  ),
+  include: Schema.optional(Schema.Array(Schema.Unknown)),
+  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("register_interface_ip_with_dns"),
+  ),
+  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("sccm_vpn_boundary_support"),
+  ),
+  serviceModeV2: Schema.optional(
+    Schema.Struct({
+      mode: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+    }),
+  ).pipe(T.JsonName("service_mode_v2")),
+  supportUrl: Schema.optional(Schema.String).pipe(T.JsonName("support_url")),
+  switchLocked: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("switch_locked"),
+  ),
+  tunnelProtocol: Schema.optional(Schema.String).pipe(
+    T.JsonName("tunnel_protocol"),
+  ),
+}) as unknown as Schema.Schema<GetDevicePolicyDefaultResponse>;
 
 export const getDevicePolicyDefault: (
   input: GetDevicePolicyDefaultRequest,
@@ -11130,10 +11341,94 @@ export const PatchDevicePolicyDefaultRequest = Schema.Struct({
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/devices/policy" }),
 ) as unknown as Schema.Schema<PatchDevicePolicyDefaultRequest>;
 
-export type PatchDevicePolicyDefaultResponse = unknown;
+export interface PatchDevicePolicyDefaultResponse {
+  /** Whether to allow the user to switch WARP between modes. */
+  allowModeSwitch?: boolean;
+  /** Whether to receive update notifications when a new version of the client is available. */
+  allowUpdates?: boolean;
+  /** Whether to allow devices to leave the organization. */
+  allowedToLeave?: boolean;
+  /** The amount of time in seconds to reconnect after having been disabled. */
+  autoConnect?: number;
+  /** Turn on the captive portal after the specified amount of time. */
+  captivePortal?: number;
+  /** Whether the policy will be applied to matching devices. */
+  default?: boolean;
+  /** If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`. */
+  disableAutoFallback?: boolean;
+  /** Whether the policy will be applied to matching devices. */
+  enabled?: boolean;
+  /** List of routes excluded in the WARP client's tunnel. */
+  exclude?: unknown[];
+  /** Whether to add Microsoft IPs to Split Tunnel exclusions. */
+  excludeOfficeIps?: boolean;
+  fallbackDomains?: unknown[];
+  gatewayUniqueId?: string;
+  /** List of routes included in the WARP client's tunnel. */
+  include?: unknown[];
+  /** Determines if the operating system will register WARP's local interface IP with your on-premises DNS server. */
+  registerInterfaceIpWithDns?: boolean;
+  /** Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only). */
+  sccmVpnBoundarySupport?: boolean;
+  serviceModeV2?: { mode?: string; port?: number };
+  /** The URL to launch when the Send Feedback button is clicked. */
+  supportUrl?: string;
+  /** Whether to allow the user to turn off the WARP switch and disconnect the client. */
+  switchLocked?: boolean;
+  /** Determines which tunnel protocol to use. */
+  tunnelProtocol?: string;
+}
 
-export const PatchDevicePolicyDefaultResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchDevicePolicyDefaultResponse>;
+export const PatchDevicePolicyDefaultResponse = Schema.Struct({
+  allowModeSwitch: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_mode_switch"),
+  ),
+  allowUpdates: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allow_updates"),
+  ),
+  allowedToLeave: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("allowed_to_leave"),
+  ),
+  autoConnect: Schema.optional(Schema.Number).pipe(T.JsonName("auto_connect")),
+  captivePortal: Schema.optional(Schema.Number).pipe(
+    T.JsonName("captive_portal"),
+  ),
+  default: Schema.optional(Schema.Boolean),
+  disableAutoFallback: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("disable_auto_fallback"),
+  ),
+  enabled: Schema.optional(Schema.Boolean),
+  exclude: Schema.optional(Schema.Array(Schema.Unknown)),
+  excludeOfficeIps: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("exclude_office_ips"),
+  ),
+  fallbackDomains: Schema.optional(Schema.Array(Schema.Unknown)).pipe(
+    T.JsonName("fallback_domains"),
+  ),
+  gatewayUniqueId: Schema.optional(Schema.String).pipe(
+    T.JsonName("gateway_unique_id"),
+  ),
+  include: Schema.optional(Schema.Array(Schema.Unknown)),
+  registerInterfaceIpWithDns: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("register_interface_ip_with_dns"),
+  ),
+  sccmVpnBoundarySupport: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("sccm_vpn_boundary_support"),
+  ),
+  serviceModeV2: Schema.optional(
+    Schema.Struct({
+      mode: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.Number),
+    }),
+  ).pipe(T.JsonName("service_mode_v2")),
+  supportUrl: Schema.optional(Schema.String).pipe(T.JsonName("support_url")),
+  switchLocked: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("switch_locked"),
+  ),
+  tunnelProtocol: Schema.optional(Schema.String).pipe(
+    T.JsonName("tunnel_protocol"),
+  ),
+}) as unknown as Schema.Schema<PatchDevicePolicyDefaultResponse>;
 
 export const patchDevicePolicyDefault: (
   input: PatchDevicePolicyDefaultRequest,
@@ -11234,10 +11529,381 @@ export const GetDevicePostureRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDevicePostureRequest>;
 
-export type GetDevicePostureResponse = unknown;
+export interface GetDevicePostureResponse {
+  /** API UUID. */
+  id?: string;
+  /** The description of the device posture rule. */
+  description?: string;
+  /** Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client. */
+  expiration?: string;
+  /** The value to be checked against. */
+  input?:
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        exists?: boolean;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string; operatingSystem: "android" | "ios" | "chromeos" }
+    | { operatingSystem: "windows"; domain?: string }
+    | {
+        operatingSystem: "windows";
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        version: string;
+        osDistroName?: string;
+        osDistroRevision?: string;
+        osVersionExtra?: string;
+      }
+    | { enabled: boolean; operatingSystem: "windows" | "mac" }
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string }
+    | { checkDisks?: string[]; requireAll?: boolean }
+    | { certificateId: string; cn: string }
+    | {
+        certificateId: string;
+        checkPrivateKey: boolean;
+        operatingSystem: "windows" | "linux" | "mac";
+        cn?: string;
+        extendedKeyUsage?: ("clientAuth" | "emailProtection")[];
+        locations?: { paths?: string[]; trustStores?: ("system" | "user")[] };
+        subjectAlternativeNames?: string[];
+      }
+    | { updateWindowDays?: number }
+    | {
+        complianceStatus: "compliant" | "noncompliant" | "unknown";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        lastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        os?: string;
+        overall?: string;
+        sensorConfig?: string;
+        state?: "online" | "offline" | "unknown";
+        version?: string;
+        versionOperator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        complianceStatus:
+          | "compliant"
+          | "noncompliant"
+          | "unknown"
+          | "notapplicable"
+          | "ingraceperiod"
+          | "error";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        countOperator: "<" | "<=" | ">" | ">=" | "==";
+        issueCount: string;
+      }
+    | {
+        connectionId: string;
+        eidLastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        riskLevel?: "low" | "medium" | "high" | "critical";
+        scoreOperator?: "<" | "<=" | ">" | ">=" | "==";
+        totalScore?: number;
+      }
+    | {
+        connectionId: string;
+        activeThreats?: number;
+        infected?: boolean;
+        isActive?: boolean;
+        networkStatus?:
+          | "connected"
+          | "disconnected"
+          | "disconnecting"
+          | "connecting";
+        operationalState?:
+          | "na"
+          | "partially_disabled"
+          | "auto_fully_disabled"
+          | "fully_disabled"
+          | "auto_partially_disabled"
+          | "disabled_error"
+          | "db_corruption";
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        connectionId: string;
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        score: number;
+      };
+  /** The conditions that the client must match to run the rule. */
+  match?: {
+    platform?: "windows" | "mac" | "linux" | "android" | "ios" | "chromeos";
+  }[];
+  /** The name of the device posture rule. */
+  name?: string;
+  /** Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`. */
+  schedule?: string;
+  /** The type of device posture rule. */
+  type?:
+    | "file"
+    | "application"
+    | "tanium"
+    | "gateway"
+    | "warp"
+    | "disk_encryption"
+    | "serial_number"
+    | "sentinelone"
+    | "carbonblack"
+    | "firewall"
+    | "os_version"
+    | "domain_joined"
+    | "client_certificate"
+    | "client_certificate_v2"
+    | "antivirus"
+    | "unique_client_id"
+    | "kolide"
+    | "tanium_s2s"
+    | "crowdstrike_s2s"
+    | "intune"
+    | "workspace_one"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const GetDevicePostureResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDevicePostureResponse>;
+export const GetDevicePostureResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.String),
+  expiration: Schema.optional(Schema.String),
+  input: Schema.optional(
+    Schema.Union(
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        exists: Schema.optional(Schema.Boolean),
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        operatingSystem: Schema.Literal("android", "ios", "chromeos").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        domain: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        version: Schema.String,
+        osDistroName: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_name"),
+        ),
+        osDistroRevision: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_revision"),
+        ),
+        osVersionExtra: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_version_extra"),
+        ),
+      }),
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        operatingSystem: Schema.Literal("windows", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+      }),
+      Schema.Struct({
+        checkDisks: Schema.optional(Schema.Array(Schema.String)),
+        requireAll: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        cn: Schema.String,
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        checkPrivateKey: Schema.Boolean.pipe(T.JsonName("check_private_key")),
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        cn: Schema.optional(Schema.String),
+        extendedKeyUsage: Schema.optional(
+          Schema.Array(Schema.Literal("clientAuth", "emailProtection")),
+        ).pipe(T.JsonName("extended_key_usage")),
+        locations: Schema.optional(
+          Schema.Struct({
+            paths: Schema.optional(Schema.Array(Schema.String)),
+            trustStores: Schema.optional(
+              Schema.Array(Schema.Literal("system", "user")),
+            ).pipe(T.JsonName("trust_stores")),
+          }),
+        ),
+        subjectAlternativeNames: Schema.optional(
+          Schema.Array(Schema.String),
+        ).pipe(T.JsonName("subject_alternative_names")),
+      }),
+      Schema.Struct({
+        updateWindowDays: Schema.optional(Schema.Number).pipe(
+          T.JsonName("update_window_days"),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        os: Schema.optional(Schema.String),
+        overall: Schema.optional(Schema.String),
+        sensorConfig: Schema.optional(Schema.String).pipe(
+          T.JsonName("sensor_config"),
+        ),
+        state: Schema.optional(Schema.Literal("online", "offline", "unknown")),
+        version: Schema.optional(Schema.String),
+        versionOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+          "notapplicable",
+          "ingraceperiod",
+          "error",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        countOperator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        issueCount: Schema.String.pipe(T.JsonName("issue_count")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        eidLastSeen: Schema.optional(Schema.String).pipe(
+          T.JsonName("eid_last_seen"),
+        ),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        riskLevel: Schema.optional(
+          Schema.Literal("low", "medium", "high", "critical"),
+        ).pipe(T.JsonName("risk_level")),
+        scoreOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+        totalScore: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_score"),
+        ),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        activeThreats: Schema.optional(Schema.Number).pipe(
+          T.JsonName("active_threats"),
+        ),
+        infected: Schema.optional(Schema.Boolean),
+        isActive: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_active")),
+        networkStatus: Schema.optional(
+          Schema.Literal(
+            "connected",
+            "disconnected",
+            "disconnecting",
+            "connecting",
+          ),
+        ).pipe(T.JsonName("network_status")),
+        operationalState: Schema.optional(
+          Schema.Literal(
+            "na",
+            "partially_disabled",
+            "auto_fully_disabled",
+            "fully_disabled",
+            "auto_partially_disabled",
+            "disabled_error",
+            "db_corruption",
+          ),
+        ).pipe(T.JsonName("operational_state")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        score: Schema.Number,
+      }),
+    ),
+  ),
+  match: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        platform: Schema.optional(
+          Schema.Literal(
+            "windows",
+            "mac",
+            "linux",
+            "android",
+            "ios",
+            "chromeos",
+          ),
+        ),
+      }),
+    ),
+  ),
+  name: Schema.optional(Schema.String),
+  schedule: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "file",
+      "application",
+      "tanium",
+      "gateway",
+      "warp",
+      "disk_encryption",
+      "serial_number",
+      "sentinelone",
+      "carbonblack",
+      "firewall",
+      "os_version",
+      "domain_joined",
+      "client_certificate",
+      "client_certificate_v2",
+      "antivirus",
+      "unique_client_id",
+      "kolide",
+      "tanium_s2s",
+      "crowdstrike_s2s",
+      "intune",
+      "workspace_one",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<GetDevicePostureResponse>;
 
 export const getDevicePosture: (
   input: GetDevicePostureRequest,
@@ -11627,10 +12293,381 @@ export const CreateDevicePostureRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/posture" }),
 ) as unknown as Schema.Schema<CreateDevicePostureRequest>;
 
-export type CreateDevicePostureResponse = unknown;
+export interface CreateDevicePostureResponse {
+  /** API UUID. */
+  id?: string;
+  /** The description of the device posture rule. */
+  description?: string;
+  /** Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client. */
+  expiration?: string;
+  /** The value to be checked against. */
+  input?:
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        exists?: boolean;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string; operatingSystem: "android" | "ios" | "chromeos" }
+    | { operatingSystem: "windows"; domain?: string }
+    | {
+        operatingSystem: "windows";
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        version: string;
+        osDistroName?: string;
+        osDistroRevision?: string;
+        osVersionExtra?: string;
+      }
+    | { enabled: boolean; operatingSystem: "windows" | "mac" }
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string }
+    | { checkDisks?: string[]; requireAll?: boolean }
+    | { certificateId: string; cn: string }
+    | {
+        certificateId: string;
+        checkPrivateKey: boolean;
+        operatingSystem: "windows" | "linux" | "mac";
+        cn?: string;
+        extendedKeyUsage?: ("clientAuth" | "emailProtection")[];
+        locations?: { paths?: string[]; trustStores?: ("system" | "user")[] };
+        subjectAlternativeNames?: string[];
+      }
+    | { updateWindowDays?: number }
+    | {
+        complianceStatus: "compliant" | "noncompliant" | "unknown";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        lastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        os?: string;
+        overall?: string;
+        sensorConfig?: string;
+        state?: "online" | "offline" | "unknown";
+        version?: string;
+        versionOperator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        complianceStatus:
+          | "compliant"
+          | "noncompliant"
+          | "unknown"
+          | "notapplicable"
+          | "ingraceperiod"
+          | "error";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        countOperator: "<" | "<=" | ">" | ">=" | "==";
+        issueCount: string;
+      }
+    | {
+        connectionId: string;
+        eidLastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        riskLevel?: "low" | "medium" | "high" | "critical";
+        scoreOperator?: "<" | "<=" | ">" | ">=" | "==";
+        totalScore?: number;
+      }
+    | {
+        connectionId: string;
+        activeThreats?: number;
+        infected?: boolean;
+        isActive?: boolean;
+        networkStatus?:
+          | "connected"
+          | "disconnected"
+          | "disconnecting"
+          | "connecting";
+        operationalState?:
+          | "na"
+          | "partially_disabled"
+          | "auto_fully_disabled"
+          | "fully_disabled"
+          | "auto_partially_disabled"
+          | "disabled_error"
+          | "db_corruption";
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        connectionId: string;
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        score: number;
+      };
+  /** The conditions that the client must match to run the rule. */
+  match?: {
+    platform?: "windows" | "mac" | "linux" | "android" | "ios" | "chromeos";
+  }[];
+  /** The name of the device posture rule. */
+  name?: string;
+  /** Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`. */
+  schedule?: string;
+  /** The type of device posture rule. */
+  type?:
+    | "file"
+    | "application"
+    | "tanium"
+    | "gateway"
+    | "warp"
+    | "disk_encryption"
+    | "serial_number"
+    | "sentinelone"
+    | "carbonblack"
+    | "firewall"
+    | "os_version"
+    | "domain_joined"
+    | "client_certificate"
+    | "client_certificate_v2"
+    | "antivirus"
+    | "unique_client_id"
+    | "kolide"
+    | "tanium_s2s"
+    | "crowdstrike_s2s"
+    | "intune"
+    | "workspace_one"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const CreateDevicePostureResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDevicePostureResponse>;
+export const CreateDevicePostureResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.String),
+  expiration: Schema.optional(Schema.String),
+  input: Schema.optional(
+    Schema.Union(
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        exists: Schema.optional(Schema.Boolean),
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        operatingSystem: Schema.Literal("android", "ios", "chromeos").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        domain: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        version: Schema.String,
+        osDistroName: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_name"),
+        ),
+        osDistroRevision: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_revision"),
+        ),
+        osVersionExtra: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_version_extra"),
+        ),
+      }),
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        operatingSystem: Schema.Literal("windows", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+      }),
+      Schema.Struct({
+        checkDisks: Schema.optional(Schema.Array(Schema.String)),
+        requireAll: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        cn: Schema.String,
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        checkPrivateKey: Schema.Boolean.pipe(T.JsonName("check_private_key")),
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        cn: Schema.optional(Schema.String),
+        extendedKeyUsage: Schema.optional(
+          Schema.Array(Schema.Literal("clientAuth", "emailProtection")),
+        ).pipe(T.JsonName("extended_key_usage")),
+        locations: Schema.optional(
+          Schema.Struct({
+            paths: Schema.optional(Schema.Array(Schema.String)),
+            trustStores: Schema.optional(
+              Schema.Array(Schema.Literal("system", "user")),
+            ).pipe(T.JsonName("trust_stores")),
+          }),
+        ),
+        subjectAlternativeNames: Schema.optional(
+          Schema.Array(Schema.String),
+        ).pipe(T.JsonName("subject_alternative_names")),
+      }),
+      Schema.Struct({
+        updateWindowDays: Schema.optional(Schema.Number).pipe(
+          T.JsonName("update_window_days"),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        os: Schema.optional(Schema.String),
+        overall: Schema.optional(Schema.String),
+        sensorConfig: Schema.optional(Schema.String).pipe(
+          T.JsonName("sensor_config"),
+        ),
+        state: Schema.optional(Schema.Literal("online", "offline", "unknown")),
+        version: Schema.optional(Schema.String),
+        versionOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+          "notapplicable",
+          "ingraceperiod",
+          "error",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        countOperator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        issueCount: Schema.String.pipe(T.JsonName("issue_count")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        eidLastSeen: Schema.optional(Schema.String).pipe(
+          T.JsonName("eid_last_seen"),
+        ),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        riskLevel: Schema.optional(
+          Schema.Literal("low", "medium", "high", "critical"),
+        ).pipe(T.JsonName("risk_level")),
+        scoreOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+        totalScore: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_score"),
+        ),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        activeThreats: Schema.optional(Schema.Number).pipe(
+          T.JsonName("active_threats"),
+        ),
+        infected: Schema.optional(Schema.Boolean),
+        isActive: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_active")),
+        networkStatus: Schema.optional(
+          Schema.Literal(
+            "connected",
+            "disconnected",
+            "disconnecting",
+            "connecting",
+          ),
+        ).pipe(T.JsonName("network_status")),
+        operationalState: Schema.optional(
+          Schema.Literal(
+            "na",
+            "partially_disabled",
+            "auto_fully_disabled",
+            "fully_disabled",
+            "auto_partially_disabled",
+            "disabled_error",
+            "db_corruption",
+          ),
+        ).pipe(T.JsonName("operational_state")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        score: Schema.Number,
+      }),
+    ),
+  ),
+  match: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        platform: Schema.optional(
+          Schema.Literal(
+            "windows",
+            "mac",
+            "linux",
+            "android",
+            "ios",
+            "chromeos",
+          ),
+        ),
+      }),
+    ),
+  ),
+  name: Schema.optional(Schema.String),
+  schedule: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "file",
+      "application",
+      "tanium",
+      "gateway",
+      "warp",
+      "disk_encryption",
+      "serial_number",
+      "sentinelone",
+      "carbonblack",
+      "firewall",
+      "os_version",
+      "domain_joined",
+      "client_certificate",
+      "client_certificate_v2",
+      "antivirus",
+      "unique_client_id",
+      "kolide",
+      "tanium_s2s",
+      "crowdstrike_s2s",
+      "intune",
+      "workspace_one",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<CreateDevicePostureResponse>;
 
 export const createDevicePosture: (
   input: CreateDevicePostureRequest,
@@ -12025,10 +13062,381 @@ export const UpdateDevicePostureRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateDevicePostureRequest>;
 
-export type UpdateDevicePostureResponse = unknown;
+export interface UpdateDevicePostureResponse {
+  /** API UUID. */
+  id?: string;
+  /** The description of the device posture rule. */
+  description?: string;
+  /** Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client. */
+  expiration?: string;
+  /** The value to be checked against. */
+  input?:
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        exists?: boolean;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string; operatingSystem: "android" | "ios" | "chromeos" }
+    | { operatingSystem: "windows"; domain?: string }
+    | {
+        operatingSystem: "windows";
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        version: string;
+        osDistroName?: string;
+        osDistroRevision?: string;
+        osVersionExtra?: string;
+      }
+    | { enabled: boolean; operatingSystem: "windows" | "mac" }
+    | {
+        operatingSystem: "windows" | "linux" | "mac";
+        path: string;
+        sha256?: string;
+        thumbprint?: string;
+      }
+    | { id: string }
+    | { checkDisks?: string[]; requireAll?: boolean }
+    | { certificateId: string; cn: string }
+    | {
+        certificateId: string;
+        checkPrivateKey: boolean;
+        operatingSystem: "windows" | "linux" | "mac";
+        cn?: string;
+        extendedKeyUsage?: ("clientAuth" | "emailProtection")[];
+        locations?: { paths?: string[]; trustStores?: ("system" | "user")[] };
+        subjectAlternativeNames?: string[];
+      }
+    | { updateWindowDays?: number }
+    | {
+        complianceStatus: "compliant" | "noncompliant" | "unknown";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        lastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        os?: string;
+        overall?: string;
+        sensorConfig?: string;
+        state?: "online" | "offline" | "unknown";
+        version?: string;
+        versionOperator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        complianceStatus:
+          | "compliant"
+          | "noncompliant"
+          | "unknown"
+          | "notapplicable"
+          | "ingraceperiod"
+          | "error";
+        connectionId: string;
+      }
+    | {
+        connectionId: string;
+        countOperator: "<" | "<=" | ">" | ">=" | "==";
+        issueCount: string;
+      }
+    | {
+        connectionId: string;
+        eidLastSeen?: string;
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+        riskLevel?: "low" | "medium" | "high" | "critical";
+        scoreOperator?: "<" | "<=" | ">" | ">=" | "==";
+        totalScore?: number;
+      }
+    | {
+        connectionId: string;
+        activeThreats?: number;
+        infected?: boolean;
+        isActive?: boolean;
+        networkStatus?:
+          | "connected"
+          | "disconnected"
+          | "disconnecting"
+          | "connecting";
+        operationalState?:
+          | "na"
+          | "partially_disabled"
+          | "auto_fully_disabled"
+          | "fully_disabled"
+          | "auto_partially_disabled"
+          | "disabled_error"
+          | "db_corruption";
+        operator?: "<" | "<=" | ">" | ">=" | "==";
+      }
+    | {
+        connectionId: string;
+        operator: "<" | "<=" | ">" | ">=" | "==";
+        score: number;
+      };
+  /** The conditions that the client must match to run the rule. */
+  match?: {
+    platform?: "windows" | "mac" | "linux" | "android" | "ios" | "chromeos";
+  }[];
+  /** The name of the device posture rule. */
+  name?: string;
+  /** Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`. */
+  schedule?: string;
+  /** The type of device posture rule. */
+  type?:
+    | "file"
+    | "application"
+    | "tanium"
+    | "gateway"
+    | "warp"
+    | "disk_encryption"
+    | "serial_number"
+    | "sentinelone"
+    | "carbonblack"
+    | "firewall"
+    | "os_version"
+    | "domain_joined"
+    | "client_certificate"
+    | "client_certificate_v2"
+    | "antivirus"
+    | "unique_client_id"
+    | "kolide"
+    | "tanium_s2s"
+    | "crowdstrike_s2s"
+    | "intune"
+    | "workspace_one"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const UpdateDevicePostureResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateDevicePostureResponse>;
+export const UpdateDevicePostureResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.String),
+  expiration: Schema.optional(Schema.String),
+  input: Schema.optional(
+    Schema.Union(
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        exists: Schema.optional(Schema.Boolean),
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+        operatingSystem: Schema.Literal("android", "ios", "chromeos").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        domain: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows").pipe(
+          T.JsonName("operating_system"),
+        ),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        version: Schema.String,
+        osDistroName: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_name"),
+        ),
+        osDistroRevision: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_distro_revision"),
+        ),
+        osVersionExtra: Schema.optional(Schema.String).pipe(
+          T.JsonName("os_version_extra"),
+        ),
+      }),
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        operatingSystem: Schema.Literal("windows", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+      }),
+      Schema.Struct({
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        path: Schema.String,
+        sha256: Schema.optional(Schema.String),
+        thumbprint: Schema.optional(Schema.String),
+      }),
+      Schema.Struct({
+        id: Schema.String,
+      }),
+      Schema.Struct({
+        checkDisks: Schema.optional(Schema.Array(Schema.String)),
+        requireAll: Schema.optional(Schema.Boolean),
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        cn: Schema.String,
+      }),
+      Schema.Struct({
+        certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+        checkPrivateKey: Schema.Boolean.pipe(T.JsonName("check_private_key")),
+        operatingSystem: Schema.Literal("windows", "linux", "mac").pipe(
+          T.JsonName("operating_system"),
+        ),
+        cn: Schema.optional(Schema.String),
+        extendedKeyUsage: Schema.optional(
+          Schema.Array(Schema.Literal("clientAuth", "emailProtection")),
+        ).pipe(T.JsonName("extended_key_usage")),
+        locations: Schema.optional(
+          Schema.Struct({
+            paths: Schema.optional(Schema.Array(Schema.String)),
+            trustStores: Schema.optional(
+              Schema.Array(Schema.Literal("system", "user")),
+            ).pipe(T.JsonName("trust_stores")),
+          }),
+        ),
+        subjectAlternativeNames: Schema.optional(
+          Schema.Array(Schema.String),
+        ).pipe(T.JsonName("subject_alternative_names")),
+      }),
+      Schema.Struct({
+        updateWindowDays: Schema.optional(Schema.Number).pipe(
+          T.JsonName("update_window_days"),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        lastSeen: Schema.optional(Schema.String).pipe(T.JsonName("last_seen")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        os: Schema.optional(Schema.String),
+        overall: Schema.optional(Schema.String),
+        sensorConfig: Schema.optional(Schema.String).pipe(
+          T.JsonName("sensor_config"),
+        ),
+        state: Schema.optional(Schema.Literal("online", "offline", "unknown")),
+        version: Schema.optional(Schema.String),
+        versionOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+      }),
+      Schema.Struct({
+        complianceStatus: Schema.Literal(
+          "compliant",
+          "noncompliant",
+          "unknown",
+          "notapplicable",
+          "ingraceperiod",
+          "error",
+        ).pipe(T.JsonName("compliance_status")),
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        countOperator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        issueCount: Schema.String.pipe(T.JsonName("issue_count")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        eidLastSeen: Schema.optional(Schema.String).pipe(
+          T.JsonName("eid_last_seen"),
+        ),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+        riskLevel: Schema.optional(
+          Schema.Literal("low", "medium", "high", "critical"),
+        ).pipe(T.JsonName("risk_level")),
+        scoreOperator: Schema.optional(
+          Schema.Literal("<", "<=", ">", ">=", "=="),
+        ),
+        totalScore: Schema.optional(Schema.Number).pipe(
+          T.JsonName("total_score"),
+        ),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        activeThreats: Schema.optional(Schema.Number).pipe(
+          T.JsonName("active_threats"),
+        ),
+        infected: Schema.optional(Schema.Boolean),
+        isActive: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_active")),
+        networkStatus: Schema.optional(
+          Schema.Literal(
+            "connected",
+            "disconnected",
+            "disconnecting",
+            "connecting",
+          ),
+        ).pipe(T.JsonName("network_status")),
+        operationalState: Schema.optional(
+          Schema.Literal(
+            "na",
+            "partially_disabled",
+            "auto_fully_disabled",
+            "fully_disabled",
+            "auto_partially_disabled",
+            "disabled_error",
+            "db_corruption",
+          ),
+        ).pipe(T.JsonName("operational_state")),
+        operator: Schema.optional(Schema.Literal("<", "<=", ">", ">=", "==")),
+      }),
+      Schema.Struct({
+        connectionId: Schema.String.pipe(T.JsonName("connection_id")),
+        operator: Schema.Literal("<", "<=", ">", ">=", "=="),
+        score: Schema.Number,
+      }),
+    ),
+  ),
+  match: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        platform: Schema.optional(
+          Schema.Literal(
+            "windows",
+            "mac",
+            "linux",
+            "android",
+            "ios",
+            "chromeos",
+          ),
+        ),
+      }),
+    ),
+  ),
+  name: Schema.optional(Schema.String),
+  schedule: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "file",
+      "application",
+      "tanium",
+      "gateway",
+      "warp",
+      "disk_encryption",
+      "serial_number",
+      "sentinelone",
+      "carbonblack",
+      "firewall",
+      "os_version",
+      "domain_joined",
+      "client_certificate",
+      "client_certificate_v2",
+      "antivirus",
+      "unique_client_id",
+      "kolide",
+      "tanium_s2s",
+      "crowdstrike_s2s",
+      "intune",
+      "workspace_one",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<UpdateDevicePostureResponse>;
 
 export const updateDevicePosture: (
   input: UpdateDevicePostureRequest,
@@ -12057,10 +13465,14 @@ export const DeleteDevicePostureRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteDevicePostureRequest>;
 
-export type DeleteDevicePostureResponse = unknown;
+export interface DeleteDevicePostureResponse {
+  /** API UUID. */
+  id?: string;
+}
 
-export const DeleteDevicePostureResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteDevicePostureResponse>;
+export const DeleteDevicePostureResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<DeleteDevicePostureResponse>;
 
 export const deleteDevicePosture: (
   input: DeleteDevicePostureRequest,
@@ -12093,10 +13505,51 @@ export const GetDevicePostureIntegrationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDevicePostureIntegrationRequest>;
 
-export type GetDevicePostureIntegrationResponse = unknown;
+export interface GetDevicePostureIntegrationResponse {
+  /** API UUID. */
+  id?: string;
+  /** The configuration object containing third-party integration information. */
+  config?: { apiUrl: string; authUrl: string; clientId: string };
+  /** The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`). */
+  interval?: string;
+  /** The name of the device posture integration. */
+  name?: string;
+  /** The type of device posture integration. */
+  type?:
+    | "workspace_one"
+    | "crowdstrike_s2s"
+    | "uptycs"
+    | "intune"
+    | "kolide"
+    | "tanium_s2s"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const GetDevicePostureIntegrationResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDevicePostureIntegrationResponse>;
+export const GetDevicePostureIntegrationResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  config: Schema.optional(
+    Schema.Struct({
+      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
+      authUrl: Schema.String.pipe(T.JsonName("auth_url")),
+      clientId: Schema.String.pipe(T.JsonName("client_id")),
+    }),
+  ),
+  interval: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "workspace_one",
+      "crowdstrike_s2s",
+      "uptycs",
+      "intune",
+      "kolide",
+      "tanium_s2s",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<GetDevicePostureIntegrationResponse>;
 
 export const getDevicePostureIntegration: (
   input: GetDevicePostureIntegrationRequest,
@@ -12230,10 +13683,51 @@ export const CreateDevicePostureIntegrationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDevicePostureIntegrationRequest>;
 
-export type CreateDevicePostureIntegrationResponse = unknown;
+export interface CreateDevicePostureIntegrationResponse {
+  /** API UUID. */
+  id?: string;
+  /** The configuration object containing third-party integration information. */
+  config?: { apiUrl: string; authUrl: string; clientId: string };
+  /** The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`). */
+  interval?: string;
+  /** The name of the device posture integration. */
+  name?: string;
+  /** The type of device posture integration. */
+  type?:
+    | "workspace_one"
+    | "crowdstrike_s2s"
+    | "uptycs"
+    | "intune"
+    | "kolide"
+    | "tanium_s2s"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const CreateDevicePostureIntegrationResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDevicePostureIntegrationResponse>;
+export const CreateDevicePostureIntegrationResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  config: Schema.optional(
+    Schema.Struct({
+      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
+      authUrl: Schema.String.pipe(T.JsonName("auth_url")),
+      clientId: Schema.String.pipe(T.JsonName("client_id")),
+    }),
+  ),
+  interval: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "workspace_one",
+      "crowdstrike_s2s",
+      "uptycs",
+      "intune",
+      "kolide",
+      "tanium_s2s",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<CreateDevicePostureIntegrationResponse>;
 
 export const createDevicePostureIntegration: (
   input: CreateDevicePostureIntegrationRequest,
@@ -12373,10 +13867,51 @@ export const PatchDevicePostureIntegrationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchDevicePostureIntegrationRequest>;
 
-export type PatchDevicePostureIntegrationResponse = unknown;
+export interface PatchDevicePostureIntegrationResponse {
+  /** API UUID. */
+  id?: string;
+  /** The configuration object containing third-party integration information. */
+  config?: { apiUrl: string; authUrl: string; clientId: string };
+  /** The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`). */
+  interval?: string;
+  /** The name of the device posture integration. */
+  name?: string;
+  /** The type of device posture integration. */
+  type?:
+    | "workspace_one"
+    | "crowdstrike_s2s"
+    | "uptycs"
+    | "intune"
+    | "kolide"
+    | "tanium_s2s"
+    | "sentinelone_s2s"
+    | "custom_s2s";
+}
 
-export const PatchDevicePostureIntegrationResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchDevicePostureIntegrationResponse>;
+export const PatchDevicePostureIntegrationResponse = Schema.Struct({
+  id: Schema.optional(Schema.String),
+  config: Schema.optional(
+    Schema.Struct({
+      apiUrl: Schema.String.pipe(T.JsonName("api_url")),
+      authUrl: Schema.String.pipe(T.JsonName("auth_url")),
+      clientId: Schema.String.pipe(T.JsonName("client_id")),
+    }),
+  ),
+  interval: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(
+    Schema.Literal(
+      "workspace_one",
+      "crowdstrike_s2s",
+      "uptycs",
+      "intune",
+      "kolide",
+      "tanium_s2s",
+      "sentinelone_s2s",
+      "custom_s2s",
+    ),
+  ),
+}) as unknown as Schema.Schema<PatchDevicePostureIntegrationResponse>;
 
 export const patchDevicePostureIntegration: (
   input: PatchDevicePostureIntegrationRequest,
@@ -12405,10 +13940,10 @@ export const DeleteDevicePostureIntegrationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteDevicePostureIntegrationRequest>;
 
-export type DeleteDevicePostureIntegrationResponse = unknown;
+export type DeleteDevicePostureIntegrationResponse = string;
 
 export const DeleteDevicePostureIntegrationResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteDevicePostureIntegrationResponse>;
+  Schema.String as unknown as Schema.Schema<DeleteDevicePostureIntegrationResponse>;
 
 export const deleteDevicePostureIntegration: (
   input: DeleteDevicePostureIntegrationRequest,
@@ -12683,10 +14218,17 @@ export const GetDeviceResilienceGlobalWarpOverrideRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDeviceResilienceGlobalWarpOverrideRequest>;
 
-export type GetDeviceResilienceGlobalWarpOverrideResponse = unknown;
+export interface GetDeviceResilienceGlobalWarpOverrideResponse {
+  /** Disconnects all devices on the account using Global WARP override. */
+  disconnect?: boolean;
+  /** When the Global WARP override state was updated. */
+  timestamp?: string;
+}
 
-export const GetDeviceResilienceGlobalWarpOverrideResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDeviceResilienceGlobalWarpOverrideResponse>;
+export const GetDeviceResilienceGlobalWarpOverrideResponse = Schema.Struct({
+  disconnect: Schema.optional(Schema.Boolean),
+  timestamp: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<GetDeviceResilienceGlobalWarpOverrideResponse>;
 
 export const getDeviceResilienceGlobalWarpOverride: (
   input: GetDeviceResilienceGlobalWarpOverrideRequest,
@@ -12720,10 +14262,17 @@ export const CreateDeviceResilienceGlobalWarpOverrideRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateDeviceResilienceGlobalWarpOverrideRequest>;
 
-export type CreateDeviceResilienceGlobalWarpOverrideResponse = unknown;
+export interface CreateDeviceResilienceGlobalWarpOverrideResponse {
+  /** Disconnects all devices on the account using Global WARP override. */
+  disconnect?: boolean;
+  /** When the Global WARP override state was updated. */
+  timestamp?: string;
+}
 
-export const CreateDeviceResilienceGlobalWarpOverrideResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDeviceResilienceGlobalWarpOverrideResponse>;
+export const CreateDeviceResilienceGlobalWarpOverrideResponse = Schema.Struct({
+  disconnect: Schema.optional(Schema.Boolean),
+  timestamp: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateDeviceResilienceGlobalWarpOverrideResponse>;
 
 export const createDeviceResilienceGlobalWarpOverride: (
   input: CreateDeviceResilienceGlobalWarpOverrideRequest,
@@ -12755,10 +14304,10 @@ export const CreateDeviceRevokeRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/revoke" }),
 ) as unknown as Schema.Schema<CreateDeviceRevokeRequest>;
 
-export type CreateDeviceRevokeResponse = unknown;
+export type CreateDeviceRevokeResponse = string;
 
 export const CreateDeviceRevokeResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDeviceRevokeResponse>;
+  Schema.String as unknown as Schema.Schema<CreateDeviceRevokeResponse>;
 
 export const createDeviceRevoke: (
   input: CreateDeviceRevokeRequest,
@@ -12786,10 +14335,56 @@ export const GetDeviceSettingRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<GetDeviceSettingRequest>;
 
-export type GetDeviceSettingResponse = unknown;
+export interface GetDeviceSettingResponse {
+  /** Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
+  disableForTime?: number;
+  /** Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identi */
+  externalEmergencySignalFingerprint?: string;
+  /** The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
+  /** Enable gateway proxy filtering on TCP. */
+  gatewayProxyEnabled?: boolean;
+  /** Enable gateway proxy filtering on UDP. */
+  gatewayUdpProxyEnabled?: boolean;
+  /** Enable installation of cloudflare managed root certificate. */
+  rootCertificateInstallationEnabled?: boolean;
+  /** Enable using CGNAT virtual IPv4. */
+  useZtVirtualIp?: boolean;
+}
 
-export const GetDeviceSettingResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDeviceSettingResponse>;
+export const GetDeviceSettingResponse = Schema.Struct({
+  disableForTime: Schema.optional(Schema.Number).pipe(
+    T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
+  ),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_proxy_enabled"),
+  ),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_udp_proxy_enabled"),
+  ),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("root_certificate_installation_enabled"),
+  ),
+  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_zt_virtual_ip"),
+  ),
+}) as unknown as Schema.Schema<GetDeviceSettingResponse>;
 
 export const getDeviceSetting: (
   input: GetDeviceSettingRequest,
@@ -12859,10 +14454,56 @@ export const PutDeviceSettingRequest = Schema.Struct({
   T.Http({ method: "PUT", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<PutDeviceSettingRequest>;
 
-export type PutDeviceSettingResponse = unknown;
+export interface PutDeviceSettingResponse {
+  /** Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
+  disableForTime?: number;
+  /** Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identi */
+  externalEmergencySignalFingerprint?: string;
+  /** The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
+  /** Enable gateway proxy filtering on TCP. */
+  gatewayProxyEnabled?: boolean;
+  /** Enable gateway proxy filtering on UDP. */
+  gatewayUdpProxyEnabled?: boolean;
+  /** Enable installation of cloudflare managed root certificate. */
+  rootCertificateInstallationEnabled?: boolean;
+  /** Enable using CGNAT virtual IPv4. */
+  useZtVirtualIp?: boolean;
+}
 
-export const PutDeviceSettingResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutDeviceSettingResponse>;
+export const PutDeviceSettingResponse = Schema.Struct({
+  disableForTime: Schema.optional(Schema.Number).pipe(
+    T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
+  ),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_proxy_enabled"),
+  ),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_udp_proxy_enabled"),
+  ),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("root_certificate_installation_enabled"),
+  ),
+  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_zt_virtual_ip"),
+  ),
+}) as unknown as Schema.Schema<PutDeviceSettingResponse>;
 
 export const putDeviceSetting: (
   input: PutDeviceSettingRequest,
@@ -12932,10 +14573,56 @@ export const PatchDeviceSettingRequest = Schema.Struct({
   T.Http({ method: "PATCH", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<PatchDeviceSettingRequest>;
 
-export type PatchDeviceSettingResponse = unknown;
+export interface PatchDeviceSettingResponse {
+  /** Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
+  disableForTime?: number;
+  /** Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identi */
+  externalEmergencySignalFingerprint?: string;
+  /** The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
+  /** Enable gateway proxy filtering on TCP. */
+  gatewayProxyEnabled?: boolean;
+  /** Enable gateway proxy filtering on UDP. */
+  gatewayUdpProxyEnabled?: boolean;
+  /** Enable installation of cloudflare managed root certificate. */
+  rootCertificateInstallationEnabled?: boolean;
+  /** Enable using CGNAT virtual IPv4. */
+  useZtVirtualIp?: boolean;
+}
 
-export const PatchDeviceSettingResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchDeviceSettingResponse>;
+export const PatchDeviceSettingResponse = Schema.Struct({
+  disableForTime: Schema.optional(Schema.Number).pipe(
+    T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
+  ),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_proxy_enabled"),
+  ),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_udp_proxy_enabled"),
+  ),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("root_certificate_installation_enabled"),
+  ),
+  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_zt_virtual_ip"),
+  ),
+}) as unknown as Schema.Schema<PatchDeviceSettingResponse>;
 
 export const patchDeviceSetting: (
   input: PatchDeviceSettingRequest,
@@ -12959,10 +14646,56 @@ export const DeleteDeviceSettingRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/accounts/{account_id}/devices/settings" }),
 ) as unknown as Schema.Schema<DeleteDeviceSettingRequest>;
 
-export type DeleteDeviceSettingResponse = unknown;
+export interface DeleteDeviceSettingResponse {
+  /** Sets the time limit, in seconds, that a user can use an override code to bypass WARP. */
+  disableForTime?: number;
+  /** Controls whether the external emergency disconnect feature is enabled. */
+  externalEmergencySignalEnabled?: boolean;
+  /** The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identi */
+  externalEmergencySignalFingerprint?: string;
+  /** The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds. */
+  externalEmergencySignalInterval?: string;
+  /** The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host. */
+  externalEmergencySignalUrl?: string;
+  /** Enable gateway proxy filtering on TCP. */
+  gatewayProxyEnabled?: boolean;
+  /** Enable gateway proxy filtering on UDP. */
+  gatewayUdpProxyEnabled?: boolean;
+  /** Enable installation of cloudflare managed root certificate. */
+  rootCertificateInstallationEnabled?: boolean;
+  /** Enable using CGNAT virtual IPv4. */
+  useZtVirtualIp?: boolean;
+}
 
-export const DeleteDeviceSettingResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteDeviceSettingResponse>;
+export const DeleteDeviceSettingResponse = Schema.Struct({
+  disableForTime: Schema.optional(Schema.Number).pipe(
+    T.JsonName("disable_for_time"),
+  ),
+  externalEmergencySignalEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("external_emergency_signal_enabled"),
+  ),
+  externalEmergencySignalFingerprint: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_fingerprint"),
+  ),
+  externalEmergencySignalInterval: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_interval"),
+  ),
+  externalEmergencySignalUrl: Schema.optional(Schema.String).pipe(
+    T.JsonName("external_emergency_signal_url"),
+  ),
+  gatewayProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_proxy_enabled"),
+  ),
+  gatewayUdpProxyEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("gateway_udp_proxy_enabled"),
+  ),
+  rootCertificateInstallationEnabled: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("root_certificate_installation_enabled"),
+  ),
+  useZtVirtualIp: Schema.optional(Schema.Boolean).pipe(
+    T.JsonName("use_zt_virtual_ip"),
+  ),
+}) as unknown as Schema.Schema<DeleteDeviceSettingResponse>;
 
 export const deleteDeviceSetting: (
   input: DeleteDeviceSettingRequest,
@@ -12994,10 +14727,10 @@ export const CreateDeviceUnrevokeRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/devices/unrevoke" }),
 ) as unknown as Schema.Schema<CreateDeviceUnrevokeRequest>;
 
-export type CreateDeviceUnrevokeResponse = unknown;
+export type CreateDeviceUnrevokeResponse = string;
 
 export const CreateDeviceUnrevokeResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDeviceUnrevokeResponse>;
+  Schema.String as unknown as Schema.Schema<CreateDeviceUnrevokeResponse>;
 
 export const createDeviceUnrevoke: (
   input: CreateDeviceUnrevokeRequest,

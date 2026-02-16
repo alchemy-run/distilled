@@ -1762,10 +1762,14 @@ export const DeletePageRuleRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/pagerules/{pageruleId}" }),
 ) as unknown as Schema.Schema<DeletePageRuleRequest>;
 
-export type DeletePageRuleResponse = unknown;
+export interface DeletePageRuleResponse {
+  /** Identifier. */
+  id: string;
+}
 
-export const DeletePageRuleResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeletePageRuleResponse>;
+export const DeletePageRuleResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeletePageRuleResponse>;
 
 export const deletePageRule: (
   input: DeletePageRuleRequest,

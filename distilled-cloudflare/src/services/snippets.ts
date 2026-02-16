@@ -157,10 +157,12 @@ export const DeleteSnippetRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/snippets/{snippetName}" }),
 ) as unknown as Schema.Schema<DeleteSnippetRequest>;
 
-export type DeleteSnippetResponse = unknown;
+export type DeleteSnippetResponse = string | null;
 
-export const DeleteSnippetResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteSnippetResponse>;
+export const DeleteSnippetResponse = Schema.Union(
+  Schema.String,
+  Schema.Null,
+) as unknown as Schema.Schema<DeleteSnippetResponse>;
 
 export const deleteSnippet: (
   input: DeleteSnippetRequest,

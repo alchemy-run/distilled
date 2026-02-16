@@ -667,10 +667,14 @@ export const DeleteAppRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/spectrum/apps/{appId}" }),
 ) as unknown as Schema.Schema<DeleteAppRequest>;
 
-export type DeleteAppResponse = unknown;
+export interface DeleteAppResponse {
+  /** Identifier. */
+  id: string;
+}
 
-export const DeleteAppResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAppResponse>;
+export const DeleteAppResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteAppResponse>;
 
 export const deleteApp: (
   input: DeleteAppRequest,

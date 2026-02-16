@@ -174,10 +174,13 @@ export const BulkDeleteFiltersRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters" }),
 ) as unknown as Schema.Schema<BulkDeleteFiltersRequest>;
 
-export type BulkDeleteFiltersResponse = unknown;
+export type BulkDeleteFiltersResponse = { id?: string }[];
 
-export const BulkDeleteFiltersResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
+export const BulkDeleteFiltersResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
 
 export const bulkDeleteFilters: (
   input: BulkDeleteFiltersRequest,

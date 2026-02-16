@@ -714,10 +714,100 @@ export const GetDomainBulkRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/domain/bulk" }),
 ) as unknown as Schema.Schema<GetDomainBulkRequest>;
 
-export type GetDomainBulkResponse = unknown;
+export type GetDomainBulkResponse = {
+  additionalInformation?: { suspectedMalwareFamily?: string };
+  application?: { id?: number; name?: string };
+  contentCategories?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
+  domain?: string;
+  inheritedContentCategories?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
+  inheritedFrom?: string;
+  inheritedRiskTypes?: {
+    id?: number;
+    name?: string;
+    superCategoryId?: number;
+  }[];
+  popularityRank?: number;
+  riskScore?: number;
+  riskTypes?: { id?: number; name?: string; superCategoryId?: number }[];
+}[];
 
-export const GetDomainBulkResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDomainBulkResponse>;
+export const GetDomainBulkResponse = Schema.Array(
+  Schema.Struct({
+    additionalInformation: Schema.optional(
+      Schema.Struct({
+        suspectedMalwareFamily: Schema.optional(Schema.String).pipe(
+          T.JsonName("suspected_malware_family"),
+        ),
+      }),
+    ).pipe(T.JsonName("additional_information")),
+    application: Schema.optional(
+      Schema.Struct({
+        id: Schema.optional(Schema.Number),
+        name: Schema.optional(Schema.String),
+      }),
+    ),
+    contentCategories: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Number),
+          name: Schema.optional(Schema.String),
+          superCategoryId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("super_category_id"),
+          ),
+        }),
+      ),
+    ).pipe(T.JsonName("content_categories")),
+    domain: Schema.optional(Schema.String),
+    inheritedContentCategories: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Number),
+          name: Schema.optional(Schema.String),
+          superCategoryId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("super_category_id"),
+          ),
+        }),
+      ),
+    ).pipe(T.JsonName("inherited_content_categories")),
+    inheritedFrom: Schema.optional(Schema.String).pipe(
+      T.JsonName("inherited_from"),
+    ),
+    inheritedRiskTypes: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Number),
+          name: Schema.optional(Schema.String),
+          superCategoryId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("super_category_id"),
+          ),
+        }),
+      ),
+    ).pipe(T.JsonName("inherited_risk_types")),
+    popularityRank: Schema.optional(Schema.Number).pipe(
+      T.JsonName("popularity_rank"),
+    ),
+    riskScore: Schema.optional(Schema.Number).pipe(T.JsonName("risk_score")),
+    riskTypes: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Number),
+          name: Schema.optional(Schema.String),
+          superCategoryId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("super_category_id"),
+          ),
+        }),
+      ),
+    ).pipe(T.JsonName("risk_types")),
+  }),
+) as unknown as Schema.Schema<GetDomainBulkResponse>;
 
 export const getDomainBulk: (
   input: GetDomainBulkRequest,
@@ -752,10 +842,36 @@ export const GetDomainHistoryRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDomainHistoryRequest>;
 
-export type GetDomainHistoryResponse = unknown;
+export type GetDomainHistoryResponse = {
+  categorizations?: {
+    categories?: { id?: number; name?: string }[];
+    end?: string;
+    start?: string;
+  }[];
+  domain?: string;
+}[];
 
-export const GetDomainHistoryResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDomainHistoryResponse>;
+export const GetDomainHistoryResponse = Schema.Array(
+  Schema.Struct({
+    categorizations: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          categories: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.optional(Schema.Number),
+                name: Schema.optional(Schema.String),
+              }),
+            ),
+          ),
+          end: Schema.optional(Schema.String),
+          start: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    domain: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<GetDomainHistoryResponse>;
 
 export const getDomainHistory: (
   input: GetDomainHistoryRequest,
@@ -1248,10 +1364,45 @@ export const GetIpRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/ip" }),
 ) as unknown as Schema.Schema<GetIpRequest>;
 
-export type GetIpResponse = unknown;
+export type GetIpResponse = {
+  belongsToRef?: {
+    id?: string;
+    country?: string;
+    description?: string;
+    type?: "hosting_provider" | "isp" | "organization";
+    value?: string;
+  };
+  ip?: string;
+  riskTypes?: { id?: number; name?: string; superCategoryId?: number }[];
+}[];
 
-export const GetIpResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetIpResponse>;
+export const GetIpResponse = Schema.Array(
+  Schema.Struct({
+    belongsToRef: Schema.optional(
+      Schema.Struct({
+        id: Schema.optional(Schema.String),
+        country: Schema.optional(Schema.String),
+        description: Schema.optional(Schema.String),
+        type: Schema.optional(
+          Schema.Literal("hosting_provider", "isp", "organization"),
+        ),
+        value: Schema.optional(Schema.String),
+      }),
+    ).pipe(T.JsonName("belongs_to_ref")),
+    ip: Schema.optional(Schema.String),
+    riskTypes: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Number),
+          name: Schema.optional(Schema.String),
+          superCategoryId: Schema.optional(Schema.Number).pipe(
+            T.JsonName("super_category_id"),
+          ),
+        }),
+      ),
+    ).pipe(T.JsonName("risk_types")),
+  }),
+) as unknown as Schema.Schema<GetIpResponse>;
 
 export const getIp: (
   input: GetIpRequest,

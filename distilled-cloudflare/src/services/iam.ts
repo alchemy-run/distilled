@@ -296,10 +296,14 @@ export const DeleteResourceGroupRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteResourceGroupRequest>;
 
-export type DeleteResourceGroupResponse = unknown;
+export interface DeleteResourceGroupResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteResourceGroupResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteResourceGroupResponse>;
+export const DeleteResourceGroupResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
 
 export const deleteResourceGroup: (
   input: DeleteResourceGroupRequest,
@@ -541,10 +545,14 @@ export const DeleteSsoRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSsoRequest>;
 
-export type DeleteSsoResponse = unknown;
+export interface DeleteSsoResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteSsoResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteSsoResponse>;
+export const DeleteSsoResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteSsoResponse>;
 
 export const deleteSso: (
   input: DeleteSsoRequest,
@@ -850,10 +858,14 @@ export const DeleteUserGroupRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteUserGroupRequest>;
 
-export type DeleteUserGroupResponse = unknown;
+export interface DeleteUserGroupResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteUserGroupResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteUserGroupResponse>;
+export const DeleteUserGroupResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteUserGroupResponse>;
 
 export const deleteUserGroup: (
   input: DeleteUserGroupRequest,

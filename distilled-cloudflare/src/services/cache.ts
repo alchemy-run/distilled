@@ -28,10 +28,13 @@ export const PurgeCacheRequest = Schema.Struct({}).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/purge_cache" }),
 ) as unknown as Schema.Schema<PurgeCacheRequest>;
 
-export type PurgeCacheResponse = unknown;
+export interface PurgeCacheResponse {
+  id: string;
+}
 
-export const PurgeCacheResponse =
-  Schema.Unknown as unknown as Schema.Schema<PurgeCacheResponse>;
+export const PurgeCacheResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<PurgeCacheResponse>;
 
 export const purgeCache: (
   input: PurgeCacheRequest,

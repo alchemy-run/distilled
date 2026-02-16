@@ -233,10 +233,11 @@ export const DeleteNamespaceRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteNamespaceRequest>;
 
-export type DeleteNamespaceResponse = unknown;
+export interface DeleteNamespaceResponse {}
 
-export const DeleteNamespaceResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteNamespaceResponse>;
+export const DeleteNamespaceResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<DeleteNamespaceResponse>;
 
 export const deleteNamespace: (
   input: DeleteNamespaceRequest,
@@ -275,10 +276,11 @@ export const BulkGetNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespacesRequest>;
 
-export type BulkGetNamespacesResponse = unknown;
+export type BulkGetNamespacesResponse = { values?: Record<string, unknown> };
 
-export const BulkGetNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkGetNamespacesResponse>;
+export const BulkGetNamespacesResponse = Schema.Struct({
+  values: Schema.optional(Schema.Struct({})),
+}) as unknown as Schema.Schema<BulkGetNamespacesResponse>;
 
 export const bulkGetNamespaces: (
   input: BulkGetNamespacesRequest,
@@ -320,10 +322,21 @@ export const BulkDeleteNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkDeleteNamespacesRequest>;
 
-export type BulkDeleteNamespacesResponse = unknown;
+export interface BulkDeleteNamespacesResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkDeleteNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
+export const BulkDeleteNamespacesResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkDeleteNamespacesResponse>;
 
 export const bulkDeleteNamespaces: (
   input: BulkDeleteNamespacesRequest,
@@ -369,10 +382,11 @@ export const BulkGetNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespaceKeysRequest>;
 
-export type BulkGetNamespaceKeysResponse = unknown;
+export type BulkGetNamespaceKeysResponse = { values?: Record<string, unknown> };
 
-export const BulkGetNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkGetNamespaceKeysResponse>;
+export const BulkGetNamespaceKeysResponse = Schema.Struct({
+  values: Schema.optional(Schema.Struct({})),
+}) as unknown as Schema.Schema<BulkGetNamespaceKeysResponse>;
 
 export const bulkGetNamespaceKeys: (
   input: BulkGetNamespaceKeysRequest,
@@ -408,10 +422,21 @@ export const BulkDeleteNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkDeleteNamespaceKeysRequest>;
 
-export type BulkDeleteNamespaceKeysResponse = unknown;
+export interface BulkDeleteNamespaceKeysResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkDeleteNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
+export const BulkDeleteNamespaceKeysResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkDeleteNamespaceKeysResponse>;
 
 export const bulkDeleteNamespaceKeys: (
   input: BulkDeleteNamespaceKeysRequest,
@@ -538,10 +563,11 @@ export const PutNamespaceValueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutNamespaceValueRequest>;
 
-export type PutNamespaceValueResponse = unknown;
+export interface PutNamespaceValueResponse {}
 
-export const PutNamespaceValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutNamespaceValueResponse>;
+export const PutNamespaceValueResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<PutNamespaceValueResponse>;
 
 export const putNamespaceValue: (
   input: PutNamespaceValueRequest,
@@ -576,10 +602,11 @@ export const DeleteNamespaceValueRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteNamespaceValueRequest>;
 
-export type DeleteNamespaceValueResponse = unknown;
+export interface DeleteNamespaceValueResponse {}
 
-export const DeleteNamespaceValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteNamespaceValueResponse>;
+export const DeleteNamespaceValueResponse = Schema.Struct(
+  {},
+) as unknown as Schema.Schema<DeleteNamespaceValueResponse>;
 
 export const deleteNamespaceValue: (
   input: DeleteNamespaceValueRequest,
@@ -634,10 +661,21 @@ export const BulkPutNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkPutNamespacesRequest>;
 
-export type BulkPutNamespacesResponse = unknown;
+export interface BulkPutNamespacesResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkPutNamespacesResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkPutNamespacesResponse>;
+export const BulkPutNamespacesResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkPutNamespacesResponse>;
 
 export const bulkPutNamespaces: (
   input: BulkPutNamespacesRequest,
@@ -695,10 +733,21 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkPutNamespaceKeysRequest>;
 
-export type BulkPutNamespaceKeysResponse = unknown;
+export interface BulkPutNamespaceKeysResponse {
+  /** Number of keys successfully updated. */
+  successfulKeyCount?: number;
+  /** Name of the keys that failed to be fully updated. They should be retried. */
+  unsuccessfulKeys?: string[];
+}
 
-export const BulkPutNamespaceKeysResponse =
-  Schema.Unknown as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
+export const BulkPutNamespaceKeysResponse = Schema.Struct({
+  successfulKeyCount: Schema.optional(Schema.Number).pipe(
+    T.JsonName("successful_key_count"),
+  ),
+  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("unsuccessful_keys"),
+  ),
+}) as unknown as Schema.Schema<BulkPutNamespaceKeysResponse>;
 
 export const bulkPutNamespaceKeys: (
   input: BulkPutNamespaceKeysRequest,

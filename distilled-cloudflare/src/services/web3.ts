@@ -231,10 +231,14 @@ export const DeleteHostnameRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteHostnameRequest>;
 
-export type DeleteHostnameResponse = unknown;
+export interface DeleteHostnameResponse {
+  /** Specify the identifier of the hostname. */
+  id: string;
+}
 
-export const DeleteHostnameResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteHostnameResponse>;
+export const DeleteHostnameResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteHostnameResponse>;
 
 export const deleteHostname: (
   input: DeleteHostnameRequest,
@@ -419,10 +423,37 @@ export const ListHostnameIpfsUniversalPathContentListEntriesRequest =
     }),
   ) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesRequest>;
 
-export type ListHostnameIpfsUniversalPathContentListEntriesResponse = unknown;
+export interface ListHostnameIpfsUniversalPathContentListEntriesResponse {
+  /** Provides content list entries. */
+  entries?: {
+    id?: string;
+    content?: string;
+    createdOn?: string;
+    description?: string;
+    modifiedOn?: string;
+    type?: "cid" | "content_path";
+  }[];
+}
 
 export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
+  Schema.Struct({
+    entries: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          content: Schema.optional(Schema.String),
+          createdOn: Schema.optional(Schema.String).pipe(
+            T.JsonName("created_on"),
+          ),
+          description: Schema.optional(Schema.String),
+          modifiedOn: Schema.optional(Schema.String).pipe(
+            T.JsonName("modified_on"),
+          ),
+          type: Schema.optional(Schema.Literal("cid", "content_path")),
+        }),
+      ),
+    ),
+  }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
 export const listHostnameIpfsUniversalPathContentListEntries: (
   input: ListHostnameIpfsUniversalPathContentListEntriesRequest,
@@ -583,10 +614,15 @@ export const DeleteHostnameIpfsUniversalPathContentListEntryRequest =
     }),
   ) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryRequest>;
 
-export type DeleteHostnameIpfsUniversalPathContentListEntryResponse = unknown;
+export interface DeleteHostnameIpfsUniversalPathContentListEntryResponse {
+  /** Specify the identifier of the hostname. */
+  id: string;
+}
 
 export const DeleteHostnameIpfsUniversalPathContentListEntryResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
+  Schema.Struct({
+    id: Schema.String,
+  }) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export const deleteHostnameIpfsUniversalPathContentListEntry: (
   input: DeleteHostnameIpfsUniversalPathContentListEntryRequest,

@@ -47,10 +47,28 @@ export const CreateAppRequest = Schema.Struct({
   T.Http({ method: "POST", path: "/accounts/{account_id}/magic/apps" }),
 ) as unknown as Schema.Schema<CreateAppRequest>;
 
-export type CreateAppResponse = unknown;
+export interface CreateAppResponse {
+  /** Magic account app ID. */
+  accountAppId: string;
+  /** FQDNs to associate with traffic decisions. */
+  hostnames?: string[];
+  /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
+  ipSubnets?: string[];
+  /** Display name for the app. */
+  name?: string;
+  /** Category of the app. */
+  type?: string;
+}
 
-export const CreateAppResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateAppResponse>;
+export const CreateAppResponse = Schema.Struct({
+  accountAppId: Schema.String.pipe(T.JsonName("account_app_id")),
+  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  ipSubnets: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("ip_subnets"),
+  ),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<CreateAppResponse>;
 
 export const createApp: (
   input: CreateAppRequest,
@@ -94,10 +112,28 @@ export const UpdateAppRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateAppRequest>;
 
-export type UpdateAppResponse = unknown;
+export interface UpdateAppResponse {
+  /** Magic account app ID. */
+  accountAppId: string;
+  /** FQDNs to associate with traffic decisions. */
+  hostnames?: string[];
+  /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
+  ipSubnets?: string[];
+  /** Display name for the app. */
+  name?: string;
+  /** Category of the app. */
+  type?: string;
+}
 
-export const UpdateAppResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateAppResponse>;
+export const UpdateAppResponse = Schema.Struct({
+  accountAppId: Schema.String.pipe(T.JsonName("account_app_id")),
+  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  ipSubnets: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("ip_subnets"),
+  ),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<UpdateAppResponse>;
 
 export const updateApp: (
   input: UpdateAppRequest,
@@ -141,10 +177,28 @@ export const PatchAppRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchAppRequest>;
 
-export type PatchAppResponse = unknown;
+export interface PatchAppResponse {
+  /** Magic account app ID. */
+  accountAppId: string;
+  /** FQDNs to associate with traffic decisions. */
+  hostnames?: string[];
+  /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
+  ipSubnets?: string[];
+  /** Display name for the app. */
+  name?: string;
+  /** Category of the app. */
+  type?: string;
+}
 
-export const PatchAppResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchAppResponse>;
+export const PatchAppResponse = Schema.Struct({
+  accountAppId: Schema.String.pipe(T.JsonName("account_app_id")),
+  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  ipSubnets: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("ip_subnets"),
+  ),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<PatchAppResponse>;
 
 export const patchApp: (
   input: PatchAppRequest,
@@ -174,10 +228,28 @@ export const DeleteAppRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAppRequest>;
 
-export type DeleteAppResponse = unknown;
+export interface DeleteAppResponse {
+  /** Magic account app ID. */
+  accountAppId: string;
+  /** FQDNs to associate with traffic decisions. */
+  hostnames?: string[];
+  /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
+  ipSubnets?: string[];
+  /** Display name for the app. */
+  name?: string;
+  /** Category of the app. */
+  type?: string;
+}
 
-export const DeleteAppResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAppResponse>;
+export const DeleteAppResponse = Schema.Struct({
+  accountAppId: Schema.String.pipe(T.JsonName("account_app_id")),
+  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  ipSubnets: Schema.optional(Schema.Array(Schema.String)).pipe(
+    T.JsonName("ip_subnets"),
+  ),
+  name: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+}) as unknown as Schema.Schema<DeleteAppResponse>;
 
 export const deleteApp: (
   input: DeleteAppRequest,

@@ -473,10 +473,14 @@ export const DeleteAccessRuleRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteAccessRuleRequest>;
 
-export type DeleteAccessRuleResponse = unknown;
+export interface DeleteAccessRuleResponse {
+  /** Defines an identifier. */
+  id: string;
+}
 
-export const DeleteAccessRuleResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAccessRuleResponse>;
+export const DeleteAccessRuleResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
 
 export const deleteAccessRule: (
   input: DeleteAccessRuleRequest,

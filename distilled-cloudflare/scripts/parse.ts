@@ -803,6 +803,21 @@ function parseMethod(
       const innerType = returnType.typeArguments[0];
       if (ts.isTypeReferenceNode(innerType)) {
         responseTypeName = innerType.typeName.getText();
+      } else if (ts.isUnionTypeNode(innerType)) {
+        // Handle Core.APIPromise<T | null> — extract the non-null type reference
+        const nonNullTypes = innerType.types.filter(
+          (t) =>
+            !(
+              ts.isLiteralTypeNode(t) &&
+              t.literal.kind === ts.SyntaxKind.NullKeyword
+            ),
+        );
+        if (
+          nonNullTypes.length === 1 &&
+          ts.isTypeReferenceNode(nonNullTypes[0])
+        ) {
+          responseTypeName = nonNullTypes[0].typeName.getText();
+        }
       }
     }
   }

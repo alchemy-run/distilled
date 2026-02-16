@@ -258,10 +258,14 @@ export const DeleteAccountRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/accounts/{account_id}" }),
 ) as unknown as Schema.Schema<DeleteAccountRequest>;
 
-export type DeleteAccountResponse = unknown;
+export interface DeleteAccountResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteAccountResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteAccountResponse>;
+export const DeleteAccountResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteAccountResponse>;
 
 export const deleteAccount: (
   input: DeleteAccountRequest,
@@ -375,10 +379,14 @@ export const DeleteMemberRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteMemberRequest>;
 
-export type DeleteMemberResponse = unknown;
+export interface DeleteMemberResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteMemberResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteMemberResponse>;
+export const DeleteMemberResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteMemberResponse>;
 
 export const deleteMember: (
   input: DeleteMemberRequest,
@@ -754,10 +762,14 @@ export const DeleteTokenRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/accounts/{account_id}/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<DeleteTokenRequest>;
 
-export type DeleteTokenResponse = unknown;
+export interface DeleteTokenResponse {
+  /** Identifier */
+  id: string;
+}
 
-export const DeleteTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteTokenResponse>;
+export const DeleteTokenResponse = Schema.Struct({
+  id: Schema.String,
+}) as unknown as Schema.Schema<DeleteTokenResponse>;
 
 export const deleteToken: (
   input: DeleteTokenRequest,
