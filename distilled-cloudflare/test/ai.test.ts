@@ -15,27 +15,6 @@ const accountId = () => getAccountId();
  */
 const finetuneName = (name: string) => `distilled-cf-ai-${name}`;
 
-/**
- * Create a finetune, run `fn`, then clean up.
- * Note: Cloudflare AI finetune API does not expose a delete endpoint in this
- * generated service, so cleanup is best-effort. We use deterministic names
- * to avoid resource accumulation.
- */
-const withFinetune = <A, E, R>(
-  name: string,
-  fn: (finetuneId: string) => Effect.Effect<A, E, R>,
-): Effect.Effect<A, E | any, R | any> =>
-  Effect.gen(function* () {
-    const finetune = yield* AI.createFinetune({
-      accountId: accountId(),
-      model: "@cf/meta/llama-2-7b-chat-int8",
-      name,
-    });
-
-    const finetuneId = (finetune as any).id;
-    return yield* fn(finetuneId);
-  });
-
 // ============================================================================
 // AI Tests
 // ============================================================================
@@ -204,9 +183,12 @@ describe("AI", () => {
       AI.createFinetuneAsset({
         finetuneId: "00000000-0000-0000-0000-000000000001",
         accountId: accountId(),
-        file: new Blob([JSON.stringify({ prompt: "Hello", completion: "World" })], {
-          type: "application/jsonl",
-        }),
+        file: new Blob(
+          [JSON.stringify({ prompt: "Hello", completion: "World" })],
+          {
+            type: "application/jsonl",
+          },
+        ),
         fileName: "training-data.jsonl",
       }).pipe(
         Effect.flip,

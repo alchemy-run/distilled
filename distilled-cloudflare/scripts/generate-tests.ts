@@ -273,7 +273,7 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
   const prompt = `
     Repair the tests for ${svc} service found at ${testPath}.
     Fix any tests that can be fixed by modifying the tests.
-    DO NOT FIX TESTS THAT ARE BROKEN BECAUSE THE SDK ITSELF IS BROKEN; just let those fail.
+    DO NOT FIX TESTS THAT ARE BROKEN BECAUSE THE SDK ITSELF IS BROKEN; just let those fail don't skip them.
 
     DO NOT MODIFY THE FILES IN THE src DIRECTORY DIRECTLY.
     you are allowed to write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.

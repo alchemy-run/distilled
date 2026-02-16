@@ -111,7 +111,7 @@ describe("KV", () => {
       ));
 
     test("error - NamespaceTitleAlreadyExists when creating with duplicate title", () =>
-      withNamespace(nsTitle("create-duplicate"), (namespaceId) =>
+      withNamespace(nsTitle("create-duplicate"), (_namespaceId) =>
         KV.createNamespace({
           accountId: accountId(),
           title: nsTitle("create-duplicate"),

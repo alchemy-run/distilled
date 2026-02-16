@@ -2,13 +2,6 @@ import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
 import * as D1 from "~/services/d1.ts";
-import {
-  InternalError,
-  InvalidObjectIdentifier,
-  InvalidRequest,
-  NoHistoryAvailable,
-  TimestampTooOld,
-} from "~/services/d1.ts";
 
 const accountId = () => getAccountId();
 
@@ -179,7 +172,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        )));
+        ),
+      ));
 
     test("error - InternalError for disabled read replication (API limitation)", () =>
       withDatabase(dbName("update-disabled"), (databaseId) =>
@@ -190,7 +184,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        )));
+        ),
+      ));
 
     test("error - not found for non-existent databaseId", () =>
       D1.updateDatabase({
@@ -226,7 +221,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        )));
+        ),
+      ));
 
     test("error - InternalError for patch with no readReplication (API limitation)", () =>
       withDatabase(dbName("patch-noop"), (databaseId) =>
@@ -236,7 +232,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        )));
+        ),
+      ));
 
     test("error - not found for non-existent databaseId", () =>
       D1.patchDatabase({
@@ -319,7 +316,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        )));
+        ),
+      ));
 
     test("error - InvalidRequest for export with dumpOptions (noSchema)", () =>
       withDatabase(dbName("export-opts"), (databaseId) =>
@@ -331,7 +329,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        )));
+        ),
+      ));
 
     test("error - InvalidRequest for export with dumpOptions (noData)", () =>
       withDatabase(dbName("export-nodata"), (databaseId) =>
@@ -343,7 +342,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        )));
+        ),
+      ));
 
     test("error - not found for non-existent databaseId", () =>
       D1.exportDatabase({
@@ -395,7 +395,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("NoHistoryAvailable")),
-        )));
+        ),
+      ));
 
     test("error - not found for non-existent databaseId", () =>
       D1.getBookmarkDatabaseTimeTravel({
@@ -424,7 +425,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("TimestampTooOld")),
-        )));
+        ),
+      ));
   });
 
   // --------------------------------------------------------------------------
@@ -465,7 +467,8 @@ describe("D1", () => {
         }).pipe(
           Effect.flip,
           Effect.map((e) => expect(e._tag).toBe("NoHistoryAvailable")),
-        )));
+        ),
+      ));
 
     test("error - not found for non-existent databaseId", () =>
       D1.restoreDatabaseTimeTravel({
