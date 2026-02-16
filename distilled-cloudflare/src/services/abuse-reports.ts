@@ -19,6 +19,25 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AbuseReportNotFound extends Schema.TaggedError<AbuseReportNotFound>()(
+  "AbuseReportNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 0 }])) {}
+
+export class InvalidAccountId extends Schema.TaggedError<InvalidAccountId>()(
+  "InvalidAccountId",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
+  "InvalidRequest",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+// =============================================================================
 // AbuseReport
 // =============================================================================
 
@@ -47,25 +66,34 @@ export interface GetAbuseReportResponse {
   domain: string;
   /** A summary of the mitigations related to this report. */
   mitigationSummary: {
-    acceptedUrlCount: number;
-    activeCount: number;
-    externalHostNotified: boolean;
-    inReviewCount: number;
-    pendingCount: number;
+    acceptedUrlCount?: number;
+    activeCount?: number;
+    externalHostNotified?: boolean;
+    inReviewCount?: number;
+    pendingCount?: number;
   };
   /** An enum value that represents the status of an abuse record */
-  status: "accepted" | "in_review";
+  status: "accepted" | "ACCEPTED" | "in_review" | "IN_REVIEW";
   /** The abuse report type */
   type:
     | "PHISH"
+    | "phish"
     | "GEN"
+    | "gen"
     | "THREAT"
+    | "threat"
     | "DMCA"
+    | "dmca"
     | "EMER"
+    | "emer"
     | "TM"
+    | "tm"
     | "REG_WHO"
+    | "reg_who"
     | "NCSEI"
-    | "NETWORK";
+    | "ncsei"
+    | "NETWORK"
+    | "network";
   /** Justification for the report. */
   justification?: string;
   /** Original work / Targeted brand in the alleged abuse. */
@@ -85,13 +113,21 @@ export const GetAbuseReportResponse = Schema.Struct({
   cdate: Schema.String,
   domain: Schema.String,
   mitigationSummary: Schema.Struct({
-    acceptedUrlCount: Schema.Number.pipe(T.JsonName("accepted_url_count")),
-    activeCount: Schema.Number.pipe(T.JsonName("active_count")),
-    externalHostNotified: Schema.Boolean.pipe(
+    acceptedUrlCount: Schema.optional(Schema.Number).pipe(
+      T.JsonName("accepted_url_count"),
+    ),
+    activeCount: Schema.optional(Schema.Number).pipe(
+      T.JsonName("active_count"),
+    ),
+    externalHostNotified: Schema.optional(Schema.Boolean).pipe(
       T.JsonName("external_host_notified"),
     ),
-    inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
-    pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
+    inReviewCount: Schema.optional(Schema.Number).pipe(
+      T.JsonName("in_review_count"),
+    ),
+    pendingCount: Schema.optional(Schema.Number).pipe(
+      T.JsonName("pending_count"),
+    ),
   }).pipe(T.JsonName("mitigation_summary")),
   status: Schema.Literal("accepted", "in_review"),
   type: Schema.Literal(
@@ -124,12 +160,12 @@ export const getAbuseReport: (
   input: GetAbuseReportRequest,
 ) => Effect.Effect<
   GetAbuseReportResponse,
-  CommonErrors,
+  CommonErrors | InvalidAccountId | AbuseReportNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAbuseReportRequest,
   output: GetAbuseReportResponse,
-  errors: [],
+  errors: [InvalidAccountId, AbuseReportNotFound],
 }));
 
 export interface CreateAbuseReportRequest {
@@ -154,10 +190,10 @@ export const createAbuseReport: (
   input: CreateAbuseReportRequest,
 ) => Effect.Effect<
   CreateAbuseReportResponse,
-  CommonErrors,
+  CommonErrors | InvalidRequest,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAbuseReportRequest,
   output: CreateAbuseReportResponse,
-  errors: [],
+  errors: [InvalidRequest],
 }));
