@@ -20,6 +20,30 @@ import {
 import { UploadableSchema } from "../schemas.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class AccountNotFound extends Schema.TaggedError<AccountNotFound>()(
+  "AccountNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class ModelNotFound extends Schema.TaggedError<ModelNotFound>()(
+  "ModelNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class ModelNotSupported extends Schema.TaggedError<ModelNotSupported>()(
+  "ModelNotSupported",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1000 }])) {}
+
+export class ModelSchemaNotFound extends Schema.TaggedError<ModelSchemaNotFound>()(
+  "ModelSchemaNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 6002 }])) {}
+
+// =============================================================================
 // Ai
 // =============================================================================
 
@@ -147,12 +171,12 @@ export const runAi: (
   input: RunAiRequest,
 ) => Effect.Effect<
   RunAiResponse,
-  CommonErrors,
+  CommonErrors | ModelNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RunAiRequest,
   output: RunAiResponse,
-  errors: [],
+  errors: [ModelNotFound],
 }));
 
 // =============================================================================
@@ -169,34 +193,36 @@ export const ListFinetunesRequest = Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai/finetunes" }),
 ) as unknown as Schema.Schema<ListFinetunesRequest>;
 
-export interface ListFinetunesResponse {
+export type ListFinetunesResponse = {
   id: string;
   createdAt: string;
   model: string;
   modifiedAt: string;
   name: string;
   description?: string;
-}
+}[];
 
-export const ListFinetunesResponse = Schema.Struct({
-  id: Schema.String,
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  model: Schema.String,
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
-  name: Schema.String,
-  description: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<ListFinetunesResponse>;
+export const ListFinetunesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.String,
+    createdAt: Schema.String.pipe(T.JsonName("created_at")),
+    model: Schema.String,
+    modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+    name: Schema.String,
+    description: Schema.optional(Schema.String),
+  }),
+) as unknown as Schema.Schema<ListFinetunesResponse>;
 
 export const listFinetunes: (
   input: ListFinetunesRequest,
 ) => Effect.Effect<
   ListFinetunesResponse,
-  CommonErrors,
+  CommonErrors | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListFinetunesRequest,
   output: ListFinetunesResponse,
-  errors: [],
+  errors: [AccountNotFound],
 }));
 
 export interface CreateFinetuneRequest {
@@ -246,12 +272,12 @@ export const createFinetune: (
   input: CreateFinetuneRequest,
 ) => Effect.Effect<
   CreateFinetuneResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneRequest,
   output: CreateFinetuneResponse,
-  errors: [],
+  errors: [ModelNotSupported, AccountNotFound],
 }));
 
 // =============================================================================
@@ -293,12 +319,12 @@ export const createFinetuneAsset: (
   input: CreateFinetuneAssetRequest,
 ) => Effect.Effect<
   CreateFinetuneAssetResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateFinetuneAssetRequest,
   output: CreateFinetuneAssetResponse,
-  errors: [],
+  errors: [ModelNotSupported, AccountNotFound],
 }));
 
 // =============================================================================
@@ -328,10 +354,10 @@ export const getModelSchema: (
   input: GetModelSchemaRequest,
 ) => Effect.Effect<
   GetModelSchemaResponse,
-  CommonErrors,
+  CommonErrors | ModelNotSupported | ModelSchemaNotFound | AccountNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetModelSchemaRequest,
   output: GetModelSchemaResponse,
-  errors: [],
+  errors: [ModelNotSupported, ModelSchemaNotFound, AccountNotFound],
 }));
