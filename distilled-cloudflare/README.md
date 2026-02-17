@@ -84,6 +84,42 @@ const pages = yield* R2.listBuckets.pages({ account_id: "..." });
 const keys = yield* KV.listKeys.items({ account_id: "...", namespace_id: "..." });
 ```
 
+## Tests
+
+### Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `CLOUDFLARE_API_TOKEN` | Yes | API token for authentication |
+| `CLOUDFLARE_ACCOUNT_ID` | Yes | Account ID for account-scoped operations |
+| `CLOUDFLARE_ZONE_ID` | No | Zone ID for zone-scoped operations (e.g., DNS, ACM read) |
+| `CLOUDFLARE_ACM_ZONE_ID` | No | Zone ID for a zone with Advanced Certificate Manager enabled |
+
+### Running Tests
+
+```bash
+bun vitest run                              # Run all tests
+bun vitest run ./test/services/r2.test.ts   # Run tests for a single service
+DEBUG=1 bun vitest run ...                  # Run with request/response debug logs
+```
+
+### Zone-Scoped Tests
+
+Some tests require a `CLOUDFLARE_ZONE_ID` to run. If it is not set, those tests are skipped.
+
+### ACM Tests
+
+The ACM (Advanced Certificate Manager) tests use two separate zone IDs:
+
+- **`CLOUDFLARE_ZONE_ID`** — Used for read operations (`getTotalTl`) and error tests that expect `AdvancedCertificateManagerRequired` (i.e., a zone _without_ ACM).
+- **`CLOUDFLARE_ACM_ZONE_ID`** — Used for write operations (`createTotalTl`) happy paths that require ACM to be enabled on the zone.
+
+If `CLOUDFLARE_ACM_ZONE_ID` is not set, the three `createTotalTl` happy path tests are skipped:
+
+- `happy path - enables Total TLS for a zone`
+- `happy path - disables Total TLS for a zone`
+- `happy path - enables Total TLS with certificate authority`
+
 ## Development
 
 ```bash
