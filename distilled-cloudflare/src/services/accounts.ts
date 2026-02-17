@@ -53,7 +53,10 @@ export interface GetAccountResponse {
   /** Parent container details */
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }
 
 export const GetAccountResponse = Schema.Struct({
@@ -73,12 +76,12 @@ export const GetAccountResponse = Schema.Struct({
   ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
+      abuseContactEmail: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("abuse_contact_email")),
+      enforceTwofactor: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("enforce_twofactor")),
     }),
   ),
 }) as unknown as Schema.Schema<GetAccountResponse>;
@@ -214,7 +217,10 @@ export interface UpdateAccountResponse {
   /** Parent container details */
   managedBy?: { parentOrgId?: string; parentOrgName?: string };
   /** Account settings */
-  settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
+  settings?: {
+    abuseContactEmail?: string | null;
+    enforceTwofactor?: boolean | null;
+  };
 }
 
 export const UpdateAccountResponse = Schema.Struct({
@@ -234,12 +240,12 @@ export const UpdateAccountResponse = Schema.Struct({
   ).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
-      abuseContactEmail: Schema.optional(Schema.String).pipe(
-        T.JsonName("abuse_contact_email"),
-      ),
-      enforceTwofactor: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("enforce_twofactor"),
-      ),
+      abuseContactEmail: Schema.optional(
+        Schema.Union(Schema.String, Schema.Null),
+      ).pipe(T.JsonName("abuse_contact_email")),
+      enforceTwofactor: Schema.optional(
+        Schema.Union(Schema.Boolean, Schema.Null),
+      ).pipe(T.JsonName("enforce_twofactor")),
     }),
   ),
 }) as unknown as Schema.Schema<UpdateAccountResponse>;
@@ -643,17 +649,17 @@ export interface CreateTokenResponse {
   id?: string;
   condition?: { requestIp?: { in?: string[]; notIn?: string[] } };
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The time on which the token was created. */
   issuedOn?: string;
   /** Last time the token was used. */
-  lastUsedOn?: string;
+  lastUsedOn?: string | null;
   /** Last time the token was modified. */
   modifiedOn?: string;
   /** Token name. */
   name?: string;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | null;
   /** List of access policies assigned to the token. */
   policies?: unknown[];
   /** Status of the token. */
@@ -676,12 +682,18 @@ export const CreateTokenResponse = Schema.Struct({
       ).pipe(T.JsonName("request_ip")),
     }),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
+  expiresOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.JsonName("expires_on"),
+  ),
   issuedOn: Schema.optional(Schema.String).pipe(T.JsonName("issued_on")),
-  lastUsedOn: Schema.optional(Schema.String).pipe(T.JsonName("last_used_on")),
+  lastUsedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.JsonName("last_used_on"),
+  ),
   modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
   name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+  notBefore: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
+    T.JsonName("not_before"),
+  ),
   policies: Schema.optional(Schema.Array(Schema.Unknown)),
   status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
   value: Schema.optional(Schema.String),

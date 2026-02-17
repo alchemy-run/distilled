@@ -1,0 +1,10 @@
+{
+  "errors": {},
+  "response": {
+    "properties": {
+      "last_used_on": { "nullable": true },
+      "expires_on": { "nullable": true },
+      "not_before": { "nullable": true }
+    }
+  }
+}

@@ -251,7 +251,7 @@ const updateErrors = Effect.fn(function* (svc: string, showChat: boolean) {
     "opencode",
     "run",
     "--model",
-    "opencode/minimax-m2.5",
+    "opencode/kimi-k2.5",
     prompt,
   ).pipe(Command.stdin("inherit"), Command.workingDirectory(PROJECT_ROOT));
 
@@ -273,16 +273,15 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
   const prompt = `
     Repair the tests for ${svc} service found at ${testPath}.
     Fix any tests that can be fixed by modifying the tests.
-    DO NOT FIX TESTS THAT ARE BROKEN BECAUSE THE SDK ITSELF IS BROKEN; just let those fail don't skip them.
     WHEN CHECKING FOR ERRORS ALWAYS CHECK THE \`_tag\`.
     DO NOT MODIFY THE FILES IN THE src DIRECTORY DIRECTLY.
-    you are allowed to write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.
+    if the test is broken write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.
     `;
   const cmd = Command.make(
     "opencode",
     "run",
     "--model",
-    "opencode/kimi-k2.5",
+    "anthropic/claude-opus-4-6",
     // "--model",
     // "anthropic/claude-haiku-4-5",
     prompt,

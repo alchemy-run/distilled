@@ -36,6 +36,22 @@ import { parseCode } from "./parse.ts";
  * Patch file structure (mirrors src/expr.ts OperationPatch).
  * Defined here to avoid cross-project imports.
  */
+interface PropertyPatch {
+  /** Make the field accept null in addition to its current type */
+  nullable?: boolean;
+  /** Make the field optional (not required) */
+  optional?: boolean;
+  /** Replace the field type entirely */
+  type?: "string" | "number" | "boolean" | "unknown";
+  /** Add literal values to an existing enum */
+  addValues?: string[];
+}
+
+interface ResponsePatch {
+  /** Map of property paths (dot-notation) to their patches */
+  properties: Record<string, PropertyPatch>;
+}
+
 interface OperationPatch {
   errors: Record<
     string,
@@ -51,6 +67,8 @@ interface OperationPatch {
    *   of items but the SDK declares the response type as a single object)
    */
   responseType?: "array";
+  /** Response schema modifications */
+  response?: ResponsePatch;
 }
 
 const SDK_PATH = "./cloudflare-typescript/src/resources";
@@ -171,6 +189,187 @@ const debugOption = Options.boolean("debug").pipe(
   Options.withDescription("Enable debug logging"),
   Options.withDefault(false),
 );
+
+/**
+ * Apply a response patch to a resolved TypeInfo tree.
+ *
+ * Patches use dot-notation paths to target nested properties:
+ * - "location" → top-level field
+ * - "settings.abuse_contact_email" → nested field inside settings
+ * - "buckets[].location" → field inside array elements
+ *
+ * Supported patch operations:
+ * - nullable: wrap type in union with null
+ * - optional: make field not required
+ * - type: replace type entirely
+ * - addValues: add literal values to existing enum
+ */
+function applyResponsePatch(
+  typeInfo: TypeInfo,
+  patch: ResponsePatch,
+): TypeInfo {
+  // Deep clone to avoid mutating the original
+  const cloned = JSON.parse(JSON.stringify(typeInfo)) as TypeInfo;
+
+  for (const [path, propPatch] of Object.entries(patch.properties)) {
+    applyPropertyPatch(cloned, path.split("."), propPatch);
+  }
+
+  return cloned;
+}
+
+/**
+ * Recursively navigate into TypeInfo to find and patch a property.
+ */
+function applyPropertyPatch(
+  typeInfo: TypeInfo,
+  pathSegments: string[],
+  patch: PropertyPatch,
+): void {
+  if (pathSegments.length === 0) return;
+
+  const [current, ...rest] = pathSegments;
+
+  // Handle array element access: "buckets[]" means descend into array element type
+  if (current.endsWith("[]")) {
+    const fieldName = current.slice(0, -2);
+
+    if (fieldName === "") {
+      // Just "[]" on the current type — descend into array element
+      if (typeInfo.kind === "array" && typeInfo.elementType) {
+        if (rest.length === 0) {
+          // Patch the element type itself (unusual but supported)
+          applyPatchToTypeInfo(typeInfo.elementType, patch);
+        } else {
+          applyPropertyPatch(typeInfo.elementType, rest, patch);
+        }
+      }
+      return;
+    }
+
+    // Find the property and descend into its array element
+    const prop = typeInfo.properties?.find((p) => p.name === fieldName);
+    if (!prop) return;
+
+    // Unwrap the property type to find the array
+    const arrayType = unwrapToArray(prop.type);
+    if (arrayType?.elementType) {
+      if (rest.length === 0) {
+        applyPatchToTypeInfo(arrayType.elementType, patch);
+      } else {
+        applyPropertyPatch(arrayType.elementType, rest, patch);
+      }
+    }
+    return;
+  }
+
+  // Regular field access
+  if (typeInfo.kind !== "object" || !typeInfo.properties) return;
+
+  const prop = typeInfo.properties.find((p) => p.name === current);
+  if (!prop) return;
+
+  if (rest.length === 0) {
+    // This is the target property — apply the patch
+    if (patch.optional) {
+      prop.required = false;
+    }
+    applyPatchToTypeInfo(prop.type, patch);
+  } else {
+    // Need to descend further — unwrap the property type
+    let targetType = prop.type;
+
+    // Unwrap through optionals/unions to find the object
+    if (targetType.kind === "union" && targetType.values) {
+      // Find the non-null variant
+      const objectType = targetType.values.find(
+        (v) => v.kind === "object" && v.properties,
+      );
+      if (objectType) {
+        applyPropertyPatch(objectType, rest, patch);
+        return;
+      }
+    }
+
+    applyPropertyPatch(targetType, rest, patch);
+  }
+}
+
+/**
+ * Apply a property patch to a TypeInfo value.
+ */
+function applyPatchToTypeInfo(typeInfo: TypeInfo, patch: PropertyPatch): void {
+  // Replace type entirely
+  if (patch.type) {
+    typeInfo.kind = "primitive";
+    typeInfo.value = patch.type === "unknown" ? undefined : patch.type;
+    if (patch.type === "unknown") typeInfo.kind = "unknown";
+    delete typeInfo.values;
+    delete typeInfo.elementType;
+    delete typeInfo.properties;
+    delete typeInfo.name;
+  }
+
+  // Add enum values to existing literal/union
+  if (patch.addValues && patch.addValues.length > 0) {
+    if (typeInfo.kind === "literal" && typeInfo.value) {
+      // Single literal → convert to union with additional values
+      const existingValues: TypeInfo[] = [
+        { kind: "literal", value: typeInfo.value },
+      ];
+      for (const v of patch.addValues) {
+        existingValues.push({ kind: "literal", value: v });
+      }
+      typeInfo.kind = "union";
+      typeInfo.values = existingValues;
+      delete typeInfo.value;
+    } else if (typeInfo.kind === "union" && typeInfo.values) {
+      // Add to existing union, collecting existing literal values for dedup
+      const existingLiterals = new Set(
+        typeInfo.values
+          .filter((v) => v.kind === "literal")
+          .map((v) => v.value),
+      );
+      for (const v of patch.addValues) {
+        if (!existingLiterals.has(v)) {
+          typeInfo.values.push({ kind: "literal", value: v });
+          existingLiterals.add(v);
+        }
+      }
+    }
+  }
+
+  // Wrap with nullable (add null to union)
+  if (patch.nullable) {
+    if (typeInfo.kind === "union" && typeInfo.values) {
+      // Check if already has null
+      const hasNull = typeInfo.values.some((v) => v.kind === "null");
+      if (!hasNull) {
+        typeInfo.values.push({ kind: "null" });
+      }
+    } else if (typeInfo.kind !== "null") {
+      // Wrap current type in a union with null
+      const currentCopy = JSON.parse(JSON.stringify(typeInfo)) as TypeInfo;
+      typeInfo.kind = "union";
+      typeInfo.values = [currentCopy, { kind: "null" }];
+      delete typeInfo.value;
+      delete typeInfo.elementType;
+      delete typeInfo.properties;
+      delete typeInfo.name;
+    }
+  }
+}
+
+/**
+ * Unwrap a TypeInfo to find an array type (looking through unions, etc.)
+ */
+function unwrapToArray(typeInfo: TypeInfo): TypeInfo | undefined {
+  if (typeInfo.kind === "array") return typeInfo;
+  if (typeInfo.kind === "union" && typeInfo.values) {
+    return typeInfo.values.find((v) => v.kind === "array");
+  }
+  return undefined;
+}
 
 /**
  * Convert TypeInfo to Effect Schema code.
@@ -569,6 +768,11 @@ function generateOperationSchema(
     };
     // Array responses are always emitted as type aliases, not interfaces
     isTypeAlias = true;
+  }
+
+  // Apply response property patches (nullable, optional, addValues, type overrides)
+  if (patch?.response && resolvedResponseType) {
+    resolvedResponseType = applyResponsePatch(resolvedResponseType, patch.response);
   }
 
   if (isTypeAlias && resolvedResponseType) {

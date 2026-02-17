@@ -814,13 +814,13 @@ export const EnableR2DataCatalogRequest = Schema.Struct({
 
 export interface EnableR2DataCatalogResponse {
   /** Use this to uniquely identify the activated catalog. */
-  id: string;
+  id?: string;
   /** Specifies the name of the activated catalog. */
   name: string;
 }
 
 export const EnableR2DataCatalogResponse = Schema.Struct({
-  id: Schema.String,
+  id: Schema.optional(Schema.String),
   name: Schema.String,
 }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 

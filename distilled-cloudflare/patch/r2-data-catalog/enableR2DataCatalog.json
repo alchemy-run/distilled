@@ -1,7 +1,10 @@
 {
   "errors": {
-    "NoSuchBucket": [
-      { "code": 10006 }
-    ]
+    "NoSuchBucket": [{ "code": 10006 }]
+  },
+  "response": {
+    "properties": {
+      "id": { "optional": true }
+    }
   }
 }

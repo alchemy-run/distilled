@@ -138,6 +138,55 @@ Each error tag maps to an array of matchers. The error is matched if ANY matcher
 
 **Matching Priority:** code + status + message > code + status > code + message > code only
 
+### Response Schema Patching
+
+When the generated response schema doesn't match the actual API response (e.g., missing nullable fields, incorrect enum values), add a `response` key to the patch file:
+
+```json
+{
+  "errors": {
+    "NoSuchBucket": [{ "code": 10006 }]
+  },
+  "response": {
+    "properties": {
+      "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] },
+      "settings.abuse_contact_email": { "nullable": true },
+      "id": { "optional": true },
+      "rules[].conditions.prefix": { "optional": true }
+    }
+  }
+}
+```
+
+**Property Paths:**
+
+Use dot notation for nested fields and `[]` for array elements:
+
+| Path                          | Targets                              |
+| ----------------------------- | ------------------------------------ |
+| `"location"`                  | Top-level field                      |
+| `"settings.abuse_contact_email"` | Nested field inside `settings`    |
+| `"buckets[].location"`        | Field inside array elements          |
+| `"rules[].conditions.prefix"` | Deeply nested through arrays         |
+
+**Property Patch Options:**
+
+| Field       | Type       | Description                                        |
+| ----------- | ---------- | -------------------------------------------------- |
+| `nullable`  | `boolean`  | Add `null` to the field's type union               |
+| `optional`  | `boolean`  | Make a required field optional                     |
+| `type`      | `string`   | Replace type entirely (`"string"`, `"number"`, `"boolean"`, `"unknown"`) |
+| `addValues` | `string[]` | Add literal values to an existing enum             |
+
+**Common Patterns:**
+
+| Symptom                              | Fix                                   |
+| ------------------------------------ | ------------------------------------- |
+| `Schema decode failed` + field is `null` | `{ "nullable": true }`            |
+| `Schema decode failed` + field missing   | `{ "optional": true }`            |
+| `Schema decode failed` + wrong enum case | `{ "addValues": ["UPPERCASE"] }`  |
+| `Schema decode failed` + wrong type     | `{ "type": "string" }`            |
+
 ## Generator Details
 
 ### Naming Conventions

@@ -1,5 +1,10 @@
 {
   "errors": {
     "NoSuchBucket": [{ "code": 10006 }]
+  },
+  "response": {
+    "properties": {
+      "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+    }
   }
 }

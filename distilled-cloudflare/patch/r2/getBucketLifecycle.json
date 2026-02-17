@@ -1,5 +1,10 @@
 {
   "errors": {
     "NoSuchBucket": [{ "code": 10006 }]
+  },
+  "response": {
+    "properties": {
+      "rules[].conditions.prefix": { "optional": true }
+    }
   }
 }

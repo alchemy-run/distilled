@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "UnsupportedBindingConfiguration": [
+      { "code": 1003 }
+    ],
+    "InvalidAccountId": [
+      { "code": 7003, "message": { "includes": "Could not route" } }
+    ]
+  }
+}

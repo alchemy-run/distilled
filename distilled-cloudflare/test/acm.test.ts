@@ -13,6 +13,23 @@ const zoneId = () => {
   return id;
 };
 
+/**
+ * Get the ACM-enabled zone ID from environment.
+ * Returns undefined if CLOUDFLARE_ACM_ZONE_ID is not set.
+ */
+const getAcmZoneId = (): string | undefined =>
+  process.env.CLOUDFLARE_ACM_ZONE_ID;
+
+const hasAcmZoneId = () => !!getAcmZoneId();
+
+const acmZoneId = () => {
+  const id = getAcmZoneId();
+  if (!id) {
+    throw new Error("CLOUDFLARE_ACM_ZONE_ID environment variable is not set");
+  }
+  return id;
+};
+
 // ============================================================================
 // ACM Tests
 // ============================================================================
@@ -68,11 +85,11 @@ describe("ACM", () => {
   // createTotalTl
   // --------------------------------------------------------------------------
   describe("createTotalTl", () => {
-    if (hasZoneId()) {
+    if (hasAcmZoneId()) {
       test("happy path - enables Total TLS for a zone", () =>
         Effect.gen(function* () {
           const result = yield* ACM.createTotalTl({
-            zoneId: zoneId(),
+            zoneId: acmZoneId(),
             enabled: true,
           });
 
@@ -93,7 +110,7 @@ describe("ACM", () => {
       test("happy path - disables Total TLS for a zone", () =>
         Effect.gen(function* () {
           const result = yield* ACM.createTotalTl({
-            zoneId: zoneId(),
+            zoneId: acmZoneId(),
             enabled: false,
           });
 
@@ -106,7 +123,7 @@ describe("ACM", () => {
       test("happy path - enables Total TLS with certificate authority", () =>
         Effect.gen(function* () {
           const result = yield* ACM.createTotalTl({
-            zoneId: zoneId(),
+            zoneId: acmZoneId(),
             enabled: true,
             certificateAuthority: "lets_encrypt",
           });
@@ -121,7 +138,13 @@ describe("ACM", () => {
             );
           }
         }));
+    } else {
+      test.skip("happy path - enables Total TLS for a zone", () => Effect.void);
+      test.skip("happy path - disables Total TLS for a zone", () => Effect.void);
+      test.skip("happy path - enables Total TLS with certificate authority", () => Effect.void);
+    }
 
+    if (hasZoneId()) {
       test("error - AdvancedCertificateManagerRequired when ACM not enabled", () =>
         ACM.createTotalTl({
           zoneId: zoneId(),

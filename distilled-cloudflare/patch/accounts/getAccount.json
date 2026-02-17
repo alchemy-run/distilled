@@ -1,0 +1,9 @@
+{
+  "errors": {},
+  "response": {
+    "properties": {
+      "settings.abuse_contact_email": { "nullable": true },
+      "settings.enforce_twofactor": { "nullable": true }
+    }
+  }
+}

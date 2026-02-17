@@ -97,7 +97,19 @@ export interface GetBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -110,7 +122,20 @@ export const GetBucketResponse = Schema.Struct({
   ),
   jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
   location: Schema.optional(
-    Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+    Schema.Literal(
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
@@ -172,7 +197,19 @@ export interface ListBucketsResponse {
   buckets?: {
     creationDate?: string;
     jurisdiction?: "default" | "eu" | "fedramp";
-    location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+    location?:
+      | "apac"
+      | "eeur"
+      | "enam"
+      | "weur"
+      | "wnam"
+      | "oc"
+      | "APAC"
+      | "EEUR"
+      | "ENAM"
+      | "WEUR"
+      | "WNAM"
+      | "OC";
     name?: string;
     storageClass?: "Standard" | "InfrequentAccess";
   }[];
@@ -189,7 +226,20 @@ export const ListBucketsResponse = Schema.Struct({
           Schema.Literal("default", "eu", "fedramp"),
         ),
         location: Schema.optional(
-          Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+          Schema.Literal(
+            "apac",
+            "eeur",
+            "enam",
+            "weur",
+            "wnam",
+            "oc",
+            "APAC",
+            "EEUR",
+            "ENAM",
+            "WEUR",
+            "WNAM",
+            "OC",
+          ),
         ),
         name: Schema.optional(Schema.String),
         storageClass: Schema.optional(
@@ -245,7 +295,19 @@ export interface CreateBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -258,7 +320,20 @@ export const CreateBucketResponse = Schema.Struct({
   ),
   jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
   location: Schema.optional(
-    Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+    Schema.Literal(
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
@@ -310,7 +385,19 @@ export interface PatchBucketResponse {
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
   jurisdiction?: "default" | "eu" | "fedramp";
   /** Location of the bucket. */
-  location?: "apac" | "eeur" | "enam" | "weur" | "wnam" | "oc";
+  location?:
+    | "apac"
+    | "eeur"
+    | "enam"
+    | "weur"
+    | "wnam"
+    | "oc"
+    | "APAC"
+    | "EEUR"
+    | "ENAM"
+    | "WEUR"
+    | "WNAM"
+    | "OC";
   /** Name of the bucket. */
   name?: string;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
@@ -323,7 +410,20 @@ export const PatchBucketResponse = Schema.Struct({
   ),
   jurisdiction: Schema.optional(Schema.Literal("default", "eu", "fedramp")),
   location: Schema.optional(
-    Schema.Literal("apac", "eeur", "enam", "weur", "wnam", "oc"),
+    Schema.Literal(
+      "apac",
+      "eeur",
+      "enam",
+      "weur",
+      "wnam",
+      "oc",
+      "APAC",
+      "EEUR",
+      "ENAM",
+      "WEUR",
+      "WNAM",
+      "OC",
+    ),
   ),
   name: Schema.optional(Schema.String),
   storageClass: Schema.optional(
@@ -1327,7 +1427,7 @@ export const GetBucketLifecycleRequest = Schema.Struct({
 export interface GetBucketLifecycleResponse {
   rules?: {
     id: string;
-    conditions: { prefix: string };
+    conditions: { prefix?: string };
     enabled: boolean;
     abortMultipartUploadsTransition?: {
       condition?: { maxAge: number; type: "Age" };
@@ -1352,7 +1452,7 @@ export const GetBucketLifecycleResponse = Schema.Struct({
       Schema.Struct({
         id: Schema.String,
         conditions: Schema.Struct({
-          prefix: Schema.String,
+          prefix: Schema.optional(Schema.String),
         }),
         enabled: Schema.Boolean,
         abortMultipartUploadsTransition: Schema.optional(

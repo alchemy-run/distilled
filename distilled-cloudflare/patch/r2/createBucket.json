@@ -1,5 +1,10 @@
 {
   "errors": {
     "InvalidBucketName": [{ "code": 10005 }]
+  },
+  "response": {
+    "properties": {
+      "location": { "addValues": ["APAC", "EEUR", "ENAM", "WEUR", "WNAM", "OC"] }
+    }
   }
 }
