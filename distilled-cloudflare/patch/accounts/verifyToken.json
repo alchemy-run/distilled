@@ -1,5 +1,6 @@
 {
   "errors": {
-    "MissingAuthenticationToken": [{ "code": 1001 }]
+    "MissingAuthenticationToken": [{ "code": 1001 }],
+    "InvalidRoute": [{ "code": 7003 }]
   }
 }

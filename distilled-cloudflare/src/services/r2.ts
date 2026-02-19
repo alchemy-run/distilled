@@ -22,10 +22,40 @@ import {
 // Errors
 // =============================================================================
 
+export class BucketAlreadyExists extends Schema.TaggedError<BucketAlreadyExists>()(
+  "BucketAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10004 }])) {}
+
+export class BucketNotFound extends Schema.TaggedError<BucketNotFound>()(
+  "BucketNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10085 }])) {}
+
 export class InvalidBucketName extends Schema.TaggedError<InvalidBucketName>()(
   "InvalidBucketName",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10005 }])) {}
+
+export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class NoCorsConfiguration extends Schema.TaggedError<NoCorsConfiguration>()(
+  "NoCorsConfiguration",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 10059 }])) {}
+
+export class NoEventNotificationConfig extends Schema.TaggedError<NoEventNotificationConfig>()(
+  "NoEventNotificationConfig",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 11015 }])) {}
+
+export class NoRoute extends Schema.TaggedError<NoRoute>()("NoRoute", {
+  code: Schema.Number,
+  message: Schema.String,
+}).pipe(T.HttpErrorMatchers([{ code: 10015 }])) {}
 
 export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
   "NoSuchBucket",
@@ -147,12 +177,12 @@ export const getBucket: (
   input: GetBucketRequest,
 ) => Effect.Effect<
   GetBucketResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketRequest,
   output: GetBucketResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface ListBucketsRequest {
@@ -254,12 +284,12 @@ export const listBuckets: (
   input: ListBucketsRequest,
 ) => Effect.Effect<
   ListBucketsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketsRequest,
   output: ListBucketsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateBucketRequest {
@@ -345,12 +375,12 @@ export const createBucket: (
   input: CreateBucketRequest,
 ) => Effect.Effect<
   CreateBucketResponse,
-  CommonErrors | InvalidBucketName,
+  CommonErrors | InvalidBucketName | BucketAlreadyExists | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResponse,
-  errors: [InvalidBucketName],
+  errors: [InvalidBucketName, BucketAlreadyExists, InvalidRoute],
 }));
 
 export interface PatchBucketRequest {
@@ -435,12 +465,12 @@ export const patchBucket: (
   input: PatchBucketRequest,
 ) => Effect.Effect<
   PatchBucketResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchBucketRequest,
   output: PatchBucketResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DeleteBucketRequest {
@@ -473,12 +503,12 @@ export const deleteBucket: (
   input: DeleteBucketRequest,
 ) => Effect.Effect<
   DeleteBucketResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute | NoRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketRequest,
   output: DeleteBucketResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute, NoRoute],
 }));
 
 // =============================================================================
@@ -542,12 +572,12 @@ export const getBucketCors: (
   input: GetBucketCorsRequest,
 ) => Effect.Effect<
   GetBucketCorsResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute | NoCorsConfiguration,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketCorsRequest,
   output: GetBucketCorsResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute, NoCorsConfiguration],
 }));
 
 export interface PutBucketCorsRequest {
@@ -607,12 +637,12 @@ export const putBucketCors: (
   input: PutBucketCorsRequest,
 ) => Effect.Effect<
   PutBucketCorsResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketCorsRequest,
   output: PutBucketCorsResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DeleteBucketCorsRequest {
@@ -645,12 +675,12 @@ export const deleteBucketCors: (
   input: DeleteBucketCorsRequest,
 ) => Effect.Effect<
   DeleteBucketCorsResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketCorsRequest,
   output: DeleteBucketCorsResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -833,12 +863,12 @@ export const listBucketDomainCustoms: (
   input: ListBucketDomainCustomsRequest,
 ) => Effect.Effect<
   ListBucketDomainCustomsResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketDomainCustomsRequest,
   output: ListBucketDomainCustomsResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface CreateBucketDomainCustomRequest {
@@ -1057,12 +1087,12 @@ export const listBucketDomainManageds: (
   input: ListBucketDomainManagedsRequest,
 ) => Effect.Effect<
   ListBucketDomainManagedsResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketDomainManagedsRequest,
   output: ListBucketDomainManagedsResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketDomainManagedRequest {
@@ -1108,12 +1138,12 @@ export const putBucketDomainManaged: (
   input: PutBucketDomainManagedRequest,
 ) => Effect.Effect<
   PutBucketDomainManagedResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketDomainManagedRequest,
   output: PutBucketDomainManagedResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1282,12 +1312,21 @@ export const listBucketEventNotifications: (
   input: ListBucketEventNotificationsRequest,
 ) => Effect.Effect<
   ListBucketEventNotificationsResponse,
-  CommonErrors | NoSuchBucket,
+  | CommonErrors
+  | NoSuchBucket
+  | InvalidRoute
+  | NoEventNotificationConfig
+  | BucketNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketEventNotificationsRequest,
   output: ListBucketEventNotificationsResponse,
-  errors: [NoSuchBucket],
+  errors: [
+    NoSuchBucket,
+    InvalidRoute,
+    NoEventNotificationConfig,
+    BucketNotFound,
+  ],
 }));
 
 export interface PutBucketEventNotificationRequest {
@@ -1507,12 +1546,12 @@ export const getBucketLifecycle: (
   input: GetBucketLifecycleRequest,
 ) => Effect.Effect<
   GetBucketLifecycleResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketLifecycleRequest,
   output: GetBucketLifecycleResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketLifecycleRequest {
@@ -1619,12 +1658,12 @@ export const putBucketLifecycle: (
   input: PutBucketLifecycleRequest,
 ) => Effect.Effect<
   PutBucketLifecycleResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketLifecycleRequest,
   output: PutBucketLifecycleResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1693,12 +1732,12 @@ export const getBucketLock: (
   input: GetBucketLockRequest,
 ) => Effect.Effect<
   GetBucketLockResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketLockRequest,
   output: GetBucketLockResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketLockRequest {
@@ -1763,12 +1802,12 @@ export const putBucketLock: (
   input: PutBucketLockRequest,
 ) => Effect.Effect<
   PutBucketLockResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutBucketLockRequest,
   output: PutBucketLockResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================
@@ -1858,12 +1897,12 @@ export const listBucketMetrics: (
   input: ListBucketMetricsRequest,
 ) => Effect.Effect<
   ListBucketMetricsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListBucketMetricsRequest,
   output: ListBucketMetricsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -1934,12 +1973,12 @@ export const getBucketSippy: (
   input: GetBucketSippyRequest,
 ) => Effect.Effect<
   GetBucketSippyResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBucketSippyRequest,
   output: GetBucketSippyResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface PutBucketSippyRequest {
@@ -2039,12 +2078,12 @@ export const deleteBucketSippy: (
   input: DeleteBucketSippyRequest,
 ) => Effect.Effect<
   DeleteBucketSippyResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteBucketSippyRequest,
   output: DeleteBucketSippyResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 // =============================================================================

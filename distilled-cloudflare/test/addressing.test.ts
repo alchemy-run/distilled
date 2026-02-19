@@ -124,7 +124,7 @@ describe("Addressing", () => {
         addressMapId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AddressMapNotFound")),
       ));
   });
 
@@ -132,44 +132,44 @@ describe("Addressing", () => {
   // patchAddressMap
   // --------------------------------------------------------------------------
   describe("patchAddressMap", () => {
-    test("error - FeatureNotEnabled when updating description", () =>
+    test("error - MethodNotAllowed when updating description", () =>
       Addressing.patchAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
         description: "updated-description",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
-    test("error - FeatureNotEnabled when updating enabled flag", () =>
+    test("error - MethodNotAllowed when updating enabled flag", () =>
       Addressing.patchAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
         enabled: true,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
-    test("error - FeatureNotEnabled when updating with null description", () =>
+    test("error - MethodNotAllowed when updating with null description", () =>
       Addressing.patchAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
         description: null,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
-    test("error - FeatureNotEnabled for non-existent address map (feature check masks not found)", () =>
+    test("error - MethodNotAllowed for non-existent address map (auth check masks not found)", () =>
       Addressing.patchAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
         description: "should-not-exist",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -187,22 +187,22 @@ describe("Addressing", () => {
   // deleteAddressMap
   // --------------------------------------------------------------------------
   describe("deleteAddressMap", () => {
-    test("error - FeatureNotEnabled for account without feature", () =>
+    test("error - MethodNotAllowed for account without feature", () =>
       Addressing.deleteAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
-    test("error - FeatureNotEnabled for non-existent address map (feature check masks not found)", () =>
+    test("error - MethodNotAllowed for non-existent address map (auth check masks not found)", () =>
       Addressing.deleteAddressMap({
         accountId: accountId(),
         addressMapId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -214,13 +214,13 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for empty addressMapId", () =>
+    test("error - MethodNotAllowed for empty addressMapId", () =>
       Addressing.deleteAddressMap({
         accountId: accountId(),
         addressMapId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -228,14 +228,14 @@ describe("Addressing", () => {
   // putAddressMapAccount
   // --------------------------------------------------------------------------
   describe("putAddressMapAccount", () => {
-    test("error - FeatureNotEnabled for account without feature", () =>
+    test("error - MethodNotAllowed for account without feature", () =>
       Addressing.putAddressMapAccount({
         accountId: accountId(),
         addressMapId: fakeUuid,
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -248,14 +248,14 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for non-existent address map", () =>
+    test("error - MethodNotAllowed for non-existent address map", () =>
       Addressing.putAddressMapAccount({
         accountId: accountId(),
         addressMapId: fakeUuid,
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -263,13 +263,13 @@ describe("Addressing", () => {
   // deleteAddressMapAccount
   // --------------------------------------------------------------------------
   describe("deleteAddressMapAccount", () => {
-    test("error - FeatureNotEnabled for account without feature", () =>
+    test("error - MethodNotAllowed for account without feature", () =>
       Addressing.deleteAddressMapAccount({
         accountId: accountId(),
         addressMapId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("FeatureNotEnabled")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -281,13 +281,13 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for non-existent address map", () =>
+    test("error - MethodNotAllowed for non-existent address map", () =>
       Addressing.deleteAddressMapAccount({
         accountId: accountId(),
         addressMapId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -295,7 +295,7 @@ describe("Addressing", () => {
   // putAddressMapIp
   // --------------------------------------------------------------------------
   describe("putAddressMapIp", () => {
-    test("error - returns error for non-existent address map with ip", () =>
+    test("error - MethodNotAllowed for non-existent address map with ip", () =>
       Addressing.putAddressMapIp({
         accountId: accountId(),
         addressMapId: fakeUuid,
@@ -303,7 +303,7 @@ describe("Addressing", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -317,7 +317,7 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for empty ipAddress", () =>
+    test("error - MethodNotAllowed for empty ipAddress", () =>
       Addressing.putAddressMapIp({
         accountId: accountId(),
         addressMapId: fakeUuid,
@@ -325,10 +325,10 @@ describe("Addressing", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
-    test("error - returns error for malformed IP address", () =>
+    test("error - MethodNotAllowed for malformed IP address", () =>
       Addressing.putAddressMapIp({
         accountId: accountId(),
         addressMapId: fakeUuid,
@@ -336,7 +336,7 @@ describe("Addressing", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -344,14 +344,14 @@ describe("Addressing", () => {
   // deleteAddressMapIp
   // --------------------------------------------------------------------------
   describe("deleteAddressMapIp", () => {
-    test("error - returns error for non-existent address map with ip", () =>
+    test("error - MethodNotAllowed for non-existent address map with ip", () =>
       Addressing.deleteAddressMapIp({
         accountId: accountId(),
         addressMapId: fakeUuid,
         ipAddress: "192.0.2.1",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -364,14 +364,14 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for empty ipAddress", () =>
+    test("error - MethodNotAllowed for empty ipAddress", () =>
       Addressing.deleteAddressMapIp({
         accountId: accountId(),
         addressMapId: fakeUuid,
         ipAddress: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -379,7 +379,7 @@ describe("Addressing", () => {
   // putAddressMapZone
   // --------------------------------------------------------------------------
   describe("putAddressMapZone", () => {
-    test("error - returns error for non-existent address map with zone", () =>
+    test("error - MethodNotAllowed for non-existent address map with zone", () =>
       Addressing.putAddressMapZone({
         accountId: accountId(),
         addressMapId: fakeUuid,
@@ -387,7 +387,7 @@ describe("Addressing", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -409,7 +409,7 @@ describe("Addressing", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
   });
 
@@ -417,14 +417,14 @@ describe("Addressing", () => {
   // deleteAddressMapZone
   // --------------------------------------------------------------------------
   describe("deleteAddressMapZone", () => {
-    test("error - returns error for non-existent address map with zone", () =>
+    test("error - MethodNotAllowed for non-existent address map with zone", () =>
       Addressing.deleteAddressMapZone({
         accountId: accountId(),
         addressMapId: fakeUuid,
         zoneId: zoneId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -444,7 +444,7 @@ describe("Addressing", () => {
         zoneId: "invalid-zone-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
   });
 
@@ -476,7 +476,7 @@ describe("Addressing", () => {
         loaDocumentId: null,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("LoaDocumentNotFound")),
       ));
   });
 
@@ -490,7 +490,7 @@ describe("Addressing", () => {
         loaDocument: "not-a-valid-loa-document-content",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidLoaForm")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -508,7 +508,7 @@ describe("Addressing", () => {
         loaDocument: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidLoaForm")),
       ));
   });
 
@@ -540,7 +540,7 @@ describe("Addressing", () => {
         prefixId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
   });
 
@@ -555,7 +555,7 @@ describe("Addressing", () => {
         cidr: "not-a-valid-cidr",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidNetworkCidr")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -575,7 +575,7 @@ describe("Addressing", () => {
         cidr: "192.0.2.0/24",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("IrrEntryNotFound")),
       ));
   });
 
@@ -603,14 +603,14 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for empty prefixId", () =>
+    test("error - MethodNotAllowed for empty prefixId", () =>
       Addressing.patchPrefix({
         accountId: accountId(),
         prefixId: "",
         description: "empty-prefix",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -636,13 +636,13 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
 
-    test("error - returns error for empty prefixId", () =>
+    test("error - MethodNotAllowed for empty prefixId", () =>
       Addressing.deletePrefix({
         accountId: accountId(),
         prefixId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -705,7 +705,7 @@ describe("Addressing", () => {
         bgpPrefixId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("BgpPrefixNotFound")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -725,7 +725,7 @@ describe("Addressing", () => {
         bgpPrefixId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
 
     test("error - returns error for empty bgpPrefixId", () =>
@@ -735,7 +735,7 @@ describe("Addressing", () => {
         bgpPrefixId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
   });
 
@@ -750,7 +750,7 @@ describe("Addressing", () => {
         cidr: "192.0.2.0/24",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("NonexistentAccountPrefix")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -770,7 +770,7 @@ describe("Addressing", () => {
         cidr: "not-a-valid-cidr",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidNetworkCidr")),
       ));
 
     test("error - returns error for empty CIDR", () =>
@@ -780,7 +780,7 @@ describe("Addressing", () => {
         cidr: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidNetworkCidr")),
       ));
   });
 
@@ -795,7 +795,7 @@ describe("Addressing", () => {
         bgpPrefixId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("BgpPrefixNotFound")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -813,7 +813,7 @@ describe("Addressing", () => {
   // createPrefixDelegation
   // --------------------------------------------------------------------------
   describe("createPrefixDelegation", () => {
-    test("error - returns error for non-existent prefix", () =>
+    test("error - PrefixNotFound for non-existent prefix", () =>
       Addressing.createPrefixDelegation({
         accountId: accountId(),
         prefixId: fakeUuid,
@@ -821,7 +821,7 @@ describe("Addressing", () => {
         delegatedAccountId: accountId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -843,7 +843,7 @@ describe("Addressing", () => {
         delegatedAccountId: accountId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MissingAccountId")),
       ));
 
     test("error - returns error for empty delegatedAccountId", () =>
@@ -854,7 +854,7 @@ describe("Addressing", () => {
         delegatedAccountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MissingAccountId")),
       ));
   });
 
@@ -889,7 +889,7 @@ describe("Addressing", () => {
         delegationId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DelegationNotFound")),
       ));
   });
 
@@ -904,7 +904,7 @@ describe("Addressing", () => {
         bindingId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("BindingNotFound")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -924,7 +924,7 @@ describe("Addressing", () => {
         bindingId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
   });
 
@@ -940,7 +940,7 @@ describe("Addressing", () => {
         serviceId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnsupportedBindingConfiguration")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -962,7 +962,7 @@ describe("Addressing", () => {
         serviceId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnsupportedBindingConfiguration")),
       ));
   });
 
@@ -977,7 +977,7 @@ describe("Addressing", () => {
         bindingId: fakeUuid,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>
@@ -997,7 +997,7 @@ describe("Addressing", () => {
         bindingId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("PrefixNotFound")),
       ));
   });
 
@@ -1011,7 +1011,7 @@ describe("Addressing", () => {
         hostname: "distilled-cf-addressing-nonexistent.example.com",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
       ));
 
     test("error - InvalidZoneId for invalid zone", () =>
@@ -1029,7 +1029,7 @@ describe("Addressing", () => {
         hostname: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameEmpty")),
       ));
   });
 
@@ -1044,7 +1044,7 @@ describe("Addressing", () => {
         regionKey: "eu",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
       ));
 
     test("error - InvalidZoneId for invalid zone", () =>
@@ -1064,7 +1064,7 @@ describe("Addressing", () => {
         regionKey: "eu",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
       ));
 
     test("error - returns error for empty regionKey", () =>
@@ -1074,7 +1074,7 @@ describe("Addressing", () => {
         regionKey: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
       ));
   });
 
@@ -1089,7 +1089,7 @@ describe("Addressing", () => {
         regionKey: "eu",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
       ));
 
     test("error - InvalidZoneId for invalid zone", () =>
@@ -1109,7 +1109,7 @@ describe("Addressing", () => {
         regionKey: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
       ));
   });
 
@@ -1123,7 +1123,7 @@ describe("Addressing", () => {
         hostname: "distilled-cf-addressing-nonexistent.example.com",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
       ));
 
     test("error - InvalidZoneId for invalid zone", () =>
@@ -1135,13 +1135,13 @@ describe("Addressing", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidZoneId")),
       ));
 
-    test("error - returns error for empty hostname", () =>
+    test("error - MethodNotAllowed for empty hostname", () =>
       Addressing.deleteRegionalHostname({
         zoneId: zoneId(),
         hostname: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 });

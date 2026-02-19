@@ -42,6 +42,16 @@ export class KeyNotFound extends Schema.TaggedError<KeyNotFound>()(
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10009 }])) {}
 
+export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 10405, message: { includes: "not allowed" } },
+    { code: 10000, message: { includes: "not allowed" } },
+  ]),
+) {}
+
 export class MinimumKeysRequired extends Schema.TaggedError<MinimumKeysRequired>()(
   "MinimumKeysRequired",
   { code: Schema.Number, message: Schema.String },
@@ -243,12 +253,12 @@ export const deleteNamespace: (
   input: DeleteNamespaceRequest,
 ) => Effect.Effect<
   DeleteNamespaceResponse,
-  CommonErrors | NamespaceNotFound | InvalidObjectIdentifier,
+  CommonErrors | MethodNotAllowed | NamespaceNotFound | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteNamespaceRequest,
   output: DeleteNamespaceResponse,
-  errors: [NamespaceNotFound, InvalidObjectIdentifier],
+  errors: [MethodNotAllowed, NamespaceNotFound, InvalidObjectIdentifier],
 }));
 
 export interface BulkGetNamespacesRequest {

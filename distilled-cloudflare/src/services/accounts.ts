@@ -22,10 +22,79 @@ import {
 // Errors
 // =============================================================================
 
+export class AccountCreationForbidden extends Schema.TaggedError<AccountCreationForbidden>()(
+  "AccountCreationForbidden",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1002 }])) {}
+
+export class AccountNameTooLong extends Schema.TaggedError<AccountNameTooLong>()(
+  "AccountNameTooLong",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([{ code: 1001, message: { includes: "too long" } }]),
+) {}
+
+export class EndpointNotFound extends Schema.TaggedError<EndpointNotFound>()(
+  "EndpointNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1199 }])) {}
+
+export class InvalidAccountName extends Schema.TaggedError<InvalidAccountName>()(
+  "InvalidAccountName",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 1001, message: { includes: "invalid character" } },
+  ]),
+) {}
+
+export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidTokenName extends Schema.TaggedError<InvalidTokenName>()(
+  "InvalidTokenName",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 400, message: { includes: "name must have a length" } },
+  ]),
+) {}
+
+export class JsonDecodeFailure extends Schema.TaggedError<JsonDecodeFailure>()(
+  "JsonDecodeFailure",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1198 }])) {}
+
+export class MemberNotFound extends Schema.TaggedError<MemberNotFound>()(
+  "MemberNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1003 }])) {}
+
+export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7001 }])) {}
+
 export class MissingAuthenticationToken extends Schema.TaggedError<MissingAuthenticationToken>()(
   "MissingAuthenticationToken",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+
+export class MissingName extends Schema.TaggedError<MissingName>()(
+  "MissingName",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1001 }])) {}
+
+export class UpdateAccountTypeNotSupported extends Schema.TaggedError<UpdateAccountTypeNotSupported>()(
+  "UpdateAccountTypeNotSupported",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 1001, message: { includes: "account type is not supported" } },
+  ]),
+) {}
 
 // =============================================================================
 // Account
@@ -90,12 +159,12 @@ export const getAccount: (
   input: GetAccountRequest,
 ) => Effect.Effect<
   GetAccountResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateAccountRequest {
@@ -163,12 +232,12 @@ export const createAccount: (
   input: CreateAccountRequest,
 ) => Effect.Effect<
   CreateAccountResponse,
-  CommonErrors,
+  CommonErrors | AccountCreationForbidden | MissingName,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAccountRequest,
   output: CreateAccountResponse,
-  errors: [],
+  errors: [AccountCreationForbidden, MissingName],
 }));
 
 export interface UpdateAccountRequest {
@@ -179,7 +248,7 @@ export interface UpdateAccountRequest {
   /** Body param: Account name */
   name: string;
   /** Body param: */
-  type: "standard" | "enterprise";
+  type?: "standard" | "enterprise";
   /** Body param: Parent container details */
   managedBy?: unknown;
   /** Body param: Account settings */
@@ -190,7 +259,7 @@ export const UpdateAccountRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   name: Schema.String,
-  type: Schema.Literal("standard", "enterprise"),
+  type: Schema.optional(Schema.Literal("standard", "enterprise")),
   managedBy: Schema.optional(Schema.Unknown).pipe(T.JsonName("managed_by")),
   settings: Schema.optional(
     Schema.Struct({
@@ -254,12 +323,23 @@ export const updateAccount: (
   input: UpdateAccountRequest,
 ) => Effect.Effect<
   UpdateAccountResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidAccountName
+  | AccountNameTooLong
+  | UpdateAccountTypeNotSupported
+  | InvalidRoute
+  | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateAccountRequest,
   output: UpdateAccountResponse,
-  errors: [],
+  errors: [
+    InvalidAccountName,
+    AccountNameTooLong,
+    UpdateAccountTypeNotSupported,
+    InvalidRoute,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface DeleteAccountRequest {
@@ -286,12 +366,12 @@ export const deleteAccount: (
   input: DeleteAccountRequest,
 ) => Effect.Effect<
   DeleteAccountResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAccountRequest,
   output: DeleteAccountResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 // =============================================================================
@@ -320,12 +400,12 @@ export const getMember: (
   input: GetMemberRequest,
 ) => Effect.Effect<
   GetMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMemberRequest,
   output: GetMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 export interface CreateMemberRequest {}
@@ -343,12 +423,12 @@ export const createMember: (
   input: CreateMemberRequest,
 ) => Effect.Effect<
   CreateMemberResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateMemberRequest,
   output: CreateMemberResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface UpdateMemberRequest {
@@ -370,12 +450,12 @@ export const updateMember: (
   input: UpdateMemberRequest,
 ) => Effect.Effect<
   UpdateMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMemberRequest,
   output: UpdateMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 export interface DeleteMemberRequest {
@@ -407,12 +487,12 @@ export const deleteMember: (
   input: DeleteMemberRequest,
 ) => Effect.Effect<
   DeleteMemberResponse,
-  CommonErrors,
+  CommonErrors | MemberNotFound | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteMemberRequest,
   output: DeleteMemberResponse,
-  errors: [],
+  errors: [MemberNotFound, InvalidRoute],
 }));
 
 // =============================================================================
@@ -441,12 +521,12 @@ export const getRole: (
   input: GetRoleRequest,
 ) => Effect.Effect<
   GetRoleResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetRoleRequest,
   output: GetRoleResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -481,12 +561,12 @@ export const createSubscription: (
   input: CreateSubscriptionRequest,
 ) => Effect.Effect<
   CreateSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | JsonDecodeFailure | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
-  errors: [],
+  errors: [JsonDecodeFailure, InvalidRoute],
 }));
 
 export interface UpdateSubscriptionRequest {
@@ -524,12 +604,12 @@ export const updateSubscription: (
   input: UpdateSubscriptionRequest,
 ) => Effect.Effect<
   UpdateSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | JsonDecodeFailure | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateSubscriptionRequest,
   output: UpdateSubscriptionResponse,
-  errors: [],
+  errors: [JsonDecodeFailure, InvalidRoute, EndpointNotFound],
 }));
 
 export interface DeleteSubscriptionRequest {
@@ -565,12 +645,12 @@ export const deleteSubscription: (
   input: DeleteSubscriptionRequest,
 ) => Effect.Effect<
   DeleteSubscriptionResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | EndpointNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
-  errors: [],
+  errors: [InvalidRoute, EndpointNotFound],
 }));
 
 // =============================================================================
@@ -599,12 +679,12 @@ export const getToken: (
   input: GetTokenRequest,
 ) => Effect.Effect<
   GetTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenRequest,
   output: GetTokenResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateTokenRequest {
@@ -703,12 +783,12 @@ export const createToken: (
   input: CreateTokenRequest,
 ) => Effect.Effect<
   CreateTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InvalidTokenName,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, InvalidTokenName],
 }));
 
 export interface UpdateTokenRequest {
@@ -762,12 +842,12 @@ export const updateToken: (
   input: UpdateTokenRequest,
 ) => Effect.Effect<
   UpdateTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateTokenRequest,
   output: UpdateTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 export interface DeleteTokenRequest {
@@ -796,12 +876,12 @@ export const deleteToken: (
   input: DeleteTokenRequest,
 ) => Effect.Effect<
   DeleteTokenResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | MethodNotAllowed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
-  errors: [],
+  errors: [InvalidRoute, MethodNotAllowed],
 }));
 
 export interface VerifyTokenRequest {
@@ -837,12 +917,12 @@ export const verifyToken: (
   input: VerifyTokenRequest,
 ) => Effect.Effect<
   VerifyTokenResponse,
-  CommonErrors | MissingAuthenticationToken,
+  CommonErrors | MissingAuthenticationToken | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: VerifyTokenRequest,
   output: VerifyTokenResponse,
-  errors: [MissingAuthenticationToken],
+  errors: [MissingAuthenticationToken, InvalidRoute],
 }));
 
 // =============================================================================
@@ -901,12 +981,12 @@ export const getTokenPermissionGroup: (
   input: GetTokenPermissionGroupRequest,
 ) => Effect.Effect<
   GetTokenPermissionGroupResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTokenPermissionGroupRequest,
   output: GetTokenPermissionGroupResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -941,10 +1021,10 @@ export const putTokenValue: (
   input: PutTokenValueRequest,
 ) => Effect.Effect<
   PutTokenValueResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PutTokenValueRequest,
   output: PutTokenValueResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));

@@ -142,6 +142,9 @@ export interface OperationPatch {
   /** Map of error tag names to their matchers */
   errors: Record<string, ErrorMatcher[]>;
 
+  /** Request schema modifications */
+  request?: ResponsePatch;
+
   /** Response schema modifications */
   response?: ResponsePatch;
 }

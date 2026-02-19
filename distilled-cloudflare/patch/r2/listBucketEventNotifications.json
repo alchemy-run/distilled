@@ -1,5 +1,8 @@
 {
   "errors": {
-    "NoSuchBucket": [{ "code": 10006 }]
+    "NoSuchBucket": [{ "code": 10006 }],
+    "InvalidRoute": [{ "code": 7003 }],
+    "NoEventNotificationConfig": [{ "code": 11015 }],
+    "BucketNotFound": [{ "code": 10085 }]
   }
 }

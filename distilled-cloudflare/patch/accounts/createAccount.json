@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "AccountCreationForbidden": [{ "code": 1002 }],
+    "MissingName": [{ "code": 1001 }]
+  }
+}

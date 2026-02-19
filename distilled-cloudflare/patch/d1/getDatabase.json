@@ -1,5 +1,7 @@
 {
   "errors": {
-    "InvalidObjectIdentifier": [{ "code": 7003 }]
+    "InvalidObjectIdentifier": [{ "code": 7003 }],
+    "DatabaseNotFound": [{ "code": 7404 }],
+    "UnknownError": [{ "code": 0 }]
   }
 }

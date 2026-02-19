@@ -1,5 +1,9 @@
 {
   "errors": {
+    "MethodNotAllowed": [
+      { "code": 10405, "message": { "includes": "not allowed" } },
+      { "code": 10000, "message": { "includes": "not allowed" } }
+    ],
     "NamespaceNotFound": [{ "code": 10013 }],
     "InvalidObjectIdentifier": [{ "code": 7003 }]
   }

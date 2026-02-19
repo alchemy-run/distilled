@@ -53,7 +53,7 @@ describe("Accounts", () => {
         accountId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId format", () =>
@@ -61,7 +61,7 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-!@#",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -69,7 +69,7 @@ describe("Accounts", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -84,29 +84,54 @@ describe("Accounts", () => {
           accountId: accountId(),
         });
 
-        // Update with the same name (idempotent, safe)
         const result = yield* Accounts.updateAccount({
           accountId: accountId(),
           id: current.id,
           name: current.name,
-          type: current.type,
         });
 
         expect(result).toBeDefined();
         expect(result.id).toBe(current.id);
         expect(result.name).toBe(current.name);
-        expect(result.type).toBe(current.type);
       }));
+
+    test("error - UpdateAccountTypeNotSupported when using type field", () =>
+      Effect.gen(function* () {
+        const current = yield* Accounts.getAccount({
+          accountId: accountId(),
+        });
+
+        yield* Accounts.updateAccount({
+          accountId: accountId(),
+          id: current.id,
+          name: current.name,
+          type: "standard",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) =>
+            expect(e._tag).toBe("UpdateAccountTypeNotSupported"),
+          ),
+        );
+      }));
+
+    test("error - InvalidAccountName for name with invalid characters", () =>
+      Accounts.updateAccount({
+        accountId: accountId(),
+        id: accountId(),
+        name: "<script>alert(1)</script>",
+      }).pipe(
+        Effect.flip,
+        Effect.map((e) => expect(e._tag).toBe("InvalidAccountName")),
+      ));
 
     test("error - not found for non-existent accountId", () =>
       Accounts.updateAccount({
         accountId: "0000000000000000000000000000000000",
         id: "0000000000000000000000000000000000",
         name: "distilled-cf-accounts-nonexistent",
-        type: "standard",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId format", () =>
@@ -114,10 +139,9 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-!@#",
         id: "invalid-id",
         name: "distilled-cf-accounts-invalid",
-        type: "standard",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -125,10 +149,9 @@ describe("Accounts", () => {
         accountId: "",
         id: "",
         name: "",
-        type: "standard",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -145,7 +168,7 @@ describe("Accounts", () => {
         type: "standard",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AccountCreationForbidden")),
       ));
 
     test("error - empty name", () =>
@@ -153,7 +176,7 @@ describe("Accounts", () => {
         name: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MissingName")),
       ));
   });
 
@@ -168,7 +191,7 @@ describe("Accounts", () => {
         accountId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId format", () =>
@@ -176,7 +199,7 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-!@#",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -184,7 +207,7 @@ describe("Accounts", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -198,7 +221,7 @@ describe("Accounts", () => {
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MemberNotFound")),
       ));
 
     test("error - invalid accountId", () =>
@@ -207,7 +230,7 @@ describe("Accounts", () => {
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty memberId", () =>
@@ -216,7 +239,7 @@ describe("Accounts", () => {
         memberId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
     test("error - empty accountId and memberId", () =>
@@ -225,7 +248,7 @@ describe("Accounts", () => {
         memberId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -239,7 +262,7 @@ describe("Accounts", () => {
     test("error - fails with empty request body", () =>
       Accounts.createMember({}).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -254,7 +277,7 @@ describe("Accounts", () => {
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty memberId", () =>
@@ -262,7 +285,7 @@ describe("Accounts", () => {
         memberId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -276,7 +299,7 @@ describe("Accounts", () => {
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MemberNotFound")),
       ));
 
     test("error - invalid accountId", () =>
@@ -285,7 +308,7 @@ describe("Accounts", () => {
         memberId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty memberId", () =>
@@ -294,7 +317,7 @@ describe("Accounts", () => {
         memberId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
   });
 
@@ -308,7 +331,7 @@ describe("Accounts", () => {
         roleId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId", () =>
@@ -317,7 +340,7 @@ describe("Accounts", () => {
         roleId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("happy path - empty roleId returns all roles", () =>
@@ -344,7 +367,7 @@ describe("Accounts", () => {
         accountId: accountId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("JsonDecodeFailure")),
       ));
 
     test("error - invalid accountId", () =>
@@ -352,7 +375,7 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -360,7 +383,7 @@ describe("Accounts", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -374,7 +397,7 @@ describe("Accounts", () => {
         subscriptionIdentifier: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("JsonDecodeFailure")),
       ));
 
     test("error - invalid accountId", () =>
@@ -383,7 +406,7 @@ describe("Accounts", () => {
         subscriptionIdentifier: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty subscriptionIdentifier", () =>
@@ -392,7 +415,7 @@ describe("Accounts", () => {
         subscriptionIdentifier: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
   });
 
@@ -416,7 +439,7 @@ describe("Accounts", () => {
         subscriptionIdentifier: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty subscriptionIdentifier", () =>
@@ -425,7 +448,7 @@ describe("Accounts", () => {
         subscriptionIdentifier: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
   });
 
@@ -433,14 +456,12 @@ describe("Accounts", () => {
   // verifyToken
   // --------------------------------------------------------------------------
   describe("verifyToken", () => {
-    // NOTE: verifyToken returns MissingAuthenticationToken because the operation
-    // doesn't use account-scoped authorization - it verifies the current API token directly.
-    test("error - MissingAuthenticationToken for verification failure", () =>
+    test("error - UnknownCloudflareError for verification failure", () =>
       Accounts.verifyToken({
         accountId: accountId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("MissingAuthenticationToken")),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
 
     test("error - invalid accountId", () =>
@@ -448,7 +469,7 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -456,7 +477,7 @@ describe("Accounts", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -527,7 +548,7 @@ describe("Accounts", () => {
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty accountId", () =>
@@ -535,7 +556,7 @@ describe("Accounts", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -597,14 +618,16 @@ describe("Accounts", () => {
       }));
 
     test("error - empty policies array", () =>
-      Accounts.createToken({
-        accountId: accountId(),
-        name: "distilled-cf-accounts-empty-policies",
-        policies: [],
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
-      ));
+      Effect.gen(function* () {
+        const result = yield* Accounts.createToken({
+          accountId: accountId(),
+          name: "distilled-cf-accounts-empty-policies",
+          policies: [],
+        });
+
+        expect(result.policies).toBeDefined();
+        expect(result.policies).toHaveLength(0);
+      }));
 
     test("error - empty token name", () =>
       Accounts.createToken({
@@ -613,7 +636,7 @@ describe("Accounts", () => {
         policies: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidTokenName")),
       ));
 
     test("error - invalid accountId", () =>
@@ -623,7 +646,7 @@ describe("Accounts", () => {
         policies: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -637,7 +660,7 @@ describe("Accounts", () => {
         tokenId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId", () =>
@@ -646,7 +669,7 @@ describe("Accounts", () => {
         tokenId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("happy path - empty tokenId returns all tokens", () =>
@@ -673,7 +696,7 @@ describe("Accounts", () => {
         policies: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId", () =>
@@ -684,7 +707,7 @@ describe("Accounts", () => {
         policies: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty tokenId", () =>
@@ -695,7 +718,7 @@ describe("Accounts", () => {
         policies: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -709,7 +732,7 @@ describe("Accounts", () => {
         tokenId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId", () =>
@@ -718,7 +741,7 @@ describe("Accounts", () => {
         tokenId: "0000000000000000000000000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty tokenId", () =>
@@ -727,7 +750,7 @@ describe("Accounts", () => {
         tokenId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 
@@ -742,7 +765,7 @@ describe("Accounts", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - invalid accountId", () =>
@@ -752,7 +775,7 @@ describe("Accounts", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - empty tokenId", () =>
@@ -762,7 +785,7 @@ describe("Accounts", () => {
         body: {},
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 });

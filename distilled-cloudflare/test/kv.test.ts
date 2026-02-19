@@ -16,19 +16,53 @@ const accountId = () => getAccountId();
 const nsTitle = (name: string) => `distilled-cf-kv-${name}`;
 
 /**
+ * Find an existing KV namespace by title using the REST API.
+ * Returns the namespace ID if found, undefined otherwise.
+ */
+const findNamespaceByTitle = (title: string): Effect.Effect<string | undefined, never, never> =>
+  Effect.tryPromise({
+    try: async () => {
+      const resp = await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${accountId()}/storage/kv/namespaces?per_page=100`,
+        { headers: { Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}` } },
+      );
+      const data = await resp.json() as any;
+      const ns = data?.result?.find((n: any) => n.title === title);
+      return ns?.id as string | undefined;
+    },
+    catch: () => undefined,
+  }).pipe(Effect.catchAll(() => Effect.succeed(undefined)));
+
+/**
  * Create a KV namespace, run `fn`, then delete the namespace.
- * Cleanup-first pattern for idempotency.
+ * Cleanup-first pattern: deletes any stale namespace with the same title
+ * left over from a prior test run. Includes a propagation delay to handle
+ * Cloudflare eventual consistency.
  */
 const withNamespace = <A, E, R>(
   title: string,
   fn: (namespaceId: string) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E | KV.CreateNamespaceRequest | any, R | any> =>
   Effect.gen(function* () {
+    // Cleanup-first: delete any stale namespace with the same title
+    const existingId = yield* findNamespaceByTitle(title);
+    if (existingId) {
+      yield* KV.deleteNamespace({
+        accountId: accountId(),
+        namespaceId: existingId,
+      }).pipe(Effect.catchAll(() => Effect.void));
+    }
+
     // Create namespace
     const ns = yield* KV.createNamespace({
       accountId: accountId(),
       title,
     });
+
+    // Wait for namespace to propagate (eventual consistency).
+    // Under load (parallel test suites), newly created namespaces
+    // may return NamespaceNotFound for a brief period.
+    yield* Effect.sleep("1 second");
 
     // Run the test function, ensuring cleanup
     return yield* fn(ns.id).pipe(
@@ -300,13 +334,13 @@ describe("KV", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
 
-    test("error - CloudflareHttpError for malformed namespaceId (empty string)", () =>
+    test("error - MethodNotAllowed for malformed namespaceId (empty string)", () =>
       KV.deleteNamespace({
         accountId: accountId(),
         namespaceId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
+        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 

@@ -1,10 +1,17 @@
 {
   "errors": {
+    "MethodNotAllowed": [
+      { "code": 10405, "message": { "includes": "not allowed" } },
+      { "code": 10000, "message": { "includes": "not allowed" } }
+    ],
     "FeatureNotEnabled": [
       { "code": 1002, "message": { "includes": "address_maps_not_enabled" } }
     ],
     "InvalidAccountId": [
       { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "AddressMapNotFound": [
+      { "code": 1000, "message": { "includes": "not_found" } }
     ]
   }
 }

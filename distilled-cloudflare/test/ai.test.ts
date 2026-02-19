@@ -53,7 +53,7 @@ describe("AI", () => {
         modelName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("ModelNotFound")),
       ));
   });
 
@@ -82,7 +82,7 @@ describe("AI", () => {
         accountId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AccountNotFound")),
       ));
   });
 
@@ -139,7 +139,7 @@ describe("AI", () => {
         name: finetuneName("create-empty-account"),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AccountNotFound")),
       ));
 
     test("error - validation error for empty model string", () =>
@@ -149,7 +149,7 @@ describe("AI", () => {
         name: finetuneName("create-empty-model"),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("ModelNotSupported")),
       ));
 
     test("error - validation error for empty name string", () =>
@@ -159,7 +159,7 @@ describe("AI", () => {
         name: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("ModelNotSupported")),
       ));
 
     test("error - ModelNotSupported for invalid model name", () =>
@@ -222,7 +222,7 @@ describe("AI", () => {
         fileName: "test.jsonl",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AccountNotFound")),
       ));
 
     test("error - validation error for empty finetuneId", () =>
@@ -232,7 +232,7 @@ describe("AI", () => {
         fileName: "test.jsonl",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
   });
 
@@ -284,7 +284,7 @@ describe("AI", () => {
         model: "@cf/meta/llama-2-7b-chat-int8",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("AccountNotFound")),
       ));
 
     test("error - validation error for empty model string", () =>
@@ -293,7 +293,7 @@ describe("AI", () => {
         model: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
 
     test("error - ModelSchemaNotFound for model name with special characters", () =>

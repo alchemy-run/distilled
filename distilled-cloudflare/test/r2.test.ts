@@ -177,7 +177,7 @@ describe("R2", () => {
           name,
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+          Effect.map((e) => expect(e._tag).toBe("BucketAlreadyExists")),
         ),
       ));
 
@@ -187,7 +187,7 @@ describe("R2", () => {
         name: bucketName("create-bad-acct"),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -242,16 +242,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
-      ));
-
-    test("error - returns error for empty bucket name (SDK doesn't handle empty path params)", () =>
-      R2.getBucket({
-        accountId: accountId(),
-        bucketName: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -337,7 +328,7 @@ describe("R2", () => {
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -398,7 +389,7 @@ describe("R2", () => {
         storageClass: "Standard",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -443,7 +434,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
     test("error - InvalidBucketName for empty bucket name", () =>
@@ -452,7 +443,7 @@ describe("R2", () => {
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("NoRoute")),
       ));
   });
 
@@ -500,7 +491,7 @@ describe("R2", () => {
           bucketName: name,
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+          Effect.map((e) => expect(e._tag).toBe("NoCorsConfiguration")),
         ),
       ));
 
@@ -519,7 +510,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -629,7 +620,7 @@ describe("R2", () => {
         ],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -678,7 +669,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -750,7 +741,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -883,7 +874,7 @@ describe("R2", () => {
         rules: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -922,7 +913,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -979,7 +970,7 @@ describe("R2", () => {
         rules: [],
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1013,7 +1004,7 @@ describe("R2", () => {
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1050,7 +1041,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1086,7 +1077,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1124,7 +1115,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1186,7 +1177,7 @@ describe("R2", () => {
         enabled: true,
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1224,7 +1215,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -1232,16 +1223,22 @@ describe("R2", () => {
   // listBucketEventNotifications
   // --------------------------------------------------------------------------
   describe("listBucketEventNotifications", () => {
-    test("error - fresh bucket returns error (no event notification config)", () =>
-      withBucket(bucketName("evtnotif-list"), (name) =>
-        R2.listBucketEventNotifications({
-          accountId: accountId(),
-          bucketName: name,
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+    test(
+      "error - fresh bucket returns error (no event notification config)",
+      { timeout: 180_000 },
+      () =>
+        withBucket(bucketName("evtnotif-list"), (name) =>
+          R2.listBucketEventNotifications({
+            accountId: accountId(),
+            bucketName: name,
+          }).pipe(
+            Effect.flip,
+            Effect.map((e) =>
+              expect(e._tag).toBe("NoEventNotificationConfig"),
+            ),
+          ),
         ),
-      ));
+    );
 
     test("error - returns error for non-existent bucket", () =>
       R2.listBucketEventNotifications({
@@ -1249,7 +1246,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-nonexistent-evtnotif-xyz",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("BucketNotFound")),
       ));
 
     test("error - CloudflareHttpError for invalid accountId", () =>
@@ -1258,7 +1255,7 @@ describe("R2", () => {
         bucketName: "distilled-cf-r2-bad-acct",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 });

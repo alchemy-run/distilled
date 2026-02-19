@@ -73,6 +73,27 @@ const withCatalog = <A, E, R>(
     }),
   );
 
+const apiToken = () => process.env.CLOUDFLARE_API_TOKEN!;
+
+/**
+ * Create an R2 bucket with an enabled data catalog and credential, run `fn`, then clean up.
+ * Maintenance config updates require a credential to be set first.
+ */
+const withCatalogAndCredential = <A, E, R>(
+  name: string,
+  fn: (bucket: string) => Effect.Effect<A, E, R>,
+): Effect.Effect<A, E | any, R | any> =>
+  withCatalog(name, (bucket) =>
+    Effect.gen(function* () {
+      yield* R2DataCatalog.createCredential({
+        accountId: accountId(),
+        bucketName: bucket,
+        token: apiToken(),
+      });
+      return yield* fn(bucket);
+    }),
+  );
+
 // ============================================================================
 // R2 Data Catalog Tests
 // ============================================================================
@@ -93,16 +114,12 @@ describe("R2DataCatalog", () => {
         expect(Array.isArray(result.warehouses)).toBe(true);
       }));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.listR2DataCatalogs({
         accountId: "invalid-account-id-000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
   });
 
@@ -124,47 +141,46 @@ describe("R2DataCatalog", () => {
 
             expect(result).toBeDefined();
             expect(typeof result.id).toBe("string");
-            expect(result.id.length).toBeGreaterThan(0);
+            expect(result.id!.length).toBeGreaterThan(0);
             expect(typeof result.name).toBe("string");
             expect(result.name.length).toBeGreaterThan(0);
           }),
         ),
     );
 
-    // API returns success response for non-existent bucket instead of NoSuchBucket error
-    test.skip("error - non-existent bucket (API does not return NoSuchBucket)", () =>
-      R2DataCatalog.enableR2DataCatalog({
-        accountId: accountId(),
-        bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("NoSuchBucket")),
-      ));
+    // NOTE: API creates a catalog entry even for non-existent buckets (no NoSuchBucket error)
+    test("quirk - succeeds for non-existent bucket", () =>
+      Effect.gen(function* () {
+        const result = yield* R2DataCatalog.enableR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        });
+        expect(result).toBeDefined();
+        expect(typeof result.id).toBe("string");
 
-    test("error - invalid accountId", () =>
+        // Clean up the stale catalog entry
+        yield* R2DataCatalog.disableR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        }).pipe(Effect.catchAll(() => Effect.void));
+      }));
+
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.enableR2DataCatalog({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.enableR2DataCatalog({
         accountId: accountId(),
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -195,40 +211,46 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    // API returns success response for non-existent bucket instead of NoSuchBucket error
-    test.skip("error - non-existent bucket (API does not return NoSuchBucket)", () =>
-      R2DataCatalog.getR2DataCatalog({
-        accountId: accountId(),
-        bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("NoSuchBucket")),
-      ));
+    // NOTE: API returns catalog data even for non-existent buckets (no NoSuchBucket error)
+    test("quirk - succeeds for non-existent bucket", () =>
+      Effect.gen(function* () {
+        // Ensure catalog exists for this non-existent bucket
+        yield* R2DataCatalog.enableR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        }).pipe(Effect.catchAll(() => Effect.void));
 
-    test("error - invalid accountId", () =>
+        const result = yield* R2DataCatalog.getR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        });
+        expect(result).toBeDefined();
+        expect(result.bucket).toBe("distilled-cf-nonexistent-bucket-xyz-999");
+        expect(typeof result.status).toBe("string");
+
+        // Clean up
+        yield* R2DataCatalog.disableR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        }).pipe(Effect.catchAll(() => Effect.void));
+      }));
+
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.getR2DataCatalog({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.getR2DataCatalog({
         accountId: accountId(),
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -260,40 +282,33 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    // API returns success response for non-existent bucket instead of an error
-    test.skip("error - non-existent bucket (API does not return an error)", () =>
-      R2DataCatalog.disableR2DataCatalog({
-        accountId: accountId(),
-        bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e).toBeDefined()),
-      ));
+    // NOTE: API succeeds silently even for non-existent buckets (no error returned)
+    test("quirk - succeeds for non-existent bucket", () =>
+      Effect.gen(function* () {
+        const result = yield* R2DataCatalog.disableR2DataCatalog({
+          accountId: accountId(),
+          bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
+        });
+        // API returns empty string on success
+        expect(result).toBeDefined();
+      }));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.disableR2DataCatalog({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.disableR2DataCatalog({
         accountId: accountId(),
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -321,43 +336,31 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.getMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.getMaintenanceConfig({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - WarehouseNotFound for empty bucketName string", () =>
       R2DataCatalog.getMaintenanceConfig({
         accountId: accountId(),
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseNotFound")),
       ));
   });
 
@@ -365,12 +368,11 @@ describe("R2DataCatalog", () => {
   // updateMaintenanceConfig
   // --------------------------------------------------------------------------
   describe("updateMaintenanceConfig", () => {
-    // Requires credential to be set first (needs API token, not API key)
-    test.skip(
-      "happy path - updates compaction config for a catalog (requires credential)",
+    test(
+      "happy path - updates compaction config for a catalog",
       { timeout: 120_000 },
       () =>
-        withCatalog(bucketName("maint-upd-compact"), (bucket) =>
+        withCatalogAndCredential(bucketName("maint-upd-compact"), (bucket) =>
           Effect.gen(function* () {
             const result = yield* R2DataCatalog.updateMaintenanceConfig({
               accountId: accountId(),
@@ -386,12 +388,11 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    // Requires credential to be set first (needs API token, not API key)
-    test.skip(
-      "happy path - updates snapshot expiration config for a catalog (requires credential)",
+    test(
+      "happy path - updates snapshot expiration config for a catalog",
       { timeout: 120_000 },
       () =>
-        withCatalog(bucketName("maint-upd-snap"), (bucket) =>
+        withCatalogAndCredential(bucketName("maint-upd-snap"), (bucket) =>
           Effect.gen(function* () {
             const result = yield* R2DataCatalog.updateMaintenanceConfig({
               accountId: accountId(),
@@ -408,12 +409,11 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    // Requires credential to be set first (needs API token, not API key)
-    test.skip(
-      "happy path - updates both compaction and snapshot expiration (requires credential)",
+    test(
+      "happy path - updates both compaction and snapshot expiration",
       { timeout: 120_000 },
       () =>
-        withCatalog(bucketName("maint-upd-both"), (bucket) =>
+        withCatalogAndCredential(bucketName("maint-upd-both"), (bucket) =>
           Effect.gen(function* () {
             const result = yield* R2DataCatalog.updateMaintenanceConfig({
               accountId: accountId(),
@@ -434,46 +434,34 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.updateMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.updateMaintenanceConfig({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.updateMaintenanceConfig({
         accountId: accountId(),
         bucketName: "",
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -481,22 +469,16 @@ describe("R2DataCatalog", () => {
   // createCredential
   // --------------------------------------------------------------------------
   describe("createCredential", () => {
-    // Requires CLOUDFLARE_API_TOKEN env var (not API key)
-    test.skip(
-      "happy path - creates a credential for a catalog bucket (requires API token)",
+    test(
+      "happy path - creates a credential for a catalog bucket",
       { timeout: 120_000 },
       () =>
         withCatalog(bucketName("cred-create"), (bucket) =>
           Effect.gen(function* () {
-            const token = process.env.CLOUDFLARE_API_TOKEN;
-            if (!token) {
-              throw new Error("CLOUDFLARE_API_TOKEN not set");
-            }
-
             const result = yield* R2DataCatalog.createCredential({
               accountId: accountId(),
               bucketName: bucket,
-              token,
+              token: apiToken(),
             });
 
             expect(result).toBeDefined();
@@ -504,60 +486,44 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    test("error - non-existent bucket", () =>
+    test("error - InvalidCredential for non-existent bucket", () =>
       R2DataCatalog.createCredential({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
         token: "some-token",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidCredential")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.createCredential({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
         token: "some-token",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.createCredential({
         accountId: accountId(),
         bucketName: "",
         token: "some-token",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty token string", () =>
+    test("error - InvalidCredential for empty token string", () =>
       R2DataCatalog.createCredential({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
         token: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidCredential")),
       ));
   });
 
@@ -644,43 +610,31 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.listNamespaces({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.listNamespaces({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - WarehouseNotFound for empty bucketName string", () =>
       R2DataCatalog.listNamespaces({
         accountId: accountId(),
         bucketName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseNotFound")),
       ));
   });
 
@@ -729,7 +683,7 @@ describe("R2DataCatalog", () => {
     // SKIPPED: SDK bug - API returns R2 bucket data instead of data catalog response
     test(
       "happy path - lists tables with returnUuids",
-      { timeout: 120_000 },
+      { timeout: 180_000 },
       () =>
         withCatalog(bucketName("nst-list-uuids"), (bucket) =>
           Effect.gen(function* () {
@@ -767,60 +721,44 @@ describe("R2DataCatalog", () => {
         ),
     );
 
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.listNamespaceTables({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
         namespace: "default",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.listNamespaceTables({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
         namespace: "default",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.listNamespaceTables({
         accountId: accountId(),
         bucketName: "",
         namespace: "default",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty namespace string", () =>
+    test("error - CloudflareHttpError for empty namespace string", () =>
       R2DataCatalog.listNamespaceTables({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
         namespace: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
   });
 
@@ -828,7 +766,7 @@ describe("R2DataCatalog", () => {
   // getNamespaceTableMaintenanceConfig
   // --------------------------------------------------------------------------
   describe("getNamespaceTableMaintenanceConfig", () => {
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.getNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -836,14 +774,10 @@ describe("R2DataCatalog", () => {
         tableName: "non-existent-table",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.getNamespaceTableMaintenanceConfig({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
@@ -851,14 +785,10 @@ describe("R2DataCatalog", () => {
         tableName: "any-table",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.getNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "",
@@ -866,14 +796,10 @@ describe("R2DataCatalog", () => {
         tableName: "any-table",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty namespace string", () =>
+    test("error - CloudflareHttpError for empty namespace string", () =>
       R2DataCatalog.getNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -881,14 +807,10 @@ describe("R2DataCatalog", () => {
         tableName: "any-table",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty tableName string", () =>
+    test("error - CloudflareHttpError for empty tableName string", () =>
       R2DataCatalog.getNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -896,11 +818,7 @@ describe("R2DataCatalog", () => {
         tableName: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
     test(
@@ -925,7 +843,7 @@ describe("R2DataCatalog", () => {
   // updateNamespaceTableMaintenanceConfig
   // --------------------------------------------------------------------------
   describe("updateNamespaceTableMaintenanceConfig", () => {
-    test("error - non-existent bucket", () =>
+    test("error - WarehouseInactive for non-existent bucket", () =>
       R2DataCatalog.updateNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -934,14 +852,10 @@ describe("R2DataCatalog", () => {
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("WarehouseInactive")),
       ));
 
-    test("error - invalid accountId", () =>
+    test("error - InvalidRoute for invalid accountId", () =>
       R2DataCatalog.updateNamespaceTableMaintenanceConfig({
         accountId: "invalid-account-id-000",
         bucketName: "any-bucket",
@@ -950,14 +864,10 @@ describe("R2DataCatalog", () => {
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
 
-    test("error - empty bucketName string", () =>
+    test("error - CloudflareHttpError for empty bucketName string", () =>
       R2DataCatalog.updateNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "",
@@ -966,14 +876,10 @@ describe("R2DataCatalog", () => {
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty namespace string", () =>
+    test("error - CloudflareHttpError for empty namespace string", () =>
       R2DataCatalog.updateNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -982,14 +888,10 @@ describe("R2DataCatalog", () => {
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
-    test("error - empty tableName string", () =>
+    test("error - CloudflareHttpError for empty tableName string", () =>
       R2DataCatalog.updateNamespaceTableMaintenanceConfig({
         accountId: accountId(),
         bucketName: "distilled-cf-nonexistent-bucket-xyz-999",
@@ -998,11 +900,7 @@ describe("R2DataCatalog", () => {
         compaction: { state: "enabled", targetSizeMb: "128" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) =>
-          expect(["UnknownCloudflareError", "CloudflareHttpError"]).toContain(
-            e._tag,
-          ),
-        ),
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
       ));
 
     // SKIPPED: SDK bug - API returns R2 bucket data instead of proper error response

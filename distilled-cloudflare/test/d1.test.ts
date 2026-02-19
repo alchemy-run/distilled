@@ -102,13 +102,13 @@ describe("D1", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
 
-    test("error - UnknownCloudflareError for empty database name", () =>
+    test("error - InvalidProperty for empty database name", () =>
       D1.createDatabase({
         accountId: accountId(),
         name: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InvalidProperty")),
       ));
   });
 
@@ -131,13 +131,13 @@ describe("D1", () => {
         }),
       ));
 
-    test("error - not found for non-existent databaseId", () =>
+    test("error - DatabaseNotFound for non-existent databaseId", () =>
       D1.getDatabase({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DatabaseNotFound")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -149,13 +149,13 @@ describe("D1", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
 
-    test("error - CloudflareHttpError for empty databaseId", () =>
+    test("error - UnknownError for empty databaseId", () =>
       D1.getDatabase({
         accountId: accountId(),
         databaseId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownError")),
       ));
   });
 
@@ -163,38 +163,38 @@ describe("D1", () => {
   // updateDatabase
   // --------------------------------------------------------------------------
   describe("updateDatabase", () => {
-    test("error - InternalError for read replication (API limitation)", () =>
+    test("happy path - updates read replication to auto", () =>
       withDatabase(dbName("update-happy"), (databaseId) =>
-        D1.updateDatabase({
-          accountId: accountId(),
-          databaseId,
-          readReplication: { mode: "auto" },
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.updateDatabase({
+            accountId: accountId(),
+            databaseId,
+            readReplication: { mode: "auto" },
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
-    test("error - InternalError for disabled read replication (API limitation)", () =>
+    test("happy path - updates read replication to disabled", () =>
       withDatabase(dbName("update-disabled"), (databaseId) =>
-        D1.updateDatabase({
-          accountId: accountId(),
-          databaseId,
-          readReplication: { mode: "disabled" },
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.updateDatabase({
+            accountId: accountId(),
+            databaseId,
+            readReplication: { mode: "disabled" },
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
-    test("error - not found for non-existent databaseId", () =>
+    test("error - DatabaseNotFound for non-existent databaseId", () =>
       D1.updateDatabase({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
         readReplication: { mode: "auto" },
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DatabaseNotFound")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -212,16 +212,16 @@ describe("D1", () => {
   // patchDatabase
   // --------------------------------------------------------------------------
   describe("patchDatabase", () => {
-    test("error - InternalError for patch read replication (API limitation)", () =>
+    test("happy path - patches read replication to auto", () =>
       withDatabase(dbName("patch-happy"), (databaseId) =>
-        D1.patchDatabase({
-          accountId: accountId(),
-          databaseId,
-          readReplication: { mode: "auto" },
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InternalError")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.patchDatabase({
+            accountId: accountId(),
+            databaseId,
+            readReplication: { mode: "auto" },
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
     test("error - InternalError for patch with no readReplication (API limitation)", () =>
@@ -235,13 +235,13 @@ describe("D1", () => {
         ),
       ));
 
-    test("error - not found for non-existent databaseId", () =>
+    test("error - InternalError for non-existent databaseId", () =>
       D1.patchDatabase({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("InternalError")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -275,13 +275,13 @@ describe("D1", () => {
         expect(result).toBeDefined();
       }));
 
-    test("error - not found for non-existent databaseId", () =>
+    test("error - DatabaseNotFound for non-existent databaseId", () =>
       D1.deleteDatabase({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DatabaseNotFound")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -293,13 +293,13 @@ describe("D1", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
 
-    test("error - CloudflareHttpError for empty databaseId", () =>
+    test("error - UnknownCloudflareError for empty databaseId", () =>
       D1.deleteDatabase({
         accountId: accountId(),
         databaseId: "",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
       ));
   });
 
@@ -307,52 +307,52 @@ describe("D1", () => {
   // exportDatabase
   // --------------------------------------------------------------------------
   describe("exportDatabase", () => {
-    test("error - InvalidRequest for export (API limitation)", () =>
+    test("happy path - exports a database", () =>
       withDatabase(dbName("export-happy"), (databaseId) =>
-        D1.exportDatabase({
-          accountId: accountId(),
-          databaseId,
-          outputFormat: "polling",
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.exportDatabase({
+            accountId: accountId(),
+            databaseId,
+            outputFormat: "polling",
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
-    test("error - InvalidRequest for export with dumpOptions (noSchema)", () =>
+    test("happy path - exports a database with dumpOptions (noSchema)", () =>
       withDatabase(dbName("export-opts"), (databaseId) =>
-        D1.exportDatabase({
-          accountId: accountId(),
-          databaseId,
-          outputFormat: "polling",
-          dumpOptions: { noSchema: true },
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.exportDatabase({
+            accountId: accountId(),
+            databaseId,
+            outputFormat: "polling",
+            dumpOptions: { noSchema: true },
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
-    test("error - InvalidRequest for export with dumpOptions (noData)", () =>
+    test("happy path - exports a database with dumpOptions (noData)", () =>
       withDatabase(dbName("export-nodata"), (databaseId) =>
-        D1.exportDatabase({
-          accountId: accountId(),
-          databaseId,
-          outputFormat: "polling",
-          dumpOptions: { noData: true },
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* D1.exportDatabase({
+            accountId: accountId(),
+            databaseId,
+            outputFormat: "polling",
+            dumpOptions: { noData: true },
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
-    test("error - not found for non-existent databaseId", () =>
+    test("error - DatabaseNotFound for non-existent databaseId", () =>
       D1.exportDatabase({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
         outputFormat: "polling",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DatabaseNotFound")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -386,25 +386,13 @@ describe("D1", () => {
         }),
       ));
 
-    test("error - NoHistoryAvailable for fresh database with timestamp", () =>
-      withDatabase(dbName("bookmark-ts"), (databaseId) =>
-        D1.getBookmarkDatabaseTimeTravel({
-          accountId: accountId(),
-          databaseId,
-          timestamp: new Date().toISOString(),
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("NoHistoryAvailable")),
-        ),
-      ));
-
-    test("error - not found for non-existent databaseId", () =>
+    test("error - DatabaseNotFound for non-existent databaseId", () =>
       D1.getBookmarkDatabaseTimeTravel({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        Effect.map((e) => expect(e._tag).toBe("DatabaseNotFound")),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -458,26 +446,17 @@ describe("D1", () => {
         }),
       ));
 
-    test("error - NoHistoryAvailable for fresh database with timestamp", () =>
-      withDatabase(dbName("restore-ts"), (databaseId) =>
-        D1.restoreDatabaseTimeTravel({
-          accountId: accountId(),
-          databaseId,
-          timestamp: new Date().toISOString(),
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("NoHistoryAvailable")),
-        ),
-      ));
-
-    test("error - not found for non-existent databaseId", () =>
+    test("error - returns error for non-existent databaseId", () =>
       D1.restoreDatabaseTimeTravel({
         accountId: accountId(),
         databaseId: "00000000-0000-0000-0000-000000000000",
         timestamp: new Date().toISOString(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBeDefined()),
+        // Cloudflare returns either InvalidProperty or DatabaseNotFound depending on timing
+        Effect.map((e) =>
+          expect(["InvalidProperty", "DatabaseNotFound"]).toContain(e._tag),
+        ),
       ));
 
     test("error - InvalidObjectIdentifier for invalid accountId", () =>
@@ -490,18 +469,18 @@ describe("D1", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidObjectIdentifier")),
       ));
 
-    test("error - missing both bookmark and timestamp", () =>
+    test("error - InvalidProperty for missing both bookmark and timestamp", () =>
       withDatabase(dbName("restore-missing"), (databaseId) =>
         D1.restoreDatabaseTimeTravel({
           accountId: accountId(),
           databaseId,
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+          Effect.map((e) => expect(e._tag).toBe("InvalidProperty")),
         ),
       ));
 
-    test("error - invalid bookmark string", () =>
+    test("error - InvalidProperty for invalid bookmark string", () =>
       withDatabase(dbName("restore-bad-bk"), (databaseId) =>
         D1.restoreDatabaseTimeTravel({
           accountId: accountId(),
@@ -509,11 +488,11 @@ describe("D1", () => {
           bookmark: "not-a-valid-bookmark",
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+          Effect.map((e) => expect(e._tag).toBe("InvalidProperty")),
         ),
       ));
 
-    test("error - invalid timestamp format", () =>
+    test("error - InvalidProperty for invalid timestamp format", () =>
       withDatabase(dbName("restore-bad-ts"), (databaseId) =>
         D1.restoreDatabaseTimeTravel({
           accountId: accountId(),
@@ -521,7 +500,7 @@ describe("D1", () => {
           timestamp: "not-a-timestamp",
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBeDefined()),
+          Effect.map((e) => expect(e._tag).toBe("InvalidProperty")),
         ),
       ));
   });

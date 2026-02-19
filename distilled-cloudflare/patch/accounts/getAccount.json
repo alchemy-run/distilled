@@ -1,5 +1,7 @@
 {
-  "errors": {},
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }]
+  },
   "response": {
     "properties": {
       "settings.abuse_contact_email": { "nullable": true },

@@ -1,7 +1,17 @@
 {
   "errors": {
+    "MethodNotAllowed": [
+      { "code": 10405, "message": { "includes": "not allowed" } },
+      { "code": 10000, "message": { "includes": "not allowed" } }
+    ],
     "InvalidZoneId": [
       { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "RegionalHostnameNotFound": [
+      { "code": 1002, "message": { "includes": "forbidden" } }
+    ],
+    "RegionalHostnameEmpty": [
+      { "code": 1000, "message": { "includes": "not_found" } }
     ]
   }
 }

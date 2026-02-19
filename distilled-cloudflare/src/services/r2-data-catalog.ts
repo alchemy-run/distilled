@@ -22,6 +22,16 @@ import {
 // Errors
 // =============================================================================
 
+export class InvalidCredential extends Schema.TaggedError<InvalidCredential>()(
+  "InvalidCredential",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 30004 }])) {}
+
+export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
 export class NoSuchBucket extends Schema.TaggedError<NoSuchBucket>()(
   "NoSuchBucket",
   { code: Schema.Number, message: Schema.String },
@@ -31,6 +41,16 @@ export class TableNotFound extends Schema.TaggedError<TableNotFound>()(
   "TableNotFound",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 10001 }, { code: 40403 }])) {}
+
+export class WarehouseInactive extends Schema.TaggedError<WarehouseInactive>()(
+  "WarehouseInactive",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 40402 }])) {}
+
+export class WarehouseNotFound extends Schema.TaggedError<WarehouseNotFound>()(
+  "WarehouseNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 40401 }])) {}
 
 // =============================================================================
 // Credential
@@ -64,12 +84,12 @@ export const createCredential: (
   input: CreateCredentialRequest,
 ) => Effect.Effect<
   CreateCredentialResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InvalidCredential,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateCredentialRequest,
   output: CreateCredentialResponse,
-  errors: [],
+  errors: [InvalidRoute, InvalidCredential],
 }));
 
 // =============================================================================
@@ -138,12 +158,12 @@ export const getMaintenanceConfig: (
   input: GetMaintenanceConfigRequest,
 ) => Effect.Effect<
   GetMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetMaintenanceConfigRequest,
   output: GetMaintenanceConfigResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive, WarehouseNotFound],
 }));
 
 export interface UpdateMaintenanceConfigRequest {
@@ -230,12 +250,12 @@ export const updateMaintenanceConfig: (
   input: UpdateMaintenanceConfigRequest,
 ) => Effect.Effect<
   UpdateMaintenanceConfigResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateMaintenanceConfigRequest,
   output: UpdateMaintenanceConfigResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -326,12 +346,12 @@ export const listNamespaces: (
   input: ListNamespacesRequest,
 ) => Effect.Effect<
   ListNamespacesResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive | WarehouseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespacesRequest,
   output: ListNamespacesResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive, WarehouseNotFound],
 }));
 
 // =============================================================================
@@ -435,12 +455,12 @@ export const listNamespaceTables: (
   input: ListNamespaceTablesRequest,
 ) => Effect.Effect<
   ListNamespaceTablesResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListNamespaceTablesRequest,
   output: ListNamespaceTablesResponse,
-  errors: [],
+  errors: [InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -508,12 +528,12 @@ export const getNamespaceTableMaintenanceConfig: (
   input: GetNamespaceTableMaintenanceConfigRequest,
 ) => Effect.Effect<
   GetNamespaceTableMaintenanceConfigResponse,
-  CommonErrors | TableNotFound,
+  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetNamespaceTableMaintenanceConfigRequest,
   output: GetNamespaceTableMaintenanceConfigResponse,
-  errors: [TableNotFound],
+  errors: [TableNotFound, InvalidRoute, WarehouseInactive],
 }));
 
 export interface UpdateNamespaceTableMaintenanceConfigRequest {
@@ -604,12 +624,12 @@ export const updateNamespaceTableMaintenanceConfig: (
   input: UpdateNamespaceTableMaintenanceConfigRequest,
 ) => Effect.Effect<
   UpdateNamespaceTableMaintenanceConfigResponse,
-  CommonErrors | TableNotFound,
+  CommonErrors | TableNotFound | InvalidRoute | WarehouseInactive,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateNamespaceTableMaintenanceConfigRequest,
   output: UpdateNamespaceTableMaintenanceConfigResponse,
-  errors: [TableNotFound],
+  errors: [TableNotFound, InvalidRoute, WarehouseInactive],
 }));
 
 // =============================================================================
@@ -699,12 +719,12 @@ export const getR2DataCatalog: (
   input: GetR2DataCatalogRequest,
 ) => Effect.Effect<
   GetR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetR2DataCatalogRequest,
   output: GetR2DataCatalogResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface ListR2DataCatalogsRequest {
@@ -788,12 +808,12 @@ export const listR2DataCatalogs: (
   input: ListR2DataCatalogsRequest,
 ) => Effect.Effect<
   ListR2DataCatalogsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListR2DataCatalogsRequest,
   output: ListR2DataCatalogsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface EnableR2DataCatalogRequest {
@@ -828,12 +848,12 @@ export const enableR2DataCatalog: (
   input: EnableR2DataCatalogRequest,
 ) => Effect.Effect<
   EnableR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: EnableR2DataCatalogRequest,
   output: EnableR2DataCatalogResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));
 
 export interface DisableR2DataCatalogRequest {
@@ -861,10 +881,10 @@ export const disableR2DataCatalog: (
   input: DisableR2DataCatalogRequest,
 ) => Effect.Effect<
   DisableR2DataCatalogResponse,
-  CommonErrors | NoSuchBucket,
+  CommonErrors | NoSuchBucket | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DisableR2DataCatalogRequest,
   output: DisableR2DataCatalogResponse,
-  errors: [NoSuchBucket],
+  errors: [NoSuchBucket, InvalidRoute],
 }));

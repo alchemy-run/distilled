@@ -1,5 +1,8 @@
 {
-  "errors": {},
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }],
+    "InvalidTokenName": [{ "code": 400, "message": { "includes": "name must have a length" } }]
+  },
   "response": {
     "properties": {
       "last_used_on": { "nullable": true },

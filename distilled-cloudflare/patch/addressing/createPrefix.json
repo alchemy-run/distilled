@@ -2,6 +2,12 @@
   "errors": {
     "InvalidAccountId": [
       { "code": 7003, "message": { "includes": "Could not route" } }
+    ],
+    "InvalidNetworkCidr": [
+      { "code": 1001, "message": { "includes": "invalid_network_cidr" } }
+    ],
+    "IrrEntryNotFound": [
+      { "code": 1003, "message": { "includes": "irr_entry_not_found" } }
     ]
   }
 }

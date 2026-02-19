@@ -32,6 +32,11 @@ export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIde
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
 
+export class NoStateChange extends Schema.TaggedError<NoStateChange>()(
+  "NoStateChange",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1467 }])) {}
+
 // =============================================================================
 // TotalTl
 // =============================================================================
@@ -53,7 +58,7 @@ export interface GetTotalTlResponse {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: "90";
+  validityPeriod?: number;
 }
 
 export const GetTotalTlResponse = Schema.Struct({
@@ -61,7 +66,7 @@ export const GetTotalTlResponse = Schema.Struct({
     Schema.Literal("google", "lets_encrypt", "ssl_com"),
   ).pipe(T.JsonName("certificate_authority")),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")).pipe(
+  validityPeriod: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_period"),
   ),
 }) as unknown as Schema.Schema<GetTotalTlResponse>;
@@ -103,7 +108,7 @@ export interface CreateTotalTlResponse {
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: "90";
+  validityPeriod?: number;
 }
 
 export const CreateTotalTlResponse = Schema.Struct({
@@ -111,7 +116,7 @@ export const CreateTotalTlResponse = Schema.Struct({
     Schema.Literal("google", "lets_encrypt", "ssl_com"),
   ).pipe(T.JsonName("certificate_authority")),
   enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Literal("90")).pipe(
+  validityPeriod: Schema.optional(Schema.Number).pipe(
     T.JsonName("validity_period"),
   ),
 }) as unknown as Schema.Schema<CreateTotalTlResponse>;
@@ -120,10 +125,17 @@ export const createTotalTl: (
   input: CreateTotalTlRequest,
 ) => Effect.Effect<
   CreateTotalTlResponse,
-  CommonErrors | InvalidObjectIdentifier | AdvancedCertificateManagerRequired,
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | AdvancedCertificateManagerRequired
+  | NoStateChange,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateTotalTlRequest,
   output: CreateTotalTlResponse,
-  errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired],
+  errors: [
+    InvalidObjectIdentifier,
+    AdvancedCertificateManagerRequired,
+    NoStateChange,
+  ],
 }));

@@ -1,6 +1,12 @@
 {
   "errors": {
     "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "AdvancedCertificateManagerRequired": [{ "code": 1450 }]
+    "AdvancedCertificateManagerRequired": [{ "code": 1450 }],
+    "NoStateChange": [{ "code": 1467 }]
+  },
+  "response": {
+    "properties": {
+      "validity_period": { "type": "number" }
+    }
   }
 }

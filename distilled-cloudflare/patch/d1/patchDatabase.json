@@ -1,6 +1,7 @@
 {
   "errors": {
     "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "InternalError": [{ "code": 7500 }]
+    "InternalError": [{ "code": 7500 }],
+    "DatabaseNotFound": [{ "code": 7404 }]
   }
 }

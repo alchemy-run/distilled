@@ -67,6 +67,8 @@ interface OperationPatch {
    *   of items but the SDK declares the response type as a single object)
    */
   responseType?: "array";
+  /** Request schema modifications */
+  request?: ResponsePatch;
   /** Response schema modifications */
   response?: ResponsePatch;
 }
@@ -640,6 +642,48 @@ function generateOperationSchema(
     ...p,
     type: resolveTypeInfoDeep(p.type, op.registry),
   }));
+
+  // Apply request property patches (optional, nullable, addValues, type overrides)
+  if (patch?.request) {
+    // Build a synthetic TypeInfo object from allParams so we can reuse applyResponsePatch
+    const syntheticRequest: TypeInfo = {
+      kind: "object",
+      properties: allParams.map((p) => ({
+        name: toCamelCase(p.name),
+        type: p.type,
+        required: p.required,
+      })),
+    };
+    const patched = applyResponsePatch(syntheticRequest, patch.request);
+    // Propagate patched required/type back to allParams and per-category arrays
+    if (patched.properties) {
+      for (const patchedProp of patched.properties) {
+        // Update allParams
+        const param = allParams.find(
+          (p) => toCamelCase(p.name) === patchedProp.name,
+        );
+        if (param) {
+          param.type = patchedProp.type;
+          param.required = patchedProp.required;
+        }
+        // Update per-category arrays
+        for (const arr of [
+          resolvedPathParams,
+          resolvedQueryParams,
+          resolvedHeaderParams,
+          resolvedBodyParams,
+        ]) {
+          const catParam = arr.find(
+            (p) => toCamelCase(p.name) === patchedProp.name,
+          );
+          if (catParam) {
+            catParam.type = patchedProp.type;
+            catParam.required = patchedProp.required;
+          }
+        }
+      }
+    }
+  }
 
   // Generate request interface
   lines.push(`export interface ${requestTypeName} {`);

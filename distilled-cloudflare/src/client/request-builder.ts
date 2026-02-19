@@ -21,6 +21,10 @@ export interface ProtocolRequest {
 
 /**
  * Build an HTTP request from an input schema and payload.
+ *
+ * Uses Effect Schema's encode to handle key renaming (fromKey/JsonName)
+ * for nested body fields, then categorizes properties by their HTTP trait
+ * annotations (path, query, header, body).
  */
 export const buildRequest = <I>(
   inputSchema: Schema.Schema<I, unknown>,
@@ -40,13 +44,19 @@ export const buildRequest = <I>(
   let body: unknown = undefined;
   let contentType: string | undefined = undefined;
 
-  // Get struct properties
+  // Encode the payload through the schema to get wire-format keys.
+  // This handles all fromKey/JsonName transformations (camelCase → snake_case)
+  // for nested body objects automatically.
+  const encodedPayload = Schema.encodeSync(inputSchema)(payload);
+  const encodedRecord = encodedPayload as Record<string, unknown>;
+
+  // Get struct properties from the encoded (wire) side of the AST.
+  // Annotations (HttpPath, HttpQuery, etc.) are on these properties.
   const props = getStructProperties(ast);
-  const payloadRecord = payload as Record<string, unknown>;
 
   for (const prop of props) {
     const name = String(prop.name);
-    const value = payloadRecord[name];
+    const value = encodedRecord[name];
 
     if (value === undefined || value === null) {
       continue;
@@ -92,7 +102,8 @@ export const buildRequest = <I>(
       continue;
     }
 
-    // Default: add to body if it's an object property with no annotation
+    // Default: add to body if it's an object property with no annotation.
+    // The value is already in wire format (snake_case keys) from encoding.
     if (body === undefined) {
       body = {};
     }

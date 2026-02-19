@@ -22,6 +22,11 @@ import {
 // Errors
 // =============================================================================
 
+export class DatabaseNotFound extends Schema.TaggedError<DatabaseNotFound>()(
+  "DatabaseNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7404 }])) {}
+
 export class InternalError extends Schema.TaggedError<InternalError>()(
   "InternalError",
   { code: Schema.Number, message: Schema.String },
@@ -31,6 +36,11 @@ export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIde
   "InvalidObjectIdentifier",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidProperty extends Schema.TaggedError<InvalidProperty>()(
+  "InvalidProperty",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
 
 export class InvalidRequest extends Schema.TaggedError<InvalidRequest>()(
   "InvalidRequest",
@@ -46,6 +56,11 @@ export class TimestampTooOld extends Schema.TaggedError<TimestampTooOld>()(
   "TimestampTooOld",
   { code: Schema.Number, message: Schema.String },
 ).pipe(T.HttpErrorMatchers([{ code: 7400 }])) {}
+
+export class UnknownError extends Schema.TaggedError<UnknownError>()(
+  "UnknownError",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 0 }])) {}
 
 // =============================================================================
 // BookmarkDatabaseTimeTravel
@@ -83,12 +98,21 @@ export const getBookmarkDatabaseTimeTravel: (
   input: GetBookmarkDatabaseTimeTravelRequest,
 ) => Effect.Effect<
   GetBookmarkDatabaseTimeTravelResponse,
-  CommonErrors | InvalidObjectIdentifier | NoHistoryAvailable | TimestampTooOld,
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NoHistoryAvailable
+  | TimestampTooOld
+  | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetBookmarkDatabaseTimeTravelRequest,
   output: GetBookmarkDatabaseTimeTravelResponse,
-  errors: [InvalidObjectIdentifier, NoHistoryAvailable, TimestampTooOld],
+  errors: [
+    InvalidObjectIdentifier,
+    NoHistoryAvailable,
+    TimestampTooOld,
+    DatabaseNotFound,
+  ],
 }));
 
 // =============================================================================
@@ -120,12 +144,12 @@ export const getDatabase: (
   input: GetDatabaseRequest,
 ) => Effect.Effect<
   GetDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDatabaseRequest,
   output: GetDatabaseResponse,
-  errors: [InvalidObjectIdentifier],
+  errors: [InvalidObjectIdentifier, DatabaseNotFound, UnknownError],
 }));
 
 export interface CreateDatabaseRequest {
@@ -159,12 +183,12 @@ export const createDatabase: (
   input: CreateDatabaseRequest,
 ) => Effect.Effect<
   CreateDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CommonErrors | InvalidObjectIdentifier | InvalidProperty,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDatabaseRequest,
   output: CreateDatabaseResponse,
-  errors: [InvalidObjectIdentifier],
+  errors: [InvalidObjectIdentifier, InvalidProperty],
 }));
 
 export interface UpdateDatabaseRequest {
@@ -197,12 +221,12 @@ export const updateDatabase: (
   input: UpdateDatabaseRequest,
 ) => Effect.Effect<
   UpdateDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InternalError,
+  CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
-  errors: [InvalidObjectIdentifier, InternalError],
+  errors: [InvalidObjectIdentifier, InternalError, DatabaseNotFound],
 }));
 
 export interface PatchDatabaseRequest {
@@ -237,12 +261,12 @@ export const patchDatabase: (
   input: PatchDatabaseRequest,
 ) => Effect.Effect<
   PatchDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InternalError,
+  CommonErrors | InvalidObjectIdentifier | InternalError | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchDatabaseRequest,
   output: PatchDatabaseResponse,
-  errors: [InvalidObjectIdentifier, InternalError],
+  errors: [InvalidObjectIdentifier, InternalError, DatabaseNotFound],
 }));
 
 export interface DeleteDatabaseRequest {
@@ -270,12 +294,12 @@ export const deleteDatabase: (
   input: DeleteDatabaseRequest,
 ) => Effect.Effect<
   DeleteDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier,
+  CommonErrors | InvalidObjectIdentifier | DatabaseNotFound | UnknownError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
-  errors: [InvalidObjectIdentifier],
+  errors: [InvalidObjectIdentifier, DatabaseNotFound, UnknownError],
 }));
 
 export interface ExportDatabaseRequest {
@@ -344,12 +368,12 @@ export const exportDatabase: (
   input: ExportDatabaseRequest,
 ) => Effect.Effect<
   ExportDatabaseResponse,
-  CommonErrors | InvalidObjectIdentifier | InvalidRequest,
+  CommonErrors | InvalidObjectIdentifier | InvalidRequest | DatabaseNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ExportDatabaseRequest,
   output: ExportDatabaseResponse,
-  errors: [InvalidObjectIdentifier, InvalidRequest],
+  errors: [InvalidObjectIdentifier, InvalidRequest, DatabaseNotFound],
 }));
 
 export interface ImportDatabaseRequest {
@@ -516,10 +540,19 @@ export const restoreDatabaseTimeTravel: (
   input: RestoreDatabaseTimeTravelRequest,
 ) => Effect.Effect<
   RestoreDatabaseTimeTravelResponse,
-  CommonErrors | InvalidObjectIdentifier | NoHistoryAvailable,
+  | CommonErrors
+  | InvalidObjectIdentifier
+  | NoHistoryAvailable
+  | DatabaseNotFound
+  | InvalidProperty,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: RestoreDatabaseTimeTravelRequest,
   output: RestoreDatabaseTimeTravelResponse,
-  errors: [InvalidObjectIdentifier, NoHistoryAvailable],
+  errors: [
+    InvalidObjectIdentifier,
+    NoHistoryAvailable,
+    DatabaseNotFound,
+    InvalidProperty,
+  ],
 }));
