@@ -19,6 +19,20 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidObjectIdentifier extends Schema.TaggedError<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class NotAuthorized extends Schema.TaggedError<NotAuthorized>()(
+  "NotAuthorized",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 1015 }])) {}
+
+// =============================================================================
 // SmartRouting
 // =============================================================================
 
@@ -55,12 +69,12 @@ export const getSmartRouting: (
   input: GetSmartRoutingRequest,
 ) => Effect.Effect<
   GetSmartRoutingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSmartRoutingRequest,
   output: GetSmartRoutingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NotAuthorized],
 }));
 
 export interface PatchSmartRoutingRequest {
@@ -99,12 +113,12 @@ export const patchSmartRouting: (
   input: PatchSmartRoutingRequest,
 ) => Effect.Effect<
   PatchSmartRoutingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier | NotAuthorized,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchSmartRoutingRequest,
   output: PatchSmartRoutingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier, NotAuthorized],
 }));
 
 // =============================================================================
@@ -146,12 +160,12 @@ export const getTieredCaching: (
   input: GetTieredCachingRequest,
 ) => Effect.Effect<
   GetTieredCachingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetTieredCachingRequest,
   output: GetTieredCachingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));
 
 export interface PatchTieredCachingRequest {
@@ -192,10 +206,10 @@ export const patchTieredCaching: (
   input: PatchTieredCachingRequest,
 ) => Effect.Effect<
   PatchTieredCachingResponse,
-  CommonErrors,
+  CommonErrors | InvalidObjectIdentifier,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: PatchTieredCachingRequest,
   output: PatchTieredCachingResponse,
-  errors: [],
+  errors: [InvalidObjectIdentifier],
 }));

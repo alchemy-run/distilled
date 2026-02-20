@@ -65,8 +65,10 @@ interface OperationPatch {
    * Override the response type shape when the SDK type is incorrect.
    * - "array": wraps the SDK response type in an array (e.g., when `list` returns an array
    *   of items but the SDK declares the response type as a single object)
+   * - "object": prevents the auto-wrapping in an array for paginated operations where
+   *   `result` is a single object (e.g., `listAbuseReports` returns `{ reports: [...] }`)
    */
-  responseType?: "array";
+  responseType?: "array" | "object";
   /** Request schema modifications */
   request?: ResponsePatch;
   /** Response schema modifications */
@@ -811,6 +813,21 @@ function generateOperationSchema(
       elementType: resolvedResponseType,
     };
     // Array responses are always emitted as type aliases, not interfaces
+    isTypeAlias = true;
+  }
+
+  // Wrap in array for paginated (list) operations detected by the parser
+  // Skip if patch explicitly sets responseType to "object" (for APIs where result is a single object)
+  if (
+    op.responseType.kind === "array" &&
+    resolvedResponseType &&
+    resolvedResponseType.kind !== "array" &&
+    patch?.responseType !== "object"
+  ) {
+    resolvedResponseType = {
+      kind: "array",
+      elementType: resolvedResponseType,
+    };
     isTypeAlias = true;
   }
 

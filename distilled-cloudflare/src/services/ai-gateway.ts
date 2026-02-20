@@ -19,6 +19,20 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class GatewayAlreadyExists extends Schema.TaggedError<GatewayAlreadyExists>()(
+  "GatewayAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7001 }])) {}
+
+export class GatewayNotFound extends Schema.TaggedError<GatewayNotFound>()(
+  "GatewayNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7002 }])) {}
+
+// =============================================================================
 // AiGateway
 // =============================================================================
 
@@ -40,13 +54,13 @@ export const GetAiGatewayRequest = Schema.Struct({
 export interface GetAiGatewayResponse {
   /** gateway id */
   id: string;
-  accountId: string;
-  accountTag: string;
+  accountId?: string;
+  accountTag?: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
   collectLogs: boolean;
   createdAt: string;
-  internalId: string;
+  internalId?: string;
   modifiedAt: string;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
@@ -79,8 +93,8 @@ export interface GetAiGatewayResponse {
 
 export const GetAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
@@ -89,7 +103,7 @@ export const GetAiGatewayResponse = Schema.Struct({
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
+  internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
     T.JsonName("rate_limiting_interval"),
@@ -172,12 +186,12 @@ export const getAiGateway: (
   input: GetAiGatewayRequest,
 ) => Effect.Effect<
   GetAiGatewayResponse,
-  CommonErrors,
+  CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetAiGatewayRequest,
   output: GetAiGatewayResponse,
-  errors: [],
+  errors: [GatewayNotFound],
 }));
 
 export interface CreateAiGatewayRequest {
@@ -259,13 +273,13 @@ export const CreateAiGatewayRequest = Schema.Struct({
 export interface CreateAiGatewayResponse {
   /** gateway id */
   id: string;
-  accountId: string;
-  accountTag: string;
+  accountId?: string;
+  accountTag?: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
   collectLogs: boolean;
   createdAt: string;
-  internalId: string;
+  internalId?: string;
   modifiedAt: string;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
@@ -298,8 +312,8 @@ export interface CreateAiGatewayResponse {
 
 export const CreateAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
@@ -308,7 +322,7 @@ export const CreateAiGatewayResponse = Schema.Struct({
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
+  internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
     T.JsonName("rate_limiting_interval"),
@@ -391,12 +405,12 @@ export const createAiGateway: (
   input: CreateAiGatewayRequest,
 ) => Effect.Effect<
   CreateAiGatewayResponse,
-  CommonErrors,
+  CommonErrors | GatewayAlreadyExists,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateAiGatewayRequest,
   output: CreateAiGatewayResponse,
-  errors: [],
+  errors: [GatewayAlreadyExists],
 }));
 
 export interface UpdateAiGatewayRequest {
@@ -547,13 +561,13 @@ export const UpdateAiGatewayRequest = Schema.Struct({
 export interface UpdateAiGatewayResponse {
   /** gateway id */
   id: string;
-  accountId: string;
-  accountTag: string;
+  accountId?: string;
+  accountTag?: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
   collectLogs: boolean;
   createdAt: string;
-  internalId: string;
+  internalId?: string;
   modifiedAt: string;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
@@ -586,8 +600,8 @@ export interface UpdateAiGatewayResponse {
 
 export const UpdateAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
@@ -596,7 +610,7 @@ export const UpdateAiGatewayResponse = Schema.Struct({
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
+  internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
     T.JsonName("rate_limiting_interval"),
@@ -679,12 +693,12 @@ export const updateAiGateway: (
   input: UpdateAiGatewayRequest,
 ) => Effect.Effect<
   UpdateAiGatewayResponse,
-  CommonErrors,
+  CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateAiGatewayRequest,
   output: UpdateAiGatewayResponse,
-  errors: [],
+  errors: [GatewayNotFound],
 }));
 
 export interface DeleteAiGatewayRequest {
@@ -705,13 +719,13 @@ export const DeleteAiGatewayRequest = Schema.Struct({
 export interface DeleteAiGatewayResponse {
   /** gateway id */
   id: string;
-  accountId: string;
-  accountTag: string;
+  accountId?: string;
+  accountTag?: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
   collectLogs: boolean;
   createdAt: string;
-  internalId: string;
+  internalId?: string;
   modifiedAt: string;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
@@ -744,8 +758,8 @@ export interface DeleteAiGatewayResponse {
 
 export const DeleteAiGatewayResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
+  accountId: Schema.optional(Schema.String).pipe(T.JsonName("account_id")),
+  accountTag: Schema.optional(Schema.String).pipe(T.JsonName("account_tag")),
   cacheInvalidateOnUpdate: Schema.Boolean.pipe(
     T.JsonName("cache_invalidate_on_update"),
   ),
@@ -754,7 +768,7 @@ export const DeleteAiGatewayResponse = Schema.Struct({
   ),
   collectLogs: Schema.Boolean.pipe(T.JsonName("collect_logs")),
   createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
+  internalId: Schema.optional(Schema.String).pipe(T.JsonName("internal_id")),
   modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
   rateLimitingInterval: Schema.Union(Schema.Number, Schema.Null).pipe(
     T.JsonName("rate_limiting_interval"),
@@ -837,12 +851,12 @@ export const deleteAiGateway: (
   input: DeleteAiGatewayRequest,
 ) => Effect.Effect<
   DeleteAiGatewayResponse,
-  CommonErrors,
+  CommonErrors | GatewayNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteAiGatewayRequest,
   output: DeleteAiGatewayResponse,
-  errors: [],
+  errors: [GatewayNotFound],
 }));
 
 // =============================================================================

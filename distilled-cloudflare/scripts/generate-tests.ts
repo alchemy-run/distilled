@@ -190,7 +190,8 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     If all operations have both happy path and error coverage, make no changes.
 
     DO NOT MODIFY EXISTING TESTS, but more tests can be added to test files.
-    DO NOT RUN THE NEWLY CREATED TESTS.
+    DONOTRUNTHENEWLYCREATEDTESTS.
+    MAKE SURE TO WRITE HAPPY PATH TESTS FOR EVERY OPERATION.
   `;
   const cmd = Command.make(
     "opencode",
@@ -275,6 +276,7 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
     Fix any tests that can be fixed by modifying the tests.
     WHEN CHECKING FOR ERRORS ALWAYS CHECK THE \`_tag\` MATCHES A KNOWN ERROR TAG, if not patch it.
     DO NOT MODIFY THE FILES IN THE src DIRECTORY DIRECTLY.
+    DO NOT REMOVE HAPPY PATH TESTS
     if the test is broken write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.
     `;
   const cmd = Command.make(

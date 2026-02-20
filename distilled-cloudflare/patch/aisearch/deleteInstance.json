@@ -1,0 +1,23 @@
+{
+  "errors": {
+    "ValidationError": [{ "code": 7001 }],
+    "NotFound": [{ "code": 7002 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  },
+  "response": {
+    "properties": {
+      "account_id": { "optional": true },
+      "account_tag": { "optional": true },
+      "internal_id": { "optional": true },
+      "vectorize_active_namespace": { "nullable": true },
+      "cache_threshold": { "nullable": true },
+      "system_prompt_ai_search": { "nullable": true },
+      "system_prompt_index_summarization": { "nullable": true },
+      "system_prompt_rewrite_query": { "nullable": true },
+      "public_endpoint_id": { "nullable": true },
+      "public_endpoint_params": { "nullable": true },
+      "metadata": { "nullable": true },
+      "last_activity": { "nullable": true }
+    }
+  }
+}

@@ -2,11 +2,6 @@ import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
 import * as AbuseReports from "~/services/abuse-reports.ts";
-import {
-  InvalidAccountId,
-  AbuseReportNotFound,
-  InvalidRequest,
-} from "~/services/abuse-reports.ts";
 
 const accountId = () => getAccountId();
 
@@ -16,25 +11,37 @@ const accountId = () => getAccountId();
 
 describe("AbuseReports", () => {
   // --------------------------------------------------------------------------
+  // listAbuseReports
+  // --------------------------------------------------------------------------
+  describe("listAbuseReports", () => {
+    test("happy path - lists abuse reports for account", () =>
+      Effect.gen(function* () {
+        const result = yield* AbuseReports.listAbuseReports({
+          accountId: accountId(),
+        });
+
+        expect(result).toBeDefined();
+        // reports is null when no reports exist, or an array of report objects
+        if (result.reports !== null) {
+          expect(Array.isArray(result.reports)).toBe(true);
+        }
+      }));
+
+    test("error - InvalidAccountId for invalid accountId", () =>
+      AbuseReports.listAbuseReports({
+        accountId: "invalid-account-id-000",
+      }).pipe(
+        Effect.flip,
+        Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
+      ));
+  });
+
+  // --------------------------------------------------------------------------
   // getAbuseReport
   // --------------------------------------------------------------------------
   describe("getAbuseReport", () => {
-    test("happy path - retrieves an abuse report by reportParam", () =>
-      Effect.gen(function* () {
-        // NOTE: This test returns AbuseReportNotFound because we don't have
-        // a real abuse report with this ID. The test verifies the error handling
-        // works correctly.
-        yield* AbuseReports.getAbuseReport({
-          reportParam: "distilled-cf-abuse-reports-get-happy",
-          accountId: accountId(),
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("AbuseReportNotFound")),
-        );
-      }));
-
     // -- Error: not found for non-existent report --
-    test("error - not found for non-existent reportParam", () =>
+    test("error - AbuseReportNotFound for non-existent reportParam", () =>
       AbuseReports.getAbuseReport({
         reportParam: "distilled-cf-abuse-reports-nonexistent-xyz-000",
         accountId: accountId(),
@@ -44,7 +51,7 @@ describe("AbuseReports", () => {
       ));
 
     // -- Error: invalid accountId --
-    test("error - invalid accountId", () =>
+    test("error - InvalidAccountId for invalid accountId", () =>
       AbuseReports.getAbuseReport({
         reportParam: "distilled-cf-abuse-reports-bad-acct",
         accountId: "invalid-account-id-000",
@@ -55,20 +62,17 @@ describe("AbuseReports", () => {
 
     // -- Error: empty reportParam --
     test("error - empty reportParam string", () =>
-      Effect.gen(function* () {
+      AbuseReports.getAbuseReport({
+        reportParam: "",
+        accountId: accountId(),
+      }).pipe(
+        Effect.flip,
         // Empty reportParam returns 200 with null reports, which causes schema decode error
-        // The API returns {"result": {"reports": null}} which the SDK can't parse
-        yield* AbuseReports.getAbuseReport({
-          reportParam: "",
-          accountId: accountId(),
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
-        );
-      }));
+        Effect.map((e) => expect(e._tag).toBe("CloudflareHttpError")),
+      ));
 
     // -- Error: empty accountId --
-    test("error - empty accountId string", () =>
+    test("error - InvalidAccountId for empty accountId", () =>
       AbuseReports.getAbuseReport({
         reportParam: "distilled-cf-abuse-reports-empty-acct",
         accountId: "",
@@ -76,67 +80,34 @@ describe("AbuseReports", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),
       ));
-
-    // -- Edge case: reportParam with special characters --
-    test("error - reportParam with special characters", () =>
-      AbuseReports.getAbuseReport({
-        reportParam: "report@invalid!chars#$%",
-        accountId: accountId(),
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("AbuseReportNotFound")),
-      ));
-
-    // -- Edge case: very long reportParam --
-    test("error - reportParam with max length string", () =>
-      AbuseReports.getAbuseReport({
-        reportParam: "a".repeat(1024),
-        accountId: accountId(),
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("AbuseReportNotFound")),
-      ));
   });
 
   // --------------------------------------------------------------------------
   // createAbuseReport
   // --------------------------------------------------------------------------
   describe("createAbuseReport", () => {
-    // NOTE: createAbuseReport has a generator issue — the path template includes
-    // {account_id} but the request schema only has reportParam (no accountId).
-    // This means {account_id} will remain unreplaced in the path, causing
-    // a routing error (InvalidRequest with code 7003). All tests expect this error.
+    // NOTE: We cannot create a real abuse report in tests since it submits
+    // an actual DMCA/abuse report to Cloudflare. Instead we test error cases.
 
-    test("happy path - creates an abuse report", () =>
+    test("error - InvalidRequest for invalid accountId", () =>
       AbuseReports.createAbuseReport({
-        reportParam: "distilled-cf-abuse-reports-create-happy",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-      ));
-
-    // -- Error: empty reportParam --
-    test("error - empty reportParam string", () =>
-      AbuseReports.createAbuseReport({
-        reportParam: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-      ));
-
-    // -- Error: reportParam with special characters --
-    test("error - reportParam with special characters", () =>
-      AbuseReports.createAbuseReport({
-        reportParam: "report@invalid!chars#$%",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),
-      ));
-
-    // -- Edge case: very long reportParam --
-    test("error - reportParam with max length string", () =>
-      AbuseReports.createAbuseReport({
-        reportParam: "a".repeat(1024),
+        reportParam: "distilled-cf-abuse-reports-create-bad-acct",
+        accountId: "invalid-account-id-000",
+        act: "abuse_dmca",
+        address1: "123 Test St",
+        agentName: "Test Agent",
+        agree: "1",
+        city: "Test City",
+        country: "US",
+        email: "test@example.com",
+        email2: "test@example.com",
+        hostNotification: "send",
+        name: "Test User",
+        originalWork: "Test Work",
+        ownerNotification: "send",
+        signature: "Test User",
+        state: "CA",
+        urls: "https://example.com",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),

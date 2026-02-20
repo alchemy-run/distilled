@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "InvalidRoute": [{ "code": 7003 }],
+    "WebhookNotFound": [{ "code": 0, "message": { "includes": "Webhook not found" } }]
+  }
+}

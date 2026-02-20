@@ -19,6 +19,69 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class FiltersRequired extends Schema.TaggedError<FiltersRequired>()(
+  "FiltersRequired",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 17103 }])) {}
+
+export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
+  "InternalServerError",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 15000 }])) {}
+
+export class InvalidAlertType extends Schema.TaggedError<InvalidAlertType>()(
+  "InvalidAlertType",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 17004 }])) {}
+
+export class InvalidRoute extends Schema.TaggedError<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 7003 }])) {}
+
+export class InvalidWebhookId extends Schema.TaggedError<InvalidWebhookId>()(
+  "InvalidWebhookId",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 0, message: { includes: "invalid Webhook ID" } },
+  ]),
+) {}
+
+export class MechanismRequired extends Schema.TaggedError<MechanismRequired>()(
+  "MechanismRequired",
+  { code: Schema.Number, message: Schema.String },
+).pipe(T.HttpErrorMatchers([{ code: 17102 }])) {}
+
+export class PolicyNotFound extends Schema.TaggedError<PolicyNotFound>()(
+  "PolicyNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([{ code: 0, message: { includes: "Policy not found" } }]),
+) {}
+
+export class WebhookNotFound extends Schema.TaggedError<WebhookNotFound>()(
+  "WebhookNotFound",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 0, message: { includes: "Webhook not found" } },
+  ]),
+) {}
+
+export class WebhookTestFailed extends Schema.TaggedError<WebhookTestFailed>()(
+  "WebhookTestFailed",
+  { code: Schema.Number, message: Schema.String },
+).pipe(
+  T.HttpErrorMatchers([
+    { code: 0, message: { includes: "Webhook test failed" } },
+  ]),
+) {}
+
+// =============================================================================
 // AvailableAlert
 // =============================================================================
 
@@ -46,12 +109,12 @@ export const listAvailableAlerts: (
   input: ListAvailableAlertsRequest,
 ) => Effect.Effect<
   ListAvailableAlertsResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: ListAvailableAlertsRequest,
   output: ListAvailableAlertsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -82,12 +145,12 @@ export const getDestinationEligible: (
   input: GetDestinationEligibleRequest,
 ) => Effect.Effect<
   GetDestinationEligibleResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDestinationEligibleRequest,
   output: GetDestinationEligibleResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -121,12 +184,12 @@ export const createDestinationPagerduty: (
   input: CreateDestinationPagerdutyRequest,
 ) => Effect.Effect<
   CreateDestinationPagerdutyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDestinationPagerdutyRequest,
   output: CreateDestinationPagerdutyResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface DeleteDestinationPagerdutyRequest {
@@ -170,12 +233,12 @@ export const deleteDestinationPagerduty: (
   input: DeleteDestinationPagerdutyRequest,
 ) => Effect.Effect<
   DeleteDestinationPagerdutyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDestinationPagerdutyRequest,
   output: DeleteDestinationPagerdutyResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface LinkDestinationPagerdutyRequest {
@@ -207,12 +270,12 @@ export const linkDestinationPagerduty: (
   input: LinkDestinationPagerdutyRequest,
 ) => Effect.Effect<
   LinkDestinationPagerdutyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: LinkDestinationPagerdutyRequest,
   output: LinkDestinationPagerdutyResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -285,12 +348,12 @@ export const getDestinationWebhook: (
   input: GetDestinationWebhookRequest,
 ) => Effect.Effect<
   GetDestinationWebhookResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WebhookNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetDestinationWebhookRequest,
   output: GetDestinationWebhookResponse,
-  errors: [],
+  errors: [InvalidRoute, WebhookNotFound],
 }));
 
 export interface CreateDestinationWebhookRequest {
@@ -329,12 +392,12 @@ export const createDestinationWebhook: (
   input: CreateDestinationWebhookRequest,
 ) => Effect.Effect<
   CreateDestinationWebhookResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | WebhookTestFailed,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateDestinationWebhookRequest,
   output: CreateDestinationWebhookResponse,
-  errors: [],
+  errors: [InvalidRoute, WebhookTestFailed],
 }));
 
 export interface UpdateDestinationWebhookRequest {
@@ -375,12 +438,12 @@ export const updateDestinationWebhook: (
   input: UpdateDestinationWebhookRequest,
 ) => Effect.Effect<
   UpdateDestinationWebhookResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InvalidWebhookId,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdateDestinationWebhookRequest,
   output: UpdateDestinationWebhookResponse,
-  errors: [],
+  errors: [InvalidRoute, InvalidWebhookId],
 }));
 
 export interface DeleteDestinationWebhookRequest {
@@ -426,12 +489,12 @@ export const deleteDestinationWebhook: (
   input: DeleteDestinationWebhookRequest,
 ) => Effect.Effect<
   DeleteDestinationWebhookResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InternalServerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteDestinationWebhookRequest,
   output: DeleteDestinationWebhookResponse,
-  errors: [],
+  errors: [InvalidRoute, InternalServerError],
 }));
 
 // =============================================================================
@@ -821,12 +884,12 @@ export const getPolicy: (
   input: GetPolicyRequest,
 ) => Effect.Effect<
   GetPolicyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | PolicyNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
-  errors: [],
+  errors: [InvalidRoute, PolicyNotFound],
 }));
 
 export interface CreatePolicyRequest {
@@ -1202,12 +1265,12 @@ export const createPolicy: (
   input: CreatePolicyRequest,
 ) => Effect.Effect<
   CreatePolicyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | FiltersRequired | MechanismRequired,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
-  errors: [],
+  errors: [InvalidRoute, FiltersRequired, MechanismRequired],
 }));
 
 export interface UpdatePolicyRequest {
@@ -1589,12 +1652,16 @@ export const updatePolicy: (
   input: UpdatePolicyRequest,
 ) => Effect.Effect<
   UpdatePolicyResponse,
-  CommonErrors,
+  | CommonErrors
+  | InvalidRoute
+  | PolicyNotFound
+  | InvalidAlertType
+  | MechanismRequired,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: UpdatePolicyRequest,
   output: UpdatePolicyResponse,
-  errors: [],
+  errors: [InvalidRoute, PolicyNotFound, InvalidAlertType, MechanismRequired],
 }));
 
 export interface DeletePolicyRequest {
@@ -1614,10 +1681,10 @@ export const DeletePolicyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {
-  errors: { message: string; code?: number }[];
-  messages: { message: string; code?: number }[];
+  errors?: { message: string; code?: number }[];
+  messages?: { message: string; code?: number }[];
   /** Whether the API call was successful */
-  success: true;
+  success?: true;
   resultInfo?: {
     count?: number;
     page?: number;
@@ -1627,19 +1694,23 @@ export interface DeletePolicyResponse {
 }
 
 export const DeletePolicyResponse = Schema.Struct({
-  errors: Schema.Array(
-    Schema.Struct({
-      message: Schema.String,
-      code: Schema.optional(Schema.Number),
-    }),
+  errors: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        message: Schema.String,
+        code: Schema.optional(Schema.Number),
+      }),
+    ),
   ),
-  messages: Schema.Array(
-    Schema.Struct({
-      message: Schema.String,
-      code: Schema.optional(Schema.Number),
-    }),
+  messages: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        message: Schema.String,
+        code: Schema.optional(Schema.Number),
+      }),
+    ),
   ),
-  success: Schema.Literal(true),
+  success: Schema.optional(Schema.Literal(true)),
   resultInfo: Schema.optional(
     Schema.Struct({
       count: Schema.optional(Schema.Number),
@@ -1656,12 +1727,12 @@ export const deletePolicy: (
   input: DeletePolicyRequest,
 ) => Effect.Effect<
   DeletePolicyResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | PolicyNotFound,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
-  errors: [],
+  errors: [InvalidRoute, PolicyNotFound],
 }));
 
 // =============================================================================
@@ -1712,12 +1783,12 @@ export const getSilence: (
   input: GetSilenceRequest,
 ) => Effect.Effect<
   GetSilenceResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute | InternalServerError,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: GetSilenceRequest,
   output: GetSilenceResponse,
-  errors: [],
+  errors: [InvalidRoute, InternalServerError],
 }));
 
 export interface CreateSilenceRequest {
@@ -1770,12 +1841,12 @@ export const createSilence: (
   input: CreateSilenceRequest,
 ) => Effect.Effect<
   CreateSilenceResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: CreateSilenceRequest,
   output: CreateSilenceResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface DeleteSilenceRequest {
@@ -1821,10 +1892,10 @@ export const deleteSilence: (
   input: DeleteSilenceRequest,
 ) => Effect.Effect<
   DeleteSilenceResponse,
-  CommonErrors,
+  CommonErrors | InvalidRoute,
   ApiToken | HttpClient.HttpClient
 > = API.make(() => ({
   input: DeleteSilenceRequest,
   output: DeleteSilenceResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
