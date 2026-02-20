@@ -79,7 +79,8 @@
   },
   "dependencies": {
     "@aws-crypto/crc32": "^5.2.0",
-    "@aws-sdk/credential-providers": "^3.933.0",
+    "@aws-sdk/credential-providers": "^3.994.0",
+    "@smithy/shared-ini-file-loader": "^4.4.3",
     "@smithy/util-base64": "^4.3.0",
     "aws4fetch": "^1.0.20",
     "fast-xml-parser": "catalog:"
