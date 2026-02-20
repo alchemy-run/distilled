@@ -773,6 +773,7 @@ test(
     );
 
     // Use scan.items() with filter to get our items
+    // Use ConsistentRead to ensure all recently-written items are visible
     const collectedItems = yield* scan
       .items({
         TableName: tableName,
@@ -781,6 +782,7 @@ test(
           ":prefix": { S: "pagination#scan#" },
         },
         Limit: 2,
+        ConsistentRead: true,
       })
       .pipe(Stream.runCollect);
 
