@@ -48,7 +48,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: alchemy-github-oidc-role
+          role-to-assume: arn:aws:iam::084828582823:role/alchemy-github-oidc-role
           aws-region: us-west-2
       - run: bun install
       - run: bun run setup --http
