@@ -73,10 +73,10 @@ export const readableToEffectStream = (
 ): Stream.Stream<Uint8Array, Error, never> =>
   typeof stream === "string"
     ? Stream.fromIterable([new TextEncoder().encode(stream)])
-    : Stream.fromReadableStream(
-        () => stream,
-        (e) => new Error(String(e)),
-      );
+    : Stream.fromReadableStream({
+        evaluate: () => stream,
+        onError: (e) => new Error(String(e)),
+      });
 
 /**
  * Create a buffered ReadableStream that ensures chunks meet minimum size.

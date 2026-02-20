@@ -60,7 +60,7 @@ export function test(
       return provideTestEnv(
         Effect.gen(function* () {
           const fs = yield* FileSystem.FileSystem;
-          if (yield* fs.exists(".env")) {
+          if (yield* fs.exists(".env").pipe(Effect.catch(() => Effect.succeed(false)))) {
             const configProvider = ConfigProvider.orElse(
               yield* ConfigProvider.fromDotEnv({ path: ".env" }),
               ConfigProvider.fromEnv(),

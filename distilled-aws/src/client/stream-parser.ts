@@ -41,7 +41,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
       const ast = prop.type;
       const eventSchema =
         ast._tag === "Declaration"
-          ? (ast.annotate?.eventSchema as Schema.Top | undefined)
+          ? (ast.annotations?.eventSchema as Schema.Top | undefined)
           : undefined;
 
       // Return a parser function that handles this event stream property
@@ -76,7 +76,7 @@ export function makeStreamParser(outputAst: AST.AST): StreamParser | null {
  */
 function parseTypedEventStream<A>(
   rawStream: ReadableStream<Uint8Array>,
-  eventSchema?: Schema.Schema<A, unknown>,
+  eventSchema?: Schema.Schema<A>,
 ): Stream.Stream<A, Error, never> {
   // Parse wire format into StreamEvent objects
   const wireEventStream = parseEventStream(rawStream);
