@@ -242,7 +242,7 @@ The generator:
 ## Usage
 
 ```typescript
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { Effect, Layer } from "effect";
 import { listEvmAccounts, Credentials, CredentialsFromEnv } from "distilled-coinbase";
 

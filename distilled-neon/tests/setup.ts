@@ -1,6 +1,6 @@
-import { FetchHttpClient } from "@effect/platform";
 import { config } from "dotenv";
 import { Effect, Layer, Schedule } from "effect";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { CredentialsFromEnv } from "../src/credentials";
 import { createProject } from "../src/operations/createProject";
 import { deleteProject } from "../src/operations/deleteProject";

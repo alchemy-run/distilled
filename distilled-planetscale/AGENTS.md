@@ -278,7 +278,7 @@ const program = myOperation().pipe(
 ## Usage
 
 ```typescript
-import { FetchHttpClient } from "@effect/platform";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { Effect, Layer } from "effect";
 import { getOrganization, NotFound, Credentials, CredentialsLive } from "distilled-planetscale";
 

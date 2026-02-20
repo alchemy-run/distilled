@@ -9,14 +9,14 @@
  * @see https://developers.cloudflare.com/fundamentals/api/
  */
 
-import * as HttpBody from "effect/unstable/http/HttpBody";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as ServiceMap from "effect/ServiceMap";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 
 /**
  * OAuth token endpoint for Cloudflare.
@@ -277,7 +277,7 @@ const refreshAccessToken = (
  * @example
  * ```typescript
  * import { Auth } from "distilled-cloudflare";
- * import { FetchHttpClient } from "@effect/platform";
+ * import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
  *
  * const authLayer = Auth.fromOAuth({
  *   clientId: "your-client-id",
