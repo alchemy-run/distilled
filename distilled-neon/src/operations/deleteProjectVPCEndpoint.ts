@@ -6,12 +6,19 @@ import * as T from "../traits";
 export const DeleteProjectVPCEndpointInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}" }));
-export type DeleteProjectVPCEndpointInput = typeof DeleteProjectVPCEndpointInput.Type;
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
+  }),
+);
+export type DeleteProjectVPCEndpointInput =
+  typeof DeleteProjectVPCEndpointInput.Type;
 
 // Output Schema
 export const DeleteProjectVPCEndpointOutput = Schema.Void;
-export type DeleteProjectVPCEndpointOutput = typeof DeleteProjectVPCEndpointOutput.Type;
+export type DeleteProjectVPCEndpointOutput =
+  typeof DeleteProjectVPCEndpointOutput.Type;
 
 // The operation
 /**
@@ -22,7 +29,9 @@ export type DeleteProjectVPCEndpointOutput = typeof DeleteProjectVPCEndpointOutp
  * @param project_id - The Neon project ID
  * @param vpc_endpoint_id - The VPC endpoint ID
  */
-export const deleteProjectVPCEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: DeleteProjectVPCEndpointInput,
-  outputSchema: DeleteProjectVPCEndpointOutput,
-}));
+export const deleteProjectVPCEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: DeleteProjectVPCEndpointInput,
+    outputSchema: DeleteProjectVPCEndpointOutput,
+  }),
+);

@@ -11,11 +11,19 @@ describe("createPolicy", () => {
       createPolicy({
         scope: "account",
         description: "distilled coinbase policy test",
-        rules: [{
-          action: "reject",
-          operation: "signEvmTransaction",
-          criteria: [{ type: "ethValue", ethValue: "1000000000000000000", operator: ">" }],
-        }],
+        rules: [
+          {
+            action: "reject",
+            operation: "signEvmTransaction",
+            criteria: [
+              {
+                type: "ethValue",
+                ethValue: "1000000000000000000",
+                operator: ">",
+              },
+            ],
+          },
+        ],
       }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),

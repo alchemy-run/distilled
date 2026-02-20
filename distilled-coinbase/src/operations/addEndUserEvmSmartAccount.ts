@@ -1,14 +1,23 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const AddEndUserEvmSmartAccountInput = Schema.Struct({
   userId: Schema.String.pipe(T.PathParam()),
   enableSpendPermissions: Schema.optional(Schema.Boolean),
-}).pipe(T.Http({ method: "POST", path: "/v2/end-users/{userId}/evm-smart-account" }), T.WalletAuth());
-export type AddEndUserEvmSmartAccountInput = typeof AddEndUserEvmSmartAccountInput.Type;
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/end-users/{userId}/evm-smart-account" }),
+  T.WalletAuth(),
+);
+export type AddEndUserEvmSmartAccountInput =
+  typeof AddEndUserEvmSmartAccountInput.Type;
 
 // Output Schema
 export const AddEndUserEvmSmartAccountOutput = Schema.Struct({
@@ -18,7 +27,8 @@ export const AddEndUserEvmSmartAccountOutput = Schema.Struct({
     createdAt: Schema.String,
   }),
 });
-export type AddEndUserEvmSmartAccountOutput = typeof AddEndUserEvmSmartAccountOutput.Type;
+export type AddEndUserEvmSmartAccountOutput =
+  typeof AddEndUserEvmSmartAccountOutput.Type;
 
 // The operation
 /**
@@ -29,9 +39,11 @@ export type AddEndUserEvmSmartAccountOutput = typeof AddEndUserEvmSmartAccountOu
  *
  * @param userId - The ID of the end user to add the smart account to.
  */
-export const addEndUserEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: AddEndUserEvmSmartAccountInput,
-  outputSchema: AddEndUserEvmSmartAccountOutput,
-  errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const addEndUserEvmSmartAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: AddEndUserEvmSmartAccountInput,
+    outputSchema: AddEndUserEvmSmartAccountOutput,
+    errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
+    walletAuth: true,
+  }),
+);

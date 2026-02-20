@@ -10,7 +10,8 @@ describe("signEvmTransaction", () => {
     await runEffect(
       signEvmTransaction({
         address: NON_EXISTENT_ADDRESS,
-        transaction: "0x02f8650183015f9080830186a09400000000000000000000000000000000000000008080c0",
+        transaction:
+          "0x02f8650183015f9080830186a09400000000000000000000000000000000000000008080c0",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRequest")),

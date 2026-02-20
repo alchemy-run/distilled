@@ -17,7 +17,7 @@ import type * as AST from "effect/SchemaAST";
 const annotationMetaSymbol = Symbol.for("distilled-cloudflare/annotation-meta");
 
 type Annotatable = {
-  annotations(annotations: Record<symbol, unknown>): Annotatable;
+  annotate(annotations: Record<symbol, unknown>): Annotatable;
 };
 
 export interface Annotation {
@@ -47,7 +47,7 @@ function makeAnnotation<T>(sym: symbol, value: T): Annotation {
 /**
  * Combine multiple annotations into one.
  */
-export function all(...annotate: Annotation[]): Annotation {
+export function all(...annotations: Annotation[]): Annotation {
   const entries: Array<{ symbol: symbol; value: unknown }> = [];
   const raw: Record<symbol, unknown> = {};
 

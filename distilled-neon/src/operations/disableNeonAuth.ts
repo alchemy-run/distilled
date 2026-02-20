@@ -7,7 +7,12 @@ export const DisableNeonAuthInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   delete_data: Schema.optional(Schema.Boolean),
-}).pipe(T.Http({ method: "DELETE", path: "/projects/{project_id}/branches/{branch_id}/auth" }));
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/projects/{project_id}/branches/{branch_id}/auth",
+  }),
+);
 export type DisableNeonAuthInput = typeof DisableNeonAuthInput.Type;
 
 // Output Schema

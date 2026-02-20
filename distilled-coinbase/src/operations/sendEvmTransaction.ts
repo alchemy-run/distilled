@@ -1,14 +1,36 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  Forbidden,
+  IdempotencyError,
+  MalformedTransaction,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SendEvmTransactionInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
-  network: Schema.Literal("base", "base-sepolia", "ethereum", "ethereum-sepolia", "avalanche", "polygon", "optimism", "arbitrum"),
+  network: Schema.Literals([
+    "base",
+    "base-sepolia",
+    "ethereum",
+    "ethereum-sepolia",
+    "avalanche",
+    "polygon",
+    "optimism",
+    "arbitrum",
+  ]),
   transaction: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/accounts/{address}/send/transaction" }), T.WalletAuth());
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/evm/accounts/{address}/send/transaction",
+  }),
+  T.WalletAuth(),
+);
 export type SendEvmTransactionInput = typeof SendEvmTransactionInput.Type;
 
 // Output Schema
@@ -44,6 +66,13 @@ export type SendEvmTransactionOutput = typeof SendEvmTransactionOutput.Type;
 export const sendEvmTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SendEvmTransactionInput,
   outputSchema: SendEvmTransactionOutput,
-  errors: [AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    Forbidden,
+    IdempotencyError,
+    MalformedTransaction,
+    NotFound,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));

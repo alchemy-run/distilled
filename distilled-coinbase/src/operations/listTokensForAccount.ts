@@ -5,9 +5,14 @@ import { InvalidRequest } from "../errors";
 
 // Input Schema
 export const ListTokensForAccountInput = Schema.Struct({
-  network: Schema.Literal("base", "base-sepolia").pipe(T.PathParam()),
+  network: Schema.Literals(["base", "base-sepolia"]).pipe(T.PathParam()),
   address: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/v2/data/evm/token-ownership/{network}/{address}" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/v2/data/evm/token-ownership/{network}/{address}",
+  }),
+);
 export type ListTokensForAccountInput = typeof ListTokensForAccountInput.Type;
 
 // Output Schema
@@ -28,8 +33,10 @@ export type ListTokensForAccountOutput = typeof ListTokensForAccountOutput.Type;
  * @param network - The blockchain network to query.
  * @param address - The account address to analyze for token interactions.
  */
-export const listTokensForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: ListTokensForAccountInput,
-  outputSchema: ListTokensForAccountOutput,
-  errors: [InvalidRequest],
-}));
+export const listTokensForAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: ListTokensForAccountInput,
+    outputSchema: ListTokensForAccountOutput,
+    errors: [InvalidRequest],
+  }),
+);

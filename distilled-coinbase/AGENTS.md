@@ -18,11 +18,11 @@ COINBASE_WALLET_SECRET=<optional-wallet-secret-for-sensitive-ops>
 
 ## Scripts
 
-| Script             | Description                                       |
-| ------------------ | ------------------------------------------------- |
-| `bun run generate` | Generate operations from OpenAPI spec              |
-| `bun run typecheck`| Type check with tsgo                               |
-| `bunx vitest run`  | Run tests                                          |
+| Script              | Description                           |
+| ------------------- | ------------------------------------- |
+| `bun run generate`  | Generate operations from OpenAPI spec |
+| `bun run typecheck` | Type check with tsgo                  |
+| `bunx vitest run`   | Run tests                             |
 
 ## Project Structure
 
@@ -135,24 +135,24 @@ Operations have two types of errors:
 
 All error classes are defined in `src/errors.ts`. Coinbase uses `errorType` field (string enum) to identify errors:
 
-| Error Class                        | API errorType                         | Category              |
-| ---------------------------------- | ------------------------------------- | --------------------- |
-| `Unauthorized`                     | `unauthorized`                        | `AuthError`           |
-| `Forbidden`                        | `forbidden`                           | `AuthError`           |
-| `NotFound`                         | `not_found`                           | `NotFoundError`       |
-| `AlreadyExists`                    | `already_exists`                      | `ConflictError`       |
-| `InvalidRequest`                   | `invalid_request`                     | `BadRequestError`     |
-| `RateLimitExceeded`                | `rate_limit_exceeded`                 | `ThrottlingError`     |
-| `InternalServerError`              | `internal_server_error`               | `ServerError`         |
-| `BadGateway`                       | `bad_gateway`                         | `ServerError`         |
-| `ServiceUnavailable`               | `service_unavailable`                 | `ServerError`         |
-| `TimedOut`                         | `timed_out`                           | `TimeoutError`        |
-| `PaymentMethodRequired`            | `payment_method_required`             | `PaymentRequiredError`|
-| `FaucetLimitExceeded`              | `faucet_limit_exceeded`               | `ThrottlingError`     |
-| `AccountLimitExceeded`             | `account_limit_exceeded`              | `QuotaError`          |
-| `PolicyViolation`                  | `policy_violation`                    | `PolicyError`         |
-| `PolicyInUse`                      | `policy_in_use`                       | `ConflictError`       |
-| `MfaRequired`                      | `mfa_required`                        | `MfaError`            |
+| Error Class             | API errorType             | Category               |
+| ----------------------- | ------------------------- | ---------------------- |
+| `Unauthorized`          | `unauthorized`            | `AuthError`            |
+| `Forbidden`             | `forbidden`               | `AuthError`            |
+| `NotFound`              | `not_found`               | `NotFoundError`        |
+| `AlreadyExists`         | `already_exists`          | `ConflictError`        |
+| `InvalidRequest`        | `invalid_request`         | `BadRequestError`      |
+| `RateLimitExceeded`     | `rate_limit_exceeded`     | `ThrottlingError`      |
+| `InternalServerError`   | `internal_server_error`   | `ServerError`          |
+| `BadGateway`            | `bad_gateway`             | `ServerError`          |
+| `ServiceUnavailable`    | `service_unavailable`     | `ServerError`          |
+| `TimedOut`              | `timed_out`               | `TimeoutError`         |
+| `PaymentMethodRequired` | `payment_method_required` | `PaymentRequiredError` |
+| `FaucetLimitExceeded`   | `faucet_limit_exceeded`   | `ThrottlingError`      |
+| `AccountLimitExceeded`  | `account_limit_exceeded`  | `QuotaError`           |
+| `PolicyViolation`       | `policy_violation`        | `PolicyError`          |
+| `PolicyInUse`           | `policy_in_use`           | `ConflictError`        |
+| `MfaRequired`           | `mfa_required`            | `MfaError`             |
 
 ## Pagination
 

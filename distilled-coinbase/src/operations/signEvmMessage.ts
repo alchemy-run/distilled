@@ -1,13 +1,21 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SignEvmMessageInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   message: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/accounts/{address}/sign/message" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/evm/accounts/{address}/sign/message" }),
+  T.WalletAuth(),
+);
 export type SignEvmMessageInput = typeof SignEvmMessageInput.Type;
 
 // Output Schema

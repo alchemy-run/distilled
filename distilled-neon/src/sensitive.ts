@@ -6,6 +6,7 @@
  */
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
+import * as SchemaTransformation from "effect/SchemaTransformation";
 
 /**
  * Sensitive - Marks data as sensitive, wrapping in Effect's Redacted type.
@@ -34,22 +35,25 @@ import * as S from "effect/Schema";
  * // But at runtime, it's always Redacted:
  * console.log(pwd); // logs "<redacted>"
  */
-export const Sensitive = <A, I, R>(
-  schema: S.Schema<A, I, R>,
-): S.Schema<A | Redacted.Redacted<A>, I, R> =>
-  S.transform(
-    schema,
-    S.Union(S.typeSchema(schema), S.RedactedFromSelf(S.typeSchema(schema))),
-    {
-      strict: true,
-      // Decode: wire format → always wrap in Redacted
-      decode: (a) => Redacted.make(a),
-      // Encode: accept both raw and Redacted → extract raw value
-      encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
-    },
-  ).annotate({
-    identifier: `Sensitive<${schema.ast.annotate?.identifier ?? "unknown"}>`,
-  });
+export const Sensitive = <A>(
+  schema: S.Schema<A>,
+): S.Schema<A | Redacted.Redacted<A>> =>
+  schema
+    .pipe(
+      S.decodeTo(
+        S.Union([S.toType(schema), S.Redacted(S.toType(schema))]),
+        SchemaTransformation.transform({
+          // Decode: wire format → always wrap in Redacted
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          decode: (a) => Redacted.make(a) as any,
+          // Encode: accept both raw and Redacted → extract raw value
+          encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
+        }),
+      ),
+    )
+    .annotate({
+      identifier: `Sensitive<${schema.ast.annotations?.identifier ?? "unknown"}>`,
+    });
 
 /**
  * Sensitive string - a string marked as sensitive.

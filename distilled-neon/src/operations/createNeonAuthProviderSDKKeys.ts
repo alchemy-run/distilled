@@ -5,13 +5,14 @@ import * as T from "../traits";
 // Input Schema
 export const CreateNeonAuthProviderSDKKeysInput = Schema.Struct({
   project_id: Schema.String,
-  auth_provider: Schema.Literal("mock", "stack", "stack_v2", "better_auth"),
+  auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
 }).pipe(T.Http({ method: "POST", path: "/projects/auth/keys" }));
-export type CreateNeonAuthProviderSDKKeysInput = typeof CreateNeonAuthProviderSDKKeysInput.Type;
+export type CreateNeonAuthProviderSDKKeysInput =
+  typeof CreateNeonAuthProviderSDKKeysInput.Type;
 
 // Output Schema
 export const CreateNeonAuthProviderSDKKeysOutput = Schema.Struct({
-  auth_provider: Schema.Literal("mock", "stack", "stack_v2", "better_auth"),
+  auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
   auth_provider_project_id: Schema.String,
   pub_client_key: Schema.String,
   secret_server_key: Schema.String,
@@ -20,7 +21,8 @@ export const CreateNeonAuthProviderSDKKeysOutput = Schema.Struct({
   table_name: Schema.String,
   base_url: Schema.optional(Schema.String),
 });
-export type CreateNeonAuthProviderSDKKeysOutput = typeof CreateNeonAuthProviderSDKKeysOutput.Type;
+export type CreateNeonAuthProviderSDKKeysOutput =
+  typeof CreateNeonAuthProviderSDKKeysOutput.Type;
 
 // The operation
 /**
@@ -29,7 +31,8 @@ export type CreateNeonAuthProviderSDKKeysOutput = typeof CreateNeonAuthProviderS
  * Generates SDK or API Keys for the auth provider. These might be called different things depending
  * on the auth provider you're using, but are generally used for setting up the frontend and backend SDKs.
  */
-export const createNeonAuthProviderSDKKeys = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: CreateNeonAuthProviderSDKKeysInput,
-  outputSchema: CreateNeonAuthProviderSDKKeysOutput,
-}));
+export const createNeonAuthProviderSDKKeys =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    inputSchema: CreateNeonAuthProviderSDKKeysInput,
+    outputSchema: CreateNeonAuthProviderSDKKeysOutput,
+  }));

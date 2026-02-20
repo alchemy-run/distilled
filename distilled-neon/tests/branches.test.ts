@@ -10,7 +10,12 @@ import { updateProjectBranch } from "../src/operations/updateProjectBranch";
 import { setDefaultProjectBranch } from "../src/operations/setDefaultProjectBranch";
 import { countProjectBranches } from "../src/operations/countProjectBranches";
 import { listProjectBranchEndpoints } from "../src/operations/listProjectBranchEndpoints";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject } from "./setup";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+} from "./setup";
 
 const TEST_SUFFIX = "branches";
 
@@ -310,7 +315,7 @@ describe("branches", () => {
       let createdBranchId: string | null = null;
 
       try {
-        // Note: createProjectBranch doesn't have a name field in input, 
+        // Note: createProjectBranch doesn't have a name field in input,
         // so we need to check how to pass it. Looking at the schema, there's no
         // body parameter in the generated operation. We can update after creation.
         const created = await runEffect(

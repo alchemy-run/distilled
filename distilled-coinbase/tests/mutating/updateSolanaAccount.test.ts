@@ -9,8 +9,13 @@ describe("updateSolanaAccount", () => {
   it("can update a Solana account name", async () => {
     const result = await runEffect(
       Effect.gen(function* () {
-        const created = yield* createSolanaAccount({ name: "distilled coinbase sol update" });
-        const updated = yield* updateSolanaAccount({ address: created.address, name: "distilled coinbase sol updated" });
+        const created = yield* createSolanaAccount({
+          name: "distilled coinbase sol update",
+        });
+        const updated = yield* updateSolanaAccount({
+          address: created.address,
+          name: "distilled coinbase sol updated",
+        });
         return updated;
       }).pipe(
         Effect.matchEffect({

@@ -11,13 +11,15 @@ export type ListEvmAccountsInput = typeof ListEvmAccountsInput.Type;
 
 // Output Schema
 export const ListEvmAccountsOutput = Schema.Struct({
-  accounts: Schema.Array(Schema.Struct({
-    address: Schema.String,
-    name: Schema.optional(Schema.String),
-    policies: Schema.optional(Schema.Array(Schema.String)),
-    createdAt: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
-  })),
+  accounts: Schema.Array(
+    Schema.Struct({
+      address: Schema.String,
+      name: Schema.optional(Schema.String),
+      policies: Schema.optional(Schema.Array(Schema.String)),
+      createdAt: Schema.optional(Schema.String),
+      updatedAt: Schema.optional(Schema.String),
+    }),
+  ),
   nextPageToken: Schema.optional(Schema.String),
 });
 export type ListEvmAccountsOutput = typeof ListEvmAccountsOutput.Type;

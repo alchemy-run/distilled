@@ -6,12 +6,19 @@ import { NotFound } from "../errors";
 // Input Schema
 export const DeleteWebhookSubscriptionInput = Schema.Struct({
   subscriptionId: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/v2/data/webhooks/subscriptions/{subscriptionId}" }));
-export type DeleteWebhookSubscriptionInput = typeof DeleteWebhookSubscriptionInput.Type;
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/v2/data/webhooks/subscriptions/{subscriptionId}",
+  }),
+);
+export type DeleteWebhookSubscriptionInput =
+  typeof DeleteWebhookSubscriptionInput.Type;
 
 // Output Schema
 export const DeleteWebhookSubscriptionOutput = Schema.Void;
-export type DeleteWebhookSubscriptionOutput = typeof DeleteWebhookSubscriptionOutput.Type;
+export type DeleteWebhookSubscriptionOutput =
+  typeof DeleteWebhookSubscriptionOutput.Type;
 
 // The operation
 /**
@@ -26,8 +33,10 @@ export type DeleteWebhookSubscriptionOutput = typeof DeleteWebhookSubscriptionOu
  *
  * @param subscriptionId - Unique identifier for the webhook subscription.
  */
-export const deleteWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: DeleteWebhookSubscriptionInput,
-  outputSchema: DeleteWebhookSubscriptionOutput,
-  errors: [NotFound],
-}));
+export const deleteWebhookSubscription = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: DeleteWebhookSubscriptionInput,
+    outputSchema: DeleteWebhookSubscriptionOutput,
+    errors: [NotFound],
+  }),
+);

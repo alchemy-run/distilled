@@ -7,14 +7,21 @@ export const GetProjectBranchRolePasswordInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   role_name: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}/roles/{role_name}/reveal_password" }));
-export type GetProjectBranchRolePasswordInput = typeof GetProjectBranchRolePasswordInput.Type;
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}/roles/{role_name}/reveal_password",
+  }),
+);
+export type GetProjectBranchRolePasswordInput =
+  typeof GetProjectBranchRolePasswordInput.Type;
 
 // Output Schema
 export const GetProjectBranchRolePasswordOutput = Schema.Struct({
   password: Schema.String,
 });
-export type GetProjectBranchRolePasswordOutput = typeof GetProjectBranchRolePasswordOutput.Type;
+export type GetProjectBranchRolePasswordOutput =
+  typeof GetProjectBranchRolePasswordOutput.Type;
 
 // The operation
 /**
@@ -30,7 +37,8 @@ export type GetProjectBranchRolePasswordOutput = typeof GetProjectBranchRolePass
  * @param branch_id - The branch ID
  * @param role_name - The role name
  */
-export const getProjectBranchRolePassword = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetProjectBranchRolePasswordInput,
-  outputSchema: GetProjectBranchRolePasswordOutput,
-}));
+export const getProjectBranchRolePassword =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    inputSchema: GetProjectBranchRolePasswordInput,
+    outputSchema: GetProjectBranchRolePasswordOutput,
+  }));

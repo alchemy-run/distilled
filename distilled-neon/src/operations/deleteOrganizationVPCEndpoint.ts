@@ -7,12 +7,19 @@ export const DeleteOrganizationVPCEndpointInput = Schema.Struct({
   org_id: Schema.String.pipe(T.PathParam()),
   region_id: Schema.String.pipe(T.PathParam()),
   vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}" }));
-export type DeleteOrganizationVPCEndpointInput = typeof DeleteOrganizationVPCEndpointInput.Type;
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}",
+  }),
+);
+export type DeleteOrganizationVPCEndpointInput =
+  typeof DeleteOrganizationVPCEndpointInput.Type;
 
 // Output Schema
 export const DeleteOrganizationVPCEndpointOutput = Schema.Void;
-export type DeleteOrganizationVPCEndpointOutput = typeof DeleteOrganizationVPCEndpointOutput.Type;
+export type DeleteOrganizationVPCEndpointOutput =
+  typeof DeleteOrganizationVPCEndpointOutput.Type;
 
 // The operation
 /**
@@ -28,7 +35,8 @@ Azure regions are currently not supported.
 
  * @param vpc_endpoint_id - The VPC endpoint ID
  */
-export const deleteOrganizationVPCEndpoint = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: DeleteOrganizationVPCEndpointInput,
-  outputSchema: DeleteOrganizationVPCEndpointOutput,
-}));
+export const deleteOrganizationVPCEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+    inputSchema: DeleteOrganizationVPCEndpointInput,
+    outputSchema: DeleteOrganizationVPCEndpointOutput,
+  }));

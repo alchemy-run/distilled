@@ -15,21 +15,37 @@ describe("updatePolicy", () => {
         const created = yield* createPolicy({
           scope: "account",
           description: "distilled coinbase policy update",
-          rules: [{
-            action: "reject",
-            operation: "signEvmTransaction",
-            criteria: [{ type: "ethValue", ethValue: "1000000000000000000", operator: ">" }],
-          }],
+          rules: [
+            {
+              action: "reject",
+              operation: "signEvmTransaction",
+              criteria: [
+                {
+                  type: "ethValue",
+                  ethValue: "1000000000000000000",
+                  operator: ">",
+                },
+              ],
+            },
+          ],
         });
         policyId = created.id;
         const updated = yield* updatePolicy({
           policyId: created.id,
           description: "distilled coinbase policy updated",
-          rules: [{
-            action: "reject",
-            operation: "signEvmTransaction",
-            criteria: [{ type: "ethValue", ethValue: "2000000000000000000", operator: ">" }],
-          }],
+          rules: [
+            {
+              action: "reject",
+              operation: "signEvmTransaction",
+              criteria: [
+                {
+                  type: "ethValue",
+                  ethValue: "2000000000000000000",
+                  operator: ">",
+                },
+              ],
+            },
+          ],
         });
         return { created, updated };
       }).pipe(
@@ -42,7 +58,9 @@ describe("updatePolicy", () => {
     try {
       if ("data" in result) {
         expect(result.data.updated.id).toBe(result.data.created.id);
-        expect(result.data.updated.description).toBe("distilled coinbase policy updated");
+        expect(result.data.updated.description).toBe(
+          "distilled coinbase policy updated",
+        );
       } else {
         expect((result.error as any)._tag).toBe("Forbidden");
       }

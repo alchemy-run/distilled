@@ -13,17 +13,25 @@ describe("listTokensForAccount", () => {
         const accounts = yield* listEvmAccounts({});
         if (accounts.accounts.length === 0) return null;
         const address = accounts.accounts[0]!.address;
-        return yield* listTokensForAccount({ network: "base-sepolia", address });
+        return yield* listTokensForAccount({
+          network: "base-sepolia",
+          address,
+        });
       }),
     );
     if (result !== null) {
-      expect(result.totalCount !== undefined || result.tokenAddresses !== undefined).toBe(true);
+      expect(
+        result.totalCount !== undefined || result.tokenAddresses !== undefined,
+      ).toBe(true);
     }
   });
 
   it("handles non-existent address", async () => {
     const result = await runEffect(
-      listTokensForAccount({ network: "base-sepolia", address: NON_EXISTENT_ADDRESS }).pipe(
+      listTokensForAccount({
+        network: "base-sepolia",
+        address: NON_EXISTENT_ADDRESS,
+      }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),
           onSuccess: (data) => Effect.succeed({ data }),

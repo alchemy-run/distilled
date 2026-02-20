@@ -8,29 +8,35 @@ export const ListWebhookSubscriptionsInput = Schema.Struct({
   pageSize: Schema.optional(Schema.Number),
   pageToken: Schema.optional(Schema.String),
 }).pipe(T.Http({ method: "GET", path: "/v2/data/webhooks/subscriptions" }));
-export type ListWebhookSubscriptionsInput = typeof ListWebhookSubscriptionsInput.Type;
+export type ListWebhookSubscriptionsInput =
+  typeof ListWebhookSubscriptionsInput.Type;
 
 // Output Schema
 export const ListWebhookSubscriptionsOutput = Schema.Struct({
-  subscriptions: Schema.Array(Schema.Struct({
-    createdAt: Schema.String,
-    description: Schema.optional(Schema.String),
-    eventTypes: Schema.Array(Schema.String),
-    isEnabled: Schema.Boolean,
-    metadata: Schema.optional(Schema.Struct({
-      secret: Schema.optional(Schema.String),
-    })),
-    secret: Schema.String,
-    subscriptionId: Schema.String,
-    target: Schema.Struct({
-      url: Schema.String,
-      headers: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
+  subscriptions: Schema.Array(
+    Schema.Struct({
+      createdAt: Schema.String,
+      description: Schema.optional(Schema.String),
+      eventTypes: Schema.Array(Schema.String),
+      isEnabled: Schema.Boolean,
+      metadata: Schema.optional(
+        Schema.Struct({
+          secret: Schema.optional(Schema.String),
+        }),
+      ),
+      secret: Schema.String,
+      subscriptionId: Schema.String,
+      target: Schema.Struct({
+        url: Schema.String,
+        headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      }),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
-    labels: Schema.optional(Schema.Record({ key: Schema.String, value: Schema.String })),
-  })),
+  ),
   nextPageToken: Schema.optional(Schema.String),
 });
-export type ListWebhookSubscriptionsOutput = typeof ListWebhookSubscriptionsOutput.Type;
+export type ListWebhookSubscriptionsOutput =
+  typeof ListWebhookSubscriptionsOutput.Type;
 
 // The operation
 /**
@@ -47,8 +53,10 @@ export type ListWebhookSubscriptionsOutput = typeof ListWebhookSubscriptionsOutp
  * @param pageSize - The number of subscriptions to return per page.
  * @param pageToken - The token for the next page of subscriptions, if any.
  */
-export const listWebhookSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: ListWebhookSubscriptionsInput,
-  outputSchema: ListWebhookSubscriptionsOutput,
-  errors: [InvalidRequest],
-}));
+export const listWebhookSubscriptions = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: ListWebhookSubscriptionsInput,
+    outputSchema: ListWebhookSubscriptionsOutput,
+    errors: [InvalidRequest],
+  }),
+);

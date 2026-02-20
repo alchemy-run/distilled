@@ -1,20 +1,30 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const ExportSolanaAccountByNameInput = Schema.Struct({
   name: Schema.String.pipe(T.PathParam()),
   exportEncryptionKey: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts/export/by-name/{name}" }), T.WalletAuth());
-export type ExportSolanaAccountByNameInput = typeof ExportSolanaAccountByNameInput.Type;
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/solana/accounts/export/by-name/{name}" }),
+  T.WalletAuth(),
+);
+export type ExportSolanaAccountByNameInput =
+  typeof ExportSolanaAccountByNameInput.Type;
 
 // Output Schema
 export const ExportSolanaAccountByNameOutput = Schema.Struct({
   encryptedPrivateKey: Schema.String,
 });
-export type ExportSolanaAccountByNameOutput = typeof ExportSolanaAccountByNameOutput.Type;
+export type ExportSolanaAccountByNameOutput =
+  typeof ExportSolanaAccountByNameOutput.Type;
 
 // The operation
 /**
@@ -24,9 +34,11 @@ export type ExportSolanaAccountByNameOutput = typeof ExportSolanaAccountByNameOu
  *
  * @param name - The name of the Solana account.
  */
-export const exportSolanaAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: ExportSolanaAccountByNameInput,
-  outputSchema: ExportSolanaAccountByNameOutput,
-  errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
-  walletAuth: true,
-}));
+export const exportSolanaAccountByName = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: ExportSolanaAccountByNameInput,
+    outputSchema: ExportSolanaAccountByNameOutput,
+    errors: [IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
+    walletAuth: true,
+  }),
+);

@@ -27,7 +27,7 @@ const annotationMetaSymbol = Symbol.for("neon/annotation-meta");
  * This includes Schema.Schema and Schema.PropertySignature.
  */
 type Annotatable = {
-  annotations(annotations: unknown): Annotatable;
+  annotate(annotations: unknown): Annotatable;
 };
 
 /**
@@ -70,7 +70,7 @@ function makeAnnotation<T>(sym: symbol, value: T): Annotation {
  * });
  * ```
  */
-export function all(...annotate: Annotation[]): Annotation {
+export function all(...annotations: Annotation[]): Annotation {
   const entries: Array<{ symbol: symbol; value: unknown }> = [];
   const raw: Record<symbol, unknown> = {};
 
@@ -199,22 +199,20 @@ export const ApiErrorCode = (code: string) =>
 import * as AST from "effect/SchemaAST";
 
 /**
- * Get annotation value from an AST node, unwrapping Transformation if needed.
+ * Get annotation value from an AST node, following encoding chain if needed.
  */
 export const getAnnotation = <T>(
   ast: AST.AST,
   symbol: symbol,
 ): T | undefined => {
   // Direct annotation
-  const direct = ast.annotate?.[symbol] as T | undefined;
+  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
+  const direct = annotations?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
-  // Handle Transformation (e.g., from TaggedError)
-  if (ast._tag === "Transformation") {
-    const toValue = ast.to?.annotate?.[symbol] as T | undefined;
-    if (toValue !== undefined) return toValue;
-    const fromValue = ast.from?.annotate?.[symbol] as T | undefined;
-    if (fromValue !== undefined) return fromValue;
+  // Follow encoding chain (replaces v3 Transformation handling)
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getAnnotation<T>(ast.encoding[0].to, symbol);
   }
 
   return undefined;
@@ -230,9 +228,7 @@ export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
  * Check if a PropertySignature has the pathParam annotation.
  */
 export const isPathParam = (prop: AST.PropertySignature): boolean => {
-  // Check on the property itself
-  if (prop.annotate?.[pathParamSymbol]) return true;
-  // Check on the property type
+  // Check on the property type (v4 - annotations are on the type AST)
   return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
 };
 
@@ -242,13 +238,7 @@ export const isPathParam = (prop: AST.PropertySignature): boolean => {
 export const getQueryParam = (
   prop: AST.PropertySignature,
 ): string | boolean | undefined => {
-  // Check on the property itself
-  const propAnnot = prop.annotate?.[queryParamSymbol] as
-    | string
-    | boolean
-    | undefined;
-  if (propAnnot !== undefined) return propAnnot;
-  // Check on the property type
+  // Check on the property type (v4 - annotations are on the type AST)
   return getAnnotation<string | boolean>(prop.type, queryParamSymbol);
 };
 
@@ -263,16 +253,16 @@ export const getApiErrorCode = (ast: AST.AST): string | undefined =>
  * Returns an array of field names that have the PathParam annotation.
  */
 export const getPathParams = (ast: AST.AST): string[] => {
-  // Handle TypeLiteral (struct)
-  if (ast._tag === "TypeLiteral") {
+  // Handle Objects (struct) - v4 renamed from TypeLiteral
+  if (ast._tag === "Objects") {
     return ast.propertySignatures
       .filter((prop) => isPathParam(prop))
       .map((prop) => String(prop.name));
   }
 
-  // Handle Transformation (wraps TypeLiteral)
-  if (ast._tag === "Transformation") {
-    return getPathParams(ast.from);
+  // Follow encoding chain (replaces v3 Transformation handling)
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getPathParams(ast.encoding[0].to);
   }
 
   return [];

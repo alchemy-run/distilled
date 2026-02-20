@@ -7,7 +7,12 @@ export const GetProjectBranchRoleInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   role_name: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}/roles/{role_name}" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}/roles/{role_name}",
+  }),
+);
 export type GetProjectBranchRoleInput = typeof GetProjectBranchRoleInput.Type;
 
 // Output Schema
@@ -39,7 +44,9 @@ export type GetProjectBranchRoleOutput = typeof GetProjectBranchRoleOutput.Type;
  * @param branch_id - The branch ID
  * @param role_name - The role name
  */
-export const getProjectBranchRole = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: GetProjectBranchRoleInput,
-  outputSchema: GetProjectBranchRoleOutput,
-}));
+export const getProjectBranchRole = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: GetProjectBranchRoleInput,
+    outputSchema: GetProjectBranchRoleOutput,
+  }),
+);

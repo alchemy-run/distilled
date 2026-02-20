@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { applyAllPatches } from "./apply-patches";
@@ -221,10 +222,10 @@ function openApiTypeToEffectSchema(
     return "Schema.Unknown";
   }
 
-  // Handle enum
+  // Handle enum - v4 uses Schema.Literals([...]) for multiple values
   if (prop.enum && prop.enum.length > 0) {
     const literals = prop.enum.map((v) => `"${v}"`).join(", ");
-    const baseSchema = `Schema.Literal(${literals})`;
+    const baseSchema = `Schema.Literals([${literals}])`;
     return prop.nullable ? `Schema.NullOr(${baseSchema})` : baseSchema;
   }
 
@@ -241,7 +242,9 @@ function openApiTypeToEffectSchema(
             ctx.usesSensitiveString = true;
           }
         }
-        baseSchema = prop.nullable ? "SensitiveNullableString" : "SensitiveString";
+        baseSchema = prop.nullable
+          ? "SensitiveNullableString"
+          : "SensitiveString";
         // Return early since SensitiveNullableString already handles null
         return baseSchema;
       }
@@ -256,7 +259,13 @@ function openApiTypeToEffectSchema(
       break;
     case "array":
       if (prop.items) {
-        const itemSchema = openApiTypeToEffectSchema(prop.items, spec, indent, seenRefs, ctx);
+        const itemSchema = openApiTypeToEffectSchema(
+          prop.items,
+          spec,
+          indent,
+          seenRefs,
+          ctx,
+        );
         baseSchema = `Schema.Array(${itemSchema})`;
       } else {
         baseSchema = "Schema.Array(Schema.Unknown)";
@@ -267,7 +276,7 @@ function openApiTypeToEffectSchema(
         baseSchema = generateStructSchema(prop, spec, indent, seenRefs, ctx);
       } else if (prop.additionalProperties) {
         if (typeof prop.additionalProperties === "boolean") {
-          baseSchema = "Schema.Record({ key: Schema.String, value: Schema.Unknown })";
+          baseSchema = "Schema.Record(Schema.String, Schema.Unknown)";
         } else {
           const valueSchema = openApiTypeToEffectSchema(
             prop.additionalProperties,
@@ -276,7 +285,7 @@ function openApiTypeToEffectSchema(
             seenRefs,
             ctx,
           );
-          baseSchema = `Schema.Record({ key: Schema.String, value: ${valueSchema} })`;
+          baseSchema = `Schema.Record(Schema.String, ${valueSchema})`;
         }
       } else {
         baseSchema = "Schema.Unknown";
@@ -308,7 +317,13 @@ function generateStructSchema(
   const lines: string[] = [];
 
   for (const [key, value] of Object.entries(schema.properties)) {
-    const fieldSchema = openApiTypeToEffectSchema(value, spec, indent + "  ", seenRefs, ctx);
+    const fieldSchema = openApiTypeToEffectSchema(
+      value,
+      spec,
+      indent + "  ",
+      seenRefs,
+      ctx,
+    );
     const isOptional = !required.has(key);
     if (isOptional) {
       lines.push(`${indent}  ${key}: Schema.optional(${fieldSchema}),`);
@@ -477,7 +492,7 @@ function generateInputSchema(
     const schema = param.schema;
     const baseSchema =
       schema?.enum && schema.enum.length > 0
-        ? `Schema.Literal(${schema.enum.map((v) => `"${v}"`).join(", ")})`
+        ? `Schema.Literals([${schema.enum.map((v) => `"${v}"`).join(", ")}])`
         : schema?.type === "integer" || schema?.type === "number"
           ? "Schema.Number"
           : "Schema.String";
@@ -495,7 +510,7 @@ function generateInputSchema(
         : schema?.type === "boolean"
           ? "Schema.Boolean"
           : schema?.enum && schema.enum.length > 0
-            ? `Schema.Literal(${schema.enum.map((v) => `"${v}"`).join(", ")})`
+            ? `Schema.Literals([${schema.enum.map((v) => `"${v}"`).join(", ")}])`
             : "Schema.String";
 
     if (!param.required) {
@@ -548,7 +563,11 @@ function generateOutputSchema(
   operationId: string,
   responseSchema: SchemaObject | null,
   spec: OpenAPISpec,
-): { outputSchemaCode: string; outputSchemaName: string; sensitiveImports: SensitiveImports } {
+): {
+  outputSchemaCode: string;
+  outputSchemaName: string;
+  sensitiveImports: SensitiveImports;
+} {
   const outputSchemaName = toPascalCase(operationId) + "Output";
   const ctx: SchemaGenerationContext = {
     usesSensitiveString: false,
@@ -560,13 +579,22 @@ function generateOutputSchema(
       outputSchemaCode: `export const ${outputSchemaName} = Schema.Void;
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
       outputSchemaName,
-      sensitiveImports: { usesSensitiveString: false, usesSensitiveNullableString: false },
+      sensitiveImports: {
+        usesSensitiveString: false,
+        usesSensitiveNullableString: false,
+      },
     };
   }
 
   // Handle array responses
   if (responseSchema.type === "array" && responseSchema.items) {
-    const itemSchema = openApiTypeToEffectSchema(responseSchema.items, spec, "", new Set(), ctx);
+    const itemSchema = openApiTypeToEffectSchema(
+      responseSchema.items,
+      spec,
+      "",
+      new Set(),
+      ctx,
+    );
     return {
       outputSchemaCode: `export const ${outputSchemaName} = Schema.Array(${itemSchema});
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
@@ -579,7 +607,13 @@ export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
   }
 
   // Handle object responses
-  const schemaCode = openApiTypeToEffectSchema(responseSchema, spec, "", new Set(), ctx);
+  const schemaCode = openApiTypeToEffectSchema(
+    responseSchema,
+    spec,
+    "",
+    new Set(),
+    ctx,
+  );
   return {
     outputSchemaCode: `export const ${outputSchemaName} = ${schemaCode};
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
@@ -602,10 +636,18 @@ function generateOperation(
   const functionName = operationIdToFunctionName(operationId);
 
   // Resolve all parameters (path-level + operation-level)
-  const parameters = resolveParameters(spec, pathLevelParams, operation.parameters);
+  const parameters = resolveParameters(
+    spec,
+    pathLevelParams,
+    operation.parameters,
+  );
 
   // Generate JSDoc from OpenAPI documentation
-  const jsDoc = generateJsDoc(operation.summary, operation.description, parameters);
+  const jsDoc = generateJsDoc(
+    operation.summary,
+    operation.description,
+    parameters,
+  );
 
   // Generate input schema
   const { inputSchemaCode, inputSchemaName } = generateInputSchema(
@@ -619,15 +661,14 @@ function generateOperation(
 
   // Get success response (200, 201, or 204)
   const successResponse =
-    operation.responses["200"] || operation.responses["201"] || operation.responses["204"];
+    operation.responses["200"] ||
+    operation.responses["201"] ||
+    operation.responses["204"];
   const responseSchema = getSchemaFromResponse(spec, successResponse);
 
   // Generate output schema
-  const { outputSchemaCode, outputSchemaName, sensitiveImports } = generateOutputSchema(
-    operationId,
-    responseSchema,
-    spec,
-  );
+  const { outputSchemaCode, outputSchemaName, sensitiveImports } =
+    generateOutputSchema(operationId, responseSchema, spec);
 
   // Generate the operation function (errors are handled globally by the client)
   const operationCodeWithJsDoc = jsDoc
@@ -730,7 +771,9 @@ async function main() {
 
       // Skip deprecated operations
       if (operation.deprecated) {
-        console.log(`Skipping deprecated ${method.toUpperCase()} ${pathTemplate}`);
+        console.log(
+          `Skipping deprecated ${method.toUpperCase()} ${pathTemplate}`,
+        );
         continue;
       }
 
@@ -739,7 +782,13 @@ async function main() {
       );
 
       try {
-        const generated = generateOperation(spec, pathTemplate, method, operation, pathLevelParams);
+        const generated = generateOperation(
+          spec,
+          pathTemplate,
+          method,
+          operation,
+          pathLevelParams,
+        );
         operations.push(generated);
       } catch (error) {
         console.error(`Error generating ${operation.operationId}:`, error);
@@ -758,11 +807,17 @@ async function main() {
   console.log("\nWriting operations barrel file...");
   const operationsBarrelPath = path.join(operationsDir, "index.ts");
   const operationsBarrelContent =
-    operations.map((op) => `export * from "./${op.functionName}";`).join("\n") + "\n";
+    operations.map((op) => `export * from "./${op.functionName}";`).join("\n") +
+    "\n";
   fs.writeFileSync(operationsBarrelPath, operationsBarrelContent);
   console.log(`Written: src/operations/index.ts`);
 
   console.log(`\nGenerated ${operations.length} operations.`);
+
+  // Format generated files
+  console.log("Formatting generated files...");
+  execSync("bun format", { stdio: "inherit" });
+
   console.log("Done!");
 }
 

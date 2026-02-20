@@ -1,13 +1,26 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  Forbidden,
+  IdempotencyError,
+  MalformedTransaction,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SignEvmTransactionInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   transaction: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/evm/accounts/{address}/sign/transaction" }), T.WalletAuth());
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/evm/accounts/{address}/sign/transaction",
+  }),
+  T.WalletAuth(),
+);
 export type SignEvmTransactionInput = typeof SignEvmTransactionInput.Type;
 
 // Output Schema
@@ -29,6 +42,13 @@ export type SignEvmTransactionOutput = typeof SignEvmTransactionOutput.Type;
 export const signEvmTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SignEvmTransactionInput,
   outputSchema: SignEvmTransactionOutput,
-  errors: [AlreadyExists, Forbidden, IdempotencyError, MalformedTransaction, NotFound, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    Forbidden,
+    IdempotencyError,
+    MalformedTransaction,
+    NotFound,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));

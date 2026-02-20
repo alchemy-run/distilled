@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { applyAllPatches } from "./apply-patches";
@@ -240,31 +241,38 @@ function openApiTypeToEffectSchema(
   // Handle allOf (merge all schemas)
   if (prop.allOf && prop.allOf.length > 0) {
     const merged = mergeAllOf(prop.allOf, spec, seenRefs);
-    return openApiTypeToEffectSchema(merged, spec, indent, seenRefs, ctx, depth + 1);
+    return openApiTypeToEffectSchema(
+      merged,
+      spec,
+      indent,
+      seenRefs,
+      ctx,
+      depth + 1,
+    );
   }
 
-  // Handle oneOf / anyOf as Schema.Union
+  // Handle oneOf / anyOf as Schema.Union - v4 uses array syntax
   if (prop.oneOf && prop.oneOf.length > 0) {
     const variants = prop.oneOf.map((v) =>
       openApiTypeToEffectSchema(v, spec, indent, seenRefs, ctx, depth + 1),
     );
     if (variants.length === 1) return variants[0]!;
-    return `Schema.Union(${variants.join(", ")})`;
+    return `Schema.Union([${variants.join(", ")}])`;
   }
   if (prop.anyOf && prop.anyOf.length > 0) {
     const variants = prop.anyOf.map((v) =>
       openApiTypeToEffectSchema(v, spec, indent, seenRefs, ctx, depth + 1),
     );
     if (variants.length === 1) return variants[0]!;
-    return `Schema.Union(${variants.join(", ")})`;
+    return `Schema.Union([${variants.join(", ")}])`;
   }
 
-  // Handle enum
+  // Handle enum - v4 uses Schema.Literals([...]) for multiple values
   if (prop.enum && prop.enum.length > 0) {
     const literals = prop.enum
       .map((v) => (typeof v === "string" ? `"${v}"` : String(v)))
       .join(", ");
-    const baseSchema = `Schema.Literal(${literals})`;
+    const baseSchema = `Schema.Literals([${literals}])`;
     const { nullable } = getSchemaType(prop);
     return nullable ? `Schema.NullOr(${baseSchema})` : baseSchema;
   }
@@ -312,7 +320,14 @@ function openApiTypeToEffectSchema(
       break;
     case "object":
       if (prop.properties) {
-        baseSchema = generateStructSchema(prop, spec, indent, seenRefs, ctx, depth);
+        baseSchema = generateStructSchema(
+          prop,
+          spec,
+          indent,
+          seenRefs,
+          ctx,
+          depth,
+        );
       } else if (
         prop.additionalProperties &&
         typeof prop.additionalProperties === "object"
@@ -325,14 +340,21 @@ function openApiTypeToEffectSchema(
           ctx,
           depth + 1,
         );
-        baseSchema = `Schema.Record({ key: Schema.String, value: ${valueSchema} })`;
+        baseSchema = `Schema.Record(Schema.String, ${valueSchema})`;
       } else {
         baseSchema = "Schema.Unknown";
       }
       break;
     default:
       if (prop.properties) {
-        baseSchema = generateStructSchema(prop, spec, indent, seenRefs, ctx, depth);
+        baseSchema = generateStructSchema(
+          prop,
+          spec,
+          indent,
+          seenRefs,
+          ctx,
+          depth,
+        );
       } else {
         baseSchema = "Schema.Unknown";
       }
@@ -496,10 +518,7 @@ const DEFAULT_ERROR_TYPES = new Set([
  * 4. Filter out default errors (they're always included)
  * 5. Return deduplicated, sorted array of TypeScript error class names
  */
-function getOperationErrors(
-  spec: OpenAPISpec,
-  operation: Operation,
-): string[] {
+function getOperationErrors(spec: OpenAPISpec, operation: Operation): string[] {
   const errorTypes = new Set<string>();
 
   for (const [statusCode, responseRef] of Object.entries(operation.responses)) {
@@ -514,7 +533,11 @@ function getOperationErrors(
 
     if (jsonContent) {
       // Check examples (plural) - Coinbase uses this format
-      const examples = (jsonContent as unknown as { examples?: Record<string, { value?: { errorType?: string } }> }).examples;
+      const examples = (
+        jsonContent as unknown as {
+          examples?: Record<string, { value?: { errorType?: string } }>;
+        }
+      ).examples;
       if (examples) {
         for (const example of Object.values(examples)) {
           if (example.value?.errorType) {
@@ -525,7 +548,9 @@ function getOperationErrors(
       }
 
       // Check single example
-      const example = (jsonContent as unknown as { example?: { errorType?: string } }).example;
+      const example = (
+        jsonContent as unknown as { example?: { errorType?: string } }
+      ).example;
       if (example?.errorType) {
         errorTypes.add(example.errorType);
         foundFromExamples = true;
@@ -672,7 +697,7 @@ function generateInputSchema(
 
     if (paramSchema) {
       if (paramSchema.enum) {
-        baseSchema = `Schema.Literal(${paramSchema.enum.map((v) => `"${v}"`).join(", ")})`;
+        baseSchema = `Schema.Literals([${paramSchema.enum.map((v) => `"${v}"`).join(", ")}])`;
       } else {
         const { type } = getSchemaType(paramSchema);
         if (type === "integer" || type === "number") {
@@ -698,7 +723,7 @@ function generateInputSchema(
       } else if (type === "boolean") {
         schema = "Schema.Boolean";
       } else if (paramSchema.enum) {
-        schema = `Schema.Literal(${paramSchema.enum.map((v) => `"${v}"`).join(", ")})`;
+        schema = `Schema.Literals([${paramSchema.enum.map((v) => `"${v}"`).join(", ")}])`;
       }
     }
 
@@ -722,7 +747,11 @@ function generateInputSchema(
         const required = new Set(bodySchema.required || []);
         for (const [key, value] of Object.entries(bodySchema.properties)) {
           const resolvedValue = resolveSchema(spec, value);
-          let fieldSchema = openApiTypeToEffectSchema(resolvedValue, spec, "  ");
+          let fieldSchema = openApiTypeToEffectSchema(
+            resolvedValue,
+            spec,
+            "  ",
+          );
           if (!required.has(key)) {
             fieldSchema = `Schema.optional(${fieldSchema})`;
           }
@@ -924,9 +953,10 @@ function generateOperation(
 
   // Generate the operation function
   const walletAuthOption = requiresWalletAuth ? "\n  walletAuth: true," : "";
-  const errorsOption = errorClassNames.length > 0
-    ? `\n  errors: [${errorClassNames.join(", ")}],`
-    : "";
+  const errorsOption =
+    errorClassNames.length > 0
+      ? `\n  errors: [${errorClassNames.join(", ")}],`
+      : "";
   const operationCodeWithJsDoc = jsDoc
     ? `${jsDoc}
 export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
@@ -1073,6 +1103,10 @@ async function main() {
   console.log(`Written: src/operations/index.ts`);
 
   console.log(`\nGenerated ${operations.length} operations.`);
+
+  console.log("Formatting generated files...");
+  execSync("bun format", { stdio: "inherit" });
+
   console.log("Done!");
 }
 

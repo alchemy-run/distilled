@@ -6,7 +6,12 @@ import * as T from "../traits";
 export const GetProjectBranchInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/branches/{branch_id}" }));
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/projects/{project_id}/branches/{branch_id}",
+  }),
+);
 export type GetProjectBranchInput = typeof GetProjectBranchInput.Type;
 
 // Output Schema
@@ -36,25 +41,31 @@ export const GetProjectBranchOutput = Schema.Struct({
     ttl_interval_seconds: Schema.optional(Schema.Number),
     expires_at: Schema.optional(Schema.String),
     last_reset_at: Schema.optional(Schema.String),
-    created_by: Schema.optional(Schema.Struct({
-      name: Schema.optional(Schema.String),
-      image: Schema.optional(Schema.String),
-    })),
+    created_by: Schema.optional(
+      Schema.Struct({
+        name: Schema.optional(Schema.String),
+        image: Schema.optional(Schema.String),
+      }),
+    ),
     init_source: Schema.optional(Schema.String),
     restore_status: Schema.optional(Schema.String),
     restored_from: Schema.optional(Schema.String),
     restored_as: Schema.optional(Schema.String),
-    restricted_actions: Schema.optional(Schema.Array(Schema.Struct({
-      name: Schema.String,
-      reason: Schema.String,
-    }))),
+    restricted_actions: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          reason: Schema.String,
+        }),
+      ),
+    ),
   }),
   annotation: Schema.Struct({
     object: Schema.Struct({
       type: Schema.String,
       id: Schema.String,
     }),
-    value: Schema.Record({ key: Schema.String, value: Schema.String }),
+    value: Schema.Record(Schema.String, Schema.String),
     created_at: Schema.optional(Schema.String),
     updated_at: Schema.optional(Schema.String),
   }),

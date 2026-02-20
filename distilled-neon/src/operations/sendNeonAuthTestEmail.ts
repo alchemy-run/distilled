@@ -6,7 +6,12 @@ import * as T from "../traits";
 export const SendNeonAuthTestEmailInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/branches/{branch_id}/auth/send_test_email" }));
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/projects/{project_id}/branches/{branch_id}/auth/send_test_email",
+  }),
+);
 export type SendNeonAuthTestEmailInput = typeof SendNeonAuthTestEmailInput.Type;
 
 // Output Schema
@@ -14,7 +19,8 @@ export const SendNeonAuthTestEmailOutput = Schema.Struct({
   success: Schema.Boolean,
   error_message: Schema.optional(Schema.String),
 });
-export type SendNeonAuthTestEmailOutput = typeof SendNeonAuthTestEmailOutput.Type;
+export type SendNeonAuthTestEmailOutput =
+  typeof SendNeonAuthTestEmailOutput.Type;
 
 // The operation
 /**
@@ -25,7 +31,9 @@ export type SendNeonAuthTestEmailOutput = typeof SendNeonAuthTestEmailOutput.Typ
  * @param project_id - The Neon project ID
  * @param branch_id - The Neon branch ID
  */
-export const sendNeonAuthTestEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: SendNeonAuthTestEmailInput,
-  outputSchema: SendNeonAuthTestEmailOutput,
-}));
+export const sendNeonAuthTestEmail = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: SendNeonAuthTestEmailInput,
+    outputSchema: SendNeonAuthTestEmailOutput,
+  }),
+);

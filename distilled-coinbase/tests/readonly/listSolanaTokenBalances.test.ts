@@ -13,7 +13,10 @@ describe("listSolanaTokenBalances", () => {
         const accounts = yield* listSolanaAccounts({});
         if (accounts.accounts.length === 0) return null;
         const address = accounts.accounts[0]!.address;
-        return yield* listSolanaTokenBalances({ address, network: "solana-devnet" });
+        return yield* listSolanaTokenBalances({
+          address,
+          network: "solana-devnet",
+        });
       }),
     );
     if (result !== null) {
@@ -23,7 +26,10 @@ describe("listSolanaTokenBalances", () => {
 
   it("can list Solana token balances for a non-existent address (returns empty or error)", async () => {
     const result = await runEffect(
-      listSolanaTokenBalances({ address: NON_EXISTENT_SOLANA_ADDRESS, network: "solana-devnet" }).pipe(
+      listSolanaTokenBalances({
+        address: NON_EXISTENT_SOLANA_ADDRESS,
+        network: "solana-devnet",
+      }).pipe(
         Effect.matchEffect({
           onFailure: (e) => Effect.succeed({ error: e }),
           onSuccess: (data) => Effect.succeed({ data }),

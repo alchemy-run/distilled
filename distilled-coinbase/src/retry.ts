@@ -2,7 +2,7 @@ import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
-import type * as Ref from "effect/Ref";
+import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
 import * as ServiceMap from "effect/ServiceMap";
 import { isThrottlingError, isTransientError } from "./category";
@@ -70,9 +70,9 @@ export const makeDefault: Factory = (lastError) => ({
   while: (error) => isTransientError(error),
   schedule: pipe(
     Schedule.exponential(100, 2),
-    Schedule.modifyDelayEffect(
+    Schedule.modifyDelay(
       Effect.fnUntraced(function* (duration) {
-        const error = yield* lastError;
+        const error = yield* Ref.get(lastError);
         if (isThrottlingError(error)) {
           if (Duration.toMillis(duration) < 500) {
             return Duration.toMillis(Duration.millis(500));
@@ -82,9 +82,27 @@ export const makeDefault: Factory = (lastError) => ({
       }),
     ),
     Schedule.both(Schedule.recurs(5)),
-    Schedule.jittered,
+    jittered,
   ),
 });
+
+/**
+ * Custom jittered schedule helper (Schedule.jittered was removed in Effect v4)
+ */
+export const jittered = Schedule.addDelay(() =>
+  // Add random jitter between 0-50ms
+  Effect.succeed(Duration.millis(Math.random() * 50)),
+);
+
+/**
+ * Cap delay at a maximum duration
+ */
+export const capped = (max: Duration.Duration) =>
+  Schedule.modifyDelay((duration: Duration.Duration) =>
+    Effect.succeed(
+      Duration.isGreaterThan(duration, max) ? Duration.millis(5000) : duration,
+    ),
+  );
 
 /**
  * Retry options that retries all throttling errors indefinitely.
@@ -93,10 +111,8 @@ export const throttlingOptions: Options = {
   while: isThrottlingError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 
@@ -114,10 +130,8 @@ export const transientOptions: Options = {
   while: isTransientError,
   schedule: pipe(
     Schedule.exponential(1000, 2),
-    Schedule.modifyDelay((duration) =>
-      Duration.toMillis(duration) > 5000 ? Duration.millis(5000) : duration,
-    ),
-    Schedule.jittered,
+    capped(Duration.seconds(5)),
+    jittered,
   ),
 };
 

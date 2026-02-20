@@ -11,7 +11,9 @@ describe("requestEvmFaucet", () => {
       Effect.gen(function* () {
         const accounts = yield* listEvmAccounts({});
         if (accounts.accounts.length === 0) {
-          const created = yield* createEvmAccount({ name: "distilled coinbase faucet test" });
+          const created = yield* createEvmAccount({
+            name: "distilled coinbase faucet test",
+          });
           return yield* requestEvmFaucet({
             address: created.address,
             network: "base-sepolia",
@@ -24,7 +26,11 @@ describe("requestEvmFaucet", () => {
           );
         }
         const address = accounts.accounts[0]!.address;
-        return yield* requestEvmFaucet({ address, network: "base-sepolia", token: "eth" }).pipe(
+        return yield* requestEvmFaucet({
+          address,
+          network: "base-sepolia",
+          token: "eth",
+        }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed({ error: e }),
             onSuccess: (data) => Effect.succeed({ data }),

@@ -1,13 +1,25 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  NotFound,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const SignSolanaMessageInput = Schema.Struct({
   address: Schema.String.pipe(T.PathParam()),
   message: Schema.String,
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts/{address}/sign/message" }), T.WalletAuth());
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v2/solana/accounts/{address}/sign/message",
+  }),
+  T.WalletAuth(),
+);
 export type SignSolanaMessageInput = typeof SignSolanaMessageInput.Type;
 
 // Output Schema
@@ -28,6 +40,12 @@ export type SignSolanaMessageOutput = typeof SignSolanaMessageOutput.Type;
 export const signSolanaMessage = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: SignSolanaMessageInput,
   outputSchema: SignSolanaMessageOutput,
-  errors: [AlreadyExists, IdempotencyError, InvalidRequest, NotFound, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    IdempotencyError,
+    InvalidRequest,
+    NotFound,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));

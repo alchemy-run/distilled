@@ -8,14 +8,21 @@ export const CreateBranchNeonAuthNewUserInput = Schema.Struct({
   branch_id: Schema.String.pipe(T.PathParam()),
   email: Schema.String,
   name: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/branches/{branch_id}/auth/users" }));
-export type CreateBranchNeonAuthNewUserInput = typeof CreateBranchNeonAuthNewUserInput.Type;
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/projects/{project_id}/branches/{branch_id}/auth/users",
+  }),
+);
+export type CreateBranchNeonAuthNewUserInput =
+  typeof CreateBranchNeonAuthNewUserInput.Type;
 
 // Output Schema
 export const CreateBranchNeonAuthNewUserOutput = Schema.Struct({
   id: Schema.String,
 });
-export type CreateBranchNeonAuthNewUserOutput = typeof CreateBranchNeonAuthNewUserOutput.Type;
+export type CreateBranchNeonAuthNewUserOutput =
+  typeof CreateBranchNeonAuthNewUserOutput.Type;
 
 // The operation
 /**
@@ -26,7 +33,9 @@ export type CreateBranchNeonAuthNewUserOutput = typeof CreateBranchNeonAuthNewUs
  * @param project_id - The Neon project ID
  * @param branch_id - The Neon branch ID
  */
-export const createBranchNeonAuthNewUser = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: CreateBranchNeonAuthNewUserInput,
-  outputSchema: CreateBranchNeonAuthNewUserOutput,
-}));
+export const createBranchNeonAuthNewUser = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: CreateBranchNeonAuthNewUserInput,
+    outputSchema: CreateBranchNeonAuthNewUserOutput,
+  }),
+);

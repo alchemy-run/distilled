@@ -103,9 +103,7 @@
         "summary": "Create an end user",
         "description": "Creates an end user. An end user is an entity that can own CDP EVM accounts, EVM smart accounts, and/or Solana accounts. 1 or more authentication methods must be associated with an end user. By default, no accounts are created unless the optional `evmAccount` and/or `solanaAccount` fields are provided.\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "createEndUser",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "x-audience": "public",
         "security": [
           {
@@ -165,9 +163,7 @@
                     }
                   }
                 },
-                "required": [
-                  "authenticationMethods"
-                ]
+                "required": ["authenticationMethods"]
               },
               "examples": {
                 "default_behavior": {
@@ -486,9 +482,7 @@
         "summary": "List end users",
         "description": "Lists the end users belonging to the developer's CDP Project.\nBy default, the response is sorted by creation date in ascending order and paginated to 20 users per page.",
         "operationId": "listEndUsers",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -527,15 +521,10 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "createdAt=asc",
-                  "createdAt=desc"
-                ]
+                "enum": ["createdAt=asc", "createdAt=desc"]
               }
             },
-            "example": [
-              "createdAt=asc"
-            ],
+            "example": ["createdAt=asc"],
             "style": "form",
             "explode": false
           }
@@ -549,9 +538,7 @@
                   "allOf": [
                     {
                       "type": "object",
-                      "required": [
-                        "endUsers"
-                      ],
+                      "required": ["endUsers"],
                       "properties": {
                         "endUsers": {
                           "type": "array",
@@ -609,9 +596,7 @@
         "summary": "Validate end user access token",
         "description": "Validates the end user's access token and returns the end user's information. Returns an error if the access token is invalid or expired.\n\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "validateEndUserAccessToken",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -630,9 +615,7 @@
                     "example": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjA1ZGNmYTU1LWY1NzktNDg5YS1iNThhLTFlMDI5Nzk0N2VlNiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjZHAtYXBpIiwiYXV0aF90eXBlIjoiZW1haWwiLCJleHAiOjE3NTM5ODAyOTksImlhdCI6MTc1Mzk3ODQ5OSwiaXNzIjoiY2RwLWFwaSIsImp0aSI6IjA3ZWY5M2JlLTYzMDQtNGQ1YS05NmE3LWJlMGI5MWI0ZTE3NCIsInByb2plY3RfaWQiOiJjNzRkOGI4OC0wOTNiLTQyZDItOGE4Yy1kZGM1YzVlMGViNDMiLCJzdWIiOiJjYTM4YTM4ZC0xNmE5LTRkMjYtYTcxZC0zOWY2NmY5YzZiN2UifQ.1SU0pOy-WR002qUw4hd_UmZWRSLz-ZL6v7PvQvZMKVE6a51x_tqeUeRGaTGuYl1whg0eccMObmK7FqXKRH6E4g"
                   }
                 },
-                "required": [
-                  "accessToken"
-                ]
+                "required": ["accessToken"]
               }
             }
           }
@@ -714,9 +697,7 @@
         "summary": "Get an end user",
         "description": "Gets an end user by ID.\n\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "getEndUser",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -775,9 +756,7 @@
         "summary": "Add an EVM account to an end user",
         "description": "Adds a new EVM EOA account to an existing end user. End users can have up to 10 EVM accounts.\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "addEndUserEvmAccount",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "x-audience": "public",
         "security": [
           {
@@ -826,9 +805,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "evmAccount"
-                  ],
+                  "required": ["evmAccount"],
                   "properties": {
                     "evmAccount": {
                       "$ref": "#/components/schemas/EndUserEvmAccount"
@@ -926,9 +903,7 @@
         "summary": "Add an EVM smart account to an end user",
         "description": "Creates an EVM smart account for an existing end user. The backend will create a new EVM EOA account to serve as the owner of the smart account.\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "addEndUserEvmSmartAccount",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "x-audience": "public",
         "security": [
           {
@@ -991,9 +966,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "evmSmartAccount"
-                  ],
+                  "required": ["evmSmartAccount"],
                   "properties": {
                     "evmSmartAccount": {
                       "$ref": "#/components/schemas/EndUserEvmSmartAccount"
@@ -1094,9 +1067,7 @@
         "summary": "Add a Solana account to an end user",
         "description": "Adds a new Solana account to an existing end user. End users can have  up to 10 Solana accounts.\nThis API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.",
         "operationId": "addEndUserSolanaAccount",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "x-audience": "public",
         "security": [
           {
@@ -1145,9 +1116,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "solanaAccount"
-                  ],
+                  "required": ["solanaAccount"],
                   "properties": {
                     "solanaAccount": {
                       "$ref": "#/components/schemas/EndUserSolanaAccount"
@@ -1245,9 +1214,7 @@
         "summary": "Import a private key for an end user",
         "description": "Imports an existing private key for an end user into the developer's CDP Project. The private key must be encrypted using the CDP SDK's encryption scheme before being sent to this endpoint. This API should be called from the [CDP SDK](https://github.com/coinbase/cdp-sdk) to ensure that the associated private key is properly encrypted.\n\nThis endpoint allows developers to import existing keys for their end users, supporting both EVM and Solana key types. The end user must have at least one authentication method configured.",
         "operationId": "importEndUser",
-        "tags": [
-          "End User Accounts"
-        ],
+        "tags": ["End User Accounts"],
         "x-audience": "public",
         "security": [
           {
@@ -1285,10 +1252,7 @@
                   "keyType": {
                     "type": "string",
                     "description": "The type of key being imported. Determines what type of account will be associated for the end user.",
-                    "enum": [
-                      "evm",
-                      "solana"
-                    ],
+                    "enum": ["evm", "solana"],
                     "example": "evm"
                   }
                 },
@@ -1502,9 +1466,7 @@
         "summary": "List EVM accounts",
         "description": "Lists the EVM accounts belonging to the developer's CDP Project.\nThe response is paginated, and by default, returns 20 accounts per page.",
         "operationId": "listEvmAccounts",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -1536,9 +1498,7 @@
                           "description": "The list of EVM accounts."
                         }
                       },
-                      "required": [
-                        "accounts"
-                      ]
+                      "required": ["accounts"]
                     },
                     {
                       "$ref": "#/components/schemas/ListResponse"
@@ -1564,9 +1524,7 @@
         "summary": "Create an EVM account",
         "description": "Creates a new EVM account.",
         "operationId": "createEvmAccount",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -1694,9 +1652,7 @@
         "summary": "Get an EVM account by address",
         "description": "Gets an EVM account by its address.",
         "operationId": "getEvmAccount",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -1778,9 +1734,7 @@
         "summary": "Update an EVM account",
         "description": "Updates an existing EVM account. Use this to update the account's name or account-level policy.",
         "operationId": "updateEvmAccount",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -1897,9 +1851,7 @@
         "summary": "Get an EVM account by name",
         "description": "Gets an EVM account by its name.",
         "operationId": "getEvmAccountByName",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -1982,9 +1934,7 @@
         "summary": "Send a transaction",
         "description": "Signs a transaction with the given EVM account and sends it to the indicated supported network. This API handles nonce management and gas estimation, leaving the developer to provide only the minimal set of fields necessary to send the transaction. The transaction should be serialized as a hex string using [RLP](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/).\n\nThe transaction must be an [EIP-1559 dynamic fee transaction](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md).\n\n\n**Transaction fields and API behavior**\n\n- `to` *(Required)*: The address of the contract or account to send the transaction to.\n- `chainId` *(Ignored)*: The value of the `chainId` field in the transaction is ignored.\n  The transaction will be sent to the network indicated by the `network` field in the request body.\n\n- `nonce` *(Optional)*: The nonce to use for the transaction. If not provided, the API will assign\n   a nonce to the transaction based on the current state of the account.\n\n- `maxPriorityFeePerGas` *(Optional)*: The maximum priority fee per gas to use for the transaction.\n   If not provided, the API will estimate a value based on current network conditions.\n\n- `maxFeePerGas` *(Optional)*: The maximum fee per gas to use for the transaction.\n   If not provided, the API will estimate a value based on current network conditions.\n\n- `gasLimit` *(Optional)*: The gas limit to use for the transaction. If not provided, the API will estimate a value\n  based on the `to` and `data` fields of the transaction.\n\n- `value` *(Optional)*: The amount of ETH, in wei, to send with the transaction.\n- `data` *(Optional)*: The data to send with the transaction; only used for contract calls.\n- `accessList` *(Optional)*: The access list to use for the transaction.",
         "operationId": "sendEvmTransaction",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2036,10 +1986,7 @@
                     "example": "0xf86b098505d21dba00830334509431415daf58e2c6b7323b4c58712fd92952145da79018080"
                   }
                 },
-                "required": [
-                  "transaction",
-                  "network"
-                ]
+                "required": ["transaction", "network"]
               }
             }
           }
@@ -2058,9 +2005,7 @@
                       "example": "0xf8f98fb6726fc936f24b2007df5cb20e2b8444ff3dfaa2a929335f432a9be2e7"
                     }
                   },
-                  "required": [
-                    "transactionHash"
-                  ]
+                  "required": ["transactionHash"]
                 }
               }
             }
@@ -2164,9 +2109,7 @@
         "summary": "Sign a transaction",
         "description": "Signs a transaction with the given EVM account.\nThe transaction should be serialized as a hex string using [RLP](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/).\n\nThe transaction must be an [EIP-1559 dynamic fee transaction](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md). The developer is responsible for ensuring that the unsigned transaction is valid, as the API will not validate the transaction.",
         "operationId": "signEvmTransaction",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2203,9 +2146,7 @@
                     "example": "0xf86b098505d21dba00830334509431415daf58e2c6b7323b4c58712fd92952145da79018080"
                   }
                 },
-                "required": [
-                  "transaction"
-                ]
+                "required": ["transaction"]
               }
             }
           }
@@ -2224,9 +2165,7 @@
                       "example": "0x1b0c9cf8cd4554c6c6d9e7311e88f1be075d7f25b418a044f4bf2c0a42a93e212ad0a8b54de9e0b5f7e3812de3f2c6cc79aa8c3e1c02e7ad14b4a8f42012c2c01b"
                     }
                   },
-                  "required": [
-                    "signedTransaction"
-                  ]
+                  "required": ["signedTransaction"]
                 }
               }
             }
@@ -2330,9 +2269,7 @@
         "summary": "Sign a hash",
         "description": "Signs an arbitrary 32 byte hash with the given EVM account.",
         "operationId": "signEvmHash",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2369,9 +2306,7 @@
                     "example": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
                   }
                 },
-                "required": [
-                  "hash"
-                ]
+                "required": ["hash"]
               }
             }
           }
@@ -2390,9 +2325,7 @@
                       "example": "0x1b0c9cf8cd4554c6c6d9e7311e88f1be075d7f25b418a044f4bf2c0a42a93e212ad0a8b54de9e0b5f7e3812de3f2c6cc79aa8c3e1c02e7ad14b4a8f42012c2c01b"
                     }
                   },
-                  "required": [
-                    "signature"
-                  ]
+                  "required": ["signature"]
                 }
               }
             }
@@ -2460,9 +2393,7 @@
         "summary": "Sign an EIP-191 message",
         "description": "Signs an [EIP-191](https://eips.ethereum.org/EIPS/eip-191) message with the given EVM account.\n\nPer the specification, the message in the request body is prepended with `0x19 <0x45 (E)> <thereum Signed Message:\\n\" + len(message)>` before being signed.",
         "operationId": "signEvmMessage",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2499,9 +2430,7 @@
                     "example": "Hello, world!"
                   }
                 },
-                "required": [
-                  "message"
-                ]
+                "required": ["message"]
               }
             }
           }
@@ -2520,9 +2449,7 @@
                       "example": "0x1b0c9cf8cd4554c6c6d9e7311e88f1be075d7f25b418a044f4bf2c0a42a93e212ad0a8b54de9e0b5f7e3812de3f2c6cc79aa8c3e1c02e7ad14b4a8f42012c2c01b"
                     }
                   },
-                  "required": [
-                    "signature"
-                  ]
+                  "required": ["signature"]
                 }
               }
             }
@@ -2590,9 +2517,7 @@
         "summary": "Sign EIP-712 typed data",
         "description": "Signs [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed data with the given EVM account.",
         "operationId": "signEvmTypedData",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2640,9 +2565,7 @@
                       "example": "0x1b0c9cf8cd4554c6c6d9e7311e88f1be075d7f25b418a044f4bf2c0a42a93e212ad0a8b54de9e0b5f7e3812de3f2c6cc79aa8c3e1c02e7ad14b4a8f42012c2c01b"
                     }
                   },
-                  "required": [
-                    "signature"
-                  ]
+                  "required": ["signature"]
                 }
               }
             }
@@ -2724,9 +2647,7 @@
         "summary": "List Smart Accounts",
         "description": "Lists the Smart Accounts belonging to the developer's CDP Project.\nThe response is paginated, and by default, returns 20 accounts per page.",
         "operationId": "listEvmSmartAccounts",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2758,9 +2679,7 @@
                           "description": "The list of Smart Accounts."
                         }
                       },
-                      "required": [
-                        "accounts"
-                      ]
+                      "required": ["accounts"]
                     },
                     {
                       "$ref": "#/components/schemas/ListResponse"
@@ -2803,9 +2722,7 @@
         "summary": "Create a Smart Account",
         "description": "Creates a new Smart Account.",
         "operationId": "createEvmSmartAccount",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -2829,9 +2746,7 @@
                       "type": "string",
                       "pattern": "^0x[0-9a-fA-F]{40}$"
                     },
-                    "example": [
-                      "0xfc807D1bE4997e5C7B33E4d8D57e60c5b0f02B1a"
-                    ]
+                    "example": ["0xfc807D1bE4997e5C7B33E4d8D57e60c5b0f02B1a"]
                   },
                   "name": {
                     "type": "string",
@@ -2840,9 +2755,7 @@
                     "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,34}[A-Za-z0-9]$"
                   }
                 },
-                "required": [
-                  "owners"
-                ]
+                "required": ["owners"]
               }
             }
           }
@@ -2902,9 +2815,7 @@
             "apiKeyAuth": []
           }
         ],
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "parameters": [
           {
             "name": "name",
@@ -2982,9 +2893,7 @@
         "summary": "Import an EVM account",
         "description": "Import an existing EVM account into the developer's CDP Project. This API should be called from the [CDP SDK](https://github.com/coinbase/cdp-sdk) to ensure that the associated private key is properly encrypted.",
         "operationId": "importEvmAccount",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -3023,9 +2932,7 @@
                     "example": "123e4567-e89b-12d3-a456-426614174000"
                   }
                 },
-                "required": [
-                  "encryptedPrivateKey"
-                ]
+                "required": ["encryptedPrivateKey"]
               }
             }
           }
@@ -3119,17 +3026,13 @@
         "summary": "Export an EVM account",
         "description": "Export an existing EVM account's private key. It is important to store the private key in a secure place after it's exported.",
         "operationId": "exportEvmAccount",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "accounts#export"
-        ],
+        "x-required-api-auth-scopes": ["accounts#export"],
         "parameters": [
           {
             "$ref": "#/components/parameters/XWalletAuth"
@@ -3161,9 +3064,7 @@
                     "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                   }
                 },
-                "required": [
-                  "exportEncryptionKey"
-                ]
+                "required": ["exportEncryptionKey"]
               }
             }
           }
@@ -3182,9 +3083,7 @@
                       "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                     }
                   },
-                  "required": [
-                    "encryptedPrivateKey"
-                  ]
+                  "required": ["encryptedPrivateKey"]
                 }
               }
             }
@@ -3267,17 +3166,13 @@
         "summary": "Export an EVM account by name",
         "description": "Export an existing EVM account's private key by its name. It is important to store the private key in a secure place after it's exported.",
         "operationId": "exportEvmAccountByName",
-        "tags": [
-          "EVM Accounts"
-        ],
+        "tags": ["EVM Accounts"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "accounts#export"
-        ],
+        "x-required-api-auth-scopes": ["accounts#export"],
         "parameters": [
           {
             "$ref": "#/components/parameters/XWalletAuth"
@@ -3308,9 +3203,7 @@
                     "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                   }
                 },
-                "required": [
-                  "exportEncryptionKey"
-                ]
+                "required": ["exportEncryptionKey"]
               }
             }
           }
@@ -3329,9 +3222,7 @@
                       "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                     }
                   },
-                  "required": [
-                    "encryptedPrivateKey"
-                  ]
+                  "required": ["encryptedPrivateKey"]
                 }
               }
             }
@@ -3413,9 +3304,7 @@
         "summary": "Get a Smart Account by address",
         "description": "Gets a Smart Account by its address.",
         "operationId": "getEvmSmartAccount",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -3497,9 +3386,7 @@
         "summary": "Update an EVM Smart Account",
         "description": "Updates an existing EVM smart account. Use this to update the smart account's name.",
         "operationId": "updateEvmSmartAccount",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -3605,9 +3492,7 @@
         "summary": "Prepare a user operation",
         "description": "Prepares a new user operation on a Smart Account for a specific network.",
         "operationId": "prepareUserOperation",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -3658,10 +3543,7 @@
                     "example": "0xdddddddd62617365617070070080218021802180218021802180218021"
                   }
                 },
-                "required": [
-                  "network",
-                  "calls"
-                ]
+                "required": ["network", "calls"]
               }
             }
           }
@@ -3749,9 +3631,7 @@
         "summary": "Prepare and send a user operation for EVM Smart Account",
         "description": "Prepares, signs, and sends a user operation for an EVM Smart Account. This API can be used only if the owner on Smart Account is a CDP EVM Account.",
         "operationId": "prepareAndSendUserOperation",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -3802,10 +3682,7 @@
                     "example": "https://api.developer.coinbase.com/rpc/v1/base/<token>"
                   }
                 },
-                "required": [
-                  "network",
-                  "calls"
-                ]
+                "required": ["network", "calls"]
               }
             }
           }
@@ -3922,9 +3799,7 @@
         "summary": "Get a user operation",
         "description": "Gets a user operation by its hash.",
         "operationId": "getUserOperation",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4018,9 +3893,7 @@
         "summary": "Send a user operation",
         "description": "Sends a user operation with a signature.\nThe payload to sign must be the `userOpHash` field of the user operation. This hash should be signed directly (not using `personal_sign` or EIP-191 message hashing).\nThe signature must be 65 bytes in length, consisting of: - 32 bytes for the `r` value - 32 bytes for the `s` value - 1 byte for the `v` value (must be 27 or 28)\nIf using the CDP Paymaster, the user operation must be signed and sent within 2 minutes of being prepared.",
         "operationId": "sendUserOperation",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4062,9 +3935,7 @@
                     "example": "0x1b0c9cf8cd4554c6c6d9e7311e88f1be075d7f25b418a044f4bf2c0a42a93e212ad0a8b54de9e0b5f7e3812de3f2c6cc79aa8c3e1c02e7ad14b4a8f42012c2c01b"
                   }
                 },
-                "required": [
-                  "signature"
-                ]
+                "required": ["signature"]
               }
             }
           }
@@ -4173,9 +4044,7 @@
         "summary": "Create a spend permission",
         "description": "Creates a spend permission for the given smart account address.",
         "operationId": "createSpendPermission",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4275,9 +4144,7 @@
         "summary": "List spend permissions",
         "description": "Lists spend permission for the given smart account address.",
         "operationId": "listSpendPermissions",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4326,9 +4193,7 @@
                   "allOf": [
                     {
                       "type": "object",
-                      "required": [
-                        "spendPermissions"
-                      ],
+                      "required": ["spendPermissions"],
                       "properties": {
                         "spendPermissions": {
                           "type": "array",
@@ -4401,9 +4266,7 @@
         "summary": "Revoke a spend permission",
         "description": "Revokes an existing spend permission.",
         "operationId": "revokeSpendPermission",
-        "tags": [
-          "EVM Smart Accounts"
-        ],
+        "tags": ["EVM Smart Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4503,9 +4366,7 @@
         "summary": "Get a price estimate for a swap",
         "description": "Get a price estimate for a swap between two tokens on an EVM network.",
         "operationId": "getEvmSwapPrice",
-        "tags": [
-          "EVM Swaps"
-        ],
+        "tags": ["EVM Swaps"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4686,9 +4547,7 @@
         "summary": "Create a swap quote",
         "description": "Create a swap quote, which includes the payload to sign as well as the transaction data needed to execute the swap. The developer is responsible for signing the payload and submitting the transaction to the network in order to execute the swap.",
         "operationId": "createEvmSwapQuote",
-        "tags": [
-          "EVM Swaps"
-        ],
+        "tags": ["EVM Swaps"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4943,9 +4802,7 @@
         "summary": "List EVM token balances",
         "description": "Lists the token balances of an EVM address on a given network. The balances include ERC-20 tokens and the native gas token (usually ETH). The response is paginated, and by default, returns 20 balances per page.\n**Note:** This endpoint is still under development and does not yet provide strong freshness guarantees. Specifically, balances of new tokens can, on occasion, take up to ~30 seconds to appear, while balances of tokens already belonging to an address will generally be close to chain tip. Freshness of new token balances will improve over the coming weeks.",
         "operationId": "listEvmTokenBalances",
-        "tags": [
-          "EVM Token Balances"
-        ],
+        "tags": ["EVM Token Balances"],
         "security": [
           {
             "apiKeyAuth": []
@@ -4989,9 +4846,7 @@
                   "allOf": [
                     {
                       "type": "object",
-                      "required": [
-                        "balances"
-                      ],
+                      "required": ["balances"],
                       "properties": {
                         "balances": {
                           "type": "array",
@@ -5090,9 +4945,7 @@
         "summary": "Request funds on EVM test networks",
         "description": "Request funds from the CDP Faucet on supported EVM test networks.\n\nFaucets are available for ETH, USDC, EURC, and cbBTC on Base Sepolia and Ethereum Sepolia, and for ETH only on Ethereum Hoodi.\n\nTo prevent abuse, we enforce rate limits within a rolling 24-hour window to control the amount of funds that can be requested.\nThese limits are applied at both the CDP User level and the blockchain address level.\nA single blockchain address cannot exceed the specified limits, even if multiple users submit requests to the same address.\n\n| Token | Amount per Faucet Request |Rolling 24-hour window Rate Limits|\n|:-----:|:-------------------------:|:--------------------------------:|\n| ETH   | 0.0001 ETH                | 0.1 ETH                          |\n| USDC  | 1 USDC                    | 10 USDC                          |\n| EURC  | 1 EURC                    | 10 EURC                          |\n| cbBTC | 0.0001 cbBTC              | 0.001 cbBTC                      |\n",
         "operationId": "requestEvmFaucet",
-        "tags": [
-          "Faucets"
-        ],
+        "tags": ["Faucets"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5123,20 +4976,11 @@
                   "token": {
                     "type": "string",
                     "description": "The token to request funds for.",
-                    "enum": [
-                      "eth",
-                      "usdc",
-                      "eurc",
-                      "cbbtc"
-                    ],
+                    "enum": ["eth", "usdc", "eurc", "cbbtc"],
                     "example": "eth"
                   }
                 },
-                "required": [
-                  "network",
-                  "address",
-                  "token"
-                ]
+                "required": ["network", "address", "token"]
               }
             }
           }
@@ -5155,9 +4999,7 @@
                       "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
                     }
                   },
-                  "required": [
-                    "transactionHash"
-                  ]
+                  "required": ["transactionHash"]
                 }
               }
             }
@@ -5234,9 +5076,7 @@
         "summary": "List policies",
         "description": "Lists the policies belonging to the developer's CDP Project. Use the `scope` parameter to filter the policies by scope.\nThe response is paginated, and by default, returns 20 policies per page.",
         "operationId": "listPolicies",
-        "tags": [
-          "Policy Engine"
-        ],
+        "tags": ["Policy Engine"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5256,10 +5096,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "project",
-                "account"
-              ]
+              "enum": ["project", "account"]
             },
             "example": "project"
           }
@@ -5282,9 +5119,7 @@
                           "description": "The list of policies."
                         }
                       },
-                      "required": [
-                        "policies"
-                      ]
+                      "required": ["policies"]
                     },
                     {
                       "$ref": "#/components/schemas/ListResponse"
@@ -5310,17 +5145,13 @@
         "summary": "Create a policy",
         "description": "Create a policy that can be used to govern the behavior of accounts.",
         "operationId": "createPolicy",
-        "tags": [
-          "Policy Engine"
-        ],
+        "tags": ["Policy Engine"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "policies#manage"
-        ],
+        "x-required-api-auth-scopes": ["policies#manage"],
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -5336,10 +5167,7 @@
                   "scope": {
                     "type": "string",
                     "description": "The scope of the policy.",
-                    "enum": [
-                      "project",
-                      "account"
-                    ],
+                    "enum": ["project", "account"],
                     "example": "project"
                   },
                   "description": {
@@ -5356,10 +5184,7 @@
                     }
                   }
                 },
-                "required": [
-                  "scope",
-                  "rules"
-                ]
+                "required": ["scope", "rules"]
               }
             }
           }
@@ -5417,9 +5242,7 @@
         "summary": "Get a policy by ID",
         "description": "Get a policy by its ID.",
         "operationId": "getPolicyById",
-        "tags": [
-          "Policy Engine"
-        ],
+        "tags": ["Policy Engine"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5483,17 +5306,13 @@
         "summary": "Delete a policy",
         "description": "Delete a policy by its ID. This will have the effect of removing the policy from all accounts that are currently using it.",
         "operationId": "deletePolicy",
-        "tags": [
-          "Policy Engine"
-        ],
+        "tags": ["Policy Engine"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "policies#manage"
-        ],
+        "x-required-api-auth-scopes": ["policies#manage"],
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -5572,17 +5391,13 @@
         "summary": "Update a policy",
         "description": "Updates a policy by its ID. This will have the effect of applying the updated policy to all accounts that are currently using it.",
         "operationId": "updatePolicy",
-        "tags": [
-          "Policy Engine"
-        ],
+        "tags": ["Policy Engine"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "policies#manage"
-        ],
+        "x-required-api-auth-scopes": ["policies#manage"],
         "parameters": [
           {
             "$ref": "#/components/parameters/IdempotencyKey"
@@ -5620,9 +5435,7 @@
                     }
                   }
                 },
-                "required": [
-                  "rules"
-                ]
+                "required": ["rules"]
               }
             }
           }
@@ -5698,9 +5511,7 @@
         "summary": "List Solana accounts or get account by name",
         "description": "Lists the Solana accounts belonging to the developer.\nThe response is paginated, and by default, returns 20 accounts per page.\n\nIf a name is provided, the response will contain only the account with that name.",
         "operationId": "listSolanaAccounts",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5732,9 +5543,7 @@
                           "description": "The list of Solana accounts."
                         }
                       },
-                      "required": [
-                        "accounts"
-                      ]
+                      "required": ["accounts"]
                     },
                     {
                       "$ref": "#/components/schemas/ListResponse"
@@ -5760,9 +5569,7 @@
         "summary": "Create a Solana account",
         "description": "Creates a new Solana account.",
         "operationId": "createSolanaAccount",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5890,9 +5697,7 @@
         "summary": "Get a Solana account by address",
         "description": "Gets a Solana account by its address.",
         "operationId": "getSolanaAccount",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -5974,9 +5779,7 @@
         "summary": "Update a Solana account",
         "description": "Updates an existing Solana account. Use this to update the account's name or account-level policy.",
         "operationId": "updateSolanaAccount",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6093,9 +5896,7 @@
         "summary": "Get a Solana account by name",
         "description": "Gets a Solana account by its name.",
         "operationId": "getSolanaAccountByName",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6178,9 +5979,7 @@
         "summary": "Import a Solana account",
         "description": "Import an existing Solana account into the developer's CDP Project. This API should be called from the [CDP SDK](https://github.com/coinbase/cdp-sdk) to ensure that the associated private key is properly encrypted.",
         "operationId": "importSolanaAccount",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6212,9 +6011,7 @@
                     "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,34}[A-Za-z0-9]$"
                   }
                 },
-                "required": [
-                  "encryptedPrivateKey"
-                ]
+                "required": ["encryptedPrivateKey"]
               }
             }
           }
@@ -6308,17 +6105,13 @@
         "summary": "Export an Solana account",
         "description": "Export an existing Solana account's private key. It is important to store the private key in a secure place after it's exported.",
         "operationId": "exportSolanaAccount",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "accounts#export"
-        ],
+        "x-required-api-auth-scopes": ["accounts#export"],
         "parameters": [
           {
             "$ref": "#/components/parameters/XWalletAuth"
@@ -6350,9 +6143,7 @@
                     "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                   }
                 },
-                "required": [
-                  "exportEncryptionKey"
-                ]
+                "required": ["exportEncryptionKey"]
               }
             }
           }
@@ -6371,9 +6162,7 @@
                       "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                     }
                   },
-                  "required": [
-                    "encryptedPrivateKey"
-                  ]
+                  "required": ["encryptedPrivateKey"]
                 }
               }
             }
@@ -6456,17 +6245,13 @@
         "summary": "Export a Solana account by name",
         "description": "Export an existing Solana account's private key by its name. It is important to store the private key in a secure place after it's exported.",
         "operationId": "exportSolanaAccountByName",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
           }
         ],
-        "x-required-api-auth-scopes": [
-          "accounts#export"
-        ],
+        "x-required-api-auth-scopes": ["accounts#export"],
         "parameters": [
           {
             "$ref": "#/components/parameters/XWalletAuth"
@@ -6497,9 +6282,7 @@
                     "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                   }
                 },
-                "required": [
-                  "exportEncryptionKey"
-                ]
+                "required": ["exportEncryptionKey"]
               }
             }
           }
@@ -6518,9 +6301,7 @@
                       "example": "U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4="
                     }
                   },
-                  "required": [
-                    "encryptedPrivateKey"
-                  ]
+                  "required": ["encryptedPrivateKey"]
                 }
               }
             }
@@ -6603,9 +6384,7 @@
         "summary": "Sign a transaction",
         "description": "Signs a transaction with the given Solana account.\nThe unsigned transaction should be serialized into a byte array and then encoded as base64.\n\n**Transaction types**\n\nThe following transaction types are supported:\n* [Legacy transactions](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html)\n* [Versioned transactions](https://solana-labs.github.io/solana-web3.js/classes/VersionedTransaction.html)\n\nThe developer is responsible for ensuring that the unsigned transaction is valid, as the API will not validate the transaction.",
         "operationId": "signSolanaTransaction",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6642,9 +6421,7 @@
                     "example": "AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAQECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CBgMBAQAAAAIBAwQAAAAABgIAAAAAAAYDBQEBAAAGBAgAAAAABgUAAAAA6AMAAAAAAAAGBgUBAQEBBgcEAQAAAAYICgMBAQIDBgkCBgAAAAYKAwABAQEGCwMGAQEBBgwDAAABAQAAAAA="
                   }
                 },
-                "required": [
-                  "transaction"
-                ]
+                "required": ["transaction"]
               }
             }
           }
@@ -6663,9 +6440,7 @@
                       "example": "AQACAdSOvpk0UJXs/rQRXYKSI9hcR0bkGp24qGv6t0/M1XjcQpHf6AHwLcPjEtKQI7p/U0Zo98lnJ5/PZMfVq/0BAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAQECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CBgMBAQAAAAIBAwQAAAAABgIAAAAAAAYDBQEBAAAGBAgAAAAABgUAAAAA6AMAAAAAAAAGBgUBAQEBBgcEAQAAAAYICgMBAQIDBgkCBgAAAAYKAwABAQEGCwMGAQEBBgwDAAABAQAAAAA="
                     }
                   },
-                  "required": [
-                    "signedTransaction"
-                  ]
+                  "required": ["signedTransaction"]
                 }
               }
             }
@@ -6769,9 +6544,7 @@
         "summary": "Sign a message",
         "description": "Signs an arbitrary message with the given Solana account.\n\n**WARNING:** Never sign a message that you didn't generate, as it can be an arbitrary transaction. For example, it might send all of your funds to an attacker.",
         "operationId": "signSolanaMessage",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6808,9 +6581,7 @@
                     "example": "Hello, world!"
                   }
                 },
-                "required": [
-                  "message"
-                ]
+                "required": ["message"]
               }
             }
           }
@@ -6829,9 +6600,7 @@
                       "example": "4YecmNqVT9QFqzuSvE9Zih3toZzNAijjXpj8xupgcC6E4VzwzFjuZBk5P99yz9JQaLRLm1K4L4FpMjxByFxQBe2h"
                     }
                   },
-                  "required": [
-                    "signature"
-                  ]
+                  "required": ["signature"]
                 }
               }
             }
@@ -6917,9 +6686,7 @@
         "summary": "Send a Solana transaction",
         "description": "Signs and sends a single Solana transaction using multiple Solana accounts. The transaction may contain contain several instructions, each of which may require signatures from different account keys.\n\nThe transaction should be serialized into a byte array and base64 encoded. The API handles recent blockhash management and fee estimation, leaving the developer to provide only the minimal set of fields necessary to send the transaction.\n\n**Transaction types**\n\nThe following transaction types are supported:\n* [Legacy transactions](https://solana.com/developers/guides/advanced/versions#current-transaction-versions)\n* [Versioned transactions](https://solana.com/developers/guides/advanced/versions)\n\n**Instruction Batching**\n\nTo batch multiple operations, include multiple instructions within a single transaction. All instructions within a transaction are executed atomically - if any instruction fails, the entire transaction fails and is rolled back.\n\n**Network Support**\n\nThe following Solana networks are supported:\n* `solana` - Solana Mainnet\n* `solana-devnet` - Solana Devnet\n\nThe developer is responsible for ensuring that the unsigned transaction is valid, as the API will not validate the transaction.",
         "operationId": "sendSolanaTransaction",
-        "tags": [
-          "Solana Accounts"
-        ],
+        "tags": ["Solana Accounts"],
         "security": [
           {
             "apiKeyAuth": []
@@ -6942,10 +6709,7 @@
                   "network": {
                     "type": "string",
                     "description": "The Solana network to send the transaction to.",
-                    "enum": [
-                      "solana",
-                      "solana-devnet"
-                    ],
+                    "enum": ["solana", "solana-devnet"],
                     "example": "solana-devnet"
                   },
                   "transaction": {
@@ -6954,10 +6718,7 @@
                     "example": "AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAQECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CBgMBAQAAAAIBAwQAAAAABgIAAAAAAAYDBQEBAAAGBAgAAAAABgUAAAAA6AMAAAAAAAAGBgUBAQEBBgcEAQAAAAYICgMBAQIDBgkCBgAAAAYKAwABAQEGCwMGAQEBBgwDAAABAQAAAAA="
                   }
                 },
-                "required": [
-                  "network",
-                  "transaction"
-                ]
+                "required": ["network", "transaction"]
               }
             }
           }
@@ -6976,9 +6737,7 @@
                       "example": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW"
                     }
                   },
-                  "required": [
-                    "transactionSignature"
-                  ]
+                  "required": ["transactionSignature"]
                 }
               }
             }
@@ -7079,9 +6838,7 @@
         "summary": "Request funds on Solana devnet",
         "description": "Request funds from the CDP Faucet on Solana devnet.\n\nFaucets are available for SOL.\n\nTo prevent abuse, we enforce rate limits within a rolling 24-hour window to control the amount of funds that can be requested.\nThese limits are applied at both the CDP Project level and the blockchain address level.\nA single blockchain address cannot exceed the specified limits, even if multiple users submit requests to the same address.\n\n| Token | Amount per Faucet Request |Rolling 24-hour window Rate Limits|\n|:-----:|:-------------------------:|:--------------------------------:|\n| SOL   | 0.00125 SOL               | 0.0125 SOL                       |\n| USDC  | 1 USDC                    | 10 USDC                          |\n",
         "operationId": "requestSolanaFaucet",
-        "tags": [
-          "Faucets"
-        ],
+        "tags": ["Faucets"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7102,17 +6859,11 @@
                   "token": {
                     "type": "string",
                     "description": "The token to request funds for.",
-                    "enum": [
-                      "sol",
-                      "usdc"
-                    ],
+                    "enum": ["sol", "usdc"],
                     "example": "sol"
                   }
                 },
-                "required": [
-                  "address",
-                  "token"
-                ]
+                "required": ["address", "token"]
               }
             }
           }
@@ -7131,9 +6882,7 @@
                       "example": "4dje1d24iG2FfxwxTJJt8VSTtYXNc6AAuJwngtL97TJSqqPD3pgRZ7uh4szoU6WDrKyFTBgaswkDrCr7BqWjQqqK"
                     }
                   },
-                  "required": [
-                    "transactionSignature"
-                  ]
+                  "required": ["transactionSignature"]
                 }
               }
             }
@@ -7216,9 +6965,7 @@
         "summary": "List Solana token balances",
         "description": "Lists the token balances of a Solana address on a given network. The balances include SPL tokens and the native SOL token. The response is paginated, and by default, returns 20 balances per page.\n\n**Note:** This endpoint is still under development and does not yet provide strong availability or freshness guarantees. Freshness and availability of new token balances will improve over the coming weeks.",
         "operationId": "listSolanaTokenBalances",
-        "tags": [
-          "Solana Token Balances"
-        ],
+        "tags": ["Solana Token Balances"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7277,9 +7024,7 @@
                   "allOf": [
                     {
                       "type": "object",
-                      "required": [
-                        "balances"
-                      ],
+                      "required": ["balances"],
                       "properties": {
                         "balances": {
                           "type": "array",
@@ -7376,9 +7121,7 @@
         "summary": "Run SQL Query",
         "x-audience": "public",
         "description": "Run a read-only SQL query against indexed blockchain data including transactions, events, and decoded logs.\n\nThis endpoint provides direct SQL access to comprehensive blockchain data across supported networks.\nQueries are executed against optimized data structures for high-performance analytics.\n\n### Allowed Queries\n\n  - Standard SQL syntax (ClickHouse dialect)\n  - Read-only queries (SELECT statements)\n  - No DDL or DML operations\n  - No cartesian products\n\n### Supported Tables\n\n  - `base.events` - Base mainnet decoded event logs with parameters, event signature, topics, and more.\n  - `base.transactions` - Base mainnet transaction data including hash, block number, gas usage.\n  - `base.blocks` - Base mainnet block information.\n  - `base.encoded_logs` - Encoded log data of event logs that aren't able to be decoded by our event decoder (ex: log0 opcode).\n  - `base.transfers` - All event logs with event signature `Transfer(address,address,uint256)`. ERC-20, ERC-721, and ERC-1155 transfers are all included.\n\n### Query Limits\n\n  - Maximum result set: 100,000 rows\n  - Query timeout: 30 seconds\n",
-        "tags": [
-          "SQL API (Alpha)"
-        ],
+        "tags": ["SQL API (Alpha)"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7462,9 +7205,7 @@
         "summary": "Get SQL grammar",
         "x-audience": "public",
         "description": "Retrieve the SQL grammar for the SQL API.\n\nThe SQL queries that are supported by the SQL API are defined via an ANTLR4 grammar which is evaluated by server before executing the query. This ensures the safety and soundness of the SQL API.\n\nThis endpoint returns the ANTLR4 grammar that is used to evaluate the SQL queries so that developers can understand the SQL API and build SQL queries with high confidence and correctness. LLMs interact well with ANTLR4 grammar as well.\n",
-        "tags": [
-          "SQL API (Alpha)"
-        ],
+        "tags": ["SQL API (Alpha)"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7519,9 +7260,7 @@
         "summary": "List token addresses for account",
         "x-audience": "public",
         "description": "Retrieve all ERC-20 token contract addresses that an account has ever received tokens from.\nAnalyzes transaction history to discover token interactions.\n",
-        "tags": [
-          "Onchain Data"
-        ],
+        "tags": ["Onchain Data"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7535,10 +7274,7 @@
             "description": "The blockchain network to query.",
             "schema": {
               "type": "string",
-              "enum": [
-                "base",
-                "base-sepolia"
-              ]
+              "enum": ["base", "base-sepolia"]
             },
             "example": "base"
           },
@@ -7616,9 +7352,7 @@
         "x-audience": "public",
         "description": "Lists the token balances of an EVM address on a given network. The balances include ERC-20 tokens and the native gas token (usually ETH). The response is paginated, and by default, returns 20 balances per page.\n\n**Note:** This endpoint provides <1 second freshness from chain tip, <500ms response latency for wallets with reasonable token history, and 99.9% uptime for production use.",
         "operationId": "listDataTokenBalances",
-        "tags": [
-          "Onchain Data"
-        ],
+        "tags": ["Onchain Data"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7662,9 +7396,7 @@
                   "allOf": [
                     {
                       "type": "object",
-                      "required": [
-                        "balances"
-                      ],
+                      "required": ["balances"],
                       "properties": {
                         "balances": {
                           "type": "array",
@@ -7763,9 +7495,7 @@
         "summary": "List webhook subscriptions",
         "x-audience": "public",
         "description": "Retrieve a paginated list of webhook subscriptions for the authenticated project.\nReturns subscriptions for all CDP product events (onchain, onramp/offramp, wallet, etc.)\nin descending order by creation time.\n\n### Use Cases\n- Monitor all active webhook subscriptions across CDP products\n- Audit webhook configurations\n- Manage subscription lifecycle\n",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7862,9 +7592,7 @@
         "summary": "Create webhook subscription",
         "x-audience": "public",
         "description": "Subscribe to real-time events across CDP products using flexible filtering.\n\n### Event Types\n\n**Onchain Events** - Monitor Base mainnet with microsecond precision:\n- `onchain.activity.detected` - Smart contract events, transfers, swaps, NFT activity\n- **Requires** `labels` for filtering (e.g., `contract_address`, `event_name`)\n\n**Onramp/Offramp Events** - Transaction lifecycle notifications:\n- `onramp.transaction.created`, `onramp.transaction.updated`\n- `onramp.transaction.success`, `onramp.transaction.failed`\n- `offramp.transaction.created`, `offramp.transaction.updated`\n- `offramp.transaction.success`, `offramp.transaction.failed`\n- **No labels required** - maximum simplicity for transaction monitoring\n\n**Payments Transfers Events** - Transfer lifecycle notifications:\n- `payments.transfers.quoted`\n- `payments.transfers.processing`\n- `payments.transfers.completed`\n- `payments.transfers.failed`\n- **No labels required** - enable the transfers webhook to monitor status transitions\n\n**Wallet Events** - Wallet activity notifications:\n- `wallet.activity.detected`\n\n### Webhook Signature Verification\nAll webhooks include cryptographic signatures for security.\nThe signature secret is returned in `secret` field when creating a subscription.\n\n**Note:** Webhooks are in beta and this interface is subject to change.\n\nSee the [verification guide](https://docs.cdp.coinbase.com/onramp-&-offramp/webhooks#webhook-signature-verification) for implementation details.\n\n### Onchain Label Filtering\n\nFor `onchain.activity.detected` events, use `labels` for precise filtering with AND logic (max 20 labels per webhook).\n\n**Allowed labels** (all in snake_case format):\n- `network` (required) - Blockchain network\n- `contract_address` - Smart contract address\n- `event_name` - Event name (e.g., \"Transfer\", \"Burn\")\n- `event_signature` - Event signature hash\n- `transaction_from` - Transaction sender address\n- `transaction_to` - Transaction recipient address\n- `params.*` - Any event parameter (e.g., `params.from`, `params.to`, `params.sender`, `params.tokenId`)\n\n**Examples**:\n- **Liquidity Pool Monitor**: `{\"network\": \"base-mainnet\", \"contract_address\": \"0xcd1f9777571493aeacb7eae45cd30a226d3e612d\", \"event_name\": \"Burn\"}`\n- **Price Oracle Tracker**: `{\"network\": \"base-mainnet\", \"contract_address\": \"0xbac4a9428ea707c51f171ed9890c3c2fa810305d\", \"event_name\": \"PriceUpdated\"}`\n- **DeFi Protocol Activity**: `{\"network\": \"base-mainnet\", \"contract_address\": \"0x45c6e6a47a711b14d8357d5243f46704904578e3\", \"event_name\": \"Deposit\"}`\n",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "apiKeyAuth": []
@@ -7882,9 +7610,7 @@
                   "summary": "Onchain: Monitor liquidity pool burns",
                   "value": {
                     "description": "Liquidity pool burn events.",
-                    "eventTypes": [
-                      "onchain.activity.detected"
-                    ],
+                    "eventTypes": ["onchain.activity.detected"],
                     "labels": {
                       "network": "base-mainnet",
                       "contract_address": "0xcd1f9777571493aeacb7eae45cd30a226d3e612d",
@@ -7934,9 +7660,7 @@
                   "summary": "Wallet: Monitor outgoing transactions",
                   "value": {
                     "description": "Outgoing transactions.",
-                    "eventTypes": [
-                      "wallet.activity.detected"
-                    ],
+                    "eventTypes": ["wallet.activity.detected"],
                     "labels": {
                       "network": "base-mainnet",
                       "params.from": "0xB7f5BF799fB265657c628ef4a13f90f83a3a616A"
@@ -8019,9 +7743,7 @@
         "summary": "Get webhook subscription details",
         "x-audience": "public",
         "description": "Retrieve detailed information about a specific webhook subscription including\nconfiguration, status, creation timestamp, and webhook signature secret.\n\n### Response Includes\n- Subscription configuration and filters\n- Target URL and custom headers\n- Webhook signature secret for verification\n- Creation timestamp and status\n",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8100,9 +7822,7 @@
         "summary": "Update webhook subscription",
         "x-audience": "public",
         "description": "Update an existing webhook subscription's configuration including\nevent types, target URL, filtering criteria, and enabled status.\nAll required fields must be provided, even if they are not being changed.\n\n### Common Updates\n- Change target URL or headers\n- Add/remove event type filters\n- Update multi-label filtering criteria\n- Enable/disable subscription\n",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8215,9 +7935,7 @@
         "summary": "Delete webhook subscription",
         "x-audience": "public",
         "description": "Permanently delete a webhook subscription and stop all event deliveries.\nThis action cannot be undone.\n\n### Important Notes\n- All webhook deliveries will cease immediately\n- Subscription cannot be recovered after deletion\n- Consider disabling instead of deleting for temporary pauses\n",
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8291,9 +8009,7 @@
         "summary": "Verify a payment",
         "description": "Verify an x402 protocol payment with a specific scheme and network.",
         "operationId": "verifyX402Payment",
-        "tags": [
-          "x402 Facilitator"
-        ],
+        "tags": ["x402 Facilitator"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8350,9 +8066,7 @@
         "summary": "Settle a payment",
         "description": "Settle an x402 protocol payment with a specific scheme and network.",
         "operationId": "settleX402Payment",
-        "tags": [
-          "x402 Facilitator"
-        ],
+        "tags": ["x402 Facilitator"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8412,9 +8126,7 @@
         "summary": "Get supported payment schemes and networks",
         "description": "Get the supported x402 protocol payment schemes and networks that the facilitator is able to verify and settle payments for.",
         "operationId": "supportedX402PaymentKinds",
-        "tags": [
-          "x402 Facilitator"
-        ],
+        "tags": ["x402 Facilitator"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8441,9 +8153,7 @@
         "summary": "Create an onramp order",
         "description": "Create a new Onramp order or get a quote for an Onramp order. Either `paymentAmount` or `purchaseAmount` must be provided.\n\nThis API currently only supports the payment method `GUEST_CHECKOUT_APPLE_PAY`.\n\nFor detailed integration instructions and to get access to this API, refer to the  [Apple Pay Onramp API docs](https://docs.cdp.coinbase.com/onramp-&-offramp/onramp-apis/apple-pay-onramp-api).",
         "operationId": "createOnrampOrder",
-        "tags": [
-          "Onramp"
-        ],
+        "tags": ["Onramp"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8570,9 +8280,7 @@
                       "$ref": "#/components/schemas/OnrampPaymentLink"
                     }
                   },
-                  "required": [
-                    "order"
-                  ]
+                  "required": ["order"]
                 }
               }
             }
@@ -8648,9 +8356,7 @@
         "summary": "Get an onramp order by ID",
         "description": "Get an onramp order by ID.",
         "operationId": "getOnrampOrderById",
-        "tags": [
-          "Onramp"
-        ],
+        "tags": ["Onramp"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8680,9 +8386,7 @@
                       "$ref": "#/components/schemas/OnrampOrder"
                     }
                   },
-                  "required": [
-                    "order"
-                  ]
+                  "required": ["order"]
                 }
               }
             }
@@ -8719,9 +8423,7 @@
         "summary": "Create an onramp session",
         "description": "Returns a single-use URL for an Onramp session. This API provides flexible  functionality based on the parameters provided, supporting three cases:\n\n**Important**: The returned URL is single-use only. Once a user visits the URL,  no one else can access it.\n## Use Cases\n### 1. Basic Session (Minimum Parameters)\n**Required**: `destinationAddress`, `purchaseCurrency`, `destinationNetwork`\n\n**Returns**: Basic single-use onramp URL. The `quote` object will not be included in the response.\n### 2. One-Click Onramp URL\n**Required**: Basic parameters + (`paymentAmount` OR `purchaseAmount`), `paymentCurrency`\n\n**Returns**: One-click onramp URL for streamlined checkout. The `quote` object will not be included in the response.\n### 3. One-Click Onramp URL with Quote\n**Required**: One-Click Onramp parameters + `paymentMethod`, `country`, `subdivision`\n\n**Returns**: Complete pricing quote and one-click onramp URL. Both `session` and `quote` objects will be included in the response.\n\n**Note**: Only one of `paymentAmount` or `purchaseAmount` should be provided, not both. Providing both will result in an error. When `paymentAmount` is provided, the quote shows how much crypto the user will receive for the specified fiat amount (fee-inclusive). When `purchaseAmount` is provided, the quote shows how much fiat the user needs to pay for the specified crypto amount (fee-exclusive).",
         "operationId": "createOnrampSession",
-        "tags": [
-          "Onramp"
-        ],
+        "tags": ["Onramp"],
         "security": [
           {
             "apiKeyAuth": []
@@ -8823,9 +8525,7 @@
                       "$ref": "#/components/schemas/OnrampQuote"
                     }
                   },
-                  "required": [
-                    "session"
-                  ]
+                  "required": ["session"]
                 }
               }
             }
@@ -8887,9 +8587,7 @@
             "type": "string",
             "description": "The type of authentication information.",
             "example": "email",
-            "enum": [
-              "email"
-            ]
+            "enum": ["email"]
           },
           "email": {
             "type": "string",
@@ -8898,10 +8596,7 @@
             "format": "email"
           }
         },
-        "required": [
-          "type",
-          "email"
-        ]
+        "required": ["type", "email"]
       },
       "SmsAuthentication": {
         "type": "object",
@@ -8912,9 +8607,7 @@
             "type": "string",
             "description": "The type of authentication information.",
             "example": "sms",
-            "enum": [
-              "sms"
-            ]
+            "enum": ["sms"]
           },
           "phoneNumber": {
             "type": "string",
@@ -8923,10 +8616,7 @@
             "pattern": "^\\+[1-9]\\d{1,14}$"
           }
         },
-        "required": [
-          "type",
-          "phoneNumber"
-        ]
+        "required": ["type", "phoneNumber"]
       },
       "DeveloperJWTAuthentication": {
         "type": "object",
@@ -8936,9 +8626,7 @@
           "type": {
             "type": "string",
             "description": "The type of authentication information.",
-            "enum": [
-              "jwt"
-            ],
+            "enum": ["jwt"],
             "example": "jwt"
           },
           "kid": {
@@ -8952,20 +8640,12 @@
             "example": "e051beeb-7163-4527-a5b6-35e301529ff2"
           }
         },
-        "required": [
-          "type",
-          "sub",
-          "kid"
-        ]
+        "required": ["type", "sub", "kid"]
       },
       "OAuth2ProviderType": {
         "type": "string",
         "description": "The type of OAuth2 provider.",
-        "enum": [
-          "google",
-          "apple",
-          "x"
-        ],
+        "enum": ["google", "apple", "x"],
         "example": "google"
       },
       "OAuth2Authentication": {
@@ -8997,10 +8677,7 @@
             "example": "test.user"
           }
         },
-        "required": [
-          "type",
-          "sub"
-        ]
+        "required": ["type", "sub"]
       },
       "AuthenticationMethod": {
         "description": "Information about how the end user is authenticated.",
@@ -9060,9 +8737,7 @@
           "totp": {
             "type": "object",
             "description": "An object containing information about the end user's TOTP enrollment.",
-            "required": [
-              "enrolledAt"
-            ],
+            "required": ["enrolledAt"],
             "properties": {
               "enrolledAt": {
                 "type": "string",
@@ -9075,9 +8750,7 @@
           "sms": {
             "type": "object",
             "description": "An object containing information about the end user's SMS MFA enrollment.",
-            "required": [
-              "enrolledAt"
-            ],
+            "required": ["enrolledAt"],
             "properties": {
               "enrolledAt": {
                 "type": "string",
@@ -9115,10 +8788,7 @@
             "example": "2025-01-15T10:30:00Z"
           }
         },
-        "required": [
-          "address",
-          "createdAt"
-        ]
+        "required": ["address", "createdAt"]
       },
       "EndUserEvmSmartAccount": {
         "type": "object",
@@ -9151,11 +8821,7 @@
             "example": "2025-01-15T10:30:00Z"
           }
         },
-        "required": [
-          "address",
-          "ownerAddresses",
-          "createdAt"
-        ]
+        "required": ["address", "ownerAddresses", "createdAt"]
       },
       "EndUserSolanaAccount": {
         "type": "object",
@@ -9174,10 +8840,7 @@
             "example": "2025-01-15T10:30:00Z"
           }
         },
-        "required": [
-          "address",
-          "createdAt"
-        ]
+        "required": ["address", "createdAt"]
       },
       "EndUser": {
         "type": "object",
@@ -9205,9 +8868,7 @@
               "pattern": "^0x[0-9a-fA-F]{40}$",
               "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
             },
-            "example": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ]
+            "example": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
           },
           "evmAccountObjects": {
             "type": "array",
@@ -9236,9 +8897,7 @@
               "pattern": "^0x[0-9a-fA-F]{40}$",
               "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
             },
-            "example": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ]
+            "example": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
           },
           "evmSmartAccountObjects": {
             "type": "array",
@@ -9267,9 +8926,7 @@
               "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
               "example": "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
             },
-            "example": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ]
+            "example": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"]
           },
           "solanaAccountObjects": {
             "type": "array",
@@ -9436,10 +9093,7 @@
             "example": "https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request"
           }
         },
-        "required": [
-          "errorType",
-          "errorMessage"
-        ],
+        "required": ["errorType", "errorMessage"],
         "example": {
           "errorType": "invalid_request",
           "errorMessage": "Invalid request.",
@@ -9470,9 +9124,7 @@
               "type": "string",
               "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
             },
-            "example": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
+            "example": ["123e4567-e89b-12d3-a456-426614174000"]
           },
           "createdAt": {
             "type": "string",
@@ -9487,9 +9139,7 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "address"
-        ]
+        "required": ["address"]
       },
       "EIP712Domain": {
         "type": "object",
@@ -9607,12 +9257,7 @@
             }
           }
         },
-        "required": [
-          "domain",
-          "types",
-          "primaryType",
-          "message"
-        ],
+        "required": ["domain", "types", "primaryType", "message"],
         "example": {
           "domain": {
             "name": "Permit2",
@@ -9691,9 +9336,7 @@
               "pattern": "^0x[0-9a-fA-F]{40}$"
             },
             "description": "Today, only a single owner can be set for a Smart Account, but this is an array to allow having multiple owners in the future. The address is a 0x-prefixed, checksum address.",
-            "example": [
-              "0xfc807D1bE4997e5C7B33E4d8D57e60c5b0f02B1a"
-            ]
+            "example": ["0xfc807D1bE4997e5C7B33E4d8D57e60c5b0f02B1a"]
           },
           "name": {
             "type": "string",
@@ -9709,9 +9352,7 @@
               "type": "string",
               "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
             },
-            "example": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
+            "example": ["123e4567-e89b-12d3-a456-426614174000"]
           },
           "createdAt": {
             "type": "string",
@@ -9726,10 +9367,7 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "address",
-          "owners"
-        ]
+        "required": ["address", "owners"]
       },
       "EvmUserOperationNetwork": {
         "type": "string",
@@ -9774,11 +9412,7 @@
             "example": "100000"
           }
         },
-        "required": [
-          "to",
-          "value",
-          "data"
-        ]
+        "required": ["to", "value", "data"]
       },
       "UserOperationReceiptRevert": {
         "type": "object",
@@ -9796,10 +9430,7 @@
             "example": "reason for failure"
           }
         },
-        "required": [
-          "data",
-          "message"
-        ],
+        "required": ["data", "message"],
         "example": {
           "data": "0x123",
           "message": "reason for failure"
@@ -9914,12 +9545,7 @@
             ]
           }
         },
-        "required": [
-          "network",
-          "userOpHash",
-          "calls",
-          "status"
-        ]
+        "required": ["network", "userOpHash", "calls", "status"]
       },
       "SpendPermissionNetwork": {
         "type": "string",
@@ -10143,19 +9769,11 @@
             "example": "https://paymaster.cdp.coinbase.com"
           }
         },
-        "required": [
-          "network",
-          "permissionHash"
-        ]
+        "required": ["network", "permissionHash"]
       },
       "EvmSwapsNetwork": {
         "type": "string",
-        "enum": [
-          "base",
-          "ethereum",
-          "arbitrum",
-          "optimism"
-        ],
+        "enum": ["base", "ethereum", "arbitrum", "optimism"],
         "description": "The network on which to perform the swap.",
         "example": "base"
       },
@@ -10219,10 +9837,7 @@
             "example": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
           }
         },
-        "required": [
-          "amount",
-          "token"
-        ]
+        "required": ["amount", "token"]
       },
       "CommonSwapResponse": {
         "type": "object",
@@ -10270,10 +9885,7 @@
                 ]
               }
             },
-            "required": [
-              "gasFee",
-              "protocolFee"
-            ],
+            "required": ["gasFee", "protocolFee"],
             "example": {
               "gasFee": {
                 "amount": "1000000000000000000",
@@ -10307,10 +9919,7 @@
                     "example": "0x000000000022D473030F116dDEE9F6B43aC78BA3"
                   }
                 },
-                "required": [
-                  "currentAllowance",
-                  "spender"
-                ],
+                "required": ["currentAllowance", "spender"],
                 "example": {
                   "currentAllowance": "1000000000",
                   "spender": "0x000000000022D473030F116dDEE9F6B43aC78BA3"
@@ -10339,11 +9948,7 @@
                     "example": "1000000000000000000"
                   }
                 },
-                "required": [
-                  "token",
-                  "currentBalance",
-                  "requiredBalance"
-                ],
+                "required": ["token", "currentBalance", "requiredBalance"],
                 "example": {
                   "token": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
                   "currentBalance": "1000000000000000000",
@@ -10356,11 +9961,7 @@
                 "example": false
               }
             },
-            "required": [
-              "allowance",
-              "balance",
-              "simulationIncomplete"
-            ],
+            "required": ["allowance", "balance", "simulationIncomplete"],
             "example": {
               "allowance": {
                 "currentAllowance": "1000000000",
@@ -10376,9 +9977,7 @@
           },
           "liquidityAvailable": {
             "type": "boolean",
-            "enum": [
-              true
-            ],
+            "enum": [true],
             "description": "Whether sufficient liquidity is available to settle the swap. All other fields in the response will be empty if this is false.",
             "example": true
           },
@@ -10467,10 +10066,7 @@
                 "example": "1000000000"
               }
             },
-            "required": [
-              "gas",
-              "gasPrice"
-            ]
+            "required": ["gas", "gasPrice"]
           }
         ]
       },
@@ -10480,16 +10076,12 @@
         "properties": {
           "liquidityAvailable": {
             "type": "boolean",
-            "enum": [
-              false
-            ],
+            "enum": [false],
             "description": "Whether sufficient liquidity is available to settle the swap. All other fields in the response will be empty if this is false.",
             "example": false
           }
         },
-        "required": [
-          "liquidityAvailable"
-        ],
+        "required": ["liquidityAvailable"],
         "example": {
           "liquidityAvailable": false
         }
@@ -10526,10 +10118,7 @@
                     "$ref": "#/components/schemas/EIP712Message"
                   }
                 },
-                "required": [
-                  "hash",
-                  "eip712"
-                ]
+                "required": ["hash", "eip712"]
               },
               "transaction": {
                 "type": "object",
@@ -10565,19 +10154,10 @@
                     "example": "1000000000000000000"
                   }
                 },
-                "required": [
-                  "to",
-                  "data",
-                  "gas",
-                  "gasPrice",
-                  "value"
-                ]
+                "required": ["to", "data", "gas", "gasPrice", "value"]
               }
             },
-            "required": [
-              "permit2",
-              "transaction"
-            ]
+            "required": ["permit2", "transaction"]
           },
           {
             "$ref": "#/components/schemas/CommonSwapResponse"
@@ -10597,11 +10177,7 @@
       },
       "ListEvmTokenBalancesNetwork": {
         "type": "string",
-        "enum": [
-          "base",
-          "base-sepolia",
-          "ethereum"
-        ],
+        "enum": ["base", "base-sepolia", "ethereum"],
         "description": "The name of the supported EVM networks in human-readable format.",
         "example": "base"
       },
@@ -10626,10 +10202,7 @@
             "example": 18
           }
         },
-        "required": [
-          "amount",
-          "decimals"
-        ]
+        "required": ["amount", "decimals"]
       },
       "Token": {
         "type": "object",
@@ -10661,10 +10234,7 @@
             "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
           }
         },
-        "required": [
-          "network",
-          "contractAddress"
-        ]
+        "required": ["network", "contractAddress"]
       },
       "TokenBalance": {
         "type": "object",
@@ -10676,10 +10246,7 @@
             "$ref": "#/components/schemas/Token"
           }
         },
-        "required": [
-          "amount",
-          "token"
-        ]
+        "required": ["amount", "token"]
       },
       "EthValueCriterion": {
         "type": "object",
@@ -10690,9 +10257,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `ethValue`.",
             "example": "ethValue",
-            "enum": [
-              "ethValue"
-            ]
+            "enum": ["ethValue"]
           },
           "ethValue": {
             "type": "string",
@@ -10703,21 +10268,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction's `value` field will be on the left-hand side of the operator, and the `ethValue` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "<="
           }
         },
-        "required": [
-          "type",
-          "ethValue",
-          "operator"
-        ]
+        "required": ["type", "ethValue", "operator"]
       },
       "EvmAddressCriterion": {
         "type": "object",
@@ -10729,9 +10284,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmAddress`.",
             "example": "evmAddress",
-            "enum": [
-              "evmAddress"
-            ]
+            "enum": ["evmAddress"]
           },
           "addresses": {
             "type": "array",
@@ -10749,36 +10302,23 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction's `to` field will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "addresses",
-          "operator"
-        ]
+        "required": ["type", "addresses", "operator"]
       },
       "KnownAbiType": {
         "type": "string",
         "title": "KnownAbiType",
         "description": "A reference to an established EIP standard. When referencing a `KnownAbiType` within a policy rule configuring an `EvmDataCriterion`, criteria will only decode function data officially documented in the standard. For more information on supported token standards, see the links below.\n  - [erc20 - Token Standard](https://eips.ethereum.org/EIPS/eip-20).\n  - [erc721 - Non-Fungible Token Standard](https://eips.ethereum.org/EIPS/eip-721).\n  - [erc1155 - Multi Token Standard](https://eips.ethereum.org/EIPS/eip-1155).",
-        "enum": [
-          "erc20",
-          "erc721",
-          "erc1155"
-        ]
+        "enum": ["erc20", "erc721", "erc1155"]
       },
       "AbiParameter": {
         "x-audience": "public",
         "type": "object",
         "description": "Parameter definition for ABI functions, errors, and constructors.",
-        "required": [
-          "type"
-        ],
+        "required": ["type"],
         "properties": {
           "name": {
             "type": "string",
@@ -10819,12 +10359,7 @@
         "x-audience": "public",
         "type": "string",
         "description": "State mutability of a function in Solidity.",
-        "enum": [
-          "pure",
-          "view",
-          "nonpayable",
-          "payable"
-        ],
+        "enum": ["pure", "view", "nonpayable", "payable"],
         "example": "view"
       },
       "AbiFunction": {
@@ -10832,20 +10367,12 @@
         "type": "object",
         "title": "AbiFunction",
         "description": "ABI function type for contract functions.",
-        "required": [
-          "type",
-          "name",
-          "inputs",
-          "outputs",
-          "stateMutability"
-        ],
+        "required": ["type", "name", "inputs", "outputs", "stateMutability"],
         "properties": {
           "type": {
             "description": "The type of the ABI item, must be `function`.",
             "type": "string",
-            "enum": [
-              "function"
-            ],
+            "enum": ["function"],
             "example": "function"
           },
           "name": {
@@ -10923,20 +10450,12 @@
         "type": "object",
         "title": "AbiInput",
         "description": "Generic ABI item type encapsulating all other types besides `function`.",
-        "required": [
-          "type"
-        ],
+        "required": ["type"],
         "properties": {
           "type": {
             "description": "The type of the ABI item.",
             "type": "string",
-            "enum": [
-              "constructor",
-              "error",
-              "event",
-              "fallback",
-              "receive"
-            ],
+            "enum": ["constructor", "error", "event", "fallback", "receive"],
             "example": "constructor"
           },
           "additionalProperties": {
@@ -11032,13 +10551,7 @@
           },
           "operator": {
             "type": "string",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "description": "The operator to use for the comparison. The value resolved at the `name` will be on the left-hand side of the operator, and the `value` field will be on the right-hand side.",
             "example": "=="
           },
@@ -11048,11 +10561,7 @@
             "description": "A single value to compare the value resolved at `name` to. All values are encoded as strings. Refer to the table in the documentation for how values should be encoded, and which operators are supported for each type."
           }
         },
-        "required": [
-          "name",
-          "operator",
-          "value"
-        ]
+        "required": ["name", "operator", "value"]
       },
       "EvmDataParameterConditionList": {
         "x-audience": "public",
@@ -11066,10 +10575,7 @@
           },
           "operator": {
             "type": "string",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "description": "The operator to use for the comparison. The value resolved at the `name` will be on the left-hand side of the operator, and the `values` field will be on the right-hand side.",
             "example": "in"
           },
@@ -11081,16 +10587,10 @@
               "description": "A single potential value to compare against the resolved `name` value. All values are encoded as strings. Refer to the table in the documentation for how values should be encoded, and which operators are supported for each type."
             },
             "description": "Values to compare against the resolved `name` value. All values are encoded as strings. Refer to the table in the documentation for how values should be encoded, and which operators are supported for each type.",
-            "example": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ]
+            "example": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
           }
         },
-        "required": [
-          "name",
-          "operator",
-          "values"
-        ]
+        "required": ["name", "operator", "values"]
       },
       "EvmDataCondition": {
         "type": "object",
@@ -11125,9 +10625,7 @@
               {
                 "name": "to",
                 "operator": "in",
-                "values": [
-                  "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                ]
+                "values": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
               }
             ]
           }
@@ -11143,15 +10641,11 @@
             {
               "name": "to",
               "operator": "in",
-              "values": [
-                "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-              ]
+              "values": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
             }
           ]
         },
-        "required": [
-          "function"
-        ]
+        "required": ["function"]
       },
       "EvmDataCriterion": {
         "type": "object",
@@ -11163,9 +10657,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmData`.",
             "example": "evmData",
-            "enum": [
-              "evmData"
-            ]
+            "enum": ["evmData"]
           },
           "abi": {
             "description": "The ABI of the smart contract being called. This can be a partial structure with only specific functions.",
@@ -11200,20 +10692,14 @@
                   {
                     "name": "to",
                     "operator": "in",
-                    "values": [
-                      "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                    ]
+                    "values": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"]
                   }
                 ]
               }
             ]
           }
         },
-        "required": [
-          "type",
-          "abi",
-          "conditions"
-        ]
+        "required": ["type", "abi", "conditions"]
       },
       "NetUSDChangeCriterion": {
         "type": "object",
@@ -11224,9 +10710,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `netUSDChange`.",
             "example": "netUSDChange",
-            "enum": [
-              "netUSDChange"
-            ]
+            "enum": ["netUSDChange"]
           },
           "changeCents": {
             "type": "integer",
@@ -11236,21 +10720,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The total value of a transaction's asset transfer will be on the left-hand side of the operator, and the `changeCents` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "<="
           }
         },
-        "required": [
-          "type",
-          "changeCents",
-          "operator"
-        ]
+        "required": ["type", "changeCents", "operator"]
       },
       "SignEvmTransactionCriteria": {
         "type": "array",
@@ -11279,9 +10753,7 @@
           },
           {
             "type": "evmAddress",
-            "addresses": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ],
+            "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
             "operator": "in"
           }
         ]
@@ -11293,28 +10765,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "signEvmTransaction",
-            "enum": [
-              "signEvmTransaction"
-            ]
+            "enum": ["signEvmTransaction"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SignEvmTransactionCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "EvmNetworkCriterion": {
         "type": "object",
@@ -11326,9 +10789,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmNetwork`.",
             "example": "evmNetwork",
-            "enum": [
-              "evmNetwork"
-            ]
+            "enum": ["evmNetwork"]
           },
           "networks": {
             "type": "array",
@@ -11350,26 +10811,16 @@
               ],
               "example": "base-sepolia"
             },
-            "example": [
-              "base",
-              "ethereum"
-            ]
+            "example": ["base", "ethereum"]
           },
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction's intended `network` will be on the left-hand side of the operator, and the `networks` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "networks",
-          "operator"
-        ]
+        "required": ["type", "networks", "operator"]
       },
       "SendEvmTransactionCriteria": {
         "x-audience": "public",
@@ -11402,9 +10853,7 @@
           },
           {
             "type": "evmAddress",
-            "addresses": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ],
+            "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
             "operator": "in"
           }
         ]
@@ -11417,28 +10866,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "sendEvmTransaction",
-            "enum": [
-              "sendEvmTransaction"
-            ]
+            "enum": ["sendEvmTransaction"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SendEvmTransactionCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "EvmMessageCriterion": {
         "type": "object",
@@ -11450,9 +10890,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmMessage`.",
             "example": "evmMessage",
-            "enum": [
-              "evmMessage"
-            ]
+            "enum": ["evmMessage"]
           },
           "match": {
             "type": "string",
@@ -11460,10 +10898,7 @@
             "example": "^hello ([a-z]+)$"
           }
         },
-        "required": [
-          "type",
-          "match"
-        ]
+        "required": ["type", "match"]
       },
       "SignEvmMessageCriteria": {
         "x-audience": "public",
@@ -11491,28 +10926,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "signEvmMessage",
-            "enum": [
-              "signEvmMessage"
-            ]
+            "enum": ["signEvmMessage"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SignEvmMessageCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "EvmTypedAddressCondition": {
         "type": "object",
@@ -11536,10 +10962,7 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The value located at the message's path will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           },
           "path": {
@@ -11548,11 +10971,7 @@
             "example": "targets[0].address"
           }
         },
-        "required": [
-          "addresses",
-          "operator",
-          "path"
-        ]
+        "required": ["addresses", "operator", "path"]
       },
       "EvmTypedNumericalCondition": {
         "type": "object",
@@ -11569,13 +10988,7 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The value located at the message's path will be on the left-hand side of the operator, and the `value` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "<="
           },
           "path": {
@@ -11584,11 +10997,7 @@
             "example": "targets[0].amount"
           }
         },
-        "required": [
-          "value",
-          "operator",
-          "path"
-        ]
+        "required": ["value", "operator", "path"]
       },
       "EvmTypedStringCondition": {
         "type": "object",
@@ -11607,10 +11016,7 @@
             "example": "targets[0].message"
           }
         },
-        "required": [
-          "match",
-          "path"
-        ]
+        "required": ["match", "path"]
       },
       "SignEvmTypedDataFieldCriterion": {
         "x-audience": "public",
@@ -11621,9 +11027,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmTypedDataField`.",
             "example": "evmTypedDataField",
-            "enum": [
-              "evmTypedDataField"
-            ]
+            "enum": ["evmTypedDataField"]
           },
           "types": {
             "type": "object",
@@ -11688,10 +11092,7 @@
                 "description": "The name of the root EIP-712 type. This value must be included in the `types` object."
               }
             },
-            "required": [
-              "types",
-              "primaryType"
-            ]
+            "required": ["types", "primaryType"]
           },
           "conditions": {
             "type": "array",
@@ -11711,9 +11112,7 @@
             "description": "A list of conditions to check against the data being signed. Each condition must be met for the rule to take effect.",
             "example": [
               {
-                "addresses": [
-                  "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                ],
+                "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
                 "operator": "in",
                 "path": "to.wallet"
               },
@@ -11729,11 +11128,7 @@
             ]
           }
         },
-        "required": [
-          "type",
-          "types",
-          "conditions"
-        ]
+        "required": ["type", "types", "conditions"]
       },
       "SignEvmTypedDataVerifyingContractCriterion": {
         "type": "object",
@@ -11745,9 +11140,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `evmTypedDataVerifyingContract`.",
             "example": "evmTypedDataVerifyingContract",
-            "enum": [
-              "evmTypedDataVerifyingContract"
-            ]
+            "enum": ["evmTypedDataVerifyingContract"]
           },
           "addresses": {
             "type": "array",
@@ -11765,18 +11158,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The domain's verifying contract will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "addresses",
-          "operator"
-        ]
+        "required": ["type", "addresses", "operator"]
       },
       "SignEvmTypedDataCriteria": {
         "x-audience": "public",
@@ -11830,9 +11216,7 @@
             },
             "conditions": [
               {
-                "addresses": [
-                  "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-                ],
+                "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
                 "operator": "in",
                 "path": "to.wallet"
               },
@@ -11849,9 +11233,7 @@
           },
           {
             "type": "evmTypedDataVerifyingContract",
-            "addresses": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ],
+            "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
             "operator": "in"
           }
         ]
@@ -11864,28 +11246,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "signEvmTypedData",
-            "enum": [
-              "signEvmTypedData"
-            ]
+            "enum": ["signEvmTypedData"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SignEvmTypedDataCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "SolAddressCriterion": {
         "type": "object",
@@ -11896,9 +11269,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `solAddress`.",
             "example": "solAddress",
-            "enum": [
-              "solAddress"
-            ]
+            "enum": ["solAddress"]
           },
           "addresses": {
             "type": "array",
@@ -11908,25 +11279,16 @@
               "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
               "description": "The Solana address that is compared to the list of native transfer recipient addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array."
             },
-            "example": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ]
+            "example": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"]
           },
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. Each of the native transfer recipient addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "addresses",
-          "operator"
-        ]
+        "required": ["type", "addresses", "operator"]
       },
       "SolValueCriterion": {
         "x-audience": "public",
@@ -11938,9 +11300,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `solValue`.",
             "example": "solValue",
-            "enum": [
-              "solValue"
-            ]
+            "enum": ["solValue"]
           },
           "solValue": {
             "type": "string",
@@ -11950,21 +11310,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction instruction's `value` field will be on the left-hand side of the operator, and the `solValue` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "<="
           }
         },
-        "required": [
-          "type",
-          "solValue",
-          "operator"
-        ]
+        "required": ["type", "solValue", "operator"]
       },
       "SplAddressCriterion": {
         "x-audience": "public",
@@ -11976,9 +11326,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `splAddress`.",
             "example": "splAddress",
-            "enum": [
-              "splAddress"
-            ]
+            "enum": ["splAddress"]
           },
           "addresses": {
             "type": "array",
@@ -11988,25 +11336,16 @@
               "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
               "description": "The Solana address that is compared to the list of SPL token transfer recipient addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array."
             },
-            "example": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ]
+            "example": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"]
           },
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. Each of the SPL token transfer recipient addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "addresses",
-          "operator"
-        ]
+        "required": ["type", "addresses", "operator"]
       },
       "SplValueCriterion": {
         "x-audience": "public",
@@ -12018,9 +11357,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `splValue`.",
             "example": "splValue",
-            "enum": [
-              "splValue"
-            ]
+            "enum": ["splValue"]
           },
           "splValue": {
             "type": "string",
@@ -12030,21 +11367,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction instruction's `value` field will be on the left-hand side of the operator, and the `splValue` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "<="
           }
         },
-        "required": [
-          "type",
-          "splValue",
-          "operator"
-        ]
+        "required": ["type", "splValue", "operator"]
       },
       "MintAddressCriterion": {
         "x-audience": "public",
@@ -12056,9 +11383,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `mintAddress`.",
             "example": "mintAddress",
-            "enum": [
-              "mintAddress"
-            ]
+            "enum": ["mintAddress"]
           },
           "addresses": {
             "type": "array",
@@ -12068,45 +11393,29 @@
               "pattern": "^[1-9A-HJ-NP-Za-km-z]{32,44}$",
               "description": "The Solana address that is compared to the list of token mint addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array."
             },
-            "example": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ]
+            "example": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"]
           },
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. Each of the token mint addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array will be on the left-hand side of the operator, and the `addresses` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "addresses",
-          "operator"
-        ]
+        "required": ["type", "addresses", "operator"]
       },
       "KnownIdlType": {
         "type": "string",
         "x-audience": "public",
         "title": "KnownIdlType",
         "description": "A reference to an established Solana program. When referencing a `KnownIdlType` within a policy rule configuring an `SolDataCriterion`, criteria will decode instruction data as documented in the programs. For more information on supported programs, see the links below.\n  - [SystemProgram](https://docs.rs/solana-program/latest/solana_program/system_instruction/enum.SystemInstruction.html).\n  - [TokenProgram](https://docs.rs/spl-token/latest/spl_token/instruction/enum.TokenInstruction.html).\n  - [AssociatedTokenProgram](https://docs.rs/spl-associated-token-account/latest/spl_associated_token_account/instruction/index.html).",
-        "enum": [
-          "SystemProgram",
-          "TokenProgram",
-          "AssociatedTokenProgram"
-        ]
+        "enum": ["SystemProgram", "TokenProgram", "AssociatedTokenProgram"]
       },
       "Idl": {
         "x-audience": "public",
         "type": "object",
         "description": "IDL Specification following Anchor's IDL format v0.30+.",
-        "required": [
-          "address",
-          "instructions"
-        ],
+        "required": ["address", "instructions"],
         "properties": {
           "address": {
             "type": "string",
@@ -12119,16 +11428,7 @@
             "example": [
               {
                 "name": "transfer_checked",
-                "discriminator": [
-                  119,
-                  250,
-                  202,
-                  24,
-                  253,
-                  135,
-                  244,
-                  121
-                ],
+                "discriminator": [119, 250, 202, 24, 253, 135, 244, 121],
                 "accounts": [
                   {
                     "name": "mint",
@@ -12152,11 +11452,7 @@
             ],
             "items": {
               "type": "object",
-              "required": [
-                "name",
-                "discriminator",
-                "args"
-              ],
+              "required": ["name", "discriminator", "args"],
               "properties": {
                 "name": {
                   "type": "string",
@@ -12173,26 +11469,14 @@
                   },
                   "minItems": 8,
                   "maxItems": 8,
-                  "example": [
-                    119,
-                    250,
-                    202,
-                    24,
-                    253,
-                    135,
-                    244,
-                    121
-                  ]
+                  "example": [119, 250, 202, 24, 253, 135, 244, 121]
                 },
                 "args": {
                   "type": "array",
                   "description": "List of instruction arguments.",
                   "items": {
                     "type": "object",
-                    "required": [
-                      "name",
-                      "type"
-                    ],
+                    "required": ["name", "type"],
                     "properties": {
                       "name": {
                         "type": "string",
@@ -12212,9 +11496,7 @@
                   "description": "Optional list of accounts required by the instruction.",
                   "items": {
                     "type": "object",
-                    "required": [
-                      "name"
-                    ],
+                    "required": ["name"],
                     "properties": {
                       "name": {
                         "type": "string",
@@ -12302,13 +11584,7 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The value resolved at the `name` will be on the left-hand side of the operator, and the `value` field will be on the right-hand side.",
-            "enum": [
-              ">",
-              ">=",
-              "<",
-              "<=",
-              "=="
-            ],
+            "enum": [">", ">=", "<", "<=", "=="],
             "example": "=="
           },
           "value": {
@@ -12317,11 +11593,7 @@
             "example": "1000000"
           }
         },
-        "required": [
-          "name",
-          "operator",
-          "value"
-        ]
+        "required": ["name", "operator", "value"]
       },
       "SolDataParameterConditionList": {
         "type": "object",
@@ -12337,10 +11609,7 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The value resolved at the `name` will be on the left-hand side of the operator, and the `value` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           },
           "values": {
@@ -12358,11 +11627,7 @@
             ]
           }
         },
-        "required": [
-          "name",
-          "operator",
-          "values"
-        ]
+        "required": ["name", "operator", "values"]
       },
       "SolDataCondition": {
         "type": "object",
@@ -12410,9 +11675,7 @@
             ]
           }
         },
-        "required": [
-          "instruction"
-        ]
+        "required": ["instruction"]
       },
       "SolDataCriterion": {
         "x-audience": "public",
@@ -12423,9 +11686,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `solData`.",
             "example": "solData",
-            "enum": [
-              "solData"
-            ]
+            "enum": ["solData"]
           },
           "idls": {
             "type": "array",
@@ -12448,16 +11709,7 @@
                 "instructions": [
                   {
                     "name": "transfer_checked",
-                    "discriminator": [
-                      119,
-                      250,
-                      202,
-                      24,
-                      253,
-                      135,
-                      244,
-                      121
-                    ],
+                    "discriminator": [119, 250, 202, 24, 253, 135, 244, 121],
                     "args": [
                       {
                         "name": "amount",
@@ -12498,11 +11750,7 @@
             ]
           }
         },
-        "required": [
-          "type",
-          "idls",
-          "conditions"
-        ]
+        "required": ["type", "idls", "conditions"]
       },
       "ProgramIdCriterion": {
         "x-audience": "public",
@@ -12514,9 +11762,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `programId`.",
             "example": "programId",
-            "enum": [
-              "programId"
-            ]
+            "enum": ["programId"]
           },
           "programIds": {
             "type": "array",
@@ -12534,18 +11780,11 @@
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. Each of the program IDs in the transaction's instructions will be on the left-hand side of the operator, and the `programIds` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "programIds",
-          "operator"
-        ]
+        "required": ["type", "programIds", "operator"]
       },
       "SignSolTransactionCriteria": {
         "type": "array",
@@ -12579,9 +11818,7 @@
         "example": [
           {
             "type": "solAddress",
-            "addresses": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ],
+            "addresses": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"],
             "operator": "in"
           }
         ]
@@ -12593,28 +11830,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "signSolTransaction",
-            "enum": [
-              "signSolTransaction"
-            ]
+            "enum": ["signSolTransaction"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SignSolTransactionCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "SolNetworkCriterion": {
         "x-audience": "public",
@@ -12626,9 +11854,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `solNetwork`.",
             "example": "solNetwork",
-            "enum": [
-              "solNetwork"
-            ]
+            "enum": ["solNetwork"]
           },
           "networks": {
             "type": "array",
@@ -12636,32 +11862,19 @@
             "items": {
               "type": "string",
               "description": "The Solana network the transaction is for.",
-              "enum": [
-                "solana-devnet",
-                "solana"
-              ],
+              "enum": ["solana-devnet", "solana"],
               "example": "solana-devnet"
             },
-            "example": [
-              "solana-devnet",
-              "solana"
-            ]
+            "example": ["solana-devnet", "solana"]
           },
           "operator": {
             "type": "string",
             "description": "The operator to use for the comparison. The transaction's intended network will be on the left-hand side of the operator, and the `networks` field will be on the right-hand side.",
-            "enum": [
-              "in",
-              "not in"
-            ],
+            "enum": ["in", "not in"],
             "example": "in"
           }
         },
-        "required": [
-          "type",
-          "networks",
-          "operator"
-        ]
+        "required": ["type", "networks", "operator"]
       },
       "SendSolTransactionCriteria": {
         "x-audience": "public",
@@ -12698,9 +11911,7 @@
         "example": [
           {
             "type": "solAddress",
-            "addresses": [
-              "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
-            ],
+            "addresses": ["HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"],
             "operator": "in"
           },
           {
@@ -12718,28 +11929,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "sendSolTransaction",
-            "enum": [
-              "sendSolTransaction"
-            ]
+            "enum": ["sendSolTransaction"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SendSolTransactionCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "SolMessageCriterion": {
         "x-audience": "public",
@@ -12751,9 +11953,7 @@
             "type": "string",
             "description": "The type of criterion to use. This should be `solMessage`.",
             "example": "solMessage",
-            "enum": [
-              "solMessage"
-            ]
+            "enum": ["solMessage"]
           },
           "match": {
             "type": "string",
@@ -12761,10 +11961,7 @@
             "example": "^hello ([a-z]+)$"
           }
         },
-        "required": [
-          "type",
-          "match"
-        ]
+        "required": ["type", "match"]
       },
       "SignSolMessageCriteria": {
         "x-audience": "public",
@@ -12792,28 +11989,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "signSolMessage",
-            "enum": [
-              "signSolMessage"
-            ]
+            "enum": ["signSolMessage"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SignSolMessageCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "SignEvmHashRule": {
         "x-audience": "public",
@@ -12823,24 +12011,16 @@
             "type": "string",
             "description": "Whether any attempts to sign a hash will be accepted or rejected. This rule does not accept any criteria.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies.",
             "example": "signEvmHash",
-            "enum": [
-              "signEvmHash"
-            ]
+            "enum": ["signEvmHash"]
           }
         },
-        "required": [
-          "action",
-          "operation"
-        ]
+        "required": ["action", "operation"]
       },
       "PrepareUserOperationCriteria": {
         "x-audience": "public",
@@ -12873,9 +12053,7 @@
           },
           {
             "type": "evmAddress",
-            "addresses": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ],
+            "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
             "operator": "in"
           }
         ]
@@ -12888,28 +12066,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "prepareUserOperation",
-            "enum": [
-              "prepareUserOperation"
-            ]
+            "enum": ["prepareUserOperation"]
           },
           "criteria": {
             "$ref": "#/components/schemas/PrepareUserOperationCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "SendUserOperationCriteria": {
         "x-audience": "public",
@@ -12939,9 +12108,7 @@
           },
           {
             "type": "evmAddress",
-            "addresses": [
-              "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-            ],
+            "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
             "operator": "in"
           }
         ]
@@ -12954,28 +12121,19 @@
             "type": "string",
             "description": "Whether matching the rule will cause the request to be rejected or accepted.",
             "example": "accept",
-            "enum": [
-              "reject",
-              "accept"
-            ]
+            "enum": ["reject", "accept"]
           },
           "operation": {
             "type": "string",
             "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
             "example": "sendUserOperation",
-            "enum": [
-              "sendUserOperation"
-            ]
+            "enum": ["sendUserOperation"]
           },
           "criteria": {
             "$ref": "#/components/schemas/SendUserOperationCriteria"
           }
         },
-        "required": [
-          "action",
-          "operation",
-          "criteria"
-        ]
+        "required": ["action", "operation", "criteria"]
       },
       "Rule": {
         "type": "object",
@@ -13023,9 +12181,7 @@
             },
             {
               "type": "evmAddress",
-              "addresses": [
-                "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
-              ],
+              "addresses": ["0x742d35Cc6634C0532925a3b844Bc454e4438f44e"],
               "operator": "in"
             }
           ]
@@ -13049,10 +12205,7 @@
           "scope": {
             "type": "string",
             "description": "The scope of the policy. Only one project-level policy can exist at any time.",
-            "enum": [
-              "project",
-              "account"
-            ],
+            "enum": ["project", "account"],
             "example": "project"
           },
           "rules": {
@@ -13107,13 +12260,7 @@
             "example": "2025-03-26T12:00:00Z"
           }
         },
-        "required": [
-          "id",
-          "scope",
-          "rules",
-          "createdAt",
-          "updatedAt"
-        ]
+        "required": ["id", "scope", "rules", "createdAt", "updatedAt"]
       },
       "SolanaAccount": {
         "type": "object",
@@ -13138,9 +12285,7 @@
               "type": "string",
               "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
             },
-            "example": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
+            "example": ["123e4567-e89b-12d3-a456-426614174000"]
           },
           "createdAt": {
             "type": "string",
@@ -13155,16 +12300,11 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "address"
-        ]
+        "required": ["address"]
       },
       "ListSolanaTokenBalancesNetwork": {
         "type": "string",
-        "enum": [
-          "solana",
-          "solana-devnet"
-        ],
+        "enum": ["solana", "solana-devnet"],
         "description": "The name of the supported Solana networks in human-readable format.",
         "example": "solana"
       },
@@ -13189,10 +12329,7 @@
             "example": 9
           }
         },
-        "required": [
-          "amount",
-          "decimals"
-        ]
+        "required": ["amount", "decimals"]
       },
       "SolanaToken": {
         "type": "object",
@@ -13220,9 +12357,7 @@
             "example": "So11111111111111111111111111111111111111111"
           }
         },
-        "required": [
-          "mintAddress"
-        ]
+        "required": ["mintAddress"]
       },
       "SolanaTokenBalance": {
         "type": "object",
@@ -13234,17 +12369,12 @@
             "$ref": "#/components/schemas/SolanaToken"
           }
         },
-        "required": [
-          "amount",
-          "token"
-        ]
+        "required": ["amount", "token"]
       },
       "OnchainDataQuery": {
         "type": "object",
         "description": "Request to execute a SQL query against indexed blockchain data.",
-        "required": [
-          "sql"
-        ],
+        "required": ["sql"],
         "properties": {
           "sql": {
             "type": "string",
@@ -13458,9 +12588,7 @@
       "WebhookTarget": {
         "type": "object",
         "description": "Target configuration for webhook delivery.\nSpecifies the destination URL and any custom headers to include in webhook requests.\n",
-        "required": [
-          "url"
-        ],
+        "required": ["url"],
         "properties": {
           "url": {
             "allOf": [
@@ -13524,9 +12652,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "onchain.activity.detected"
-            ]
+            "example": ["onchain.activity.detected"]
           },
           "isEnabled": {
             "type": "boolean",
@@ -13586,9 +12712,7 @@
         },
         "example": {
           "subscriptionId": "123e4567-e89b-12d3-a456-426614174000",
-          "eventTypes": [
-            "onchain.activity.detected"
-          ],
+          "eventTypes": ["onchain.activity.detected"],
           "isEnabled": true,
           "labels": {
             "contract_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
@@ -13612,9 +12736,7 @@
           {
             "type": "object",
             "description": "Response containing a list of webhook subscriptions.",
-            "required": [
-              "subscriptions"
-            ],
+            "required": ["subscriptions"],
             "properties": {
               "subscriptions": {
                 "type": "array",
@@ -13649,9 +12771,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "onchain.activity.detected"
-            ]
+            "example": ["onchain.activity.detected"]
           },
           "isEnabled": {
             "type": "boolean",
@@ -13677,11 +12797,7 @@
             }
           }
         },
-        "required": [
-          "eventTypes",
-          "isEnabled",
-          "target"
-        ]
+        "required": ["eventTypes", "isEnabled", "target"]
       },
       "WebhookSubscriptionUpdateRequest": {
         "type": "object",
@@ -13702,9 +12818,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "onchain.activity.detected"
-            ]
+            "example": ["onchain.activity.detected"]
           },
           "isEnabled": {
             "type": "boolean",
@@ -13730,19 +12844,12 @@
             }
           }
         },
-        "required": [
-          "eventTypes",
-          "isEnabled",
-          "target"
-        ]
+        "required": ["eventTypes", "isEnabled", "target"]
       },
       "X402Version": {
         "type": "integer",
         "description": "The version of the x402 protocol.",
-        "enum": [
-          1,
-          2
-        ],
+        "enum": [1, 2],
         "example": 1
       },
       "x402ExactEvmPayload": {
@@ -13821,10 +12928,7 @@
             "nonce": "0x1234567890abcdef1234567890abcdef12345678"
           }
         },
-        "required": [
-          "signature",
-          "authorization"
-        ]
+        "required": ["signature", "authorization"]
       },
       "x402ExactSolanaPayload": {
         "type": "object",
@@ -13840,9 +12944,7 @@
         "example": {
           "transaction": "AQABAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAQECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8CBgMBAQAAAAIBAwQAAAAABgIAAAAAAAYDBQEBAAAGBAgAAAAABgUAAAAA6AMAAAAAAAAGBgUBAQEBBgcEAQAAAAYICgMBAQIDBgkCBgAAAAYKAwABAQEGCwMGAQEBBgwDAAABAQAAAAA="
         },
-        "required": [
-          "transaction"
-        ]
+        "required": ["transaction"]
       },
       "x402V1PaymentPayload": {
         "type": "object",
@@ -13854,20 +12956,13 @@
           "scheme": {
             "type": "string",
             "description": "The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`.",
-            "enum": [
-              "exact"
-            ],
+            "enum": ["exact"],
             "example": "exact"
           },
           "network": {
             "type": "string",
             "description": "The network of the blockchain to send payment on.",
-            "enum": [
-              "base-sepolia",
-              "base",
-              "solana-devnet",
-              "solana"
-            ],
+            "enum": ["base-sepolia", "base", "solana-devnet", "solana"],
             "example": "base"
           },
           "payload": {
@@ -13910,12 +13005,7 @@
             }
           }
         },
-        "required": [
-          "x402Version",
-          "scheme",
-          "network",
-          "payload"
-        ]
+        "required": ["x402Version", "scheme", "network", "payload"]
       },
       "x402V2PaymentRequirements": {
         "type": "object",
@@ -13924,9 +13014,7 @@
           "scheme": {
             "type": "string",
             "description": "The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`.",
-            "enum": [
-              "exact"
-            ],
+            "enum": ["exact"],
             "example": "exact"
           },
           "network": {
@@ -14078,11 +13166,7 @@
             "mimeType": "application/json"
           }
         },
-        "required": [
-          "x402Version",
-          "accepted",
-          "payload"
-        ]
+        "required": ["x402Version", "accepted", "payload"]
       },
       "x402PaymentPayload": {
         "type": "object",
@@ -14103,20 +13187,13 @@
           "scheme": {
             "type": "string",
             "description": "The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`.",
-            "enum": [
-              "exact"
-            ],
+            "enum": ["exact"],
             "example": "exact"
           },
           "network": {
             "type": "string",
             "description": "The network of the blockchain to send payment on.",
-            "enum": [
-              "base-sepolia",
-              "base",
-              "solana-devnet",
-              "solana"
-            ],
+            "enum": ["base-sepolia", "base", "solana-devnet", "solana"],
             "example": "base"
           },
           "maxAmountRequired": {
@@ -14268,10 +13345,7 @@
             "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
           }
         },
-        "required": [
-          "isValid",
-          "invalidReason"
-        ],
+        "required": ["isValid", "invalidReason"],
         "example": {
           "isValid": false,
           "invalidReason": "insufficient_funds",
@@ -14362,10 +13436,7 @@
             "example": "base"
           }
         },
-        "required": [
-          "success",
-          "errorReason"
-        ],
+        "required": ["success", "errorReason"],
         "example": {
           "success": false,
           "errorReason": "insufficient_funds",
@@ -14382,9 +13453,7 @@
           "scheme": {
             "type": "string",
             "description": "The scheme of the payment protocol.",
-            "enum": [
-              "exact"
-            ],
+            "enum": ["exact"],
             "example": "exact"
           },
           "network": {
@@ -14411,11 +13480,7 @@
             }
           }
         },
-        "required": [
-          "x402Version",
-          "scheme",
-          "network"
-        ]
+        "required": ["x402Version", "scheme", "network"]
       },
       "BlockchainAddress": {
         "type": "string",
@@ -14427,9 +13492,7 @@
       "OnrampOrderPaymentMethodTypeId": {
         "type": "string",
         "description": "The type of payment method to be used to complete an onramp order.",
-        "enum": [
-          "GUEST_CHECKOUT_APPLE_PAY"
-        ],
+        "enum": ["GUEST_CHECKOUT_APPLE_PAY"],
         "example": "GUEST_CHECKOUT_APPLE_PAY"
       },
       "OnrampOrderFee": {
@@ -14438,10 +13501,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "FEE_TYPE_NETWORK",
-              "FEE_TYPE_EXCHANGE"
-            ],
+            "enum": ["FEE_TYPE_NETWORK", "FEE_TYPE_EXCHANGE"],
             "description": "The type of fee.",
             "example": "FEE_TYPE_NETWORK"
           },
@@ -14456,11 +13516,7 @@
             "example": "USDC"
           }
         },
-        "required": [
-          "type",
-          "amount",
-          "currency"
-        ]
+        "required": ["type", "amount", "currency"]
       },
       "OnrampOrderStatus": {
         "type": "string",
@@ -14593,9 +13649,7 @@
       "OnrampPaymentLinkType": {
         "type": "string",
         "description": "The type of payment link.",
-        "enum": [
-          "PAYMENT_LINK_TYPE_APPLE_PAY_BUTTON"
-        ],
+        "enum": ["PAYMENT_LINK_TYPE_APPLE_PAY_BUTTON"],
         "example": "PAYMENT_LINK_TYPE_APPLE_PAY_BUTTON"
       },
       "OnrampPaymentLink": {
@@ -14615,10 +13669,7 @@
             "$ref": "#/components/schemas/OnrampPaymentLinkType"
           }
         },
-        "required": [
-          "url",
-          "paymentLinkType"
-        ]
+        "required": ["url", "paymentLinkType"]
       },
       "OnrampQuotePaymentMethodTypeId": {
         "type": "string",
@@ -14656,9 +13707,7 @@
             "example": "https://pay.coinbase.com/buy?sessionToken=abc123F"
           }
         },
-        "required": [
-          "onrampUrl"
-        ],
+        "required": ["onrampUrl"],
         "example": {
           "onrampUrl": "https://pay.coinbase.com/buy?sessionToken=abc123F"
         }
@@ -14957,10 +14006,7 @@
                   "example": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
                 }
               },
-              "required": [
-                "isValid",
-                "payer"
-              ]
+              "required": ["isValid", "payer"]
             }
           }
         }
@@ -15023,12 +14069,7 @@
                   "example": "base"
                 }
               },
-              "required": [
-                "success",
-                "payer",
-                "transaction",
-                "network"
-              ]
+              "required": ["success", "payer", "transaction", "network"]
             }
           }
         }
@@ -15095,9 +14136,7 @@
                   "items": {
                     "type": "string"
                   },
-                  "example": [
-                    "bazaar"
-                  ]
+                  "example": ["bazaar"]
                 },
                 "signers": {
                   "type": "object",
@@ -15113,17 +14152,11 @@
                       "0x1234567890abcdef1234567890abcdef12345678",
                       "0xabcdef1234567890abcdef1234567890abcdef12"
                     ],
-                    "solana:*": [
-                      "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d"
-                    ]
+                    "solana:*": ["5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d"]
                   }
                 }
               },
-              "required": [
-                "kinds",
-                "extensions",
-                "signers"
-              ]
+              "required": ["kinds", "extensions", "signers"]
             }
           }
         }

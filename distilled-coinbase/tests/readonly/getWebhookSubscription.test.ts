@@ -37,7 +37,9 @@ describe("getWebhookSubscription", () => {
     await runEffect(
       getWebhookSubscription({ subscriptionId: NON_EXISTENT_ID }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(["NotFound", "RateLimitExceeded"]).toContain(e._tag)),
+        Effect.map((e) =>
+          expect(["NotFound", "RateLimitExceeded"]).toContain(e._tag),
+        ),
       ),
     );
   });

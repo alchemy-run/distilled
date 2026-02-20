@@ -1,4 +1,4 @@
-import { Effect, Option, Schema, Stream } from "effect";
+import { Effect, Schema, Stream } from "effect";
 
 /**
  * Pagination trait for Neon APIs.
@@ -47,7 +47,10 @@ export const getPath = (obj: unknown, path: string): unknown => {
 /**
  * Schema for a paginated response from Neon APIs.
  */
-export const PaginatedResponse = <A, I, R>(itemSchema: Schema.Schema<A, I, R>, itemsKey: string) =>
+export const PaginatedResponse = <A>(
+  itemSchema: Schema.Schema<A>,
+  itemsKey: string,
+) =>
   Schema.Struct({
     [itemsKey]: Schema.Array(itemSchema),
     pagination: Schema.optional(
@@ -96,7 +99,7 @@ export const paginatePages = <
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
       if (state.done) {
-        return Option.none();
+        return undefined;
       }
 
       // Build the request with the cursor
@@ -109,7 +112,10 @@ export const paginatePages = <
       const response = yield* operation(requestPayload);
 
       // Extract the next cursor
-      const nextCursor = getPath(response, pagination.outputToken) as string | null | undefined;
+      const nextCursor = getPath(response, pagination.outputToken) as
+        | string
+        | null
+        | undefined;
 
       // Return the full page and next state
       const nextState: State = {
@@ -117,10 +123,10 @@ export const paginatePages = <
         done: nextCursor === null || nextCursor === undefined,
       };
 
-      return Option.some([response, nextState] as const);
+      return [response, nextState] as const;
     });
 
-  return Stream.unfoldEffect({ cursor: undefined, done: false } as State, unfoldFn);
+  return Stream.unfold({ cursor: undefined, done: false } as State, unfoldFn);
 };
 
 /**
@@ -149,7 +155,9 @@ export const paginateItems = <
 ): Stream.Stream<Item, E, R> => {
   return paginatePages(operation, input, pagination).pipe(
     Stream.flatMap((page) => {
-      const items = getPath(page, pagination.items) as readonly Item[] | undefined;
+      const items = getPath(page, pagination.items) as
+        | readonly Item[]
+        | undefined;
       return Stream.fromIterable(items ?? []);
     }),
   );

@@ -6,8 +6,14 @@ import * as T from "../traits";
 export const RevokePermissionFromProjectInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   permission_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/projects/{project_id}/permissions/{permission_id}" }));
-export type RevokePermissionFromProjectInput = typeof RevokePermissionFromProjectInput.Type;
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/projects/{project_id}/permissions/{permission_id}",
+  }),
+);
+export type RevokePermissionFromProjectInput =
+  typeof RevokePermissionFromProjectInput.Type;
 
 // Output Schema
 export const RevokePermissionFromProjectOutput = Schema.Struct({
@@ -16,7 +22,8 @@ export const RevokePermissionFromProjectOutput = Schema.Struct({
   granted_at: Schema.String,
   revoked_at: Schema.optional(Schema.String),
 });
-export type RevokePermissionFromProjectOutput = typeof RevokePermissionFromProjectOutput.Type;
+export type RevokePermissionFromProjectOutput =
+  typeof RevokePermissionFromProjectOutput.Type;
 
 // The operation
 /**
@@ -24,7 +31,9 @@ export type RevokePermissionFromProjectOutput = typeof RevokePermissionFromProje
  *
  * Revokes project access from the user associated with the specified permission `id`. You can retrieve a user's permission `id` by listing project access.
  */
-export const revokePermissionFromProject = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: RevokePermissionFromProjectInput,
-  outputSchema: RevokePermissionFromProjectOutput,
-}));
+export const revokePermissionFromProject = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: RevokePermissionFromProjectInput,
+    outputSchema: RevokePermissionFromProjectOutput,
+  }),
+);

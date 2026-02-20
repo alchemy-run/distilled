@@ -7,14 +7,19 @@ export const DeleteProjectBranchDataAPIInput = Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   database_name: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "DELETE", path: "/projects/{project_id}/branches/{branch_id}/data-api/{database_name}" }));
-export type DeleteProjectBranchDataAPIInput = typeof DeleteProjectBranchDataAPIInput.Type;
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/projects/{project_id}/branches/{branch_id}/data-api/{database_name}",
+  }),
+);
+export type DeleteProjectBranchDataAPIInput =
+  typeof DeleteProjectBranchDataAPIInput.Type;
 
 // Output Schema
-export const DeleteProjectBranchDataAPIOutput = Schema.Struct({
-
-});
-export type DeleteProjectBranchDataAPIOutput = typeof DeleteProjectBranchDataAPIOutput.Type;
+export const DeleteProjectBranchDataAPIOutput = Schema.Struct({});
+export type DeleteProjectBranchDataAPIOutput =
+  typeof DeleteProjectBranchDataAPIOutput.Type;
 
 // The operation
 /**
@@ -27,7 +32,9 @@ export type DeleteProjectBranchDataAPIOutput = typeof DeleteProjectBranchDataAPI
  * @param branch_id - The Neon branch ID
  * @param database_name - The database name
  */
-export const deleteProjectBranchDataAPI = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  inputSchema: DeleteProjectBranchDataAPIInput,
-  outputSchema: DeleteProjectBranchDataAPIOutput,
-}));
+export const deleteProjectBranchDataAPI = /*@__PURE__*/ /*#__PURE__*/ API.make(
+  () => ({
+    inputSchema: DeleteProjectBranchDataAPIInput,
+    outputSchema: DeleteProjectBranchDataAPIOutput,
+  }),
+);

@@ -1,13 +1,21 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
-import { AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired } from "../errors";
+import {
+  AlreadyExists,
+  IdempotencyError,
+  InvalidRequest,
+  PaymentMethodRequired,
+} from "../errors";
 
 // Input Schema
 export const CreateSolanaAccountInput = Schema.Struct({
   name: Schema.optional(Schema.String),
   accountPolicy: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "POST", path: "/v2/solana/accounts" }), T.WalletAuth());
+}).pipe(
+  T.Http({ method: "POST", path: "/v2/solana/accounts" }),
+  T.WalletAuth(),
+);
 export type CreateSolanaAccountInput = typeof CreateSolanaAccountInput.Type;
 
 // Output Schema
@@ -29,6 +37,11 @@ export type CreateSolanaAccountOutput = typeof CreateSolanaAccountOutput.Type;
 export const createSolanaAccount = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: CreateSolanaAccountInput,
   outputSchema: CreateSolanaAccountOutput,
-  errors: [AlreadyExists, IdempotencyError, InvalidRequest, PaymentMethodRequired],
+  errors: [
+    AlreadyExists,
+    IdempotencyError,
+    InvalidRequest,
+    PaymentMethodRequired,
+  ],
   walletAuth: true,
 }));
