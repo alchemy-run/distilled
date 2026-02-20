@@ -194,7 +194,7 @@ export const EntityDetail = S.suspend(() =>
     EntityArn: S.optional(S.String),
     EntityIdentifier: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    DetailsDocument: S.optional(S.Top),
+    DetailsDocument: S.optional(S.Any),
   }),
 ).annotate({ identifier: "EntityDetail" }) as any as S.Schema<EntityDetail>;
 export type EntityDetails = { [key: string]: EntityDetail | undefined };
@@ -349,7 +349,7 @@ export const ChangeSummary = S.suspend(() =>
     ChangeType: S.optional(S.String),
     Entity: S.optional(Entity),
     Details: S.optional(S.String),
-    DetailsDocument: S.optional(S.Top),
+    DetailsDocument: S.optional(S.Any),
     ErrorDetailList: S.optional(ErrorDetailList),
     ChangeName: S.optional(S.String),
   }),
@@ -420,7 +420,7 @@ export const DescribeEntityResponse = S.suspend(() =>
     EntityArn: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
     Details: S.optional(S.String),
-    DetailsDocument: S.optional(S.Top),
+    DetailsDocument: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "DescribeEntityResponse",
@@ -2176,7 +2176,7 @@ export const Change = S.suspend(() =>
     Entity: Entity,
     EntityTags: S.optional(TagList),
     Details: S.optional(S.String),
-    DetailsDocument: S.optional(S.Top),
+    DetailsDocument: S.optional(S.Any),
     ChangeName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Change" }) as any as S.Schema<Change>;

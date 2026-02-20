@@ -1846,7 +1846,7 @@ export const CreateIndexRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     IndexName: S.String,
-    IndexSchema: S.Top,
+    IndexSchema: S.Any,
   }).pipe(
     T.all(
       ns,
@@ -4166,7 +4166,7 @@ export interface GetIndexResponse {
   IndexSchema: any;
 }
 export const GetIndexResponse = S.suspend(() =>
-  S.Struct({ IndexSchema: S.Top }).pipe(ns),
+  S.Struct({ IndexSchema: S.Any }).pipe(ns),
 ).annotate({
   identifier: "GetIndexResponse",
 }) as any as S.Schema<GetIndexResponse>;
@@ -5489,7 +5489,7 @@ export const UpdateIndexRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-    IndexSchema: S.Top,
+    IndexSchema: S.Any,
   }).pipe(
     T.all(
       ns,

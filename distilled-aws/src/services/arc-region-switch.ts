@@ -929,7 +929,7 @@ export const ExecutionBlockConfiguration = S.Union([
   S.Struct({ globalAuroraConfig: GlobalAuroraConfiguration }),
   S.Struct({
     parallelConfig: S.suspend(
-      (): S.Schema<ParallelExecutionBlockConfiguration, any> =>
+      (): S.Schema<ParallelExecutionBlockConfiguration> =>
         ParallelExecutionBlockConfiguration,
     ).annotate({ identifier: "ParallelExecutionBlockConfiguration" }),
   }),
@@ -971,7 +971,7 @@ export const Step = S.suspend(() =>
 ).annotate({ identifier: "Step" }) as any as S.Schema<Step>;
 export type Steps = Step[];
 export const Steps = S.Array(
-  S.suspend((): S.Schema<Step, any> => Step).annotate({ identifier: "Step" }),
+  S.suspend((): S.Schema<Step> => Step).annotate({ identifier: "Step" }),
 ) as any as S.Schema<Steps>;
 export type WorkflowTargetAction = "activate" | "deactivate" | (string & {});
 export const WorkflowTargetAction = S.String;

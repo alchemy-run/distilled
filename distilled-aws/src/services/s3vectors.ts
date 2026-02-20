@@ -668,7 +668,7 @@ export const GetOutputVector = S.suspend(() =>
   S.Struct({
     key: S.String,
     data: S.optional(VectorData),
-    metadata: S.optional(S.Top),
+    metadata: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "GetOutputVector",
@@ -727,7 +727,7 @@ export const ListOutputVector = S.suspend(() =>
   S.Struct({
     key: S.String,
     data: S.optional(VectorData),
-    metadata: S.optional(S.Top),
+    metadata: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ListOutputVector",
@@ -749,7 +749,7 @@ export interface PutInputVector {
   metadata?: any;
 }
 export const PutInputVector = S.suspend(() =>
-  S.Struct({ key: S.String, data: VectorData, metadata: S.optional(S.Top) }),
+  S.Struct({ key: S.String, data: VectorData, metadata: S.optional(S.Any) }),
 ).annotate({ identifier: "PutInputVector" }) as any as S.Schema<PutInputVector>;
 export type PutVectorsInputList = PutInputVector[];
 export const PutVectorsInputList = S.Array(PutInputVector);
@@ -799,7 +799,7 @@ export const QueryVectorsInput = S.suspend(() =>
     indexArn: S.optional(S.String),
     topK: S.Number,
     queryVector: VectorData,
-    filter: S.optional(S.Top),
+    filter: S.optional(S.Any),
     returnMetadata: S.optional(S.Boolean),
     returnDistance: S.optional(S.Boolean),
   }).pipe(
@@ -824,7 +824,7 @@ export const QueryOutputVector = S.suspend(() =>
   S.Struct({
     distance: S.optional(S.Number),
     key: S.String,
-    metadata: S.optional(S.Top),
+    metadata: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "QueryOutputVector",

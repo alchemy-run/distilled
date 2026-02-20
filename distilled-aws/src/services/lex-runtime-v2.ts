@@ -287,7 +287,7 @@ export type Shape = "Scalar" | "List" | "Composite" | (string & {});
 export const Shape = S.String;
 export type Values = Slot[];
 export const Values = S.Array(
-  S.suspend((): S.Schema<Slot, any> => Slot).annotate({ identifier: "Slot" }),
+  S.suspend((): S.Schema<Slot> => Slot).annotate({ identifier: "Slot" }),
 ) as any as S.Schema<Values>;
 export interface Slot {
   value?: Value;
@@ -310,7 +310,7 @@ export const Slot = S.suspend(() =>
 export type Slots = { [key: string]: Slot | undefined };
 export const Slots = S.Record(
   S.String,
-  S.suspend((): S.Schema<Slot, any> => Slot)
+  S.suspend((): S.Schema<Slot> => Slot)
     .annotate({ identifier: "Slot" })
     .pipe(S.optional),
 ) as any as S.Schema<Slots>;
@@ -380,7 +380,7 @@ export const ElicitSubSlot = S.suspend(() =>
   S.Struct({
     name: S.String,
     subSlotToElicit: S.optional(
-      S.suspend((): S.Schema<ElicitSubSlot, any> => ElicitSubSlot).annotate({
+      S.suspend((): S.Schema<ElicitSubSlot> => ElicitSubSlot).annotate({
         identifier: "ElicitSubSlot",
       }),
     ),
@@ -465,7 +465,7 @@ export type SlotHintsSlotMap = {
 };
 export const SlotHintsSlotMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails)
+  S.suspend((): S.Schema<RuntimeHintDetails> => RuntimeHintDetails)
     .annotate({ identifier: "RuntimeHintDetails" })
     .pipe(S.optional),
 ) as any as S.Schema<SlotHintsSlotMap>;

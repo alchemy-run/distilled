@@ -101,7 +101,7 @@ export interface ScanSbomRequest {
   outputFormat?: OutputFormat;
 }
 export const ScanSbomRequest = S.suspend(() =>
-  S.Struct({ sbom: S.Top, outputFormat: S.optional(OutputFormat) }).pipe(
+  S.Struct({ sbom: S.Any, outputFormat: S.optional(OutputFormat) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/scan/sbom" }),
       svc,
@@ -118,7 +118,7 @@ export interface ScanSbomResponse {
   sbom?: any;
 }
 export const ScanSbomResponse = S.suspend(() =>
-  S.Struct({ sbom: S.optional(S.Top) }),
+  S.Struct({ sbom: S.optional(S.Any) }),
 ).annotate({
   identifier: "ScanSbomResponse",
 }) as any as S.Schema<ScanSbomResponse>;

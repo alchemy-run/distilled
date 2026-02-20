@@ -317,7 +317,7 @@ export const VectorSearchRerankingConfigurationType = S.String;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record(
   S.String,
-  S.Top.pipe(S.optional),
+  S.Any.pipe(S.optional),
 );
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
@@ -547,7 +547,7 @@ export const SystemContentBlock = S.Union([
 export type SystemContentBlocks = SystemContentBlock[];
 export const SystemContentBlocks = S.Array(SystemContentBlock);
 export type ToolInputSchema = { json: any };
-export const ToolInputSchema = S.Union([S.Struct({ json: S.Top })]);
+export const ToolInputSchema = S.Union([S.Struct({ json: S.Any })]);
 export interface ToolSpecification {
   name: string;
   description?: string;
@@ -641,7 +641,7 @@ export const PromptFlowNodeInlineConfiguration = S.suspend(() =>
     templateConfiguration: PromptTemplateConfiguration,
     modelId: S.String,
     inferenceConfiguration: S.optional(PromptInferenceConfiguration),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "PromptFlowNodeInlineConfiguration",
@@ -754,7 +754,7 @@ export interface LoopFlowNodeConfiguration {
 export const LoopFlowNodeConfiguration = S.suspend(() =>
   S.Struct({
     definition: S.suspend(
-      (): S.Schema<FlowDefinition, any> => FlowDefinition,
+      (): S.Schema<FlowDefinition> => FlowDefinition,
     ).annotate({ identifier: "FlowDefinition" }),
   }),
 ).annotate({
@@ -1083,7 +1083,7 @@ export const FlowNodeConfiguration = S.Union([
   S.Struct({ inlineCode: InlineCodeFlowNodeConfiguration }),
   S.Struct({
     loop: S.suspend(
-      (): S.Schema<LoopFlowNodeConfiguration, any> => LoopFlowNodeConfiguration,
+      (): S.Schema<LoopFlowNodeConfiguration> => LoopFlowNodeConfiguration,
     ).annotate({ identifier: "LoopFlowNodeConfiguration" }),
   }),
   S.Struct({ loopInput: LoopInputFlowNodeConfiguration }),
@@ -1150,7 +1150,7 @@ export const FlowNode = S.suspend(() =>
 ).annotate({ identifier: "FlowNode" }) as any as S.Schema<FlowNode>;
 export type FlowNodes = FlowNode[];
 export const FlowNodes = S.Array(
-  S.suspend((): S.Schema<FlowNode, any> => FlowNode).annotate({
+  S.suspend((): S.Schema<FlowNode> => FlowNode).annotate({
     identifier: "FlowNode",
   }),
 ) as any as S.Schema<FlowNodes>;
@@ -3517,7 +3517,7 @@ export const PromptConfiguration = S.suspend(() =>
     inferenceConfiguration: S.optional(InferenceConfiguration),
     parserMode: S.optional(CreationMode),
     foundationModel: S.optional(S.String),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "PromptConfiguration",
@@ -7475,7 +7475,7 @@ export const PromptVariant = S.suspend(() =>
     modelId: S.optional(S.String),
     inferenceConfiguration: S.optional(PromptInferenceConfiguration),
     metadata: S.optional(PromptMetadataList),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
     genAiResource: S.optional(PromptGenAiResource),
   }),
 ).annotate({ identifier: "PromptVariant" }) as any as S.Schema<PromptVariant>;

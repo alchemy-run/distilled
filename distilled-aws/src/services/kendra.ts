@@ -2038,7 +2038,7 @@ export interface TemplateConfiguration {
   Template?: any;
 }
 export const TemplateConfiguration = S.suspend(() =>
-  S.Struct({ Template: S.optional(S.Top) }),
+  S.Struct({ Template: S.optional(S.Any) }),
 ).annotate({
   identifier: "TemplateConfiguration",
 }) as any as S.Schema<TemplateConfiguration>;
@@ -3371,7 +3371,7 @@ export type DocumentAttributeKeyList = string[];
 export const DocumentAttributeKeyList = S.Array(S.String);
 export type AttributeFilterList = AttributeFilter[];
 export const AttributeFilterList = S.Array(
-  S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate({
+  S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
     identifier: "AttributeFilter",
   }),
 ) as any as S.Schema<AttributeFilterList>;
@@ -3400,9 +3400,9 @@ export const AttributeFilter = S.suspend(() =>
       }),
     ),
     NotFilter: S.optional(
-      S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate(
-        { identifier: "AttributeFilter" },
-      ),
+      S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
+        identifier: "AttributeFilter",
+      }),
     ),
     EqualsTo: S.optional(DocumentAttribute),
     ContainsAll: S.optional(DocumentAttribute),
@@ -4342,9 +4342,7 @@ export const Facet = S.suspend(() =>
 ).annotate({ identifier: "Facet" }) as any as S.Schema<Facet>;
 export type FacetList = Facet[];
 export const FacetList = S.Array(
-  S.suspend((): S.Schema<Facet, any> => Facet).annotate({
-    identifier: "Facet",
-  }),
+  S.suspend((): S.Schema<Facet> => Facet).annotate({ identifier: "Facet" }),
 ) as any as S.Schema<FacetList>;
 export type QueryResultType =
   | "DOCUMENT"
@@ -4665,7 +4663,7 @@ export type DocumentAttributeValueCountPairList =
   DocumentAttributeValueCountPair[];
 export const DocumentAttributeValueCountPairList = S.Array(
   S.suspend(
-    (): S.Schema<DocumentAttributeValueCountPair, any> =>
+    (): S.Schema<DocumentAttributeValueCountPair> =>
       DocumentAttributeValueCountPair,
   ).annotate({ identifier: "DocumentAttributeValueCountPair" }),
 ) as any as S.Schema<DocumentAttributeValueCountPairList>;
@@ -4687,7 +4685,7 @@ export const FacetResult = S.suspend(() =>
 ).annotate({ identifier: "FacetResult" }) as any as S.Schema<FacetResult>;
 export type FacetResultList = FacetResult[];
 export const FacetResultList = S.Array(
-  S.suspend((): S.Schema<FacetResult, any> => FacetResult).annotate({
+  S.suspend((): S.Schema<FacetResult> => FacetResult).annotate({
     identifier: "FacetResult",
   }),
 ) as any as S.Schema<FacetResultList>;

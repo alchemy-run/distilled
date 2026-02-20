@@ -737,7 +737,7 @@ export const GetAgentCardResponse = S.suspend(() =>
     runtimeSessionId: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"),
     ),
-    agentCard: S.Top.pipe(T.HttpPayload()),
+    agentCard: S.Any.pipe(T.HttpPayload()),
     statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
   }),
 ).annotate({
@@ -1391,7 +1391,7 @@ export const StopCodeInterpreterSessionResponse = S.suspend(() =>
   identifier: "StopCodeInterpreterSessionResponse",
 }) as any as S.Schema<StopCodeInterpreterSessionResponse>;
 export type Spans = any[];
-export const Spans = S.Array(S.Top);
+export const Spans = S.Array(S.Any);
 export type EvaluationInput = { sessionSpans: any[] };
 export const EvaluationInput = S.Union([S.Struct({ sessionSpans: Spans })]);
 export type SpanIds = string[];
@@ -1694,7 +1694,7 @@ export type PayloadType =
   | { conversational?: never; blob: any };
 export const PayloadType = S.Union([
   S.Struct({ conversational: Conversational }),
-  S.Struct({ blob: S.Top }),
+  S.Struct({ blob: S.Any }),
 ]);
 export type PayloadTypeList = PayloadType[];
 export const PayloadTypeList = S.Array(PayloadType);

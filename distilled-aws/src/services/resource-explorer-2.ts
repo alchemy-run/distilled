@@ -672,7 +672,7 @@ export const ResourceProperty = S.suspend(() =>
     LastReportedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Data: S.optional(S.Top),
+    Data: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ResourceProperty",

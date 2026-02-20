@@ -336,7 +336,7 @@ export const ListFlowExecutionEventsRequest = S.suspend(() =>
   identifier: "ListFlowExecutionEventsRequest",
 }) as any as S.Schema<ListFlowExecutionEventsRequest>;
 export type FlowExecutionContent = { document: any };
-export const FlowExecutionContent = S.Union([S.Struct({ document: S.Top })]);
+export const FlowExecutionContent = S.Union([S.Struct({ document: S.Any })]);
 export interface FlowInputField {
   name: string;
   content: FlowExecutionContent;
@@ -386,7 +386,7 @@ export const FlowExecutionOutputEvent = S.suspend(() =>
   identifier: "FlowExecutionOutputEvent",
 }) as any as S.Schema<FlowExecutionOutputEvent>;
 export type NodeExecutionContent = { document: any };
-export const NodeExecutionContent = S.Union([S.Struct({ document: S.Top })]);
+export const NodeExecutionContent = S.Union([S.Struct({ document: S.Any })]);
 export interface NodeInputSource {
   nodeName: string;
   outputFieldName: string;
@@ -589,8 +589,8 @@ export const NodeActionEvent = S.suspend(() =>
     requestId: S.String,
     serviceName: S.String,
     operationName: S.String,
-    operationRequest: S.optional(S.Top),
-    operationResponse: S.optional(S.Top),
+    operationRequest: S.optional(S.Any),
+    operationResponse: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "NodeActionEvent",
@@ -1556,7 +1556,7 @@ export const RetrievalResultLocation = S.suspend(() =>
 export type RetrievalResultMetadata = { [key: string]: any | undefined };
 export const RetrievalResultMetadata = S.Record(
   S.String,
-  S.Top.pipe(S.optional),
+  S.Any.pipe(S.optional),
 );
 export interface RetrievedReference {
   content?: RetrievalResultContent;
@@ -2142,7 +2142,7 @@ export const ListFlowExecutionsResponse = S.suspend(() =>
   identifier: "ListFlowExecutionsResponse",
 }) as any as S.Schema<ListFlowExecutionsResponse>;
 export type FlowInputContent = { document: any };
-export const FlowInputContent = S.Union([S.Struct({ document: S.Top })]);
+export const FlowInputContent = S.Union([S.Struct({ document: S.Any })]);
 export interface FlowInput {
   nodeName: string;
   nodeOutputName?: string;
@@ -2293,7 +2293,7 @@ export type NodeType =
   | (string & {});
 export const NodeType = S.String;
 export type FlowOutputContent = { document: any };
-export const FlowOutputContent = S.Union([S.Struct({ document: S.Top })]);
+export const FlowOutputContent = S.Union([S.Struct({ document: S.Any })]);
 export interface FlowOutputEvent {
   nodeName: string;
   nodeType: NodeType;
@@ -2320,7 +2320,7 @@ export const FlowCompletionEvent = S.suspend(() =>
 }) as any as S.Schema<FlowCompletionEvent>;
 export type FlowTraceNodeInputContent = { document: any };
 export const FlowTraceNodeInputContent = S.Union([
-  S.Struct({ document: S.Top }),
+  S.Struct({ document: S.Any }),
 ]);
 export interface FlowTraceNodeInputSource {
   nodeName: string;
@@ -2393,7 +2393,7 @@ export const FlowTraceNodeInputEvent = S.suspend(() =>
 }) as any as S.Schema<FlowTraceNodeInputEvent>;
 export type FlowTraceNodeOutputContent = { document: any };
 export const FlowTraceNodeOutputContent = S.Union([
-  S.Struct({ document: S.Top }),
+  S.Struct({ document: S.Any }),
 ]);
 export interface FlowTraceNodeOutputNext {
   nodeName: string;
@@ -2478,8 +2478,8 @@ export const FlowTraceNodeActionEvent = S.suspend(() =>
     requestId: S.String,
     serviceName: S.String,
     operationName: S.String,
-    operationRequest: S.optional(S.Top),
-    operationResponse: S.optional(S.Top),
+    operationRequest: S.optional(S.Any),
+    operationResponse: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "FlowTraceNodeActionEvent",
@@ -2551,7 +2551,7 @@ export const FlowTraceEvent = S.suspend(() =>
 ).annotate({ identifier: "FlowTraceEvent" }) as any as S.Schema<FlowTraceEvent>;
 export type FlowMultiTurnInputContent = { document: any };
 export const FlowMultiTurnInputContent = S.Union([
-  S.Struct({ document: S.Top }),
+  S.Struct({ document: S.Any }),
 ]);
 export interface FlowMultiTurnInputRequestEvent {
   nodeName: string;
@@ -2977,7 +2977,7 @@ export interface FilterAttribute {
   value: any;
 }
 export const FilterAttribute = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
@@ -3211,7 +3211,7 @@ export const VectorSearchRerankingConfigurationType = S.String;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record(
   S.String,
-  S.Top.pipe(S.optional),
+  S.Any.pipe(S.optional),
 );
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
@@ -4012,7 +4012,7 @@ export const PromptConfiguration = S.suspend(() =>
     inferenceConfiguration: S.optional(InferenceConfiguration),
     parserMode: S.optional(CreationMode),
     foundationModel: S.optional(S.String),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "PromptConfiguration",
@@ -4818,7 +4818,7 @@ export const RerankDocument = S.suspend(() =>
   S.Struct({
     type: RerankDocumentType,
     textDocument: S.optional(RerankTextDocument),
-    jsonDocument: S.optional(S.Top),
+    jsonDocument: S.optional(S.Any),
   }),
 ).annotate({ identifier: "RerankDocument" }) as any as S.Schema<RerankDocument>;
 export interface RerankSource {

@@ -844,14 +844,14 @@ export interface ColumnInfo {
 export const ColumnInfo = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Type: S.suspend((): S.Schema<Type, any> => Type).annotate({
+    Type: S.suspend((): S.Schema<Type> => Type).annotate({
       identifier: "Type",
     }),
   }),
 ).annotate({ identifier: "ColumnInfo" }) as any as S.Schema<ColumnInfo>;
 export type ColumnInfoList = ColumnInfo[];
 export const ColumnInfoList = S.Array(
-  S.suspend((): S.Schema<ColumnInfo, any> => ColumnInfo).annotate({
+  S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({
     identifier: "ColumnInfo",
   }),
 ) as any as S.Schema<ColumnInfoList>;
@@ -865,12 +865,12 @@ export const Type = S.suspend(() =>
   S.Struct({
     ScalarType: S.optional(ScalarType),
     ArrayColumnInfo: S.optional(
-      S.suspend((): S.Schema<ColumnInfo, any> => ColumnInfo).annotate({
+      S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({
         identifier: "ColumnInfo",
       }),
     ),
     TimeSeriesMeasureValueColumnInfo: S.optional(
-      S.suspend((): S.Schema<ColumnInfo, any> => ColumnInfo).annotate({
+      S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({
         identifier: "ColumnInfo",
       }),
     ),
@@ -960,7 +960,7 @@ export interface TimeSeriesDataPoint {
 export const TimeSeriesDataPoint = S.suspend(() =>
   S.Struct({
     Time: S.String,
-    Value: S.suspend((): S.Schema<Datum, any> => Datum).annotate({
+    Value: S.suspend((): S.Schema<Datum> => Datum).annotate({
       identifier: "Datum",
     }),
   }),
@@ -969,9 +969,9 @@ export const TimeSeriesDataPoint = S.suspend(() =>
 }) as any as S.Schema<TimeSeriesDataPoint>;
 export type TimeSeriesDataPointList = TimeSeriesDataPoint[];
 export const TimeSeriesDataPointList = S.Array(
-  S.suspend(
-    (): S.Schema<TimeSeriesDataPoint, any> => TimeSeriesDataPoint,
-  ).annotate({ identifier: "TimeSeriesDataPoint" }),
+  S.suspend((): S.Schema<TimeSeriesDataPoint> => TimeSeriesDataPoint).annotate({
+    identifier: "TimeSeriesDataPoint",
+  }),
 ) as any as S.Schema<TimeSeriesDataPointList>;
 export interface Datum {
   ScalarValue?: string;
@@ -992,16 +992,14 @@ export const Datum = S.suspend(() =>
       S.suspend(() => DatumList).annotate({ identifier: "DatumList" }),
     ),
     RowValue: S.optional(
-      S.suspend((): S.Schema<Row, any> => Row).annotate({ identifier: "Row" }),
+      S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" }),
     ),
     NullValue: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Datum" }) as any as S.Schema<Datum>;
 export type DatumList = Datum[];
 export const DatumList = S.Array(
-  S.suspend((): S.Schema<Datum, any> => Datum).annotate({
-    identifier: "Datum",
-  }),
+  S.suspend((): S.Schema<Datum> => Datum).annotate({ identifier: "Datum" }),
 ) as any as S.Schema<DatumList>;
 export interface Row {
   Data: Datum[];
@@ -1013,7 +1011,7 @@ export const Row = S.suspend(() =>
 ).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 export type RowList = Row[];
 export const RowList = S.Array(
-  S.suspend((): S.Schema<Row, any> => Row).annotate({ identifier: "Row" }),
+  S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" }),
 );
 export interface QueryStatus {
   ProgressPercentage?: number;

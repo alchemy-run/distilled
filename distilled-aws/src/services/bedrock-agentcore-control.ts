@@ -1989,7 +1989,7 @@ export const BedrockEvaluatorModelConfig = S.suspend(() =>
   S.Struct({
     modelId: S.String,
     inferenceConfig: S.optional(InferenceConfiguration),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "BedrockEvaluatorModelConfig",
@@ -2710,7 +2710,7 @@ export const SchemaType = S.String;
 export type SchemaProperties = { [key: string]: SchemaDefinition | undefined };
 export const SchemaProperties = S.Record(
   S.String,
-  S.suspend((): S.Schema<SchemaDefinition, any> => SchemaDefinition)
+  S.suspend((): S.Schema<SchemaDefinition> => SchemaDefinition)
     .annotate({ identifier: "SchemaDefinition" })
     .pipe(S.optional),
 ) as any as S.Schema<SchemaProperties>;
@@ -2733,9 +2733,9 @@ export const SchemaDefinition = S.suspend(() =>
     ),
     required: S.optional(RequiredProperties),
     items: S.optional(
-      S.suspend(
-        (): S.Schema<SchemaDefinition, any> => SchemaDefinition,
-      ).annotate({ identifier: "SchemaDefinition" }),
+      S.suspend((): S.Schema<SchemaDefinition> => SchemaDefinition).annotate({
+        identifier: "SchemaDefinition",
+      }),
     ),
     description: S.optional(S.String),
   }),

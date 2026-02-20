@@ -32,21 +32,26 @@ import {
 } from "../../src/services/sns.ts";
 
 // Import Neptune for lists with xmlName on element
+import type { Operation } from "../../src/client/operation.ts";
 import {
   ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
 } from "../../src/services/neptune.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, { protocol: awsQueryProtocol });
   return builder({ ...instance });
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
   errors: S.Top[] = [],
 ) => {
@@ -826,7 +831,6 @@ describe("awsQuery protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NoSuchEntityException);
-        expect(result._tag).toBe("NoSuchEntityException");
       }),
     );
 

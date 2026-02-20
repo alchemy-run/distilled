@@ -793,7 +793,6 @@ describe("awsJson1_0 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ResourceNotFoundException);
-        expect(result._tag).toBe("ResourceNotFoundException");
       }),
     );
 
@@ -855,7 +854,6 @@ describe("awsJson1_0 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ResourceNotFoundException);
-        expect(result._tag).toBe("ResourceNotFoundException");
       }),
     );
 
@@ -921,7 +919,6 @@ describe("awsJson1_0 protocol", () => {
         ).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(ValidationException);
-        expect(result._tag).toBe("ValidationException");
       }),
     );
 

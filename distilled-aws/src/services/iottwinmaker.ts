@@ -173,14 +173,14 @@ export const EntityPropertyReference = S.suspend(() =>
 }) as any as S.Schema<EntityPropertyReference>;
 export type DataValueList = DataValue[];
 export const DataValueList = S.Array(
-  S.suspend((): S.Schema<DataValue, any> => DataValue).annotate({
+  S.suspend((): S.Schema<DataValue> => DataValue).annotate({
     identifier: "DataValue",
   }),
 ) as any as S.Schema<DataValueList>;
 export type DataValueMap = { [key: string]: DataValue | undefined };
 export const DataValueMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<DataValue, any> => DataValue)
+  S.suspend((): S.Schema<DataValue> => DataValue)
     .annotate({ identifier: "DataValue" })
     .pipe(S.optional),
 ) as any as S.Schema<DataValueMap>;
@@ -408,7 +408,7 @@ export const DataType = S.suspend(() =>
   S.Struct({
     type: S.String,
     nestedType: S.optional(
-      S.suspend((): S.Schema<DataType, any> => DataType).annotate({
+      S.suspend((): S.Schema<DataType> => DataType).annotate({
         identifier: "DataType",
       }),
     ),
@@ -1225,7 +1225,7 @@ export const ColumnDescription = S.suspend(() =>
 export type ColumnDescriptions = ColumnDescription[];
 export const ColumnDescriptions = S.Array(ColumnDescription);
 export type RowData = any[];
-export const RowData = S.Array(S.Top);
+export const RowData = S.Array(S.Any);
 export interface Row {
   rowData?: any[];
 }
@@ -1798,7 +1798,7 @@ export const PropertyLatestValueMap = S.Record(
 export type PropertyTableValue = { [key: string]: DataValue | undefined };
 export const PropertyTableValue = S.Record(
   S.String,
-  S.suspend((): S.Schema<DataValue, any> => DataValue)
+  S.suspend((): S.Schema<DataValue> => DataValue)
     .annotate({ identifier: "DataValue" })
     .pipe(S.optional),
 );

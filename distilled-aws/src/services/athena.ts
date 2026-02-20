@@ -1673,9 +1673,9 @@ export const QueryRuntimeStatisticsRows = S.suspend(() =>
 }) as any as S.Schema<QueryRuntimeStatisticsRows>;
 export type QueryStagePlanNodes = QueryStagePlanNode[];
 export const QueryStagePlanNodes = S.Array(
-  S.suspend(
-    (): S.Schema<QueryStagePlanNode, any> => QueryStagePlanNode,
-  ).annotate({ identifier: "QueryStagePlanNode" }),
+  S.suspend((): S.Schema<QueryStagePlanNode> => QueryStagePlanNode).annotate({
+    identifier: "QueryStagePlanNode",
+  }),
 ) as any as S.Schema<QueryStagePlanNodes>;
 export type StringList = string[];
 export const StringList = S.Array(S.String);
@@ -1701,7 +1701,7 @@ export const QueryStagePlanNode = S.suspend(() =>
 }) as any as S.Schema<QueryStagePlanNode>;
 export type QueryStages = QueryStage[];
 export const QueryStages = S.Array(
-  S.suspend((): S.Schema<QueryStage, any> => QueryStage).annotate({
+  S.suspend((): S.Schema<QueryStage> => QueryStage).annotate({
     identifier: "QueryStage",
   }),
 ) as any as S.Schema<QueryStages>;
@@ -1727,7 +1727,7 @@ export const QueryStage = S.suspend(() =>
     ExecutionTime: S.optional(S.Number),
     QueryStagePlan: S.optional(
       S.suspend(
-        (): S.Schema<QueryStagePlanNode, any> => QueryStagePlanNode,
+        (): S.Schema<QueryStagePlanNode> => QueryStagePlanNode,
       ).annotate({ identifier: "QueryStagePlanNode" }),
     ),
     SubStages: S.optional(

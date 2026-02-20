@@ -1441,9 +1441,9 @@ export const SlotValue = S.suspend(() =>
 ).annotate({ identifier: "SlotValue" }) as any as S.Schema<SlotValue>;
 export type SlotValues = SlotValueOverride[];
 export const SlotValues = S.Array(
-  S.suspend((): S.Schema<SlotValueOverride, any> => SlotValueOverride).annotate(
-    { identifier: "SlotValueOverride" },
-  ),
+  S.suspend((): S.Schema<SlotValueOverride> => SlotValueOverride).annotate({
+    identifier: "SlotValueOverride",
+  }),
 ) as any as S.Schema<SlotValues>;
 export interface SlotValueOverride {
   shape?: SlotShape;
@@ -1466,7 +1466,7 @@ export type SlotValueOverrideMap = {
 };
 export const SlotValueOverrideMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<SlotValueOverride, any> => SlotValueOverride)
+  S.suspend((): S.Schema<SlotValueOverride> => SlotValueOverride)
     .annotate({ identifier: "SlotValueOverride" })
     .pipe(S.optional),
 );
@@ -7619,7 +7619,7 @@ export type SlotHintsSlotMap = {
 };
 export const SlotHintsSlotMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<RuntimeHintDetails, any> => RuntimeHintDetails)
+  S.suspend((): S.Schema<RuntimeHintDetails> => RuntimeHintDetails)
     .annotate({ identifier: "RuntimeHintDetails" })
     .pipe(S.optional),
 ) as any as S.Schema<SlotHintsSlotMap>;
@@ -7672,9 +7672,9 @@ export const UserTurnInputSpecification = S.suspend(() =>
 }) as any as S.Schema<UserTurnInputSpecification>;
 export type UserTurnSlotOutputList = UserTurnSlotOutput[];
 export const UserTurnSlotOutputList = S.Array(
-  S.suspend(
-    (): S.Schema<UserTurnSlotOutput, any> => UserTurnSlotOutput,
-  ).annotate({ identifier: "UserTurnSlotOutput" }),
+  S.suspend((): S.Schema<UserTurnSlotOutput> => UserTurnSlotOutput).annotate({
+    identifier: "UserTurnSlotOutput",
+  }),
 ) as any as S.Schema<UserTurnSlotOutputList>;
 export interface UserTurnSlotOutput {
   value?: string;
@@ -7703,7 +7703,7 @@ export type UserTurnSlotOutputMap = {
 };
 export const UserTurnSlotOutputMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<UserTurnSlotOutput, any> => UserTurnSlotOutput)
+  S.suspend((): S.Schema<UserTurnSlotOutput> => UserTurnSlotOutput)
     .annotate({ identifier: "UserTurnSlotOutput" })
     .pipe(S.optional),
 ) as any as S.Schema<UserTurnSlotOutputMap>;

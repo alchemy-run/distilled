@@ -361,7 +361,7 @@ export const LifecyclePolicyDetail = S.suspend(() =>
     name: S.optional(S.String),
     policyVersion: S.optional(S.String),
     description: S.optional(S.String),
-    policy: S.optional(S.Top),
+    policy: S.optional(S.Any),
     createdDate: S.optional(S.Number),
     lastModifiedDate: S.optional(S.Number),
   }),
@@ -535,7 +535,7 @@ export const SecurityPolicyDetail = S.suspend(() =>
     name: S.optional(S.String),
     policyVersion: S.optional(S.String),
     description: S.optional(S.String),
-    policy: S.optional(S.Top),
+    policy: S.optional(S.Any),
     createdDate: S.optional(S.Number),
     lastModifiedDate: S.optional(S.Number),
   }),
@@ -808,7 +808,7 @@ export const AccessPolicyDetail = S.suspend(() =>
     name: S.optional(S.String),
     policyVersion: S.optional(S.String),
     description: S.optional(S.String),
-    policy: S.optional(S.Top),
+    policy: S.optional(S.Any),
     createdDate: S.optional(S.Number),
     lastModifiedDate: S.optional(S.Number),
   }),
@@ -1158,7 +1158,7 @@ export const CreateIndexRequest = S.suspend(() =>
   S.Struct({
     id: S.String,
     indexName: S.String,
-    indexSchema: S.optional(S.Top),
+    indexSchema: S.optional(S.Any),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1184,7 +1184,7 @@ export interface GetIndexResponse {
   indexSchema?: any;
 }
 export const GetIndexResponse = S.suspend(() =>
-  S.Struct({ indexSchema: S.optional(S.Top) }),
+  S.Struct({ indexSchema: S.optional(S.Any) }),
 ).annotate({
   identifier: "GetIndexResponse",
 }) as any as S.Schema<GetIndexResponse>;
@@ -1197,7 +1197,7 @@ export const UpdateIndexRequest = S.suspend(() =>
   S.Struct({
     id: S.String,
     indexName: S.String,
-    indexSchema: S.optional(S.Top),
+    indexSchema: S.optional(S.Any),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

@@ -67,7 +67,7 @@ function makeAnnotation<T>(sym: string, value: T): Annotation {
  */
 export function all(...annotations: Annotation[]): Annotation {
   const entries: Array<{ symbol: string; value: unknown }> = [];
-  const raw: Record<symbol, unknown> = {};
+  const raw: Record<string, unknown> = {};
 
   for (const a of annotations) {
     for (const entry of a[annotationMetaSymbol]) {
@@ -952,6 +952,7 @@ export const getPropAnnotation = <T>(
   symbol: string,
 ): T | undefined => {
   // First check the PropertySignature itself (for annotations piped onto S.optional)
+  // @ts-expect-error
   const propAnnot = prop.annotations?.[symbol] as T | undefined;
   if (propAnnot !== undefined) return propAnnot;
 
@@ -966,6 +967,7 @@ export const hasPropAnnotation = (
   prop: AST.PropertySignature,
   symbol: string,
 ): boolean => {
+  // @ts-expect-error
   if (prop.annotations?.[symbol] !== undefined) return true;
   return hasAnnotation(prop.type, symbol);
 };

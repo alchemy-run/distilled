@@ -419,7 +419,7 @@ export type CardOutputSource = "approved-sources" | "llm" | (string & {});
 export const CardOutputSource = S.String;
 export type AttributeFilters = AttributeFilter[];
 export const AttributeFilters = S.Array(
-  S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate({
+  S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
     identifier: "AttributeFilter",
   }),
 ) as any as S.Schema<AttributeFilters>;
@@ -490,9 +490,9 @@ export const AttributeFilter = S.suspend(() =>
       }),
     ),
     notFilter: S.optional(
-      S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate(
-        { identifier: "AttributeFilter" },
-      ),
+      S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
+        identifier: "AttributeFilter",
+      }),
     ),
     equalsTo: S.optional(DocumentAttribute),
     containsAll: S.optional(DocumentAttribute),
@@ -569,7 +569,7 @@ export interface FormInputCardMetadata {
   schema: any;
 }
 export const FormInputCardMetadata = S.suspend(() =>
-  S.Struct({ schema: S.Top }),
+  S.Struct({ schema: S.Any }),
 ).annotate({
   identifier: "FormInputCardMetadata",
 }) as any as S.Schema<FormInputCardMetadata>;
@@ -1265,7 +1265,7 @@ export interface Submission {
 }
 export const Submission = S.suspend(() =>
   S.Struct({
-    value: S.optional(S.Top),
+    value: S.optional(S.Any),
     submissionId: S.optional(S.String),
     timestamp: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -1597,7 +1597,7 @@ export interface QAppSessionData {
 export const QAppSessionData = S.suspend(() =>
   S.Struct({
     cardId: S.String,
-    value: S.optional(S.Top),
+    value: S.optional(S.Any),
     user: User,
     submissionId: S.optional(S.String),
     timestamp: S.optional(

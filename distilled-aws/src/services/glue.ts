@@ -2238,7 +2238,7 @@ export const Mapping = S.suspend(() =>
 ).annotate({ identifier: "Mapping" }) as any as S.Schema<Mapping>;
 export type Mappings = Mapping[];
 export const Mappings = S.Array(
-  S.suspend((): S.Schema<Mapping, any> => Mapping).annotate({
+  S.suspend((): S.Schema<Mapping> => Mapping).annotate({
     identifier: "Mapping",
   }),
 ) as any as S.Schema<Mappings>;
@@ -7306,11 +7306,11 @@ export const IcebergStructField = S.suspend(() =>
   S.Struct({
     Id: S.Number,
     Name: S.String,
-    Type: S.Top,
+    Type: S.Any,
     Required: S.Boolean,
     Doc: S.optional(S.String),
-    InitialDefault: S.optional(S.Top),
-    WriteDefault: S.optional(S.Top),
+    InitialDefault: S.optional(S.Any),
+    WriteDefault: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "IcebergStructField",
@@ -10399,7 +10399,7 @@ export const GetEntityRecordsRequest = S.suspend(() =>
   identifier: "GetEntityRecordsRequest",
 }) as any as S.Schema<GetEntityRecordsRequest>;
 export type Records = any[];
-export const Records = S.Array(S.Top);
+export const Records = S.Array(S.Any);
 export interface GetEntityRecordsResponse {
   Records?: any[];
   NextToken?: string;
@@ -11960,9 +11960,7 @@ export interface StatusDetails {
 export const StatusDetails = S.suspend(() =>
   S.Struct({
     RequestedChange: S.optional(
-      S.suspend((): S.Schema<Table, any> => Table).annotate({
-        identifier: "Table",
-      }),
+      S.suspend((): S.Schema<Table> => Table).annotate({ identifier: "Table" }),
     ),
     ViewValidations: S.optional(ViewValidationList),
   }),
@@ -11987,7 +11985,7 @@ export const TableStatus = S.suspend(() =>
     State: S.optional(ResourceState),
     Error: S.optional(ErrorDetail),
     Details: S.optional(
-      S.suspend((): S.Schema<StatusDetails, any> => StatusDetails).annotate({
+      S.suspend((): S.Schema<StatusDetails> => StatusDetails).annotate({
         identifier: "StatusDetails",
       }),
     ),
@@ -12049,7 +12047,7 @@ export const Table = S.suspend(() =>
     IsMultiDialectView: S.optional(S.Boolean),
     IsMaterializedView: S.optional(S.Boolean),
     Status: S.optional(
-      S.suspend((): S.Schema<TableStatus, any> => TableStatus).annotate({
+      S.suspend((): S.Schema<TableStatus> => TableStatus).annotate({
         identifier: "TableStatus",
       }),
     ),
@@ -12133,9 +12131,7 @@ export const GetTablesRequest = S.suspend(() =>
 }) as any as S.Schema<GetTablesRequest>;
 export type TableList = Table[];
 export const TableList = S.Array(
-  S.suspend((): S.Schema<Table, any> => Table).annotate({
-    identifier: "Table",
-  }),
+  S.suspend((): S.Schema<Table> => Table).annotate({ identifier: "Table" }),
 );
 export interface GetTablesResponse {
   TableList?: Table[];

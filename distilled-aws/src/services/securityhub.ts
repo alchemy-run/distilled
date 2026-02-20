@@ -13341,7 +13341,7 @@ export const CompositeFilter = S.suspend(() =>
 }) as any as S.Schema<CompositeFilter>;
 export type CompositeFilterList = CompositeFilter[];
 export const CompositeFilterList = S.Array(
-  S.suspend((): S.Schema<CompositeFilter, any> => CompositeFilter).annotate({
+  S.suspend((): S.Schema<CompositeFilter> => CompositeFilter).annotate({
     identifier: "CompositeFilter",
   }),
 ) as any as S.Schema<CompositeFilterList>;
@@ -15715,7 +15715,7 @@ export const FindingsTrendsCompositeFilter = S.suspend(() =>
 export type FindingsTrendsCompositeFilterList = FindingsTrendsCompositeFilter[];
 export const FindingsTrendsCompositeFilterList = S.Array(
   S.suspend(
-    (): S.Schema<FindingsTrendsCompositeFilter, any> =>
+    (): S.Schema<FindingsTrendsCompositeFilter> =>
       FindingsTrendsCompositeFilter,
   ).annotate({ identifier: "FindingsTrendsCompositeFilter" }),
 ) as any as S.Schema<FindingsTrendsCompositeFilterList>;
@@ -15862,7 +15862,7 @@ export const GetFindingsV2Request = S.suspend(() =>
   identifier: "GetFindingsV2Request",
 }) as any as S.Schema<GetFindingsV2Request>;
 export type OcsfFindingsList = any[];
-export const OcsfFindingsList = S.Array(S.Top);
+export const OcsfFindingsList = S.Array(S.Any);
 export interface GetFindingsV2Response {
   Findings?: any[];
   NextToken?: string;
@@ -16213,7 +16213,7 @@ export const ResourcesCompositeFilter = S.suspend(() =>
 export type ResourcesCompositeFilterList = ResourcesCompositeFilter[];
 export const ResourcesCompositeFilterList = S.Array(
   S.suspend(
-    (): S.Schema<ResourcesCompositeFilter, any> => ResourcesCompositeFilter,
+    (): S.Schema<ResourcesCompositeFilter> => ResourcesCompositeFilter,
   ).annotate({ identifier: "ResourcesCompositeFilter" }),
 ) as any as S.Schema<ResourcesCompositeFilterList>;
 export interface ResourcesFilters {
@@ -16318,7 +16318,7 @@ export type ResourcesTrendsCompositeFilterList =
   ResourcesTrendsCompositeFilter[];
 export const ResourcesTrendsCompositeFilterList = S.Array(
   S.suspend(
-    (): S.Schema<ResourcesTrendsCompositeFilter, any> =>
+    (): S.Schema<ResourcesTrendsCompositeFilter> =>
       ResourcesTrendsCompositeFilter,
   ).annotate({ identifier: "ResourcesTrendsCompositeFilter" }),
 ) as any as S.Schema<ResourcesTrendsCompositeFilterList>;
@@ -16526,7 +16526,7 @@ export const ResourceResult = S.suspend(() =>
     ResourceDetailCaptureTimeDt: S.optional(S.String),
     FindingsSummary: S.optional(ResourceFindingsSummaryList),
     ResourceTags: S.optional(ResourceTagList),
-    ResourceConfig: S.optional(S.Top),
+    ResourceConfig: S.optional(S.Any),
   }),
 ).annotate({ identifier: "ResourceResult" }) as any as S.Schema<ResourceResult>;
 export type Resources = ResourceResult[];

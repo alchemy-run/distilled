@@ -2243,7 +2243,7 @@ export const DataSourceIntrospectionModelFieldType = S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(
       S.suspend(
-        (): S.Schema<DataSourceIntrospectionModelFieldType, any> =>
+        (): S.Schema<DataSourceIntrospectionModelFieldType> =>
           DataSourceIntrospectionModelFieldType,
       ).annotate({ identifier: "DataSourceIntrospectionModelFieldType" }),
     ),

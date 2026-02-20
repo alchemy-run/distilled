@@ -1459,7 +1459,7 @@ export type StructuredMessageDefinition =
   StructuredMessageFieldNameAndDataTypePair[];
 export const StructuredMessageDefinition = S.Array(
   S.suspend(
-    (): S.Schema<StructuredMessageFieldNameAndDataTypePair, any> =>
+    (): S.Schema<StructuredMessageFieldNameAndDataTypePair> =>
       StructuredMessageFieldNameAndDataTypePair,
   ).annotate({ identifier: "StructuredMessageFieldNameAndDataTypePair" }),
 ) as any as S.Schema<StructuredMessageDefinition>;
@@ -1483,7 +1483,7 @@ export const StructuredMessage = S.Union([
   S.Struct({ primitiveMessageDefinition: PrimitiveMessageDefinition }),
   S.Struct({
     structuredMessageListDefinition: S.suspend(
-      (): S.Schema<StructuredMessageListDefinition, any> =>
+      (): S.Schema<StructuredMessageListDefinition> =>
         StructuredMessageListDefinition,
     ).annotate({ identifier: "StructuredMessageListDefinition" }),
   }),

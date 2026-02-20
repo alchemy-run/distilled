@@ -2434,14 +2434,14 @@ export type SegmentAttributeValueMap = {
 };
 export const SegmentAttributeValueMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue)
+  S.suspend((): S.Schema<SegmentAttributeValue> => SegmentAttributeValue)
     .annotate({ identifier: "SegmentAttributeValue" })
     .pipe(S.optional),
 ) as any as S.Schema<SegmentAttributeValueMap>;
 export type SegmentAttributeValueList = SegmentAttributeValue[];
 export const SegmentAttributeValueList = S.Array(
   S.suspend(
-    (): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue,
+    (): S.Schema<SegmentAttributeValue> => SegmentAttributeValue,
   ).annotate({ identifier: "SegmentAttributeValue" }),
 ) as any as S.Schema<SegmentAttributeValueList>;
 export interface SegmentAttributeValue {
@@ -2475,7 +2475,7 @@ export type SegmentAttributes = {
 };
 export const SegmentAttributes = S.Record(
   S.String,
-  S.suspend((): S.Schema<SegmentAttributeValue, any> => SegmentAttributeValue)
+  S.suspend((): S.Schema<SegmentAttributeValue> => SegmentAttributeValue)
     .annotate({ identifier: "SegmentAttributeValue" })
     .pipe(S.optional),
 );
@@ -3378,7 +3378,7 @@ export const EvaluationFormItemEnablementConditionOperand = S.Union([
   S.Struct({ Expression: EvaluationFormItemEnablementExpression }),
   S.Struct({
     Condition: S.suspend(
-      (): S.Schema<EvaluationFormItemEnablementCondition, any> =>
+      (): S.Schema<EvaluationFormItemEnablementCondition> =>
         EvaluationFormItemEnablementCondition,
     ).annotate({ identifier: "EvaluationFormItemEnablementCondition" }),
   }),
@@ -3457,7 +3457,7 @@ export type EvaluationFormItem =
 export const EvaluationFormItem = S.Union([
   S.Struct({
     Section: S.suspend(
-      (): S.Schema<EvaluationFormSection, any> => EvaluationFormSection,
+      (): S.Schema<EvaluationFormSection> => EvaluationFormSection,
     ).annotate({ identifier: "EvaluationFormSection" }),
   }),
   S.Struct({ Question: EvaluationFormQuestion }),
@@ -7044,7 +7044,7 @@ export const AttributeCondition = S.suspend(() =>
 }) as any as S.Schema<AttributeCondition>;
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression).annotate({
+  S.suspend((): S.Schema<Expression> => Expression).annotate({
     identifier: "Expression",
   }),
 ) as any as S.Schema<Expressions>;
@@ -16065,7 +16065,7 @@ export const AgentStatusSearchFilter = S.suspend(() =>
 export type AgentStatusSearchConditionList = AgentStatusSearchCriteria[];
 export const AgentStatusSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<AgentStatusSearchCriteria, any> => AgentStatusSearchCriteria,
+    (): S.Schema<AgentStatusSearchCriteria> => AgentStatusSearchCriteria,
   ).annotate({ identifier: "AgentStatusSearchCriteria" }),
 ) as any as S.Schema<AgentStatusSearchConditionList>;
 export type StringComparisonType =
@@ -16215,7 +16215,7 @@ export const SearchAvailablePhoneNumbersResponse = S.suspend(() =>
 export type EvaluationSearchConditionList = EvaluationSearchCriteria[];
 export const EvaluationSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<EvaluationSearchCriteria, any> => EvaluationSearchCriteria,
+    (): S.Schema<EvaluationSearchCriteria> => EvaluationSearchCriteria,
   ).annotate({ identifier: "EvaluationSearchCriteria" }),
 ) as any as S.Schema<EvaluationSearchConditionList>;
 export type NumberComparisonType =
@@ -16490,7 +16490,7 @@ export type ContactFlowModuleSearchConditionList =
   ContactFlowModuleSearchCriteria[];
 export const ContactFlowModuleSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<ContactFlowModuleSearchCriteria, any> =>
+    (): S.Schema<ContactFlowModuleSearchCriteria> =>
       ContactFlowModuleSearchCriteria,
   ).annotate({ identifier: "ContactFlowModuleSearchCriteria" }),
 ) as any as S.Schema<ContactFlowModuleSearchConditionList>;
@@ -16619,7 +16619,7 @@ export const ContactFlowSearchFilter = S.suspend(() =>
 export type ContactFlowSearchConditionList = ContactFlowSearchCriteria[];
 export const ContactFlowSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<ContactFlowSearchCriteria, any> => ContactFlowSearchCriteria,
+    (): S.Schema<ContactFlowSearchCriteria> => ContactFlowSearchCriteria,
   ).annotate({ identifier: "ContactFlowSearchCriteria" }),
 ) as any as S.Schema<ContactFlowSearchConditionList>;
 export interface ContactFlowSearchCriteria {
@@ -17132,7 +17132,7 @@ export const DataTableSearchFilter = S.suspend(() =>
 export type DataTableSearchConditionList = DataTableSearchCriteria[];
 export const DataTableSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<DataTableSearchCriteria, any> => DataTableSearchCriteria,
+    (): S.Schema<DataTableSearchCriteria> => DataTableSearchCriteria,
   ).annotate({ identifier: "DataTableSearchCriteria" }),
 ) as any as S.Schema<DataTableSearchConditionList>;
 export interface DataTableSearchCriteria {
@@ -17203,7 +17203,7 @@ export const SearchDataTablesResponse = S.suspend(() =>
 export type EmailAddressSearchConditionList = EmailAddressSearchCriteria[];
 export const EmailAddressSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<EmailAddressSearchCriteria, any> => EmailAddressSearchCriteria,
+    (): S.Schema<EmailAddressSearchCriteria> => EmailAddressSearchCriteria,
   ).annotate({ identifier: "EmailAddressSearchCriteria" }),
 ) as any as S.Schema<EmailAddressSearchConditionList>;
 export interface EmailAddressSearchCriteria {
@@ -17302,8 +17302,7 @@ export const SearchEmailAddressesResponse = S.suspend(() =>
 export type EvaluationFormSearchConditionList = EvaluationFormSearchCriteria[];
 export const EvaluationFormSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<EvaluationFormSearchCriteria, any> =>
-      EvaluationFormSearchCriteria,
+    (): S.Schema<EvaluationFormSearchCriteria> => EvaluationFormSearchCriteria,
   ).annotate({ identifier: "EvaluationFormSearchCriteria" }),
 ) as any as S.Schema<EvaluationFormSearchConditionList>;
 export interface EvaluationFormSearchCriteria {
@@ -17445,7 +17444,7 @@ export type HoursOfOperationOverrideSearchConditionList =
   HoursOfOperationOverrideSearchCriteria[];
 export const HoursOfOperationOverrideSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<HoursOfOperationOverrideSearchCriteria, any> =>
+    (): S.Schema<HoursOfOperationOverrideSearchCriteria> =>
       HoursOfOperationOverrideSearchCriteria,
   ).annotate({ identifier: "HoursOfOperationOverrideSearchCriteria" }),
 ) as any as S.Schema<HoursOfOperationOverrideSearchConditionList>;
@@ -17538,7 +17537,7 @@ export type HoursOfOperationSearchConditionList =
   HoursOfOperationSearchCriteria[];
 export const HoursOfOperationSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<HoursOfOperationSearchCriteria, any> =>
+    (): S.Schema<HoursOfOperationSearchCriteria> =>
       HoursOfOperationSearchCriteria,
   ).annotate({ identifier: "HoursOfOperationSearchCriteria" }),
 ) as any as S.Schema<HoursOfOperationSearchConditionList>;
@@ -17611,7 +17610,7 @@ export type PredefinedAttributeSearchConditionList =
   PredefinedAttributeSearchCriteria[];
 export const PredefinedAttributeSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<PredefinedAttributeSearchCriteria, any> =>
+    (): S.Schema<PredefinedAttributeSearchCriteria> =>
       PredefinedAttributeSearchCriteria,
   ).annotate({ identifier: "PredefinedAttributeSearchCriteria" }),
 ) as any as S.Schema<PredefinedAttributeSearchConditionList>;
@@ -17690,7 +17689,7 @@ export const PromptSearchFilter = S.suspend(() =>
 export type PromptSearchConditionList = PromptSearchCriteria[];
 export const PromptSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<PromptSearchCriteria, any> => PromptSearchCriteria,
+    (): S.Schema<PromptSearchCriteria> => PromptSearchCriteria,
   ).annotate({ identifier: "PromptSearchCriteria" }),
 ) as any as S.Schema<PromptSearchConditionList>;
 export interface PromptSearchCriteria {
@@ -17768,9 +17767,9 @@ export const QueueSearchFilter = S.suspend(() =>
 }) as any as S.Schema<QueueSearchFilter>;
 export type QueueSearchConditionList = QueueSearchCriteria[];
 export const QueueSearchConditionList = S.Array(
-  S.suspend(
-    (): S.Schema<QueueSearchCriteria, any> => QueueSearchCriteria,
-  ).annotate({ identifier: "QueueSearchCriteria" }),
+  S.suspend((): S.Schema<QueueSearchCriteria> => QueueSearchCriteria).annotate({
+    identifier: "QueueSearchCriteria",
+  }),
 ) as any as S.Schema<QueueSearchConditionList>;
 export type SearchableQueueType = "STANDARD" | (string & {});
 export const SearchableQueueType = S.String;
@@ -17852,7 +17851,7 @@ export const QuickConnectSearchFilter = S.suspend(() =>
 export type QuickConnectSearchConditionList = QuickConnectSearchCriteria[];
 export const QuickConnectSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<QuickConnectSearchCriteria, any> => QuickConnectSearchCriteria,
+    (): S.Schema<QuickConnectSearchCriteria> => QuickConnectSearchCriteria,
   ).annotate({ identifier: "QuickConnectSearchCriteria" }),
 ) as any as S.Schema<QuickConnectSearchConditionList>;
 export interface QuickConnectSearchCriteria {
@@ -18002,8 +18001,7 @@ export const RoutingProfileSearchFilter = S.suspend(() =>
 export type RoutingProfileSearchConditionList = RoutingProfileSearchCriteria[];
 export const RoutingProfileSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<RoutingProfileSearchCriteria, any> =>
-      RoutingProfileSearchCriteria,
+    (): S.Schema<RoutingProfileSearchCriteria> => RoutingProfileSearchCriteria,
   ).annotate({ identifier: "RoutingProfileSearchCriteria" }),
 ) as any as S.Schema<RoutingProfileSearchConditionList>;
 export interface RoutingProfileSearchCriteria {
@@ -18075,7 +18073,7 @@ export type SecurityProfileSearchConditionList =
   SecurityProfileSearchCriteria[];
 export const SecurityProfileSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<SecurityProfileSearchCriteria, any> =>
+    (): S.Schema<SecurityProfileSearchCriteria> =>
       SecurityProfileSearchCriteria,
   ).annotate({ identifier: "SecurityProfileSearchCriteria" }),
 ) as any as S.Schema<SecurityProfileSearchConditionList>;
@@ -18186,7 +18184,7 @@ export type UserHierarchyGroupSearchConditionList =
   UserHierarchyGroupSearchCriteria[];
 export const UserHierarchyGroupSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<UserHierarchyGroupSearchCriteria, any> =>
+    (): S.Schema<UserHierarchyGroupSearchCriteria> =>
       UserHierarchyGroupSearchCriteria,
   ).annotate({ identifier: "UserHierarchyGroupSearchCriteria" }),
 ) as any as S.Schema<UserHierarchyGroupSearchConditionList>;
@@ -18316,9 +18314,9 @@ export const UserSearchFilter = S.suspend(() =>
 }) as any as S.Schema<UserSearchFilter>;
 export type UserSearchConditionList = UserSearchCriteria[];
 export const UserSearchConditionList = S.Array(
-  S.suspend(
-    (): S.Schema<UserSearchCriteria, any> => UserSearchCriteria,
-  ).annotate({ identifier: "UserSearchCriteria" }),
+  S.suspend((): S.Schema<UserSearchCriteria> => UserSearchCriteria).annotate({
+    identifier: "UserSearchCriteria",
+  }),
 ) as any as S.Schema<UserSearchConditionList>;
 export type TargetListType = "PROFICIENCIES" | (string & {});
 export const TargetListType = S.String;
@@ -18463,9 +18461,9 @@ export const ViewSearchFilter = S.suspend(() =>
 }) as any as S.Schema<ViewSearchFilter>;
 export type ViewSearchConditionList = ViewSearchCriteria[];
 export const ViewSearchConditionList = S.Array(
-  S.suspend(
-    (): S.Schema<ViewSearchCriteria, any> => ViewSearchCriteria,
-  ).annotate({ identifier: "ViewSearchCriteria" }),
+  S.suspend((): S.Schema<ViewSearchCriteria> => ViewSearchCriteria).annotate({
+    identifier: "ViewSearchCriteria",
+  }),
 ) as any as S.Schema<ViewSearchConditionList>;
 export interface ViewSearchCriteria {
   OrConditions?: ViewSearchCriteria[];
@@ -18613,7 +18611,7 @@ export type WorkspaceAssociationSearchConditionList =
   WorkspaceAssociationSearchCriteria[];
 export const WorkspaceAssociationSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<WorkspaceAssociationSearchCriteria, any> =>
+    (): S.Schema<WorkspaceAssociationSearchCriteria> =>
       WorkspaceAssociationSearchCriteria,
   ).annotate({ identifier: "WorkspaceAssociationSearchCriteria" }),
 ) as any as S.Schema<WorkspaceAssociationSearchConditionList>;
@@ -18716,7 +18714,7 @@ export const WorkspaceSearchFilter = S.suspend(() =>
 export type WorkspaceSearchConditionList = WorkspaceSearchCriteria[];
 export const WorkspaceSearchConditionList = S.Array(
   S.suspend(
-    (): S.Schema<WorkspaceSearchCriteria, any> => WorkspaceSearchCriteria,
+    (): S.Schema<WorkspaceSearchCriteria> => WorkspaceSearchCriteria,
   ).annotate({ identifier: "WorkspaceSearchCriteria" }),
 ) as any as S.Schema<WorkspaceSearchConditionList>;
 export interface WorkspaceSearchCriteria {

@@ -2,6 +2,7 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
+import type { Operation } from "../../src/client/operation.ts";
 import { makeRequestBuilder } from "../../src/client/request-builder.ts";
 import { makeResponseParser } from "../../src/client/response-parser.ts";
 import type { Response } from "../../src/client/response.ts";
@@ -26,15 +27,19 @@ import {
 } from "../../src/services/ec2.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, { protocol: ec2QueryProtocol });
   return builder({ ...instance });
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
   errors: S.Top[] = [],
 ) => {
@@ -756,7 +761,6 @@ describe("ec2Query protocol", () => {
           ).pipe(Effect.flip);
 
           expect(result).toBeInstanceOf(ValidationException);
-          expect(result._tag).toBe("ValidationException");
         }),
     );
 

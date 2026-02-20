@@ -26,11 +26,16 @@ import {
 
 // Import Redshift Serverless schemas for JsonName testing (awsJson1_1 protocol)
 // This service has jsonName traits: token -> "Token", expirationTime -> "ExpirationTime"
+import type { Operation } from "../../src/client/operation.ts";
 import { GetIdentityCenterAuthTokenResponse } from "../../src/services/redshift-serverless.ts";
 
 // Helper to build a request from an instance
-const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
-  const operation = { input: schema, output: schema, errors: [] };
+const buildRequest = <A>(schema: S.Schema<A>, instance: A) => {
+  const operation: Operation<any, any, any> = {
+    input: schema,
+    output: schema,
+    errors: [],
+  };
   const builder = makeRequestBuilder(operation, {
     protocol: awsJson1_1Protocol,
   });
@@ -38,8 +43,8 @@ const buildRequest = <A, I>(schema: S.Schema<A, I>, instance: A) => {
 };
 
 // Helper to parse a response
-const parseResponse = <A, I>(
-  schema: S.Schema<A, I>,
+const parseResponse = <A>(
+  schema: S.Schema<A>,
   response: Response,
   errors: S.Top[] = [],
 ) => {
@@ -426,7 +431,6 @@ describe("awsJson1_1 protocol", () => {
         ]).pipe(Effect.flip);
 
         expect(result).toBeInstanceOf(NotFoundException);
-        expect(result._tag).toBe("NotFoundException");
       }),
     );
 

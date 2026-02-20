@@ -310,7 +310,7 @@ export const MatterCapabilityReportAttribute = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    value: S.optional(S.Top),
+    value: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "MatterCapabilityReportAttribute",
@@ -419,7 +419,7 @@ export const CapabilitySchemaItem = S.suspend(() =>
     CapabilityId: S.String,
     ExtrinsicId: S.String,
     ExtrinsicVersion: S.Number,
-    Schema: S.Top,
+    Schema: S.Any,
   }),
 ).annotate({
   identifier: "CapabilitySchemaItem",
@@ -439,15 +439,15 @@ export const Device = S.suspend(() =>
     ConnectorDeviceName: S.optional(SensitiveString),
     CapabilityReport: MatterCapabilityReport,
     CapabilitySchemas: S.optional(CapabilitySchemas),
-    DeviceMetadata: S.optional(S.Top),
+    DeviceMetadata: S.optional(S.Any),
   }),
 ).annotate({ identifier: "Device" }) as any as S.Schema<Device>;
 export type Devices = Device[];
 export const Devices = S.Array(Device);
 export type MatterCommands = { [key: string]: any | undefined };
-export const MatterCommands = S.Record(S.String, S.Top.pipe(S.optional));
+export const MatterCommands = S.Record(S.String, S.Any.pipe(S.optional));
 export type MatterEvents = { [key: string]: any | undefined };
-export const MatterEvents = S.Record(S.String, S.Top.pipe(S.optional));
+export const MatterEvents = S.Record(S.String, S.Any.pipe(S.optional));
 export interface MatterCluster {
   id?: string;
   attributes?: any;
@@ -457,7 +457,7 @@ export interface MatterCluster {
 export const MatterCluster = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    attributes: S.optional(S.Top),
+    attributes: S.optional(S.Any),
     commands: S.optional(MatterCommands),
     events: S.optional(MatterEvents),
   }),
@@ -2300,7 +2300,7 @@ export const CapabilityAction = S.suspend(() =>
     name: S.String,
     ref: S.optional(S.String),
     actionTraceId: S.optional(S.String),
-    parameters: S.optional(S.Top),
+    parameters: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "CapabilityAction",
@@ -2975,7 +2975,7 @@ export const ManagedThingSchemaListItem = S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     CapabilityId: S.optional(S.String),
-    Schema: S.optional(S.Top),
+    Schema: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ManagedThingSchemaListItem",
@@ -3026,7 +3026,7 @@ export const StateCapability = S.suspend(() =>
     id: S.String,
     name: S.String,
     version: S.String,
-    properties: S.optional(S.Top),
+    properties: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "StateCapability",
@@ -4209,7 +4209,7 @@ export const GetSchemaVersionResponse = S.suspend(() =>
     Namespace: S.optional(S.String),
     SemanticVersion: S.optional(S.String),
     Visibility: S.optional(SchemaVersionVisibility),
-    Schema: S.optional(S.Top),
+    Schema: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "GetSchemaVersionResponse",

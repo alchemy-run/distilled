@@ -110,7 +110,7 @@ export type WorkflowRunArn = string;
 
 //# Schemas
 export type ToolInputSchema = { json: any };
-export const ToolInputSchema = S.Union([S.Struct({ json: S.Top })]);
+export const ToolInputSchema = S.Union([S.Struct({ json: S.Any })]);
 export interface ToolSpec {
   name: string;
   description: string | redacted.Redacted<string>;
@@ -328,7 +328,7 @@ export interface Call {
   name: string;
 }
 export const Call = S.suspend(() =>
-  S.Struct({ callId: S.String, input: S.Top, name: S.String }),
+  S.Struct({ callId: S.String, input: S.Any, name: S.String }),
 ).annotate({ identifier: "Call" }) as any as S.Schema<Call>;
 export type Calls = Call[];
 export const Calls = S.Array(Call);

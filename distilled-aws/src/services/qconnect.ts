@@ -725,7 +725,7 @@ export const ContentDataDetails = S.suspend(() =>
 }) as any as S.Schema<ContentDataDetails>;
 export type DataSummaryList = DataSummary[];
 export const DataSummaryList = S.Array(
-  S.suspend((): S.Schema<DataSummary, any> => DataSummary).annotate({
+  S.suspend((): S.Schema<DataSummary> => DataSummary).annotate({
     identifier: "DataSummary",
   }),
 ) as any as S.Schema<DataSummaryList>;
@@ -1060,22 +1060,21 @@ export const DataDetails = S.Union([
   S.Struct({ contentData: ContentDataDetails }),
   S.Struct({
     generativeData: S.suspend(
-      (): S.Schema<GenerativeDataDetails, any> => GenerativeDataDetails,
+      (): S.Schema<GenerativeDataDetails> => GenerativeDataDetails,
     ).annotate({ identifier: "GenerativeDataDetails" }),
   }),
   S.Struct({ intentDetectedData: IntentDetectedDataDetails }),
   S.Struct({ sourceContentData: SourceContentDataDetails }),
   S.Struct({
     generativeChunkData: S.suspend(
-      (): S.Schema<GenerativeChunkDataDetails, any> =>
-        GenerativeChunkDataDetails,
+      (): S.Schema<GenerativeChunkDataDetails> => GenerativeChunkDataDetails,
     ).annotate({ identifier: "GenerativeChunkDataDetails" }),
   }),
   S.Struct({ emailResponseChunkData: EmailResponseChunkDataDetails }),
   S.Struct({ emailOverviewChunkData: EmailOverviewChunkDataDetails }),
   S.Struct({
     emailGenerativeAnswerChunkData: S.suspend(
-      (): S.Schema<EmailGenerativeAnswerChunkDataDetails, any> =>
+      (): S.Schema<EmailGenerativeAnswerChunkDataDetails> =>
         EmailGenerativeAnswerChunkDataDetails,
     ).annotate({ identifier: "EmailGenerativeAnswerChunkDataDetails" }),
   }),
@@ -1450,7 +1449,7 @@ export interface FilterAttribute {
   value: any;
 }
 export const FilterAttribute = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
@@ -2128,8 +2127,8 @@ export const ToolConfiguration = S.suspend(() =>
     instruction: S.optional(ToolInstruction),
     overrideInputValues: S.optional(ToolOverrideInputValueList),
     outputFilters: S.optional(ToolOutputFilterList),
-    inputSchema: S.optional(S.Top),
-    outputSchema: S.optional(S.Top),
+    inputSchema: S.optional(S.Any),
+    outputSchema: S.optional(S.Any),
     annotations: S.optional(Annotation),
     userInteractionConfiguration: S.optional(UserInteractionConfiguration),
   }),
@@ -4165,8 +4164,8 @@ export const ToolUseResultData = S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
     toolName: S.String,
-    toolResult: S.Top,
-    inputSchema: S.optional(S.Top),
+    toolResult: S.Any,
+    inputSchema: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ToolUseResultData",
@@ -4345,7 +4344,7 @@ export interface SpanToolUseValue {
   arguments: any;
 }
 export const SpanToolUseValue = S.suspend(() =>
-  S.Struct({ toolUseId: S.String, name: S.String, arguments: S.Top }),
+  S.Struct({ toolUseId: S.String, name: S.String, arguments: S.Any }),
 ).annotate({
   identifier: "SpanToolUseValue",
 }) as any as S.Schema<SpanToolUseValue>;
@@ -4374,7 +4373,7 @@ export const SpanMessageValue = S.Union([
   S.Struct({ toolUse: SpanToolUseValue }),
   S.Struct({
     toolResult: S.suspend(
-      (): S.Schema<SpanToolResultValue, any> => SpanToolResultValue,
+      (): S.Schema<SpanToolResultValue> => SpanToolResultValue,
     ).annotate({ identifier: "SpanToolResultValue" }),
   }),
 ]) as any as S.Schema<SpanMessageValue>;

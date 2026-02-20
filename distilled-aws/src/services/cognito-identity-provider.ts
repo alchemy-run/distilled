@@ -1615,7 +1615,7 @@ export interface CompleteWebAuthnRegistrationRequest {
   Credential: any;
 }
 export const CompleteWebAuthnRegistrationRequest = S.suspend(() =>
-  S.Struct({ AccessToken: SensitiveString, Credential: S.Top }).pipe(
+  S.Struct({ AccessToken: SensitiveString, Credential: S.Any }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1956,7 +1956,7 @@ export const CreateManagedLoginBrandingRequest = S.suspend(() =>
     UserPoolId: S.String,
     ClientId: SensitiveString,
     UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Top),
+    Settings: S.optional(S.Any),
     Assets: S.optional(AssetListType),
   }).pipe(
     T.all(
@@ -1986,7 +1986,7 @@ export const ManagedLoginBrandingType = S.suspend(() =>
     ManagedLoginBrandingId: S.optional(S.String),
     UserPoolId: S.optional(S.String),
     UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Top),
+    Settings: S.optional(S.Any),
     Assets: S.optional(AssetListType),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedDate: S.optional(
@@ -5357,7 +5357,7 @@ export interface StartWebAuthnRegistrationResponse {
   CredentialCreationOptions: any;
 }
 export const StartWebAuthnRegistrationResponse = S.suspend(() =>
-  S.Struct({ CredentialCreationOptions: S.Top }).pipe(ns),
+  S.Struct({ CredentialCreationOptions: S.Any }).pipe(ns),
 ).annotate({
   identifier: "StartWebAuthnRegistrationResponse",
 }) as any as S.Schema<StartWebAuthnRegistrationResponse>;
@@ -5588,7 +5588,7 @@ export const UpdateManagedLoginBrandingRequest = S.suspend(() =>
     UserPoolId: S.optional(S.String),
     ManagedLoginBrandingId: S.optional(S.String),
     UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Top),
+    Settings: S.optional(S.Any),
     Assets: S.optional(AssetListType),
   }).pipe(
     T.all(

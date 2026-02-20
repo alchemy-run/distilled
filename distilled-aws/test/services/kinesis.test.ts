@@ -43,7 +43,7 @@ const waitForStreamActive = (streamName: string) =>
     Effect.retry({
       while: (err) => err instanceof NotReady && err.status !== "DELETING",
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
+        Schedule.either(Schedule.spaced("10 seconds")),
         Schedule.both(Schedule.recurs(60)),
       ),
     }),
@@ -67,7 +67,7 @@ const waitForStreamDeleted = (streamName: string) =>
       while: (err) => err instanceof StillExists,
       // Use exponential backoff capped at 10 seconds, with more retries
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
+        Schedule.either(Schedule.spaced("10 seconds")),
         Schedule.both(Schedule.recurs(60)),
       ),
     }),
@@ -98,7 +98,7 @@ const waitForConsumerActive = (consumerArn: string) =>
     Effect.retry({
       while: (err) => err instanceof NotReady,
       schedule: Schedule.exponential("1 second", 1.5).pipe(
-        Schedule.union(Schedule.spaced("10 seconds")),
+        Schedule.either(Schedule.spaced("10 seconds")),
         Schedule.both(Schedule.recurs(60)),
       ),
     }),

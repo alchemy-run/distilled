@@ -53,7 +53,7 @@ const waitForSnapshotReady = (snapshotId: string) =>
     SnapshotId: snapshotId,
     MaxResults: 1,
   }).pipe(
-    Effect.retry(Schedule.spaced("2 seconds").pipe(Schedule.upTo("2 minutes"))),
+    Effect.retry(Schedule.spaced("2 seconds").pipe(Schedule.both(Schedule.during("2 minutes")))),
   );
 
 /**

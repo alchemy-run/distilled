@@ -55,7 +55,7 @@ import { afterAll, beforeAll, test } from "../test.ts";
 const eventualConsistencyRetry = Schedule.both(
   Schedule.recurs(15),
   Schedule.exponential("500 millis", 2).pipe(
-    Schedule.union(Schedule.spaced("5 seconds")),
+    Schedule.either(Schedule.spaced("5 seconds")),
   ),
 );
 
@@ -436,14 +436,14 @@ const ensureNetworking = Effect.gen(function* () {
 const cleanupRetry = Schedule.both(
   Schedule.recurs(20),
   Schedule.exponential("1 second", 2).pipe(
-    Schedule.union(Schedule.spaced("10 seconds")),
+    Schedule.either(Schedule.spaced("10 seconds")),
   ),
 );
 
 // Helper: retry on DependencyViolation, succeed on NotFound errors
 const withCleanupRetry = <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-  notFoundErrors: ReadonlyArray<new () => E>,
+  notFoundErrors: ReadonlyArray<new (...args: any[]) => E>,
 ) =>
   effect.pipe(
     Effect.retry({

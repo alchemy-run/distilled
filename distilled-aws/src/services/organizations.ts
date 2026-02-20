@@ -360,9 +360,9 @@ export const HandshakeResource = S.suspend(() =>
 }) as any as S.Schema<HandshakeResource>;
 export type HandshakeResources = HandshakeResource[];
 export const HandshakeResources = S.Array(
-  S.suspend((): S.Schema<HandshakeResource, any> => HandshakeResource).annotate(
-    { identifier: "HandshakeResource" },
-  ),
+  S.suspend((): S.Schema<HandshakeResource> => HandshakeResource).annotate({
+    identifier: "HandshakeResource",
+  }),
 ) as any as S.Schema<HandshakeResources>;
 export interface Handshake {
   Id?: string;

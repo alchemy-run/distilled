@@ -317,7 +317,7 @@ export const StartAsyncInvokeRequest = S.suspend(() =>
   S.Struct({
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     modelId: S.String,
-    modelInput: S.Top,
+    modelInput: S.Any,
     outputDataConfig: AsyncInvokeOutputDataConfig,
     tags: S.optional(TagList),
   }).pipe(
@@ -1307,7 +1307,7 @@ export const ToolUseBlock = S.suspend(() =>
   S.Struct({
     toolUseId: S.String,
     name: S.String,
-    input: S.Top,
+    input: S.Any,
     type: S.optional(ToolUseType),
   }),
 ).annotate({ identifier: "ToolUseBlock" }) as any as S.Schema<ToolUseBlock>;
@@ -1387,7 +1387,7 @@ export type ToolResultContentBlock =
       searchResult: SearchResultBlock;
     };
 export const ToolResultContentBlock = S.Union([
-  S.Struct({ json: S.Top }),
+  S.Struct({ json: S.Any }),
   S.Struct({ text: S.String }),
   S.Struct({ image: ImageBlock }),
   S.Struct({ document: DocumentBlock }),
@@ -1858,7 +1858,7 @@ export const InferenceConfiguration = S.suspend(() =>
   identifier: "InferenceConfiguration",
 }) as any as S.Schema<InferenceConfiguration>;
 export type ToolInputSchema = { json: any };
-export const ToolInputSchema = S.Union([S.Struct({ json: S.Top })]);
+export const ToolInputSchema = S.Union([S.Struct({ json: S.Any })]);
 export interface ToolSpecification {
   name: string;
   description?: string;
@@ -2002,7 +2002,7 @@ export const ConverseRequest = S.suspend(() =>
     inferenceConfig: S.optional(InferenceConfiguration),
     toolConfig: S.optional(ToolConfiguration),
     guardrailConfig: S.optional(GuardrailConfiguration),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
     promptVariables: S.optional(PromptVariableMap),
     additionalModelResponseFieldPaths: S.optional(
       AdditionalModelResponseFieldPaths,
@@ -2127,7 +2127,7 @@ export const ConverseResponse = S.suspend(() =>
     stopReason: StopReason,
     usage: TokenUsage,
     metrics: ConverseMetrics,
-    additionalModelResponseFields: S.optional(S.Top),
+    additionalModelResponseFields: S.optional(S.Any),
     trace: S.optional(ConverseTrace),
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
@@ -2175,7 +2175,7 @@ export const ConverseStreamRequest = S.suspend(() =>
     inferenceConfig: S.optional(InferenceConfiguration),
     toolConfig: S.optional(ToolConfiguration),
     guardrailConfig: S.optional(GuardrailStreamConfiguration),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
     promptVariables: S.optional(PromptVariableMap),
     additionalModelResponseFieldPaths: S.optional(
       AdditionalModelResponseFieldPaths,
@@ -2271,7 +2271,7 @@ export type ToolResultBlockDelta =
   | { text?: never; json: any };
 export const ToolResultBlockDelta = S.Union([
   S.Struct({ text: S.String }),
-  S.Struct({ json: S.Top }),
+  S.Struct({ json: S.Any }),
 ]);
 export type ToolResultBlocksDelta = ToolResultBlockDelta[];
 export const ToolResultBlocksDelta = S.Array(ToolResultBlockDelta);
@@ -2400,7 +2400,7 @@ export interface MessageStopEvent {
 export const MessageStopEvent = S.suspend(() =>
   S.Struct({
     stopReason: StopReason,
-    additionalModelResponseFields: S.optional(S.Top),
+    additionalModelResponseFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "MessageStopEvent",
@@ -3044,7 +3044,7 @@ export const ConverseTokensRequest = S.suspend(() =>
     messages: S.optional(Messages),
     system: S.optional(SystemContentBlocks),
     toolConfig: S.optional(ToolConfiguration),
-    additionalModelRequestFields: S.optional(S.Top),
+    additionalModelRequestFields: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ConverseTokensRequest",

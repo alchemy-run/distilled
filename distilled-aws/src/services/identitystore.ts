@@ -119,7 +119,7 @@ export interface UniqueAttribute {
   AttributeValue: any;
 }
 export const UniqueAttribute = S.suspend(() =>
-  S.Struct({ AttributePath: S.String, AttributeValue: S.Top }),
+  S.Struct({ AttributePath: S.String, AttributeValue: S.Any }),
 ).annotate({
   identifier: "UniqueAttribute",
 }) as any as S.Schema<UniqueAttribute>;
@@ -503,7 +503,7 @@ export interface AttributeOperation {
   AttributeValue?: any;
 }
 export const AttributeOperation = S.suspend(() =>
-  S.Struct({ AttributePath: S.String, AttributeValue: S.optional(S.Top) }),
+  S.Struct({ AttributePath: S.String, AttributeValue: S.optional(S.Any) }),
 ).annotate({
   identifier: "AttributeOperation",
 }) as any as S.Schema<AttributeOperation>;
@@ -707,7 +707,7 @@ export const Role = S.suspend(() =>
 export type Roles = Role[];
 export const Roles = S.Array(Role);
 export type Extensions = { [key: string]: any | undefined };
-export const Extensions = S.Record(S.String, S.Top.pipe(S.optional));
+export const Extensions = S.Record(S.String, S.Any.pipe(S.optional));
 export interface CreateUserRequest {
   IdentityStoreId: string;
   UserName?: string | redacted.Redacted<string>;

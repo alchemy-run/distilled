@@ -442,7 +442,7 @@ export interface EnabledBaselineParameter {
   value: any;
 }
 export const EnabledBaselineParameter = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "EnabledBaselineParameter",
 }) as any as S.Schema<EnabledBaselineParameter>;
@@ -552,7 +552,7 @@ export interface EnabledBaselineParameterSummary {
   value: any;
 }
 export const EnabledBaselineParameterSummary = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "EnabledBaselineParameterSummary",
 }) as any as S.Schema<EnabledBaselineParameterSummary>;
@@ -768,7 +768,7 @@ export interface EnabledControlParameter {
   value: any;
 }
 export const EnabledControlParameter = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "EnabledControlParameter",
 }) as any as S.Schema<EnabledControlParameter>;
@@ -885,7 +885,7 @@ export interface EnabledControlParameterSummary {
   value: any;
 }
 export const EnabledControlParameterSummary = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "EnabledControlParameterSummary",
 }) as any as S.Schema<EnabledControlParameterSummary>;
@@ -1208,7 +1208,7 @@ export const CreateLandingZoneInput = S.suspend(() =>
     version: S.String,
     remediationTypes: S.optional(RemediationTypes),
     tags: S.optional(TagMap),
-    manifest: S.optional(S.Top),
+    manifest: S.optional(S.Any),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/create-landingzone" }),
@@ -1281,7 +1281,7 @@ export const LandingZoneDetail = S.suspend(() =>
     status: S.optional(LandingZoneStatus),
     latestAvailableVersion: S.optional(S.String),
     driftStatus: S.optional(LandingZoneDriftStatusSummary),
-    manifest: S.Top,
+    manifest: S.Any,
   }),
 ).annotate({
   identifier: "LandingZoneDetail",
@@ -1305,7 +1305,7 @@ export const UpdateLandingZoneInput = S.suspend(() =>
     version: S.String,
     remediationTypes: S.optional(RemediationTypes),
     landingZoneIdentifier: S.String,
-    manifest: S.optional(S.Top),
+    manifest: S.optional(S.Any),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/update-landingzone" }),

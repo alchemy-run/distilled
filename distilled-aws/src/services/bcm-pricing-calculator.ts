@@ -765,7 +765,7 @@ export type UsageQuantities = UsageQuantity[];
 export const UsageQuantities = S.Array(UsageQuantity);
 export type ExpressionList = Expression[];
 export const ExpressionList = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression).annotate({
+  S.suspend((): S.Schema<Expression> => Expression).annotate({
     identifier: "Expression",
   }),
 ) as any as S.Schema<ExpressionList>;
@@ -806,7 +806,7 @@ export const Expression = S.suspend(() =>
       }),
     ),
     not: S.optional(
-      S.suspend((): S.Schema<Expression, any> => Expression).annotate({
+      S.suspend((): S.Schema<Expression> => Expression).annotate({
         identifier: "Expression",
       }),
     ),

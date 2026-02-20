@@ -6086,7 +6086,7 @@ export const InventoryAggregator = S.suspend(() =>
 }) as any as S.Schema<InventoryAggregator>;
 export type InventoryAggregatorList = InventoryAggregator[];
 export const InventoryAggregatorList = S.Array(
-  S.suspend((): S.Schema<InventoryAggregator, any> => InventoryAggregator)
+  S.suspend((): S.Schema<InventoryAggregator> => InventoryAggregator)
     .annotate({ identifier: "InventoryAggregator" })
     .pipe(T.XmlName("Aggregator"))
     .annotate({ identifier: "InventoryAggregator" }),
@@ -6835,7 +6835,7 @@ export const OpsAggregator = S.suspend(() =>
 ).annotate({ identifier: "OpsAggregator" }) as any as S.Schema<OpsAggregator>;
 export type OpsAggregatorList = OpsAggregator[];
 export const OpsAggregatorList = S.Array(
-  S.suspend((): S.Schema<OpsAggregator, any> => OpsAggregator)
+  S.suspend((): S.Schema<OpsAggregator> => OpsAggregator)
     .annotate({ identifier: "OpsAggregator" })
     .pipe(T.XmlName("Aggregator"))
     .annotate({ identifier: "OpsAggregator" }),
@@ -8555,7 +8555,7 @@ export const NodeAggregator = S.suspend(() =>
 ).annotate({ identifier: "NodeAggregator" }) as any as S.Schema<NodeAggregator>;
 export type NodeAggregatorList = NodeAggregator[];
 export const NodeAggregatorList = S.Array(
-  S.suspend((): S.Schema<NodeAggregator, any> => NodeAggregator)
+  S.suspend((): S.Schema<NodeAggregator> => NodeAggregator)
     .annotate({ identifier: "NodeAggregator" })
     .pipe(T.XmlName("NodeAggregator"))
     .annotate({ identifier: "NodeAggregator" }),

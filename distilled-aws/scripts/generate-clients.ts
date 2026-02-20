@@ -1304,7 +1304,7 @@ const convertShapeToSchema: (
         Match.when(
           (s) => s === "smithy.api#Document",
           // TODO(sam): should we add our own JsonValue schema to handle documents? What are Documents?
-          () => Effect.succeed("S.Top"),
+          () => Effect.succeed("S.Any"),
         ),
         Match.orElse(() =>
           Effect.fail(
@@ -1476,7 +1476,7 @@ const convertShapeToSchema: (
                     new Map(m).set(name, "unknown"),
                   );
                 }
-                return "S.Top";
+                return "S.Any";
               }),
           ),
           Match.when(
@@ -1567,7 +1567,7 @@ const convertShapeToSchema: (
                       else if (sdkFile.cyclicSchemas.has(memberName)) {
                         innerType = sdkFile.cyclicClasses.has(memberName)
                           ? // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                            `S.suspend((): S.Schema<${type}, any> => ${type}).annotate({ identifier: "${type}" })`
+                            `S.suspend((): S.Schema<${type}> => ${type}).annotate({ identifier: "${type}" })`
                           : `S.suspend(() => ${type}).annotate({ identifier: "${type}" })`;
                       }
 
@@ -1755,7 +1755,7 @@ const convertShapeToSchema: (
                     ) {
                       if (sdkFile.cyclicClasses.has(memberTargetName)) {
                         // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                        schema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotate({ identifier: "${schema}" })`;
+                        schema = `S.suspend((): S.Schema<${schema}> => ${schema}).annotate({ identifier: "${schema}" })`;
                       } else {
                         schema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                       }
@@ -2010,7 +2010,7 @@ const convertShapeToSchema: (
                         ) {
                           if (sdkFile.cyclicClasses.has(memberTargetName)) {
                             // TODO(sam): I had to add the any here because encoded type was creting circular errors. hopefully OK since we don't really need it
-                            wrappedSchema = `S.suspend((): S.Schema<${schema}, any> => ${schema}).annotate({ identifier: "${schema}" })`;
+                            wrappedSchema = `S.suspend((): S.Schema<${schema}> => ${schema}).annotate({ identifier: "${schema}" })`;
                           } else {
                             wrappedSchema = `S.suspend(() => ${schema}).annotate({ identifier: "${schema}" })`;
                           }
@@ -2163,7 +2163,7 @@ const convertShapeToSchema: (
                         wrappedKey = `S.suspend(() => ${keySchema}).annotate({ identifier: "${keySchema}" })`;
                       } else if (sdkFile.cyclicSchemas.has(keyTargetName)) {
                         wrappedKey = sdkFile.cyclicClasses.has(keyTargetName)
-                          ? `S.suspend((): S.Schema<${keySchema}, any> => ${keySchema}).annotate({ identifier: "${keySchema}" })`
+                          ? `S.suspend((): S.Schema<${keySchema}> => ${keySchema}).annotate({ identifier: "${keySchema}" })`
                           : `S.suspend(() => ${keySchema}).annotate({ identifier: "${keySchema}" })`;
                       }
 
@@ -2173,7 +2173,7 @@ const convertShapeToSchema: (
                         wrappedValue = sdkFile.cyclicClasses.has(
                           valueTargetName,
                         )
-                          ? `S.suspend((): S.Schema<${valueSchema}, any> => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`
+                          ? `S.suspend((): S.Schema<${valueSchema}> => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`
                           : `S.suspend(() => ${valueSchema}).annotate({ identifier: "${valueSchema}" })`;
                       }
 

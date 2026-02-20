@@ -595,9 +595,9 @@ export const Value = S.Union([
     }),
   }),
   S.Struct({
-    structValue: S.suspend(
-      (): S.Schema<StructValue, any> => StructValue,
-    ).annotate({ identifier: "StructValue" }),
+    structValue: S.suspend((): S.Schema<StructValue> => StructValue).annotate({
+      identifier: "StructValue",
+    }),
   }),
 ]) as any as S.Schema<Value>;
 export type Row = Value[];

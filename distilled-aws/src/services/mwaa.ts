@@ -516,8 +516,8 @@ export const InvokeRestApiRequest = S.suspend(() =>
     Name: S.String.pipe(T.HttpLabel("Name")),
     Path: S.String,
     Method: S.String,
-    QueryParameters: S.optional(S.Top),
-    Body: S.optional(S.Top),
+    QueryParameters: S.optional(S.Any),
+    Body: S.optional(S.Any),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/restapi/{Name}" }),
@@ -538,7 +538,7 @@ export interface InvokeRestApiResponse {
 export const InvokeRestApiResponse = S.suspend(() =>
   S.Struct({
     RestApiStatusCode: S.optional(S.Number),
-    RestApiResponse: S.optional(S.Top),
+    RestApiResponse: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "InvokeRestApiResponse",
@@ -826,14 +826,14 @@ export class RestApiClientException extends S.TaggedErrorClass<RestApiClientExce
   "RestApiClientException",
   {
     RestApiStatusCode: S.optional(S.Number),
-    RestApiResponse: S.optional(S.Top),
+    RestApiResponse: S.optional(S.Any),
   },
 ).pipe(C.withBadRequestError) {}
 export class RestApiServerException extends S.TaggedErrorClass<RestApiServerException>()(
   "RestApiServerException",
   {
     RestApiStatusCode: S.optional(S.Number),
-    RestApiResponse: S.optional(S.Top),
+    RestApiResponse: S.optional(S.Any),
   },
 ).pipe(C.withBadRequestError) {}
 

@@ -131,7 +131,7 @@ export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = S.Array(GroupDefinition);
 export type Expressions = Expression[];
 export const Expressions = S.Array(
-  S.suspend((): S.Schema<Expression, any> => Expression).annotate({
+  S.suspend((): S.Schema<Expression> => Expression).annotate({
     identifier: "Expression",
   }),
 ) as any as S.Schema<Expressions>;
@@ -236,7 +236,7 @@ export const Expression = S.suspend(() =>
       S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
     ),
     not: S.optional(
-      S.suspend((): S.Schema<Expression, any> => Expression).annotate({
+      S.suspend((): S.Schema<Expression> => Expression).annotate({
         identifier: "Expression",
       }),
     ),

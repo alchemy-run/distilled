@@ -2422,7 +2422,7 @@ export interface IamAuthenticationMethod {
   ActorPolicy: any;
 }
 export const IamAuthenticationMethod = S.suspend(() =>
-  S.Struct({ ActorPolicy: S.Top }),
+  S.Struct({ ActorPolicy: S.Any }),
 ).annotate({
   identifier: "IamAuthenticationMethod",
 }) as any as S.Schema<IamAuthenticationMethod>;

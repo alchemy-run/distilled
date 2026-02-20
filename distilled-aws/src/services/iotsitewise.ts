@@ -1652,7 +1652,7 @@ export const AssetPropertyBindingValue = S.suspend(() =>
 export type BindingValueList = ComputationModelDataBindingValue[];
 export const BindingValueList = S.Array(
   S.suspend(
-    (): S.Schema<ComputationModelDataBindingValue, any> =>
+    (): S.Schema<ComputationModelDataBindingValue> =>
       ComputationModelDataBindingValue,
   ).annotate({ identifier: "ComputationModelDataBindingValue" }),
 ) as any as S.Schema<BindingValueList>;
@@ -1680,7 +1680,7 @@ export type ComputationModelDataBinding = {
 export const ComputationModelDataBinding = S.Record(
   S.String,
   S.suspend(
-    (): S.Schema<ComputationModelDataBindingValue, any> =>
+    (): S.Schema<ComputationModelDataBindingValue> =>
       ComputationModelDataBindingValue,
   )
     .annotate({ identifier: "ComputationModelDataBindingValue" })
@@ -4176,16 +4176,14 @@ export const Datum = S.suspend(() =>
       S.suspend(() => DatumList).annotate({ identifier: "DatumList" }),
     ),
     rowValue: S.optional(
-      S.suspend((): S.Schema<Row, any> => Row).annotate({ identifier: "Row" }),
+      S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" }),
     ),
     nullValue: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Datum" }) as any as S.Schema<Datum>;
 export type DatumList = Datum[];
 export const DatumList = S.Array(
-  S.suspend((): S.Schema<Datum, any> => Datum).annotate({
-    identifier: "Datum",
-  }),
+  S.suspend((): S.Schema<Datum> => Datum).annotate({ identifier: "Datum" }),
 ) as any as S.Schema<DatumList>;
 export interface Row {
   data: Datum[];
@@ -4197,7 +4195,7 @@ export const Row = S.suspend(() =>
 ).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 export type Rows = Row[];
 export const Rows = S.Array(
-  S.suspend((): S.Schema<Row, any> => Row).annotate({ identifier: "Row" }),
+  S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" }),
 );
 export interface ExecuteQueryResponse {
   columns?: ColumnInfo[];

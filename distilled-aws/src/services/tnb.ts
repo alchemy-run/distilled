@@ -739,7 +739,7 @@ export interface UpdateNsMetadata {
   additionalParamsForNs?: any;
 }
 export const UpdateNsMetadata = S.suspend(() =>
-  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Top) }),
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
 ).annotate({
   identifier: "UpdateNsMetadata",
 }) as any as S.Schema<UpdateNsMetadata>;
@@ -748,7 +748,7 @@ export interface ModifyVnfInfoMetadata {
   vnfConfigurableProperties: any;
 }
 export const ModifyVnfInfoMetadata = S.suspend(() =>
-  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Top }),
+  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }),
 ).annotate({
   identifier: "ModifyVnfInfoMetadata",
 }) as any as S.Schema<ModifyVnfInfoMetadata>;
@@ -757,7 +757,7 @@ export interface InstantiateMetadata {
   additionalParamsForNs?: any;
 }
 export const InstantiateMetadata = S.suspend(() =>
-  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Top) }),
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
 ).annotate({
   identifier: "InstantiateMetadata",
 }) as any as S.Schema<InstantiateMetadata>;
@@ -1008,7 +1008,7 @@ export const InstantiateSolNetworkInstanceInput = S.suspend(() =>
   S.Struct({
     nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     dryRun: S.optional(S.Boolean).pipe(T.HttpQuery("dry_run")),
-    additionalParamsForNs: S.optional(S.Top),
+    additionalParamsForNs: S.optional(S.Any),
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -1687,7 +1687,7 @@ export interface UpdateSolNetworkModify {
   vnfConfigurableProperties: any;
 }
 export const UpdateSolNetworkModify = S.suspend(() =>
-  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Top }),
+  S.Struct({ vnfInstanceId: S.String, vnfConfigurableProperties: S.Any }),
 ).annotate({
   identifier: "UpdateSolNetworkModify",
 }) as any as S.Schema<UpdateSolNetworkModify>;
@@ -1696,7 +1696,7 @@ export interface UpdateSolNetworkServiceData {
   additionalParamsForNs?: any;
 }
 export const UpdateSolNetworkServiceData = S.suspend(() =>
-  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Top) }),
+  S.Struct({ nsdInfoId: S.String, additionalParamsForNs: S.optional(S.Any) }),
 ).annotate({
   identifier: "UpdateSolNetworkServiceData",
 }) as any as S.Schema<UpdateSolNetworkServiceData>;

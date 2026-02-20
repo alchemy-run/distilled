@@ -4275,7 +4275,7 @@ export interface FilterAttribute {
   value: any;
 }
 export const FilterAttribute = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.Top }),
+  S.Struct({ key: S.String, value: S.Any }),
 ).annotate({
   identifier: "FilterAttribute",
 }) as any as S.Schema<FilterAttribute>;
@@ -4540,7 +4540,7 @@ export const VectorSearchRerankingConfigurationType = S.String;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export const AdditionalModelRequestFields = S.Record(
   S.String,
-  S.Top.pipe(S.optional),
+  S.Any.pipe(S.optional),
 );
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;

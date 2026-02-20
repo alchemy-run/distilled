@@ -1087,18 +1087,18 @@ export const AdministrativeAction = S.suspend(() =>
     RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(Status),
     TargetFileSystemValues: S.optional(
-      S.suspend((): S.Schema<FileSystem, any> => FileSystem).annotate({
+      S.suspend((): S.Schema<FileSystem> => FileSystem).annotate({
         identifier: "FileSystem",
       }),
     ),
     FailureDetails: S.optional(AdministrativeActionFailureDetails),
     TargetVolumeValues: S.optional(
-      S.suspend((): S.Schema<Volume, any> => Volume).annotate({
+      S.suspend((): S.Schema<Volume> => Volume).annotate({
         identifier: "Volume",
       }),
     ),
     TargetSnapshotValues: S.optional(
-      S.suspend((): S.Schema<Snapshot, any> => Snapshot).annotate({
+      S.suspend((): S.Schema<Snapshot> => Snapshot).annotate({
         identifier: "Snapshot",
       }),
     ),
@@ -1112,7 +1112,7 @@ export const AdministrativeAction = S.suspend(() =>
 export type AdministrativeActions = AdministrativeAction[];
 export const AdministrativeActions = S.Array(
   S.suspend(
-    (): S.Schema<AdministrativeAction, any> => AdministrativeAction,
+    (): S.Schema<AdministrativeAction> => AdministrativeAction,
   ).annotate({ identifier: "AdministrativeAction" }),
 ) as any as S.Schema<AdministrativeActions>;
 export type OntapDeploymentType =
@@ -4099,7 +4099,7 @@ export const DescribeFileSystemsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeFileSystemsRequest>;
 export type FileSystems = FileSystem[];
 export const FileSystems = S.Array(
-  S.suspend((): S.Schema<FileSystem, any> => FileSystem).annotate({
+  S.suspend((): S.Schema<FileSystem> => FileSystem).annotate({
     identifier: "FileSystem",
   }),
 );
@@ -4300,7 +4300,7 @@ export const DescribeSnapshotsRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeSnapshotsRequest>;
 export type Snapshots = Snapshot[];
 export const Snapshots = S.Array(
-  S.suspend((): S.Schema<Snapshot, any> => Snapshot).annotate({
+  S.suspend((): S.Schema<Snapshot> => Snapshot).annotate({
     identifier: "Snapshot",
   }),
 );
@@ -4463,9 +4463,7 @@ export const DescribeVolumesRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeVolumesRequest>;
 export type Volumes = Volume[];
 export const Volumes = S.Array(
-  S.suspend((): S.Schema<Volume, any> => Volume).annotate({
-    identifier: "Volume",
-  }),
+  S.suspend((): S.Schema<Volume> => Volume).annotate({ identifier: "Volume" }),
 );
 export interface DescribeVolumesResponse {
   Volumes?: (Volume & {

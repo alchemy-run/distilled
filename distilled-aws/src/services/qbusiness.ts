@@ -769,7 +769,7 @@ export const ChatModeConfiguration = S.Union([
 ]);
 export type AttributeFilters = AttributeFilter[];
 export const AttributeFilters = S.Array(
-  S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate({
+  S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
     identifier: "AttributeFilter",
   }),
 ) as any as S.Schema<AttributeFilters>;
@@ -798,9 +798,9 @@ export const AttributeFilter = S.suspend(() =>
       }),
     ),
     notFilter: S.optional(
-      S.suspend((): S.Schema<AttributeFilter, any> => AttributeFilter).annotate(
-        { identifier: "AttributeFilter" },
-      ),
+      S.suspend((): S.Schema<AttributeFilter> => AttributeFilter).annotate({
+        identifier: "AttributeFilter",
+      }),
     ),
     equalsTo: S.optional(DocumentAttribute),
     containsAll: S.optional(DocumentAttribute),
@@ -872,7 +872,7 @@ export interface ActionExecutionPayloadField {
   value: any;
 }
 export const ActionExecutionPayloadField = S.suspend(() =>
-  S.Struct({ value: S.Top }),
+  S.Struct({ value: S.Any }),
 ).annotate({
   identifier: "ActionExecutionPayloadField",
 }) as any as S.Schema<ActionExecutionPayloadField>;
@@ -1206,7 +1206,7 @@ export interface ActionReviewPayloadFieldAllowedValue {
   displayValue?: any;
 }
 export const ActionReviewPayloadFieldAllowedValue = S.suspend(() =>
-  S.Struct({ value: S.optional(S.Top), displayValue: S.optional(S.Top) }),
+  S.Struct({ value: S.optional(S.Any), displayValue: S.optional(S.Any) }),
 ).annotate({
   identifier: "ActionReviewPayloadFieldAllowedValue",
 }) as any as S.Schema<ActionReviewPayloadFieldAllowedValue>;
@@ -1232,10 +1232,10 @@ export const ActionReviewPayloadField = S.suspend(() =>
     displayOrder: S.optional(S.Number),
     displayDescription: S.optional(S.String),
     type: S.optional(ActionPayloadFieldType),
-    value: S.optional(S.Top),
+    value: S.optional(S.Any),
     allowedValues: S.optional(ActionReviewPayloadFieldAllowedValues),
     allowedFormat: S.optional(S.String),
-    arrayItemJsonSchema: S.optional(S.Top),
+    arrayItemJsonSchema: S.optional(S.Any),
     required: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -4688,7 +4688,7 @@ export const CreateDataSourceRequest = S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     indexId: S.String.pipe(T.HttpLabel("indexId")),
     displayName: S.String,
-    configuration: S.Top,
+    configuration: S.Any,
     vpcConfiguration: S.optional(DataSourceVpcConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
@@ -4789,7 +4789,7 @@ export const GetDataSourceResponse = S.suspend(() =>
     dataSourceArn: S.optional(S.String),
     displayName: S.optional(S.String),
     type: S.optional(S.String),
-    configuration: S.optional(S.Top),
+    configuration: S.optional(S.Any),
     vpcConfiguration: S.optional(DataSourceVpcConfiguration),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4825,7 +4825,7 @@ export const UpdateDataSourceRequest = S.suspend(() =>
     indexId: S.String.pipe(T.HttpLabel("indexId")),
     dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     displayName: S.optional(S.String),
-    configuration: S.optional(S.Top),
+    configuration: S.optional(S.Any),
     vpcConfiguration: S.optional(DataSourceVpcConfiguration),
     description: S.optional(S.String),
     syncSchedule: S.optional(S.String),

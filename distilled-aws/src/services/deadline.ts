@@ -893,7 +893,7 @@ export const SearchFilterExpression = S.Union([
   S.Struct({ stringFilter: StringFilterExpression }),
   S.Struct({
     groupFilter: S.suspend(
-      (): S.Schema<SearchGroupedFilterExpressions, any> =>
+      (): S.Schema<SearchGroupedFilterExpressions> =>
         SearchGroupedFilterExpressions,
     ).annotate({ identifier: "SearchGroupedFilterExpressions" }),
   }),
@@ -4179,7 +4179,7 @@ export const StepDetailsEntity = S.suspend(() =>
     jobId: S.String,
     stepId: S.String,
     schemaVersion: S.String,
-    template: S.Top,
+    template: S.Any,
     dependencies: DependenciesList,
   }),
 ).annotate({
@@ -4196,7 +4196,7 @@ export const EnvironmentDetailsEntity = S.suspend(() =>
     jobId: S.String,
     environmentId: S.String,
     schemaVersion: S.String,
-    template: S.Top,
+    template: S.Any,
   }),
 ).annotate({
   identifier: "EnvironmentDetailsEntity",
@@ -6365,7 +6365,7 @@ export const ListJobParameterDefinitionsRequest = S.suspend(() =>
   identifier: "ListJobParameterDefinitionsRequest",
 }) as any as S.Schema<ListJobParameterDefinitionsRequest>;
 export type JobParameterDefinitions = any[];
-export const JobParameterDefinitions = S.Array(S.Top);
+export const JobParameterDefinitions = S.Array(S.Any);
 export interface ListJobParameterDefinitionsResponse {
   jobParameterDefinitions: any[];
   nextToken?: string;

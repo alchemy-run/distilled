@@ -336,7 +336,7 @@ export interface ProviderProperties {
 export const ProviderProperties = S.suspend(() =>
   S.Struct({
     providerServiceArn: S.String,
-    providerConfiguration: S.optional(S.Top),
+    providerConfiguration: S.optional(S.Any),
     intermediateSourceConfiguration: S.optional(
       IntermediateSourceConfiguration,
     ),
@@ -468,7 +468,7 @@ export interface NamespaceProviderProperties {
 export const NamespaceProviderProperties = S.suspend(() =>
   S.Struct({
     providerServiceArn: S.String,
-    providerConfiguration: S.optional(S.Top),
+    providerConfiguration: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "NamespaceProviderProperties",
@@ -1484,8 +1484,8 @@ export interface ProviderIdNameSpaceConfiguration {
 export const ProviderIdNameSpaceConfiguration = S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
-    providerTargetConfigurationDefinition: S.optional(S.Top),
-    providerSourceConfigurationDefinition: S.optional(S.Top),
+    providerTargetConfigurationDefinition: S.optional(S.Any),
+    providerSourceConfigurationDefinition: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ProviderIdNameSpaceConfiguration",
@@ -1584,14 +1584,14 @@ export const GetProviderServiceOutput = S.suspend(() =>
     providerServiceDisplayName: S.String,
     providerServiceType: ServiceType,
     providerServiceArn: S.String,
-    providerConfigurationDefinition: S.optional(S.Top),
+    providerConfigurationDefinition: S.optional(S.Any),
     providerIdNameSpaceConfiguration: S.optional(
       ProviderIdNameSpaceConfiguration,
     ),
-    providerJobConfiguration: S.optional(S.Top),
+    providerJobConfiguration: S.optional(S.Any),
     providerEndpointConfiguration: ProviderEndpointConfiguration,
     anonymizedOutput: S.Boolean,
-    providerEntityOutputDefinition: S.Top,
+    providerEntityOutputDefinition: S.Any,
     providerIntermediateDataAccessConfiguration: S.optional(
       ProviderIntermediateDataAccessConfiguration,
     ),

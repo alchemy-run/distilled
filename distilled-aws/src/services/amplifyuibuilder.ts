@@ -870,9 +870,9 @@ export const FormBindings = S.Record(
 );
 export type ComponentPropertyList = ComponentProperty[];
 export const ComponentPropertyList = S.Array(
-  S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty).annotate(
-    { identifier: "ComponentProperty" },
-  ),
+  S.suspend((): S.Schema<ComponentProperty> => ComponentProperty).annotate({
+    identifier: "ComponentProperty",
+  }),
 ) as any as S.Schema<ComponentPropertyList>;
 export interface ComponentConditionProperty {
   property?: string;
@@ -890,14 +890,14 @@ export const ComponentConditionProperty = S.suspend(() =>
     operator: S.optional(S.String),
     operand: S.optional(S.String),
     then: S.optional(
-      S.suspend(
-        (): S.Schema<ComponentProperty, any> => ComponentProperty,
-      ).annotate({ identifier: "ComponentProperty" }),
+      S.suspend((): S.Schema<ComponentProperty> => ComponentProperty).annotate({
+        identifier: "ComponentProperty",
+      }),
     ),
     else: S.optional(
-      S.suspend(
-        (): S.Schema<ComponentProperty, any> => ComponentProperty,
-      ).annotate({ identifier: "ComponentProperty" }),
+      S.suspend((): S.Schema<ComponentProperty> => ComponentProperty).annotate({
+        identifier: "ComponentProperty",
+      }),
     ),
     operandType: S.optional(S.String),
   }),
@@ -938,8 +938,7 @@ export const ComponentProperty = S.suspend(() =>
     ),
     condition: S.optional(
       S.suspend(
-        (): S.Schema<ComponentConditionProperty, any> =>
-          ComponentConditionProperty,
+        (): S.Schema<ComponentConditionProperty> => ComponentConditionProperty,
       ).annotate({ identifier: "ComponentConditionProperty" }),
     ),
     configured: S.optional(S.Boolean),
@@ -956,7 +955,7 @@ export type ComponentProperties = {
 };
 export const ComponentProperties = S.Record(
   S.String,
-  S.suspend((): S.Schema<ComponentProperty, any> => ComponentProperty)
+  S.suspend((): S.Schema<ComponentProperty> => ComponentProperty)
     .annotate({ identifier: "ComponentProperty" })
     .pipe(S.optional),
 );
@@ -1041,7 +1040,7 @@ export const ComponentChild = S.suspend(() =>
 ).annotate({ identifier: "ComponentChild" }) as any as S.Schema<ComponentChild>;
 export type ComponentChildList = ComponentChild[];
 export const ComponentChildList = S.Array(
-  S.suspend((): S.Schema<ComponentChild, any> => ComponentChild).annotate({
+  S.suspend((): S.Schema<ComponentChild> => ComponentChild).annotate({
     identifier: "ComponentChild",
   }),
 ) as any as S.Schema<ComponentChildList>;
@@ -1102,7 +1101,7 @@ export const Predicate = S.suspend(() =>
 ).annotate({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
 export type PredicateList = Predicate[];
 export const PredicateList = S.Array(
-  S.suspend((): S.Schema<Predicate, any> => Predicate).annotate({
+  S.suspend((): S.Schema<Predicate> => Predicate).annotate({
     identifier: "Predicate",
   }),
 ) as any as S.Schema<PredicateList>;
@@ -1599,7 +1598,7 @@ export const FormInputValuePropertyBindingProperties = S.suspend(() =>
 export type FormInputValuePropertyList = FormInputValueProperty[];
 export const FormInputValuePropertyList = S.Array(
   S.suspend(
-    (): S.Schema<FormInputValueProperty, any> => FormInputValueProperty,
+    (): S.Schema<FormInputValueProperty> => FormInputValueProperty,
   ).annotate({ identifier: "FormInputValueProperty" }),
 ) as any as S.Schema<FormInputValuePropertyList>;
 export interface FormInputValueProperty {
@@ -2211,7 +2210,7 @@ export const ThemeValues = S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     value: S.optional(
-      S.suspend((): S.Schema<ThemeValue, any> => ThemeValue).annotate({
+      S.suspend((): S.Schema<ThemeValue> => ThemeValue).annotate({
         identifier: "ThemeValue",
       }),
     ),
@@ -2219,7 +2218,7 @@ export const ThemeValues = S.suspend(() =>
 ).annotate({ identifier: "ThemeValues" }) as any as S.Schema<ThemeValues>;
 export type ThemeValuesList = ThemeValues[];
 export const ThemeValuesList = S.Array(
-  S.suspend((): S.Schema<ThemeValues, any> => ThemeValues).annotate({
+  S.suspend((): S.Schema<ThemeValues> => ThemeValues).annotate({
     identifier: "ThemeValues",
   }),
 ) as any as S.Schema<ThemeValuesList>;

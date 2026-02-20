@@ -87,6 +87,7 @@ function parseTypedEventStream<A>(
   }
 
   // Decode each event's payload into the typed event
+  // @ts-expect-error
   return Stream.mapEffect(wireEventStream, (wireEvent) =>
     Effect.gen(function* () {
       // Only decode MessageEvent payloads that have an event type

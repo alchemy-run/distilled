@@ -1129,7 +1129,7 @@ export const DeploymentLifecycleHook = S.suspend(() =>
     hookTargetArn: S.optional(S.String),
     roleArn: S.optional(S.String),
     lifecycleStages: S.optional(DeploymentLifecycleHookStageList),
-    hookDetails: S.optional(S.Top),
+    hookDetails: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "DeploymentLifecycleHook",

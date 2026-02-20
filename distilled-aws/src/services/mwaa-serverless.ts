@@ -656,7 +656,7 @@ export const ListWorkflowsResponse = S.suspend(() =>
   identifier: "ListWorkflowsResponse",
 }) as any as S.Schema<ListWorkflowsResponse>;
 export type ObjectMap = { [key: string]: any | undefined };
-export const ObjectMap = S.Record(S.String, S.Top.pipe(S.optional));
+export const ObjectMap = S.Record(S.String, S.Any.pipe(S.optional));
 export interface StartWorkflowRunRequest {
   WorkflowArn: string;
   ClientToken?: string;

@@ -181,7 +181,7 @@ export const Configuration = S.suspend(() =>
 ).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export type ConfigurationList = Configuration[];
 export const ConfigurationList = S.Array(
-  S.suspend((): S.Schema<Configuration, any> => Configuration).annotate({
+  S.suspend((): S.Schema<Configuration> => Configuration).annotate({
     identifier: "Configuration",
   }),
 ) as any as S.Schema<ConfigurationList>;

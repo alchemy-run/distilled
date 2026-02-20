@@ -105,7 +105,7 @@ export const KeyspacesCell = S.suspend(() =>
 ).annotate({ identifier: "KeyspacesCell" }) as any as S.Schema<KeyspacesCell>;
 export type KeyspacesCellList = KeyspacesCell[];
 export const KeyspacesCellList = S.Array(
-  S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell).annotate({
+  S.suspend((): S.Schema<KeyspacesCell> => KeyspacesCell).annotate({
     identifier: "KeyspacesCell",
   }),
 ) as any as S.Schema<KeyspacesCellList>;
@@ -134,13 +134,13 @@ export const KeyspacesCellMapDefinition = S.suspend(() =>
 export type KeyspacesCellMap = KeyspacesCellMapDefinition[];
 export const KeyspacesCellMap = S.Array(
   S.suspend(
-    (): S.Schema<KeyspacesCellMapDefinition, any> => KeyspacesCellMapDefinition,
+    (): S.Schema<KeyspacesCellMapDefinition> => KeyspacesCellMapDefinition,
   ).annotate({ identifier: "KeyspacesCellMapDefinition" }),
 ) as any as S.Schema<KeyspacesCellMap>;
 export type KeyspacesUdtMap = { [key: string]: KeyspacesCell | undefined };
 export const KeyspacesUdtMap = S.Record(
   S.String,
-  S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell)
+  S.suspend((): S.Schema<KeyspacesCell> => KeyspacesCell)
     .annotate({ identifier: "KeyspacesCell" })
     .pipe(S.optional),
 ) as any as S.Schema<KeyspacesUdtMap>;
@@ -879,7 +879,7 @@ export const KeyspacesKeysMap = S.Record(
 export type KeyspacesCells = { [key: string]: KeyspacesCell | undefined };
 export const KeyspacesCells = S.Record(
   S.String,
-  S.suspend((): S.Schema<KeyspacesCell, any> => KeyspacesCell)
+  S.suspend((): S.Schema<KeyspacesCell> => KeyspacesCell)
     .annotate({ identifier: "KeyspacesCell" })
     .pipe(S.optional),
 );

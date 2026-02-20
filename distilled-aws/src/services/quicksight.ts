@@ -828,7 +828,7 @@ export type VisualRole =
 export const VisualRole = S.String;
 export type TopicVisuals = TopicVisual[];
 export const TopicVisuals = S.Array(
-  S.suspend((): S.Schema<TopicVisual, any> => TopicVisual).annotate({
+  S.suspend((): S.Schema<TopicVisual> => TopicVisual).annotate({
     identifier: "TopicVisual",
   }),
 ) as any as S.Schema<TopicVisuals>;

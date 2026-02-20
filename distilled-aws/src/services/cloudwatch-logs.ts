@@ -3158,7 +3158,7 @@ export const LogFieldType = S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     element: S.optional(
-      S.suspend((): S.Schema<LogFieldType, any> => LogFieldType).annotate({
+      S.suspend((): S.Schema<LogFieldType> => LogFieldType).annotate({
         identifier: "LogFieldType",
       }),
     ),
@@ -3175,7 +3175,7 @@ export const LogFieldsListItem = S.suspend(() =>
   S.Struct({
     logFieldName: S.optional(S.String),
     logFieldType: S.optional(
-      S.suspend((): S.Schema<LogFieldType, any> => LogFieldType).annotate({
+      S.suspend((): S.Schema<LogFieldType> => LogFieldType).annotate({
         identifier: "LogFieldType",
       }),
     ),
@@ -3185,9 +3185,9 @@ export const LogFieldsListItem = S.suspend(() =>
 }) as any as S.Schema<LogFieldsListItem>;
 export type LogFieldsList = LogFieldsListItem[];
 export const LogFieldsList = S.Array(
-  S.suspend((): S.Schema<LogFieldsListItem, any> => LogFieldsListItem).annotate(
-    { identifier: "LogFieldsListItem" },
-  ),
+  S.suspend((): S.Schema<LogFieldsListItem> => LogFieldsListItem).annotate({
+    identifier: "LogFieldsListItem",
+  }),
 ) as any as S.Schema<LogFieldsList>;
 export interface GetLogFieldsResponse {
   logFields?: LogFieldsListItem[];

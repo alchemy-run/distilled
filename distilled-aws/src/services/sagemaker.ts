@@ -30032,7 +30032,7 @@ export type NestedFiltersList = NestedFilters[];
 export const NestedFiltersList = S.Array(NestedFilters);
 export type SearchExpressionList = SearchExpression[];
 export const SearchExpressionList = S.Array(
-  S.suspend((): S.Schema<SearchExpression, any> => SearchExpression).annotate({
+  S.suspend((): S.Schema<SearchExpression> => SearchExpression).annotate({
     identifier: "SearchExpression",
   }),
 ) as any as S.Schema<SearchExpressionList>;

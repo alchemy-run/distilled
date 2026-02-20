@@ -474,7 +474,7 @@ export const Insight = S.suspend(() =>
 ).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
 export type InsightList = Insight[];
 export const InsightList = S.Array(
-  S.suspend((): S.Schema<Insight, any> => Insight).annotate({
+  S.suspend((): S.Schema<Insight> => Insight).annotate({
     identifier: "Insight",
   }),
 ) as any as S.Schema<InsightList>;

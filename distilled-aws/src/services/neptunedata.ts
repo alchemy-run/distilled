@@ -549,7 +549,7 @@ export const GremlinQueryStatusAttributes = S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
     code: S.optional(S.Number),
-    attributes: S.optional(S.Top),
+    attributes: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "GremlinQueryStatusAttributes",
@@ -564,8 +564,8 @@ export const ExecuteGremlinQueryOutput = S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
     status: S.optional(GremlinQueryStatusAttributes),
-    result: S.optional(S.Top),
-    meta: S.optional(S.Top),
+    result: S.optional(S.Any),
+    meta: S.optional(S.Any),
   }),
 ).annotate({
   identifier: "ExecuteGremlinQueryOutput",
@@ -633,7 +633,7 @@ export interface ExecuteOpenCypherQueryOutput {
   results: any;
 }
 export const ExecuteOpenCypherQueryOutput = S.suspend(() =>
-  S.Struct({ results: S.Top }),
+  S.Struct({ results: S.Any }),
 ).annotate({
   identifier: "ExecuteOpenCypherQueryOutput",
 }) as any as S.Schema<ExecuteOpenCypherQueryOutput>;
@@ -656,7 +656,7 @@ export const QueryLanguageVersion = S.suspend(() =>
 export type StringValuedMap = { [key: string]: string | undefined };
 export const StringValuedMap = S.Record(S.String, S.String.pipe(S.optional));
 export type DocumentValuedMap = { [key: string]: any | undefined };
-export const DocumentValuedMap = S.Record(S.String, S.Top.pipe(S.optional));
+export const DocumentValuedMap = S.Record(S.String, S.Any.pipe(S.optional));
 export interface GetEngineStatusOutput {
   status?: string;
   startTime?: string;
@@ -719,7 +719,7 @@ export const QueryEvalStats = S.suspend(() =>
     waited: S.optional(S.Number),
     elapsed: S.optional(S.Number),
     cancelled: S.optional(S.Boolean),
-    subqueries: S.optional(S.Top),
+    subqueries: S.optional(S.Any),
   }),
 ).annotate({ identifier: "QueryEvalStats" }) as any as S.Schema<QueryEvalStats>;
 export interface GetGremlinQueryStatusOutput {
@@ -768,7 +768,7 @@ export interface GetLoaderJobStatusOutput {
   payload: any;
 }
 export const GetLoaderJobStatusOutput = S.suspend(() =>
-  S.Struct({ status: S.String, payload: S.Top }),
+  S.Struct({ status: S.String, payload: S.Any }),
 ).annotate({
   identifier: "GetLoaderJobStatusOutput",
 }) as any as S.Schema<GetLoaderJobStatusOutput>;
@@ -1094,7 +1094,7 @@ export const PropertygraphData = S.suspend(() =>
     id: S.String,
     type: S.String,
     key: S.String,
-    value: S.Top,
+    value: S.Any,
     from: S.optional(S.String),
     to: S.optional(S.String),
   }),

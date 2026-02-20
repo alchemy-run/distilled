@@ -1167,7 +1167,7 @@ export const RateBasedStatement = S.suspend(() =>
     EvaluationWindowSec: S.optional(S.Number),
     AggregateKeyType: RateBasedStatementAggregateKeyType,
     ScopeDownStatement: S.optional(
-      S.suspend((): S.Schema<Statement, any> => Statement).annotate({
+      S.suspend((): S.Schema<Statement> => Statement).annotate({
         identifier: "Statement",
       }),
     ),
@@ -1179,7 +1179,7 @@ export const RateBasedStatement = S.suspend(() =>
 }) as any as S.Schema<RateBasedStatement>;
 export type Statements = Statement[];
 export const Statements = S.Array(
-  S.suspend((): S.Schema<Statement, any> => Statement).annotate({
+  S.suspend((): S.Schema<Statement> => Statement).annotate({
     identifier: "Statement",
   }),
 ) as any as S.Schema<Statements>;
@@ -1208,7 +1208,7 @@ export interface NotStatement {
 }
 export const NotStatement = S.suspend(() =>
   S.Struct({
-    Statement: S.suspend((): S.Schema<Statement, any> => Statement).annotate({
+    Statement: S.suspend((): S.Schema<Statement> => Statement).annotate({
       identifier: "Statement",
     }),
   }),
@@ -1507,7 +1507,7 @@ export const ManagedRuleGroupStatement = S.suspend(() =>
     Version: S.optional(S.String),
     ExcludedRules: S.optional(ExcludedRules),
     ScopeDownStatement: S.optional(
-      S.suspend((): S.Schema<Statement, any> => Statement).annotate({
+      S.suspend((): S.Schema<Statement> => Statement).annotate({
         identifier: "Statement",
       }),
     ),
@@ -1588,28 +1588,27 @@ export const Statement = S.suspend(() =>
     ),
     RateBasedStatement: S.optional(
       S.suspend(
-        (): S.Schema<RateBasedStatement, any> => RateBasedStatement,
+        (): S.Schema<RateBasedStatement> => RateBasedStatement,
       ).annotate({ identifier: "RateBasedStatement" }),
     ),
     AndStatement: S.optional(
-      S.suspend((): S.Schema<AndStatement, any> => AndStatement).annotate({
+      S.suspend((): S.Schema<AndStatement> => AndStatement).annotate({
         identifier: "AndStatement",
       }),
     ),
     OrStatement: S.optional(
-      S.suspend((): S.Schema<OrStatement, any> => OrStatement).annotate({
+      S.suspend((): S.Schema<OrStatement> => OrStatement).annotate({
         identifier: "OrStatement",
       }),
     ),
     NotStatement: S.optional(
-      S.suspend((): S.Schema<NotStatement, any> => NotStatement).annotate({
+      S.suspend((): S.Schema<NotStatement> => NotStatement).annotate({
         identifier: "NotStatement",
       }),
     ),
     ManagedRuleGroupStatement: S.optional(
       S.suspend(
-        (): S.Schema<ManagedRuleGroupStatement, any> =>
-          ManagedRuleGroupStatement,
+        (): S.Schema<ManagedRuleGroupStatement> => ManagedRuleGroupStatement,
       ).annotate({ identifier: "ManagedRuleGroupStatement" }),
     ),
     LabelMatchStatement: S.optional(LabelMatchStatement),

@@ -2288,7 +2288,7 @@ export const IdNamespaceAssociationInputReferenceConfig = S.suspend(() =>
   identifier: "IdNamespaceAssociationInputReferenceConfig",
 }) as any as S.Schema<IdNamespaceAssociationInputReferenceConfig>;
 export type IdMappingWorkflowsSupported = any[];
-export const IdMappingWorkflowsSupported = S.Array(S.Top);
+export const IdMappingWorkflowsSupported = S.Array(S.Any);
 export interface IdNamespaceAssociationInputReferenceProperties {
   idNamespaceType: IdNamespaceType;
   idMappingWorkflowsSupported: any[];

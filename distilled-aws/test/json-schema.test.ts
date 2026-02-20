@@ -230,7 +230,9 @@ describe("JSON Schema Generation", () => {
       });
 
       it("ListAttachedRolePoliciesResponse", () => {
-        expect(toJsonSchema(ListAttachedRolePoliciesResponse)).toMatchSnapshot();
+        expect(
+          toJsonSchema(ListAttachedRolePoliciesResponse),
+        ).toMatchSnapshot();
       });
     });
 
