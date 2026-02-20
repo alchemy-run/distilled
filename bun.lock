@@ -111,6 +111,7 @@
       "dependencies": {
         "astro": "^5.10.0",
         "libsodium-wrappers": "^0.8.0",
+        "shiki": "^3.22.0",
       },
       "devDependencies": {
         "@astrojs/check": "^0.9.6",

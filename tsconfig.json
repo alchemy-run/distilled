@@ -8,7 +8,16 @@
       "path": "./distilled-cloudflare/tsconfig.json"
     },
     {
+      "path": "./distilled-coinbase/tsconfig.json"
+    },
+    {
       "path": "./distilled-planetscale/tsconfig.json"
-    }
+    },
+    {
+      "path": "./distilled-neon/tsconfig.json"
+    },
+    {
+      "path": "./distilled.cloud/tsconfig.json"
+    },
   ]
 }
