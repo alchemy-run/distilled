@@ -17,7 +17,7 @@ import {
 } from "../../src/services/ssm.ts";
 import { TEST_PREFIX, test } from "../test.ts";
 
-const MAINTENANCE_WINDOW_NAME = `${TEST_PREFIX}-distilled-ssm-idempotency-test`;
+const MAINTENANCE_WINDOW_NAME = "distilled-ssm-idempotency-test";
 
 /**
  * Helper to clean up maintenance window
@@ -87,7 +87,7 @@ test(
       });
 
       expect(result.WindowId).toBe(window.WindowId);
-      expect(result.Name).toBe(MAINTENANCE_WINDOW_NAME);
+      expect(result.Name).toBe(`${TEST_PREFIX}-${MAINTENANCE_WINDOW_NAME}`);
     }),
   ),
 );
