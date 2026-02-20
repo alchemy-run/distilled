@@ -58,9 +58,20 @@ jobs:
 
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: |
-          PACKAGES=""
-          if [ "${{ needs.detect-changes.outputs.aws }}" == "true" ]; then PACKAGES="$PACKAGES ./distilled-aws"; fi
-          if [ "${{ needs.detect-changes.outputs.coinbase }}" == "true" ]; then PACKAGES="$PACKAGES ./distilled-coinbase"; fi
-          if [ "${{ needs.detect-changes.outputs.neon }}" == "true" ]; then PACKAGES="$PACKAGES ./distilled-neon"; fi
-          if [ "${{ needs.detect-changes.outputs.planetscale }}" == "true" ]; then PACKAGES="$PACKAGES ./distilled-planetscale"; fi
-          bun add -D pnpm && bunx pkg-pr-new publish --pnpm $PACKAGES
+          bun add -D pnpm
+          if [  "${{ needs.detect-changes.outputs.aws }}" == "true" ];
+          then
+            bunx pkg-pr-new publish --pnpm ./distilled-aws
+          fi
+          if [ "${{ needs.detect-changes.outputs.coinbase }}" == "true" ];
+          then
+            bunx pkg-pr-new publish --pnpm ./distilled-coinbase
+          fi
+          if [ "${{ needs.detect-changes.outputs.neon }}" == "true" ];
+          then
+            bunx pkg-pr-new publish --pnpm ./distilled-neon 
+          fi
+          if [ "${{ needs.detect-changes.outputs.planetscale }}" == "true" ];
+          then
+            bunx pkg-pr-new publish --pnpm ./distilled-planetscale
+          fi
