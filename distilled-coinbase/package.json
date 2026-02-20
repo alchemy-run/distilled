@@ -1,6 +1,6 @@
 {
   "name": "distilled-coinbase",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "files": [
     "lib",
     "src"
