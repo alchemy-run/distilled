@@ -223,7 +223,7 @@ test(
         expect(oac.OriginAccessControl?.Id).toEqual(id);
         expect(
           oac.OriginAccessControl?.OriginAccessControlConfig?.Name,
-        ).toEqual("distilled-cf-oac-lifecycle");
+        ).toEqual(`${TEST_PREFIX}-distilled-cf-oac-lifecycle`);
 
         // List origin access controls
         const listResult = yield* listOriginAccessControls({});
@@ -303,7 +303,7 @@ test(
         const comment = dist.Distribution?.DistributionConfig?.Comment;
         expect(
           Redacted.isRedacted(comment) ? Redacted.value(comment) : comment,
-        ).toEqual("distilled-aws test distribution");
+        ).toEqual(`${TEST_PREFIX}-distilled-aws test distribution`);
 
         // Get distribution config
         const config = yield* getDistributionConfig({ Id: id });

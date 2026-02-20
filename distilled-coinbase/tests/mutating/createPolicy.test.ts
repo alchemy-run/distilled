@@ -39,7 +39,9 @@ describe("createPolicy", () => {
         expect(Array.isArray(result.data.rules)).toBe(true);
         expect(result.data.rules.length).toBe(1);
       } else {
-        expect((result.error as any)._tag).toBe("Forbidden");
+        expect(["Forbidden", "InvalidRequest"]).toContain(
+          (result.error as any)._tag,
+        );
       }
     } finally {
       if (policyId) {

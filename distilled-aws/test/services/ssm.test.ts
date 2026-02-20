@@ -51,22 +51,24 @@ const withMaintenanceWindow = <A, E, R>(
   use: (window: { WindowId: string }) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
-    const name = `${TEST_PREFIX}-${_name}`;
+    const windowName = `${TEST_PREFIX}-${_name}`;
     // Clean up any existing windows with this name
-    yield* cleanupMaintenanceWindowByName(name);
+    yield* cleanupMaintenanceWindowByName(windowName);
 
     // Create the maintenance window WITHOUT providing ClientToken
     // This tests that the idempotency token is auto-generated
     const result = yield* createMaintenanceWindow({
-      Name: name,
+      Name: windowName,
       Schedule: "rate(1 day)",
       Duration: 1,
       Cutoff: 0,
       AllowUnassociatedTargets: false,
     });
 
-    return yield* use({ WindowId: result.WindowId! });
-  }).pipe(Effect.ensuring(cleanupMaintenanceWindowByName(name)));
+    return yield* use({ WindowId: result.WindowId! }).pipe(
+      Effect.ensuring(cleanupMaintenanceWindowByName(windowName)),
+    );
+  });
 
 // ============================================================================
 // Idempotency Token Tests

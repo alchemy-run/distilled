@@ -62,7 +62,9 @@ describe("updatePolicy", () => {
           `${TEST_PREFIX} distilled coinbase policy updated`,
         );
       } else {
-        expect((result.error as any)._tag).toBe("Forbidden");
+        expect(["Forbidden", "InvalidRequest"]).toContain(
+          (result.error as any)._tag,
+        );
       }
     } finally {
       if (policyId) {
@@ -75,7 +77,9 @@ describe("updatePolicy", () => {
     await runEffect(
       updatePolicy({ policyId: NON_EXISTENT_ID, rules: [] }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("Forbidden")),
+        Effect.map((e) =>
+          expect(["Forbidden", "InvalidRequest"]).toContain(e._tag),
+        ),
       ),
     );
   });

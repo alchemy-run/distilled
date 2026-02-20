@@ -670,7 +670,7 @@ test(
       // List task definitions with retry for eventual consistency
       yield* Effect.gen(function* () {
         const listResult = yield* listTaskDefinitions({
-          familyPrefix: "distilled-ecs-taskdef-family",
+          familyPrefix: `${TEST_PREFIX}-distilled-ecs-taskdef-family`,
         });
 
         const found = listResult.taskDefinitionArns?.find(
@@ -695,7 +695,7 @@ test(
 test(
   "register task definition with multiple containers",
   Effect.gen(function* () {
-    const family = "distilled-ecs-multi-container";
+    const family = `${TEST_PREFIX}-distilled-ecs-multi-container`;
 
     // Clean up any leftover from previous runs
     yield* cleanupTaskDefinitionFamily(family);
