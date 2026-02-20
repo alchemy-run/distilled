@@ -125,8 +125,8 @@ export const PolicyVersion = S.suspend(() =>
     IsDefault: S.Boolean,
     Name: S.String,
     Status: PolicyStatus,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    LastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    LastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Document: SensitiveString,
   }),
 ).annotate({ identifier: "PolicyVersion" }) as any as S.Schema<PolicyVersion>;
@@ -268,8 +268,8 @@ export const PolicyVersionSummary = S.suspend(() =>
     IsDefault: S.Boolean,
     Name: S.String,
     Status: PolicyStatus,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    LastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    LastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "PolicyVersionSummary",
@@ -497,7 +497,9 @@ export interface CreateApprovalTeamResponse {
 }
 export const CreateApprovalTeamResponse = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Arn: S.optional(S.String),
     Name: S.optional(S.String),
     VersionId: S.optional(S.String),
@@ -543,7 +545,9 @@ export interface GetApprovalTeamResponseApprover {
 export const GetApprovalTeamResponseApprover = S.suspend(() =>
   S.Struct({
     ApproverId: S.optional(S.String),
-    ResponseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ResponseTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PrimaryIdentityId: S.optional(S.String),
     PrimaryIdentitySourceArn: S.optional(S.String),
     PrimaryIdentityStatus: S.optional(IdentityStatus),
@@ -600,7 +604,7 @@ export const PendingUpdate = S.suspend(() =>
     StatusMessage: S.optional(S.String),
     Approvers: S.optional(GetApprovalTeamResponseApprovers),
     UpdateInitiationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({ identifier: "PendingUpdate" }) as any as S.Schema<PendingUpdate>;
@@ -623,7 +627,9 @@ export interface GetApprovalTeamResponse {
 }
 export const GetApprovalTeamResponse = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ApprovalStrategy: S.optional(ApprovalStrategyResponse),
     NumberOfApprovers: S.optional(S.Number),
     Approvers: S.optional(GetApprovalTeamResponseApprovers),
@@ -636,7 +642,9 @@ export const GetApprovalTeamResponse = S.suspend(() =>
     UpdateSessionArn: S.optional(S.String),
     VersionId: S.optional(S.String),
     Policies: S.optional(PoliciesReferences),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PendingUpdate: S.optional(PendingUpdate),
   }),
 ).annotate({
@@ -736,7 +744,9 @@ export interface ListApprovalTeamsResponseApprovalTeam {
 }
 export const ListApprovalTeamsResponseApprovalTeam = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ApprovalStrategy: S.optional(ApprovalStrategyResponse),
     NumberOfApprovers: S.optional(S.Number),
     Arn: S.optional(S.String),
@@ -794,9 +804,11 @@ export interface StartActiveApprovalTeamDeletionResponse {
 export const StartActiveApprovalTeamDeletionResponse = S.suspend(() =>
   S.Struct({
     DeletionCompletionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DeletionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DeletionStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StartActiveApprovalTeamDeletionResponse",
@@ -852,7 +864,9 @@ export const CreateIdentitySourceResponse = S.suspend(() =>
   S.Struct({
     IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateIdentitySourceResponse",
@@ -924,7 +938,9 @@ export const GetIdentitySourceResponse = S.suspend(() =>
     IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceParameters: S.optional(IdentitySourceParametersForGet),
     IdentitySourceArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(IdentitySourceStatus),
     StatusCode: S.optional(IdentitySourceStatusCode),
     StatusMessage: S.optional(S.String),
@@ -1015,7 +1031,9 @@ export const IdentitySourceForList = S.suspend(() =>
     IdentitySourceType: S.optional(IdentitySourceType),
     IdentitySourceParameters: S.optional(IdentitySourceParametersForList),
     IdentitySourceArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(IdentitySourceStatus),
     StatusCode: S.optional(IdentitySourceStatusCode),
     StatusMessage: S.optional(S.String),
@@ -1104,7 +1122,9 @@ export const GetSessionResponseApproverResponse = S.suspend(() =>
     IdentitySourceArn: S.optional(S.String),
     IdentityId: S.optional(S.String),
     Response: S.optional(SessionResponse),
-    ResponseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ResponseTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetSessionResponseApproverResponse",
@@ -1147,9 +1167,15 @@ export const GetSessionResponse = S.suspend(() =>
     ProtectedResourceArn: S.optional(S.String),
     ApprovalStrategy: S.optional(ApprovalStrategyResponse),
     NumberOfApprovers: S.optional(S.Number),
-    InitiationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InitiationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(SensitiveString),
     Metadata: S.optional(SessionMetadata),
     Status: S.optional(SessionStatus),
@@ -1276,9 +1302,15 @@ export const ListSessionsResponseSession = S.suspend(() =>
     SessionArn: S.optional(S.String),
     ApprovalTeamName: S.optional(S.String),
     ApprovalTeamArn: S.optional(S.String),
-    InitiationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InitiationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(SensitiveString),
     ActionName: S.optional(S.String),
     ProtectedResourceArn: S.optional(S.String),

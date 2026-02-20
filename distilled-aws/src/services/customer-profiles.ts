@@ -1874,10 +1874,7 @@ export interface ProfileDimension {
   Values: string[];
 }
 export const ProfileDimension = S.suspend(() =>
-  S.Struct({
-    DimensionType: StringDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: Values.pipe(T.JsonName("Values")),
-  }),
+  S.Struct({ DimensionType: StringDimensionType, Values: Values }),
 ).annotate({
   identifier: "ProfileDimension",
 }) as any as S.Schema<ProfileDimension>;
@@ -1888,10 +1885,7 @@ export interface ExtraLengthValueProfileDimension {
   Values: string[];
 }
 export const ExtraLengthValueProfileDimension = S.suspend(() =>
-  S.Struct({
-    DimensionType: StringDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: ExtraLengthValues.pipe(T.JsonName("Values")),
-  }),
+  S.Struct({ DimensionType: StringDimensionType, Values: ExtraLengthValues }),
 ).annotate({
   identifier: "ExtraLengthValueProfileDimension",
 }) as any as S.Schema<ExtraLengthValueProfileDimension>;
@@ -1910,10 +1904,7 @@ export interface DateDimension {
   Values: string[];
 }
 export const DateDimension = S.suspend(() =>
-  S.Struct({
-    DimensionType: DateDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: DateValues.pipe(T.JsonName("Values")),
-  }),
+  S.Struct({ DimensionType: DateDimensionType, Values: DateValues }),
 ).annotate({ identifier: "DateDimension" }) as any as S.Schema<DateDimension>;
 export interface AddressDimension {
   City?: ProfileDimension;
@@ -1925,24 +1916,12 @@ export interface AddressDimension {
 }
 export const AddressDimension = S.suspend(() =>
   S.Struct({
-    City: S.optional(ProfileDimension)
-      .pipe(T.JsonName("City"))
-      .annotate({ identifier: "ProfileDimension" }),
-    Country: S.optional(ProfileDimension)
-      .pipe(T.JsonName("Country"))
-      .annotate({ identifier: "ProfileDimension" }),
-    County: S.optional(ProfileDimension)
-      .pipe(T.JsonName("County"))
-      .annotate({ identifier: "ProfileDimension" }),
-    PostalCode: S.optional(ProfileDimension)
-      .pipe(T.JsonName("PostalCode"))
-      .annotate({ identifier: "ProfileDimension" }),
-    Province: S.optional(ProfileDimension)
-      .pipe(T.JsonName("Province"))
-      .annotate({ identifier: "ProfileDimension" }),
-    State: S.optional(ProfileDimension)
-      .pipe(T.JsonName("State"))
-      .annotate({ identifier: "ProfileDimension" }),
+    City: S.optional(ProfileDimension),
+    Country: S.optional(ProfileDimension),
+    County: S.optional(ProfileDimension),
+    PostalCode: S.optional(ProfileDimension),
+    Province: S.optional(ProfileDimension),
+    State: S.optional(ProfileDimension),
   }),
 ).annotate({
   identifier: "AddressDimension",
@@ -1970,10 +1949,7 @@ export interface AttributeDimension {
   Values: string[];
 }
 export const AttributeDimension = S.suspend(() =>
-  S.Struct({
-    DimensionType: AttributeDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: Values.pipe(T.JsonName("Values")),
-  }),
+  S.Struct({ DimensionType: AttributeDimensionType, Values: Values }),
 ).annotate({
   identifier: "AttributeDimension",
 }) as any as S.Schema<AttributeDimension>;
@@ -1997,8 +1973,8 @@ export interface ProfileTypeDimension {
 }
 export const ProfileTypeDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: ProfileTypeDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: ProfileTypeValues.pipe(T.JsonName("Values")),
+    DimensionType: ProfileTypeDimensionType,
+    Values: ProfileTypeValues,
   }),
 ).annotate({
   identifier: "ProfileTypeDimension",
@@ -2029,70 +2005,28 @@ export interface ProfileAttributes {
 }
 export const ProfileAttributes = S.suspend(() =>
   S.Struct({
-    AccountNumber: S.optional(ProfileDimension)
-      .pipe(T.JsonName("AccountNumber"))
-      .annotate({ identifier: "ProfileDimension" }),
-    AdditionalInformation: S.optional(ExtraLengthValueProfileDimension)
-      .pipe(T.JsonName("AdditionalInformation"))
-      .annotate({ identifier: "ExtraLengthValueProfileDimension" }),
-    FirstName: S.optional(ProfileDimension)
-      .pipe(T.JsonName("FirstName"))
-      .annotate({ identifier: "ProfileDimension" }),
-    LastName: S.optional(ProfileDimension)
-      .pipe(T.JsonName("LastName"))
-      .annotate({ identifier: "ProfileDimension" }),
-    MiddleName: S.optional(ProfileDimension)
-      .pipe(T.JsonName("MiddleName"))
-      .annotate({ identifier: "ProfileDimension" }),
-    GenderString: S.optional(ProfileDimension)
-      .pipe(T.JsonName("GenderString"))
-      .annotate({ identifier: "ProfileDimension" }),
-    PartyTypeString: S.optional(ProfileDimension)
-      .pipe(T.JsonName("PartyTypeString"))
-      .annotate({ identifier: "ProfileDimension" }),
-    BirthDate: S.optional(DateDimension)
-      .pipe(T.JsonName("BirthDate"))
-      .annotate({ identifier: "DateDimension" }),
-    PhoneNumber: S.optional(ProfileDimension)
-      .pipe(T.JsonName("PhoneNumber"))
-      .annotate({ identifier: "ProfileDimension" }),
-    BusinessName: S.optional(ProfileDimension)
-      .pipe(T.JsonName("BusinessName"))
-      .annotate({ identifier: "ProfileDimension" }),
-    BusinessPhoneNumber: S.optional(ProfileDimension)
-      .pipe(T.JsonName("BusinessPhoneNumber"))
-      .annotate({ identifier: "ProfileDimension" }),
-    HomePhoneNumber: S.optional(ProfileDimension)
-      .pipe(T.JsonName("HomePhoneNumber"))
-      .annotate({ identifier: "ProfileDimension" }),
-    MobilePhoneNumber: S.optional(ProfileDimension)
-      .pipe(T.JsonName("MobilePhoneNumber"))
-      .annotate({ identifier: "ProfileDimension" }),
-    EmailAddress: S.optional(ProfileDimension)
-      .pipe(T.JsonName("EmailAddress"))
-      .annotate({ identifier: "ProfileDimension" }),
-    PersonalEmailAddress: S.optional(ProfileDimension)
-      .pipe(T.JsonName("PersonalEmailAddress"))
-      .annotate({ identifier: "ProfileDimension" }),
-    BusinessEmailAddress: S.optional(ProfileDimension)
-      .pipe(T.JsonName("BusinessEmailAddress"))
-      .annotate({ identifier: "ProfileDimension" }),
-    Address: S.optional(AddressDimension)
-      .pipe(T.JsonName("Address"))
-      .annotate({ identifier: "AddressDimension" }),
-    ShippingAddress: S.optional(AddressDimension)
-      .pipe(T.JsonName("ShippingAddress"))
-      .annotate({ identifier: "AddressDimension" }),
-    MailingAddress: S.optional(AddressDimension)
-      .pipe(T.JsonName("MailingAddress"))
-      .annotate({ identifier: "AddressDimension" }),
-    BillingAddress: S.optional(AddressDimension)
-      .pipe(T.JsonName("BillingAddress"))
-      .annotate({ identifier: "AddressDimension" }),
-    Attributes: S.optional(CustomAttributes).pipe(T.JsonName("Attributes")),
-    ProfileType: S.optional(ProfileTypeDimension)
-      .pipe(T.JsonName("ProfileType"))
-      .annotate({ identifier: "ProfileTypeDimension" }),
+    AccountNumber: S.optional(ProfileDimension),
+    AdditionalInformation: S.optional(ExtraLengthValueProfileDimension),
+    FirstName: S.optional(ProfileDimension),
+    LastName: S.optional(ProfileDimension),
+    MiddleName: S.optional(ProfileDimension),
+    GenderString: S.optional(ProfileDimension),
+    PartyTypeString: S.optional(ProfileDimension),
+    BirthDate: S.optional(DateDimension),
+    PhoneNumber: S.optional(ProfileDimension),
+    BusinessName: S.optional(ProfileDimension),
+    BusinessPhoneNumber: S.optional(ProfileDimension),
+    HomePhoneNumber: S.optional(ProfileDimension),
+    MobilePhoneNumber: S.optional(ProfileDimension),
+    EmailAddress: S.optional(ProfileDimension),
+    PersonalEmailAddress: S.optional(ProfileDimension),
+    BusinessEmailAddress: S.optional(ProfileDimension),
+    Address: S.optional(AddressDimension),
+    ShippingAddress: S.optional(AddressDimension),
+    MailingAddress: S.optional(AddressDimension),
+    BillingAddress: S.optional(AddressDimension),
+    Attributes: S.optional(CustomAttributes),
+    ProfileType: S.optional(ProfileTypeDimension),
   }),
 ).annotate({
   identifier: "ProfileAttributes",
@@ -2104,11 +2038,9 @@ export interface CalculatedAttributeDimension {
 }
 export const CalculatedAttributeDimension = S.suspend(() =>
   S.Struct({
-    DimensionType: AttributeDimensionType.pipe(T.JsonName("DimensionType")),
-    Values: Values.pipe(T.JsonName("Values")),
-    ConditionOverrides: S.optional(ConditionOverrides)
-      .pipe(T.JsonName("ConditionOverrides"))
-      .annotate({ identifier: "ConditionOverrides" }),
+    DimensionType: AttributeDimensionType,
+    Values: Values,
+    ConditionOverrides: S.optional(ConditionOverrides),
   }),
 ).annotate({
   identifier: "CalculatedAttributeDimension",
@@ -2129,16 +2061,8 @@ export type Dimension =
       };
     };
 export const Dimension = S.Union([
-  S.Struct({
-    ProfileAttributes: ProfileAttributes.pipe(
-      T.JsonName("ProfileAttributes"),
-    ).annotate({ identifier: "ProfileAttributes" }),
-  }),
-  S.Struct({
-    CalculatedAttributes: CalculatedCustomAttributes.pipe(
-      T.JsonName("CalculatedAttributes"),
-    ),
-  }),
+  S.Struct({ ProfileAttributes: ProfileAttributes }),
+  S.Struct({ CalculatedAttributes: CalculatedCustomAttributes }),
 ]);
 export type DimensionList = Dimension[];
 export const DimensionList = S.Array(Dimension);
@@ -2146,11 +2070,7 @@ export interface SourceSegment {
   SegmentDefinitionName?: string;
 }
 export const SourceSegment = S.suspend(() =>
-  S.Struct({
-    SegmentDefinitionName: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionName"),
-    ),
-  }),
+  S.Struct({ SegmentDefinitionName: S.optional(S.String) }),
 ).annotate({ identifier: "SourceSegment" }) as any as S.Schema<SourceSegment>;
 export type SourceSegmentList = SourceSegment[];
 export const SourceSegmentList = S.Array(SourceSegment);
@@ -2164,12 +2084,10 @@ export interface Group {
 }
 export const Group = S.suspend(() =>
   S.Struct({
-    Dimensions: S.optional(DimensionList).pipe(T.JsonName("Dimensions")),
-    SourceSegments: S.optional(SourceSegmentList).pipe(
-      T.JsonName("SourceSegments"),
-    ),
-    SourceType: S.optional(IncludeOptions).pipe(T.JsonName("SourceType")),
-    Type: S.optional(IncludeOptions).pipe(T.JsonName("Type")),
+    Dimensions: S.optional(DimensionList),
+    SourceSegments: S.optional(SourceSegmentList),
+    SourceType: S.optional(IncludeOptions),
+    Type: S.optional(IncludeOptions),
   }),
 ).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 export type SegmentGroupList = Group[];
@@ -2180,8 +2098,8 @@ export interface SegmentGroup {
 }
 export const SegmentGroup = S.suspend(() =>
   S.Struct({
-    Groups: S.optional(SegmentGroupList).pipe(T.JsonName("Groups")),
-    Include: S.optional(IncludeOptions).pipe(T.JsonName("Include")),
+    Groups: S.optional(SegmentGroupList),
+    Include: S.optional(IncludeOptions),
   }),
 ).annotate({ identifier: "SegmentGroup" }) as any as S.Schema<SegmentGroup>;
 export interface CreateSegmentDefinitionRequest {
@@ -2228,16 +2146,12 @@ export interface CreateSegmentDefinitionResponse {
 }
 export const CreateSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({
-    SegmentDefinitionName: S.String.pipe(T.JsonName("SegmentDefinitionName")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("CreatedAt"),
-    ),
-    SegmentDefinitionArn: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionArn"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
+    SegmentDefinitionName: S.String,
+    DisplayName: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SegmentDefinitionArn: S.optional(S.String),
+    Tags: S.optional(TagMap),
   }),
 ).annotate({
   identifier: "CreateSegmentDefinitionResponse",
@@ -2391,7 +2305,7 @@ export interface CreateUploadJobResponse {
   JobId: string;
 }
 export const CreateUploadJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.String.pipe(T.JsonName("JobId")) }),
+  S.Struct({ JobId: S.String }),
 ).annotate({
   identifier: "CreateUploadJobResponse",
 }) as any as S.Schema<CreateUploadJobResponse>;
@@ -2795,7 +2709,7 @@ export interface DeleteSegmentDefinitionResponse {
   Message?: string;
 }
 export const DeleteSegmentDefinitionResponse = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String).pipe(T.JsonName("Message")) }),
+  S.Struct({ Message: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteSegmentDefinitionResponse",
 }) as any as S.Schema<DeleteSegmentDefinitionResponse>;
@@ -4059,23 +3973,15 @@ export interface GetSegmentDefinitionResponse {
 }
 export const GetSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({
-    SegmentDefinitionName: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionName"),
-    ),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
-    SegmentGroups: S.optional(SegmentGroup)
-      .pipe(T.JsonName("SegmentGroups"))
-      .annotate({ identifier: "SegmentGroup" }),
-    SegmentDefinitionArn: S.String.pipe(T.JsonName("SegmentDefinitionArn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("CreatedAt"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-    SegmentSqlQuery: S.optional(SensitiveString).pipe(
-      T.JsonName("SegmentSqlQuery"),
-    ),
-    SegmentType: S.optional(SegmentType).pipe(T.JsonName("SegmentType")),
+    SegmentDefinitionName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    SegmentGroups: S.optional(SegmentGroup),
+    SegmentDefinitionArn: S.String,
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+    SegmentSqlQuery: S.optional(SensitiveString),
+    SegmentType: S.optional(SegmentType),
   }),
 ).annotate({
   identifier: "GetSegmentDefinitionResponse",
@@ -4137,7 +4043,7 @@ export const GetSegmentMembershipRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
-    ProfileIds: ProfileIds.pipe(T.JsonName("ProfileIds")),
+    ProfileIds: ProfileIds,
   }).pipe(
     T.all(
       T.Http({
@@ -4163,11 +4069,9 @@ export interface ProfileQueryResult {
 }
 export const ProfileQueryResult = S.suspend(() =>
   S.Struct({
-    ProfileId: S.String.pipe(T.JsonName("ProfileId")),
-    QueryResult: QueryResult.pipe(T.JsonName("QueryResult")),
-    Profile: S.optional(Profile)
-      .pipe(T.JsonName("Profile"))
-      .annotate({ identifier: "Profile" }),
+    ProfileId: S.String,
+    QueryResult: QueryResult,
+    Profile: S.optional(Profile),
   }),
 ).annotate({
   identifier: "ProfileQueryResult",
@@ -4181,9 +4085,9 @@ export interface ProfileQueryFailures {
 }
 export const ProfileQueryFailures = S.suspend(() =>
   S.Struct({
-    ProfileId: S.String.pipe(T.JsonName("ProfileId")),
-    Message: S.String.pipe(T.JsonName("Message")),
-    Status: S.optional(S.Number).pipe(T.JsonName("Status")),
+    ProfileId: S.String,
+    Message: S.String,
+    Status: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "ProfileQueryFailures",
@@ -4198,14 +4102,10 @@ export interface GetSegmentMembershipResponse {
 }
 export const GetSegmentMembershipResponse = S.suspend(() =>
   S.Struct({
-    SegmentDefinitionName: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionName"),
-    ),
-    Profiles: S.optional(Profiles).pipe(T.JsonName("Profiles")),
-    Failures: S.optional(Failures).pipe(T.JsonName("Failures")),
-    LastComputedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("LastComputedAt")),
+    SegmentDefinitionName: S.optional(S.String),
+    Profiles: S.optional(Profiles),
+    Failures: S.optional(Failures),
+    LastComputedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetSegmentMembershipResponse",
@@ -4363,9 +4263,9 @@ export interface ResultsSummary {
 }
 export const ResultsSummary = S.suspend(() =>
   S.Struct({
-    UpdatedRecords: S.optional(S.Number).pipe(T.JsonName("UpdatedRecords")),
-    CreatedRecords: S.optional(S.Number).pipe(T.JsonName("CreatedRecords")),
-    FailedRecords: S.optional(S.Number).pipe(T.JsonName("FailedRecords")),
+    UpdatedRecords: S.optional(S.Number),
+    CreatedRecords: S.optional(S.Number),
+    FailedRecords: S.optional(S.Number),
   }),
 ).annotate({ identifier: "ResultsSummary" }) as any as S.Schema<ResultsSummary>;
 export interface GetUploadJobResponse {
@@ -4382,22 +4282,16 @@ export interface GetUploadJobResponse {
 }
 export const GetUploadJobResponse = S.suspend(() =>
   S.Struct({
-    JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Status: S.optional(UploadJobStatus).pipe(T.JsonName("Status")),
-    StatusReason: S.optional(StatusReason).pipe(T.JsonName("StatusReason")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("CreatedAt"),
-    ),
-    CompletedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("CompletedAt")),
-    Fields: S.optional(FieldMap).pipe(T.JsonName("Fields")),
-    UniqueKey: S.optional(S.String).pipe(T.JsonName("UniqueKey")),
-    ResultsSummary: S.optional(ResultsSummary)
-      .pipe(T.JsonName("ResultsSummary"))
-      .annotate({ identifier: "ResultsSummary" }),
-    DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
+    JobId: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Status: S.optional(UploadJobStatus),
+    StatusReason: S.optional(StatusReason),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Fields: S.optional(FieldMap),
+    UniqueKey: S.optional(S.String),
+    ResultsSummary: S.optional(ResultsSummary),
+    DataExpiry: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GetUploadJobResponse",
@@ -4433,11 +4327,9 @@ export interface GetUploadJobPathResponse {
 }
 export const GetUploadJobPathResponse = S.suspend(() =>
   S.Struct({
-    Url: S.String.pipe(T.JsonName("Url")),
-    ClientToken: S.optional(S.String).pipe(T.JsonName("ClientToken")),
-    ValidUntil: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("ValidUntil")),
+    Url: S.String,
+    ClientToken: S.optional(S.String),
+    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetUploadJobPathResponse",
@@ -5818,19 +5710,13 @@ export interface SegmentDefinitionItem {
 }
 export const SegmentDefinitionItem = S.suspend(() =>
   S.Struct({
-    SegmentDefinitionName: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionName"),
-    ),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
-    SegmentDefinitionArn: S.optional(S.String).pipe(
-      T.JsonName("SegmentDefinitionArn"),
-    ),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("CreatedAt"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-    SegmentType: S.optional(SegmentType).pipe(T.JsonName("SegmentType")),
+    SegmentDefinitionName: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    SegmentDefinitionArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Tags: S.optional(TagMap),
+    SegmentType: S.optional(SegmentType),
   }),
 ).annotate({
   identifier: "SegmentDefinitionItem",
@@ -5843,8 +5729,8 @@ export interface ListSegmentDefinitionsResponse {
 }
 export const ListSegmentDefinitionsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
-    Items: S.optional(SegmentDefinitionsList).pipe(T.JsonName("Items")),
+    NextToken: S.optional(S.String),
+    Items: S.optional(SegmentDefinitionsList),
   }),
 ).annotate({
   identifier: "ListSegmentDefinitionsResponse",
@@ -5908,17 +5794,13 @@ export interface UploadJobItem {
 }
 export const UploadJobItem = S.suspend(() =>
   S.Struct({
-    JobId: S.optional(S.String).pipe(T.JsonName("JobId")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Status: S.optional(UploadJobStatus).pipe(T.JsonName("Status")),
-    StatusReason: S.optional(StatusReason).pipe(T.JsonName("StatusReason")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("CreatedAt"),
-    ),
-    CompletedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("CompletedAt")),
-    DataExpiry: S.optional(S.Number).pipe(T.JsonName("DataExpiry")),
+    JobId: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Status: S.optional(UploadJobStatus),
+    StatusReason: S.optional(StatusReason),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataExpiry: S.optional(S.Number),
   }),
 ).annotate({ identifier: "UploadJobItem" }) as any as S.Schema<UploadJobItem>;
 export type UploadJobsList = UploadJobItem[];
@@ -5929,8 +5811,8 @@ export interface ListUploadJobsResponse {
 }
 export const ListUploadJobsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("NextToken")),
-    Items: S.optional(UploadJobsList).pipe(T.JsonName("Items")),
+    NextToken: S.optional(S.String),
+    Items: S.optional(UploadJobsList),
   }),
 ).annotate({
   identifier: "ListUploadJobsResponse",

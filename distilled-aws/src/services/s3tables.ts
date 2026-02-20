@@ -285,7 +285,7 @@ export interface GetNamespaceResponse {
 export const GetNamespaceResponse = S.suspend(() =>
   S.Struct({
     namespace: NamespaceList,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     ownerAccountId: S.String,
     namespaceId: S.optional(S.String),
@@ -332,7 +332,7 @@ export interface NamespaceSummary {
 export const NamespaceSummary = S.suspend(() =>
   S.Struct({
     namespace: NamespaceList,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     ownerAccountId: S.String,
     namespaceId: S.optional(S.String),
@@ -768,7 +768,7 @@ export const GetTableBucketResponse = S.suspend(() =>
     arn: S.String,
     name: S.String,
     ownerAccountId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tableBucketId: S.optional(S.String),
     type: S.optional(TableBucketType),
   }),
@@ -948,7 +948,7 @@ export const TableBucketSummary = S.suspend(() =>
     arn: S.String,
     name: S.String,
     ownerAccountId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tableBucketId: S.optional(S.String),
     type: S.optional(TableBucketType),
   }),
@@ -1288,7 +1288,7 @@ export interface LastSuccessfulReplicatedUpdate {
 export const LastSuccessfulReplicatedUpdate = S.suspend(() =>
   S.Struct({
     metadataLocation: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "LastSuccessfulReplicatedUpdate",
@@ -1537,10 +1537,10 @@ export const GetTableResponse = S.suspend(() =>
     versionToken: S.String,
     metadataLocation: S.optional(S.String),
     warehouseLocation: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     managedByService: S.optional(S.String),
-    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     modifiedBy: S.String,
     ownerAccountId: S.String,
     format: OpenTableFormat,
@@ -1705,7 +1705,9 @@ export interface TableMaintenanceJobStatusValue {
 export const TableMaintenanceJobStatusValue = S.suspend(() =>
   S.Struct({
     status: JobStatus,
-    lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureMessage: S.optional(S.String),
   }),
 ).annotate({
@@ -1864,7 +1866,9 @@ export interface GetTableRecordExpirationJobStatusResponse {
 export const GetTableRecordExpirationJobStatusResponse = S.suspend(() =>
   S.Struct({
     status: TableRecordExpirationJobStatus,
-    lastRunTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureMessage: S.optional(S.String),
     metrics: S.optional(TableRecordExpirationJobMetrics),
   }),
@@ -1951,8 +1955,8 @@ export const TableSummary = S.suspend(() =>
     name: S.String,
     type: TableType,
     tableARN: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     managedByService: S.optional(S.String),
     namespaceId: S.optional(S.String),
     tableBucketId: S.optional(S.String),

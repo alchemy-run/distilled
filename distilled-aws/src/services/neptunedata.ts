@@ -449,16 +449,18 @@ export interface ExecuteGremlinExplainQueryInput {
   gremlinQuery: string;
 }
 export const ExecuteGremlinExplainQueryInput = S.suspend(() =>
-  S.Struct({ gremlinQuery: S.String.pipe(T.JsonName("gremlin")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gremlin/explain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ gremlinQuery: S.String })
+    .pipe(S.encodeKeys({ gremlinQuery: "gremlin" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/gremlin/explain" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteGremlinExplainQueryInput",
 }) as any as S.Schema<ExecuteGremlinExplainQueryInput>;
@@ -479,21 +481,31 @@ export interface ExecuteGremlinProfileQueryInput {
 }
 export const ExecuteGremlinProfileQueryInput = S.suspend(() =>
   S.Struct({
-    gremlinQuery: S.String.pipe(T.JsonName("gremlin")),
-    results: S.optional(S.Boolean).pipe(T.JsonName("profile.results")),
-    chop: S.optional(S.Number).pipe(T.JsonName("profile.chop")),
-    serializer: S.optional(S.String).pipe(T.JsonName("profile.serializer")),
-    indexOps: S.optional(S.Boolean).pipe(T.JsonName("profile.indexOps")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gremlin/profile" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    gremlinQuery: S.String,
+    results: S.optional(S.Boolean),
+    chop: S.optional(S.Number),
+    serializer: S.optional(S.String),
+    indexOps: S.optional(S.Boolean),
+  })
+    .pipe(
+      S.encodeKeys({
+        gremlinQuery: "gremlin",
+        results: "profile.results",
+        chop: "profile.chop",
+        serializer: "profile.serializer",
+        indexOps: "profile.indexOps",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/gremlin/profile" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteGremlinProfileQueryInput",
 }) as any as S.Schema<ExecuteGremlinProfileQueryInput>;
@@ -511,18 +523,20 @@ export interface ExecuteGremlinQueryInput {
 }
 export const ExecuteGremlinQueryInput = S.suspend(() =>
   S.Struct({
-    gremlinQuery: S.String.pipe(T.JsonName("gremlin")),
+    gremlinQuery: S.String,
     serializer: S.optional(S.String).pipe(T.HttpHeader("accept")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gremlin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ gremlinQuery: "gremlin" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/gremlin" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteGremlinQueryInput",
 }) as any as S.Schema<ExecuteGremlinQueryInput>;
@@ -569,19 +583,21 @@ export interface ExecuteOpenCypherExplainQueryInput {
 }
 export const ExecuteOpenCypherExplainQueryInput = S.suspend(() =>
   S.Struct({
-    openCypherQuery: S.String.pipe(T.JsonName("query")),
+    openCypherQuery: S.String,
     parameters: S.optional(S.String),
-    explainMode: OpenCypherExplainMode.pipe(T.JsonName("explain")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/opencypher/explain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    explainMode: OpenCypherExplainMode,
+  })
+    .pipe(S.encodeKeys({ openCypherQuery: "query", explainMode: "explain" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/opencypher/explain" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteOpenCypherExplainQueryInput",
 }) as any as S.Schema<ExecuteOpenCypherExplainQueryInput>;
@@ -598,19 +614,18 @@ export interface ExecuteOpenCypherQueryInput {
   parameters?: string;
 }
 export const ExecuteOpenCypherQueryInput = S.suspend(() =>
-  S.Struct({
-    openCypherQuery: S.String.pipe(T.JsonName("query")),
-    parameters: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/opencypher" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ openCypherQuery: S.String, parameters: S.optional(S.String) })
+    .pipe(S.encodeKeys({ openCypherQuery: "query" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/opencypher" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteOpenCypherQueryInput",
 }) as any as S.Schema<ExecuteOpenCypherQueryInput>;
@@ -1016,7 +1031,7 @@ export const Statistics = S.suspend(() =>
     autoCompute: S.optional(S.Boolean),
     active: S.optional(S.Boolean),
     statisticsId: S.optional(S.String),
-    date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     note: S.optional(S.String),
     signatureInfo: S.optional(StatisticsSummary),
   }),
@@ -1095,12 +1110,12 @@ export interface PropertygraphRecord {
 }
 export const PropertygraphRecord = S.suspend(() =>
   S.Struct({
-    commitTimestampInMillis: S.Number.pipe(T.JsonName("commitTimestamp")),
+    commitTimestampInMillis: S.Number,
     eventId: StringValuedMap,
     data: PropertygraphData,
     op: S.String,
     isLastOp: S.optional(S.Boolean),
-  }),
+  }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
 ).annotate({
   identifier: "PropertygraphRecord",
 }) as any as S.Schema<PropertygraphRecord>;
@@ -1116,11 +1131,11 @@ export interface GetPropertygraphStreamOutput {
 export const GetPropertygraphStreamOutput = S.suspend(() =>
   S.Struct({
     lastEventId: StringValuedMap,
-    lastTrxTimestampInMillis: S.Number.pipe(T.JsonName("lastTrxTimestamp")),
+    lastTrxTimestampInMillis: S.Number,
     format: S.String,
     records: PropertygraphRecordsList,
     totalRecords: S.Number,
-  }),
+  }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
 ).annotate({
   identifier: "GetPropertygraphStreamOutput",
 }) as any as S.Schema<GetPropertygraphStreamOutput>;
@@ -1230,7 +1245,7 @@ export const PropertygraphSummaryValueMap = S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     lastStatisticsComputationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     graphSummary: S.optional(PropertygraphSummary),
   }),
@@ -1314,7 +1329,7 @@ export const RDFGraphSummaryValueMap = S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     lastStatisticsComputationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     graphSummary: S.optional(RDFGraphSummary),
   }),
@@ -1392,12 +1407,12 @@ export interface SparqlRecord {
 }
 export const SparqlRecord = S.suspend(() =>
   S.Struct({
-    commitTimestampInMillis: S.Number.pipe(T.JsonName("commitTimestamp")),
+    commitTimestampInMillis: S.Number,
     eventId: StringValuedMap,
     data: SparqlData,
     op: S.String,
     isLastOp: S.optional(S.Boolean),
-  }),
+  }).pipe(S.encodeKeys({ commitTimestampInMillis: "commitTimestamp" })),
 ).annotate({ identifier: "SparqlRecord" }) as any as S.Schema<SparqlRecord>;
 export type SparqlRecordsList = SparqlRecord[];
 export const SparqlRecordsList = S.Array(SparqlRecord);
@@ -1411,11 +1426,11 @@ export interface GetSparqlStreamOutput {
 export const GetSparqlStreamOutput = S.suspend(() =>
   S.Struct({
     lastEventId: StringValuedMap,
-    lastTrxTimestampInMillis: S.Number.pipe(T.JsonName("lastTrxTimestamp")),
+    lastTrxTimestampInMillis: S.Number,
     format: S.String,
     records: SparqlRecordsList,
     totalRecords: S.Number,
-  }),
+  }).pipe(S.encodeKeys({ lastTrxTimestampInMillis: "lastTrxTimestamp" })),
 ).annotate({
   identifier: "GetSparqlStreamOutput",
 }) as any as S.Schema<GetSparqlStreamOutput>;
@@ -1808,7 +1823,7 @@ export const StartLoaderJobInput = S.suspend(() =>
   S.Struct({
     source: S.String,
     format: Format,
-    s3BucketRegion: S3BucketRegion.pipe(T.JsonName("region")),
+    s3BucketRegion: S3BucketRegion,
     iamRoleArn: S.String,
     mode: S.optional(Mode),
     failOnError: S.optional(S.Boolean),
@@ -1818,16 +1833,18 @@ export const StartLoaderJobInput = S.suspend(() =>
     queueRequest: S.optional(S.Boolean),
     dependencies: S.optional(StringList),
     userProvidedEdgeIds: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/loader" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ s3BucketRegion: "region" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/loader" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartLoaderJobInput",
 }) as any as S.Schema<StartLoaderJobInput>;

@@ -327,8 +327,8 @@ export interface OptionStatus {
 }
 export const OptionStatus = S.suspend(() =>
   S.Struct({
-    CreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdateVersion: S.optional(S.Number),
     State: OptionState,
     PendingDeletion: S.optional(S.Boolean),

@@ -291,8 +291,8 @@ export const GetFlowExecutionResponse = S.suspend(() =>
   S.Struct({
     executionArn: S.String,
     status: FlowExecutionStatus,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     errors: S.optional(FlowExecutionErrors),
     flowAliasIdentifier: S.String,
     flowIdentifier: S.String,
@@ -354,7 +354,7 @@ export interface FlowExecutionInputEvent {
 export const FlowExecutionInputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: FlowInputFields,
   }),
 ).annotate({
@@ -379,7 +379,7 @@ export interface FlowExecutionOutputEvent {
 export const FlowExecutionOutputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: FlowOutputFields,
   }),
 ).annotate({
@@ -461,7 +461,7 @@ export interface NodeInputEvent {
 export const NodeInputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: NodeInputFields,
   }),
 ).annotate({ identifier: "NodeInputEvent" }) as any as S.Schema<NodeInputEvent>;
@@ -500,7 +500,7 @@ export interface NodeOutputEvent {
 export const NodeOutputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: NodeOutputFields,
   }),
 ).annotate({
@@ -524,7 +524,7 @@ export interface ConditionResultEvent {
 export const ConditionResultEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     satisfiedConditions: SatisfiedConditions,
   }),
 ).annotate({
@@ -546,7 +546,7 @@ export interface NodeFailureEvent {
 export const NodeFailureEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     errorCode: NodeErrorCode,
     errorMessage: S.String,
   }),
@@ -566,7 +566,7 @@ export interface FlowFailureEvent {
 }
 export const FlowFailureEvent = S.suspend(() =>
   S.Struct({
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     errorCode: FlowErrorCode,
     errorMessage: S.String,
   }),
@@ -585,7 +585,7 @@ export interface NodeActionEvent {
 export const NodeActionEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     requestId: S.String,
     serviceName: S.String,
     operationName: S.String,
@@ -836,8 +836,10 @@ export interface Metadata {
 }
 export const Metadata = S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     totalTimeMs: S.optional(S.Number),
     operationTotalTimeMs: S.optional(S.Number),
     clientRequestId: S.optional(S.String),
@@ -1922,7 +1924,9 @@ export const TracePart = S.suspend(() =>
     sessionId: S.optional(S.String),
     trace: S.optional(Trace),
     callerChain: S.optional(CallerChain),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    eventTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     collaboratorName: S.optional(SensitiveString),
     agentId: S.optional(S.String),
     agentAliasId: S.optional(S.String),
@@ -1943,7 +1947,7 @@ export interface NodeDependencyEvent {
 export const NodeDependencyEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     traceElements: NodeTraceElements,
   }),
 ).annotate({
@@ -2117,8 +2121,8 @@ export const FlowExecutionSummary = S.suspend(() =>
     flowIdentifier: S.String,
     flowVersion: S.String,
     status: FlowExecutionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "FlowExecutionSummary",
@@ -2381,7 +2385,7 @@ export interface FlowTraceNodeInputEvent {
 export const FlowTraceNodeInputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: FlowTraceNodeInputFields,
   }),
 ).annotate({
@@ -2428,7 +2432,7 @@ export interface FlowTraceNodeOutputEvent {
 export const FlowTraceNodeOutputEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: FlowTraceNodeOutputFields,
   }),
 ).annotate({
@@ -2452,7 +2456,7 @@ export interface FlowTraceConditionNodeResultEvent {
 export const FlowTraceConditionNodeResultEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     satisfiedConditions: FlowTraceConditions,
   }),
 ).annotate({
@@ -2470,7 +2474,7 @@ export interface FlowTraceNodeActionEvent {
 export const FlowTraceNodeActionEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     requestId: S.String,
     serviceName: S.String,
     operationName: S.String,
@@ -2490,7 +2494,7 @@ export interface FlowTraceDependencyEvent {
 export const FlowTraceDependencyEvent = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
-    timestamp: S.Date.pipe(T.TimestampFormat("date-time")),
+    timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     traceElements: TraceElements,
   }),
 ).annotate({
@@ -4214,7 +4218,9 @@ export const InlineAgentTracePart = S.suspend(() =>
     sessionId: S.optional(S.String),
     trace: S.optional(Trace),
     callerChain: S.optional(CallerChain),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    eventTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     collaboratorName: S.optional(SensitiveString),
   }),
 ).annotate({
@@ -4582,8 +4588,12 @@ export const MemorySessionSummary = S.suspend(() =>
   S.Struct({
     memoryId: S.optional(S.String),
     sessionId: S.optional(S.String),
-    sessionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    sessionExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    sessionStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    sessionExpiryTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     summaryText: S.optional(S.String),
   }),
 ).annotate({
@@ -5588,7 +5598,7 @@ export const CreateSessionResponse = S.suspend(() =>
     sessionId: S.String,
     sessionArn: S.String,
     sessionStatus: SessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateSessionResponse",
@@ -5626,8 +5636,8 @@ export const GetSessionResponse = S.suspend(() =>
     sessionId: S.String,
     sessionArn: S.String,
     sessionStatus: SessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     sessionMetadata: S.optional(SessionMetadataMap),
     encryptionKeyArn: S.optional(S.String),
   }),
@@ -5667,8 +5677,8 @@ export const UpdateSessionResponse = S.suspend(() =>
     sessionId: S.String,
     sessionArn: S.String,
     sessionStatus: SessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateSessionResponse",
@@ -5729,8 +5739,8 @@ export const SessionSummary = S.suspend(() =>
     sessionId: S.String,
     sessionArn: S.String,
     sessionStatus: SessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "SessionSummary" }) as any as S.Schema<SessionSummary>;
 export type SessionSummaries = SessionSummary[];
@@ -5815,7 +5825,7 @@ export const CreateInvocationResponse = S.suspend(() =>
   S.Struct({
     sessionId: S.String,
     invocationId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateInvocationResponse",
@@ -5855,7 +5865,7 @@ export const InvocationSummary = S.suspend(() =>
   S.Struct({
     sessionId: S.String,
     invocationId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "InvocationSummary",
@@ -5922,7 +5932,7 @@ export const PutInvocationStepRequest = S.suspend(() =>
   S.Struct({
     sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
     invocationIdentifier: S.String,
-    invocationStepTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    invocationStepTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     payload: InvocationStepPayload,
     invocationStepId: S.optional(S.String),
   }).pipe(
@@ -5987,7 +5997,7 @@ export const InvocationStep = S.suspend(() =>
     sessionId: S.String,
     invocationId: S.String,
     invocationStepId: S.String,
-    invocationStepTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    invocationStepTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     payload: InvocationStepPayload,
   }),
 ).annotate({ identifier: "InvocationStep" }) as any as S.Schema<InvocationStep>;
@@ -6038,7 +6048,7 @@ export const InvocationStepSummary = S.suspend(() =>
     sessionId: S.String,
     invocationId: S.String,
     invocationStepId: S.String,
-    invocationStepTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    invocationStepTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "InvocationStepSummary",

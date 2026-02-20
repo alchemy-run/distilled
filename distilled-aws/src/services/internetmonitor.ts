@@ -246,8 +246,8 @@ export const GetInternetEventOutput = S.suspend(() =>
   S.Struct({
     EventId: S.String,
     EventArn: S.String,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ClientLocation: ClientLocation,
     EventType: S.String,
     EventStatus: S.String,
@@ -269,12 +269,12 @@ export const ListInternetEventsInput = S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(
       T.HttpQuery("InternetEventMaxResults"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("EndTime")),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
     EventType: S.optional(S.String).pipe(T.HttpQuery("EventType")),
   }).pipe(
@@ -303,8 +303,8 @@ export const InternetEventSummary = S.suspend(() =>
   S.Struct({
     EventId: S.String,
     EventArn: S.String,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ClientLocation: ClientLocation,
     EventType: S.String,
     EventStatus: S.String,
@@ -464,8 +464,8 @@ export const GetMonitorOutput = S.suspend(() =>
     MonitorArn: S.String,
     Resources: SetOfARNs,
     Status: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ModifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ProcessingStatus: S.optional(S.String),
     ProcessingStatusInfo: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -714,8 +714,8 @@ export interface StartQueryInput {
 export const StartQueryInput = S.suspend(() =>
   S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     QueryType: S.String,
     FilterParameters: S.optional(FilterParameters),
     LinkedAccountId: S.optional(S.String),
@@ -929,10 +929,12 @@ export const GetHealthEventOutput = S.suspend(() =>
   S.Struct({
     EventArn: S.String,
     EventId: S.String,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ImpactedLocations: ImpactedLocationsList,
     Status: S.String,
     PercentOfTotalTrafficImpacted: S.optional(S.Number),
@@ -954,12 +956,12 @@ export interface ListHealthEventsInput {
 export const ListHealthEventsInput = S.suspend(() =>
   S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("EndTime")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
@@ -997,10 +999,12 @@ export const HealthEvent = S.suspend(() =>
   S.Struct({
     EventArn: S.String,
     EventId: S.String,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ImpactedLocations: ImpactedLocationsList,
     Status: S.String,
     PercentOfTotalTrafficImpacted: S.optional(S.Number),

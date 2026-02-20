@@ -94,9 +94,9 @@ export interface EgressAccessLogs {
   LogGroupName?: string;
 }
 export const EgressAccessLogs = S.suspend(() =>
-  S.Struct({
-    LogGroupName: S.optional(S.String).pipe(T.JsonName("logGroupName")),
-  }),
+  S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ LogGroupName: "logGroupName" }),
+  ),
 ).annotate({
   identifier: "EgressAccessLogs",
 }) as any as S.Schema<EgressAccessLogs>;
@@ -106,20 +106,20 @@ export interface ConfigureLogsRequest {
 }
 export const ConfigureLogsRequest = S.suspend(() =>
   S.Struct({
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
     Id: S.String.pipe(T.HttpLabel("Id")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/packaging_groups/{Id}/configure_logs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ EgressAccessLogs: "egressAccessLogs" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/packaging_groups/{Id}/configure_logs" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ConfigureLogsRequest",
 }) as any as S.Schema<ConfigureLogsRequest>;
@@ -129,11 +129,14 @@ export interface Authorization {
 }
 export const Authorization = S.suspend(() =>
   S.Struct({
-    CdnIdentifierSecret: S.optional(S.String).pipe(
-      T.JsonName("cdnIdentifierSecret"),
-    ),
-    SecretsRoleArn: S.optional(S.String).pipe(T.JsonName("secretsRoleArn")),
-  }),
+    CdnIdentifierSecret: S.optional(S.String),
+    SecretsRoleArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CdnIdentifierSecret: "cdnIdentifierSecret",
+      SecretsRoleArn: "secretsRoleArn",
+    }),
+  ),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = S.Record(S.String, S.String.pipe(S.optional));
@@ -151,18 +154,24 @@ export interface ConfigureLogsResponse {
 }
 export const ConfigureLogsResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    Authorization: S.optional(Authorization),
+    CreatedAt: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Authorization: "authorization",
+      CreatedAt: "createdAt",
+      DomainName: "domainName",
+      EgressAccessLogs: "egressAccessLogs",
+      Id: "id",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "ConfigureLogsResponse",
 }) as any as S.Schema<ConfigureLogsResponse>;
@@ -176,22 +185,33 @@ export interface CreateAssetRequest {
 }
 export const CreateAssetRequest = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    SourceArn: S.optional(S.String).pipe(T.JsonName("sourceArn")),
-    SourceRoleArn: S.optional(S.String).pipe(T.JsonName("sourceRoleArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/assets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Id: S.optional(S.String),
+    PackagingGroupId: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    SourceRoleArn: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Id: "id",
+        PackagingGroupId: "packagingGroupId",
+        ResourceId: "resourceId",
+        SourceArn: "sourceArn",
+        SourceRoleArn: "sourceRoleArn",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/assets" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateAssetRequest",
 }) as any as S.Schema<CreateAssetRequest>;
@@ -202,12 +222,16 @@ export interface EgressEndpoint {
 }
 export const EgressEndpoint = S.suspend(() =>
   S.Struct({
-    PackagingConfigurationId: S.optional(S.String).pipe(
-      T.JsonName("packagingConfigurationId"),
-    ),
-    Status: S.optional(S.String).pipe(T.JsonName("status")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    PackagingConfigurationId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PackagingConfigurationId: "packagingConfigurationId",
+      Status: "status",
+      Url: "url",
+    }),
+  ),
 ).annotate({ identifier: "EgressEndpoint" }) as any as S.Schema<EgressEndpoint>;
 export type __listOfEgressEndpoint = EgressEndpoint[];
 export const __listOfEgressEndpoint = S.Array(EgressEndpoint);
@@ -224,18 +248,28 @@ export interface CreateAssetResponse {
 }
 export const CreateAssetResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    EgressEndpoints: S.optional(__listOfEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    SourceArn: S.optional(S.String).pipe(T.JsonName("sourceArn")),
-    SourceRoleArn: S.optional(S.String).pipe(T.JsonName("sourceRoleArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.String),
+    EgressEndpoints: S.optional(__listOfEgressEndpoint),
+    Id: S.optional(S.String),
+    PackagingGroupId: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    SourceRoleArn: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      EgressEndpoints: "egressEndpoints",
+      Id: "id",
+      PackagingGroupId: "packagingGroupId",
+      ResourceId: "resourceId",
+      SourceArn: "sourceArn",
+      SourceRoleArn: "sourceRoleArn",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateAssetResponse",
 }) as any as S.Schema<CreateAssetResponse>;
@@ -266,13 +300,14 @@ export interface EncryptionContractConfiguration {
 }
 export const EncryptionContractConfiguration = S.suspend(() =>
   S.Struct({
-    PresetSpeke20Audio: S.optional(PresetSpeke20Audio).pipe(
-      T.JsonName("presetSpeke20Audio"),
-    ),
-    PresetSpeke20Video: S.optional(PresetSpeke20Video).pipe(
-      T.JsonName("presetSpeke20Video"),
-    ),
-  }),
+    PresetSpeke20Audio: S.optional(PresetSpeke20Audio),
+    PresetSpeke20Video: S.optional(PresetSpeke20Video),
+  }).pipe(
+    S.encodeKeys({
+      PresetSpeke20Audio: "presetSpeke20Audio",
+      PresetSpeke20Video: "presetSpeke20Video",
+    }),
+  ),
 ).annotate({
   identifier: "EncryptionContractConfiguration",
 }) as any as S.Schema<EncryptionContractConfiguration>;
@@ -286,13 +321,20 @@ export interface SpekeKeyProvider {
 }
 export const SpekeKeyProvider = S.suspend(() =>
   S.Struct({
-    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
-      .pipe(T.JsonName("encryptionContractConfiguration"))
-      .annotate({ identifier: "EncryptionContractConfiguration" }),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    SystemIds: S.optional(__listOf__string).pipe(T.JsonName("systemIds")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    EncryptionContractConfiguration: S.optional(
+      EncryptionContractConfiguration,
+    ),
+    RoleArn: S.optional(S.String),
+    SystemIds: S.optional(__listOf__string),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EncryptionContractConfiguration: "encryptionContractConfiguration",
+      RoleArn: "roleArn",
+      SystemIds: "systemIds",
+      Url: "url",
+    }),
+  ),
 ).annotate({
   identifier: "SpekeKeyProvider",
 }) as any as S.Schema<SpekeKeyProvider>;
@@ -302,13 +344,14 @@ export interface CmafEncryption {
 }
 export const CmafEncryption = S.suspend(() =>
   S.Struct({
-    ConstantInitializationVector: S.optional(S.String).pipe(
-      T.JsonName("constantInitializationVector"),
-    ),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+    ConstantInitializationVector: S.optional(S.String),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider),
+  }).pipe(
+    S.encodeKeys({
+      ConstantInitializationVector: "constantInitializationVector",
+      SpekeKeyProvider: "spekeKeyProvider",
+    }),
+  ),
 ).annotate({ identifier: "CmafEncryption" }) as any as S.Schema<CmafEncryption>;
 export type AdMarkers =
   | "NONE"
@@ -329,14 +372,16 @@ export interface StreamSelection {
 }
 export const StreamSelection = S.suspend(() =>
   S.Struct({
-    MaxVideoBitsPerSecond: S.optional(S.Number).pipe(
-      T.JsonName("maxVideoBitsPerSecond"),
-    ),
-    MinVideoBitsPerSecond: S.optional(S.Number).pipe(
-      T.JsonName("minVideoBitsPerSecond"),
-    ),
-    StreamOrder: S.optional(StreamOrder).pipe(T.JsonName("streamOrder")),
-  }),
+    MaxVideoBitsPerSecond: S.optional(S.Number),
+    MinVideoBitsPerSecond: S.optional(S.Number),
+    StreamOrder: S.optional(StreamOrder),
+  }).pipe(
+    S.encodeKeys({
+      MaxVideoBitsPerSecond: "maxVideoBitsPerSecond",
+      MinVideoBitsPerSecond: "minVideoBitsPerSecond",
+      StreamOrder: "streamOrder",
+    }),
+  ),
 ).annotate({
   identifier: "StreamSelection",
 }) as any as S.Schema<StreamSelection>;
@@ -350,19 +395,22 @@ export interface HlsManifest {
 }
 export const HlsManifest = S.suspend(() =>
   S.Struct({
-    AdMarkers: S.optional(AdMarkers).pipe(T.JsonName("adMarkers")),
-    IncludeIframeOnlyStream: S.optional(S.Boolean).pipe(
-      T.JsonName("includeIframeOnlyStream"),
-    ),
-    ManifestName: S.optional(S.String).pipe(T.JsonName("manifestName")),
-    ProgramDateTimeIntervalSeconds: S.optional(S.Number).pipe(
-      T.JsonName("programDateTimeIntervalSeconds"),
-    ),
-    RepeatExtXKey: S.optional(S.Boolean).pipe(T.JsonName("repeatExtXKey")),
-    StreamSelection: S.optional(StreamSelection)
-      .pipe(T.JsonName("streamSelection"))
-      .annotate({ identifier: "StreamSelection" }),
-  }),
+    AdMarkers: S.optional(AdMarkers),
+    IncludeIframeOnlyStream: S.optional(S.Boolean),
+    ManifestName: S.optional(S.String),
+    ProgramDateTimeIntervalSeconds: S.optional(S.Number),
+    RepeatExtXKey: S.optional(S.Boolean),
+    StreamSelection: S.optional(StreamSelection),
+  }).pipe(
+    S.encodeKeys({
+      AdMarkers: "adMarkers",
+      IncludeIframeOnlyStream: "includeIframeOnlyStream",
+      ManifestName: "manifestName",
+      ProgramDateTimeIntervalSeconds: "programDateTimeIntervalSeconds",
+      RepeatExtXKey: "repeatExtXKey",
+      StreamSelection: "streamSelection",
+    }),
+  ),
 ).annotate({ identifier: "HlsManifest" }) as any as S.Schema<HlsManifest>;
 export type __listOfHlsManifest = HlsManifest[];
 export const __listOfHlsManifest = S.Array(HlsManifest);
@@ -374,19 +422,19 @@ export interface CmafPackage {
 }
 export const CmafPackage = S.suspend(() =>
   S.Struct({
-    Encryption: S.optional(CmafEncryption)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "CmafEncryption" }),
-    HlsManifests: S.optional(__listOfHlsManifest).pipe(
-      T.JsonName("hlsManifests"),
-    ),
-    IncludeEncoderConfigurationInSegments: S.optional(S.Boolean).pipe(
-      T.JsonName("includeEncoderConfigurationInSegments"),
-    ),
-    SegmentDurationSeconds: S.optional(S.Number).pipe(
-      T.JsonName("segmentDurationSeconds"),
-    ),
-  }),
+    Encryption: S.optional(CmafEncryption),
+    HlsManifests: S.optional(__listOfHlsManifest),
+    IncludeEncoderConfigurationInSegments: S.optional(S.Boolean),
+    SegmentDurationSeconds: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Encryption: "encryption",
+      HlsManifests: "hlsManifests",
+      IncludeEncoderConfigurationInSegments:
+        "includeEncoderConfigurationInSegments",
+      SegmentDurationSeconds: "segmentDurationSeconds",
+    }),
+  ),
 ).annotate({ identifier: "CmafPackage" }) as any as S.Schema<CmafPackage>;
 export type ManifestLayout = "FULL" | "COMPACT" | (string & {});
 export const ManifestLayout = S.String;
@@ -404,21 +452,22 @@ export interface DashManifest {
 }
 export const DashManifest = S.suspend(() =>
   S.Struct({
-    ManifestLayout: S.optional(ManifestLayout).pipe(
-      T.JsonName("manifestLayout"),
-    ),
-    ManifestName: S.optional(S.String).pipe(T.JsonName("manifestName")),
-    MinBufferTimeSeconds: S.optional(S.Number).pipe(
-      T.JsonName("minBufferTimeSeconds"),
-    ),
-    Profile: S.optional(Profile).pipe(T.JsonName("profile")),
-    ScteMarkersSource: S.optional(ScteMarkersSource).pipe(
-      T.JsonName("scteMarkersSource"),
-    ),
-    StreamSelection: S.optional(StreamSelection)
-      .pipe(T.JsonName("streamSelection"))
-      .annotate({ identifier: "StreamSelection" }),
-  }),
+    ManifestLayout: S.optional(ManifestLayout),
+    ManifestName: S.optional(S.String),
+    MinBufferTimeSeconds: S.optional(S.Number),
+    Profile: S.optional(Profile),
+    ScteMarkersSource: S.optional(ScteMarkersSource),
+    StreamSelection: S.optional(StreamSelection),
+  }).pipe(
+    S.encodeKeys({
+      ManifestLayout: "manifestLayout",
+      ManifestName: "manifestName",
+      MinBufferTimeSeconds: "minBufferTimeSeconds",
+      Profile: "profile",
+      ScteMarkersSource: "scteMarkersSource",
+      StreamSelection: "streamSelection",
+    }),
+  ),
 ).annotate({ identifier: "DashManifest" }) as any as S.Schema<DashManifest>;
 export type __listOfDashManifest = DashManifest[];
 export const __listOfDashManifest = S.Array(DashManifest);
@@ -426,11 +475,9 @@ export interface DashEncryption {
   SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const DashEncryption = S.suspend(() =>
-  S.Struct({
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+  S.Struct({ SpekeKeyProvider: S.optional(SpekeKeyProvider) }).pipe(
+    S.encodeKeys({ SpekeKeyProvider: "spekeKeyProvider" }),
+  ),
 ).annotate({ identifier: "DashEncryption" }) as any as S.Schema<DashEncryption>;
 export type __PeriodTriggersElement = "ADS" | (string & {});
 export const __PeriodTriggersElement = S.String;
@@ -453,28 +500,25 @@ export interface DashPackage {
 }
 export const DashPackage = S.suspend(() =>
   S.Struct({
-    DashManifests: S.optional(__listOfDashManifest).pipe(
-      T.JsonName("dashManifests"),
-    ),
-    Encryption: S.optional(DashEncryption)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "DashEncryption" }),
-    IncludeEncoderConfigurationInSegments: S.optional(S.Boolean).pipe(
-      T.JsonName("includeEncoderConfigurationInSegments"),
-    ),
-    IncludeIframeOnlyStream: S.optional(S.Boolean).pipe(
-      T.JsonName("includeIframeOnlyStream"),
-    ),
-    PeriodTriggers: S.optional(__listOf__PeriodTriggersElement).pipe(
-      T.JsonName("periodTriggers"),
-    ),
-    SegmentDurationSeconds: S.optional(S.Number).pipe(
-      T.JsonName("segmentDurationSeconds"),
-    ),
-    SegmentTemplateFormat: S.optional(SegmentTemplateFormat).pipe(
-      T.JsonName("segmentTemplateFormat"),
-    ),
-  }),
+    DashManifests: S.optional(__listOfDashManifest),
+    Encryption: S.optional(DashEncryption),
+    IncludeEncoderConfigurationInSegments: S.optional(S.Boolean),
+    IncludeIframeOnlyStream: S.optional(S.Boolean),
+    PeriodTriggers: S.optional(__listOf__PeriodTriggersElement),
+    SegmentDurationSeconds: S.optional(S.Number),
+    SegmentTemplateFormat: S.optional(SegmentTemplateFormat),
+  }).pipe(
+    S.encodeKeys({
+      DashManifests: "dashManifests",
+      Encryption: "encryption",
+      IncludeEncoderConfigurationInSegments:
+        "includeEncoderConfigurationInSegments",
+      IncludeIframeOnlyStream: "includeIframeOnlyStream",
+      PeriodTriggers: "periodTriggers",
+      SegmentDurationSeconds: "segmentDurationSeconds",
+      SegmentTemplateFormat: "segmentTemplateFormat",
+    }),
+  ),
 ).annotate({ identifier: "DashPackage" }) as any as S.Schema<DashPackage>;
 export type EncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
 export const EncryptionMethod = S.String;
@@ -485,16 +529,16 @@ export interface HlsEncryption {
 }
 export const HlsEncryption = S.suspend(() =>
   S.Struct({
-    ConstantInitializationVector: S.optional(S.String).pipe(
-      T.JsonName("constantInitializationVector"),
-    ),
-    EncryptionMethod: S.optional(EncryptionMethod).pipe(
-      T.JsonName("encryptionMethod"),
-    ),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+    ConstantInitializationVector: S.optional(S.String),
+    EncryptionMethod: S.optional(EncryptionMethod),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider),
+  }).pipe(
+    S.encodeKeys({
+      ConstantInitializationVector: "constantInitializationVector",
+      EncryptionMethod: "encryptionMethod",
+      SpekeKeyProvider: "spekeKeyProvider",
+    }),
+  ),
 ).annotate({ identifier: "HlsEncryption" }) as any as S.Schema<HlsEncryption>;
 export interface HlsPackage {
   Encryption?: HlsEncryption;
@@ -505,32 +549,28 @@ export interface HlsPackage {
 }
 export const HlsPackage = S.suspend(() =>
   S.Struct({
-    Encryption: S.optional(HlsEncryption)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "HlsEncryption" }),
-    HlsManifests: S.optional(__listOfHlsManifest).pipe(
-      T.JsonName("hlsManifests"),
-    ),
-    IncludeDvbSubtitles: S.optional(S.Boolean).pipe(
-      T.JsonName("includeDvbSubtitles"),
-    ),
-    SegmentDurationSeconds: S.optional(S.Number).pipe(
-      T.JsonName("segmentDurationSeconds"),
-    ),
-    UseAudioRenditionGroup: S.optional(S.Boolean).pipe(
-      T.JsonName("useAudioRenditionGroup"),
-    ),
-  }),
+    Encryption: S.optional(HlsEncryption),
+    HlsManifests: S.optional(__listOfHlsManifest),
+    IncludeDvbSubtitles: S.optional(S.Boolean),
+    SegmentDurationSeconds: S.optional(S.Number),
+    UseAudioRenditionGroup: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      Encryption: "encryption",
+      HlsManifests: "hlsManifests",
+      IncludeDvbSubtitles: "includeDvbSubtitles",
+      SegmentDurationSeconds: "segmentDurationSeconds",
+      UseAudioRenditionGroup: "useAudioRenditionGroup",
+    }),
+  ),
 ).annotate({ identifier: "HlsPackage" }) as any as S.Schema<HlsPackage>;
 export interface MssEncryption {
   SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const MssEncryption = S.suspend(() =>
-  S.Struct({
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+  S.Struct({ SpekeKeyProvider: S.optional(SpekeKeyProvider) }).pipe(
+    S.encodeKeys({ SpekeKeyProvider: "spekeKeyProvider" }),
+  ),
 ).annotate({ identifier: "MssEncryption" }) as any as S.Schema<MssEncryption>;
 export interface MssManifest {
   ManifestName?: string;
@@ -538,11 +578,14 @@ export interface MssManifest {
 }
 export const MssManifest = S.suspend(() =>
   S.Struct({
-    ManifestName: S.optional(S.String).pipe(T.JsonName("manifestName")),
-    StreamSelection: S.optional(StreamSelection)
-      .pipe(T.JsonName("streamSelection"))
-      .annotate({ identifier: "StreamSelection" }),
-  }),
+    ManifestName: S.optional(S.String),
+    StreamSelection: S.optional(StreamSelection),
+  }).pipe(
+    S.encodeKeys({
+      ManifestName: "manifestName",
+      StreamSelection: "streamSelection",
+    }),
+  ),
 ).annotate({ identifier: "MssManifest" }) as any as S.Schema<MssManifest>;
 export type __listOfMssManifest = MssManifest[];
 export const __listOfMssManifest = S.Array(MssManifest);
@@ -553,16 +596,16 @@ export interface MssPackage {
 }
 export const MssPackage = S.suspend(() =>
   S.Struct({
-    Encryption: S.optional(MssEncryption)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "MssEncryption" }),
-    MssManifests: S.optional(__listOfMssManifest).pipe(
-      T.JsonName("mssManifests"),
-    ),
-    SegmentDurationSeconds: S.optional(S.Number).pipe(
-      T.JsonName("segmentDurationSeconds"),
-    ),
-  }),
+    Encryption: S.optional(MssEncryption),
+    MssManifests: S.optional(__listOfMssManifest),
+    SegmentDurationSeconds: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Encryption: "encryption",
+      MssManifests: "mssManifests",
+      SegmentDurationSeconds: "segmentDurationSeconds",
+    }),
+  ),
 ).annotate({ identifier: "MssPackage" }) as any as S.Schema<MssPackage>;
 export interface CreatePackagingConfigurationRequest {
   CmafPackage?: CmafPackage;
@@ -575,31 +618,35 @@ export interface CreatePackagingConfigurationRequest {
 }
 export const CreatePackagingConfigurationRequest = S.suspend(() =>
   S.Struct({
-    CmafPackage: S.optional(CmafPackage)
-      .pipe(T.JsonName("cmafPackage"))
-      .annotate({ identifier: "CmafPackage" }),
-    DashPackage: S.optional(DashPackage)
-      .pipe(T.JsonName("dashPackage"))
-      .annotate({ identifier: "DashPackage" }),
-    HlsPackage: S.optional(HlsPackage)
-      .pipe(T.JsonName("hlsPackage"))
-      .annotate({ identifier: "HlsPackage" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MssPackage: S.optional(MssPackage)
-      .pipe(T.JsonName("mssPackage"))
-      .annotate({ identifier: "MssPackage" }),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/packaging_configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    CmafPackage: S.optional(CmafPackage),
+    DashPackage: S.optional(DashPackage),
+    HlsPackage: S.optional(HlsPackage),
+    Id: S.optional(S.String),
+    MssPackage: S.optional(MssPackage),
+    PackagingGroupId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        CmafPackage: "cmafPackage",
+        DashPackage: "dashPackage",
+        HlsPackage: "hlsPackage",
+        Id: "id",
+        MssPackage: "mssPackage",
+        PackagingGroupId: "packagingGroupId",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/packaging_configurations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreatePackagingConfigurationRequest",
 }) as any as S.Schema<CreatePackagingConfigurationRequest>;
@@ -668,24 +715,28 @@ export interface CreatePackagingConfigurationResponse {
 }
 export const CreatePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CmafPackage: S.optional(CmafPackage)
-      .pipe(T.JsonName("cmafPackage"))
-      .annotate({ identifier: "CmafPackage" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DashPackage: S.optional(DashPackage)
-      .pipe(T.JsonName("dashPackage"))
-      .annotate({ identifier: "DashPackage" }),
-    HlsPackage: S.optional(HlsPackage)
-      .pipe(T.JsonName("hlsPackage"))
-      .annotate({ identifier: "HlsPackage" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MssPackage: S.optional(MssPackage)
-      .pipe(T.JsonName("mssPackage"))
-      .annotate({ identifier: "MssPackage" }),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CmafPackage: S.optional(CmafPackage),
+    CreatedAt: S.optional(S.String),
+    DashPackage: S.optional(DashPackage),
+    HlsPackage: S.optional(HlsPackage),
+    Id: S.optional(S.String),
+    MssPackage: S.optional(MssPackage),
+    PackagingGroupId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CmafPackage: "cmafPackage",
+      CreatedAt: "createdAt",
+      DashPackage: "dashPackage",
+      HlsPackage: "hlsPackage",
+      Id: "id",
+      MssPackage: "mssPackage",
+      PackagingGroupId: "packagingGroupId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreatePackagingConfigurationResponse",
 }) as any as S.Schema<CreatePackagingConfigurationResponse>;
@@ -697,24 +748,29 @@ export interface CreatePackagingGroupRequest {
 }
 export const CreatePackagingGroupRequest = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/packaging_groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Authorization: S.optional(Authorization),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Authorization: "authorization",
+        EgressAccessLogs: "egressAccessLogs",
+        Id: "id",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/packaging_groups" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreatePackagingGroupRequest",
 }) as any as S.Schema<CreatePackagingGroupRequest>;
@@ -732,18 +788,24 @@ export interface CreatePackagingGroupResponse {
 }
 export const CreatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    Authorization: S.optional(Authorization),
+    CreatedAt: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Authorization: "authorization",
+      CreatedAt: "createdAt",
+      DomainName: "domainName",
+      EgressAccessLogs: "egressAccessLogs",
+      Id: "id",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreatePackagingGroupResponse",
 }) as any as S.Schema<CreatePackagingGroupResponse>;
@@ -844,18 +906,28 @@ export interface DescribeAssetResponse {
 }
 export const DescribeAssetResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    EgressEndpoints: S.optional(__listOfEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    SourceArn: S.optional(S.String).pipe(T.JsonName("sourceArn")),
-    SourceRoleArn: S.optional(S.String).pipe(T.JsonName("sourceRoleArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.String),
+    EgressEndpoints: S.optional(__listOfEgressEndpoint),
+    Id: S.optional(S.String),
+    PackagingGroupId: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    SourceRoleArn: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      EgressEndpoints: "egressEndpoints",
+      Id: "id",
+      PackagingGroupId: "packagingGroupId",
+      ResourceId: "resourceId",
+      SourceArn: "sourceArn",
+      SourceRoleArn: "sourceRoleArn",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeAssetResponse",
 }) as any as S.Schema<DescribeAssetResponse>;
@@ -941,24 +1013,28 @@ export interface DescribePackagingConfigurationResponse {
 }
 export const DescribePackagingConfigurationResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CmafPackage: S.optional(CmafPackage)
-      .pipe(T.JsonName("cmafPackage"))
-      .annotate({ identifier: "CmafPackage" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DashPackage: S.optional(DashPackage)
-      .pipe(T.JsonName("dashPackage"))
-      .annotate({ identifier: "DashPackage" }),
-    HlsPackage: S.optional(HlsPackage)
-      .pipe(T.JsonName("hlsPackage"))
-      .annotate({ identifier: "HlsPackage" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MssPackage: S.optional(MssPackage)
-      .pipe(T.JsonName("mssPackage"))
-      .annotate({ identifier: "MssPackage" }),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CmafPackage: S.optional(CmafPackage),
+    CreatedAt: S.optional(S.String),
+    DashPackage: S.optional(DashPackage),
+    HlsPackage: S.optional(HlsPackage),
+    Id: S.optional(S.String),
+    MssPackage: S.optional(MssPackage),
+    PackagingGroupId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CmafPackage: "cmafPackage",
+      CreatedAt: "createdAt",
+      DashPackage: "dashPackage",
+      HlsPackage: "hlsPackage",
+      Id: "id",
+      MssPackage: "mssPackage",
+      PackagingGroupId: "packagingGroupId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DescribePackagingConfigurationResponse",
 }) as any as S.Schema<DescribePackagingConfigurationResponse>;
@@ -994,21 +1070,26 @@ export interface DescribePackagingGroupResponse {
 }
 export const DescribePackagingGroupResponse = S.suspend(() =>
   S.Struct({
-    ApproximateAssetCount: S.optional(S.Number).pipe(
-      T.JsonName("approximateAssetCount"),
-    ),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApproximateAssetCount: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    Authorization: S.optional(Authorization),
+    CreatedAt: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApproximateAssetCount: "approximateAssetCount",
+      Arn: "arn",
+      Authorization: "authorization",
+      CreatedAt: "createdAt",
+      DomainName: "domainName",
+      EgressAccessLogs: "egressAccessLogs",
+      Id: "id",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DescribePackagingGroupResponse",
 }) as any as S.Schema<DescribePackagingGroupResponse>;
@@ -1049,15 +1130,26 @@ export interface AssetShallow {
 }
 export const AssetShallow = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    SourceArn: S.optional(S.String).pipe(T.JsonName("sourceArn")),
-    SourceRoleArn: S.optional(S.String).pipe(T.JsonName("sourceRoleArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.String),
+    Id: S.optional(S.String),
+    PackagingGroupId: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    SourceArn: S.optional(S.String),
+    SourceRoleArn: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Id: "id",
+      PackagingGroupId: "packagingGroupId",
+      ResourceId: "resourceId",
+      SourceArn: "sourceArn",
+      SourceRoleArn: "sourceRoleArn",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "AssetShallow" }) as any as S.Schema<AssetShallow>;
 export type __listOfAssetShallow = AssetShallow[];
 export const __listOfAssetShallow = S.Array(AssetShallow);
@@ -1067,9 +1159,9 @@ export interface ListAssetsResponse {
 }
 export const ListAssetsResponse = S.suspend(() =>
   S.Struct({
-    Assets: S.optional(__listOfAssetShallow).pipe(T.JsonName("assets")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Assets: S.optional(__listOfAssetShallow),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Assets: "assets", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListAssetsResponse",
 }) as any as S.Schema<ListAssetsResponse>;
@@ -1111,24 +1203,28 @@ export interface PackagingConfiguration {
 }
 export const PackagingConfiguration = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CmafPackage: S.optional(CmafPackage)
-      .pipe(T.JsonName("cmafPackage"))
-      .annotate({ identifier: "CmafPackage" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DashPackage: S.optional(DashPackage)
-      .pipe(T.JsonName("dashPackage"))
-      .annotate({ identifier: "DashPackage" }),
-    HlsPackage: S.optional(HlsPackage)
-      .pipe(T.JsonName("hlsPackage"))
-      .annotate({ identifier: "HlsPackage" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MssPackage: S.optional(MssPackage)
-      .pipe(T.JsonName("mssPackage"))
-      .annotate({ identifier: "MssPackage" }),
-    PackagingGroupId: S.optional(S.String).pipe(T.JsonName("packagingGroupId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    CmafPackage: S.optional(CmafPackage),
+    CreatedAt: S.optional(S.String),
+    DashPackage: S.optional(DashPackage),
+    HlsPackage: S.optional(HlsPackage),
+    Id: S.optional(S.String),
+    MssPackage: S.optional(MssPackage),
+    PackagingGroupId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CmafPackage: "cmafPackage",
+      CreatedAt: "createdAt",
+      DashPackage: "dashPackage",
+      HlsPackage: "hlsPackage",
+      Id: "id",
+      MssPackage: "mssPackage",
+      PackagingGroupId: "packagingGroupId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "PackagingConfiguration",
 }) as any as S.Schema<PackagingConfiguration>;
@@ -1197,11 +1293,14 @@ export interface ListPackagingConfigurationsResponse {
 }
 export const ListPackagingConfigurationsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    PackagingConfigurations: S.optional(__listOfPackagingConfiguration).pipe(
-      T.JsonName("packagingConfigurations"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    PackagingConfigurations: S.optional(__listOfPackagingConfiguration),
+  }).pipe(
+    S.encodeKeys({
+      NextToken: "nextToken",
+      PackagingConfigurations: "packagingConfigurations",
+    }),
+  ),
 ).annotate({
   identifier: "ListPackagingConfigurationsResponse",
 }) as any as S.Schema<ListPackagingConfigurationsResponse>;
@@ -1238,21 +1337,26 @@ export interface PackagingGroup {
 }
 export const PackagingGroup = S.suspend(() =>
   S.Struct({
-    ApproximateAssetCount: S.optional(S.Number).pipe(
-      T.JsonName("approximateAssetCount"),
-    ),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApproximateAssetCount: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    Authorization: S.optional(Authorization),
+    CreatedAt: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApproximateAssetCount: "approximateAssetCount",
+      Arn: "arn",
+      Authorization: "authorization",
+      CreatedAt: "createdAt",
+      DomainName: "domainName",
+      EgressAccessLogs: "egressAccessLogs",
+      Id: "id",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "PackagingGroup" }) as any as S.Schema<PackagingGroup>;
 export type __listOfPackagingGroup = PackagingGroup[];
 export const __listOfPackagingGroup = S.Array(PackagingGroup);
@@ -1267,11 +1371,14 @@ export interface ListPackagingGroupsResponse {
 }
 export const ListPackagingGroupsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    PackagingGroups: S.optional(__listOfPackagingGroup).pipe(
-      T.JsonName("packagingGroups"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    PackagingGroups: S.optional(__listOfPackagingGroup),
+  }).pipe(
+    S.encodeKeys({
+      NextToken: "nextToken",
+      PackagingGroups: "packagingGroups",
+    }),
+  ),
 ).annotate({
   identifier: "ListPackagingGroupsResponse",
 }) as any as S.Schema<ListPackagingGroupsResponse>;
@@ -1298,7 +1405,9 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
+    S.encodeKeys({ Tags: "tags" }),
+  ),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -1309,17 +1418,19 @@ export interface TagResourceRequest {
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -1358,20 +1469,20 @@ export interface UpdatePackagingGroupRequest {
 }
 export const UpdatePackagingGroupRequest = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
+    Authorization: S.optional(Authorization),
     Id: S.String.pipe(T.HttpLabel("Id")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/packaging_groups/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Authorization: "authorization" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/packaging_groups/{Id}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePackagingGroupRequest",
 }) as any as S.Schema<UpdatePackagingGroupRequest>;
@@ -1390,21 +1501,26 @@ export interface UpdatePackagingGroupResponse {
 }
 export const UpdatePackagingGroupResponse = S.suspend(() =>
   S.Struct({
-    ApproximateAssetCount: S.optional(S.Number).pipe(
-      T.JsonName("approximateAssetCount"),
-    ),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    EgressAccessLogs: S.optional(EgressAccessLogs)
-      .pipe(T.JsonName("egressAccessLogs"))
-      .annotate({ identifier: "EgressAccessLogs" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApproximateAssetCount: S.optional(S.Number),
+    Arn: S.optional(S.String),
+    Authorization: S.optional(Authorization),
+    CreatedAt: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    Id: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApproximateAssetCount: "approximateAssetCount",
+      Arn: "arn",
+      Authorization: "authorization",
+      CreatedAt: "createdAt",
+      DomainName: "domainName",
+      EgressAccessLogs: "egressAccessLogs",
+      Id: "id",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdatePackagingGroupResponse",
 }) as any as S.Schema<UpdatePackagingGroupResponse>;
@@ -1412,27 +1528,27 @@ export const UpdatePackagingGroupResponse = S.suspend(() =>
 //# Errors
 export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
   "InternalServerErrorException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnavailableException>()(
   "ServiceUnavailableException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnprocessableEntityException extends S.TaggedErrorClass<UnprocessableEntityException>()(
   "UnprocessableEntityException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations

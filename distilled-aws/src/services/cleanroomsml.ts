@@ -178,8 +178,8 @@ export interface CollaborationConfiguredModelAlgorithmAssociationSummary {
 export const CollaborationConfiguredModelAlgorithmAssociationSummary =
   S.suspend(() =>
     S.Struct({
-      createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-      updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+      createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
       configuredModelAlgorithmAssociationArn: S.String,
       name: S.String,
       description: S.optional(S.String),
@@ -265,8 +265,8 @@ export interface CollaborationMLInputChannelSummary {
 }
 export const CollaborationMLInputChannelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     membershipIdentifier: S.String,
     collaborationIdentifier: S.String,
     name: S.String,
@@ -382,8 +382,8 @@ export interface CollaborationTrainedModelExportJobSummary {
 }
 export const CollaborationTrainedModelExportJobSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     name: S.String,
     outputConfiguration: TrainedModelExportOutputConfiguration,
     status: TrainedModelExportJobStatus,
@@ -521,8 +521,8 @@ export const CollaborationTrainedModelInferenceJobSummary = S.suspend(() =>
     metricsStatusDetails: S.optional(S.String),
     logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     creatorAccountId: S.String,
   }),
 ).annotate({
@@ -624,8 +624,8 @@ export interface CollaborationTrainedModelSummary {
 }
 export const CollaborationTrainedModelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainedModelArn: S.String,
     name: S.String,
     versionIdentifier: S.optional(S.String),
@@ -822,8 +822,8 @@ export interface AudienceExportJobSummary {
 }
 export const AudienceExportJobSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     name: S.String,
     audienceGenerationJobArn: S.String,
     audienceSize: AudienceSize,
@@ -1030,8 +1030,8 @@ export interface GetAudienceGenerationJobResponse {
 }
 export const GetAudienceGenerationJobResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     audienceGenerationJobArn: S.String,
     name: S.String,
     description: S.optional(S.String),
@@ -1119,8 +1119,8 @@ export interface AudienceGenerationJobSummary {
 }
 export const AudienceGenerationJobSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     audienceGenerationJobArn: S.String,
     name: S.String,
     description: S.optional(S.String),
@@ -1158,10 +1158,10 @@ export interface CreateAudienceModelRequest {
 export const CreateAudienceModelRequest = S.suspend(() =>
   S.Struct({
     trainingDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     trainingDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     name: S.String,
     trainingDatasetArn: S.String,
@@ -1234,13 +1234,13 @@ export interface GetAudienceModelResponse {
 }
 export const GetAudienceModelResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainingDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     trainingDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     audienceModelArn: S.String,
     name: S.String,
@@ -1311,8 +1311,8 @@ export interface AudienceModelSummary {
 }
 export const AudienceModelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     audienceModelArn: S.String,
     name: S.String,
     trainingDatasetArn: S.String,
@@ -1459,8 +1459,8 @@ export interface GetConfiguredAudienceModelResponse {
 }
 export const GetConfiguredAudienceModelResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     configuredAudienceModelArn: S.String,
     name: S.String,
     audienceModelArn: S.String,
@@ -1583,8 +1583,8 @@ export interface ConfiguredAudienceModelSummary {
 }
 export const ConfiguredAudienceModelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     name: S.String,
     audienceModelArn: S.String,
     outputConfig: ConfiguredAudienceModelOutputConfig,
@@ -1839,8 +1839,8 @@ export interface GetConfiguredModelAlgorithmResponse {
 }
 export const GetConfiguredModelAlgorithmResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     configuredModelAlgorithmArn: S.String,
     name: S.String,
     trainingContainerConfig: S.optional(ContainerConfig),
@@ -1913,8 +1913,8 @@ export interface ConfiguredModelAlgorithmSummary {
 }
 export const ConfiguredModelAlgorithmSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     configuredModelAlgorithmArn: S.String,
     name: S.String,
     description: S.optional(S.String),
@@ -2184,8 +2184,8 @@ export interface GetConfiguredModelAlgorithmAssociationResponse {
 }
 export const GetConfiguredModelAlgorithmAssociationResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     configuredModelAlgorithmAssociationArn: S.String,
     membershipIdentifier: S.String,
     collaborationIdentifier: S.String,
@@ -2268,8 +2268,8 @@ export interface ConfiguredModelAlgorithmAssociationSummary {
 }
 export const ConfiguredModelAlgorithmAssociationSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     configuredModelAlgorithmAssociationArn: S.String,
     configuredModelAlgorithmArn: S.String,
     name: S.String,
@@ -2342,8 +2342,8 @@ export interface GetCollaborationConfiguredModelAlgorithmAssociationResponse {
 export const GetCollaborationConfiguredModelAlgorithmAssociationResponse =
   S.suspend(() =>
     S.Struct({
-      createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-      updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+      createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
       configuredModelAlgorithmAssociationArn: S.String,
       membershipIdentifier: S.String,
       collaborationIdentifier: S.String,
@@ -2433,8 +2433,8 @@ export const GetMLConfigurationResponse = S.suspend(() =>
   S.Struct({
     membershipIdentifier: S.String,
     defaultOutputLocation: MLOutputConfiguration,
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetMLConfigurationResponse",
@@ -2584,8 +2584,8 @@ export interface AccessBudgetDetails {
 }
 export const AccessBudgetDetails = S.suspend(() =>
   S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     remainingBudget: S.Number,
     budget: S.Number,
     budgetType: AccessBudgetType,
@@ -2745,8 +2745,8 @@ export const GetMLInputChannelResponse = S.suspend(() =>
     privacyBudgets: S.optional(PrivacyBudgets),
     description: S.optional(S.String),
     syntheticDataConfiguration: S.optional(SyntheticDataConfiguration),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     inputChannel: InputChannel,
     protectedQueryIdentifier: S.optional(S.String),
     numberOfFiles: S.optional(S.Number),
@@ -2827,8 +2827,8 @@ export interface MLInputChannelSummary {
 }
 export const MLInputChannelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     membershipIdentifier: S.String,
     collaborationIdentifier: S.String,
     name: S.String,
@@ -2914,8 +2914,8 @@ export const GetCollaborationMLInputChannelResponse = S.suspend(() =>
     privacyBudgets: S.optional(PrivacyBudgets),
     description: S.optional(S.String),
     syntheticDataConfiguration: S.optional(SyntheticDataConfiguration),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     creatorAccountId: S.String,
   }),
 ).annotate({
@@ -3259,8 +3259,8 @@ export const GetTrainedModelResponse = S.suspend(() =>
     logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     trainingContainerImageDigest: S.optional(S.String),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     hyperparameters: S.optional(HyperParameters),
     environment: S.optional(Environment),
     kmsKeyArn: S.optional(S.String),
@@ -3345,8 +3345,8 @@ export interface TrainedModelSummary {
 }
 export const TrainedModelSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainedModelArn: S.String,
     versionIdentifier: S.optional(S.String),
     incrementalTrainingDataChannels: S.optional(
@@ -3485,8 +3485,8 @@ export const GetCollaborationTrainedModelResponse = S.suspend(() =>
     logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
     trainingContainerImageDigest: S.optional(S.String),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     creatorAccountId: S.String,
   }),
 ).annotate({
@@ -3811,8 +3811,8 @@ export interface GetTrainedModelInferenceJobResponse {
 }
 export const GetTrainedModelInferenceJobResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainedModelInferenceJobArn: S.String,
     configuredModelAlgorithmAssociationArn: S.optional(S.String),
     name: S.String,
@@ -3906,8 +3906,8 @@ export const TrainedModelInferenceJobSummary = S.suspend(() =>
     metricsStatusDetails: S.optional(S.String),
     logsStatus: S.optional(LogsStatus),
     logsStatusDetails: S.optional(S.String),
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "TrainedModelInferenceJobSummary",
@@ -4086,8 +4086,8 @@ export interface GetTrainingDatasetResponse {
 }
 export const GetTrainingDatasetResponse = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainingDatasetArn: S.String,
     name: S.String,
     trainingData: DatasetList,
@@ -4158,8 +4158,8 @@ export interface TrainingDatasetSummary {
 }
 export const TrainingDatasetSummary = S.suspend(() =>
   S.Struct({
-    createTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     trainingDatasetArn: S.String,
     name: S.String,
     status: TrainingDatasetStatus,

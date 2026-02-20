@@ -402,7 +402,7 @@ export const ChangeInfo = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Status: ChangeStatus,
-    SubmittedAt: S.Date,
+    SubmittedAt: T.DateFromString,
     Comment: S.optional(S.String),
   }),
 ).annotate({ identifier: "ChangeInfo" }) as any as S.Schema<ChangeInfo>;
@@ -1317,8 +1317,8 @@ export const KeySigningKey = S.suspend(() =>
     DNSKEYRecord: S.optional(S.String),
     Status: S.optional(S.String),
     StatusMessage: S.optional(S.String),
-    CreatedDate: S.optional(S.Date),
-    LastModifiedDate: S.optional(S.Date),
+    CreatedDate: S.optional(T.DateFromString),
+    LastModifiedDate: S.optional(T.DateFromString),
   }),
 ).annotate({ identifier: "KeySigningKey" }) as any as S.Schema<KeySigningKey>;
 export interface CreateKeySigningKeyResponse {
@@ -2244,7 +2244,10 @@ export interface StatusReport {
   CheckedTime?: Date;
 }
 export const StatusReport = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String), CheckedTime: S.optional(S.Date) }),
+  S.Struct({
+    Status: S.optional(S.String),
+    CheckedTime: S.optional(T.DateFromString),
+  }),
 ).annotate({ identifier: "StatusReport" }) as any as S.Schema<StatusReport>;
 export interface HealthCheckObservation {
   Region?: HealthCheckRegion;

@@ -471,8 +471,12 @@ export const EnvironmentDescription = S.suspend(() =>
     Description: S.optional(S.String),
     EndpointURL: S.optional(S.String),
     CNAME: S.optional(S.String),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(EnvironmentStatus),
     AbortableOperationInProgress: S.optional(S.Boolean),
     Health: S.optional(EnvironmentHealth),
@@ -602,8 +606,12 @@ export const ApplicationDescription = S.suspend(() =>
     ApplicationArn: S.optional(S.String),
     ApplicationName: S.optional(S.String),
     Description: S.optional(S.String),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Versions: S.optional(VersionLabelsList),
     ConfigurationTemplates: S.optional(ConfigurationTemplateNamesList),
     ResourceLifecycleConfig: S.optional(ApplicationResourceLifecycleConfig),
@@ -733,8 +741,12 @@ export const ApplicationVersionDescription = S.suspend(() =>
     SourceBuildInformation: S.optional(SourceBuildInformation),
     BuildArn: S.optional(S.String),
     SourceBundle: S.optional(S3Location),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(ApplicationVersionStatus),
   }),
 ).annotate({
@@ -845,8 +857,12 @@ export const ConfigurationSettingsDescription = S.suspend(() =>
     Description: S.optional(S.String),
     EnvironmentName: S.optional(S.String),
     DeploymentStatus: S.optional(ConfigurationDeploymentStatus),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OptionSettings: S.optional(ConfigurationOptionSettingsList),
   }).pipe(ns),
 ).annotate({
@@ -1547,7 +1563,9 @@ export const DescribeEnvironmentHealthResult = S.suspend(() =>
     Causes: S.optional(Causes),
     ApplicationMetrics: S.optional(ApplicationMetrics),
     InstancesHealth: S.optional(InstanceHealthSummary),
-    RefreshedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RefreshedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeEnvironmentHealthResult",
@@ -1612,8 +1630,12 @@ export const ManagedActionHistoryItem = S.suspend(() =>
     FailureType: S.optional(FailureType),
     Status: S.optional(ActionHistoryStatus),
     FailureDescription: S.optional(S.String),
-    ExecutedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    FinishedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExecutedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    FinishedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ManagedActionHistoryItem",
@@ -1676,7 +1698,9 @@ export const ManagedAction = S.suspend(() =>
     ActionDescription: S.optional(S.String),
     ActionType: S.optional(ActionType),
     Status: S.optional(ActionStatus),
-    WindowStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    WindowStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "ManagedAction" }) as any as S.Schema<ManagedAction>;
 export type ManagedActions = ManagedAction[];
@@ -1828,7 +1852,7 @@ export const DescribeEnvironmentsMessage = S.suspend(() =>
     EnvironmentNames: S.optional(EnvironmentNamesList),
     IncludeDeleted: S.optional(S.Boolean),
     IncludedDeletedBackTo: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1879,8 +1903,10 @@ export const DescribeEventsMessage = S.suspend(() =>
     PlatformArn: S.optional(S.String),
     RequestId: S.optional(S.String),
     Severity: S.optional(EventSeverity),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -1910,7 +1936,9 @@ export interface EventDescription {
 }
 export const EventDescription = S.suspend(() =>
   S.Struct({
-    EventDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EventDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Message: S.optional(S.String),
     ApplicationName: S.optional(S.String),
     VersionLabel: S.optional(S.String),
@@ -2024,7 +2052,9 @@ export const Deployment = S.suspend(() =>
     VersionLabel: S.optional(S.String),
     DeploymentId: S.optional(S.Number),
     Status: S.optional(S.String),
-    DeploymentTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DeploymentTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export interface SingleInstanceHealth {
@@ -2045,7 +2075,9 @@ export const SingleInstanceHealth = S.suspend(() =>
     HealthStatus: S.optional(S.String),
     Color: S.optional(S.String),
     Causes: S.optional(Causes),
-    LaunchedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LaunchedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ApplicationMetrics: S.optional(ApplicationMetrics),
     System: S.optional(SystemStatus),
     Deployment: S.optional(Deployment),
@@ -2065,7 +2097,9 @@ export interface DescribeInstancesHealthResult {
 export const DescribeInstancesHealthResult = S.suspend(() =>
   S.Struct({
     InstanceHealthList: S.optional(InstanceHealthList),
-    RefreshedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RefreshedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NextToken: S.optional(S.String),
   }).pipe(ns),
 ).annotate({
@@ -2156,8 +2190,12 @@ export const PlatformDescription = S.suspend(() =>
     PlatformVersion: S.optional(S.String),
     SolutionStackName: S.optional(S.String),
     PlatformStatus: S.optional(PlatformStatus),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PlatformCategory: S.optional(S.String),
     Description: S.optional(S.String),
     Maintainer: S.optional(S.String),
@@ -2535,7 +2573,9 @@ export const EnvironmentInfoDescription = S.suspend(() =>
   S.Struct({
     InfoType: S.optional(EnvironmentInfoType),
     Ec2InstanceId: S.optional(S.String),
-    SampleTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SampleTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Message: S.optional(S.String),
   }),
 ).annotate({

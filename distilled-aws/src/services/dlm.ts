@@ -733,8 +733,12 @@ export const LifecyclePolicy = S.suspend(() =>
     State: S.optional(GettablePolicyStateValues),
     StatusMessage: S.optional(S.String),
     ExecutionRoleArn: S.optional(S.String),
-    DateCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DateModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DateCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DateModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PolicyDetails: S.optional(PolicyDetails),
     Tags: S.optional(TagMap),
     PolicyArn: S.optional(S.String),

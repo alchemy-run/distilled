@@ -394,9 +394,13 @@ export const PhoneNumberOrder = S.suspend(() =>
     Status: S.optional(PhoneNumberOrderStatus),
     OrderType: S.optional(PhoneNumberOrderType),
     OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    FocDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    FocDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "PhoneNumberOrder",
@@ -506,9 +510,15 @@ export const ProxySession = S.suspend(() =>
     Status: S.optional(ProxySessionStatus),
     ExpiryMinutes: S.optional(S.Number),
     Capabilities: S.optional(CapabilityList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Participants: S.optional(Participants),
     NumberSelectionBehavior: S.optional(NumberSelectionBehavior),
     GeoMatchLevel: S.optional(GeoMatchLevel),
@@ -584,8 +594,12 @@ export const SipMediaApplication = S.suspend(() =>
     AwsRegion: S.optional(S.String),
     Name: S.optional(S.String),
     Endpoints: S.optional(SipMediaApplicationEndpointList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SipMediaApplicationArn: S.optional(S.String),
   }),
 ).annotate({
@@ -729,8 +743,12 @@ export const SipRule = S.suspend(() =>
     TriggerType: S.optional(SipRuleTriggerType),
     TriggerValue: S.optional(S.String),
     TargetApplications: S.optional(SipRuleTargetApplicationList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "SipRule" }) as any as S.Schema<SipRule>;
 export interface CreateSipRuleResponse {
@@ -809,8 +827,12 @@ export const VoiceConnector = S.suspend(() =>
     Name: S.optional(S.String),
     OutboundHostName: S.optional(S.String),
     RequireEncryption: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     VoiceConnectorArn: S.optional(S.String),
     IntegrationType: S.optional(VoiceConnectorIntegrationType),
     NetworkType: S.optional(NetworkType),
@@ -869,8 +891,12 @@ export const VoiceConnectorGroup = S.suspend(() =>
     VoiceConnectorGroupId: S.optional(S.String),
     Name: S.optional(S.String),
     VoiceConnectorItems: S.optional(VoiceConnectorItemList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     VoiceConnectorGroupArn: S.optional(S.String),
   }),
 ).annotate({
@@ -914,10 +940,14 @@ export const VoiceProfile = S.suspend(() =>
     VoiceProfileId: S.optional(S.String),
     VoiceProfileArn: S.optional(SensitiveString),
     VoiceProfileDomainId: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ExpirationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({ identifier: "VoiceProfile" }) as any as S.Schema<VoiceProfile>;
@@ -982,8 +1012,12 @@ export const VoiceProfileDomain = S.suspend(() =>
     ServerSideEncryptionConfiguration: S.optional(
       ServerSideEncryptionConfiguration,
     ),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "VoiceProfileDomain",
@@ -1567,7 +1601,7 @@ export const PhoneNumberAssociation = S.suspend(() =>
     Value: S.optional(S.String),
     Name: S.optional(PhoneNumberAssociationName),
     AssociatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1611,9 +1645,15 @@ export const PhoneNumber = S.suspend(() =>
     Associations: S.optional(PhoneNumberAssociationList),
     CallingName: S.optional(SensitiveString),
     CallingNameStatus: S.optional(CallingNameStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DeletionTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OrderId: S.optional(S.String),
     Name: S.optional(SensitiveString),
   }),
@@ -1672,7 +1712,7 @@ export const GetPhoneNumberSettingsResponse = S.suspend(() =>
   S.Struct({
     CallingName: S.optional(SensitiveString),
     CallingNameUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1940,9 +1980,15 @@ export const SpeakerSearchTask = S.suspend(() =>
     SpeakerSearchTaskStatus: S.optional(S.String),
     CallDetails: S.optional(CallDetails),
     SpeakerSearchDetails: S.optional(SpeakerSearchDetails),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StatusMessage: S.optional(S.String),
   }),
 ).annotate({
@@ -2439,7 +2485,9 @@ export interface TerminationHealth {
 }
 export const TerminationHealth = S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Source: S.optional(S.String),
   }),
 ).annotate({
@@ -2552,9 +2600,15 @@ export const VoiceToneAnalysisTask = S.suspend(() =>
     VoiceToneAnalysisTaskId: S.optional(S.String),
     VoiceToneAnalysisTaskStatus: S.optional(S.String),
     CallDetails: S.optional(CallDetails),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StatusMessage: S.optional(S.String),
   }),
 ).annotate({
@@ -2987,8 +3041,12 @@ export const VoiceProfileDomainSummary = S.suspend(() =>
     VoiceProfileDomainArn: S.optional(SensitiveString),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "VoiceProfileDomainSummary",
@@ -3043,10 +3101,14 @@ export const VoiceProfileSummary = S.suspend(() =>
     VoiceProfileId: S.optional(S.String),
     VoiceProfileArn: S.optional(SensitiveString),
     VoiceProfileDomainId: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ExpirationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({

@@ -2157,7 +2157,9 @@ export interface RecoveryLifeCycle {
 }
 export const RecoveryLifeCycle = S.suspend(() =>
   S.Struct({
-    apiCallDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    apiCallDateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     jobID: S.optional(S.String),
     lastRecoveryResult: S.optional(S.String),
   }),

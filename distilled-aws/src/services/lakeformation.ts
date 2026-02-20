@@ -1545,7 +1545,7 @@ export const GetQueryStatisticsResponse = S.suspend(() =>
     ExecutionStatistics: S.optional(ExecutionStatistics),
     PlanningStatistics: S.optional(PlanningStatistics),
     QuerySubmissionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({

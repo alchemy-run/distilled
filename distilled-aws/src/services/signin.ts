@@ -126,12 +126,12 @@ export interface CreateOAuth2TokenRequestBody {
 }
 export const CreateOAuth2TokenRequestBody = S.suspend(() =>
   S.Struct({
-    clientId: S.String.pipe(T.JsonName("clientId")),
-    grantType: S.String.pipe(T.JsonName("grantType")),
+    clientId: S.String,
+    grantType: S.String,
     code: S.optional(S.String),
-    redirectUri: S.optional(S.String).pipe(T.JsonName("redirectUri")),
-    codeVerifier: S.optional(S.String).pipe(T.JsonName("codeVerifier")),
-    refreshToken: S.optional(SensitiveString).pipe(T.JsonName("refreshToken")),
+    redirectUri: S.optional(S.String),
+    codeVerifier: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
   }),
 ).annotate({
   identifier: "CreateOAuth2TokenRequestBody",
@@ -164,9 +164,9 @@ export interface AccessToken {
 }
 export const AccessToken = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.String.pipe(T.JsonName("accessKeyId")),
-    secretAccessKey: S.String.pipe(T.JsonName("secretAccessKey")),
-    sessionToken: S.String.pipe(T.JsonName("sessionToken")),
+    accessKeyId: S.String,
+    secretAccessKey: S.String,
+    sessionToken: S.String,
   }),
 ).annotate({ identifier: "AccessToken" }) as any as S.Schema<AccessToken>;
 export interface CreateOAuth2TokenResponseBody {
@@ -178,13 +178,11 @@ export interface CreateOAuth2TokenResponseBody {
 }
 export const CreateOAuth2TokenResponseBody = S.suspend(() =>
   S.Struct({
-    accessToken: AccessToken.pipe(T.JsonName("accessToken")).annotate({
-      identifier: "AccessToken",
-    }),
-    tokenType: S.String.pipe(T.JsonName("tokenType")),
-    expiresIn: S.Number.pipe(T.JsonName("expiresIn")),
-    refreshToken: SensitiveString.pipe(T.JsonName("refreshToken")),
-    idToken: S.optional(S.String).pipe(T.JsonName("idToken")),
+    accessToken: AccessToken,
+    tokenType: S.String,
+    expiresIn: S.Number,
+    refreshToken: SensitiveString,
+    idToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateOAuth2TokenResponseBody",

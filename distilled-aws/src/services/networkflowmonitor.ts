@@ -654,8 +654,8 @@ export interface StartQueryMonitorTopContributorsInput {
 export const StartQueryMonitorTopContributorsInput = S.suspend(() =>
   S.Struct({
     monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     metricName: MonitorMetric,
     destinationCategory: DestinationCategory,
     limit: S.optional(S.Number),
@@ -1137,8 +1137,8 @@ export interface StartQueryWorkloadInsightsTopContributorsInput {
 export const StartQueryWorkloadInsightsTopContributorsInput = S.suspend(() =>
   S.Struct({
     scopeId: S.String.pipe(T.HttpLabel("scopeId")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     metricName: WorkloadInsightsMetric,
     destinationCategory: DestinationCategory,
     limit: S.optional(S.Number),
@@ -1177,8 +1177,8 @@ export const StartQueryWorkloadInsightsTopContributorsDataInput = S.suspend(
   () =>
     S.Struct({
       scopeId: S.String.pipe(T.HttpLabel("scopeId")),
-      startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-      endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+      startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
       metricName: WorkloadInsightsMetric,
       destinationCategory: DestinationCategory,
     }).pipe(

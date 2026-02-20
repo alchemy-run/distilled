@@ -758,12 +758,14 @@ export const CloudAutonomousVmCluster = S.suspend(() =>
     scanListenerPortNonTls: S.optional(S.Number),
     scanListenerPortTls: S.optional(S.Number),
     shape: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeDatabaseSslCertificateExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     timeOrdsCertificateExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     timeZone: S.optional(S.String),
     totalContainerDatabases: S.optional(S.Number),
@@ -916,12 +918,14 @@ export const CloudAutonomousVmClusterSummary = S.suspend(() =>
     scanListenerPortNonTls: S.optional(S.Number),
     scanListenerPortTls: S.optional(S.Number),
     shape: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeDatabaseSslCertificateExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     timeOrdsCertificateExpires: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     timeZone: S.optional(S.String),
     totalContainerDatabases: S.optional(S.Number),
@@ -1161,7 +1165,9 @@ export const CloudExadataInfrastructure = S.suspend(() =>
     shape: S.optional(S.String),
     storageCount: S.optional(S.Number),
     storageServerVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     totalStorageSizeInGBs: S.optional(S.Number),
     percentProgress: S.optional(S.Number),
     databaseServerType: S.optional(S.String),
@@ -1321,7 +1327,9 @@ export const CloudExadataInfrastructureSummary = S.suspend(() =>
     shape: S.optional(S.String),
     storageCount: S.optional(S.Number),
     storageServerVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     totalStorageSizeInGBs: S.optional(S.Number),
     percentProgress: S.optional(S.Number),
     databaseServerType: S.optional(S.String),
@@ -1497,7 +1505,9 @@ export const DbServer = S.suspend(() =>
     maxMemoryInGBs: S.optional(S.Number),
     memorySizeInGBs: S.optional(S.Number),
     shape: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     vmClusterIds: S.optional(StringList),
     computeModel: S.optional(ComputeModel),
     autonomousVmClusterIds: S.optional(StringList),
@@ -1569,7 +1579,9 @@ export const DbServerSummary = S.suspend(() =>
     maxMemoryInGBs: S.optional(S.Number),
     memorySizeInGBs: S.optional(S.Number),
     shape: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     vmClusterIds: S.optional(StringList),
     computeModel: S.optional(ComputeModel),
     autonomousVmClusterIds: S.optional(StringList),
@@ -1841,7 +1853,9 @@ export const CloudVmCluster = S.suspend(() =>
     sshPublicKeys: S.optional(SensitiveStringList),
     storageSizeInGBs: S.optional(S.Number),
     systemVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeZone: S.optional(S.String),
     vipIds: S.optional(StringList),
     odbNetworkId: S.optional(S.String),
@@ -1975,7 +1989,9 @@ export const CloudVmClusterSummary = S.suspend(() =>
     sshPublicKeys: S.optional(SensitiveStringList),
     storageSizeInGBs: S.optional(S.Number),
     systemVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeZone: S.optional(S.String),
     vipIds: S.optional(StringList),
     odbNetworkId: S.optional(S.String),
@@ -2079,7 +2095,9 @@ export const DbNode = S.suspend(() =>
     maintenanceType: S.optional(DbNodeMaintenanceType),
     memorySizeInGBs: S.optional(S.Number),
     softwareStorageSizeInGB: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeMaintenanceWindowEnd: S.optional(S.String),
     timeMaintenanceWindowStart: S.optional(S.String),
     totalCpuCoreCount: S.optional(S.Number),
@@ -2163,7 +2181,9 @@ export const DbNodeSummary = S.suspend(() =>
     maintenanceType: S.optional(DbNodeMaintenanceType),
     memorySizeInGBs: S.optional(S.Number),
     softwareStorageSizeInGB: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     timeMaintenanceWindowEnd: S.optional(S.String),
     timeMaintenanceWindowStart: S.optional(S.String),
     totalCpuCoreCount: S.optional(S.Number),
@@ -2529,7 +2549,9 @@ export const OdbNetwork = S.suspend(() =>
     ociVcnId: S.optional(S.String),
     ociVcnUrl: S.optional(S.String),
     ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     percentProgress: S.optional(S.Number),
     managedServices: S.optional(ManagedServices),
   }),
@@ -2669,7 +2691,9 @@ export const OdbNetworkSummary = S.suspend(() =>
     ociVcnId: S.optional(S.String),
     ociVcnUrl: S.optional(S.String),
     ociDnsForwardingConfigs: S.optional(OciDnsForwardingConfigList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     percentProgress: S.optional(S.Number),
     managedServices: S.optional(ManagedServices),
   }),
@@ -2765,7 +2789,9 @@ export const OdbPeeringConnection = S.suspend(() =>
     peerNetworkArn: S.optional(S.String),
     odbPeeringConnectionType: S.optional(S.String),
     peerNetworkCidrs: S.optional(PeeredCidrList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     percentProgress: S.optional(S.Number),
   }),
 ).annotate({
@@ -2875,7 +2901,9 @@ export const OdbPeeringConnectionSummary = S.suspend(() =>
     peerNetworkArn: S.optional(S.String),
     odbPeeringConnectionType: S.optional(S.String),
     peerNetworkCidrs: S.optional(PeeredCidrList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     percentProgress: S.optional(S.Number),
   }),
 ).annotate({

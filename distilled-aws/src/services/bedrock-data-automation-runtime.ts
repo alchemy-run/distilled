@@ -407,8 +407,12 @@ export const GetDataAutomationStatusResponse = S.suspend(() =>
     errorType: S.optional(S.String),
     errorMessage: S.optional(S.String),
     outputConfiguration: S.optional(OutputConfiguration),
-    jobSubmissionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    jobCompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    jobSubmissionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    jobCompletionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     jobDurationInSeconds: S.optional(S.Number),
   }),
 ).annotate({

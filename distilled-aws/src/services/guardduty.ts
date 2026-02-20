@@ -137,22 +137,27 @@ export interface AcceptAdministratorInvitationRequest {
 }
 export const AcceptAdministratorInvitationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AdministratorId: S.optional(S.String),
+    InvitationId: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        AdministratorId: "administratorId",
+        InvitationId: "invitationId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/administrator" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AdministratorId: S.optional(S.String).pipe(T.JsonName("administratorId")),
-    InvitationId: S.optional(S.String).pipe(T.JsonName("invitationId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/administrator" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "AcceptAdministratorInvitationRequest",
 }) as any as S.Schema<AcceptAdministratorInvitationRequest>;
@@ -169,22 +174,27 @@ export interface AcceptInvitationRequest {
 }
 export const AcceptInvitationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MasterId: S.optional(S.String),
+    InvitationId: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MasterId: "masterId",
+        InvitationId: "invitationId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/master" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MasterId: S.optional(S.String).pipe(T.JsonName("masterId")),
-    InvitationId: S.optional(S.String).pipe(T.JsonName("invitationId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/master" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "AcceptInvitationRequest",
 }) as any as S.Schema<AcceptInvitationRequest>;
@@ -200,24 +210,23 @@ export interface ArchiveFindingsRequest {
 }
 export const ArchiveFindingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingIds: S.optional(FindingIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", FindingIds: "findingIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/findings/archive",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingIds: S.optional(FindingIds).pipe(T.JsonName("findingIds")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/findings/archive",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ArchiveFindingsRequest",
 }) as any as S.Schema<ArchiveFindingsRequest>;
@@ -235,7 +244,9 @@ export interface S3LogsConfiguration {
   Enable?: boolean;
 }
 export const S3LogsConfiguration = S.suspend(() =>
-  S.Struct({ Enable: S.optional(S.Boolean).pipe(T.JsonName("enable")) }),
+  S.Struct({ Enable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ Enable: "enable" }),
+  ),
 ).annotate({
   identifier: "S3LogsConfiguration",
 }) as any as S.Schema<S3LogsConfiguration>;
@@ -243,7 +254,9 @@ export interface KubernetesAuditLogsConfiguration {
   Enable?: boolean;
 }
 export const KubernetesAuditLogsConfiguration = S.suspend(() =>
-  S.Struct({ Enable: S.optional(S.Boolean).pipe(T.JsonName("enable")) }),
+  S.Struct({ Enable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ Enable: "enable" }),
+  ),
 ).annotate({
   identifier: "KubernetesAuditLogsConfiguration",
 }) as any as S.Schema<KubernetesAuditLogsConfiguration>;
@@ -251,11 +264,9 @@ export interface KubernetesConfiguration {
   AuditLogs?: KubernetesAuditLogsConfiguration;
 }
 export const KubernetesConfiguration = S.suspend(() =>
-  S.Struct({
-    AuditLogs: S.optional(KubernetesAuditLogsConfiguration)
-      .pipe(T.JsonName("auditLogs"))
-      .annotate({ identifier: "KubernetesAuditLogsConfiguration" }),
-  }),
+  S.Struct({ AuditLogs: S.optional(KubernetesAuditLogsConfiguration) }).pipe(
+    S.encodeKeys({ AuditLogs: "auditLogs" }),
+  ),
 ).annotate({
   identifier: "KubernetesConfiguration",
 }) as any as S.Schema<KubernetesConfiguration>;
@@ -263,9 +274,9 @@ export interface ScanEc2InstanceWithFindings {
   EbsVolumes?: boolean;
 }
 export const ScanEc2InstanceWithFindings = S.suspend(() =>
-  S.Struct({
-    EbsVolumes: S.optional(S.Boolean).pipe(T.JsonName("ebsVolumes")),
-  }),
+  S.Struct({ EbsVolumes: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ EbsVolumes: "ebsVolumes" }),
+  ),
 ).annotate({
   identifier: "ScanEc2InstanceWithFindings",
 }) as any as S.Schema<ScanEc2InstanceWithFindings>;
@@ -274,10 +285,12 @@ export interface MalwareProtectionConfiguration {
 }
 export const MalwareProtectionConfiguration = S.suspend(() =>
   S.Struct({
-    ScanEc2InstanceWithFindings: S.optional(ScanEc2InstanceWithFindings)
-      .pipe(T.JsonName("scanEc2InstanceWithFindings"))
-      .annotate({ identifier: "ScanEc2InstanceWithFindings" }),
-  }),
+    ScanEc2InstanceWithFindings: S.optional(ScanEc2InstanceWithFindings),
+  }).pipe(
+    S.encodeKeys({
+      ScanEc2InstanceWithFindings: "scanEc2InstanceWithFindings",
+    }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionConfiguration",
 }) as any as S.Schema<MalwareProtectionConfiguration>;
@@ -288,16 +301,16 @@ export interface DataSourceConfigurations {
 }
 export const DataSourceConfigurations = S.suspend(() =>
   S.Struct({
-    S3Logs: S.optional(S3LogsConfiguration)
-      .pipe(T.JsonName("s3Logs"))
-      .annotate({ identifier: "S3LogsConfiguration" }),
-    Kubernetes: S.optional(KubernetesConfiguration)
-      .pipe(T.JsonName("kubernetes"))
-      .annotate({ identifier: "KubernetesConfiguration" }),
-    MalwareProtection: S.optional(MalwareProtectionConfiguration)
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({ identifier: "MalwareProtectionConfiguration" }),
-  }),
+    S3Logs: S.optional(S3LogsConfiguration),
+    Kubernetes: S.optional(KubernetesConfiguration),
+    MalwareProtection: S.optional(MalwareProtectionConfiguration),
+  }).pipe(
+    S.encodeKeys({
+      S3Logs: "s3Logs",
+      Kubernetes: "kubernetes",
+      MalwareProtection: "malwareProtection",
+    }),
+  ),
 ).annotate({
   identifier: "DataSourceConfigurations",
 }) as any as S.Schema<DataSourceConfigurations>;
@@ -327,9 +340,9 @@ export interface DetectorAdditionalConfiguration {
 }
 export const DetectorAdditionalConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(FeatureAdditionalConfiguration).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-  }),
+    Name: S.optional(FeatureAdditionalConfiguration),
+    Status: S.optional(FeatureStatus),
+  }).pipe(S.encodeKeys({ Name: "name", Status: "status" })),
 ).annotate({
   identifier: "DetectorAdditionalConfiguration",
 }) as any as S.Schema<DetectorAdditionalConfiguration>;
@@ -345,12 +358,16 @@ export interface DetectorFeatureConfiguration {
 }
 export const DetectorFeatureConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(DetectorFeature).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    AdditionalConfiguration: S.optional(DetectorAdditionalConfigurations).pipe(
-      T.JsonName("additionalConfiguration"),
-    ),
-  }),
+    Name: S.optional(DetectorFeature),
+    Status: S.optional(FeatureStatus),
+    AdditionalConfiguration: S.optional(DetectorAdditionalConfigurations),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Status: "status",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "DetectorFeatureConfiguration",
 }) as any as S.Schema<DetectorFeatureConfiguration>;
@@ -368,31 +385,33 @@ export interface CreateDetectorRequest {
 }
 export const CreateDetectorRequest = S.suspend(() =>
   S.Struct({
-    Enable: S.optional(S.Boolean).pipe(T.JsonName("enable")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
+    Enable: S.optional(S.Boolean),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    FindingPublishingFrequency: S.optional(FindingPublishingFrequency),
+    DataSources: S.optional(DataSourceConfigurations),
+    Tags: S.optional(TagMap),
+    Features: S.optional(DetectorFeatureConfigurations),
+  })
+    .pipe(
+      S.encodeKeys({
+        Enable: "enable",
+        ClientToken: "clientToken",
+        FindingPublishingFrequency: "findingPublishingFrequency",
+        DataSources: "dataSources",
+        Tags: "tags",
+        Features: "features",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingPublishingFrequency: S.optional(FindingPublishingFrequency).pipe(
-      T.JsonName("findingPublishingFrequency"),
-    ),
-    DataSources: S.optional(DataSourceConfigurations)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourceConfigurations" }),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    Features: S.optional(DetectorFeatureConfigurations).pipe(
-      T.JsonName("features"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateDetectorRequest",
 }) as any as S.Schema<CreateDetectorRequest>;
@@ -404,9 +423,9 @@ export interface EbsVolumesResult {
 }
 export const EbsVolumesResult = S.suspend(() =>
   S.Struct({
-    Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")),
-    Reason: S.optional(S.String).pipe(T.JsonName("reason")),
-  }),
+    Status: S.optional(DataSourceStatus),
+    Reason: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Status: "status", Reason: "reason" })),
 ).annotate({
   identifier: "EbsVolumesResult",
 }) as any as S.Schema<EbsVolumesResult>;
@@ -414,11 +433,9 @@ export interface ScanEc2InstanceWithFindingsResult {
   EbsVolumes?: EbsVolumesResult;
 }
 export const ScanEc2InstanceWithFindingsResult = S.suspend(() =>
-  S.Struct({
-    EbsVolumes: S.optional(EbsVolumesResult)
-      .pipe(T.JsonName("ebsVolumes"))
-      .annotate({ identifier: "EbsVolumesResult" }),
-  }),
+  S.Struct({ EbsVolumes: S.optional(EbsVolumesResult) }).pipe(
+    S.encodeKeys({ EbsVolumes: "ebsVolumes" }),
+  ),
 ).annotate({
   identifier: "ScanEc2InstanceWithFindingsResult",
 }) as any as S.Schema<ScanEc2InstanceWithFindingsResult>;
@@ -428,11 +445,14 @@ export interface MalwareProtectionConfigurationResult {
 }
 export const MalwareProtectionConfigurationResult = S.suspend(() =>
   S.Struct({
-    ScanEc2InstanceWithFindings: S.optional(ScanEc2InstanceWithFindingsResult)
-      .pipe(T.JsonName("scanEc2InstanceWithFindings"))
-      .annotate({ identifier: "ScanEc2InstanceWithFindingsResult" }),
-    ServiceRole: S.optional(S.String).pipe(T.JsonName("serviceRole")),
-  }),
+    ScanEc2InstanceWithFindings: S.optional(ScanEc2InstanceWithFindingsResult),
+    ServiceRole: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ScanEc2InstanceWithFindings: "scanEc2InstanceWithFindings",
+      ServiceRole: "serviceRole",
+    }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionConfigurationResult",
 }) as any as S.Schema<MalwareProtectionConfigurationResult>;
@@ -441,10 +461,8 @@ export interface UnprocessedDataSourcesResult {
 }
 export const UnprocessedDataSourcesResult = S.suspend(() =>
   S.Struct({
-    MalwareProtection: S.optional(MalwareProtectionConfigurationResult)
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({ identifier: "MalwareProtectionConfigurationResult" }),
-  }),
+    MalwareProtection: S.optional(MalwareProtectionConfigurationResult),
+  }).pipe(S.encodeKeys({ MalwareProtection: "malwareProtection" })),
 ).annotate({
   identifier: "UnprocessedDataSourcesResult",
 }) as any as S.Schema<UnprocessedDataSourcesResult>;
@@ -454,11 +472,14 @@ export interface CreateDetectorResponse {
 }
 export const CreateDetectorResponse = S.suspend(() =>
   S.Struct({
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    UnprocessedDataSources: S.optional(UnprocessedDataSourcesResult)
-      .pipe(T.JsonName("unprocessedDataSources"))
-      .annotate({ identifier: "UnprocessedDataSourcesResult" }),
-  }),
+    DetectorId: S.optional(S.String),
+    UnprocessedDataSources: S.optional(UnprocessedDataSourcesResult),
+  }).pipe(
+    S.encodeKeys({
+      DetectorId: "detectorId",
+      UnprocessedDataSources: "unprocessedDataSources",
+    }),
+  ),
 ).annotate({
   identifier: "CreateDetectorResponse",
 }) as any as S.Schema<CreateDetectorResponse>;
@@ -494,23 +515,38 @@ export interface Condition {
 }
 export const Condition = S.suspend(() =>
   S.Struct({
-    Eq: S.optional(Eq).pipe(T.JsonName("eq")),
-    Neq: S.optional(Neq).pipe(T.JsonName("neq")),
-    Gt: S.optional(S.Number).pipe(T.JsonName("gt")),
-    Gte: S.optional(S.Number).pipe(T.JsonName("gte")),
-    Lt: S.optional(S.Number).pipe(T.JsonName("lt")),
-    Lte: S.optional(S.Number).pipe(T.JsonName("lte")),
-    Equals: S.optional(Equals).pipe(T.JsonName("equals")),
-    NotEquals: S.optional(NotEquals).pipe(T.JsonName("notEquals")),
-    GreaterThan: S.optional(S.Number).pipe(T.JsonName("greaterThan")),
-    GreaterThanOrEqual: S.optional(S.Number).pipe(
-      T.JsonName("greaterThanOrEqual"),
-    ),
-    LessThan: S.optional(S.Number).pipe(T.JsonName("lessThan")),
-    LessThanOrEqual: S.optional(S.Number).pipe(T.JsonName("lessThanOrEqual")),
-    Matches: S.optional(Matches).pipe(T.JsonName("matches")),
-    NotMatches: S.optional(NotMatches).pipe(T.JsonName("notMatches")),
-  }),
+    Eq: S.optional(Eq),
+    Neq: S.optional(Neq),
+    Gt: S.optional(S.Number),
+    Gte: S.optional(S.Number),
+    Lt: S.optional(S.Number),
+    Lte: S.optional(S.Number),
+    Equals: S.optional(Equals),
+    NotEquals: S.optional(NotEquals),
+    GreaterThan: S.optional(S.Number),
+    GreaterThanOrEqual: S.optional(S.Number),
+    LessThan: S.optional(S.Number),
+    LessThanOrEqual: S.optional(S.Number),
+    Matches: S.optional(Matches),
+    NotMatches: S.optional(NotMatches),
+  }).pipe(
+    S.encodeKeys({
+      Eq: "eq",
+      Neq: "neq",
+      Gt: "gt",
+      Gte: "gte",
+      Lt: "lt",
+      Lte: "lte",
+      Equals: "equals",
+      NotEquals: "notEquals",
+      GreaterThan: "greaterThan",
+      GreaterThanOrEqual: "greaterThanOrEqual",
+      LessThan: "lessThan",
+      LessThanOrEqual: "lessThanOrEqual",
+      Matches: "matches",
+      NotMatches: "notMatches",
+    }),
+  ),
 ).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type Criterion = { [key: string]: Condition | undefined };
 export const Criterion = S.Record(S.String, Condition.pipe(S.optional));
@@ -518,7 +554,9 @@ export interface FindingCriteria {
   Criterion?: { [key: string]: Condition | undefined };
 }
 export const FindingCriteria = S.suspend(() =>
-  S.Struct({ Criterion: S.optional(Criterion).pipe(T.JsonName("criterion")) }),
+  S.Struct({ Criterion: S.optional(Criterion) }).pipe(
+    S.encodeKeys({ Criterion: "criterion" }),
+  ),
 ).annotate({
   identifier: "FindingCriteria",
 }) as any as S.Schema<FindingCriteria>;
@@ -534,32 +572,37 @@ export interface CreateFilterRequest {
 }
 export const CreateFilterRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Action: S.optional(FilterAction),
+    Rank: S.optional(S.Number),
+    FindingCriteria: S.optional(FindingCriteria),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Name: "name",
+        Description: "description",
+        Action: "action",
+        Rank: "rank",
+        FindingCriteria: "findingCriteria",
+        ClientToken: "clientToken",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/filter" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Action: S.optional(FilterAction).pipe(T.JsonName("action")),
-    Rank: S.optional(S.Number).pipe(T.JsonName("rank")),
-    FindingCriteria: S.optional(FindingCriteria)
-      .pipe(T.JsonName("findingCriteria"))
-      .annotate({ identifier: "FindingCriteria" }),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/filter" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateFilterRequest",
 }) as any as S.Schema<CreateFilterRequest>;
@@ -567,7 +610,7 @@ export interface CreateFilterResponse {
   Name: string;
 }
 export const CreateFilterResponse = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String).pipe(T.JsonName("name")) }),
+  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
 ).annotate({
   identifier: "CreateFilterResponse",
 }) as any as S.Schema<CreateFilterResponse>;
@@ -592,32 +635,37 @@ export interface CreateIPSetRequest {
 }
 export const CreateIPSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Name: S.optional(S.String),
+    Format: S.optional(IpSetFormat),
+    Location: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+    ExpectedBucketOwner: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Name: "name",
+        Format: "format",
+        Location: "location",
+        Activate: "activate",
+        ClientToken: "clientToken",
+        Tags: "tags",
+        ExpectedBucketOwner: "expectedBucketOwner",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/ipset" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(IpSetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/ipset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateIPSetRequest",
 }) as any as S.Schema<CreateIPSetRequest>;
@@ -625,7 +673,9 @@ export interface CreateIPSetResponse {
   IpSetId: string;
 }
 export const CreateIPSetResponse = S.suspend(() =>
-  S.Struct({ IpSetId: S.optional(S.String).pipe(T.JsonName("ipSetId")) }),
+  S.Struct({ IpSetId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ IpSetId: "ipSetId" }),
+  ),
 ).annotate({
   identifier: "CreateIPSetResponse",
 }) as any as S.Schema<CreateIPSetResponse>;
@@ -637,11 +687,14 @@ export interface CreateS3BucketResource {
 }
 export const CreateS3BucketResource = S.suspend(() =>
   S.Struct({
-    BucketName: S.optional(S.String).pipe(T.JsonName("bucketName")),
-    ObjectPrefixes: S.optional(MalwareProtectionPlanObjectPrefixesList).pipe(
-      T.JsonName("objectPrefixes"),
-    ),
-  }),
+    BucketName: S.optional(S.String),
+    ObjectPrefixes: S.optional(MalwareProtectionPlanObjectPrefixesList),
+  }).pipe(
+    S.encodeKeys({
+      BucketName: "bucketName",
+      ObjectPrefixes: "objectPrefixes",
+    }),
+  ),
 ).annotate({
   identifier: "CreateS3BucketResource",
 }) as any as S.Schema<CreateS3BucketResource>;
@@ -649,11 +702,9 @@ export interface CreateProtectedResource {
   S3Bucket?: CreateS3BucketResource;
 }
 export const CreateProtectedResource = S.suspend(() =>
-  S.Struct({
-    S3Bucket: S.optional(CreateS3BucketResource)
-      .pipe(T.JsonName("s3Bucket"))
-      .annotate({ identifier: "CreateS3BucketResource" }),
-  }),
+  S.Struct({ S3Bucket: S.optional(CreateS3BucketResource) }).pipe(
+    S.encodeKeys({ S3Bucket: "s3Bucket" }),
+  ),
 ).annotate({
   identifier: "CreateProtectedResource",
 }) as any as S.Schema<CreateProtectedResource>;
@@ -667,10 +718,8 @@ export interface MalwareProtectionPlanTaggingAction {
 }
 export const MalwareProtectionPlanTaggingAction = S.suspend(() =>
   S.Struct({
-    Status: S.optional(MalwareProtectionPlanTaggingActionStatus).pipe(
-      T.JsonName("status"),
-    ),
-  }),
+    Status: S.optional(MalwareProtectionPlanTaggingActionStatus),
+  }).pipe(S.encodeKeys({ Status: "status" })),
 ).annotate({
   identifier: "MalwareProtectionPlanTaggingAction",
 }) as any as S.Schema<MalwareProtectionPlanTaggingAction>;
@@ -678,11 +727,9 @@ export interface MalwareProtectionPlanActions {
   Tagging?: MalwareProtectionPlanTaggingAction;
 }
 export const MalwareProtectionPlanActions = S.suspend(() =>
-  S.Struct({
-    Tagging: S.optional(MalwareProtectionPlanTaggingAction)
-      .pipe(T.JsonName("tagging"))
-      .annotate({ identifier: "MalwareProtectionPlanTaggingAction" }),
-  }),
+  S.Struct({ Tagging: S.optional(MalwareProtectionPlanTaggingAction) }).pipe(
+    S.encodeKeys({ Tagging: "tagging" }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionPlanActions",
 }) as any as S.Schema<MalwareProtectionPlanActions>;
@@ -695,28 +742,31 @@ export interface CreateMalwareProtectionPlanRequest {
 }
 export const CreateMalwareProtectionPlanRequest = S.suspend(() =>
   S.Struct({
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Role: S.optional(S.String),
+    ProtectedResource: S.optional(CreateProtectedResource),
+    Actions: S.optional(MalwareProtectionPlanActions),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        ClientToken: "clientToken",
+        Role: "role",
+        ProtectedResource: "protectedResource",
+        Actions: "actions",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/malware-protection-plan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    ProtectedResource: S.optional(CreateProtectedResource)
-      .pipe(T.JsonName("protectedResource"))
-      .annotate({ identifier: "CreateProtectedResource" }),
-    Actions: S.optional(MalwareProtectionPlanActions)
-      .pipe(T.JsonName("actions"))
-      .annotate({ identifier: "MalwareProtectionPlanActions" }),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/malware-protection-plan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateMalwareProtectionPlanRequest",
 }) as any as S.Schema<CreateMalwareProtectionPlanRequest>;
@@ -724,11 +774,9 @@ export interface CreateMalwareProtectionPlanResponse {
   MalwareProtectionPlanId?: string;
 }
 export const CreateMalwareProtectionPlanResponse = S.suspend(() =>
-  S.Struct({
-    MalwareProtectionPlanId: S.optional(S.String).pipe(
-      T.JsonName("malwareProtectionPlanId"),
-    ),
-  }),
+  S.Struct({ MalwareProtectionPlanId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ MalwareProtectionPlanId: "malwareProtectionPlanId" }),
+  ),
 ).annotate({
   identifier: "CreateMalwareProtectionPlanResponse",
 }) as any as S.Schema<CreateMalwareProtectionPlanResponse>;
@@ -738,9 +786,9 @@ export interface AccountDetail {
 }
 export const AccountDetail = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Email: S.optional(SensitiveString).pipe(T.JsonName("email")),
-  }),
+    AccountId: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+  }).pipe(S.encodeKeys({ AccountId: "accountId", Email: "email" })),
 ).annotate({ identifier: "AccountDetail" }) as any as S.Schema<AccountDetail>;
 export type AccountDetails = AccountDetail[];
 export const AccountDetails = S.Array(AccountDetail);
@@ -750,23 +798,25 @@ export interface CreateMembersRequest {
 }
 export const CreateMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountDetails: S.optional(AccountDetails),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        AccountDetails: "accountDetails",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountDetails: S.optional(AccountDetails).pipe(
-      T.JsonName("accountDetails"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateMembersRequest",
 }) as any as S.Schema<CreateMembersRequest>;
@@ -776,9 +826,9 @@ export interface UnprocessedAccount {
 }
 export const UnprocessedAccount = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Result: S.optional(S.String).pipe(T.JsonName("result")),
-  }),
+    AccountId: S.optional(S.String),
+    Result: S.optional(S.String),
+  }).pipe(S.encodeKeys({ AccountId: "accountId", Result: "result" })),
 ).annotate({
   identifier: "UnprocessedAccount",
 }) as any as S.Schema<UnprocessedAccount>;
@@ -791,11 +841,9 @@ export interface CreateMembersResponse {
   })[];
 }
 export const CreateMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "CreateMembersResponse",
 }) as any as S.Schema<CreateMembersResponse>;
@@ -807,9 +855,11 @@ export interface DestinationProperties {
 }
 export const DestinationProperties = S.suspend(() =>
   S.Struct({
-    DestinationArn: S.optional(S.String).pipe(T.JsonName("destinationArn")),
-    KmsKeyArn: S.optional(S.String).pipe(T.JsonName("kmsKeyArn")),
-  }),
+    DestinationArn: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ DestinationArn: "destinationArn", KmsKeyArn: "kmsKeyArn" }),
+  ),
 ).annotate({
   identifier: "DestinationProperties",
 }) as any as S.Schema<DestinationProperties>;
@@ -822,34 +872,34 @@ export interface CreatePublishingDestinationRequest {
 }
 export const CreatePublishingDestinationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    DestinationType: S.optional(DestinationType).pipe(
-      T.JsonName("destinationType"),
-    ),
-    DestinationProperties: S.optional(DestinationProperties)
-      .pipe(T.JsonName("destinationProperties"))
-      .annotate({ identifier: "DestinationProperties" }),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/publishingDestination",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    DestinationType: S.optional(DestinationType),
+    DestinationProperties: S.optional(DestinationProperties),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        DestinationType: "destinationType",
+        DestinationProperties: "destinationProperties",
+        ClientToken: "clientToken",
+        Tags: "tags",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/publishingDestination",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreatePublishingDestinationRequest",
 }) as any as S.Schema<CreatePublishingDestinationRequest>;
@@ -857,9 +907,9 @@ export interface CreatePublishingDestinationResponse {
   DestinationId: string;
 }
 export const CreatePublishingDestinationResponse = S.suspend(() =>
-  S.Struct({
-    DestinationId: S.optional(S.String).pipe(T.JsonName("destinationId")),
-  }),
+  S.Struct({ DestinationId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ DestinationId: "destinationId" }),
+  ),
 ).annotate({
   identifier: "CreatePublishingDestinationResponse",
 }) as any as S.Schema<CreatePublishingDestinationResponse>;
@@ -871,21 +921,25 @@ export interface CreateSampleFindingsRequest {
 }
 export const CreateSampleFindingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingTypes: S.optional(FindingTypes),
+  })
+    .pipe(
+      S.encodeKeys({ DetectorId: "detectorId", FindingTypes: "findingTypes" }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/findings/create",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingTypes: S.optional(FindingTypes).pipe(T.JsonName("findingTypes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/findings/create" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateSampleFindingsRequest",
 }) as any as S.Schema<CreateSampleFindingsRequest>;
@@ -916,32 +970,40 @@ export interface CreateThreatEntitySetRequest {
 }
 export const CreateThreatEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Name: S.optional(S.String),
+    Format: S.optional(ThreatEntitySetFormat),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Name: "name",
+        Format: "format",
+        Location: "location",
+        ExpectedBucketOwner: "expectedBucketOwner",
+        Activate: "activate",
+        ClientToken: "clientToken",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/threatentityset",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(ThreatEntitySetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/threatentityset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateThreatEntitySetRequest",
 }) as any as S.Schema<CreateThreatEntitySetRequest>;
@@ -949,11 +1011,9 @@ export interface CreateThreatEntitySetResponse {
   ThreatEntitySetId: string;
 }
 export const CreateThreatEntitySetResponse = S.suspend(() =>
-  S.Struct({
-    ThreatEntitySetId: S.optional(S.String).pipe(
-      T.JsonName("threatEntitySetId"),
-    ),
-  }),
+  S.Struct({ ThreatEntitySetId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ThreatEntitySetId: "threatEntitySetId" }),
+  ),
 ).annotate({
   identifier: "CreateThreatEntitySetResponse",
 }) as any as S.Schema<CreateThreatEntitySetResponse>;
@@ -978,32 +1038,40 @@ export interface CreateThreatIntelSetRequest {
 }
 export const CreateThreatIntelSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Name: S.optional(S.String),
+    Format: S.optional(ThreatIntelSetFormat),
+    Location: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+    ExpectedBucketOwner: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Name: "name",
+        Format: "format",
+        Location: "location",
+        Activate: "activate",
+        ClientToken: "clientToken",
+        Tags: "tags",
+        ExpectedBucketOwner: "expectedBucketOwner",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/threatintelset",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(ThreatIntelSetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/threatintelset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateThreatIntelSetRequest",
 }) as any as S.Schema<CreateThreatIntelSetRequest>;
@@ -1011,9 +1079,9 @@ export interface CreateThreatIntelSetResponse {
   ThreatIntelSetId: string;
 }
 export const CreateThreatIntelSetResponse = S.suspend(() =>
-  S.Struct({
-    ThreatIntelSetId: S.optional(S.String).pipe(T.JsonName("threatIntelSetId")),
-  }),
+  S.Struct({ ThreatIntelSetId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ThreatIntelSetId: "threatIntelSetId" }),
+  ),
 ).annotate({
   identifier: "CreateThreatIntelSetResponse",
 }) as any as S.Schema<CreateThreatIntelSetResponse>;
@@ -1038,35 +1106,40 @@ export interface CreateTrustedEntitySetRequest {
 }
 export const CreateTrustedEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(TrustedEntitySetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/trustedentityset",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Name: S.optional(S.String),
+    Format: S.optional(TrustedEntitySetFormat),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Name: "name",
+        Format: "format",
+        Location: "location",
+        ExpectedBucketOwner: "expectedBucketOwner",
+        Activate: "activate",
+        ClientToken: "clientToken",
+        Tags: "tags",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/trustedentityset",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateTrustedEntitySetRequest",
 }) as any as S.Schema<CreateTrustedEntitySetRequest>;
@@ -1074,11 +1147,9 @@ export interface CreateTrustedEntitySetResponse {
   TrustedEntitySetId: string;
 }
 export const CreateTrustedEntitySetResponse = S.suspend(() =>
-  S.Struct({
-    TrustedEntitySetId: S.optional(S.String).pipe(
-      T.JsonName("trustedEntitySetId"),
-    ),
-  }),
+  S.Struct({ TrustedEntitySetId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ TrustedEntitySetId: "trustedEntitySetId" }),
+  ),
 ).annotate({
   identifier: "CreateTrustedEntitySetResponse",
 }) as any as S.Schema<CreateTrustedEntitySetResponse>;
@@ -1088,18 +1159,18 @@ export interface DeclineInvitationsRequest {
   AccountIds?: string[];
 }
 export const DeclineInvitationsRequest = S.suspend(() =>
-  S.Struct({
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/invitation/decline" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ AccountIds: S.optional(AccountIds) })
+    .pipe(S.encodeKeys({ AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/invitation/decline" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeclineInvitationsRequest",
 }) as any as S.Schema<DeclineInvitationsRequest>;
@@ -1110,11 +1181,9 @@ export interface DeclineInvitationsResponse {
   })[];
 }
 export const DeclineInvitationsResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "DeclineInvitationsResponse",
 }) as any as S.Schema<DeclineInvitationsResponse>;
@@ -1122,21 +1191,18 @@ export interface DeleteDetectorRequest {
   DetectorId: string;
 }
 export const DeleteDetectorRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/detector/{DetectorId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/detector/{DetectorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DeleteDetectorRequest",
 }) as any as S.Schema<DeleteDetectorRequest>;
@@ -1150,27 +1216,23 @@ export interface DeleteFilterRequest {
 }
 export const DeleteFilterRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FilterName: S.String.pipe(T.HttpLabel("FilterName")),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", FilterName: "filterName" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/filter/{FilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FilterName: S.String.pipe(
-      T.HttpLabel("FilterName"),
-      T.JsonName("filterName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/filter/{FilterName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DeleteFilterRequest",
 }) as any as S.Schema<DeleteFilterRequest>;
@@ -1182,18 +1244,18 @@ export interface DeleteInvitationsRequest {
   AccountIds?: string[];
 }
 export const DeleteInvitationsRequest = S.suspend(() =>
-  S.Struct({
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/invitation/delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ AccountIds: S.optional(AccountIds) })
+    .pipe(S.encodeKeys({ AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/invitation/delete" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteInvitationsRequest",
 }) as any as S.Schema<DeleteInvitationsRequest>;
@@ -1204,11 +1266,9 @@ export interface DeleteInvitationsResponse {
   })[];
 }
 export const DeleteInvitationsResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "DeleteInvitationsResponse",
 }) as any as S.Schema<DeleteInvitationsResponse>;
@@ -1218,24 +1278,23 @@ export interface DeleteIPSetRequest {
 }
 export const DeleteIPSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    IpSetId: S.String.pipe(T.HttpLabel("IpSetId")),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", IpSetId: "ipSetId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/ipset/{IpSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    IpSetId: S.String.pipe(T.HttpLabel("IpSetId"), T.JsonName("ipSetId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/ipset/{IpSetId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DeleteIPSetRequest",
 }) as any as S.Schema<DeleteIPSetRequest>;
@@ -1250,21 +1309,22 @@ export const DeleteMalwareProtectionPlanRequest = S.suspend(() =>
   S.Struct({
     MalwareProtectionPlanId: S.String.pipe(
       T.HttpLabel("MalwareProtectionPlanId"),
-      T.JsonName("malwareProtectionPlanId"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ MalwareProtectionPlanId: "malwareProtectionPlanId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteMalwareProtectionPlanRequest",
 }) as any as S.Schema<DeleteMalwareProtectionPlanRequest>;
@@ -1280,21 +1340,20 @@ export interface DeleteMembersRequest {
 }
 export const DeleteMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/delete" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DeleteMembersRequest",
 }) as any as S.Schema<DeleteMembersRequest>;
@@ -1305,11 +1364,9 @@ export interface DeleteMembersResponse {
   })[];
 }
 export const DeleteMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "DeleteMembersResponse",
 }) as any as S.Schema<DeleteMembersResponse>;
@@ -1319,27 +1376,28 @@ export interface DeletePublishingDestinationRequest {
 }
 export const DeletePublishingDestinationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    DestinationId: S.String.pipe(
-      T.HttpLabel("DestinationId"),
-      T.JsonName("destinationId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    DestinationId: S.String.pipe(T.HttpLabel("DestinationId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        DestinationId: "destinationId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeletePublishingDestinationRequest",
 }) as any as S.Schema<DeletePublishingDestinationRequest>;
@@ -1355,27 +1413,28 @@ export interface DeleteThreatEntitySetRequest {
 }
 export const DeleteThreatEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatEntitySetId: S.String.pipe(
-      T.HttpLabel("ThreatEntitySetId"),
-      T.JsonName("threatEntitySetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatEntitySetId: S.String.pipe(T.HttpLabel("ThreatEntitySetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatEntitySetId: "threatEntitySetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteThreatEntitySetRequest",
 }) as any as S.Schema<DeleteThreatEntitySetRequest>;
@@ -1391,27 +1450,28 @@ export interface DeleteThreatIntelSetRequest {
 }
 export const DeleteThreatIntelSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatIntelSetId: S.String.pipe(
-      T.HttpLabel("ThreatIntelSetId"),
-      T.JsonName("threatIntelSetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatIntelSetId: S.String.pipe(T.HttpLabel("ThreatIntelSetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatIntelSetId: "threatIntelSetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteThreatIntelSetRequest",
 }) as any as S.Schema<DeleteThreatIntelSetRequest>;
@@ -1427,27 +1487,28 @@ export interface DeleteTrustedEntitySetRequest {
 }
 export const DeleteTrustedEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    TrustedEntitySetId: S.String.pipe(
-      T.HttpLabel("TrustedEntitySetId"),
-      T.JsonName("trustedEntitySetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    TrustedEntitySetId: S.String.pipe(T.HttpLabel("TrustedEntitySetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        TrustedEntitySetId: "trustedEntitySetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteTrustedEntitySetRequest",
 }) as any as S.Schema<DeleteTrustedEntitySetRequest>;
@@ -1474,10 +1535,16 @@ export interface FilterCondition {
 }
 export const FilterCondition = S.suspend(() =>
   S.Struct({
-    EqualsValue: S.optional(S.String).pipe(T.JsonName("equalsValue")),
-    GreaterThan: S.optional(S.Number).pipe(T.JsonName("greaterThan")),
-    LessThan: S.optional(S.Number).pipe(T.JsonName("lessThan")),
-  }),
+    EqualsValue: S.optional(S.String),
+    GreaterThan: S.optional(S.Number),
+    LessThan: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      EqualsValue: "equalsValue",
+      GreaterThan: "greaterThan",
+      LessThan: "lessThan",
+    }),
+  ),
 ).annotate({
   identifier: "FilterCondition",
 }) as any as S.Schema<FilterCondition>;
@@ -1487,11 +1554,14 @@ export interface FilterCriterion {
 }
 export const FilterCriterion = S.suspend(() =>
   S.Struct({
-    CriterionKey: S.optional(CriterionKey).pipe(T.JsonName("criterionKey")),
-    FilterCondition: S.optional(FilterCondition)
-      .pipe(T.JsonName("filterCondition"))
-      .annotate({ identifier: "FilterCondition" }),
-  }),
+    CriterionKey: S.optional(CriterionKey),
+    FilterCondition: S.optional(FilterCondition),
+  }).pipe(
+    S.encodeKeys({
+      CriterionKey: "criterionKey",
+      FilterCondition: "filterCondition",
+    }),
+  ),
 ).annotate({
   identifier: "FilterCriterion",
 }) as any as S.Schema<FilterCriterion>;
@@ -1501,11 +1571,9 @@ export interface FilterCriteria {
   FilterCriterion?: FilterCriterion[];
 }
 export const FilterCriteria = S.suspend(() =>
-  S.Struct({
-    FilterCriterion: S.optional(FilterCriterionList).pipe(
-      T.JsonName("filterCriterion"),
-    ),
-  }),
+  S.Struct({ FilterCriterion: S.optional(FilterCriterionList) }).pipe(
+    S.encodeKeys({ FilterCriterion: "filterCriterion" }),
+  ),
 ).annotate({ identifier: "FilterCriteria" }) as any as S.Schema<FilterCriteria>;
 export type OrderBy = "ASC" | "DESC" | (string & {});
 export const OrderBy = S.String;
@@ -1515,9 +1583,9 @@ export interface SortCriteria {
 }
 export const SortCriteria = S.suspend(() =>
   S.Struct({
-    AttributeName: S.optional(S.String).pipe(T.JsonName("attributeName")),
-    OrderBy: S.optional(OrderBy).pipe(T.JsonName("orderBy")),
-  }),
+    AttributeName: S.optional(S.String),
+    OrderBy: S.optional(OrderBy),
+  }).pipe(S.encodeKeys({ AttributeName: "attributeName", OrderBy: "orderBy" })),
 ).annotate({ identifier: "SortCriteria" }) as any as S.Schema<SortCriteria>;
 export interface DescribeMalwareScansRequest {
   DetectorId: string;
@@ -1528,28 +1596,31 @@ export interface DescribeMalwareScansRequest {
 }
 export const DescribeMalwareScansRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    FilterCriteria: S.optional(FilterCriteria),
+    SortCriteria: S.optional(SortCriteria),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        NextToken: "nextToken",
+        MaxResults: "maxResults",
+        FilterCriteria: "filterCriteria",
+        SortCriteria: "sortCriteria",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/malware-scans" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    FilterCriteria: S.optional(FilterCriteria)
-      .pipe(T.JsonName("filterCriteria"))
-      .annotate({ identifier: "FilterCriteria" }),
-    SortCriteria: S.optional(SortCriteria)
-      .pipe(T.JsonName("sortCriteria"))
-      .annotate({ identifier: "SortCriteria" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/malware-scans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DescribeMalwareScansRequest",
 }) as any as S.Schema<DescribeMalwareScansRequest>;
@@ -1569,20 +1640,24 @@ export interface TriggerDetails {
 }
 export const TriggerDetails = S.suspend(() =>
   S.Struct({
-    GuardDutyFindingId: S.optional(S.String).pipe(
-      T.JsonName("guardDutyFindingId"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    TriggerType: S.optional(TriggerType).pipe(T.JsonName("triggerType")),
-  }),
+    GuardDutyFindingId: S.optional(S.String),
+    Description: S.optional(S.String),
+    TriggerType: S.optional(TriggerType),
+  }).pipe(
+    S.encodeKeys({
+      GuardDutyFindingId: "guardDutyFindingId",
+      Description: "description",
+      TriggerType: "triggerType",
+    }),
+  ),
 ).annotate({ identifier: "TriggerDetails" }) as any as S.Schema<TriggerDetails>;
 export interface ResourceDetails {
   InstanceArn?: string;
 }
 export const ResourceDetails = S.suspend(() =>
-  S.Struct({
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-  }),
+  S.Struct({ InstanceArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ InstanceArn: "instanceArn" }),
+  ),
 ).annotate({
   identifier: "ResourceDetails",
 }) as any as S.Schema<ResourceDetails>;
@@ -1592,9 +1667,9 @@ export interface ScanResultDetails {
   ScanResult?: ScanResult;
 }
 export const ScanResultDetails = S.suspend(() =>
-  S.Struct({
-    ScanResult: S.optional(ScanResult).pipe(T.JsonName("scanResult")),
-  }),
+  S.Struct({ ScanResult: S.optional(ScanResult) }).pipe(
+    S.encodeKeys({ ScanResult: "scanResult" }),
+  ),
 ).annotate({
   identifier: "ScanResultDetails",
 }) as any as S.Schema<ScanResultDetails>;
@@ -1609,14 +1684,24 @@ export interface VolumeDetail {
 }
 export const VolumeDetail = S.suspend(() =>
   S.Struct({
-    VolumeArn: S.optional(S.String).pipe(T.JsonName("volumeArn")),
-    VolumeType: S.optional(S.String).pipe(T.JsonName("volumeType")),
-    DeviceName: S.optional(S.String).pipe(T.JsonName("deviceName")),
-    VolumeSizeInGB: S.optional(S.Number).pipe(T.JsonName("volumeSizeInGB")),
-    EncryptionType: S.optional(S.String).pipe(T.JsonName("encryptionType")),
-    SnapshotArn: S.optional(S.String).pipe(T.JsonName("snapshotArn")),
-    KmsKeyArn: S.optional(S.String).pipe(T.JsonName("kmsKeyArn")),
-  }),
+    VolumeArn: S.optional(S.String),
+    VolumeType: S.optional(S.String),
+    DeviceName: S.optional(S.String),
+    VolumeSizeInGB: S.optional(S.Number),
+    EncryptionType: S.optional(S.String),
+    SnapshotArn: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      VolumeArn: "volumeArn",
+      VolumeType: "volumeType",
+      DeviceName: "deviceName",
+      VolumeSizeInGB: "volumeSizeInGB",
+      EncryptionType: "encryptionType",
+      SnapshotArn: "snapshotArn",
+      KmsKeyArn: "kmsKeyArn",
+    }),
+  ),
 ).annotate({ identifier: "VolumeDetail" }) as any as S.Schema<VolumeDetail>;
 export type VolumeDetails = VolumeDetail[];
 export const VolumeDetails = S.Array(VolumeDetail);
@@ -1641,34 +1726,40 @@ export interface Scan {
 }
 export const Scan = S.suspend(() =>
   S.Struct({
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    AdminDetectorId: S.optional(S.String).pipe(T.JsonName("adminDetectorId")),
-    ScanId: S.optional(S.String).pipe(T.JsonName("scanId")),
-    ScanStatus: S.optional(ScanStatus).pipe(T.JsonName("scanStatus")),
-    FailureReason: S.optional(S.String).pipe(T.JsonName("failureReason")),
-    ScanStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanStartTime")),
-    ScanEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanEndTime")),
-    TriggerDetails: S.optional(TriggerDetails)
-      .pipe(T.JsonName("triggerDetails"))
-      .annotate({ identifier: "TriggerDetails" }),
-    ResourceDetails: S.optional(ResourceDetails)
-      .pipe(T.JsonName("resourceDetails"))
-      .annotate({ identifier: "ResourceDetails" }),
-    ScanResultDetails: S.optional(ScanResultDetails)
-      .pipe(T.JsonName("scanResultDetails"))
-      .annotate({ identifier: "ScanResultDetails" }),
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    TotalBytes: S.optional(S.Number).pipe(T.JsonName("totalBytes")),
-    FileCount: S.optional(S.Number).pipe(T.JsonName("fileCount")),
-    AttachedVolumes: S.optional(VolumeDetails).pipe(
-      T.JsonName("attachedVolumes"),
-    ),
-    ScanType: S.optional(ScanType).pipe(T.JsonName("scanType")),
-  }),
+    DetectorId: S.optional(S.String),
+    AdminDetectorId: S.optional(S.String),
+    ScanId: S.optional(S.String),
+    ScanStatus: S.optional(ScanStatus),
+    FailureReason: S.optional(S.String),
+    ScanStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ScanEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TriggerDetails: S.optional(TriggerDetails),
+    ResourceDetails: S.optional(ResourceDetails),
+    ScanResultDetails: S.optional(ScanResultDetails),
+    AccountId: S.optional(S.String),
+    TotalBytes: S.optional(S.Number),
+    FileCount: S.optional(S.Number),
+    AttachedVolumes: S.optional(VolumeDetails),
+    ScanType: S.optional(ScanType),
+  }).pipe(
+    S.encodeKeys({
+      DetectorId: "detectorId",
+      AdminDetectorId: "adminDetectorId",
+      ScanId: "scanId",
+      ScanStatus: "scanStatus",
+      FailureReason: "failureReason",
+      ScanStartTime: "scanStartTime",
+      ScanEndTime: "scanEndTime",
+      TriggerDetails: "triggerDetails",
+      ResourceDetails: "resourceDetails",
+      ScanResultDetails: "scanResultDetails",
+      AccountId: "accountId",
+      TotalBytes: "totalBytes",
+      FileCount: "fileCount",
+      AttachedVolumes: "attachedVolumes",
+      ScanType: "scanType",
+    }),
+  ),
 ).annotate({ identifier: "Scan" }) as any as S.Schema<Scan>;
 export type Scans = Scan[];
 export const Scans = S.Array(Scan);
@@ -1677,10 +1768,9 @@ export interface DescribeMalwareScansResponse {
   NextToken?: string;
 }
 export const DescribeMalwareScansResponse = S.suspend(() =>
-  S.Struct({
-    Scans: S.optional(Scans).pipe(T.JsonName("scans")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+  S.Struct({ Scans: S.optional(Scans), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Scans: "scans", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "DescribeMalwareScansResponse",
 }) as any as S.Schema<DescribeMalwareScansResponse>;
@@ -1691,28 +1781,27 @@ export interface DescribeOrganizationConfigurationRequest {
 }
 export const DescribeOrganizationConfigurationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/admin" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/admin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DescribeOrganizationConfigurationRequest",
 }) as any as S.Schema<DescribeOrganizationConfigurationRequest>;
@@ -1720,9 +1809,9 @@ export interface OrganizationS3LogsConfigurationResult {
   AutoEnable?: boolean;
 }
 export const OrganizationS3LogsConfigurationResult = S.suspend(() =>
-  S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-  }),
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ AutoEnable: "autoEnable" }),
+  ),
 ).annotate({
   identifier: "OrganizationS3LogsConfigurationResult",
 }) as any as S.Schema<OrganizationS3LogsConfigurationResult>;
@@ -1731,9 +1820,9 @@ export interface OrganizationKubernetesAuditLogsConfigurationResult {
 }
 export const OrganizationKubernetesAuditLogsConfigurationResult = S.suspend(
   () =>
-    S.Struct({
-      AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-    }),
+    S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+      S.encodeKeys({ AutoEnable: "autoEnable" }),
+    ),
 ).annotate({
   identifier: "OrganizationKubernetesAuditLogsConfigurationResult",
 }) as any as S.Schema<OrganizationKubernetesAuditLogsConfigurationResult>;
@@ -1742,12 +1831,8 @@ export interface OrganizationKubernetesConfigurationResult {
 }
 export const OrganizationKubernetesConfigurationResult = S.suspend(() =>
   S.Struct({
-    AuditLogs: S.optional(OrganizationKubernetesAuditLogsConfigurationResult)
-      .pipe(T.JsonName("auditLogs"))
-      .annotate({
-        identifier: "OrganizationKubernetesAuditLogsConfigurationResult",
-      }),
-  }),
+    AuditLogs: S.optional(OrganizationKubernetesAuditLogsConfigurationResult),
+  }).pipe(S.encodeKeys({ AuditLogs: "auditLogs" })),
 ).annotate({
   identifier: "OrganizationKubernetesConfigurationResult",
 }) as any as S.Schema<OrganizationKubernetesConfigurationResult>;
@@ -1755,9 +1840,9 @@ export interface OrganizationEbsVolumesResult {
   AutoEnable?: boolean;
 }
 export const OrganizationEbsVolumesResult = S.suspend(() =>
-  S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-  }),
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ AutoEnable: "autoEnable" }),
+  ),
 ).annotate({
   identifier: "OrganizationEbsVolumesResult",
 }) as any as S.Schema<OrganizationEbsVolumesResult>;
@@ -1765,11 +1850,9 @@ export interface OrganizationScanEc2InstanceWithFindingsResult {
   EbsVolumes?: OrganizationEbsVolumesResult;
 }
 export const OrganizationScanEc2InstanceWithFindingsResult = S.suspend(() =>
-  S.Struct({
-    EbsVolumes: S.optional(OrganizationEbsVolumesResult)
-      .pipe(T.JsonName("ebsVolumes"))
-      .annotate({ identifier: "OrganizationEbsVolumesResult" }),
-  }),
+  S.Struct({ EbsVolumes: S.optional(OrganizationEbsVolumesResult) }).pipe(
+    S.encodeKeys({ EbsVolumes: "ebsVolumes" }),
+  ),
 ).annotate({
   identifier: "OrganizationScanEc2InstanceWithFindingsResult",
 }) as any as S.Schema<OrganizationScanEc2InstanceWithFindingsResult>;
@@ -1780,12 +1863,12 @@ export const OrganizationMalwareProtectionConfigurationResult = S.suspend(() =>
   S.Struct({
     ScanEc2InstanceWithFindings: S.optional(
       OrganizationScanEc2InstanceWithFindingsResult,
-    )
-      .pipe(T.JsonName("scanEc2InstanceWithFindings"))
-      .annotate({
-        identifier: "OrganizationScanEc2InstanceWithFindingsResult",
-      }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      ScanEc2InstanceWithFindings: "scanEc2InstanceWithFindings",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationMalwareProtectionConfigurationResult",
 }) as any as S.Schema<OrganizationMalwareProtectionConfigurationResult>;
@@ -1796,20 +1879,18 @@ export interface OrganizationDataSourceConfigurationsResult {
 }
 export const OrganizationDataSourceConfigurationsResult = S.suspend(() =>
   S.Struct({
-    S3Logs: S.optional(OrganizationS3LogsConfigurationResult)
-      .pipe(T.JsonName("s3Logs"))
-      .annotate({ identifier: "OrganizationS3LogsConfigurationResult" }),
-    Kubernetes: S.optional(OrganizationKubernetesConfigurationResult)
-      .pipe(T.JsonName("kubernetes"))
-      .annotate({ identifier: "OrganizationKubernetesConfigurationResult" }),
+    S3Logs: S.optional(OrganizationS3LogsConfigurationResult),
+    Kubernetes: S.optional(OrganizationKubernetesConfigurationResult),
     MalwareProtection: S.optional(
       OrganizationMalwareProtectionConfigurationResult,
-    )
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({
-        identifier: "OrganizationMalwareProtectionConfigurationResult",
-      }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      S3Logs: "s3Logs",
+      Kubernetes: "kubernetes",
+      MalwareProtection: "malwareProtection",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationDataSourceConfigurationsResult",
 }) as any as S.Schema<OrganizationDataSourceConfigurationsResult>;
@@ -1837,11 +1918,9 @@ export interface OrganizationAdditionalConfigurationResult {
 }
 export const OrganizationAdditionalConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeatureAdditionalConfiguration).pipe(
-      T.JsonName("name"),
-    ),
-    AutoEnable: S.optional(OrgFeatureStatus).pipe(T.JsonName("autoEnable")),
-  }),
+    Name: S.optional(OrgFeatureAdditionalConfiguration),
+    AutoEnable: S.optional(OrgFeatureStatus),
+  }).pipe(S.encodeKeys({ Name: "name", AutoEnable: "autoEnable" })),
 ).annotate({
   identifier: "OrganizationAdditionalConfigurationResult",
 }) as any as S.Schema<OrganizationAdditionalConfigurationResult>;
@@ -1857,12 +1936,18 @@ export interface OrganizationFeatureConfigurationResult {
 }
 export const OrganizationFeatureConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeature).pipe(T.JsonName("name")),
-    AutoEnable: S.optional(OrgFeatureStatus).pipe(T.JsonName("autoEnable")),
+    Name: S.optional(OrgFeature),
+    AutoEnable: S.optional(OrgFeatureStatus),
     AdditionalConfiguration: S.optional(
       OrganizationAdditionalConfigurationResults,
-    ).pipe(T.JsonName("additionalConfiguration")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      AutoEnable: "autoEnable",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationFeatureConfigurationResult",
 }) as any as S.Schema<OrganizationFeatureConfigurationResult>;
@@ -1890,21 +1975,22 @@ export interface DescribeOrganizationConfigurationResponse {
 }
 export const DescribeOrganizationConfigurationResponse = S.suspend(() =>
   S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-    MemberAccountLimitReached: S.optional(S.Boolean).pipe(
-      T.JsonName("memberAccountLimitReached"),
-    ),
-    DataSources: S.optional(OrganizationDataSourceConfigurationsResult)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "OrganizationDataSourceConfigurationsResult" }),
-    Features: S.optional(OrganizationFeaturesConfigurationsResults).pipe(
-      T.JsonName("features"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    AutoEnableOrganizationMembers: S.optional(AutoEnableMembers).pipe(
-      T.JsonName("autoEnableOrganizationMembers"),
-    ),
-  }),
+    AutoEnable: S.optional(S.Boolean),
+    MemberAccountLimitReached: S.optional(S.Boolean),
+    DataSources: S.optional(OrganizationDataSourceConfigurationsResult),
+    Features: S.optional(OrganizationFeaturesConfigurationsResults),
+    NextToken: S.optional(S.String),
+    AutoEnableOrganizationMembers: S.optional(AutoEnableMembers),
+  }).pipe(
+    S.encodeKeys({
+      AutoEnable: "autoEnable",
+      MemberAccountLimitReached: "memberAccountLimitReached",
+      DataSources: "dataSources",
+      Features: "features",
+      NextToken: "nextToken",
+      AutoEnableOrganizationMembers: "autoEnableOrganizationMembers",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeOrganizationConfigurationResponse",
 }) as any as S.Schema<DescribeOrganizationConfigurationResponse>;
@@ -1914,27 +2000,28 @@ export interface DescribePublishingDestinationRequest {
 }
 export const DescribePublishingDestinationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    DestinationId: S.String.pipe(
-      T.HttpLabel("DestinationId"),
-      T.JsonName("destinationId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    DestinationId: S.String.pipe(T.HttpLabel("DestinationId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        DestinationId: "destinationId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribePublishingDestinationRequest",
 }) as any as S.Schema<DescribePublishingDestinationRequest>;
@@ -1955,19 +2042,22 @@ export interface DescribePublishingDestinationResponse {
 }
 export const DescribePublishingDestinationResponse = S.suspend(() =>
   S.Struct({
-    DestinationId: S.optional(S.String).pipe(T.JsonName("destinationId")),
-    DestinationType: S.optional(DestinationType).pipe(
-      T.JsonName("destinationType"),
-    ),
-    Status: S.optional(PublishingStatus).pipe(T.JsonName("status")),
-    PublishingFailureStartTimestamp: S.optional(S.Number).pipe(
-      T.JsonName("publishingFailureStartTimestamp"),
-    ),
-    DestinationProperties: S.optional(DestinationProperties)
-      .pipe(T.JsonName("destinationProperties"))
-      .annotate({ identifier: "DestinationProperties" }),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    DestinationId: S.optional(S.String),
+    DestinationType: S.optional(DestinationType),
+    Status: S.optional(PublishingStatus),
+    PublishingFailureStartTimestamp: S.optional(S.Number),
+    DestinationProperties: S.optional(DestinationProperties),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      DestinationId: "destinationId",
+      DestinationType: "destinationType",
+      Status: "status",
+      PublishingFailureStartTimestamp: "publishingFailureStartTimestamp",
+      DestinationProperties: "destinationProperties",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DescribePublishingDestinationResponse",
 }) as any as S.Schema<DescribePublishingDestinationResponse>;
@@ -1975,18 +2065,18 @@ export interface DisableOrganizationAdminAccountRequest {
   AdminAccountId?: string;
 }
 export const DisableOrganizationAdminAccountRequest = S.suspend(() =>
-  S.Struct({
-    AdminAccountId: S.optional(S.String).pipe(T.JsonName("adminAccountId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/admin/disable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ AdminAccountId: S.optional(S.String) })
+    .pipe(S.encodeKeys({ AdminAccountId: "adminAccountId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/admin/disable" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DisableOrganizationAdminAccountRequest",
 }) as any as S.Schema<DisableOrganizationAdminAccountRequest>;
@@ -2000,24 +2090,21 @@ export interface DisassociateFromAdministratorAccountRequest {
   DetectorId: string;
 }
 export const DisassociateFromAdministratorAccountRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/administrator/disassociate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/administrator/disassociate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DisassociateFromAdministratorAccountRequest",
 }) as any as S.Schema<DisassociateFromAdministratorAccountRequest>;
@@ -2031,24 +2118,21 @@ export interface DisassociateFromMasterAccountRequest {
   DetectorId: string;
 }
 export const DisassociateFromMasterAccountRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/master/disassociate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/master/disassociate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DisassociateFromMasterAccountRequest",
 }) as any as S.Schema<DisassociateFromMasterAccountRequest>;
@@ -2064,24 +2148,23 @@ export interface DisassociateMembersRequest {
 }
 export const DisassociateMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/member/disassociate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/member/disassociate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "DisassociateMembersRequest",
 }) as any as S.Schema<DisassociateMembersRequest>;
@@ -2092,11 +2175,9 @@ export interface DisassociateMembersResponse {
   })[];
 }
 export const DisassociateMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "DisassociateMembersResponse",
 }) as any as S.Schema<DisassociateMembersResponse>;
@@ -2104,18 +2185,18 @@ export interface EnableOrganizationAdminAccountRequest {
   AdminAccountId?: string;
 }
 export const EnableOrganizationAdminAccountRequest = S.suspend(() =>
-  S.Struct({
-    AdminAccountId: S.optional(S.String).pipe(T.JsonName("adminAccountId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/admin/enable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ AdminAccountId: S.optional(S.String) })
+    .pipe(S.encodeKeys({ AdminAccountId: "adminAccountId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/admin/enable" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "EnableOrganizationAdminAccountRequest",
 }) as any as S.Schema<EnableOrganizationAdminAccountRequest>;
@@ -2129,21 +2210,18 @@ export interface GetAdministratorAccountRequest {
   DetectorId: string;
 }
 export const GetAdministratorAccountRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/administrator" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/administrator" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetAdministratorAccountRequest",
 }) as any as S.Schema<GetAdministratorAccountRequest>;
@@ -2155,23 +2233,26 @@ export interface Administrator {
 }
 export const Administrator = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    InvitationId: S.optional(S.String).pipe(T.JsonName("invitationId")),
-    RelationshipStatus: S.optional(S.String).pipe(
-      T.JsonName("relationshipStatus"),
-    ),
-    InvitedAt: S.optional(S.String).pipe(T.JsonName("invitedAt")),
-  }),
+    AccountId: S.optional(S.String),
+    InvitationId: S.optional(S.String),
+    RelationshipStatus: S.optional(S.String),
+    InvitedAt: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      InvitationId: "invitationId",
+      RelationshipStatus: "relationshipStatus",
+      InvitedAt: "invitedAt",
+    }),
+  ),
 ).annotate({ identifier: "Administrator" }) as any as S.Schema<Administrator>;
 export interface GetAdministratorAccountResponse {
   Administrator: Administrator;
 }
 export const GetAdministratorAccountResponse = S.suspend(() =>
-  S.Struct({
-    Administrator: S.optional(Administrator)
-      .pipe(T.JsonName("administrator"))
-      .annotate({ identifier: "Administrator" }),
-  }),
+  S.Struct({ Administrator: S.optional(Administrator) }).pipe(
+    S.encodeKeys({ Administrator: "administrator" }),
+  ),
 ).annotate({
   identifier: "GetAdministratorAccountResponse",
 }) as any as S.Schema<GetAdministratorAccountResponse>;
@@ -2195,9 +2276,9 @@ export interface CoverageFilterCondition {
 }
 export const CoverageFilterCondition = S.suspend(() =>
   S.Struct({
-    Equals: S.optional(Equals).pipe(T.JsonName("equals")),
-    NotEquals: S.optional(NotEquals).pipe(T.JsonName("notEquals")),
-  }),
+    Equals: S.optional(Equals),
+    NotEquals: S.optional(NotEquals),
+  }).pipe(S.encodeKeys({ Equals: "equals", NotEquals: "notEquals" })),
 ).annotate({
   identifier: "CoverageFilterCondition",
 }) as any as S.Schema<CoverageFilterCondition>;
@@ -2207,13 +2288,14 @@ export interface CoverageFilterCriterion {
 }
 export const CoverageFilterCriterion = S.suspend(() =>
   S.Struct({
-    CriterionKey: S.optional(CoverageFilterCriterionKey).pipe(
-      T.JsonName("criterionKey"),
-    ),
-    FilterCondition: S.optional(CoverageFilterCondition)
-      .pipe(T.JsonName("filterCondition"))
-      .annotate({ identifier: "CoverageFilterCondition" }),
-  }),
+    CriterionKey: S.optional(CoverageFilterCriterionKey),
+    FilterCondition: S.optional(CoverageFilterCondition),
+  }).pipe(
+    S.encodeKeys({
+      CriterionKey: "criterionKey",
+      FilterCondition: "filterCondition",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageFilterCriterion",
 }) as any as S.Schema<CoverageFilterCriterion>;
@@ -2223,11 +2305,9 @@ export interface CoverageFilterCriteria {
   FilterCriterion?: CoverageFilterCriterion[];
 }
 export const CoverageFilterCriteria = S.suspend(() =>
-  S.Struct({
-    FilterCriterion: S.optional(CoverageFilterCriterionList).pipe(
-      T.JsonName("filterCriterion"),
-    ),
-  }),
+  S.Struct({ FilterCriterion: S.optional(CoverageFilterCriterionList) }).pipe(
+    S.encodeKeys({ FilterCriterion: "filterCriterion" }),
+  ),
 ).annotate({
   identifier: "CoverageFilterCriteria",
 }) as any as S.Schema<CoverageFilterCriteria>;
@@ -2245,29 +2325,30 @@ export interface GetCoverageStatisticsRequest {
 }
 export const GetCoverageStatisticsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    FilterCriteria: S.optional(CoverageFilterCriteria)
-      .pipe(T.JsonName("filterCriteria"))
-      .annotate({ identifier: "CoverageFilterCriteria" }),
-    StatisticsType: S.optional(CoverageStatisticsTypeList).pipe(
-      T.JsonName("statisticsType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/coverage/statistics",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FilterCriteria: S.optional(CoverageFilterCriteria),
+    StatisticsType: S.optional(CoverageStatisticsTypeList),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FilterCriteria: "filterCriteria",
+        StatisticsType: "statisticsType",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/coverage/statistics",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetCoverageStatisticsRequest",
 }) as any as S.Schema<GetCoverageStatisticsRequest>;
@@ -2291,13 +2372,14 @@ export interface CoverageStatistics {
 }
 export const CoverageStatistics = S.suspend(() =>
   S.Struct({
-    CountByResourceType: S.optional(CountByResourceType).pipe(
-      T.JsonName("countByResourceType"),
-    ),
-    CountByCoverageStatus: S.optional(CountByCoverageStatus).pipe(
-      T.JsonName("countByCoverageStatus"),
-    ),
-  }),
+    CountByResourceType: S.optional(CountByResourceType),
+    CountByCoverageStatus: S.optional(CountByCoverageStatus),
+  }).pipe(
+    S.encodeKeys({
+      CountByResourceType: "countByResourceType",
+      CountByCoverageStatus: "countByCoverageStatus",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageStatistics",
 }) as any as S.Schema<CoverageStatistics>;
@@ -2305,11 +2387,9 @@ export interface GetCoverageStatisticsResponse {
   CoverageStatistics?: CoverageStatistics;
 }
 export const GetCoverageStatisticsResponse = S.suspend(() =>
-  S.Struct({
-    CoverageStatistics: S.optional(CoverageStatistics)
-      .pipe(T.JsonName("coverageStatistics"))
-      .annotate({ identifier: "CoverageStatistics" }),
-  }),
+  S.Struct({ CoverageStatistics: S.optional(CoverageStatistics) }).pipe(
+    S.encodeKeys({ CoverageStatistics: "coverageStatistics" }),
+  ),
 ).annotate({
   identifier: "GetCoverageStatisticsResponse",
 }) as any as S.Schema<GetCoverageStatisticsResponse>;
@@ -2317,21 +2397,18 @@ export interface GetDetectorRequest {
   DetectorId: string;
 }
 export const GetDetectorRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetDetectorRequest",
 }) as any as S.Schema<GetDetectorRequest>;
@@ -2341,7 +2418,9 @@ export interface CloudTrailConfigurationResult {
   Status?: DataSourceStatus;
 }
 export const CloudTrailConfigurationResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")) }),
+  S.Struct({ Status: S.optional(DataSourceStatus) }).pipe(
+    S.encodeKeys({ Status: "status" }),
+  ),
 ).annotate({
   identifier: "CloudTrailConfigurationResult",
 }) as any as S.Schema<CloudTrailConfigurationResult>;
@@ -2349,7 +2428,9 @@ export interface DNSLogsConfigurationResult {
   Status?: DataSourceStatus;
 }
 export const DNSLogsConfigurationResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")) }),
+  S.Struct({ Status: S.optional(DataSourceStatus) }).pipe(
+    S.encodeKeys({ Status: "status" }),
+  ),
 ).annotate({
   identifier: "DNSLogsConfigurationResult",
 }) as any as S.Schema<DNSLogsConfigurationResult>;
@@ -2357,7 +2438,9 @@ export interface FlowLogsConfigurationResult {
   Status?: DataSourceStatus;
 }
 export const FlowLogsConfigurationResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")) }),
+  S.Struct({ Status: S.optional(DataSourceStatus) }).pipe(
+    S.encodeKeys({ Status: "status" }),
+  ),
 ).annotate({
   identifier: "FlowLogsConfigurationResult",
 }) as any as S.Schema<FlowLogsConfigurationResult>;
@@ -2365,7 +2448,9 @@ export interface S3LogsConfigurationResult {
   Status?: DataSourceStatus;
 }
 export const S3LogsConfigurationResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")) }),
+  S.Struct({ Status: S.optional(DataSourceStatus) }).pipe(
+    S.encodeKeys({ Status: "status" }),
+  ),
 ).annotate({
   identifier: "S3LogsConfigurationResult",
 }) as any as S.Schema<S3LogsConfigurationResult>;
@@ -2373,7 +2458,9 @@ export interface KubernetesAuditLogsConfigurationResult {
   Status?: DataSourceStatus;
 }
 export const KubernetesAuditLogsConfigurationResult = S.suspend(() =>
-  S.Struct({ Status: S.optional(DataSourceStatus).pipe(T.JsonName("status")) }),
+  S.Struct({ Status: S.optional(DataSourceStatus) }).pipe(
+    S.encodeKeys({ Status: "status" }),
+  ),
 ).annotate({
   identifier: "KubernetesAuditLogsConfigurationResult",
 }) as any as S.Schema<KubernetesAuditLogsConfigurationResult>;
@@ -2382,10 +2469,8 @@ export interface KubernetesConfigurationResult {
 }
 export const KubernetesConfigurationResult = S.suspend(() =>
   S.Struct({
-    AuditLogs: S.optional(KubernetesAuditLogsConfigurationResult)
-      .pipe(T.JsonName("auditLogs"))
-      .annotate({ identifier: "KubernetesAuditLogsConfigurationResult" }),
-  }),
+    AuditLogs: S.optional(KubernetesAuditLogsConfigurationResult),
+  }).pipe(S.encodeKeys({ AuditLogs: "auditLogs" })),
 ).annotate({
   identifier: "KubernetesConfigurationResult",
 }) as any as S.Schema<KubernetesConfigurationResult>;
@@ -2399,25 +2484,22 @@ export interface DataSourceConfigurationsResult {
 }
 export const DataSourceConfigurationsResult = S.suspend(() =>
   S.Struct({
-    CloudTrail: S.optional(CloudTrailConfigurationResult)
-      .pipe(T.JsonName("cloudTrail"))
-      .annotate({ identifier: "CloudTrailConfigurationResult" }),
-    DNSLogs: S.optional(DNSLogsConfigurationResult)
-      .pipe(T.JsonName("dnsLogs"))
-      .annotate({ identifier: "DNSLogsConfigurationResult" }),
-    FlowLogs: S.optional(FlowLogsConfigurationResult)
-      .pipe(T.JsonName("flowLogs"))
-      .annotate({ identifier: "FlowLogsConfigurationResult" }),
-    S3Logs: S.optional(S3LogsConfigurationResult)
-      .pipe(T.JsonName("s3Logs"))
-      .annotate({ identifier: "S3LogsConfigurationResult" }),
-    Kubernetes: S.optional(KubernetesConfigurationResult)
-      .pipe(T.JsonName("kubernetes"))
-      .annotate({ identifier: "KubernetesConfigurationResult" }),
-    MalwareProtection: S.optional(MalwareProtectionConfigurationResult)
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({ identifier: "MalwareProtectionConfigurationResult" }),
-  }),
+    CloudTrail: S.optional(CloudTrailConfigurationResult),
+    DNSLogs: S.optional(DNSLogsConfigurationResult),
+    FlowLogs: S.optional(FlowLogsConfigurationResult),
+    S3Logs: S.optional(S3LogsConfigurationResult),
+    Kubernetes: S.optional(KubernetesConfigurationResult),
+    MalwareProtection: S.optional(MalwareProtectionConfigurationResult),
+  }).pipe(
+    S.encodeKeys({
+      CloudTrail: "cloudTrail",
+      DNSLogs: "dnsLogs",
+      FlowLogs: "flowLogs",
+      S3Logs: "s3Logs",
+      Kubernetes: "kubernetes",
+      MalwareProtection: "malwareProtection",
+    }),
+  ),
 ).annotate({
   identifier: "DataSourceConfigurationsResult",
 }) as any as S.Schema<DataSourceConfigurationsResult>;
@@ -2441,12 +2523,12 @@ export interface DetectorAdditionalConfigurationResult {
 }
 export const DetectorAdditionalConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(FeatureAdditionalConfiguration).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-  }),
+    Name: S.optional(FeatureAdditionalConfiguration),
+    Status: S.optional(FeatureStatus),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({ Name: "name", Status: "status", UpdatedAt: "updatedAt" }),
+  ),
 ).annotate({
   identifier: "DetectorAdditionalConfigurationResult",
 }) as any as S.Schema<DetectorAdditionalConfigurationResult>;
@@ -2463,15 +2545,18 @@ export interface DetectorFeatureConfigurationResult {
 }
 export const DetectorFeatureConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(DetectorFeatureResult).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    AdditionalConfiguration: S.optional(
-      DetectorAdditionalConfigurationResults,
-    ).pipe(T.JsonName("additionalConfiguration")),
-  }),
+    Name: S.optional(DetectorFeatureResult),
+    Status: S.optional(FeatureStatus),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AdditionalConfiguration: S.optional(DetectorAdditionalConfigurationResults),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Status: "status",
+      UpdatedAt: "updatedAt",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "DetectorFeatureConfigurationResult",
 }) as any as S.Schema<DetectorFeatureConfigurationResult>;
@@ -2502,21 +2587,26 @@ export interface GetDetectorResponse {
 }
 export const GetDetectorResponse = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    FindingPublishingFrequency: S.optional(FindingPublishingFrequency).pipe(
-      T.JsonName("findingPublishingFrequency"),
-    ),
-    ServiceRole: S.optional(S.String).pipe(T.JsonName("serviceRole")),
-    Status: S.optional(DetectorStatus).pipe(T.JsonName("status")),
-    UpdatedAt: S.optional(S.String).pipe(T.JsonName("updatedAt")),
-    DataSources: S.optional(DataSourceConfigurationsResult)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourceConfigurationsResult" }),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    Features: S.optional(DetectorFeatureConfigurationsResults).pipe(
-      T.JsonName("features"),
-    ),
-  }),
+    CreatedAt: S.optional(S.String),
+    FindingPublishingFrequency: S.optional(FindingPublishingFrequency),
+    ServiceRole: S.optional(S.String),
+    Status: S.optional(DetectorStatus),
+    UpdatedAt: S.optional(S.String),
+    DataSources: S.optional(DataSourceConfigurationsResult),
+    Tags: S.optional(TagMap),
+    Features: S.optional(DetectorFeatureConfigurationsResults),
+  }).pipe(
+    S.encodeKeys({
+      CreatedAt: "createdAt",
+      FindingPublishingFrequency: "findingPublishingFrequency",
+      ServiceRole: "serviceRole",
+      Status: "status",
+      UpdatedAt: "updatedAt",
+      DataSources: "dataSources",
+      Tags: "tags",
+      Features: "features",
+    }),
+  ),
 ).annotate({
   identifier: "GetDetectorResponse",
 }) as any as S.Schema<GetDetectorResponse>;
@@ -2526,27 +2616,23 @@ export interface GetFilterRequest {
 }
 export const GetFilterRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FilterName: S.String.pipe(T.HttpLabel("FilterName")),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", FilterName: "filterName" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/filter/{FilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FilterName: S.String.pipe(
-      T.HttpLabel("FilterName"),
-      T.JsonName("filterName"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/filter/{FilterName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetFilterRequest",
 }) as any as S.Schema<GetFilterRequest>;
@@ -2560,15 +2646,22 @@ export interface GetFilterResponse {
 }
 export const GetFilterResponse = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Action: S.optional(FilterAction).pipe(T.JsonName("action")),
-    Rank: S.optional(S.Number).pipe(T.JsonName("rank")),
-    FindingCriteria: S.optional(FindingCriteria)
-      .pipe(T.JsonName("findingCriteria"))
-      .annotate({ identifier: "FindingCriteria" }),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Action: S.optional(FilterAction),
+    Rank: S.optional(S.Number),
+    FindingCriteria: S.optional(FindingCriteria),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Description: "description",
+      Action: "action",
+      Rank: "rank",
+      FindingCriteria: "findingCriteria",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetFilterResponse",
 }) as any as S.Schema<GetFilterResponse>;
@@ -2579,24 +2672,27 @@ export interface GetFindingsRequest {
 }
 export const GetFindingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingIds: S.optional(FindingIds),
+    SortCriteria: S.optional(SortCriteria),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FindingIds: "findingIds",
+        SortCriteria: "sortCriteria",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/findings/get" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingIds: S.optional(FindingIds).pipe(T.JsonName("findingIds")),
-    SortCriteria: S.optional(SortCriteria)
-      .pipe(T.JsonName("sortCriteria"))
-      .annotate({ identifier: "SortCriteria" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/findings/get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetFindingsRequest",
 }) as any as S.Schema<GetFindingsRequest>;
@@ -2608,11 +2704,18 @@ export interface AccessKeyDetails {
 }
 export const AccessKeyDetails = S.suspend(() =>
   S.Struct({
-    AccessKeyId: S.optional(S.String).pipe(T.JsonName("accessKeyId")),
-    PrincipalId: S.optional(S.String).pipe(T.JsonName("principalId")),
-    UserName: S.optional(S.String).pipe(T.JsonName("userName")),
-    UserType: S.optional(S.String).pipe(T.JsonName("userType")),
-  }),
+    AccessKeyId: S.optional(S.String),
+    PrincipalId: S.optional(S.String),
+    UserName: S.optional(S.String),
+    UserType: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccessKeyId: "accessKeyId",
+      PrincipalId: "principalId",
+      UserName: "userName",
+      UserType: "userType",
+    }),
+  ),
 ).annotate({
   identifier: "AccessKeyDetails",
 }) as any as S.Schema<AccessKeyDetails>;
@@ -2620,17 +2723,16 @@ export interface Owner {
   Id?: string;
 }
 export const Owner = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
+  S.Struct({ Id: S.optional(S.String) }).pipe(S.encodeKeys({ Id: "id" })),
 ).annotate({ identifier: "Owner" }) as any as S.Schema<Owner>;
 export interface Tag {
   Key?: string;
   Value?: string;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String).pipe(T.JsonName("key")),
-    Value: S.optional(S.String).pipe(T.JsonName("value")),
-  }),
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Key: "key", Value: "value" }),
+  ),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
@@ -2640,9 +2742,14 @@ export interface DefaultServerSideEncryption {
 }
 export const DefaultServerSideEncryption = S.suspend(() =>
   S.Struct({
-    EncryptionType: S.optional(S.String).pipe(T.JsonName("encryptionType")),
-    KmsMasterKeyArn: S.optional(S.String).pipe(T.JsonName("kmsMasterKeyArn")),
-  }),
+    EncryptionType: S.optional(S.String),
+    KmsMasterKeyArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EncryptionType: "encryptionType",
+      KmsMasterKeyArn: "kmsMasterKeyArn",
+    }),
+  ),
 ).annotate({
   identifier: "DefaultServerSideEncryption",
 }) as any as S.Schema<DefaultServerSideEncryption>;
@@ -2652,13 +2759,14 @@ export interface AccessControlList {
 }
 export const AccessControlList = S.suspend(() =>
   S.Struct({
-    AllowsPublicReadAccess: S.optional(S.Boolean).pipe(
-      T.JsonName("allowsPublicReadAccess"),
-    ),
-    AllowsPublicWriteAccess: S.optional(S.Boolean).pipe(
-      T.JsonName("allowsPublicWriteAccess"),
-    ),
-  }),
+    AllowsPublicReadAccess: S.optional(S.Boolean),
+    AllowsPublicWriteAccess: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      AllowsPublicReadAccess: "allowsPublicReadAccess",
+      AllowsPublicWriteAccess: "allowsPublicWriteAccess",
+    }),
+  ),
 ).annotate({
   identifier: "AccessControlList",
 }) as any as S.Schema<AccessControlList>;
@@ -2668,13 +2776,14 @@ export interface BucketPolicy {
 }
 export const BucketPolicy = S.suspend(() =>
   S.Struct({
-    AllowsPublicReadAccess: S.optional(S.Boolean).pipe(
-      T.JsonName("allowsPublicReadAccess"),
-    ),
-    AllowsPublicWriteAccess: S.optional(S.Boolean).pipe(
-      T.JsonName("allowsPublicWriteAccess"),
-    ),
-  }),
+    AllowsPublicReadAccess: S.optional(S.Boolean),
+    AllowsPublicWriteAccess: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      AllowsPublicReadAccess: "allowsPublicReadAccess",
+      AllowsPublicWriteAccess: "allowsPublicWriteAccess",
+    }),
+  ),
 ).annotate({ identifier: "BucketPolicy" }) as any as S.Schema<BucketPolicy>;
 export interface BlockPublicAccess {
   IgnorePublicAcls?: boolean;
@@ -2684,17 +2793,18 @@ export interface BlockPublicAccess {
 }
 export const BlockPublicAccess = S.suspend(() =>
   S.Struct({
-    IgnorePublicAcls: S.optional(S.Boolean).pipe(
-      T.JsonName("ignorePublicAcls"),
-    ),
-    RestrictPublicBuckets: S.optional(S.Boolean).pipe(
-      T.JsonName("restrictPublicBuckets"),
-    ),
-    BlockPublicAcls: S.optional(S.Boolean).pipe(T.JsonName("blockPublicAcls")),
-    BlockPublicPolicy: S.optional(S.Boolean).pipe(
-      T.JsonName("blockPublicPolicy"),
-    ),
-  }),
+    IgnorePublicAcls: S.optional(S.Boolean),
+    RestrictPublicBuckets: S.optional(S.Boolean),
+    BlockPublicAcls: S.optional(S.Boolean),
+    BlockPublicPolicy: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      IgnorePublicAcls: "ignorePublicAcls",
+      RestrictPublicBuckets: "restrictPublicBuckets",
+      BlockPublicAcls: "blockPublicAcls",
+      BlockPublicPolicy: "blockPublicPolicy",
+    }),
+  ),
 ).annotate({
   identifier: "BlockPublicAccess",
 }) as any as S.Schema<BlockPublicAccess>;
@@ -2705,16 +2815,16 @@ export interface BucketLevelPermissions {
 }
 export const BucketLevelPermissions = S.suspend(() =>
   S.Struct({
-    AccessControlList: S.optional(AccessControlList)
-      .pipe(T.JsonName("accessControlList"))
-      .annotate({ identifier: "AccessControlList" }),
-    BucketPolicy: S.optional(BucketPolicy)
-      .pipe(T.JsonName("bucketPolicy"))
-      .annotate({ identifier: "BucketPolicy" }),
-    BlockPublicAccess: S.optional(BlockPublicAccess)
-      .pipe(T.JsonName("blockPublicAccess"))
-      .annotate({ identifier: "BlockPublicAccess" }),
-  }),
+    AccessControlList: S.optional(AccessControlList),
+    BucketPolicy: S.optional(BucketPolicy),
+    BlockPublicAccess: S.optional(BlockPublicAccess),
+  }).pipe(
+    S.encodeKeys({
+      AccessControlList: "accessControlList",
+      BucketPolicy: "bucketPolicy",
+      BlockPublicAccess: "blockPublicAccess",
+    }),
+  ),
 ).annotate({
   identifier: "BucketLevelPermissions",
 }) as any as S.Schema<BucketLevelPermissions>;
@@ -2722,11 +2832,9 @@ export interface AccountLevelPermissions {
   BlockPublicAccess?: BlockPublicAccess;
 }
 export const AccountLevelPermissions = S.suspend(() =>
-  S.Struct({
-    BlockPublicAccess: S.optional(BlockPublicAccess)
-      .pipe(T.JsonName("blockPublicAccess"))
-      .annotate({ identifier: "BlockPublicAccess" }),
-  }),
+  S.Struct({ BlockPublicAccess: S.optional(BlockPublicAccess) }).pipe(
+    S.encodeKeys({ BlockPublicAccess: "blockPublicAccess" }),
+  ),
 ).annotate({
   identifier: "AccountLevelPermissions",
 }) as any as S.Schema<AccountLevelPermissions>;
@@ -2736,13 +2844,14 @@ export interface PermissionConfiguration {
 }
 export const PermissionConfiguration = S.suspend(() =>
   S.Struct({
-    BucketLevelPermissions: S.optional(BucketLevelPermissions)
-      .pipe(T.JsonName("bucketLevelPermissions"))
-      .annotate({ identifier: "BucketLevelPermissions" }),
-    AccountLevelPermissions: S.optional(AccountLevelPermissions)
-      .pipe(T.JsonName("accountLevelPermissions"))
-      .annotate({ identifier: "AccountLevelPermissions" }),
-  }),
+    BucketLevelPermissions: S.optional(BucketLevelPermissions),
+    AccountLevelPermissions: S.optional(AccountLevelPermissions),
+  }).pipe(
+    S.encodeKeys({
+      BucketLevelPermissions: "bucketLevelPermissions",
+      AccountLevelPermissions: "accountLevelPermissions",
+    }),
+  ),
 ).annotate({
   identifier: "PermissionConfiguration",
 }) as any as S.Schema<PermissionConfiguration>;
@@ -2752,13 +2861,14 @@ export interface PublicAccess {
 }
 export const PublicAccess = S.suspend(() =>
   S.Struct({
-    PermissionConfiguration: S.optional(PermissionConfiguration)
-      .pipe(T.JsonName("permissionConfiguration"))
-      .annotate({ identifier: "PermissionConfiguration" }),
-    EffectivePermission: S.optional(S.String).pipe(
-      T.JsonName("effectivePermission"),
-    ),
-  }),
+    PermissionConfiguration: S.optional(PermissionConfiguration),
+    EffectivePermission: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PermissionConfiguration: "permissionConfiguration",
+      EffectivePermission: "effectivePermission",
+    }),
+  ),
 ).annotate({ identifier: "PublicAccess" }) as any as S.Schema<PublicAccess>;
 export interface S3ObjectDetail {
   ObjectArn?: string;
@@ -2769,12 +2879,20 @@ export interface S3ObjectDetail {
 }
 export const S3ObjectDetail = S.suspend(() =>
   S.Struct({
-    ObjectArn: S.optional(S.String).pipe(T.JsonName("objectArn")),
-    Key: S.optional(S.String).pipe(T.JsonName("key")),
-    ETag: S.optional(S.String).pipe(T.JsonName("eTag")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-    VersionId: S.optional(S.String).pipe(T.JsonName("versionId")),
-  }),
+    ObjectArn: S.optional(S.String),
+    Key: S.optional(S.String),
+    ETag: S.optional(S.String),
+    Hash: S.optional(S.String),
+    VersionId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ObjectArn: "objectArn",
+      Key: "key",
+      ETag: "eTag",
+      Hash: "hash",
+      VersionId: "versionId",
+    }),
+  ),
 ).annotate({ identifier: "S3ObjectDetail" }) as any as S.Schema<S3ObjectDetail>;
 export type S3ObjectDetails = S3ObjectDetail[];
 export const S3ObjectDetails = S.Array(S3ObjectDetail);
@@ -2791,26 +2909,28 @@ export interface S3BucketDetail {
 }
 export const S3BucketDetail = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Owner: S.optional(Owner)
-      .pipe(T.JsonName("owner"))
-      .annotate({ identifier: "Owner" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    DefaultServerSideEncryption: S.optional(DefaultServerSideEncryption)
-      .pipe(T.JsonName("defaultServerSideEncryption"))
-      .annotate({ identifier: "DefaultServerSideEncryption" }),
-    PublicAccess: S.optional(PublicAccess)
-      .pipe(T.JsonName("publicAccess"))
-      .annotate({ identifier: "PublicAccess" }),
-    S3ObjectDetails: S.optional(S3ObjectDetails).pipe(
-      T.JsonName("s3ObjectDetails"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Owner: S.optional(Owner),
+    Tags: S.optional(Tags),
+    DefaultServerSideEncryption: S.optional(DefaultServerSideEncryption),
+    PublicAccess: S.optional(PublicAccess),
+    S3ObjectDetails: S.optional(S3ObjectDetails),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Name: "name",
+      Type: "type",
+      CreatedAt: "createdAt",
+      Owner: "owner",
+      Tags: "tags",
+      DefaultServerSideEncryption: "defaultServerSideEncryption",
+      PublicAccess: "publicAccess",
+      S3ObjectDetails: "s3ObjectDetails",
+    }),
+  ),
 ).annotate({ identifier: "S3BucketDetail" }) as any as S.Schema<S3BucketDetail>;
 export type S3BucketDetails = S3BucketDetail[];
 export const S3BucketDetails = S.Array(S3BucketDetail);
@@ -2819,10 +2939,9 @@ export interface IamInstanceProfile {
   Id?: string;
 }
 export const IamInstanceProfile = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-  }),
+  S.Struct({ Arn: S.optional(S.String), Id: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Arn: "arn", Id: "id" }),
+  ),
 ).annotate({
   identifier: "IamInstanceProfile",
 }) as any as S.Schema<IamInstanceProfile>;
@@ -2834,11 +2953,14 @@ export interface PrivateIpAddressDetails {
 }
 export const PrivateIpAddressDetails = S.suspend(() =>
   S.Struct({
-    PrivateDnsName: S.optional(S.String).pipe(T.JsonName("privateDnsName")),
-    PrivateIpAddress: S.optional(SensitiveString).pipe(
-      T.JsonName("privateIpAddress"),
-    ),
-  }),
+    PrivateDnsName: S.optional(S.String),
+    PrivateIpAddress: S.optional(SensitiveString),
+  }).pipe(
+    S.encodeKeys({
+      PrivateDnsName: "privateDnsName",
+      PrivateIpAddress: "privateIpAddress",
+    }),
+  ),
 ).annotate({
   identifier: "PrivateIpAddressDetails",
 }) as any as S.Schema<PrivateIpAddressDetails>;
@@ -2850,9 +2972,9 @@ export interface SecurityGroup {
 }
 export const SecurityGroup = S.suspend(() =>
   S.Struct({
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    GroupName: S.optional(S.String).pipe(T.JsonName("groupName")),
-  }),
+    GroupId: S.optional(S.String),
+    GroupName: S.optional(S.String),
+  }).pipe(S.encodeKeys({ GroupId: "groupId", GroupName: "groupName" })),
 ).annotate({ identifier: "SecurityGroup" }) as any as S.Schema<SecurityGroup>;
 export type SecurityGroups = SecurityGroup[];
 export const SecurityGroups = S.Array(SecurityGroup);
@@ -2870,25 +2992,30 @@ export interface NetworkInterface {
 }
 export const NetworkInterface = S.suspend(() =>
   S.Struct({
-    Ipv6Addresses: S.optional(Ipv6Addresses).pipe(T.JsonName("ipv6Addresses")),
-    NetworkInterfaceId: S.optional(S.String).pipe(
-      T.JsonName("networkInterfaceId"),
-    ),
-    PrivateDnsName: S.optional(S.String).pipe(T.JsonName("privateDnsName")),
-    PrivateIpAddress: S.optional(SensitiveString).pipe(
-      T.JsonName("privateIpAddress"),
-    ),
-    PrivateIpAddresses: S.optional(PrivateIpAddresses).pipe(
-      T.JsonName("privateIpAddresses"),
-    ),
-    PublicDnsName: S.optional(S.String).pipe(T.JsonName("publicDnsName")),
-    PublicIp: S.optional(S.String).pipe(T.JsonName("publicIp")),
-    SecurityGroups: S.optional(SecurityGroups).pipe(
-      T.JsonName("securityGroups"),
-    ),
-    SubnetId: S.optional(S.String).pipe(T.JsonName("subnetId")),
-    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-  }),
+    Ipv6Addresses: S.optional(Ipv6Addresses),
+    NetworkInterfaceId: S.optional(S.String),
+    PrivateDnsName: S.optional(S.String),
+    PrivateIpAddress: S.optional(SensitiveString),
+    PrivateIpAddresses: S.optional(PrivateIpAddresses),
+    PublicDnsName: S.optional(S.String),
+    PublicIp: S.optional(S.String),
+    SecurityGroups: S.optional(SecurityGroups),
+    SubnetId: S.optional(S.String),
+    VpcId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Ipv6Addresses: "ipv6Addresses",
+      NetworkInterfaceId: "networkInterfaceId",
+      PrivateDnsName: "privateDnsName",
+      PrivateIpAddress: "privateIpAddress",
+      PrivateIpAddresses: "privateIpAddresses",
+      PublicDnsName: "publicDnsName",
+      PublicIp: "publicIp",
+      SecurityGroups: "securityGroups",
+      SubnetId: "subnetId",
+      VpcId: "vpcId",
+    }),
+  ),
 ).annotate({
   identifier: "NetworkInterface",
 }) as any as S.Schema<NetworkInterface>;
@@ -2900,9 +3027,11 @@ export interface ProductCode {
 }
 export const ProductCode = S.suspend(() =>
   S.Struct({
-    Code: S.optional(S.String).pipe(T.JsonName("productCodeId")),
-    ProductType: S.optional(S.String).pipe(T.JsonName("productCodeType")),
-  }),
+    Code: S.optional(S.String),
+    ProductType: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Code: "productCodeId", ProductType: "productCodeType" }),
+  ),
 ).annotate({ identifier: "ProductCode" }) as any as S.Schema<ProductCode>;
 export type ProductCodes = ProductCode[];
 export const ProductCodes = S.Array(ProductCode);
@@ -2923,24 +3052,36 @@ export interface InstanceDetails {
 }
 export const InstanceDetails = S.suspend(() =>
   S.Struct({
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    IamInstanceProfile: S.optional(IamInstanceProfile)
-      .pipe(T.JsonName("iamInstanceProfile"))
-      .annotate({ identifier: "IamInstanceProfile" }),
-    ImageDescription: S.optional(S.String).pipe(T.JsonName("imageDescription")),
-    ImageId: S.optional(S.String).pipe(T.JsonName("imageId")),
-    InstanceId: S.optional(S.String).pipe(T.JsonName("instanceId")),
-    InstanceState: S.optional(S.String).pipe(T.JsonName("instanceState")),
-    InstanceType: S.optional(S.String).pipe(T.JsonName("instanceType")),
-    OutpostArn: S.optional(S.String).pipe(T.JsonName("outpostArn")),
-    LaunchTime: S.optional(S.String).pipe(T.JsonName("launchTime")),
-    NetworkInterfaces: S.optional(NetworkInterfaces).pipe(
-      T.JsonName("networkInterfaces"),
-    ),
-    Platform: S.optional(S.String).pipe(T.JsonName("platform")),
-    ProductCodes: S.optional(ProductCodes).pipe(T.JsonName("productCodes")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    AvailabilityZone: S.optional(S.String),
+    IamInstanceProfile: S.optional(IamInstanceProfile),
+    ImageDescription: S.optional(S.String),
+    ImageId: S.optional(S.String),
+    InstanceId: S.optional(S.String),
+    InstanceState: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    OutpostArn: S.optional(S.String),
+    LaunchTime: S.optional(S.String),
+    NetworkInterfaces: S.optional(NetworkInterfaces),
+    Platform: S.optional(S.String),
+    ProductCodes: S.optional(ProductCodes),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      AvailabilityZone: "availabilityZone",
+      IamInstanceProfile: "iamInstanceProfile",
+      ImageDescription: "imageDescription",
+      ImageId: "imageId",
+      InstanceId: "instanceId",
+      InstanceState: "instanceState",
+      InstanceType: "instanceType",
+      OutpostArn: "outpostArn",
+      LaunchTime: "launchTime",
+      NetworkInterfaces: "networkInterfaces",
+      Platform: "platform",
+      ProductCodes: "productCodes",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "InstanceDetails",
 }) as any as S.Schema<InstanceDetails>;
@@ -2954,15 +3095,22 @@ export interface EksClusterDetails {
 }
 export const EksClusterDetails = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-    Status: S.optional(S.String).pipe(T.JsonName("status")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    VpcId: S.optional(S.String),
+    Status: S.optional(S.String),
+    Tags: S.optional(Tags),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Arn: "arn",
+      VpcId: "vpcId",
+      Status: "status",
+      Tags: "tags",
+      CreatedAt: "createdAt",
+    }),
+  ),
 ).annotate({
   identifier: "EksClusterDetails",
 }) as any as S.Schema<EksClusterDetails>;
@@ -2975,10 +3123,9 @@ export interface ImpersonatedUser {
   Groups?: string[];
 }
 export const ImpersonatedUser = S.suspend(() =>
-  S.Struct({
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-    Groups: S.optional(Groups).pipe(T.JsonName("groups")),
-  }),
+  S.Struct({ Username: S.optional(S.String), Groups: S.optional(Groups) }).pipe(
+    S.encodeKeys({ Username: "username", Groups: "groups" }),
+  ),
 ).annotate({
   identifier: "ImpersonatedUser",
 }) as any as S.Schema<ImpersonatedUser>;
@@ -2991,14 +3138,20 @@ export interface KubernetesUserDetails {
 }
 export const KubernetesUserDetails = S.suspend(() =>
   S.Struct({
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Groups: S.optional(Groups).pipe(T.JsonName("groups")),
-    SessionName: S.optional(SessionNameList).pipe(T.JsonName("sessionName")),
-    ImpersonatedUser: S.optional(ImpersonatedUser)
-      .pipe(T.JsonName("impersonatedUser"))
-      .annotate({ identifier: "ImpersonatedUser" }),
-  }),
+    Username: S.optional(S.String),
+    Uid: S.optional(S.String),
+    Groups: S.optional(Groups),
+    SessionName: S.optional(SessionNameList),
+    ImpersonatedUser: S.optional(ImpersonatedUser),
+  }).pipe(
+    S.encodeKeys({
+      Username: "username",
+      Uid: "uid",
+      Groups: "groups",
+      SessionName: "sessionName",
+      ImpersonatedUser: "impersonatedUser",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesUserDetails",
 }) as any as S.Schema<KubernetesUserDetails>;
@@ -3008,9 +3161,9 @@ export interface VolumeMount {
 }
 export const VolumeMount = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    MountPath: S.optional(S.String).pipe(T.JsonName("mountPath")),
-  }),
+    Name: S.optional(S.String),
+    MountPath: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Name: "name", MountPath: "mountPath" })),
 ).annotate({ identifier: "VolumeMount" }) as any as S.Schema<VolumeMount>;
 export type VolumeMounts = VolumeMount[];
 export const VolumeMounts = S.Array(VolumeMount);
@@ -3020,11 +3173,14 @@ export interface SecurityContext {
 }
 export const SecurityContext = S.suspend(() =>
   S.Struct({
-    Privileged: S.optional(S.Boolean).pipe(T.JsonName("privileged")),
-    AllowPrivilegeEscalation: S.optional(S.Boolean).pipe(
-      T.JsonName("allowPrivilegeEscalation"),
-    ),
-  }),
+    Privileged: S.optional(S.Boolean),
+    AllowPrivilegeEscalation: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      Privileged: "privileged",
+      AllowPrivilegeEscalation: "allowPrivilegeEscalation",
+    }),
+  ),
 ).annotate({
   identifier: "SecurityContext",
 }) as any as S.Schema<SecurityContext>;
@@ -3039,16 +3195,24 @@ export interface Container {
 }
 export const Container = S.suspend(() =>
   S.Struct({
-    ContainerRuntime: S.optional(S.String).pipe(T.JsonName("containerRuntime")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Image: S.optional(S.String).pipe(T.JsonName("image")),
-    ImagePrefix: S.optional(S.String).pipe(T.JsonName("imagePrefix")),
-    VolumeMounts: S.optional(VolumeMounts).pipe(T.JsonName("volumeMounts")),
-    SecurityContext: S.optional(SecurityContext)
-      .pipe(T.JsonName("securityContext"))
-      .annotate({ identifier: "SecurityContext" }),
-  }),
+    ContainerRuntime: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Image: S.optional(S.String),
+    ImagePrefix: S.optional(S.String),
+    VolumeMounts: S.optional(VolumeMounts),
+    SecurityContext: S.optional(SecurityContext),
+  }).pipe(
+    S.encodeKeys({
+      ContainerRuntime: "containerRuntime",
+      Id: "id",
+      Name: "name",
+      Image: "image",
+      ImagePrefix: "imagePrefix",
+      VolumeMounts: "volumeMounts",
+      SecurityContext: "securityContext",
+    }),
+  ),
 ).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
 export type Containers = Container[];
 export const Containers = S.Array(Container);
@@ -3056,19 +3220,16 @@ export interface HostPath {
   Path?: string;
 }
 export const HostPath = S.suspend(() =>
-  S.Struct({ Path: S.optional(S.String).pipe(T.JsonName("path")) }),
+  S.Struct({ Path: S.optional(S.String) }).pipe(S.encodeKeys({ Path: "path" })),
 ).annotate({ identifier: "HostPath" }) as any as S.Schema<HostPath>;
 export interface Volume {
   Name?: string;
   HostPath?: HostPath;
 }
 export const Volume = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    HostPath: S.optional(HostPath)
-      .pipe(T.JsonName("hostPath"))
-      .annotate({ identifier: "HostPath" }),
-  }),
+  S.Struct({ Name: S.optional(S.String), HostPath: S.optional(HostPath) }).pipe(
+    S.encodeKeys({ Name: "name", HostPath: "hostPath" }),
+  ),
 ).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
 export type Volumes = Volume[];
 export const Volumes = S.Array(Volume);
@@ -3086,19 +3247,30 @@ export interface KubernetesWorkloadDetails {
 }
 export const KubernetesWorkloadDetails = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Namespace: S.optional(S.String).pipe(T.JsonName("namespace")),
-    HostNetwork: S.optional(S.Boolean).pipe(T.JsonName("hostNetwork")),
-    Containers: S.optional(Containers).pipe(T.JsonName("containers")),
-    Volumes: S.optional(Volumes).pipe(T.JsonName("volumes")),
-    ServiceAccountName: S.optional(S.String).pipe(
-      T.JsonName("serviceAccountName"),
-    ),
-    HostIPC: S.optional(S.Boolean).pipe(T.JsonName("hostIPC")),
-    HostPID: S.optional(S.Boolean).pipe(T.JsonName("hostPID")),
-  }),
+    Name: S.optional(S.String),
+    Type: S.optional(S.String),
+    Uid: S.optional(S.String),
+    Namespace: S.optional(S.String),
+    HostNetwork: S.optional(S.Boolean),
+    Containers: S.optional(Containers),
+    Volumes: S.optional(Volumes),
+    ServiceAccountName: S.optional(S.String),
+    HostIPC: S.optional(S.Boolean),
+    HostPID: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Type: "type",
+      Uid: "uid",
+      Namespace: "namespace",
+      HostNetwork: "hostNetwork",
+      Containers: "containers",
+      Volumes: "volumes",
+      ServiceAccountName: "serviceAccountName",
+      HostIPC: "hostIPC",
+      HostPID: "hostPID",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesWorkloadDetails",
 }) as any as S.Schema<KubernetesWorkloadDetails>;
@@ -3108,13 +3280,14 @@ export interface KubernetesDetails {
 }
 export const KubernetesDetails = S.suspend(() =>
   S.Struct({
-    KubernetesUserDetails: S.optional(KubernetesUserDetails)
-      .pipe(T.JsonName("kubernetesUserDetails"))
-      .annotate({ identifier: "KubernetesUserDetails" }),
-    KubernetesWorkloadDetails: S.optional(KubernetesWorkloadDetails)
-      .pipe(T.JsonName("kubernetesWorkloadDetails"))
-      .annotate({ identifier: "KubernetesWorkloadDetails" }),
-  }),
+    KubernetesUserDetails: S.optional(KubernetesUserDetails),
+    KubernetesWorkloadDetails: S.optional(KubernetesWorkloadDetails),
+  }).pipe(
+    S.encodeKeys({
+      KubernetesUserDetails: "kubernetesUserDetails",
+      KubernetesWorkloadDetails: "kubernetesWorkloadDetails",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesDetails",
 }) as any as S.Schema<KubernetesDetails>;
@@ -3124,13 +3297,14 @@ export interface EbsVolumeDetails {
 }
 export const EbsVolumeDetails = S.suspend(() =>
   S.Struct({
-    ScannedVolumeDetails: S.optional(VolumeDetails).pipe(
-      T.JsonName("scannedVolumeDetails"),
-    ),
-    SkippedVolumeDetails: S.optional(VolumeDetails).pipe(
-      T.JsonName("skippedVolumeDetails"),
-    ),
-  }),
+    ScannedVolumeDetails: S.optional(VolumeDetails),
+    SkippedVolumeDetails: S.optional(VolumeDetails),
+  }).pipe(
+    S.encodeKeys({
+      ScannedVolumeDetails: "scannedVolumeDetails",
+      SkippedVolumeDetails: "skippedVolumeDetails",
+    }),
+  ),
 ).annotate({
   identifier: "EbsVolumeDetails",
 }) as any as S.Schema<EbsVolumeDetails>;
@@ -3149,22 +3323,32 @@ export interface EcsTaskDetails {
 }
 export const EcsTaskDetails = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    DefinitionArn: S.optional(S.String).pipe(T.JsonName("definitionArn")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    TaskCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("createdAt")),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("startedAt"),
-    ),
-    StartedBy: S.optional(S.String).pipe(T.JsonName("startedBy")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Volumes: S.optional(Volumes).pipe(T.JsonName("volumes")),
-    Containers: S.optional(Containers).pipe(T.JsonName("containers")),
-    Group: S.optional(S.String).pipe(T.JsonName("group")),
-    LaunchType: S.optional(S.String).pipe(T.JsonName("launchType")),
-  }),
+    Arn: S.optional(S.String),
+    DefinitionArn: S.optional(S.String),
+    Version: S.optional(S.String),
+    TaskCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StartedBy: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Volumes: S.optional(Volumes),
+    Containers: S.optional(Containers),
+    Group: S.optional(S.String),
+    LaunchType: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      DefinitionArn: "definitionArn",
+      Version: "version",
+      TaskCreatedAt: "createdAt",
+      StartedAt: "startedAt",
+      StartedBy: "startedBy",
+      Tags: "tags",
+      Volumes: "volumes",
+      Containers: "containers",
+      Group: "group",
+      LaunchType: "launchType",
+    }),
+  ),
 ).annotate({ identifier: "EcsTaskDetails" }) as any as S.Schema<EcsTaskDetails>;
 export interface EcsClusterDetails {
   Name?: string;
@@ -3178,23 +3362,26 @@ export interface EcsClusterDetails {
 }
 export const EcsClusterDetails = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Status: S.optional(S.String).pipe(T.JsonName("status")),
-    ActiveServicesCount: S.optional(S.Number).pipe(
-      T.JsonName("activeServicesCount"),
-    ),
-    RegisteredContainerInstancesCount: S.optional(S.Number).pipe(
-      T.JsonName("registeredContainerInstancesCount"),
-    ),
-    RunningTasksCount: S.optional(S.Number).pipe(
-      T.JsonName("runningTasksCount"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    TaskDetails: S.optional(EcsTaskDetails)
-      .pipe(T.JsonName("taskDetails"))
-      .annotate({ identifier: "EcsTaskDetails" }),
-  }),
+    Name: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Status: S.optional(S.String),
+    ActiveServicesCount: S.optional(S.Number),
+    RegisteredContainerInstancesCount: S.optional(S.Number),
+    RunningTasksCount: S.optional(S.Number),
+    Tags: S.optional(Tags),
+    TaskDetails: S.optional(EcsTaskDetails),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Arn: "arn",
+      Status: "status",
+      ActiveServicesCount: "activeServicesCount",
+      RegisteredContainerInstancesCount: "registeredContainerInstancesCount",
+      RunningTasksCount: "runningTasksCount",
+      Tags: "tags",
+      TaskDetails: "taskDetails",
+    }),
+  ),
 ).annotate({
   identifier: "EcsClusterDetails",
 }) as any as S.Schema<EcsClusterDetails>;
@@ -3209,18 +3396,24 @@ export interface RdsDbInstanceDetails {
 }
 export const RdsDbInstanceDetails = S.suspend(() =>
   S.Struct({
-    DbInstanceIdentifier: S.optional(S.String).pipe(
-      T.JsonName("dbInstanceIdentifier"),
-    ),
-    Engine: S.optional(S.String).pipe(T.JsonName("engine")),
-    EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
-    DbClusterIdentifier: S.optional(S.String).pipe(
-      T.JsonName("dbClusterIdentifier"),
-    ),
-    DbInstanceArn: S.optional(S.String).pipe(T.JsonName("dbInstanceArn")),
-    DbiResourceId: S.optional(S.String).pipe(T.JsonName("dbiResourceId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    DbInstanceIdentifier: S.optional(S.String),
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
+    DbClusterIdentifier: S.optional(S.String),
+    DbInstanceArn: S.optional(S.String),
+    DbiResourceId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      DbInstanceIdentifier: "dbInstanceIdentifier",
+      Engine: "engine",
+      EngineVersion: "engineVersion",
+      DbClusterIdentifier: "dbClusterIdentifier",
+      DbInstanceArn: "dbInstanceArn",
+      DbiResourceId: "dbiResourceId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "RdsDbInstanceDetails",
 }) as any as S.Schema<RdsDbInstanceDetails>;
@@ -3235,20 +3428,24 @@ export interface RdsLimitlessDbDetails {
 }
 export const RdsLimitlessDbDetails = S.suspend(() =>
   S.Struct({
-    DbShardGroupIdentifier: S.optional(S.String).pipe(
-      T.JsonName("dbShardGroupIdentifier"),
-    ),
-    DbShardGroupResourceId: S.optional(S.String).pipe(
-      T.JsonName("dbShardGroupResourceId"),
-    ),
-    DbShardGroupArn: S.optional(S.String).pipe(T.JsonName("dbShardGroupArn")),
-    Engine: S.optional(S.String).pipe(T.JsonName("engine")),
-    EngineVersion: S.optional(S.String).pipe(T.JsonName("engineVersion")),
-    DbClusterIdentifier: S.optional(S.String).pipe(
-      T.JsonName("dbClusterIdentifier"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    DbShardGroupIdentifier: S.optional(S.String),
+    DbShardGroupResourceId: S.optional(S.String),
+    DbShardGroupArn: S.optional(S.String),
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
+    DbClusterIdentifier: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      DbShardGroupIdentifier: "dbShardGroupIdentifier",
+      DbShardGroupResourceId: "dbShardGroupResourceId",
+      DbShardGroupArn: "dbShardGroupArn",
+      Engine: "engine",
+      EngineVersion: "engineVersion",
+      DbClusterIdentifier: "dbClusterIdentifier",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "RdsLimitlessDbDetails",
 }) as any as S.Schema<RdsLimitlessDbDetails>;
@@ -3261,12 +3458,20 @@ export interface RdsDbUserDetails {
 }
 export const RdsDbUserDetails = S.suspend(() =>
   S.Struct({
-    User: S.optional(S.String).pipe(T.JsonName("user")),
-    Application: S.optional(S.String).pipe(T.JsonName("application")),
-    Database: S.optional(S.String).pipe(T.JsonName("database")),
-    Ssl: S.optional(S.String).pipe(T.JsonName("ssl")),
-    AuthMethod: S.optional(S.String).pipe(T.JsonName("authMethod")),
-  }),
+    User: S.optional(S.String),
+    Application: S.optional(S.String),
+    Database: S.optional(S.String),
+    Ssl: S.optional(S.String),
+    AuthMethod: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      User: "user",
+      Application: "application",
+      Database: "database",
+      Ssl: "ssl",
+      AuthMethod: "authMethod",
+    }),
+  ),
 ).annotate({
   identifier: "RdsDbUserDetails",
 }) as any as S.Schema<RdsDbUserDetails>;
@@ -3279,12 +3484,16 @@ export interface VpcConfig {
 }
 export const VpcConfig = S.suspend(() =>
   S.Struct({
-    SubnetIds: S.optional(SubnetIds).pipe(T.JsonName("subnetIds")),
-    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-    SecurityGroups: S.optional(SecurityGroups).pipe(
-      T.JsonName("securityGroups"),
-    ),
-  }),
+    SubnetIds: S.optional(SubnetIds),
+    VpcId: S.optional(S.String),
+    SecurityGroups: S.optional(SecurityGroups),
+  }).pipe(
+    S.encodeKeys({
+      SubnetIds: "subnetIds",
+      VpcId: "vpcId",
+      SecurityGroups: "securityGroups",
+    }),
+  ),
 ).annotate({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
 export interface LambdaDetails {
   FunctionArn?: string;
@@ -3299,28 +3508,36 @@ export interface LambdaDetails {
 }
 export const LambdaDetails = S.suspend(() =>
   S.Struct({
-    FunctionArn: S.optional(S.String).pipe(T.JsonName("functionArn")),
-    FunctionName: S.optional(S.String).pipe(T.JsonName("functionName")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastModifiedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastModifiedAt")),
-    RevisionId: S.optional(S.String).pipe(T.JsonName("revisionId")),
-    FunctionVersion: S.optional(S.String).pipe(T.JsonName("functionVersion")),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    VpcConfig: S.optional(VpcConfig)
-      .pipe(T.JsonName("vpcConfig"))
-      .annotate({ identifier: "VpcConfig" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    FunctionArn: S.optional(S.String),
+    FunctionName: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RevisionId: S.optional(S.String),
+    FunctionVersion: S.optional(S.String),
+    Role: S.optional(S.String),
+    VpcConfig: S.optional(VpcConfig),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      FunctionArn: "functionArn",
+      FunctionName: "functionName",
+      Description: "description",
+      LastModifiedAt: "lastModifiedAt",
+      RevisionId: "revisionId",
+      FunctionVersion: "functionVersion",
+      Role: "role",
+      VpcConfig: "vpcConfig",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "LambdaDetails" }) as any as S.Schema<LambdaDetails>;
 export interface EbsSnapshotDetails {
   SnapshotArn?: string;
 }
 export const EbsSnapshotDetails = S.suspend(() =>
-  S.Struct({
-    SnapshotArn: S.optional(S.String).pipe(T.JsonName("snapshotArn")),
-  }),
+  S.Struct({ SnapshotArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SnapshotArn: "snapshotArn" }),
+  ),
 ).annotate({
   identifier: "EbsSnapshotDetails",
 }) as any as S.Schema<EbsSnapshotDetails>;
@@ -3328,7 +3545,9 @@ export interface Ec2ImageDetails {
   ImageArn?: string;
 }
 export const Ec2ImageDetails = S.suspend(() =>
-  S.Struct({ ImageArn: S.optional(S.String).pipe(T.JsonName("imageArn")) }),
+  S.Struct({ ImageArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ImageArn: "imageArn" }),
+  ),
 ).annotate({
   identifier: "Ec2ImageDetails",
 }) as any as S.Schema<Ec2ImageDetails>;
@@ -3338,9 +3557,14 @@ export interface RecoveryPointDetails {
 }
 export const RecoveryPointDetails = S.suspend(() =>
   S.Struct({
-    RecoveryPointArn: S.optional(S.String).pipe(T.JsonName("recoveryPointArn")),
-    BackupVaultName: S.optional(S.String).pipe(T.JsonName("backupVaultName")),
-  }),
+    RecoveryPointArn: S.optional(S.String),
+    BackupVaultName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      RecoveryPointArn: "recoveryPointArn",
+      BackupVaultName: "backupVaultName",
+    }),
+  ),
 ).annotate({
   identifier: "RecoveryPointDetails",
 }) as any as S.Schema<RecoveryPointDetails>;
@@ -3364,65 +3588,58 @@ export interface Resource {
 }
 export const Resource = S.suspend(() =>
   S.Struct({
-    AccessKeyDetails: S.optional(AccessKeyDetails)
-      .pipe(T.JsonName("accessKeyDetails"))
-      .annotate({ identifier: "AccessKeyDetails" }),
-    S3BucketDetails: S.optional(S3BucketDetails).pipe(
-      T.JsonName("s3BucketDetails"),
-    ),
-    InstanceDetails: S.optional(InstanceDetails)
-      .pipe(T.JsonName("instanceDetails"))
-      .annotate({ identifier: "InstanceDetails" }),
-    EksClusterDetails: S.optional(EksClusterDetails)
-      .pipe(T.JsonName("eksClusterDetails"))
-      .annotate({ identifier: "EksClusterDetails" }),
-    KubernetesDetails: S.optional(KubernetesDetails)
-      .pipe(T.JsonName("kubernetesDetails"))
-      .annotate({ identifier: "KubernetesDetails" }),
-    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
-    EbsVolumeDetails: S.optional(EbsVolumeDetails)
-      .pipe(T.JsonName("ebsVolumeDetails"))
-      .annotate({ identifier: "EbsVolumeDetails" }),
-    EcsClusterDetails: S.optional(EcsClusterDetails)
-      .pipe(T.JsonName("ecsClusterDetails"))
-      .annotate({ identifier: "EcsClusterDetails" }),
-    ContainerDetails: S.optional(Container)
-      .pipe(T.JsonName("containerDetails"))
-      .annotate({ identifier: "Container" }),
-    RdsDbInstanceDetails: S.optional(RdsDbInstanceDetails)
-      .pipe(T.JsonName("rdsDbInstanceDetails"))
-      .annotate({ identifier: "RdsDbInstanceDetails" }),
-    RdsLimitlessDbDetails: S.optional(RdsLimitlessDbDetails)
-      .pipe(T.JsonName("rdsLimitlessDbDetails"))
-      .annotate({ identifier: "RdsLimitlessDbDetails" }),
-    RdsDbUserDetails: S.optional(RdsDbUserDetails)
-      .pipe(T.JsonName("rdsDbUserDetails"))
-      .annotate({ identifier: "RdsDbUserDetails" }),
-    LambdaDetails: S.optional(LambdaDetails)
-      .pipe(T.JsonName("lambdaDetails"))
-      .annotate({ identifier: "LambdaDetails" }),
-    EbsSnapshotDetails: S.optional(EbsSnapshotDetails)
-      .pipe(T.JsonName("ebsSnapshotDetails"))
-      .annotate({ identifier: "EbsSnapshotDetails" }),
-    Ec2ImageDetails: S.optional(Ec2ImageDetails)
-      .pipe(T.JsonName("ec2ImageDetails"))
-      .annotate({ identifier: "Ec2ImageDetails" }),
-    RecoveryPointDetails: S.optional(RecoveryPointDetails)
-      .pipe(T.JsonName("recoveryPointDetails"))
-      .annotate({ identifier: "RecoveryPointDetails" }),
-  }),
+    AccessKeyDetails: S.optional(AccessKeyDetails),
+    S3BucketDetails: S.optional(S3BucketDetails),
+    InstanceDetails: S.optional(InstanceDetails),
+    EksClusterDetails: S.optional(EksClusterDetails),
+    KubernetesDetails: S.optional(KubernetesDetails),
+    ResourceType: S.optional(S.String),
+    EbsVolumeDetails: S.optional(EbsVolumeDetails),
+    EcsClusterDetails: S.optional(EcsClusterDetails),
+    ContainerDetails: S.optional(Container),
+    RdsDbInstanceDetails: S.optional(RdsDbInstanceDetails),
+    RdsLimitlessDbDetails: S.optional(RdsLimitlessDbDetails),
+    RdsDbUserDetails: S.optional(RdsDbUserDetails),
+    LambdaDetails: S.optional(LambdaDetails),
+    EbsSnapshotDetails: S.optional(EbsSnapshotDetails),
+    Ec2ImageDetails: S.optional(Ec2ImageDetails),
+    RecoveryPointDetails: S.optional(RecoveryPointDetails),
+  }).pipe(
+    S.encodeKeys({
+      AccessKeyDetails: "accessKeyDetails",
+      S3BucketDetails: "s3BucketDetails",
+      InstanceDetails: "instanceDetails",
+      EksClusterDetails: "eksClusterDetails",
+      KubernetesDetails: "kubernetesDetails",
+      ResourceType: "resourceType",
+      EbsVolumeDetails: "ebsVolumeDetails",
+      EcsClusterDetails: "ecsClusterDetails",
+      ContainerDetails: "containerDetails",
+      RdsDbInstanceDetails: "rdsDbInstanceDetails",
+      RdsLimitlessDbDetails: "rdsLimitlessDbDetails",
+      RdsDbUserDetails: "rdsDbUserDetails",
+      LambdaDetails: "lambdaDetails",
+      EbsSnapshotDetails: "ebsSnapshotDetails",
+      Ec2ImageDetails: "ec2ImageDetails",
+      RecoveryPointDetails: "recoveryPointDetails",
+    }),
+  ),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export interface DomainDetails {
   Domain?: string;
 }
 export const DomainDetails = S.suspend(() =>
-  S.Struct({ Domain: S.optional(S.String).pipe(T.JsonName("domain")) }),
+  S.Struct({ Domain: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Domain: "domain" }),
+  ),
 ).annotate({ identifier: "DomainDetails" }) as any as S.Schema<DomainDetails>;
 export interface City {
   CityName?: string;
 }
 export const City = S.suspend(() =>
-  S.Struct({ CityName: S.optional(S.String).pipe(T.JsonName("cityName")) }),
+  S.Struct({ CityName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ CityName: "cityName" }),
+  ),
 ).annotate({ identifier: "City" }) as any as S.Schema<City>;
 export interface Country {
   CountryCode?: string;
@@ -3430,19 +3647,20 @@ export interface Country {
 }
 export const Country = S.suspend(() =>
   S.Struct({
-    CountryCode: S.optional(S.String).pipe(T.JsonName("countryCode")),
-    CountryName: S.optional(S.String).pipe(T.JsonName("countryName")),
-  }),
+    CountryCode: S.optional(S.String),
+    CountryName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ CountryCode: "countryCode", CountryName: "countryName" }),
+  ),
 ).annotate({ identifier: "Country" }) as any as S.Schema<Country>;
 export interface GeoLocation {
   Lat?: number;
   Lon?: number;
 }
 export const GeoLocation = S.suspend(() =>
-  S.Struct({
-    Lat: S.optional(S.Number).pipe(T.JsonName("lat")),
-    Lon: S.optional(S.Number).pipe(T.JsonName("lon")),
-  }),
+  S.Struct({ Lat: S.optional(S.Number), Lon: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Lat: "lat", Lon: "lon" }),
+  ),
 ).annotate({ identifier: "GeoLocation" }) as any as S.Schema<GeoLocation>;
 export interface Organization {
   Asn?: string;
@@ -3452,11 +3670,13 @@ export interface Organization {
 }
 export const Organization = S.suspend(() =>
   S.Struct({
-    Asn: S.optional(S.String).pipe(T.JsonName("asn")),
-    AsnOrg: S.optional(S.String).pipe(T.JsonName("asnOrg")),
-    Isp: S.optional(S.String).pipe(T.JsonName("isp")),
-    Org: S.optional(S.String).pipe(T.JsonName("org")),
-  }),
+    Asn: S.optional(S.String),
+    AsnOrg: S.optional(S.String),
+    Isp: S.optional(S.String),
+    Org: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Asn: "asn", AsnOrg: "asnOrg", Isp: "isp", Org: "org" }),
+  ),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 export interface RemoteIpDetails {
   City?: City;
@@ -3468,21 +3688,22 @@ export interface RemoteIpDetails {
 }
 export const RemoteIpDetails = S.suspend(() =>
   S.Struct({
-    City: S.optional(City)
-      .pipe(T.JsonName("city"))
-      .annotate({ identifier: "City" }),
-    Country: S.optional(Country)
-      .pipe(T.JsonName("country"))
-      .annotate({ identifier: "Country" }),
-    GeoLocation: S.optional(GeoLocation)
-      .pipe(T.JsonName("geoLocation"))
-      .annotate({ identifier: "GeoLocation" }),
-    IpAddressV4: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV4")),
-    IpAddressV6: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV6")),
-    Organization: S.optional(Organization)
-      .pipe(T.JsonName("organization"))
-      .annotate({ identifier: "Organization" }),
-  }),
+    City: S.optional(City),
+    Country: S.optional(Country),
+    GeoLocation: S.optional(GeoLocation),
+    IpAddressV4: S.optional(SensitiveString),
+    IpAddressV6: S.optional(SensitiveString),
+    Organization: S.optional(Organization),
+  }).pipe(
+    S.encodeKeys({
+      City: "city",
+      Country: "country",
+      GeoLocation: "geoLocation",
+      IpAddressV4: "ipAddressV4",
+      IpAddressV6: "ipAddressV6",
+      Organization: "organization",
+    }),
+  ),
 ).annotate({
   identifier: "RemoteIpDetails",
 }) as any as S.Schema<RemoteIpDetails>;
@@ -3492,9 +3713,9 @@ export interface RemoteAccountDetails {
 }
 export const RemoteAccountDetails = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Affiliated: S.optional(S.Boolean).pipe(T.JsonName("affiliated")),
-  }),
+    AccountId: S.optional(S.String),
+    Affiliated: S.optional(S.Boolean),
+  }).pipe(S.encodeKeys({ AccountId: "accountId", Affiliated: "affiliated" })),
 ).annotate({
   identifier: "RemoteAccountDetails",
 }) as any as S.Schema<RemoteAccountDetails>;
@@ -3513,24 +3734,28 @@ export interface AwsApiCallAction {
 }
 export const AwsApiCallAction = S.suspend(() =>
   S.Struct({
-    Api: S.optional(S.String).pipe(T.JsonName("api")),
-    CallerType: S.optional(S.String).pipe(T.JsonName("callerType")),
-    DomainDetails: S.optional(DomainDetails)
-      .pipe(T.JsonName("domainDetails"))
-      .annotate({ identifier: "DomainDetails" }),
-    ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
-    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
-    RemoteIpDetails: S.optional(RemoteIpDetails)
-      .pipe(T.JsonName("remoteIpDetails"))
-      .annotate({ identifier: "RemoteIpDetails" }),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-    RemoteAccountDetails: S.optional(RemoteAccountDetails)
-      .pipe(T.JsonName("remoteAccountDetails"))
-      .annotate({ identifier: "RemoteAccountDetails" }),
-    AffectedResources: S.optional(AffectedResources).pipe(
-      T.JsonName("affectedResources"),
-    ),
-  }),
+    Api: S.optional(S.String),
+    CallerType: S.optional(S.String),
+    DomainDetails: S.optional(DomainDetails),
+    ErrorCode: S.optional(S.String),
+    UserAgent: S.optional(S.String),
+    RemoteIpDetails: S.optional(RemoteIpDetails),
+    ServiceName: S.optional(S.String),
+    RemoteAccountDetails: S.optional(RemoteAccountDetails),
+    AffectedResources: S.optional(AffectedResources),
+  }).pipe(
+    S.encodeKeys({
+      Api: "api",
+      CallerType: "callerType",
+      DomainDetails: "domainDetails",
+      ErrorCode: "errorCode",
+      UserAgent: "userAgent",
+      RemoteIpDetails: "remoteIpDetails",
+      ServiceName: "serviceName",
+      RemoteAccountDetails: "remoteAccountDetails",
+      AffectedResources: "affectedResources",
+    }),
+  ),
 ).annotate({
   identifier: "AwsApiCallAction",
 }) as any as S.Schema<AwsApiCallAction>;
@@ -3543,14 +3768,20 @@ export interface DnsRequestAction {
 }
 export const DnsRequestAction = S.suspend(() =>
   S.Struct({
-    Domain: S.optional(S.String).pipe(T.JsonName("domain")),
-    Protocol: S.optional(S.String).pipe(T.JsonName("protocol")),
-    Blocked: S.optional(S.Boolean).pipe(T.JsonName("blocked")),
-    DomainWithSuffix: S.optional(S.String).pipe(T.JsonName("domainWithSuffix")),
-    VpcOwnerAccountId: S.optional(S.String).pipe(
-      T.JsonName("vpcOwnerAccountId"),
-    ),
-  }),
+    Domain: S.optional(S.String),
+    Protocol: S.optional(S.String),
+    Blocked: S.optional(S.Boolean),
+    DomainWithSuffix: S.optional(S.String),
+    VpcOwnerAccountId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Domain: "domain",
+      Protocol: "protocol",
+      Blocked: "blocked",
+      DomainWithSuffix: "domainWithSuffix",
+      VpcOwnerAccountId: "vpcOwnerAccountId",
+    }),
+  ),
 ).annotate({
   identifier: "DnsRequestAction",
 }) as any as S.Schema<DnsRequestAction>;
@@ -3559,10 +3790,9 @@ export interface LocalPortDetails {
   PortName?: string;
 }
 export const LocalPortDetails = S.suspend(() =>
-  S.Struct({
-    Port: S.optional(S.Number).pipe(T.JsonName("port")),
-    PortName: S.optional(S.String).pipe(T.JsonName("portName")),
-  }),
+  S.Struct({ Port: S.optional(S.Number), PortName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Port: "port", PortName: "portName" }),
+  ),
 ).annotate({
   identifier: "LocalPortDetails",
 }) as any as S.Schema<LocalPortDetails>;
@@ -3572,19 +3802,20 @@ export interface LocalIpDetails {
 }
 export const LocalIpDetails = S.suspend(() =>
   S.Struct({
-    IpAddressV4: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV4")),
-    IpAddressV6: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV6")),
-  }),
+    IpAddressV4: S.optional(SensitiveString),
+    IpAddressV6: S.optional(SensitiveString),
+  }).pipe(
+    S.encodeKeys({ IpAddressV4: "ipAddressV4", IpAddressV6: "ipAddressV6" }),
+  ),
 ).annotate({ identifier: "LocalIpDetails" }) as any as S.Schema<LocalIpDetails>;
 export interface RemotePortDetails {
   Port?: number;
   PortName?: string;
 }
 export const RemotePortDetails = S.suspend(() =>
-  S.Struct({
-    Port: S.optional(S.Number).pipe(T.JsonName("port")),
-    PortName: S.optional(S.String).pipe(T.JsonName("portName")),
-  }),
+  S.Struct({ Port: S.optional(S.Number), PortName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Port: "port", PortName: "portName" }),
+  ),
 ).annotate({
   identifier: "RemotePortDetails",
 }) as any as S.Schema<RemotePortDetails>;
@@ -3600,27 +3831,26 @@ export interface NetworkConnectionAction {
 }
 export const NetworkConnectionAction = S.suspend(() =>
   S.Struct({
-    Blocked: S.optional(S.Boolean).pipe(T.JsonName("blocked")),
-    ConnectionDirection: S.optional(S.String).pipe(
-      T.JsonName("connectionDirection"),
-    ),
-    LocalPortDetails: S.optional(LocalPortDetails)
-      .pipe(T.JsonName("localPortDetails"))
-      .annotate({ identifier: "LocalPortDetails" }),
-    Protocol: S.optional(S.String).pipe(T.JsonName("protocol")),
-    LocalIpDetails: S.optional(LocalIpDetails)
-      .pipe(T.JsonName("localIpDetails"))
-      .annotate({ identifier: "LocalIpDetails" }),
-    LocalNetworkInterface: S.optional(S.String).pipe(
-      T.JsonName("localNetworkInterface"),
-    ),
-    RemoteIpDetails: S.optional(RemoteIpDetails)
-      .pipe(T.JsonName("remoteIpDetails"))
-      .annotate({ identifier: "RemoteIpDetails" }),
-    RemotePortDetails: S.optional(RemotePortDetails)
-      .pipe(T.JsonName("remotePortDetails"))
-      .annotate({ identifier: "RemotePortDetails" }),
-  }),
+    Blocked: S.optional(S.Boolean),
+    ConnectionDirection: S.optional(S.String),
+    LocalPortDetails: S.optional(LocalPortDetails),
+    Protocol: S.optional(S.String),
+    LocalIpDetails: S.optional(LocalIpDetails),
+    LocalNetworkInterface: S.optional(S.String),
+    RemoteIpDetails: S.optional(RemoteIpDetails),
+    RemotePortDetails: S.optional(RemotePortDetails),
+  }).pipe(
+    S.encodeKeys({
+      Blocked: "blocked",
+      ConnectionDirection: "connectionDirection",
+      LocalPortDetails: "localPortDetails",
+      Protocol: "protocol",
+      LocalIpDetails: "localIpDetails",
+      LocalNetworkInterface: "localNetworkInterface",
+      RemoteIpDetails: "remoteIpDetails",
+      RemotePortDetails: "remotePortDetails",
+    }),
+  ),
 ).annotate({
   identifier: "NetworkConnectionAction",
 }) as any as S.Schema<NetworkConnectionAction>;
@@ -3631,16 +3861,16 @@ export interface PortProbeDetail {
 }
 export const PortProbeDetail = S.suspend(() =>
   S.Struct({
-    LocalPortDetails: S.optional(LocalPortDetails)
-      .pipe(T.JsonName("localPortDetails"))
-      .annotate({ identifier: "LocalPortDetails" }),
-    LocalIpDetails: S.optional(LocalIpDetails)
-      .pipe(T.JsonName("localIpDetails"))
-      .annotate({ identifier: "LocalIpDetails" }),
-    RemoteIpDetails: S.optional(RemoteIpDetails)
-      .pipe(T.JsonName("remoteIpDetails"))
-      .annotate({ identifier: "RemoteIpDetails" }),
-  }),
+    LocalPortDetails: S.optional(LocalPortDetails),
+    LocalIpDetails: S.optional(LocalIpDetails),
+    RemoteIpDetails: S.optional(RemoteIpDetails),
+  }).pipe(
+    S.encodeKeys({
+      LocalPortDetails: "localPortDetails",
+      LocalIpDetails: "localIpDetails",
+      RemoteIpDetails: "remoteIpDetails",
+    }),
+  ),
 ).annotate({
   identifier: "PortProbeDetail",
 }) as any as S.Schema<PortProbeDetail>;
@@ -3652,11 +3882,11 @@ export interface PortProbeAction {
 }
 export const PortProbeAction = S.suspend(() =>
   S.Struct({
-    Blocked: S.optional(S.Boolean).pipe(T.JsonName("blocked")),
-    PortProbeDetails: S.optional(PortProbeDetails).pipe(
-      T.JsonName("portProbeDetails"),
-    ),
-  }),
+    Blocked: S.optional(S.Boolean),
+    PortProbeDetails: S.optional(PortProbeDetails),
+  }).pipe(
+    S.encodeKeys({ Blocked: "blocked", PortProbeDetails: "portProbeDetails" }),
+  ),
 ).annotate({
   identifier: "PortProbeAction",
 }) as any as S.Schema<PortProbeAction>;
@@ -3677,20 +3907,32 @@ export interface KubernetesApiCallAction {
 }
 export const KubernetesApiCallAction = S.suspend(() =>
   S.Struct({
-    RequestUri: S.optional(S.String).pipe(T.JsonName("requestUri")),
-    Verb: S.optional(S.String).pipe(T.JsonName("verb")),
-    SourceIps: S.optional(SourceIps).pipe(T.JsonName("sourceIPs")),
-    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
-    RemoteIpDetails: S.optional(RemoteIpDetails)
-      .pipe(T.JsonName("remoteIpDetails"))
-      .annotate({ identifier: "RemoteIpDetails" }),
-    StatusCode: S.optional(S.Number).pipe(T.JsonName("statusCode")),
-    Parameters: S.optional(S.String).pipe(T.JsonName("parameters")),
-    Resource: S.optional(S.String).pipe(T.JsonName("resource")),
-    Subresource: S.optional(S.String).pipe(T.JsonName("subresource")),
-    Namespace: S.optional(S.String).pipe(T.JsonName("namespace")),
-    ResourceName: S.optional(S.String).pipe(T.JsonName("resourceName")),
-  }),
+    RequestUri: S.optional(S.String),
+    Verb: S.optional(S.String),
+    SourceIps: S.optional(SourceIps),
+    UserAgent: S.optional(S.String),
+    RemoteIpDetails: S.optional(RemoteIpDetails),
+    StatusCode: S.optional(S.Number),
+    Parameters: S.optional(S.String),
+    Resource: S.optional(S.String),
+    Subresource: S.optional(S.String),
+    Namespace: S.optional(S.String),
+    ResourceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      RequestUri: "requestUri",
+      Verb: "verb",
+      SourceIps: "sourceIPs",
+      UserAgent: "userAgent",
+      RemoteIpDetails: "remoteIpDetails",
+      StatusCode: "statusCode",
+      Parameters: "parameters",
+      Resource: "resource",
+      Subresource: "subresource",
+      Namespace: "namespace",
+      ResourceName: "resourceName",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesApiCallAction",
 }) as any as S.Schema<KubernetesApiCallAction>;
@@ -3702,15 +3944,18 @@ export interface LoginAttribute {
 }
 export const LoginAttribute = S.suspend(() =>
   S.Struct({
-    User: S.optional(S.String).pipe(T.JsonName("user")),
-    Application: S.optional(S.String).pipe(T.JsonName("application")),
-    FailedLoginAttempts: S.optional(S.Number).pipe(
-      T.JsonName("failedLoginAttempts"),
-    ),
-    SuccessfulLoginAttempts: S.optional(S.Number).pipe(
-      T.JsonName("successfulLoginAttempts"),
-    ),
-  }),
+    User: S.optional(S.String),
+    Application: S.optional(S.String),
+    FailedLoginAttempts: S.optional(S.Number),
+    SuccessfulLoginAttempts: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      User: "user",
+      Application: "application",
+      FailedLoginAttempts: "failedLoginAttempts",
+      SuccessfulLoginAttempts: "successfulLoginAttempts",
+    }),
+  ),
 ).annotate({ identifier: "LoginAttribute" }) as any as S.Schema<LoginAttribute>;
 export type LoginAttributes = LoginAttribute[];
 export const LoginAttributes = S.Array(LoginAttribute);
@@ -3720,11 +3965,9 @@ export interface RdsLoginAttemptAction {
 }
 export const RdsLoginAttemptAction = S.suspend(() =>
   S.Struct({
-    RemoteIpDetails: S.optional(RemoteIpDetails)
-      .pipe(T.JsonName("remoteIpDetails"))
-      .annotate({ identifier: "RemoteIpDetails" }),
+    RemoteIpDetails: S.optional(RemoteIpDetails),
     LoginAttributes: S.optional(LoginAttributes),
-  }),
+  }).pipe(S.encodeKeys({ RemoteIpDetails: "remoteIpDetails" })),
 ).annotate({
   identifier: "RdsLoginAttemptAction",
 }) as any as S.Schema<RdsLoginAttemptAction>;
@@ -3736,11 +3979,18 @@ export interface KubernetesPermissionCheckedDetails {
 }
 export const KubernetesPermissionCheckedDetails = S.suspend(() =>
   S.Struct({
-    Verb: S.optional(S.String).pipe(T.JsonName("verb")),
-    Resource: S.optional(S.String).pipe(T.JsonName("resource")),
-    Namespace: S.optional(S.String).pipe(T.JsonName("namespace")),
-    Allowed: S.optional(S.Boolean).pipe(T.JsonName("allowed")),
-  }),
+    Verb: S.optional(S.String),
+    Resource: S.optional(S.String),
+    Namespace: S.optional(S.String),
+    Allowed: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      Verb: "verb",
+      Resource: "resource",
+      Namespace: "namespace",
+      Allowed: "allowed",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesPermissionCheckedDetails",
 }) as any as S.Schema<KubernetesPermissionCheckedDetails>;
@@ -3753,12 +4003,20 @@ export interface KubernetesRoleBindingDetails {
 }
 export const KubernetesRoleBindingDetails = S.suspend(() =>
   S.Struct({
-    Kind: S.optional(S.String).pipe(T.JsonName("kind")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    RoleRefName: S.optional(S.String).pipe(T.JsonName("roleRefName")),
-    RoleRefKind: S.optional(S.String).pipe(T.JsonName("roleRefKind")),
-  }),
+    Kind: S.optional(S.String),
+    Name: S.optional(S.String),
+    Uid: S.optional(S.String),
+    RoleRefName: S.optional(S.String),
+    RoleRefKind: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Kind: "kind",
+      Name: "name",
+      Uid: "uid",
+      RoleRefName: "roleRefName",
+      RoleRefKind: "roleRefKind",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesRoleBindingDetails",
 }) as any as S.Schema<KubernetesRoleBindingDetails>;
@@ -3769,10 +4027,10 @@ export interface KubernetesRoleDetails {
 }
 export const KubernetesRoleDetails = S.suspend(() =>
   S.Struct({
-    Kind: S.optional(S.String).pipe(T.JsonName("kind")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-  }),
+    Kind: S.optional(S.String),
+    Name: S.optional(S.String),
+    Uid: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Kind: "kind", Name: "name", Uid: "uid" })),
 ).annotate({
   identifier: "KubernetesRoleDetails",
 }) as any as S.Schema<KubernetesRoleDetails>;
@@ -3790,37 +4048,32 @@ export interface Action {
 }
 export const Action = S.suspend(() =>
   S.Struct({
-    ActionType: S.optional(S.String).pipe(T.JsonName("actionType")),
-    AwsApiCallAction: S.optional(AwsApiCallAction)
-      .pipe(T.JsonName("awsApiCallAction"))
-      .annotate({ identifier: "AwsApiCallAction" }),
-    DnsRequestAction: S.optional(DnsRequestAction)
-      .pipe(T.JsonName("dnsRequestAction"))
-      .annotate({ identifier: "DnsRequestAction" }),
-    NetworkConnectionAction: S.optional(NetworkConnectionAction)
-      .pipe(T.JsonName("networkConnectionAction"))
-      .annotate({ identifier: "NetworkConnectionAction" }),
-    PortProbeAction: S.optional(PortProbeAction)
-      .pipe(T.JsonName("portProbeAction"))
-      .annotate({ identifier: "PortProbeAction" }),
-    KubernetesApiCallAction: S.optional(KubernetesApiCallAction)
-      .pipe(T.JsonName("kubernetesApiCallAction"))
-      .annotate({ identifier: "KubernetesApiCallAction" }),
-    RdsLoginAttemptAction: S.optional(RdsLoginAttemptAction)
-      .pipe(T.JsonName("rdsLoginAttemptAction"))
-      .annotate({ identifier: "RdsLoginAttemptAction" }),
+    ActionType: S.optional(S.String),
+    AwsApiCallAction: S.optional(AwsApiCallAction),
+    DnsRequestAction: S.optional(DnsRequestAction),
+    NetworkConnectionAction: S.optional(NetworkConnectionAction),
+    PortProbeAction: S.optional(PortProbeAction),
+    KubernetesApiCallAction: S.optional(KubernetesApiCallAction),
+    RdsLoginAttemptAction: S.optional(RdsLoginAttemptAction),
     KubernetesPermissionCheckedDetails: S.optional(
       KubernetesPermissionCheckedDetails,
-    )
-      .pipe(T.JsonName("kubernetesPermissionCheckedDetails"))
-      .annotate({ identifier: "KubernetesPermissionCheckedDetails" }),
-    KubernetesRoleBindingDetails: S.optional(KubernetesRoleBindingDetails)
-      .pipe(T.JsonName("kubernetesRoleBindingDetails"))
-      .annotate({ identifier: "KubernetesRoleBindingDetails" }),
-    KubernetesRoleDetails: S.optional(KubernetesRoleDetails)
-      .pipe(T.JsonName("kubernetesRoleDetails"))
-      .annotate({ identifier: "KubernetesRoleDetails" }),
-  }),
+    ),
+    KubernetesRoleBindingDetails: S.optional(KubernetesRoleBindingDetails),
+    KubernetesRoleDetails: S.optional(KubernetesRoleDetails),
+  }).pipe(
+    S.encodeKeys({
+      ActionType: "actionType",
+      AwsApiCallAction: "awsApiCallAction",
+      DnsRequestAction: "dnsRequestAction",
+      NetworkConnectionAction: "networkConnectionAction",
+      PortProbeAction: "portProbeAction",
+      KubernetesApiCallAction: "kubernetesApiCallAction",
+      RdsLoginAttemptAction: "rdsLoginAttemptAction",
+      KubernetesPermissionCheckedDetails: "kubernetesPermissionCheckedDetails",
+      KubernetesRoleBindingDetails: "kubernetesRoleBindingDetails",
+      KubernetesRoleDetails: "kubernetesRoleDetails",
+    }),
+  ),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ThreatNames = string[];
 export const ThreatNames = S.Array(S.String);
@@ -3831,10 +4084,16 @@ export interface ThreatIntelligenceDetail {
 }
 export const ThreatIntelligenceDetail = S.suspend(() =>
   S.Struct({
-    ThreatListName: S.optional(S.String).pipe(T.JsonName("threatListName")),
-    ThreatNames: S.optional(ThreatNames).pipe(T.JsonName("threatNames")),
-    ThreatFileSha256: S.optional(S.String).pipe(T.JsonName("threatFileSha256")),
-  }),
+    ThreatListName: S.optional(S.String),
+    ThreatNames: S.optional(ThreatNames),
+    ThreatFileSha256: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ThreatListName: "threatListName",
+      ThreatNames: "threatNames",
+      ThreatFileSha256: "threatFileSha256",
+    }),
+  ),
 ).annotate({
   identifier: "ThreatIntelligenceDetail",
 }) as any as S.Schema<ThreatIntelligenceDetail>;
@@ -3845,20 +4104,19 @@ export interface Evidence {
 }
 export const Evidence = S.suspend(() =>
   S.Struct({
-    ThreatIntelligenceDetails: S.optional(ThreatIntelligenceDetails).pipe(
-      T.JsonName("threatIntelligenceDetails"),
-    ),
-  }),
+    ThreatIntelligenceDetails: S.optional(ThreatIntelligenceDetails),
+  }).pipe(
+    S.encodeKeys({ ThreatIntelligenceDetails: "threatIntelligenceDetails" }),
+  ),
 ).annotate({ identifier: "Evidence" }) as any as S.Schema<Evidence>;
 export interface ServiceAdditionalInfo {
   Value?: string;
   Type?: string;
 }
 export const ServiceAdditionalInfo = S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.JsonName("value")),
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
-  }),
+  S.Struct({ Value: S.optional(S.String), Type: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Value: "value", Type: "type" }),
+  ),
 ).annotate({
   identifier: "ServiceAdditionalInfo",
 }) as any as S.Schema<ServiceAdditionalInfo>;
@@ -3871,10 +4129,12 @@ export interface ScannedItemCount {
 }
 export const ScannedItemCount = S.suspend(() =>
   S.Struct({
-    TotalGb: S.optional(S.Number).pipe(T.JsonName("totalGb")),
-    Files: S.optional(S.Number).pipe(T.JsonName("files")),
-    Volumes: S.optional(S.Number).pipe(T.JsonName("volumes")),
-  }),
+    TotalGb: S.optional(S.Number),
+    Files: S.optional(S.Number),
+    Volumes: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({ TotalGb: "totalGb", Files: "files", Volumes: "volumes" }),
+  ),
 ).annotate({
   identifier: "ScannedItemCount",
 }) as any as S.Schema<ScannedItemCount>;
@@ -3882,7 +4142,9 @@ export interface ThreatsDetectedItemCount {
   Files?: number;
 }
 export const ThreatsDetectedItemCount = S.suspend(() =>
-  S.Struct({ Files: S.optional(S.Number).pipe(T.JsonName("files")) }),
+  S.Struct({ Files: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Files: "files" }),
+  ),
 ).annotate({
   identifier: "ThreatsDetectedItemCount",
 }) as any as S.Schema<ThreatsDetectedItemCount>;
@@ -3893,10 +4155,16 @@ export interface HighestSeverityThreatDetails {
 }
 export const HighestSeverityThreatDetails = S.suspend(() =>
   S.Struct({
-    Severity: S.optional(S.String).pipe(T.JsonName("severity")),
-    ThreatName: S.optional(S.String).pipe(T.JsonName("threatName")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-  }),
+    Severity: S.optional(S.String),
+    ThreatName: S.optional(S.String),
+    Count: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Severity: "severity",
+      ThreatName: "threatName",
+      Count: "count",
+    }),
+  ),
 ).annotate({
   identifier: "HighestSeverityThreatDetails",
 }) as any as S.Schema<HighestSeverityThreatDetails>;
@@ -3908,11 +4176,18 @@ export interface ScanFilePath {
 }
 export const ScanFilePath = S.suspend(() =>
   S.Struct({
-    FilePath: S.optional(S.String).pipe(T.JsonName("filePath")),
-    VolumeArn: S.optional(S.String).pipe(T.JsonName("volumeArn")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-    FileName: S.optional(S.String).pipe(T.JsonName("fileName")),
-  }),
+    FilePath: S.optional(S.String),
+    VolumeArn: S.optional(S.String),
+    Hash: S.optional(S.String),
+    FileName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FilePath: "filePath",
+      VolumeArn: "volumeArn",
+      Hash: "hash",
+      FileName: "fileName",
+    }),
+  ),
 ).annotate({ identifier: "ScanFilePath" }) as any as S.Schema<ScanFilePath>;
 export type FilePaths = ScanFilePath[];
 export const FilePaths = S.Array(ScanFilePath);
@@ -3924,11 +4199,18 @@ export interface ScanThreatName {
 }
 export const ScanThreatName = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Severity: S.optional(S.String).pipe(T.JsonName("severity")),
-    ItemCount: S.optional(S.Number).pipe(T.JsonName("itemCount")),
-    FilePaths: S.optional(FilePaths).pipe(T.JsonName("filePaths")),
-  }),
+    Name: S.optional(S.String),
+    Severity: S.optional(S.String),
+    ItemCount: S.optional(S.Number),
+    FilePaths: S.optional(FilePaths),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Severity: "severity",
+      ItemCount: "itemCount",
+      FilePaths: "filePaths",
+    }),
+  ),
 ).annotate({ identifier: "ScanThreatName" }) as any as S.Schema<ScanThreatName>;
 export type ScanThreatNames = ScanThreatName[];
 export const ScanThreatNames = S.Array(ScanThreatName);
@@ -3940,13 +4222,18 @@ export interface ThreatDetectedByName {
 }
 export const ThreatDetectedByName = S.suspend(() =>
   S.Struct({
-    ItemCount: S.optional(S.Number).pipe(T.JsonName("itemCount")),
-    UniqueThreatNameCount: S.optional(S.Number).pipe(
-      T.JsonName("uniqueThreatNameCount"),
-    ),
-    Shortened: S.optional(S.Boolean).pipe(T.JsonName("shortened")),
-    ThreatNames: S.optional(ScanThreatNames).pipe(T.JsonName("threatNames")),
-  }),
+    ItemCount: S.optional(S.Number),
+    UniqueThreatNameCount: S.optional(S.Number),
+    Shortened: S.optional(S.Boolean),
+    ThreatNames: S.optional(ScanThreatNames),
+  }).pipe(
+    S.encodeKeys({
+      ItemCount: "itemCount",
+      UniqueThreatNameCount: "uniqueThreatNameCount",
+      Shortened: "shortened",
+      ThreatNames: "threatNames",
+    }),
+  ),
 ).annotate({
   identifier: "ThreatDetectedByName",
 }) as any as S.Schema<ThreatDetectedByName>;
@@ -3958,19 +4245,18 @@ export interface ScanDetections {
 }
 export const ScanDetections = S.suspend(() =>
   S.Struct({
-    ScannedItemCount: S.optional(ScannedItemCount)
-      .pipe(T.JsonName("scannedItemCount"))
-      .annotate({ identifier: "ScannedItemCount" }),
-    ThreatsDetectedItemCount: S.optional(ThreatsDetectedItemCount)
-      .pipe(T.JsonName("threatsDetectedItemCount"))
-      .annotate({ identifier: "ThreatsDetectedItemCount" }),
-    HighestSeverityThreatDetails: S.optional(HighestSeverityThreatDetails)
-      .pipe(T.JsonName("highestSeverityThreatDetails"))
-      .annotate({ identifier: "HighestSeverityThreatDetails" }),
-    ThreatDetectedByName: S.optional(ThreatDetectedByName)
-      .pipe(T.JsonName("threatDetectedByName"))
-      .annotate({ identifier: "ThreatDetectedByName" }),
-  }),
+    ScannedItemCount: S.optional(ScannedItemCount),
+    ThreatsDetectedItemCount: S.optional(ThreatsDetectedItemCount),
+    HighestSeverityThreatDetails: S.optional(HighestSeverityThreatDetails),
+    ThreatDetectedByName: S.optional(ThreatDetectedByName),
+  }).pipe(
+    S.encodeKeys({
+      ScannedItemCount: "scannedItemCount",
+      ThreatsDetectedItemCount: "threatsDetectedItemCount",
+      HighestSeverityThreatDetails: "highestSeverityThreatDetails",
+      ThreatDetectedByName: "threatDetectedByName",
+    }),
+  ),
 ).annotate({ identifier: "ScanDetections" }) as any as S.Schema<ScanDetections>;
 export interface EbsVolumeScanDetails {
   ScanId?: string;
@@ -3983,20 +4269,26 @@ export interface EbsVolumeScanDetails {
 }
 export const EbsVolumeScanDetails = S.suspend(() =>
   S.Struct({
-    ScanId: S.optional(S.String).pipe(T.JsonName("scanId")),
-    ScanStartedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanStartedAt")),
+    ScanId: S.optional(S.String),
+    ScanStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScanCompletedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanCompletedAt")),
-    TriggerFindingId: S.optional(S.String).pipe(T.JsonName("triggerFindingId")),
-    Sources: S.optional(Sources).pipe(T.JsonName("sources")),
-    ScanDetections: S.optional(ScanDetections)
-      .pipe(T.JsonName("scanDetections"))
-      .annotate({ identifier: "ScanDetections" }),
-    ScanType: S.optional(ScanType).pipe(T.JsonName("scanType")),
-  }),
+    ),
+    TriggerFindingId: S.optional(S.String),
+    Sources: S.optional(Sources),
+    ScanDetections: S.optional(ScanDetections),
+    ScanType: S.optional(ScanType),
+  }).pipe(
+    S.encodeKeys({
+      ScanId: "scanId",
+      ScanStartedAt: "scanStartedAt",
+      ScanCompletedAt: "scanCompletedAt",
+      TriggerFindingId: "triggerFindingId",
+      Sources: "sources",
+      ScanDetections: "scanDetections",
+      ScanType: "scanType",
+    }),
+  ),
 ).annotate({
   identifier: "EbsVolumeScanDetails",
 }) as any as S.Schema<EbsVolumeScanDetails>;
@@ -4013,18 +4305,28 @@ export interface LineageObject {
 }
 export const LineageObject = S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("startTime"),
-    ),
-    NamespacePid: S.optional(S.Number).pipe(T.JsonName("namespacePid")),
-    UserId: S.optional(S.Number).pipe(T.JsonName("userId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
-    Uuid: S.optional(S.String).pipe(T.JsonName("uuid")),
-    ExecutablePath: S.optional(S.String).pipe(T.JsonName("executablePath")),
-    Euid: S.optional(S.Number).pipe(T.JsonName("euid")),
-    ParentUuid: S.optional(S.String).pipe(T.JsonName("parentUuid")),
-  }),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NamespacePid: S.optional(S.Number),
+    UserId: S.optional(S.Number),
+    Name: S.optional(S.String),
+    Pid: S.optional(S.Number),
+    Uuid: S.optional(S.String),
+    ExecutablePath: S.optional(S.String),
+    Euid: S.optional(S.Number),
+    ParentUuid: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      StartTime: "startTime",
+      NamespacePid: "namespacePid",
+      UserId: "userId",
+      Name: "name",
+      Pid: "pid",
+      Uuid: "uuid",
+      ExecutablePath: "executablePath",
+      Euid: "euid",
+      ParentUuid: "parentUuid",
+    }),
+  ),
 ).annotate({ identifier: "LineageObject" }) as any as S.Schema<LineageObject>;
 export type Lineage = LineageObject[];
 export const Lineage = S.Array(LineageObject);
@@ -4045,22 +4347,36 @@ export interface ProcessDetails {
 }
 export const ProcessDetails = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ExecutablePath: S.optional(S.String).pipe(T.JsonName("executablePath")),
-    ExecutableSha256: S.optional(S.String).pipe(T.JsonName("executableSha256")),
-    NamespacePid: S.optional(S.Number).pipe(T.JsonName("namespacePid")),
-    Pwd: S.optional(S.String).pipe(T.JsonName("pwd")),
-    Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("startTime"),
-    ),
-    Uuid: S.optional(S.String).pipe(T.JsonName("uuid")),
-    ParentUuid: S.optional(S.String).pipe(T.JsonName("parentUuid")),
-    User: S.optional(S.String).pipe(T.JsonName("user")),
-    UserId: S.optional(S.Number).pipe(T.JsonName("userId")),
-    Euid: S.optional(S.Number).pipe(T.JsonName("euid")),
-    Lineage: S.optional(Lineage).pipe(T.JsonName("lineage")),
-  }),
+    Name: S.optional(S.String),
+    ExecutablePath: S.optional(S.String),
+    ExecutableSha256: S.optional(S.String),
+    NamespacePid: S.optional(S.Number),
+    Pwd: S.optional(S.String),
+    Pid: S.optional(S.Number),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Uuid: S.optional(S.String),
+    ParentUuid: S.optional(S.String),
+    User: S.optional(S.String),
+    UserId: S.optional(S.Number),
+    Euid: S.optional(S.Number),
+    Lineage: S.optional(Lineage),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      ExecutablePath: "executablePath",
+      ExecutableSha256: "executableSha256",
+      NamespacePid: "namespacePid",
+      Pwd: "pwd",
+      Pid: "pid",
+      StartTime: "startTime",
+      Uuid: "uuid",
+      ParentUuid: "parentUuid",
+      User: "user",
+      UserId: "userId",
+      Euid: "euid",
+      Lineage: "lineage",
+    }),
+  ),
 ).annotate({ identifier: "ProcessDetails" }) as any as S.Schema<ProcessDetails>;
 export type FlagsList = string[];
 export const FlagsList = S.Array(S.String);
@@ -4095,46 +4411,60 @@ export interface RuntimeContext {
 }
 export const RuntimeContext = S.suspend(() =>
   S.Struct({
-    ModifyingProcess: S.optional(ProcessDetails)
-      .pipe(T.JsonName("modifyingProcess"))
-      .annotate({ identifier: "ProcessDetails" }),
-    ModifiedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("modifiedAt")),
-    ScriptPath: S.optional(S.String).pipe(T.JsonName("scriptPath")),
-    LibraryPath: S.optional(S.String).pipe(T.JsonName("libraryPath")),
-    LdPreloadValue: S.optional(S.String).pipe(T.JsonName("ldPreloadValue")),
-    SocketPath: S.optional(S.String).pipe(T.JsonName("socketPath")),
-    RuncBinaryPath: S.optional(S.String).pipe(T.JsonName("runcBinaryPath")),
-    ReleaseAgentPath: S.optional(S.String).pipe(T.JsonName("releaseAgentPath")),
-    MountSource: S.optional(S.String).pipe(T.JsonName("mountSource")),
-    MountTarget: S.optional(S.String).pipe(T.JsonName("mountTarget")),
-    FileSystemType: S.optional(S.String).pipe(T.JsonName("fileSystemType")),
-    Flags: S.optional(FlagsList).pipe(T.JsonName("flags")),
-    ModuleName: S.optional(S.String).pipe(T.JsonName("moduleName")),
-    ModuleFilePath: S.optional(S.String).pipe(T.JsonName("moduleFilePath")),
-    ModuleSha256: S.optional(S.String).pipe(T.JsonName("moduleSha256")),
-    ShellHistoryFilePath: S.optional(S.String).pipe(
-      T.JsonName("shellHistoryFilePath"),
-    ),
-    TargetProcess: S.optional(ProcessDetails)
-      .pipe(T.JsonName("targetProcess"))
-      .annotate({ identifier: "ProcessDetails" }),
-    AddressFamily: S.optional(S.String).pipe(T.JsonName("addressFamily")),
-    IanaProtocolNumber: S.optional(S.Number).pipe(
-      T.JsonName("ianaProtocolNumber"),
-    ),
-    MemoryRegions: S.optional(MemoryRegionsList).pipe(
-      T.JsonName("memoryRegions"),
-    ),
-    ToolName: S.optional(S.String).pipe(T.JsonName("toolName")),
-    ToolCategory: S.optional(S.String).pipe(T.JsonName("toolCategory")),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-    CommandLineExample: S.optional(S.String).pipe(
-      T.JsonName("commandLineExample"),
-    ),
-    ThreatFilePath: S.optional(S.String).pipe(T.JsonName("threatFilePath")),
-  }),
+    ModifyingProcess: S.optional(ProcessDetails),
+    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ScriptPath: S.optional(S.String),
+    LibraryPath: S.optional(S.String),
+    LdPreloadValue: S.optional(S.String),
+    SocketPath: S.optional(S.String),
+    RuncBinaryPath: S.optional(S.String),
+    ReleaseAgentPath: S.optional(S.String),
+    MountSource: S.optional(S.String),
+    MountTarget: S.optional(S.String),
+    FileSystemType: S.optional(S.String),
+    Flags: S.optional(FlagsList),
+    ModuleName: S.optional(S.String),
+    ModuleFilePath: S.optional(S.String),
+    ModuleSha256: S.optional(S.String),
+    ShellHistoryFilePath: S.optional(S.String),
+    TargetProcess: S.optional(ProcessDetails),
+    AddressFamily: S.optional(S.String),
+    IanaProtocolNumber: S.optional(S.Number),
+    MemoryRegions: S.optional(MemoryRegionsList),
+    ToolName: S.optional(S.String),
+    ToolCategory: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    CommandLineExample: S.optional(S.String),
+    ThreatFilePath: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ModifyingProcess: "modifyingProcess",
+      ModifiedAt: "modifiedAt",
+      ScriptPath: "scriptPath",
+      LibraryPath: "libraryPath",
+      LdPreloadValue: "ldPreloadValue",
+      SocketPath: "socketPath",
+      RuncBinaryPath: "runcBinaryPath",
+      ReleaseAgentPath: "releaseAgentPath",
+      MountSource: "mountSource",
+      MountTarget: "mountTarget",
+      FileSystemType: "fileSystemType",
+      Flags: "flags",
+      ModuleName: "moduleName",
+      ModuleFilePath: "moduleFilePath",
+      ModuleSha256: "moduleSha256",
+      ShellHistoryFilePath: "shellHistoryFilePath",
+      TargetProcess: "targetProcess",
+      AddressFamily: "addressFamily",
+      IanaProtocolNumber: "ianaProtocolNumber",
+      MemoryRegions: "memoryRegions",
+      ToolName: "toolName",
+      ToolCategory: "toolCategory",
+      ServiceName: "serviceName",
+      CommandLineExample: "commandLineExample",
+      ThreatFilePath: "threatFilePath",
+    }),
+  ),
 ).annotate({ identifier: "RuntimeContext" }) as any as S.Schema<RuntimeContext>;
 export interface RuntimeDetails {
   Process?: ProcessDetails;
@@ -4142,13 +4472,9 @@ export interface RuntimeDetails {
 }
 export const RuntimeDetails = S.suspend(() =>
   S.Struct({
-    Process: S.optional(ProcessDetails)
-      .pipe(T.JsonName("process"))
-      .annotate({ identifier: "ProcessDetails" }),
-    Context: S.optional(RuntimeContext)
-      .pipe(T.JsonName("context"))
-      .annotate({ identifier: "RuntimeContext" }),
-  }),
+    Process: S.optional(ProcessDetails),
+    Context: S.optional(RuntimeContext),
+  }).pipe(S.encodeKeys({ Process: "process", Context: "context" })),
 ).annotate({ identifier: "RuntimeDetails" }) as any as S.Schema<RuntimeDetails>;
 export type ProfileType = "FREQUENCY" | (string & {});
 export const ProfileType = S.String;
@@ -4165,7 +4491,9 @@ export interface Observations {
   Text?: string[];
 }
 export const Observations = S.suspend(() =>
-  S.Struct({ Text: S.optional(ObservationTexts).pipe(T.JsonName("text")) }),
+  S.Struct({ Text: S.optional(ObservationTexts) }).pipe(
+    S.encodeKeys({ Text: "text" }),
+  ),
 ).annotate({ identifier: "Observations" }) as any as S.Schema<Observations>;
 export interface AnomalyObject {
   ProfileType?: ProfileType;
@@ -4174,14 +4502,16 @@ export interface AnomalyObject {
 }
 export const AnomalyObject = S.suspend(() =>
   S.Struct({
-    ProfileType: S.optional(ProfileType).pipe(T.JsonName("profileType")),
-    ProfileSubtype: S.optional(ProfileSubtype).pipe(
-      T.JsonName("profileSubtype"),
-    ),
-    Observations: S.optional(Observations)
-      .pipe(T.JsonName("observations"))
-      .annotate({ identifier: "Observations" }),
-  }),
+    ProfileType: S.optional(ProfileType),
+    ProfileSubtype: S.optional(ProfileSubtype),
+    Observations: S.optional(Observations),
+  }).pipe(
+    S.encodeKeys({
+      ProfileType: "profileType",
+      ProfileSubtype: "profileSubtype",
+      Observations: "observations",
+    }),
+  ),
 ).annotate({ identifier: "AnomalyObject" }) as any as S.Schema<AnomalyObject>;
 export type AnomalyProfileFeatureObjects = AnomalyObject[];
 export const AnomalyProfileFeatureObjects = S.Array(AnomalyObject);
@@ -4219,7 +4549,9 @@ export interface AnomalyUnusual {
   };
 }
 export const AnomalyUnusual = S.suspend(() =>
-  S.Struct({ Behavior: S.optional(Behavior).pipe(T.JsonName("behavior")) }),
+  S.Struct({ Behavior: S.optional(Behavior) }).pipe(
+    S.encodeKeys({ Behavior: "behavior" }),
+  ),
 ).annotate({ identifier: "AnomalyUnusual" }) as any as S.Schema<AnomalyUnusual>;
 export interface Anomaly {
   Profiles?: {
@@ -4229,21 +4561,18 @@ export interface Anomaly {
 }
 export const Anomaly = S.suspend(() =>
   S.Struct({
-    Profiles: S.optional(AnomalyProfiles).pipe(T.JsonName("profiles")),
-    Unusual: S.optional(AnomalyUnusual)
-      .pipe(T.JsonName("unusual"))
-      .annotate({ identifier: "AnomalyUnusual" }),
-  }),
+    Profiles: S.optional(AnomalyProfiles),
+    Unusual: S.optional(AnomalyUnusual),
+  }).pipe(S.encodeKeys({ Profiles: "profiles", Unusual: "unusual" })),
 ).annotate({ identifier: "Anomaly" }) as any as S.Schema<Anomaly>;
 export interface Account {
   Uid?: string;
   Name?: string;
 }
 export const Account = S.suspend(() =>
-  S.Struct({
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Name: S.optional(S.String).pipe(T.JsonName("account")),
-  }),
+  S.Struct({ Uid: S.optional(S.String), Name: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Uid: "uid", Name: "account" }),
+  ),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 export interface User {
   Name?: string;
@@ -4254,14 +4583,20 @@ export interface User {
 }
 export const User = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
-    CredentialUid: S.optional(S.String).pipe(T.JsonName("credentialUid")),
-    Account: S.optional(Account)
-      .pipe(T.JsonName("account"))
-      .annotate({ identifier: "Account" }),
-  }),
+    Name: S.optional(S.String),
+    Uid: S.optional(S.String),
+    Type: S.optional(S.String),
+    CredentialUid: S.optional(S.String),
+    Account: S.optional(Account),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Uid: "uid",
+      Type: "type",
+      CredentialUid: "credentialUid",
+      Account: "account",
+    }),
+  ),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export type MfaStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MfaStatus = S.String;
@@ -4273,13 +4608,18 @@ export interface Session {
 }
 export const Session = S.suspend(() =>
   S.Struct({
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    MfaStatus: S.optional(MfaStatus).pipe(T.JsonName("mfaStatus")),
-    CreatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("createdTime")),
-    Issuer: S.optional(S.String).pipe(T.JsonName("issuer")),
-  }),
+    Uid: S.optional(S.String),
+    MfaStatus: S.optional(MfaStatus),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Issuer: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Uid: "uid",
+      MfaStatus: "mfaStatus",
+      CreatedTime: "createdTime",
+      Issuer: "issuer",
+    }),
+  ),
 ).annotate({ identifier: "Session" }) as any as S.Schema<Session>;
 export interface ActorProcess {
   Name?: string;
@@ -4288,10 +4628,10 @@ export interface ActorProcess {
 }
 export const ActorProcess = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Path: S.optional(S.String).pipe(T.JsonName("path")),
-    Sha256: S.optional(S.String).pipe(T.JsonName("sha256")),
-  }),
+    Name: S.optional(S.String),
+    Path: S.optional(S.String),
+    Sha256: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Name: "name", Path: "path", Sha256: "sha256" })),
 ).annotate({ identifier: "ActorProcess" }) as any as S.Schema<ActorProcess>;
 export interface Actor {
   Id?: string;
@@ -4301,17 +4641,18 @@ export interface Actor {
 }
 export const Actor = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    User: S.optional(User)
-      .pipe(T.JsonName("user"))
-      .annotate({ identifier: "User" }),
-    Session: S.optional(Session)
-      .pipe(T.JsonName("session"))
-      .annotate({ identifier: "Session" }),
-    Process: S.optional(ActorProcess)
-      .pipe(T.JsonName("process"))
-      .annotate({ identifier: "ActorProcess" }),
-  }),
+    Id: S.optional(S.String),
+    User: S.optional(User),
+    Session: S.optional(Session),
+    Process: S.optional(ActorProcess),
+  }).pipe(
+    S.encodeKeys({
+      Id: "id",
+      User: "user",
+      Session: "session",
+      Process: "process",
+    }),
+  ),
 ).annotate({ identifier: "Actor" }) as any as S.Schema<Actor>;
 export type Actors = Actor[];
 export const Actors = S.Array(Actor);
@@ -4351,19 +4692,18 @@ export interface PublicAccessConfiguration {
 }
 export const PublicAccessConfiguration = S.suspend(() =>
   S.Struct({
-    PublicAclAccess: S.optional(PublicAccessStatus).pipe(
-      T.JsonName("publicAclAccess"),
-    ),
-    PublicPolicyAccess: S.optional(PublicAccessStatus).pipe(
-      T.JsonName("publicPolicyAccess"),
-    ),
-    PublicAclIgnoreBehavior: S.optional(PublicAclIgnoreBehavior).pipe(
-      T.JsonName("publicAclIgnoreBehavior"),
-    ),
-    PublicBucketRestrictBehavior: S.optional(PublicBucketRestrictBehavior).pipe(
-      T.JsonName("publicBucketRestrictBehavior"),
-    ),
-  }),
+    PublicAclAccess: S.optional(PublicAccessStatus),
+    PublicPolicyAccess: S.optional(PublicAccessStatus),
+    PublicAclIgnoreBehavior: S.optional(PublicAclIgnoreBehavior),
+    PublicBucketRestrictBehavior: S.optional(PublicBucketRestrictBehavior),
+  }).pipe(
+    S.encodeKeys({
+      PublicAclAccess: "publicAclAccess",
+      PublicPolicyAccess: "publicPolicyAccess",
+      PublicAclIgnoreBehavior: "publicAclIgnoreBehavior",
+      PublicBucketRestrictBehavior: "publicBucketRestrictBehavior",
+    }),
+  ),
 ).annotate({
   identifier: "PublicAccessConfiguration",
 }) as any as S.Schema<PublicAccessConfiguration>;
@@ -4383,29 +4723,30 @@ export interface S3Bucket {
 }
 export const S3Bucket = S.suspend(() =>
   S.Struct({
-    OwnerId: S.optional(S.String).pipe(T.JsonName("ownerId")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    EncryptionType: S.optional(S.String).pipe(T.JsonName("encryptionType")),
-    EncryptionKeyArn: S.optional(S.String).pipe(T.JsonName("encryptionKeyArn")),
-    EffectivePermission: S.optional(S.String).pipe(
-      T.JsonName("effectivePermission"),
-    ),
-    PublicReadAccess: S.optional(PublicAccessStatus).pipe(
-      T.JsonName("publicReadAccess"),
-    ),
-    PublicWriteAccess: S.optional(PublicAccessStatus).pipe(
-      T.JsonName("publicWriteAccess"),
-    ),
-    AccountPublicAccess: S.optional(PublicAccessConfiguration)
-      .pipe(T.JsonName("accountPublicAccess"))
-      .annotate({ identifier: "PublicAccessConfiguration" }),
-    BucketPublicAccess: S.optional(PublicAccessConfiguration)
-      .pipe(T.JsonName("bucketPublicAccess"))
-      .annotate({ identifier: "PublicAccessConfiguration" }),
-    S3ObjectUids: S.optional(S3ObjectUids).pipe(T.JsonName("s3ObjectUids")),
-  }),
+    OwnerId: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EncryptionType: S.optional(S.String),
+    EncryptionKeyArn: S.optional(S.String),
+    EffectivePermission: S.optional(S.String),
+    PublicReadAccess: S.optional(PublicAccessStatus),
+    PublicWriteAccess: S.optional(PublicAccessStatus),
+    AccountPublicAccess: S.optional(PublicAccessConfiguration),
+    BucketPublicAccess: S.optional(PublicAccessConfiguration),
+    S3ObjectUids: S.optional(S3ObjectUids),
+  }).pipe(
+    S.encodeKeys({
+      OwnerId: "ownerId",
+      CreatedAt: "createdAt",
+      EncryptionType: "encryptionType",
+      EncryptionKeyArn: "encryptionKeyArn",
+      EffectivePermission: "effectivePermission",
+      PublicReadAccess: "publicReadAccess",
+      PublicWriteAccess: "publicWriteAccess",
+      AccountPublicAccess: "accountPublicAccess",
+      BucketPublicAccess: "bucketPublicAccess",
+      S3ObjectUids: "s3ObjectUids",
+    }),
+  ),
 ).annotate({ identifier: "S3Bucket" }) as any as S.Schema<S3Bucket>;
 export type Ec2NetworkInterfaceUids = string[];
 export const Ec2NetworkInterfaceUids = S.Array(S.String);
@@ -4422,18 +4763,27 @@ export interface Ec2Instance {
 }
 export const Ec2Instance = S.suspend(() =>
   S.Struct({
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    ImageDescription: S.optional(S.String).pipe(T.JsonName("imageDescription")),
-    InstanceState: S.optional(S.String).pipe(T.JsonName("instanceState")),
+    AvailabilityZone: S.optional(S.String),
+    ImageDescription: S.optional(S.String),
+    InstanceState: S.optional(S.String),
     IamInstanceProfile: S.optional(IamInstanceProfile),
-    InstanceType: S.optional(S.String).pipe(T.JsonName("instanceType")),
-    OutpostArn: S.optional(S.String).pipe(T.JsonName("outpostArn")),
-    Platform: S.optional(S.String).pipe(T.JsonName("platform")),
-    ProductCodes: S.optional(ProductCodes).pipe(T.JsonName("productCodes")),
-    Ec2NetworkInterfaceUids: S.optional(Ec2NetworkInterfaceUids).pipe(
-      T.JsonName("ec2NetworkInterfaceUids"),
-    ),
-  }),
+    InstanceType: S.optional(S.String),
+    OutpostArn: S.optional(S.String),
+    Platform: S.optional(S.String),
+    ProductCodes: S.optional(ProductCodes),
+    Ec2NetworkInterfaceUids: S.optional(Ec2NetworkInterfaceUids),
+  }).pipe(
+    S.encodeKeys({
+      AvailabilityZone: "availabilityZone",
+      ImageDescription: "imageDescription",
+      InstanceState: "instanceState",
+      InstanceType: "instanceType",
+      OutpostArn: "outpostArn",
+      Platform: "platform",
+      ProductCodes: "productCodes",
+      Ec2NetworkInterfaceUids: "ec2NetworkInterfaceUids",
+    }),
+  ),
 ).annotate({ identifier: "Ec2Instance" }) as any as S.Schema<Ec2Instance>;
 export interface AccessKey {
   PrincipalId?: string;
@@ -4442,10 +4792,16 @@ export interface AccessKey {
 }
 export const AccessKey = S.suspend(() =>
   S.Struct({
-    PrincipalId: S.optional(S.String).pipe(T.JsonName("principalId")),
-    UserName: S.optional(S.String).pipe(T.JsonName("userName")),
-    UserType: S.optional(S.String).pipe(T.JsonName("userType")),
-  }),
+    PrincipalId: S.optional(S.String),
+    UserName: S.optional(S.String),
+    UserType: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PrincipalId: "principalId",
+      UserName: "userName",
+      UserType: "userType",
+    }),
+  ),
 ).annotate({ identifier: "AccessKey" }) as any as S.Schema<AccessKey>;
 export interface Ec2NetworkInterface {
   Ipv6Addresses?: string[];
@@ -4457,17 +4813,22 @@ export interface Ec2NetworkInterface {
 }
 export const Ec2NetworkInterface = S.suspend(() =>
   S.Struct({
-    Ipv6Addresses: S.optional(Ipv6Addresses).pipe(T.JsonName("ipv6Addresses")),
-    PrivateIpAddresses: S.optional(PrivateIpAddresses).pipe(
-      T.JsonName("privateIpAddresses"),
-    ),
-    PublicIp: S.optional(S.String).pipe(T.JsonName("publicIp")),
-    SecurityGroups: S.optional(SecurityGroups).pipe(
-      T.JsonName("securityGroups"),
-    ),
-    SubNetId: S.optional(S.String).pipe(T.JsonName("subNetId")),
-    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-  }),
+    Ipv6Addresses: S.optional(Ipv6Addresses),
+    PrivateIpAddresses: S.optional(PrivateIpAddresses),
+    PublicIp: S.optional(S.String),
+    SecurityGroups: S.optional(SecurityGroups),
+    SubNetId: S.optional(S.String),
+    VpcId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Ipv6Addresses: "ipv6Addresses",
+      PrivateIpAddresses: "privateIpAddresses",
+      PublicIp: "publicIp",
+      SecurityGroups: "securityGroups",
+      SubNetId: "subNetId",
+      VpcId: "vpcId",
+    }),
+  ),
 ).annotate({
   identifier: "Ec2NetworkInterface",
 }) as any as S.Schema<Ec2NetworkInterface>;
@@ -4478,10 +4839,10 @@ export interface S3Object {
 }
 export const S3Object = S.suspend(() =>
   S.Struct({
-    ETag: S.optional(S.String).pipe(T.JsonName("eTag")),
-    Key: S.optional(S.String).pipe(T.JsonName("key")),
-    VersionId: S.optional(S.String).pipe(T.JsonName("versionId")),
-  }),
+    ETag: S.optional(S.String),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+  }).pipe(S.encodeKeys({ ETag: "eTag", Key: "key", VersionId: "versionId" })),
 ).annotate({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
 export type ClusterStatus =
   | "CREATING"
@@ -4503,16 +4864,20 @@ export interface EksCluster {
 }
 export const EksCluster = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Status: S.optional(ClusterStatus).pipe(T.JsonName("status")),
-    VpcId: S.optional(S.String).pipe(T.JsonName("vpcId")),
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(ClusterStatus),
+    VpcId: S.optional(S.String),
+    Ec2InstanceUids: S.optional(Ec2InstanceUids),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Status: "status",
+      VpcId: "vpcId",
+      Ec2InstanceUids: "ec2InstanceUids",
+    }),
+  ),
 ).annotate({ identifier: "EksCluster" }) as any as S.Schema<EksCluster>;
 export type ContainerUids = string[];
 export const ContainerUids = S.Array(S.String);
@@ -4534,12 +4899,16 @@ export interface KubernetesWorkload {
 }
 export const KubernetesWorkload = S.suspend(() =>
   S.Struct({
-    ContainerUids: S.optional(ContainerUids).pipe(T.JsonName("containerUids")),
-    Namespace: S.optional(S.String).pipe(T.JsonName("namespace")),
-    KubernetesResourcesTypes: S.optional(KubernetesResourcesTypes).pipe(
-      T.JsonName("type"),
-    ),
-  }),
+    ContainerUids: S.optional(ContainerUids),
+    Namespace: S.optional(S.String),
+    KubernetesResourcesTypes: S.optional(KubernetesResourcesTypes),
+  }).pipe(
+    S.encodeKeys({
+      ContainerUids: "containerUids",
+      Namespace: "namespace",
+      KubernetesResourcesTypes: "type",
+    }),
+  ),
 ).annotate({
   identifier: "KubernetesWorkload",
 }) as any as S.Schema<KubernetesWorkload>;
@@ -4549,9 +4918,9 @@ export interface ContainerFindingResource {
 }
 export const ContainerFindingResource = S.suspend(() =>
   S.Struct({
-    Image: S.optional(S.String).pipe(T.JsonName("image")),
-    ImageUid: S.optional(S.String).pipe(T.JsonName("imageUid")),
-  }),
+    Image: S.optional(S.String),
+    ImageUid: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Image: "image", ImageUid: "imageUid" })),
 ).annotate({
   identifier: "ContainerFindingResource",
 }) as any as S.Schema<ContainerFindingResource>;
@@ -4569,11 +4938,11 @@ export interface EcsCluster {
 }
 export const EcsCluster = S.suspend(() =>
   S.Struct({
-    Status: S.optional(EcsClusterStatus).pipe(T.JsonName("status")),
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+    Status: S.optional(EcsClusterStatus),
+    Ec2InstanceUids: S.optional(Ec2InstanceUids),
+  }).pipe(
+    S.encodeKeys({ Status: "status", Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({ identifier: "EcsCluster" }) as any as S.Schema<EcsCluster>;
 export type EcsLaunchType = "FARGATE" | "EC2" | (string & {});
 export const EcsLaunchType = S.String;
@@ -4585,25 +4954,26 @@ export interface EcsTask {
 }
 export const EcsTask = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    TaskDefinitionArn: S.optional(S.String).pipe(
-      T.JsonName("taskDefinitionArn"),
-    ),
-    LaunchType: S.optional(EcsLaunchType).pipe(T.JsonName("launchType")),
-    ContainerUids: S.optional(ContainerUids).pipe(T.JsonName("containerUids")),
-  }),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TaskDefinitionArn: S.optional(S.String),
+    LaunchType: S.optional(EcsLaunchType),
+    ContainerUids: S.optional(ContainerUids),
+  }).pipe(
+    S.encodeKeys({
+      CreatedAt: "createdAt",
+      TaskDefinitionArn: "taskDefinitionArn",
+      LaunchType: "launchType",
+      ContainerUids: "containerUids",
+    }),
+  ),
 ).annotate({ identifier: "EcsTask" }) as any as S.Schema<EcsTask>;
 export interface IamInstanceProfileV2 {
   Ec2InstanceUids?: string[];
 }
 export const IamInstanceProfileV2 = S.suspend(() =>
-  S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+  S.Struct({ Ec2InstanceUids: S.optional(Ec2InstanceUids) }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({
   identifier: "IamInstanceProfileV2",
 }) as any as S.Schema<IamInstanceProfileV2>;
@@ -4611,11 +4981,9 @@ export interface AutoscalingAutoScalingGroup {
   Ec2InstanceUids?: string[];
 }
 export const AutoscalingAutoScalingGroup = S.suspend(() =>
-  S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+  S.Struct({ Ec2InstanceUids: S.optional(Ec2InstanceUids) }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({
   identifier: "AutoscalingAutoScalingGroup",
 }) as any as S.Schema<AutoscalingAutoScalingGroup>;
@@ -4625,11 +4993,11 @@ export interface Ec2LaunchTemplate {
 }
 export const Ec2LaunchTemplate = S.suspend(() =>
   S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }),
+    Ec2InstanceUids: S.optional(Ec2InstanceUids),
+    Version: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids", Version: "version" }),
+  ),
 ).annotate({
   identifier: "Ec2LaunchTemplate",
 }) as any as S.Schema<Ec2LaunchTemplate>;
@@ -4637,31 +5005,25 @@ export interface Ec2Vpc {
   Ec2InstanceUids?: string[];
 }
 export const Ec2Vpc = S.suspend(() =>
-  S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+  S.Struct({ Ec2InstanceUids: S.optional(Ec2InstanceUids) }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({ identifier: "Ec2Vpc" }) as any as S.Schema<Ec2Vpc>;
 export interface Ec2Image {
   Ec2InstanceUids?: string[];
 }
 export const Ec2Image = S.suspend(() =>
-  S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+  S.Struct({ Ec2InstanceUids: S.optional(Ec2InstanceUids) }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({ identifier: "Ec2Image" }) as any as S.Schema<Ec2Image>;
 export interface CloudformationStack {
   Ec2InstanceUids?: string[];
 }
 export const CloudformationStack = S.suspend(() =>
-  S.Struct({
-    Ec2InstanceUids: S.optional(Ec2InstanceUids).pipe(
-      T.JsonName("ec2InstanceUids"),
-    ),
-  }),
+  S.Struct({ Ec2InstanceUids: S.optional(Ec2InstanceUids) }).pipe(
+    S.encodeKeys({ Ec2InstanceUids: "ec2InstanceUids" }),
+  ),
 ).annotate({
   identifier: "CloudformationStack",
 }) as any as S.Schema<CloudformationStack>;
@@ -4685,55 +5047,42 @@ export interface ResourceData {
 }
 export const ResourceData = S.suspend(() =>
   S.Struct({
-    S3Bucket: S.optional(S3Bucket)
-      .pipe(T.JsonName("s3Bucket"))
-      .annotate({ identifier: "S3Bucket" }),
-    Ec2Instance: S.optional(Ec2Instance)
-      .pipe(T.JsonName("ec2Instance"))
-      .annotate({ identifier: "Ec2Instance" }),
-    AccessKey: S.optional(AccessKey)
-      .pipe(T.JsonName("accessKey"))
-      .annotate({ identifier: "AccessKey" }),
-    Ec2NetworkInterface: S.optional(Ec2NetworkInterface)
-      .pipe(T.JsonName("ec2NetworkInterface"))
-      .annotate({ identifier: "Ec2NetworkInterface" }),
-    S3Object: S.optional(S3Object)
-      .pipe(T.JsonName("s3Object"))
-      .annotate({ identifier: "S3Object" }),
-    EksCluster: S.optional(EksCluster)
-      .pipe(T.JsonName("eksCluster"))
-      .annotate({ identifier: "EksCluster" }),
-    KubernetesWorkload: S.optional(KubernetesWorkload)
-      .pipe(T.JsonName("kubernetesWorkload"))
-      .annotate({ identifier: "KubernetesWorkload" }),
-    Container: S.optional(ContainerFindingResource)
-      .pipe(T.JsonName("container"))
-      .annotate({ identifier: "ContainerFindingResource" }),
-    EcsCluster: S.optional(EcsCluster)
-      .pipe(T.JsonName("ecsCluster"))
-      .annotate({ identifier: "EcsCluster" }),
-    EcsTask: S.optional(EcsTask)
-      .pipe(T.JsonName("ecsTask"))
-      .annotate({ identifier: "EcsTask" }),
-    IamInstanceProfile: S.optional(IamInstanceProfileV2)
-      .pipe(T.JsonName("iamInstanceProfile"))
-      .annotate({ identifier: "IamInstanceProfileV2" }),
-    AutoscalingAutoScalingGroup: S.optional(AutoscalingAutoScalingGroup)
-      .pipe(T.JsonName("autoscalingAutoScalingGroup"))
-      .annotate({ identifier: "AutoscalingAutoScalingGroup" }),
-    Ec2LaunchTemplate: S.optional(Ec2LaunchTemplate)
-      .pipe(T.JsonName("ec2LaunchTemplate"))
-      .annotate({ identifier: "Ec2LaunchTemplate" }),
-    Ec2Vpc: S.optional(Ec2Vpc)
-      .pipe(T.JsonName("ec2Vpc"))
-      .annotate({ identifier: "Ec2Vpc" }),
-    Ec2Image: S.optional(Ec2Image)
-      .pipe(T.JsonName("ec2Image"))
-      .annotate({ identifier: "Ec2Image" }),
-    CloudformationStack: S.optional(CloudformationStack)
-      .pipe(T.JsonName("cloudformationStack"))
-      .annotate({ identifier: "CloudformationStack" }),
-  }),
+    S3Bucket: S.optional(S3Bucket),
+    Ec2Instance: S.optional(Ec2Instance),
+    AccessKey: S.optional(AccessKey),
+    Ec2NetworkInterface: S.optional(Ec2NetworkInterface),
+    S3Object: S.optional(S3Object),
+    EksCluster: S.optional(EksCluster),
+    KubernetesWorkload: S.optional(KubernetesWorkload),
+    Container: S.optional(ContainerFindingResource),
+    EcsCluster: S.optional(EcsCluster),
+    EcsTask: S.optional(EcsTask),
+    IamInstanceProfile: S.optional(IamInstanceProfileV2),
+    AutoscalingAutoScalingGroup: S.optional(AutoscalingAutoScalingGroup),
+    Ec2LaunchTemplate: S.optional(Ec2LaunchTemplate),
+    Ec2Vpc: S.optional(Ec2Vpc),
+    Ec2Image: S.optional(Ec2Image),
+    CloudformationStack: S.optional(CloudformationStack),
+  }).pipe(
+    S.encodeKeys({
+      S3Bucket: "s3Bucket",
+      Ec2Instance: "ec2Instance",
+      AccessKey: "accessKey",
+      Ec2NetworkInterface: "ec2NetworkInterface",
+      S3Object: "s3Object",
+      EksCluster: "eksCluster",
+      KubernetesWorkload: "kubernetesWorkload",
+      Container: "container",
+      EcsCluster: "ecsCluster",
+      EcsTask: "ecsTask",
+      IamInstanceProfile: "iamInstanceProfile",
+      AutoscalingAutoScalingGroup: "autoscalingAutoScalingGroup",
+      Ec2LaunchTemplate: "ec2LaunchTemplate",
+      Ec2Vpc: "ec2Vpc",
+      Ec2Image: "ec2Image",
+      CloudformationStack: "cloudformationStack",
+    }),
+  ),
 ).annotate({ identifier: "ResourceData" }) as any as S.Schema<ResourceData>;
 export interface ResourceV2 {
   Uid?: string;
@@ -4748,20 +5097,28 @@ export interface ResourceV2 {
 }
 export const ResourceV2 = S.suspend(() =>
   S.Struct({
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    ResourceType: S.optional(FindingResourceType).pipe(
-      T.JsonName("resourceType"),
-    ),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    Service: S.optional(S.String).pipe(T.JsonName("service")),
-    CloudPartition: S.optional(S.String).pipe(T.JsonName("cloudPartition")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Data: S.optional(ResourceData)
-      .pipe(T.JsonName("data"))
-      .annotate({ identifier: "ResourceData" }),
-  }),
+    Uid: S.optional(S.String),
+    Name: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    ResourceType: S.optional(FindingResourceType),
+    Region: S.optional(S.String),
+    Service: S.optional(S.String),
+    CloudPartition: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Data: S.optional(ResourceData),
+  }).pipe(
+    S.encodeKeys({
+      Uid: "uid",
+      Name: "name",
+      AccountId: "accountId",
+      ResourceType: "resourceType",
+      Region: "region",
+      Service: "service",
+      CloudPartition: "cloudPartition",
+      Tags: "tags",
+      Data: "data",
+    }),
+  ),
 ).annotate({ identifier: "ResourceV2" }) as any as S.Schema<ResourceV2>;
 export type Resources = ResourceV2[];
 export const Resources = S.Array(ResourceV2);
@@ -4773,11 +5130,18 @@ export interface NetworkGeoLocation {
 }
 export const NetworkGeoLocation = S.suspend(() =>
   S.Struct({
-    City: S.optional(S.String).pipe(T.JsonName("city")),
-    Country: S.optional(S.String).pipe(T.JsonName("country")),
-    Latitude: S.optional(S.Number).pipe(T.JsonName("lat")),
-    Longitude: S.optional(S.Number).pipe(T.JsonName("lon")),
-  }),
+    City: S.optional(S.String),
+    Country: S.optional(S.String),
+    Latitude: S.optional(S.Number),
+    Longitude: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      City: "city",
+      Country: "country",
+      Latitude: "lat",
+      Longitude: "lon",
+    }),
+  ),
 ).annotate({
   identifier: "NetworkGeoLocation",
 }) as any as S.Schema<NetworkGeoLocation>;
@@ -4786,10 +5150,9 @@ export interface AutonomousSystem {
   Number?: number;
 }
 export const AutonomousSystem = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Number: S.optional(S.Number).pipe(T.JsonName("number")),
-  }),
+  S.Struct({ Name: S.optional(S.String), Number: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Name: "name", Number: "number" }),
+  ),
 ).annotate({
   identifier: "AutonomousSystem",
 }) as any as S.Schema<AutonomousSystem>;
@@ -4799,9 +5162,9 @@ export interface NetworkConnection {
   Direction?: NetworkDirection;
 }
 export const NetworkConnection = S.suspend(() =>
-  S.Struct({
-    Direction: S.optional(NetworkDirection).pipe(T.JsonName("direction")),
-  }),
+  S.Struct({ Direction: S.optional(NetworkDirection) }).pipe(
+    S.encodeKeys({ Direction: "direction" }),
+  ),
 ).annotate({
   identifier: "NetworkConnection",
 }) as any as S.Schema<NetworkConnection>;
@@ -4816,20 +5179,24 @@ export interface NetworkEndpoint {
 }
 export const NetworkEndpoint = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Ip: S.optional(S.String).pipe(T.JsonName("ip")),
-    Domain: S.optional(S.String).pipe(T.JsonName("domain")),
-    Port: S.optional(S.Number).pipe(T.JsonName("port")),
-    Location: S.optional(NetworkGeoLocation)
-      .pipe(T.JsonName("location"))
-      .annotate({ identifier: "NetworkGeoLocation" }),
-    AutonomousSystem: S.optional(AutonomousSystem)
-      .pipe(T.JsonName("autonomousSystem"))
-      .annotate({ identifier: "AutonomousSystem" }),
-    Connection: S.optional(NetworkConnection)
-      .pipe(T.JsonName("connection"))
-      .annotate({ identifier: "NetworkConnection" }),
-  }),
+    Id: S.optional(S.String),
+    Ip: S.optional(S.String),
+    Domain: S.optional(S.String),
+    Port: S.optional(S.Number),
+    Location: S.optional(NetworkGeoLocation),
+    AutonomousSystem: S.optional(AutonomousSystem),
+    Connection: S.optional(NetworkConnection),
+  }).pipe(
+    S.encodeKeys({
+      Id: "id",
+      Ip: "ip",
+      Domain: "domain",
+      Port: "port",
+      Location: "location",
+      AutonomousSystem: "autonomousSystem",
+      Connection: "connection",
+    }),
+  ),
 ).annotate({
   identifier: "NetworkEndpoint",
 }) as any as S.Schema<NetworkEndpoint>;
@@ -4879,10 +5246,10 @@ export interface Indicator {
 }
 export const Indicator = S.suspend(() =>
   S.Struct({
-    Key: S.optional(IndicatorType).pipe(T.JsonName("key")),
-    Values: S.optional(IndicatorValues).pipe(T.JsonName("values")),
-    Title: S.optional(S.String).pipe(T.JsonName("title")),
-  }),
+    Key: S.optional(IndicatorType),
+    Values: S.optional(IndicatorValues),
+    Title: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Key: "key", Values: "values", Title: "title" })),
 ).annotate({ identifier: "Indicator" }) as any as S.Schema<Indicator>;
 export type Indicators = Indicator[];
 export const Indicators = S.Array(Indicator);
@@ -4904,31 +5271,38 @@ export interface Signal {
 }
 export const Signal = S.suspend(() =>
   S.Struct({
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Type: S.optional(SignalType).pipe(T.JsonName("type")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    FirstSeenAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("firstSeenAt")),
-    LastSeenAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastSeenAt")),
-    Severity: S.optional(S.Number).pipe(T.JsonName("severity")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    ResourceUids: S.optional(ResourceUids).pipe(T.JsonName("resourceUids")),
-    ActorIds: S.optional(ActorIds).pipe(T.JsonName("actorIds")),
-    EndpointIds: S.optional(EndpointIds).pipe(T.JsonName("endpointIds")),
-    SignalIndicators: S.optional(Indicators).pipe(
-      T.JsonName("signalIndicators"),
-    ),
-  }),
+    Uid: S.optional(S.String),
+    Type: S.optional(SignalType),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FirstSeenAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastSeenAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Severity: S.optional(S.Number),
+    Count: S.optional(S.Number),
+    ResourceUids: S.optional(ResourceUids),
+    ActorIds: S.optional(ActorIds),
+    EndpointIds: S.optional(EndpointIds),
+    SignalIndicators: S.optional(Indicators),
+  }).pipe(
+    S.encodeKeys({
+      Uid: "uid",
+      Type: "type",
+      Description: "description",
+      Name: "name",
+      CreatedAt: "createdAt",
+      UpdatedAt: "updatedAt",
+      FirstSeenAt: "firstSeenAt",
+      LastSeenAt: "lastSeenAt",
+      Severity: "severity",
+      Count: "count",
+      ResourceUids: "resourceUids",
+      ActorIds: "actorIds",
+      EndpointIds: "endpointIds",
+      SignalIndicators: "signalIndicators",
+    }),
+  ),
 ).annotate({ identifier: "Signal" }) as any as S.Schema<Signal>;
 export type Signals = Signal[];
 export const Signals = S.Array(Signal);
@@ -4946,19 +5320,26 @@ export interface Sequence {
 }
 export const Sequence = S.suspend(() =>
   S.Struct({
-    Uid: S.optional(S.String).pipe(T.JsonName("uid")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Actors: S.optional(Actors).pipe(T.JsonName("actors")),
-    Resources: S.optional(Resources).pipe(T.JsonName("resources")),
-    Endpoints: S.optional(NetworkEndpoints).pipe(T.JsonName("endpoints")),
-    Signals: S.optional(Signals).pipe(T.JsonName("signals")),
-    SequenceIndicators: S.optional(Indicators).pipe(
-      T.JsonName("sequenceIndicators"),
-    ),
-    AdditionalSequenceTypes: S.optional(AdditionalSequenceTypes).pipe(
-      T.JsonName("additionalSequenceTypes"),
-    ),
-  }),
+    Uid: S.optional(S.String),
+    Description: S.optional(S.String),
+    Actors: S.optional(Actors),
+    Resources: S.optional(Resources),
+    Endpoints: S.optional(NetworkEndpoints),
+    Signals: S.optional(Signals),
+    SequenceIndicators: S.optional(Indicators),
+    AdditionalSequenceTypes: S.optional(AdditionalSequenceTypes),
+  }).pipe(
+    S.encodeKeys({
+      Uid: "uid",
+      Description: "description",
+      Actors: "actors",
+      Resources: "resources",
+      Endpoints: "endpoints",
+      Signals: "signals",
+      SequenceIndicators: "sequenceIndicators",
+      AdditionalSequenceTypes: "additionalSequenceTypes",
+    }),
+  ),
 ).annotate({ identifier: "Sequence" }) as any as S.Schema<Sequence>;
 export interface Detection {
   Anomaly?: Anomaly;
@@ -4966,13 +5347,9 @@ export interface Detection {
 }
 export const Detection = S.suspend(() =>
   S.Struct({
-    Anomaly: S.optional(Anomaly)
-      .pipe(T.JsonName("anomaly"))
-      .annotate({ identifier: "Anomaly" }),
-    Sequence: S.optional(Sequence)
-      .pipe(T.JsonName("sequence"))
-      .annotate({ identifier: "Sequence" }),
-  }),
+    Anomaly: S.optional(Anomaly),
+    Sequence: S.optional(Sequence),
+  }).pipe(S.encodeKeys({ Anomaly: "anomaly", Sequence: "sequence" })),
 ).annotate({ identifier: "Detection" }) as any as S.Schema<Detection>;
 export interface ItemPath {
   NestedItemPath?: string;
@@ -4980,9 +5357,9 @@ export interface ItemPath {
 }
 export const ItemPath = S.suspend(() =>
   S.Struct({
-    NestedItemPath: S.optional(S.String).pipe(T.JsonName("nestedItemPath")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-  }),
+    NestedItemPath: S.optional(S.String),
+    Hash: S.optional(S.String),
+  }).pipe(S.encodeKeys({ NestedItemPath: "nestedItemPath", Hash: "hash" })),
 ).annotate({ identifier: "ItemPath" }) as any as S.Schema<ItemPath>;
 export type ItemPaths = ItemPath[];
 export const ItemPaths = S.Array(ItemPath);
@@ -4992,9 +5369,9 @@ export interface AdditionalInfo {
 }
 export const AdditionalInfo = S.suspend(() =>
   S.Struct({
-    VersionId: S.optional(S.String).pipe(T.JsonName("versionId")),
-    DeviceName: S.optional(S.String).pipe(T.JsonName("deviceName")),
-  }),
+    VersionId: S.optional(S.String),
+    DeviceName: S.optional(S.String),
+  }).pipe(S.encodeKeys({ VersionId: "versionId", DeviceName: "deviceName" })),
 ).annotate({ identifier: "AdditionalInfo" }) as any as S.Schema<AdditionalInfo>;
 export interface ItemDetails {
   ResourceArn?: string;
@@ -5004,13 +5381,18 @@ export interface ItemDetails {
 }
 export const ItemDetails = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-    ItemPath: S.optional(S.String).pipe(T.JsonName("itemPath")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-    AdditionalInfo: S.optional(AdditionalInfo)
-      .pipe(T.JsonName("additionalInfo"))
-      .annotate({ identifier: "AdditionalInfo" }),
-  }),
+    ResourceArn: S.optional(S.String),
+    ItemPath: S.optional(S.String),
+    Hash: S.optional(S.String),
+    AdditionalInfo: S.optional(AdditionalInfo),
+  }).pipe(
+    S.encodeKeys({
+      ResourceArn: "resourceArn",
+      ItemPath: "itemPath",
+      Hash: "hash",
+      AdditionalInfo: "additionalInfo",
+    }),
+  ),
 ).annotate({ identifier: "ItemDetails" }) as any as S.Schema<ItemDetails>;
 export type ItemDetailsList = ItemDetails[];
 export const ItemDetailsList = S.Array(ItemDetails);
@@ -5024,13 +5406,22 @@ export interface Threat {
 }
 export const Threat = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Source: S.optional(S.String).pipe(T.JsonName("source")),
-    ItemPaths: S.optional(ItemPaths).pipe(T.JsonName("itemPaths")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-    ItemDetails: S.optional(ItemDetailsList).pipe(T.JsonName("itemDetails")),
-  }),
+    Name: S.optional(S.String),
+    Source: S.optional(S.String),
+    ItemPaths: S.optional(ItemPaths),
+    Count: S.optional(S.Number),
+    Hash: S.optional(S.String),
+    ItemDetails: S.optional(ItemDetailsList),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Source: "source",
+      ItemPaths: "itemPaths",
+      Count: "count",
+      Hash: "hash",
+      ItemDetails: "itemDetails",
+    }),
+  ),
 ).annotate({ identifier: "Threat" }) as any as S.Schema<Threat>;
 export type Threats = Threat[];
 export const Threats = S.Array(Threat);
@@ -5046,11 +5437,9 @@ export interface IncrementalScanDetails {
   BaselineResourceArn?: string;
 }
 export const IncrementalScanDetails = S.suspend(() =>
-  S.Struct({
-    BaselineResourceArn: S.optional(S.String).pipe(
-      T.JsonName("baselineResourceArn"),
-    ),
-  }),
+  S.Struct({ BaselineResourceArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ BaselineResourceArn: "baselineResourceArn" }),
+  ),
 ).annotate({
   identifier: "IncrementalScanDetails",
 }) as any as S.Schema<IncrementalScanDetails>;
@@ -5060,11 +5449,14 @@ export interface MalwareProtectionFindingsScanConfiguration {
 }
 export const MalwareProtectionFindingsScanConfiguration = S.suspend(() =>
   S.Struct({
-    TriggerType: S.optional(TriggerType).pipe(T.JsonName("triggerType")),
-    IncrementalScanDetails: S.optional(IncrementalScanDetails)
-      .pipe(T.JsonName("incrementalScanDetails"))
-      .annotate({ identifier: "IncrementalScanDetails" }),
-  }),
+    TriggerType: S.optional(TriggerType),
+    IncrementalScanDetails: S.optional(IncrementalScanDetails),
+  }).pipe(
+    S.encodeKeys({
+      TriggerType: "triggerType",
+      IncrementalScanDetails: "incrementalScanDetails",
+    }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionFindingsScanConfiguration",
 }) as any as S.Schema<MalwareProtectionFindingsScanConfiguration>;
@@ -5078,19 +5470,22 @@ export interface MalwareScanDetails {
 }
 export const MalwareScanDetails = S.suspend(() =>
   S.Struct({
-    Threats: S.optional(Threats).pipe(T.JsonName("threats")),
-    ScanId: S.optional(S.String).pipe(T.JsonName("scanId")),
-    ScanType: S.optional(MalwareProtectionScanType).pipe(
-      T.JsonName("scanType"),
-    ),
-    ScanCategory: S.optional(ScanCategory).pipe(T.JsonName("scanCategory")),
-    ScanConfiguration: S.optional(MalwareProtectionFindingsScanConfiguration)
-      .pipe(T.JsonName("scanConfiguration"))
-      .annotate({ identifier: "MalwareProtectionFindingsScanConfiguration" }),
-    UniqueThreatCount: S.optional(S.Number).pipe(
-      T.JsonName("uniqueThreatCount"),
-    ),
-  }),
+    Threats: S.optional(Threats),
+    ScanId: S.optional(S.String),
+    ScanType: S.optional(MalwareProtectionScanType),
+    ScanCategory: S.optional(ScanCategory),
+    ScanConfiguration: S.optional(MalwareProtectionFindingsScanConfiguration),
+    UniqueThreatCount: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Threats: "threats",
+      ScanId: "scanId",
+      ScanType: "scanType",
+      ScanCategory: "scanCategory",
+      ScanConfiguration: "scanConfiguration",
+      UniqueThreatCount: "uniqueThreatCount",
+    }),
+  ),
 ).annotate({
   identifier: "MalwareScanDetails",
 }) as any as S.Schema<MalwareScanDetails>;
@@ -5114,37 +5509,42 @@ export interface Service {
 }
 export const Service = S.suspend(() =>
   S.Struct({
-    Action: S.optional(Action)
-      .pipe(T.JsonName("action"))
-      .annotate({ identifier: "Action" }),
-    Evidence: S.optional(Evidence)
-      .pipe(T.JsonName("evidence"))
-      .annotate({ identifier: "Evidence" }),
-    Archived: S.optional(S.Boolean).pipe(T.JsonName("archived")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    EventFirstSeen: S.optional(S.String).pipe(T.JsonName("eventFirstSeen")),
-    EventLastSeen: S.optional(S.String).pipe(T.JsonName("eventLastSeen")),
-    ResourceRole: S.optional(S.String).pipe(T.JsonName("resourceRole")),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-    UserFeedback: S.optional(S.String).pipe(T.JsonName("userFeedback")),
-    AdditionalInfo: S.optional(ServiceAdditionalInfo)
-      .pipe(T.JsonName("additionalInfo"))
-      .annotate({ identifier: "ServiceAdditionalInfo" }),
-    FeatureName: S.optional(S.String).pipe(T.JsonName("featureName")),
-    EbsVolumeScanDetails: S.optional(EbsVolumeScanDetails)
-      .pipe(T.JsonName("ebsVolumeScanDetails"))
-      .annotate({ identifier: "EbsVolumeScanDetails" }),
-    RuntimeDetails: S.optional(RuntimeDetails)
-      .pipe(T.JsonName("runtimeDetails"))
-      .annotate({ identifier: "RuntimeDetails" }),
-    Detection: S.optional(Detection)
-      .pipe(T.JsonName("detection"))
-      .annotate({ identifier: "Detection" }),
-    MalwareScanDetails: S.optional(MalwareScanDetails)
-      .pipe(T.JsonName("malwareScanDetails"))
-      .annotate({ identifier: "MalwareScanDetails" }),
-  }),
+    Action: S.optional(Action),
+    Evidence: S.optional(Evidence),
+    Archived: S.optional(S.Boolean),
+    Count: S.optional(S.Number),
+    DetectorId: S.optional(S.String),
+    EventFirstSeen: S.optional(S.String),
+    EventLastSeen: S.optional(S.String),
+    ResourceRole: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    UserFeedback: S.optional(S.String),
+    AdditionalInfo: S.optional(ServiceAdditionalInfo),
+    FeatureName: S.optional(S.String),
+    EbsVolumeScanDetails: S.optional(EbsVolumeScanDetails),
+    RuntimeDetails: S.optional(RuntimeDetails),
+    Detection: S.optional(Detection),
+    MalwareScanDetails: S.optional(MalwareScanDetails),
+  }).pipe(
+    S.encodeKeys({
+      Action: "action",
+      Evidence: "evidence",
+      Archived: "archived",
+      Count: "count",
+      DetectorId: "detectorId",
+      EventFirstSeen: "eventFirstSeen",
+      EventLastSeen: "eventLastSeen",
+      ResourceRole: "resourceRole",
+      ServiceName: "serviceName",
+      UserFeedback: "userFeedback",
+      AdditionalInfo: "additionalInfo",
+      FeatureName: "featureName",
+      EbsVolumeScanDetails: "ebsVolumeScanDetails",
+      RuntimeDetails: "runtimeDetails",
+      Detection: "detection",
+      MalwareScanDetails: "malwareScanDetails",
+    }),
+  ),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export interface Finding {
   AccountId?: string;
@@ -5166,29 +5566,42 @@ export interface Finding {
 }
 export const Finding = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Confidence: S.optional(S.Number).pipe(T.JsonName("confidence")),
-    CreatedAt: S.optional(S.String).pipe(T.JsonName("createdAt")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Partition: S.optional(S.String).pipe(T.JsonName("partition")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    Resource: S.optional(Resource)
-      .pipe(T.JsonName("resource"))
-      .annotate({ identifier: "Resource" }),
-    SchemaVersion: S.optional(S.String).pipe(T.JsonName("schemaVersion")),
-    Service: S.optional(Service)
-      .pipe(T.JsonName("service"))
-      .annotate({ identifier: "Service" }),
-    Severity: S.optional(S.Number).pipe(T.JsonName("severity")),
-    Title: S.optional(S.String).pipe(T.JsonName("title")),
-    Type: S.optional(S.String).pipe(T.JsonName("type")),
-    UpdatedAt: S.optional(S.String).pipe(T.JsonName("updatedAt")),
-    AssociatedAttackSequenceArn: S.optional(S.String).pipe(
-      T.JsonName("associatedAttackSequenceArn"),
-    ),
-  }),
+    AccountId: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Confidence: S.optional(S.Number),
+    CreatedAt: S.optional(S.String),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    Partition: S.optional(S.String),
+    Region: S.optional(S.String),
+    Resource: S.optional(Resource),
+    SchemaVersion: S.optional(S.String),
+    Service: S.optional(Service),
+    Severity: S.optional(S.Number),
+    Title: S.optional(S.String),
+    Type: S.optional(S.String),
+    UpdatedAt: S.optional(S.String),
+    AssociatedAttackSequenceArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      Arn: "arn",
+      Confidence: "confidence",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      Partition: "partition",
+      Region: "region",
+      Resource: "resource",
+      SchemaVersion: "schemaVersion",
+      Service: "service",
+      Severity: "severity",
+      Title: "title",
+      Type: "type",
+      UpdatedAt: "updatedAt",
+      AssociatedAttackSequenceArn: "associatedAttackSequenceArn",
+    }),
+  ),
 ).annotate({ identifier: "Finding" }) as any as S.Schema<Finding>;
 export type Findings = Finding[];
 export const Findings = S.Array(Finding);
@@ -5265,7 +5678,9 @@ export interface GetFindingsResponse {
   })[];
 }
 export const GetFindingsResponse = S.suspend(() =>
-  S.Struct({ Findings: S.optional(Findings).pipe(T.JsonName("findings")) }),
+  S.Struct({ Findings: S.optional(Findings) }).pipe(
+    S.encodeKeys({ Findings: "findings" }),
+  ),
 ).annotate({
   identifier: "GetFindingsResponse",
 }) as any as S.Schema<GetFindingsResponse>;
@@ -5291,32 +5706,36 @@ export interface GetFindingsStatisticsRequest {
 }
 export const GetFindingsStatisticsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    FindingStatisticTypes: S.optional(FindingStatisticTypes).pipe(
-      T.JsonName("findingStatisticTypes"),
-    ),
-    FindingCriteria: S.optional(FindingCriteria)
-      .pipe(T.JsonName("findingCriteria"))
-      .annotate({ identifier: "FindingCriteria" }),
-    GroupBy: S.optional(GroupByType).pipe(T.JsonName("groupBy")),
-    OrderBy: S.optional(OrderBy).pipe(T.JsonName("orderBy")),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/findings/statistics",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingStatisticTypes: S.optional(FindingStatisticTypes),
+    FindingCriteria: S.optional(FindingCriteria),
+    GroupBy: S.optional(GroupByType),
+    OrderBy: S.optional(OrderBy),
+    MaxResults: S.optional(S.Number),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FindingStatisticTypes: "findingStatisticTypes",
+        FindingCriteria: "findingCriteria",
+        GroupBy: "groupBy",
+        OrderBy: "orderBy",
+        MaxResults: "maxResults",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/findings/statistics",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetFindingsStatisticsRequest",
 }) as any as S.Schema<GetFindingsStatisticsRequest>;
@@ -5329,12 +5748,18 @@ export interface AccountStatistics {
 }
 export const AccountStatistics = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
+    AccountId: S.optional(S.String),
     LastGeneratedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastGeneratedAt")),
-    TotalFindings: S.optional(S.Number).pipe(T.JsonName("totalFindings")),
-  }),
+    ),
+    TotalFindings: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      LastGeneratedAt: "lastGeneratedAt",
+      TotalFindings: "totalFindings",
+    }),
+  ),
 ).annotate({
   identifier: "AccountStatistics",
 }) as any as S.Schema<AccountStatistics>;
@@ -5348,15 +5773,20 @@ export interface DateStatistics {
 }
 export const DateStatistics = S.suspend(() =>
   S.Struct({
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("date"),
-    ),
+    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastGeneratedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastGeneratedAt")),
-    Severity: S.optional(S.Number).pipe(T.JsonName("severity")),
-    TotalFindings: S.optional(S.Number).pipe(T.JsonName("totalFindings")),
-  }),
+    ),
+    Severity: S.optional(S.Number),
+    TotalFindings: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Date: "date",
+      LastGeneratedAt: "lastGeneratedAt",
+      Severity: "severity",
+      TotalFindings: "totalFindings",
+    }),
+  ),
 ).annotate({ identifier: "DateStatistics" }) as any as S.Schema<DateStatistics>;
 export type GroupedByDate = DateStatistics[];
 export const GroupedByDate = S.Array(DateStatistics);
@@ -5367,12 +5797,18 @@ export interface FindingTypeStatistics {
 }
 export const FindingTypeStatistics = S.suspend(() =>
   S.Struct({
-    FindingType: S.optional(S.String).pipe(T.JsonName("findingType")),
+    FindingType: S.optional(S.String),
     LastGeneratedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastGeneratedAt")),
-    TotalFindings: S.optional(S.Number).pipe(T.JsonName("totalFindings")),
-  }),
+    ),
+    TotalFindings: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FindingType: "findingType",
+      LastGeneratedAt: "lastGeneratedAt",
+      TotalFindings: "totalFindings",
+    }),
+  ),
 ).annotate({
   identifier: "FindingTypeStatistics",
 }) as any as S.Schema<FindingTypeStatistics>;
@@ -5387,14 +5823,22 @@ export interface ResourceStatistics {
 }
 export const ResourceStatistics = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
+    AccountId: S.optional(S.String),
     LastGeneratedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastGeneratedAt")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
-    TotalFindings: S.optional(S.Number).pipe(T.JsonName("totalFindings")),
-  }),
+    ),
+    ResourceId: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    TotalFindings: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      LastGeneratedAt: "lastGeneratedAt",
+      ResourceId: "resourceId",
+      ResourceType: "resourceType",
+      TotalFindings: "totalFindings",
+    }),
+  ),
 ).annotate({
   identifier: "ResourceStatistics",
 }) as any as S.Schema<ResourceStatistics>;
@@ -5409,10 +5853,16 @@ export const SeverityStatistics = S.suspend(() =>
   S.Struct({
     LastGeneratedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastGeneratedAt")),
-    Severity: S.optional(S.Number).pipe(T.JsonName("severity")),
-    TotalFindings: S.optional(S.Number).pipe(T.JsonName("totalFindings")),
-  }),
+    ),
+    Severity: S.optional(S.Number),
+    TotalFindings: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      LastGeneratedAt: "lastGeneratedAt",
+      Severity: "severity",
+      TotalFindings: "totalFindings",
+    }),
+  ),
 ).annotate({
   identifier: "SeverityStatistics",
 }) as any as S.Schema<SeverityStatistics>;
@@ -5428,23 +5878,22 @@ export interface FindingStatistics {
 }
 export const FindingStatistics = S.suspend(() =>
   S.Struct({
-    CountBySeverity: S.optional(CountBySeverity).pipe(
-      T.JsonName("countBySeverity"),
-    ),
-    GroupedByAccount: S.optional(GroupedByAccount).pipe(
-      T.JsonName("groupedByAccount"),
-    ),
-    GroupedByDate: S.optional(GroupedByDate).pipe(T.JsonName("groupedByDate")),
-    GroupedByFindingType: S.optional(GroupedByFindingType).pipe(
-      T.JsonName("groupedByFindingType"),
-    ),
-    GroupedByResource: S.optional(GroupedByResource).pipe(
-      T.JsonName("groupedByResource"),
-    ),
-    GroupedBySeverity: S.optional(GroupedBySeverity).pipe(
-      T.JsonName("groupedBySeverity"),
-    ),
-  }),
+    CountBySeverity: S.optional(CountBySeverity),
+    GroupedByAccount: S.optional(GroupedByAccount),
+    GroupedByDate: S.optional(GroupedByDate),
+    GroupedByFindingType: S.optional(GroupedByFindingType),
+    GroupedByResource: S.optional(GroupedByResource),
+    GroupedBySeverity: S.optional(GroupedBySeverity),
+  }).pipe(
+    S.encodeKeys({
+      CountBySeverity: "countBySeverity",
+      GroupedByAccount: "groupedByAccount",
+      GroupedByDate: "groupedByDate",
+      GroupedByFindingType: "groupedByFindingType",
+      GroupedByResource: "groupedByResource",
+      GroupedBySeverity: "groupedBySeverity",
+    }),
+  ),
 ).annotate({
   identifier: "FindingStatistics",
 }) as any as S.Schema<FindingStatistics>;
@@ -5454,11 +5903,14 @@ export interface GetFindingsStatisticsResponse {
 }
 export const GetFindingsStatisticsResponse = S.suspend(() =>
   S.Struct({
-    FindingStatistics: S.optional(FindingStatistics)
-      .pipe(T.JsonName("findingStatistics"))
-      .annotate({ identifier: "FindingStatistics" }),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    FindingStatistics: S.optional(FindingStatistics),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FindingStatistics: "findingStatistics",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "GetFindingsStatisticsResponse",
 }) as any as S.Schema<GetFindingsStatisticsResponse>;
@@ -5481,9 +5933,9 @@ export interface GetInvitationsCountResponse {
   InvitationsCount?: number;
 }
 export const GetInvitationsCountResponse = S.suspend(() =>
-  S.Struct({
-    InvitationsCount: S.optional(S.Number).pipe(T.JsonName("invitationsCount")),
-  }),
+  S.Struct({ InvitationsCount: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ InvitationsCount: "invitationsCount" }),
+  ),
 ).annotate({
   identifier: "GetInvitationsCountResponse",
 }) as any as S.Schema<GetInvitationsCountResponse>;
@@ -5493,21 +5945,23 @@ export interface GetIPSetRequest {
 }
 export const GetIPSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    IpSetId: S.String.pipe(T.HttpLabel("IpSetId")),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", IpSetId: "ipSetId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/ipset/{IpSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    IpSetId: S.String.pipe(T.HttpLabel("IpSetId"), T.JsonName("ipSetId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/ipset/{IpSetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetIPSetRequest",
 }) as any as S.Schema<GetIPSetRequest>;
@@ -5531,15 +5985,22 @@ export interface GetIPSetResponse {
 }
 export const GetIPSetResponse = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(IpSetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Status: S.optional(IpSetStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Format: S.optional(IpSetFormat),
+    Location: S.optional(S.String),
+    Status: S.optional(IpSetStatus),
+    Tags: S.optional(TagMap),
+    ExpectedBucketOwner: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Format: "format",
+      Location: "location",
+      Status: "status",
+      Tags: "tags",
+      ExpectedBucketOwner: "expectedBucketOwner",
+    }),
+  ),
 ).annotate({
   identifier: "GetIPSetResponse",
 }) as any as S.Schema<GetIPSetResponse>;
@@ -5550,21 +6011,22 @@ export const GetMalwareProtectionPlanRequest = S.suspend(() =>
   S.Struct({
     MalwareProtectionPlanId: S.String.pipe(
       T.HttpLabel("MalwareProtectionPlanId"),
-      T.JsonName("malwareProtectionPlanId"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ MalwareProtectionPlanId: "malwareProtectionPlanId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetMalwareProtectionPlanRequest",
 }) as any as S.Schema<GetMalwareProtectionPlanRequest>;
@@ -5579,10 +6041,9 @@ export interface MalwareProtectionPlanStatusReason {
   Message?: string;
 }
 export const MalwareProtectionPlanStatusReason = S.suspend(() =>
-  S.Struct({
-    Code: S.optional(S.String).pipe(T.JsonName("code")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  }),
+  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Code: "code", Message: "message" }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionPlanStatusReason",
 }) as any as S.Schema<MalwareProtectionPlanStatusReason>;
@@ -5603,23 +6064,26 @@ export interface GetMalwareProtectionPlanResponse {
 }
 export const GetMalwareProtectionPlanResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    ProtectedResource: S.optional(CreateProtectedResource)
-      .pipe(T.JsonName("protectedResource"))
-      .annotate({ identifier: "CreateProtectedResource" }),
-    Actions: S.optional(MalwareProtectionPlanActions)
-      .pipe(T.JsonName("actions"))
-      .annotate({ identifier: "MalwareProtectionPlanActions" }),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Status: S.optional(MalwareProtectionPlanStatus).pipe(T.JsonName("status")),
-    StatusReasons: S.optional(MalwareProtectionPlanStatusReasonsList).pipe(
-      T.JsonName("statusReasons"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    Role: S.optional(S.String),
+    ProtectedResource: S.optional(CreateProtectedResource),
+    Actions: S.optional(MalwareProtectionPlanActions),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(MalwareProtectionPlanStatus),
+    StatusReasons: S.optional(MalwareProtectionPlanStatusReasonsList),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Role: "role",
+      ProtectedResource: "protectedResource",
+      Actions: "actions",
+      CreatedAt: "createdAt",
+      Status: "status",
+      StatusReasons: "statusReasons",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetMalwareProtectionPlanResponse",
 }) as any as S.Schema<GetMalwareProtectionPlanResponse>;
@@ -5627,18 +6091,18 @@ export interface GetMalwareScanRequest {
   ScanId: string;
 }
 export const GetMalwareScanRequest = S.suspend(() =>
-  S.Struct({
-    ScanId: S.String.pipe(T.HttpLabel("ScanId"), T.JsonName("scanId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/malware-scan/{ScanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ ScanId: S.String.pipe(T.HttpLabel("ScanId")) })
+    .pipe(S.encodeKeys({ ScanId: "scanId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/malware-scan/{ScanId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetMalwareScanRequest",
 }) as any as S.Schema<GetMalwareScanRequest>;
@@ -5684,7 +6148,9 @@ export interface EbsSnapshot {
   DeviceName?: string;
 }
 export const EbsSnapshot = S.suspend(() =>
-  S.Struct({ DeviceName: S.optional(S.String).pipe(T.JsonName("deviceName")) }),
+  S.Struct({ DeviceName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ DeviceName: "deviceName" }),
+  ),
 ).annotate({ identifier: "EbsSnapshot" }) as any as S.Schema<EbsSnapshot>;
 export interface ScannedResourceDetails {
   EbsVolume?: VolumeDetail;
@@ -5692,13 +6158,9 @@ export interface ScannedResourceDetails {
 }
 export const ScannedResourceDetails = S.suspend(() =>
   S.Struct({
-    EbsVolume: S.optional(VolumeDetail)
-      .pipe(T.JsonName("ebsVolume"))
-      .annotate({ identifier: "VolumeDetail" }),
-    EbsSnapshot: S.optional(EbsSnapshot)
-      .pipe(T.JsonName("ebsSnapshot"))
-      .annotate({ identifier: "EbsSnapshot" }),
-  }),
+    EbsVolume: S.optional(VolumeDetail),
+    EbsSnapshot: S.optional(EbsSnapshot),
+  }).pipe(S.encodeKeys({ EbsVolume: "ebsVolume", EbsSnapshot: "ebsSnapshot" })),
 ).annotate({
   identifier: "ScannedResourceDetails",
 }) as any as S.Schema<ScannedResourceDetails>;
@@ -5711,22 +6173,20 @@ export interface ScannedResource {
 }
 export const ScannedResource = S.suspend(() =>
   S.Struct({
-    ScannedResourceArn: S.optional(S.String).pipe(
-      T.JsonName("scannedResourceArn"),
-    ),
-    ScannedResourceType: S.optional(MalwareProtectionResourceType).pipe(
-      T.JsonName("scannedResourceType"),
-    ),
-    ScannedResourceStatus: S.optional(MalwareProtectionScanStatus).pipe(
-      T.JsonName("scannedResourceStatus"),
-    ),
-    ScanStatusReason: S.optional(ScanStatusReason).pipe(
-      T.JsonName("scanStatusReason"),
-    ),
-    ResourceDetails: S.optional(ScannedResourceDetails)
-      .pipe(T.JsonName("resourceDetails"))
-      .annotate({ identifier: "ScannedResourceDetails" }),
-  }),
+    ScannedResourceArn: S.optional(S.String),
+    ScannedResourceType: S.optional(MalwareProtectionResourceType),
+    ScannedResourceStatus: S.optional(MalwareProtectionScanStatus),
+    ScanStatusReason: S.optional(ScanStatusReason),
+    ResourceDetails: S.optional(ScannedResourceDetails),
+  }).pipe(
+    S.encodeKeys({
+      ScannedResourceArn: "scannedResourceArn",
+      ScannedResourceType: "scannedResourceType",
+      ScannedResourceStatus: "scannedResourceStatus",
+      ScanStatusReason: "scanStatusReason",
+      ResourceDetails: "resourceDetails",
+    }),
+  ),
 ).annotate({
   identifier: "ScannedResource",
 }) as any as S.Schema<ScannedResource>;
@@ -5736,9 +6196,9 @@ export interface ScanConfigurationRecoveryPoint {
   BackupVaultName?: string;
 }
 export const ScanConfigurationRecoveryPoint = S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String).pipe(T.JsonName("backupVaultName")),
-  }),
+  S.Struct({ BackupVaultName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ BackupVaultName: "backupVaultName" }),
+  ),
 ).annotate({
   identifier: "ScanConfigurationRecoveryPoint",
 }) as any as S.Schema<ScanConfigurationRecoveryPoint>;
@@ -5750,17 +6210,18 @@ export interface ScanConfiguration {
 }
 export const ScanConfiguration = S.suspend(() =>
   S.Struct({
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    TriggerDetails: S.optional(TriggerDetails)
-      .pipe(T.JsonName("triggerDetails"))
-      .annotate({ identifier: "TriggerDetails" }),
-    IncrementalScanDetails: S.optional(IncrementalScanDetails)
-      .pipe(T.JsonName("incrementalScanDetails"))
-      .annotate({ identifier: "IncrementalScanDetails" }),
-    RecoveryPoint: S.optional(ScanConfigurationRecoveryPoint)
-      .pipe(T.JsonName("recoveryPoint"))
-      .annotate({ identifier: "ScanConfigurationRecoveryPoint" }),
-  }),
+    Role: S.optional(S.String),
+    TriggerDetails: S.optional(TriggerDetails),
+    IncrementalScanDetails: S.optional(IncrementalScanDetails),
+    RecoveryPoint: S.optional(ScanConfigurationRecoveryPoint),
+  }).pipe(
+    S.encodeKeys({
+      Role: "role",
+      TriggerDetails: "triggerDetails",
+      IncrementalScanDetails: "incrementalScanDetails",
+      RecoveryPoint: "recoveryPoint",
+    }),
+  ),
 ).annotate({
   identifier: "ScanConfiguration",
 }) as any as S.Schema<ScanConfiguration>;
@@ -5780,12 +6241,20 @@ export interface ScanResultThreat {
 }
 export const ScanResultThreat = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Source: S.optional(DetectionSource).pipe(T.JsonName("source")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    Hash: S.optional(S.String).pipe(T.JsonName("hash")),
-    ItemDetails: S.optional(ItemDetailsList).pipe(T.JsonName("itemDetails")),
-  }),
+    Name: S.optional(S.String),
+    Source: S.optional(DetectionSource),
+    Count: S.optional(S.Number),
+    Hash: S.optional(S.String),
+    ItemDetails: S.optional(ItemDetailsList),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Source: "source",
+      Count: "count",
+      Hash: "hash",
+      ItemDetails: "itemDetails",
+    }),
+  ),
 ).annotate({
   identifier: "ScanResultThreat",
 }) as any as S.Schema<ScanResultThreat>;
@@ -5803,21 +6272,26 @@ export interface GetMalwareScanResultDetails {
 }
 export const GetMalwareScanResultDetails = S.suspend(() =>
   S.Struct({
-    ScanResultStatus: S.optional(ScanResultStatus).pipe(
-      T.JsonName("scanResultStatus"),
-    ),
-    SkippedFileCount: S.optional(S.Number).pipe(T.JsonName("skippedFileCount")),
-    FailedFileCount: S.optional(S.Number).pipe(T.JsonName("failedFileCount")),
-    ThreatFoundFileCount: S.optional(S.Number).pipe(
-      T.JsonName("threatFoundFileCount"),
-    ),
-    TotalFileCount: S.optional(S.Number).pipe(T.JsonName("totalFileCount")),
-    TotalBytes: S.optional(S.Number).pipe(T.JsonName("totalBytes")),
-    UniqueThreatCount: S.optional(S.Number).pipe(
-      T.JsonName("uniqueThreatCount"),
-    ),
-    Threats: S.optional(ScanResultThreats).pipe(T.JsonName("threats")),
-  }),
+    ScanResultStatus: S.optional(ScanResultStatus),
+    SkippedFileCount: S.optional(S.Number),
+    FailedFileCount: S.optional(S.Number),
+    ThreatFoundFileCount: S.optional(S.Number),
+    TotalFileCount: S.optional(S.Number),
+    TotalBytes: S.optional(S.Number),
+    UniqueThreatCount: S.optional(S.Number),
+    Threats: S.optional(ScanResultThreats),
+  }).pipe(
+    S.encodeKeys({
+      ScanResultStatus: "scanResultStatus",
+      SkippedFileCount: "skippedFileCount",
+      FailedFileCount: "failedFileCount",
+      ThreatFoundFileCount: "threatFoundFileCount",
+      TotalFileCount: "totalFileCount",
+      TotalBytes: "totalBytes",
+      UniqueThreatCount: "uniqueThreatCount",
+      Threats: "threats",
+    }),
+  ),
 ).annotate({
   identifier: "GetMalwareScanResultDetails",
 }) as any as S.Schema<GetMalwareScanResultDetails>;
@@ -5846,48 +6320,46 @@ export interface GetMalwareScanResponse {
 }
 export const GetMalwareScanResponse = S.suspend(() =>
   S.Struct({
-    ScanId: S.optional(S.String).pipe(T.JsonName("scanId")),
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    AdminDetectorId: S.optional(S.String).pipe(T.JsonName("adminDetectorId")),
-    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-    ResourceType: S.optional(MalwareProtectionResourceType).pipe(
-      T.JsonName("resourceType"),
-    ),
-    ScannedResourcesCount: S.optional(S.Number).pipe(
-      T.JsonName("scannedResourcesCount"),
-    ),
-    SkippedResourcesCount: S.optional(S.Number).pipe(
-      T.JsonName("skippedResourcesCount"),
-    ),
-    FailedResourcesCount: S.optional(S.Number).pipe(
-      T.JsonName("failedResourcesCount"),
-    ),
-    ScannedResources: S.optional(ScannedResources).pipe(
-      T.JsonName("scannedResources"),
-    ),
-    ScanConfiguration: S.optional(ScanConfiguration)
-      .pipe(T.JsonName("scanConfiguration"))
-      .annotate({ identifier: "ScanConfiguration" }),
-    ScanCategory: S.optional(ScanCategory).pipe(T.JsonName("scanCategory")),
-    ScanStatus: S.optional(MalwareProtectionScanStatus).pipe(
-      T.JsonName("scanStatus"),
-    ),
-    ScanStatusReason: S.optional(ScanStatusReason).pipe(
-      T.JsonName("scanStatusReason"),
-    ),
-    ScanType: S.optional(MalwareProtectionScanType).pipe(
-      T.JsonName("scanType"),
-    ),
-    ScanStartedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanStartedAt")),
+    ScanId: S.optional(S.String),
+    DetectorId: S.optional(S.String),
+    AdminDetectorId: S.optional(S.String),
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(MalwareProtectionResourceType),
+    ScannedResourcesCount: S.optional(S.Number),
+    SkippedResourcesCount: S.optional(S.Number),
+    FailedResourcesCount: S.optional(S.Number),
+    ScannedResources: S.optional(ScannedResources),
+    ScanConfiguration: S.optional(ScanConfiguration),
+    ScanCategory: S.optional(ScanCategory),
+    ScanStatus: S.optional(MalwareProtectionScanStatus),
+    ScanStatusReason: S.optional(ScanStatusReason),
+    ScanType: S.optional(MalwareProtectionScanType),
+    ScanStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScanCompletedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanCompletedAt")),
-    ScanResultDetails: S.optional(GetMalwareScanResultDetails)
-      .pipe(T.JsonName("scanResultDetails"))
-      .annotate({ identifier: "GetMalwareScanResultDetails" }),
-  }),
+    ),
+    ScanResultDetails: S.optional(GetMalwareScanResultDetails),
+  }).pipe(
+    S.encodeKeys({
+      ScanId: "scanId",
+      DetectorId: "detectorId",
+      AdminDetectorId: "adminDetectorId",
+      ResourceArn: "resourceArn",
+      ResourceType: "resourceType",
+      ScannedResourcesCount: "scannedResourcesCount",
+      SkippedResourcesCount: "skippedResourcesCount",
+      FailedResourcesCount: "failedResourcesCount",
+      ScannedResources: "scannedResources",
+      ScanConfiguration: "scanConfiguration",
+      ScanCategory: "scanCategory",
+      ScanStatus: "scanStatus",
+      ScanStatusReason: "scanStatusReason",
+      ScanType: "scanType",
+      ScanStartedAt: "scanStartedAt",
+      ScanCompletedAt: "scanCompletedAt",
+      ScanResultDetails: "scanResultDetails",
+    }),
+  ),
 ).annotate({
   identifier: "GetMalwareScanResponse",
 }) as any as S.Schema<GetMalwareScanResponse>;
@@ -5895,24 +6367,21 @@ export interface GetMalwareScanSettingsRequest {
   DetectorId: string;
 }
 export const GetMalwareScanSettingsRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/malware-scan-settings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/malware-scan-settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetMalwareScanSettingsRequest",
 }) as any as S.Schema<GetMalwareScanSettingsRequest>;
@@ -5923,10 +6392,9 @@ export interface ScanConditionPair {
   Value?: string;
 }
 export const ScanConditionPair = S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String).pipe(T.JsonName("key")),
-    Value: S.optional(S.String).pipe(T.JsonName("value")),
-  }),
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Key: "key", Value: "value" }),
+  ),
 ).annotate({
   identifier: "ScanConditionPair",
 }) as any as S.Schema<ScanConditionPair>;
@@ -5936,7 +6404,9 @@ export interface ScanCondition {
   MapEquals?: ScanConditionPair[];
 }
 export const ScanCondition = S.suspend(() =>
-  S.Struct({ MapEquals: S.optional(MapEquals).pipe(T.JsonName("mapEquals")) }),
+  S.Struct({ MapEquals: S.optional(MapEquals) }).pipe(
+    S.encodeKeys({ MapEquals: "mapEquals" }),
+  ),
 ).annotate({ identifier: "ScanCondition" }) as any as S.Schema<ScanCondition>;
 export type ScanCriterion = { [key in ScanCriterionKey]?: ScanCondition };
 export const ScanCriterion = S.Record(
@@ -5949,9 +6419,9 @@ export interface ScanResourceCriteria {
 }
 export const ScanResourceCriteria = S.suspend(() =>
   S.Struct({
-    Include: S.optional(ScanCriterion).pipe(T.JsonName("include")),
-    Exclude: S.optional(ScanCriterion).pipe(T.JsonName("exclude")),
-  }),
+    Include: S.optional(ScanCriterion),
+    Exclude: S.optional(ScanCriterion),
+  }).pipe(S.encodeKeys({ Include: "include", Exclude: "exclude" })),
 ).annotate({
   identifier: "ScanResourceCriteria",
 }) as any as S.Schema<ScanResourceCriteria>;
@@ -5981,13 +6451,14 @@ export interface GetMalwareScanSettingsResponse {
 }
 export const GetMalwareScanSettingsResponse = S.suspend(() =>
   S.Struct({
-    ScanResourceCriteria: S.optional(ScanResourceCriteria)
-      .pipe(T.JsonName("scanResourceCriteria"))
-      .annotate({ identifier: "ScanResourceCriteria" }),
-    EbsSnapshotPreservation: S.optional(EbsSnapshotPreservation).pipe(
-      T.JsonName("ebsSnapshotPreservation"),
-    ),
-  }),
+    ScanResourceCriteria: S.optional(ScanResourceCriteria),
+    EbsSnapshotPreservation: S.optional(EbsSnapshotPreservation),
+  }).pipe(
+    S.encodeKeys({
+      ScanResourceCriteria: "scanResourceCriteria",
+      EbsSnapshotPreservation: "ebsSnapshotPreservation",
+    }),
+  ),
 ).annotate({
   identifier: "GetMalwareScanSettingsResponse",
 }) as any as S.Schema<GetMalwareScanSettingsResponse>;
@@ -5995,21 +6466,18 @@ export interface GetMasterAccountRequest {
   DetectorId: string;
 }
 export const GetMasterAccountRequest = S.suspend(() =>
-  S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+  S.Struct({ DetectorId: S.String.pipe(T.HttpLabel("DetectorId")) })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/master" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/master" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetMasterAccountRequest",
 }) as any as S.Schema<GetMasterAccountRequest>;
@@ -6021,23 +6489,26 @@ export interface Master {
 }
 export const Master = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    InvitationId: S.optional(S.String).pipe(T.JsonName("invitationId")),
-    RelationshipStatus: S.optional(S.String).pipe(
-      T.JsonName("relationshipStatus"),
-    ),
-    InvitedAt: S.optional(S.String).pipe(T.JsonName("invitedAt")),
-  }),
+    AccountId: S.optional(S.String),
+    InvitationId: S.optional(S.String),
+    RelationshipStatus: S.optional(S.String),
+    InvitedAt: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      InvitationId: "invitationId",
+      RelationshipStatus: "relationshipStatus",
+      InvitedAt: "invitedAt",
+    }),
+  ),
 ).annotate({ identifier: "Master" }) as any as S.Schema<Master>;
 export interface GetMasterAccountResponse {
   Master: Master;
 }
 export const GetMasterAccountResponse = S.suspend(() =>
-  S.Struct({
-    Master: S.optional(Master)
-      .pipe(T.JsonName("master"))
-      .annotate({ identifier: "Master" }),
-  }),
+  S.Struct({ Master: S.optional(Master) }).pipe(
+    S.encodeKeys({ Master: "master" }),
+  ),
 ).annotate({
   identifier: "GetMasterAccountResponse",
 }) as any as S.Schema<GetMasterAccountResponse>;
@@ -6047,24 +6518,23 @@ export interface GetMemberDetectorsRequest {
 }
 export const GetMemberDetectorsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/member/detector/get",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/member/detector/get",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetMemberDetectorsRequest",
 }) as any as S.Schema<GetMemberDetectorsRequest>;
@@ -6075,14 +6545,12 @@ export interface MemberAdditionalConfigurationResult {
 }
 export const MemberAdditionalConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeatureAdditionalConfiguration).pipe(
-      T.JsonName("name"),
-    ),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-  }),
+    Name: S.optional(OrgFeatureAdditionalConfiguration),
+    Status: S.optional(FeatureStatus),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({ Name: "name", Status: "status", UpdatedAt: "updatedAt" }),
+  ),
 ).annotate({
   identifier: "MemberAdditionalConfigurationResult",
 }) as any as S.Schema<MemberAdditionalConfigurationResult>;
@@ -6099,15 +6567,18 @@ export interface MemberFeaturesConfigurationResult {
 }
 export const MemberFeaturesConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeature).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    AdditionalConfiguration: S.optional(
-      MemberAdditionalConfigurationResults,
-    ).pipe(T.JsonName("additionalConfiguration")),
-  }),
+    Name: S.optional(OrgFeature),
+    Status: S.optional(FeatureStatus),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AdditionalConfiguration: S.optional(MemberAdditionalConfigurationResults),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Status: "status",
+      UpdatedAt: "updatedAt",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "MemberFeaturesConfigurationResult",
 }) as any as S.Schema<MemberFeaturesConfigurationResult>;
@@ -6123,14 +6594,16 @@ export interface MemberDataSourceConfiguration {
 }
 export const MemberDataSourceConfiguration = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    DataSources: S.optional(DataSourceConfigurationsResult)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourceConfigurationsResult" }),
-    Features: S.optional(MemberFeaturesConfigurationsResults).pipe(
-      T.JsonName("features"),
-    ),
-  }),
+    AccountId: S.optional(S.String),
+    DataSources: S.optional(DataSourceConfigurationsResult),
+    Features: S.optional(MemberFeaturesConfigurationsResults),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      DataSources: "dataSources",
+      Features: "features",
+    }),
+  ),
 ).annotate({
   identifier: "MemberDataSourceConfiguration",
 }) as any as S.Schema<MemberDataSourceConfiguration>;
@@ -6160,13 +6633,14 @@ export interface GetMemberDetectorsResponse {
 }
 export const GetMemberDetectorsResponse = S.suspend(() =>
   S.Struct({
-    MemberDataSourceConfigurations: S.optional(
-      MemberDataSourceConfigurations,
-    ).pipe(T.JsonName("members")),
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+    MemberDataSourceConfigurations: S.optional(MemberDataSourceConfigurations),
+    UnprocessedAccounts: S.optional(UnprocessedAccounts),
+  }).pipe(
+    S.encodeKeys({
+      MemberDataSourceConfigurations: "members",
+      UnprocessedAccounts: "unprocessedAccounts",
+    }),
+  ),
 ).annotate({
   identifier: "GetMemberDetectorsResponse",
 }) as any as S.Schema<GetMemberDetectorsResponse>;
@@ -6176,21 +6650,20 @@ export interface GetMembersRequest {
 }
 export const GetMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/get" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetMembersRequest",
 }) as any as S.Schema<GetMembersRequest>;
@@ -6206,17 +6679,26 @@ export interface Member {
 }
 export const Member = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    MasterId: S.optional(S.String).pipe(T.JsonName("masterId")),
-    Email: S.optional(SensitiveString).pipe(T.JsonName("email")),
-    RelationshipStatus: S.optional(S.String).pipe(
-      T.JsonName("relationshipStatus"),
-    ),
-    InvitedAt: S.optional(S.String).pipe(T.JsonName("invitedAt")),
-    UpdatedAt: S.optional(S.String).pipe(T.JsonName("updatedAt")),
-    AdministratorId: S.optional(S.String).pipe(T.JsonName("administratorId")),
-  }),
+    AccountId: S.optional(S.String),
+    DetectorId: S.optional(S.String),
+    MasterId: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    RelationshipStatus: S.optional(S.String),
+    InvitedAt: S.optional(S.String),
+    UpdatedAt: S.optional(S.String),
+    AdministratorId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      DetectorId: "detectorId",
+      MasterId: "masterId",
+      Email: "email",
+      RelationshipStatus: "relationshipStatus",
+      InvitedAt: "invitedAt",
+      UpdatedAt: "updatedAt",
+      AdministratorId: "administratorId",
+    }),
+  ),
 ).annotate({ identifier: "Member" }) as any as S.Schema<Member>;
 export type Members = Member[];
 export const Members = S.Array(Member);
@@ -6235,11 +6717,14 @@ export interface GetMembersResponse {
 }
 export const GetMembersResponse = S.suspend(() =>
   S.Struct({
-    Members: S.optional(Members).pipe(T.JsonName("members")),
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+    Members: S.optional(Members),
+    UnprocessedAccounts: S.optional(UnprocessedAccounts),
+  }).pipe(
+    S.encodeKeys({
+      Members: "members",
+      UnprocessedAccounts: "unprocessedAccounts",
+    }),
+  ),
 ).annotate({
   identifier: "GetMembersResponse",
 }) as any as S.Schema<GetMembersResponse>;
@@ -6258,13 +6743,14 @@ export interface OrganizationFeatureStatisticsAdditionalConfiguration {
 export const OrganizationFeatureStatisticsAdditionalConfiguration = S.suspend(
   () =>
     S.Struct({
-      Name: S.optional(OrgFeatureAdditionalConfiguration).pipe(
-        T.JsonName("name"),
-      ),
-      EnabledAccountsCount: S.optional(S.Number).pipe(
-        T.JsonName("enabledAccountsCount"),
-      ),
-    }),
+      Name: S.optional(OrgFeatureAdditionalConfiguration),
+      EnabledAccountsCount: S.optional(S.Number),
+    }).pipe(
+      S.encodeKeys({
+        Name: "name",
+        EnabledAccountsCount: "enabledAccountsCount",
+      }),
+    ),
 ).annotate({
   identifier: "OrganizationFeatureStatisticsAdditionalConfiguration",
 }) as any as S.Schema<OrganizationFeatureStatisticsAdditionalConfiguration>;
@@ -6280,14 +6766,18 @@ export interface OrganizationFeatureStatistics {
 }
 export const OrganizationFeatureStatistics = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeature).pipe(T.JsonName("name")),
-    EnabledAccountsCount: S.optional(S.Number).pipe(
-      T.JsonName("enabledAccountsCount"),
-    ),
+    Name: S.optional(OrgFeature),
+    EnabledAccountsCount: S.optional(S.Number),
     AdditionalConfiguration: S.optional(
       OrganizationFeatureStatisticsAdditionalConfigurations,
-    ).pipe(T.JsonName("additionalConfiguration")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      EnabledAccountsCount: "enabledAccountsCount",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationFeatureStatistics",
 }) as any as S.Schema<OrganizationFeatureStatistics>;
@@ -6305,22 +6795,20 @@ export interface OrganizationStatistics {
 }
 export const OrganizationStatistics = S.suspend(() =>
   S.Struct({
-    TotalAccountsCount: S.optional(S.Number).pipe(
-      T.JsonName("totalAccountsCount"),
-    ),
-    MemberAccountsCount: S.optional(S.Number).pipe(
-      T.JsonName("memberAccountsCount"),
-    ),
-    ActiveAccountsCount: S.optional(S.Number).pipe(
-      T.JsonName("activeAccountsCount"),
-    ),
-    EnabledAccountsCount: S.optional(S.Number).pipe(
-      T.JsonName("enabledAccountsCount"),
-    ),
-    CountByFeature: S.optional(OrganizationFeatureStatisticsResults).pipe(
-      T.JsonName("countByFeature"),
-    ),
-  }),
+    TotalAccountsCount: S.optional(S.Number),
+    MemberAccountsCount: S.optional(S.Number),
+    ActiveAccountsCount: S.optional(S.Number),
+    EnabledAccountsCount: S.optional(S.Number),
+    CountByFeature: S.optional(OrganizationFeatureStatisticsResults),
+  }).pipe(
+    S.encodeKeys({
+      TotalAccountsCount: "totalAccountsCount",
+      MemberAccountsCount: "memberAccountsCount",
+      ActiveAccountsCount: "activeAccountsCount",
+      EnabledAccountsCount: "enabledAccountsCount",
+      CountByFeature: "countByFeature",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationStatistics",
 }) as any as S.Schema<OrganizationStatistics>;
@@ -6330,13 +6818,14 @@ export interface OrganizationDetails {
 }
 export const OrganizationDetails = S.suspend(() =>
   S.Struct({
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    OrganizationStatistics: S.optional(OrganizationStatistics)
-      .pipe(T.JsonName("organizationStatistics"))
-      .annotate({ identifier: "OrganizationStatistics" }),
-  }),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    OrganizationStatistics: S.optional(OrganizationStatistics),
+  }).pipe(
+    S.encodeKeys({
+      UpdatedAt: "updatedAt",
+      OrganizationStatistics: "organizationStatistics",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationDetails",
 }) as any as S.Schema<OrganizationDetails>;
@@ -6344,11 +6833,9 @@ export interface GetOrganizationStatisticsResponse {
   OrganizationDetails?: OrganizationDetails;
 }
 export const GetOrganizationStatisticsResponse = S.suspend(() =>
-  S.Struct({
-    OrganizationDetails: S.optional(OrganizationDetails)
-      .pipe(T.JsonName("organizationDetails"))
-      .annotate({ identifier: "OrganizationDetails" }),
-  }),
+  S.Struct({ OrganizationDetails: S.optional(OrganizationDetails) }).pipe(
+    S.encodeKeys({ OrganizationDetails: "organizationDetails" }),
+  ),
 ).annotate({
   identifier: "GetOrganizationStatisticsResponse",
 }) as any as S.Schema<GetOrganizationStatisticsResponse>;
@@ -6358,24 +6845,23 @@ export interface GetRemainingFreeTrialDaysRequest {
 }
 export const GetRemainingFreeTrialDaysRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/freeTrial/daysRemaining",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/freeTrial/daysRemaining",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetRemainingFreeTrialDaysRequest",
 }) as any as S.Schema<GetRemainingFreeTrialDaysRequest>;
@@ -6383,11 +6869,9 @@ export interface DataSourceFreeTrial {
   FreeTrialDaysRemaining?: number;
 }
 export const DataSourceFreeTrial = S.suspend(() =>
-  S.Struct({
-    FreeTrialDaysRemaining: S.optional(S.Number).pipe(
-      T.JsonName("freeTrialDaysRemaining"),
-    ),
-  }),
+  S.Struct({ FreeTrialDaysRemaining: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ FreeTrialDaysRemaining: "freeTrialDaysRemaining" }),
+  ),
 ).annotate({
   identifier: "DataSourceFreeTrial",
 }) as any as S.Schema<DataSourceFreeTrial>;
@@ -6395,11 +6879,9 @@ export interface KubernetesDataSourceFreeTrial {
   AuditLogs?: DataSourceFreeTrial;
 }
 export const KubernetesDataSourceFreeTrial = S.suspend(() =>
-  S.Struct({
-    AuditLogs: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("auditLogs"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-  }),
+  S.Struct({ AuditLogs: S.optional(DataSourceFreeTrial) }).pipe(
+    S.encodeKeys({ AuditLogs: "auditLogs" }),
+  ),
 ).annotate({
   identifier: "KubernetesDataSourceFreeTrial",
 }) as any as S.Schema<KubernetesDataSourceFreeTrial>;
@@ -6408,10 +6890,12 @@ export interface MalwareProtectionDataSourceFreeTrial {
 }
 export const MalwareProtectionDataSourceFreeTrial = S.suspend(() =>
   S.Struct({
-    ScanEc2InstanceWithFindings: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("scanEc2InstanceWithFindings"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-  }),
+    ScanEc2InstanceWithFindings: S.optional(DataSourceFreeTrial),
+  }).pipe(
+    S.encodeKeys({
+      ScanEc2InstanceWithFindings: "scanEc2InstanceWithFindings",
+    }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionDataSourceFreeTrial",
 }) as any as S.Schema<MalwareProtectionDataSourceFreeTrial>;
@@ -6425,25 +6909,22 @@ export interface DataSourcesFreeTrial {
 }
 export const DataSourcesFreeTrial = S.suspend(() =>
   S.Struct({
-    CloudTrail: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("cloudTrail"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-    DnsLogs: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("dnsLogs"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-    FlowLogs: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("flowLogs"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-    S3Logs: S.optional(DataSourceFreeTrial)
-      .pipe(T.JsonName("s3Logs"))
-      .annotate({ identifier: "DataSourceFreeTrial" }),
-    Kubernetes: S.optional(KubernetesDataSourceFreeTrial)
-      .pipe(T.JsonName("kubernetes"))
-      .annotate({ identifier: "KubernetesDataSourceFreeTrial" }),
-    MalwareProtection: S.optional(MalwareProtectionDataSourceFreeTrial)
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({ identifier: "MalwareProtectionDataSourceFreeTrial" }),
-  }),
+    CloudTrail: S.optional(DataSourceFreeTrial),
+    DnsLogs: S.optional(DataSourceFreeTrial),
+    FlowLogs: S.optional(DataSourceFreeTrial),
+    S3Logs: S.optional(DataSourceFreeTrial),
+    Kubernetes: S.optional(KubernetesDataSourceFreeTrial),
+    MalwareProtection: S.optional(MalwareProtectionDataSourceFreeTrial),
+  }).pipe(
+    S.encodeKeys({
+      CloudTrail: "cloudTrail",
+      DnsLogs: "dnsLogs",
+      FlowLogs: "flowLogs",
+      S3Logs: "s3Logs",
+      Kubernetes: "kubernetes",
+      MalwareProtection: "malwareProtection",
+    }),
+  ),
 ).annotate({
   identifier: "DataSourcesFreeTrial",
 }) as any as S.Schema<DataSourcesFreeTrial>;
@@ -6467,11 +6948,14 @@ export interface FreeTrialFeatureConfigurationResult {
 }
 export const FreeTrialFeatureConfigurationResult = S.suspend(() =>
   S.Struct({
-    Name: S.optional(FreeTrialFeatureResult).pipe(T.JsonName("name")),
-    FreeTrialDaysRemaining: S.optional(S.Number).pipe(
-      T.JsonName("freeTrialDaysRemaining"),
-    ),
-  }),
+    Name: S.optional(FreeTrialFeatureResult),
+    FreeTrialDaysRemaining: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      FreeTrialDaysRemaining: "freeTrialDaysRemaining",
+    }),
+  ),
 ).annotate({
   identifier: "FreeTrialFeatureConfigurationResult",
 }) as any as S.Schema<FreeTrialFeatureConfigurationResult>;
@@ -6487,14 +6971,16 @@ export interface AccountFreeTrialInfo {
 }
 export const AccountFreeTrialInfo = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    DataSources: S.optional(DataSourcesFreeTrial)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourcesFreeTrial" }),
-    Features: S.optional(FreeTrialFeatureConfigurationsResults).pipe(
-      T.JsonName("features"),
-    ),
-  }),
+    AccountId: S.optional(S.String),
+    DataSources: S.optional(DataSourcesFreeTrial),
+    Features: S.optional(FreeTrialFeatureConfigurationsResults),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      DataSources: "dataSources",
+      Features: "features",
+    }),
+  ),
 ).annotate({
   identifier: "AccountFreeTrialInfo",
 }) as any as S.Schema<AccountFreeTrialInfo>;
@@ -6509,11 +6995,14 @@ export interface GetRemainingFreeTrialDaysResponse {
 }
 export const GetRemainingFreeTrialDaysResponse = S.suspend(() =>
   S.Struct({
-    Accounts: S.optional(AccountFreeTrialInfos).pipe(T.JsonName("accounts")),
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+    Accounts: S.optional(AccountFreeTrialInfos),
+    UnprocessedAccounts: S.optional(UnprocessedAccounts),
+  }).pipe(
+    S.encodeKeys({
+      Accounts: "accounts",
+      UnprocessedAccounts: "unprocessedAccounts",
+    }),
+  ),
 ).annotate({
   identifier: "GetRemainingFreeTrialDaysResponse",
 }) as any as S.Schema<GetRemainingFreeTrialDaysResponse>;
@@ -6523,27 +7012,28 @@ export interface GetThreatEntitySetRequest {
 }
 export const GetThreatEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatEntitySetId: S.String.pipe(
-      T.HttpLabel("ThreatEntitySetId"),
-      T.JsonName("threatEntitySetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatEntitySetId: S.String.pipe(T.HttpLabel("ThreatEntitySetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatEntitySetId: "threatEntitySetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetThreatEntitySetRequest",
 }) as any as S.Schema<GetThreatEntitySetRequest>;
@@ -6570,22 +7060,28 @@ export interface GetThreatEntitySetResponse {
 }
 export const GetThreatEntitySetResponse = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(ThreatEntitySetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Status: S.optional(ThreatEntitySetStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    ErrorDetails: S.optional(S.String).pipe(T.JsonName("errorDetails")),
-  }),
+    Name: S.optional(S.String),
+    Format: S.optional(ThreatEntitySetFormat),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Status: S.optional(ThreatEntitySetStatus),
+    Tags: S.optional(TagMap),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ErrorDetails: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Format: "format",
+      Location: "location",
+      ExpectedBucketOwner: "expectedBucketOwner",
+      Status: "status",
+      Tags: "tags",
+      CreatedAt: "createdAt",
+      UpdatedAt: "updatedAt",
+      ErrorDetails: "errorDetails",
+    }),
+  ),
 ).annotate({
   identifier: "GetThreatEntitySetResponse",
 }) as any as S.Schema<GetThreatEntitySetResponse>;
@@ -6595,27 +7091,28 @@ export interface GetThreatIntelSetRequest {
 }
 export const GetThreatIntelSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatIntelSetId: S.String.pipe(
-      T.HttpLabel("ThreatIntelSetId"),
-      T.JsonName("threatIntelSetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatIntelSetId: S.String.pipe(T.HttpLabel("ThreatIntelSetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatIntelSetId: "threatIntelSetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetThreatIntelSetRequest",
 }) as any as S.Schema<GetThreatIntelSetRequest>;
@@ -6639,15 +7136,22 @@ export interface GetThreatIntelSetResponse {
 }
 export const GetThreatIntelSetResponse = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(ThreatIntelSetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Status: S.optional(ThreatIntelSetStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Format: S.optional(ThreatIntelSetFormat),
+    Location: S.optional(S.String),
+    Status: S.optional(ThreatIntelSetStatus),
+    Tags: S.optional(TagMap),
+    ExpectedBucketOwner: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Format: "format",
+      Location: "location",
+      Status: "status",
+      Tags: "tags",
+      ExpectedBucketOwner: "expectedBucketOwner",
+    }),
+  ),
 ).annotate({
   identifier: "GetThreatIntelSetResponse",
 }) as any as S.Schema<GetThreatIntelSetResponse>;
@@ -6657,27 +7161,28 @@ export interface GetTrustedEntitySetRequest {
 }
 export const GetTrustedEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    TrustedEntitySetId: S.String.pipe(
-      T.HttpLabel("TrustedEntitySetId"),
-      T.JsonName("trustedEntitySetId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    TrustedEntitySetId: S.String.pipe(T.HttpLabel("TrustedEntitySetId")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        TrustedEntitySetId: "trustedEntitySetId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetTrustedEntitySetRequest",
 }) as any as S.Schema<GetTrustedEntitySetRequest>;
@@ -6704,22 +7209,28 @@ export interface GetTrustedEntitySetResponse {
 }
 export const GetTrustedEntitySetResponse = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Format: S.optional(TrustedEntitySetFormat).pipe(T.JsonName("format")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Status: S.optional(TrustedEntitySetStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-    ErrorDetails: S.optional(S.String).pipe(T.JsonName("errorDetails")),
-  }),
+    Name: S.optional(S.String),
+    Format: S.optional(TrustedEntitySetFormat),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Status: S.optional(TrustedEntitySetStatus),
+    Tags: S.optional(TagMap),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ErrorDetails: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Format: "format",
+      Location: "location",
+      ExpectedBucketOwner: "expectedBucketOwner",
+      Status: "status",
+      Tags: "tags",
+      CreatedAt: "createdAt",
+      UpdatedAt: "updatedAt",
+      ErrorDetails: "errorDetails",
+    }),
+  ),
 ).annotate({
   identifier: "GetTrustedEntitySetResponse",
 }) as any as S.Schema<GetTrustedEntitySetResponse>;
@@ -6771,11 +7282,18 @@ export interface UsageCriteria {
 }
 export const UsageCriteria = S.suspend(() =>
   S.Struct({
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-    DataSources: S.optional(DataSourceList).pipe(T.JsonName("dataSources")),
-    Resources: S.optional(ResourceList).pipe(T.JsonName("resources")),
-    Features: S.optional(UsageFeatureList).pipe(T.JsonName("features")),
-  }),
+    AccountIds: S.optional(AccountIds),
+    DataSources: S.optional(DataSourceList),
+    Resources: S.optional(ResourceList),
+    Features: S.optional(UsageFeatureList),
+  }).pipe(
+    S.encodeKeys({
+      AccountIds: "accountIds",
+      DataSources: "dataSources",
+      Resources: "resources",
+      Features: "features",
+    }),
+  ),
 ).annotate({ identifier: "UsageCriteria" }) as any as S.Schema<UsageCriteria>;
 export interface GetUsageStatisticsRequest {
   DetectorId: string;
@@ -6787,32 +7305,36 @@ export interface GetUsageStatisticsRequest {
 }
 export const GetUsageStatisticsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    UsageStatisticType: S.optional(UsageStatisticType).pipe(
-      T.JsonName("usageStatisticsType"),
-    ),
-    UsageCriteria: S.optional(UsageCriteria)
-      .pipe(T.JsonName("usageCriteria"))
-      .annotate({ identifier: "UsageCriteria" }),
-    Unit: S.optional(S.String).pipe(T.JsonName("unit")),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/usage/statistics",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    UsageStatisticType: S.optional(UsageStatisticType),
+    UsageCriteria: S.optional(UsageCriteria),
+    Unit: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        UsageStatisticType: "usageStatisticsType",
+        UsageCriteria: "usageCriteria",
+        Unit: "unit",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/usage/statistics",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetUsageStatisticsRequest",
 }) as any as S.Schema<GetUsageStatisticsRequest>;
@@ -6821,22 +7343,18 @@ export interface Total {
   Unit?: string;
 }
 export const Total = S.suspend(() =>
-  S.Struct({
-    Amount: S.optional(S.String).pipe(T.JsonName("amount")),
-    Unit: S.optional(S.String).pipe(T.JsonName("unit")),
-  }),
+  S.Struct({ Amount: S.optional(S.String), Unit: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Amount: "amount", Unit: "unit" }),
+  ),
 ).annotate({ identifier: "Total" }) as any as S.Schema<Total>;
 export interface UsageAccountResult {
   AccountId?: string;
   Total?: Total;
 }
 export const UsageAccountResult = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Total: S.optional(Total)
-      .pipe(T.JsonName("total"))
-      .annotate({ identifier: "Total" }),
-  }),
+  S.Struct({ AccountId: S.optional(S.String), Total: S.optional(Total) }).pipe(
+    S.encodeKeys({ AccountId: "accountId", Total: "total" }),
+  ),
 ).annotate({
   identifier: "UsageAccountResult",
 }) as any as S.Schema<UsageAccountResult>;
@@ -6847,12 +7365,9 @@ export interface UsageTopAccountResult {
   Total?: Total;
 }
 export const UsageTopAccountResult = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    Total: S.optional(Total)
-      .pipe(T.JsonName("total"))
-      .annotate({ identifier: "Total" }),
-  }),
+  S.Struct({ AccountId: S.optional(S.String), Total: S.optional(Total) }).pipe(
+    S.encodeKeys({ AccountId: "accountId", Total: "total" }),
+  ),
 ).annotate({
   identifier: "UsageTopAccountResult",
 }) as any as S.Schema<UsageTopAccountResult>;
@@ -6864,11 +7379,9 @@ export interface UsageTopAccountsResult {
 }
 export const UsageTopAccountsResult = S.suspend(() =>
   S.Struct({
-    Feature: S.optional(UsageFeature).pipe(T.JsonName("feature")),
-    Accounts: S.optional(UsageTopAccountsByFeatureList).pipe(
-      T.JsonName("accounts"),
-    ),
-  }),
+    Feature: S.optional(UsageFeature),
+    Accounts: S.optional(UsageTopAccountsByFeatureList),
+  }).pipe(S.encodeKeys({ Feature: "feature", Accounts: "accounts" })),
 ).annotate({
   identifier: "UsageTopAccountsResult",
 }) as any as S.Schema<UsageTopAccountsResult>;
@@ -6880,11 +7393,9 @@ export interface UsageDataSourceResult {
 }
 export const UsageDataSourceResult = S.suspend(() =>
   S.Struct({
-    DataSource: S.optional(DataSource).pipe(T.JsonName("dataSource")),
-    Total: S.optional(Total)
-      .pipe(T.JsonName("total"))
-      .annotate({ identifier: "Total" }),
-  }),
+    DataSource: S.optional(DataSource),
+    Total: S.optional(Total),
+  }).pipe(S.encodeKeys({ DataSource: "dataSource", Total: "total" })),
 ).annotate({
   identifier: "UsageDataSourceResult",
 }) as any as S.Schema<UsageDataSourceResult>;
@@ -6895,12 +7406,9 @@ export interface UsageResourceResult {
   Total?: Total;
 }
 export const UsageResourceResult = S.suspend(() =>
-  S.Struct({
-    Resource: S.optional(S.String).pipe(T.JsonName("resource")),
-    Total: S.optional(Total)
-      .pipe(T.JsonName("total"))
-      .annotate({ identifier: "Total" }),
-  }),
+  S.Struct({ Resource: S.optional(S.String), Total: S.optional(Total) }).pipe(
+    S.encodeKeys({ Resource: "resource", Total: "total" }),
+  ),
 ).annotate({
   identifier: "UsageResourceResult",
 }) as any as S.Schema<UsageResourceResult>;
@@ -6912,11 +7420,9 @@ export interface UsageFeatureResult {
 }
 export const UsageFeatureResult = S.suspend(() =>
   S.Struct({
-    Feature: S.optional(UsageFeature).pipe(T.JsonName("feature")),
-    Total: S.optional(Total)
-      .pipe(T.JsonName("total"))
-      .annotate({ identifier: "Total" }),
-  }),
+    Feature: S.optional(UsageFeature),
+    Total: S.optional(Total),
+  }).pipe(S.encodeKeys({ Feature: "feature", Total: "total" })),
 ).annotate({
   identifier: "UsageFeatureResult",
 }) as any as S.Schema<UsageFeatureResult>;
@@ -6932,25 +7438,22 @@ export interface UsageStatistics {
 }
 export const UsageStatistics = S.suspend(() =>
   S.Struct({
-    SumByAccount: S.optional(UsageAccountResultList).pipe(
-      T.JsonName("sumByAccount"),
-    ),
-    TopAccountsByFeature: S.optional(UsageTopAccountsResultList).pipe(
-      T.JsonName("topAccountsByFeature"),
-    ),
-    SumByDataSource: S.optional(UsageDataSourceResultList).pipe(
-      T.JsonName("sumByDataSource"),
-    ),
-    SumByResource: S.optional(UsageResourceResultList).pipe(
-      T.JsonName("sumByResource"),
-    ),
-    TopResources: S.optional(UsageResourceResultList).pipe(
-      T.JsonName("topResources"),
-    ),
-    SumByFeature: S.optional(UsageFeatureResultList).pipe(
-      T.JsonName("sumByFeature"),
-    ),
-  }),
+    SumByAccount: S.optional(UsageAccountResultList),
+    TopAccountsByFeature: S.optional(UsageTopAccountsResultList),
+    SumByDataSource: S.optional(UsageDataSourceResultList),
+    SumByResource: S.optional(UsageResourceResultList),
+    TopResources: S.optional(UsageResourceResultList),
+    SumByFeature: S.optional(UsageFeatureResultList),
+  }).pipe(
+    S.encodeKeys({
+      SumByAccount: "sumByAccount",
+      TopAccountsByFeature: "topAccountsByFeature",
+      SumByDataSource: "sumByDataSource",
+      SumByResource: "sumByResource",
+      TopResources: "topResources",
+      SumByFeature: "sumByFeature",
+    }),
+  ),
 ).annotate({
   identifier: "UsageStatistics",
 }) as any as S.Schema<UsageStatistics>;
@@ -6960,11 +7463,14 @@ export interface GetUsageStatisticsResponse {
 }
 export const GetUsageStatisticsResponse = S.suspend(() =>
   S.Struct({
-    UsageStatistics: S.optional(UsageStatistics)
-      .pipe(T.JsonName("usageStatistics"))
-      .annotate({ identifier: "UsageStatistics" }),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    UsageStatistics: S.optional(UsageStatistics),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      UsageStatistics: "usageStatistics",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "GetUsageStatisticsResponse",
 }) as any as S.Schema<GetUsageStatisticsResponse>;
@@ -6976,25 +7482,29 @@ export interface InviteMembersRequest {
 }
 export const InviteMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+    DisableEmailNotification: S.optional(S.Boolean),
+    Message: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        AccountIds: "accountIds",
+        DisableEmailNotification: "disableEmailNotification",
+        Message: "message",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/invite" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-    DisableEmailNotification: S.optional(S.Boolean).pipe(
-      T.JsonName("disableEmailNotification"),
-    ),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/invite" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "InviteMembersRequest",
 }) as any as S.Schema<InviteMembersRequest>;
@@ -7005,11 +7515,9 @@ export interface InviteMembersResponse {
   })[];
 }
 export const InviteMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "InviteMembersResponse",
 }) as any as S.Schema<InviteMembersResponse>;
@@ -7031,11 +7539,9 @@ export interface CoverageSortCriteria {
 }
 export const CoverageSortCriteria = S.suspend(() =>
   S.Struct({
-    AttributeName: S.optional(CoverageSortKey).pipe(
-      T.JsonName("attributeName"),
-    ),
-    OrderBy: S.optional(OrderBy).pipe(T.JsonName("orderBy")),
-  }),
+    AttributeName: S.optional(CoverageSortKey),
+    OrderBy: S.optional(OrderBy),
+  }).pipe(S.encodeKeys({ AttributeName: "attributeName", OrderBy: "orderBy" })),
 ).annotate({
   identifier: "CoverageSortCriteria",
 }) as any as S.Schema<CoverageSortCriteria>;
@@ -7048,28 +7554,31 @@ export interface ListCoverageRequest {
 }
 export const ListCoverageRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    FilterCriteria: S.optional(CoverageFilterCriteria),
+    SortCriteria: S.optional(CoverageSortCriteria),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        NextToken: "nextToken",
+        MaxResults: "maxResults",
+        FilterCriteria: "filterCriteria",
+        SortCriteria: "sortCriteria",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/coverage" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    FilterCriteria: S.optional(CoverageFilterCriteria)
-      .pipe(T.JsonName("filterCriteria"))
-      .annotate({ identifier: "CoverageFilterCriteria" }),
-    SortCriteria: S.optional(CoverageSortCriteria)
-      .pipe(T.JsonName("sortCriteria"))
-      .annotate({ identifier: "CoverageSortCriteria" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/coverage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListCoverageRequest",
 }) as any as S.Schema<ListCoverageRequest>;
@@ -7079,9 +7588,11 @@ export interface AddonDetails {
 }
 export const AddonDetails = S.suspend(() =>
   S.Struct({
-    AddonVersion: S.optional(S.String).pipe(T.JsonName("addonVersion")),
-    AddonStatus: S.optional(S.String).pipe(T.JsonName("addonStatus")),
-  }),
+    AddonVersion: S.optional(S.String),
+    AddonStatus: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ AddonVersion: "addonVersion", AddonStatus: "addonStatus" }),
+  ),
 ).annotate({ identifier: "AddonDetails" }) as any as S.Schema<AddonDetails>;
 export type ManagementType =
   | "AUTO_MANAGED"
@@ -7098,16 +7609,20 @@ export interface CoverageEksClusterDetails {
 }
 export const CoverageEksClusterDetails = S.suspend(() =>
   S.Struct({
-    ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
-    CoveredNodes: S.optional(S.Number).pipe(T.JsonName("coveredNodes")),
-    CompatibleNodes: S.optional(S.Number).pipe(T.JsonName("compatibleNodes")),
-    AddonDetails: S.optional(AddonDetails)
-      .pipe(T.JsonName("addonDetails"))
-      .annotate({ identifier: "AddonDetails" }),
-    ManagementType: S.optional(ManagementType).pipe(
-      T.JsonName("managementType"),
-    ),
-  }),
+    ClusterName: S.optional(S.String),
+    CoveredNodes: S.optional(S.Number),
+    CompatibleNodes: S.optional(S.Number),
+    AddonDetails: S.optional(AddonDetails),
+    ManagementType: S.optional(ManagementType),
+  }).pipe(
+    S.encodeKeys({
+      ClusterName: "clusterName",
+      CoveredNodes: "coveredNodes",
+      CompatibleNodes: "compatibleNodes",
+      AddonDetails: "addonDetails",
+      ManagementType: "managementType",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageEksClusterDetails",
 }) as any as S.Schema<CoverageEksClusterDetails>;
@@ -7119,11 +7634,9 @@ export interface FargateDetails {
 }
 export const FargateDetails = S.suspend(() =>
   S.Struct({
-    Issues: S.optional(Issues).pipe(T.JsonName("issues")),
-    ManagementType: S.optional(ManagementType).pipe(
-      T.JsonName("managementType"),
-    ),
-  }),
+    Issues: S.optional(Issues),
+    ManagementType: S.optional(ManagementType),
+  }).pipe(S.encodeKeys({ Issues: "issues", ManagementType: "managementType" })),
 ).annotate({ identifier: "FargateDetails" }) as any as S.Schema<FargateDetails>;
 export interface ContainerInstanceDetails {
   CoveredContainerInstances?: number;
@@ -7131,13 +7644,14 @@ export interface ContainerInstanceDetails {
 }
 export const ContainerInstanceDetails = S.suspend(() =>
   S.Struct({
-    CoveredContainerInstances: S.optional(S.Number).pipe(
-      T.JsonName("coveredContainerInstances"),
-    ),
-    CompatibleContainerInstances: S.optional(S.Number).pipe(
-      T.JsonName("compatibleContainerInstances"),
-    ),
-  }),
+    CoveredContainerInstances: S.optional(S.Number),
+    CompatibleContainerInstances: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      CoveredContainerInstances: "coveredContainerInstances",
+      CompatibleContainerInstances: "compatibleContainerInstances",
+    }),
+  ),
 ).annotate({
   identifier: "ContainerInstanceDetails",
 }) as any as S.Schema<ContainerInstanceDetails>;
@@ -7148,14 +7662,16 @@ export interface CoverageEcsClusterDetails {
 }
 export const CoverageEcsClusterDetails = S.suspend(() =>
   S.Struct({
-    ClusterName: S.optional(S.String).pipe(T.JsonName("clusterName")),
-    FargateDetails: S.optional(FargateDetails)
-      .pipe(T.JsonName("fargateDetails"))
-      .annotate({ identifier: "FargateDetails" }),
-    ContainerInstanceDetails: S.optional(ContainerInstanceDetails)
-      .pipe(T.JsonName("containerInstanceDetails"))
-      .annotate({ identifier: "ContainerInstanceDetails" }),
-  }),
+    ClusterName: S.optional(S.String),
+    FargateDetails: S.optional(FargateDetails),
+    ContainerInstanceDetails: S.optional(ContainerInstanceDetails),
+  }).pipe(
+    S.encodeKeys({
+      ClusterName: "clusterName",
+      FargateDetails: "fargateDetails",
+      ContainerInstanceDetails: "containerInstanceDetails",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageEcsClusterDetails",
 }) as any as S.Schema<CoverageEcsClusterDetails>;
@@ -7163,7 +7679,9 @@ export interface AgentDetails {
   Version?: string;
 }
 export const AgentDetails = S.suspend(() =>
-  S.Struct({ Version: S.optional(S.String).pipe(T.JsonName("version")) }),
+  S.Struct({ Version: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Version: "version" }),
+  ),
 ).annotate({ identifier: "AgentDetails" }) as any as S.Schema<AgentDetails>;
 export interface CoverageEc2InstanceDetails {
   InstanceId?: string;
@@ -7174,16 +7692,20 @@ export interface CoverageEc2InstanceDetails {
 }
 export const CoverageEc2InstanceDetails = S.suspend(() =>
   S.Struct({
-    InstanceId: S.optional(S.String).pipe(T.JsonName("instanceId")),
-    InstanceType: S.optional(S.String).pipe(T.JsonName("instanceType")),
-    ClusterArn: S.optional(S.String).pipe(T.JsonName("clusterArn")),
-    AgentDetails: S.optional(AgentDetails)
-      .pipe(T.JsonName("agentDetails"))
-      .annotate({ identifier: "AgentDetails" }),
-    ManagementType: S.optional(ManagementType).pipe(
-      T.JsonName("managementType"),
-    ),
-  }),
+    InstanceId: S.optional(S.String),
+    InstanceType: S.optional(S.String),
+    ClusterArn: S.optional(S.String),
+    AgentDetails: S.optional(AgentDetails),
+    ManagementType: S.optional(ManagementType),
+  }).pipe(
+    S.encodeKeys({
+      InstanceId: "instanceId",
+      InstanceType: "instanceType",
+      ClusterArn: "clusterArn",
+      AgentDetails: "agentDetails",
+      ManagementType: "managementType",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageEc2InstanceDetails",
 }) as any as S.Schema<CoverageEc2InstanceDetails>;
@@ -7195,17 +7717,18 @@ export interface CoverageResourceDetails {
 }
 export const CoverageResourceDetails = S.suspend(() =>
   S.Struct({
-    EksClusterDetails: S.optional(CoverageEksClusterDetails)
-      .pipe(T.JsonName("eksClusterDetails"))
-      .annotate({ identifier: "CoverageEksClusterDetails" }),
-    ResourceType: S.optional(ResourceType).pipe(T.JsonName("resourceType")),
-    EcsClusterDetails: S.optional(CoverageEcsClusterDetails)
-      .pipe(T.JsonName("ecsClusterDetails"))
-      .annotate({ identifier: "CoverageEcsClusterDetails" }),
-    Ec2InstanceDetails: S.optional(CoverageEc2InstanceDetails)
-      .pipe(T.JsonName("ec2InstanceDetails"))
-      .annotate({ identifier: "CoverageEc2InstanceDetails" }),
-  }),
+    EksClusterDetails: S.optional(CoverageEksClusterDetails),
+    ResourceType: S.optional(ResourceType),
+    EcsClusterDetails: S.optional(CoverageEcsClusterDetails),
+    Ec2InstanceDetails: S.optional(CoverageEc2InstanceDetails),
+  }).pipe(
+    S.encodeKeys({
+      EksClusterDetails: "eksClusterDetails",
+      ResourceType: "resourceType",
+      EcsClusterDetails: "ecsClusterDetails",
+      Ec2InstanceDetails: "ec2InstanceDetails",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageResourceDetails",
 }) as any as S.Schema<CoverageResourceDetails>;
@@ -7220,20 +7743,24 @@ export interface CoverageResource {
 }
 export const CoverageResource = S.suspend(() =>
   S.Struct({
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    ResourceDetails: S.optional(CoverageResourceDetails)
-      .pipe(T.JsonName("resourceDetails"))
-      .annotate({ identifier: "CoverageResourceDetails" }),
-    CoverageStatus: S.optional(CoverageStatus).pipe(
-      T.JsonName("coverageStatus"),
-    ),
-    Issue: S.optional(S.String).pipe(T.JsonName("issue")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("updatedAt"),
-    ),
-  }),
+    ResourceId: S.optional(S.String),
+    DetectorId: S.optional(S.String),
+    AccountId: S.optional(S.String),
+    ResourceDetails: S.optional(CoverageResourceDetails),
+    CoverageStatus: S.optional(CoverageStatus),
+    Issue: S.optional(S.String),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({
+      ResourceId: "resourceId",
+      DetectorId: "detectorId",
+      AccountId: "accountId",
+      ResourceDetails: "resourceDetails",
+      CoverageStatus: "coverageStatus",
+      Issue: "issue",
+      UpdatedAt: "updatedAt",
+    }),
+  ),
 ).annotate({
   identifier: "CoverageResource",
 }) as any as S.Schema<CoverageResource>;
@@ -7245,9 +7772,9 @@ export interface ListCoverageResponse {
 }
 export const ListCoverageResponse = S.suspend(() =>
   S.Struct({
-    Resources: S.optional(CoverageResources).pipe(T.JsonName("resources")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Resources: S.optional(CoverageResources),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Resources: "resources", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListCoverageResponse",
 }) as any as S.Schema<ListCoverageResponse>;
@@ -7257,24 +7784,20 @@ export interface ListDetectorsRequest {
 }
 export const ListDetectorsRequest = S.suspend(() =>
   S.Struct({
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(S.encodeKeys({ MaxResults: "maxResults", NextToken: "nextToken" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListDetectorsRequest",
 }) as any as S.Schema<ListDetectorsRequest>;
@@ -7286,9 +7809,9 @@ export interface ListDetectorsResponse {
 }
 export const ListDetectorsResponse = S.suspend(() =>
   S.Struct({
-    DetectorIds: S.optional(DetectorIds).pipe(T.JsonName("detectorIds")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    DetectorIds: S.optional(DetectorIds),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ DetectorIds: "detectorIds", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListDetectorsResponse",
 }) as any as S.Schema<ListDetectorsResponse>;
@@ -7299,28 +7822,27 @@ export interface ListFiltersRequest {
 }
 export const ListFiltersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/filter" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/filter" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListFiltersRequest",
 }) as any as S.Schema<ListFiltersRequest>;
@@ -7332,9 +7854,9 @@ export interface ListFiltersResponse {
 }
 export const ListFiltersResponse = S.suspend(() =>
   S.Struct({
-    FilterNames: S.optional(FilterNames).pipe(T.JsonName("filterNames")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    FilterNames: S.optional(FilterNames),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ FilterNames: "filterNames", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListFiltersResponse",
 }) as any as S.Schema<ListFiltersResponse>;
@@ -7347,28 +7869,31 @@ export interface ListFindingsRequest {
 }
 export const ListFindingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingCriteria: S.optional(FindingCriteria),
+    SortCriteria: S.optional(SortCriteria),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FindingCriteria: "findingCriteria",
+        SortCriteria: "sortCriteria",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/findings" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingCriteria: S.optional(FindingCriteria)
-      .pipe(T.JsonName("findingCriteria"))
-      .annotate({ identifier: "FindingCriteria" }),
-    SortCriteria: S.optional(SortCriteria)
-      .pipe(T.JsonName("sortCriteria"))
-      .annotate({ identifier: "SortCriteria" }),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/findings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListFindingsRequest",
 }) as any as S.Schema<ListFindingsRequest>;
@@ -7378,9 +7903,9 @@ export interface ListFindingsResponse {
 }
 export const ListFindingsResponse = S.suspend(() =>
   S.Struct({
-    FindingIds: S.optional(FindingIds).pipe(T.JsonName("findingIds")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    FindingIds: S.optional(FindingIds),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ FindingIds: "findingIds", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListFindingsResponse",
 }) as any as S.Schema<ListFindingsResponse>;
@@ -7390,24 +7915,20 @@ export interface ListInvitationsRequest {
 }
 export const ListInvitationsRequest = S.suspend(() =>
   S.Struct({
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(S.encodeKeys({ MaxResults: "maxResults", NextToken: "nextToken" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/invitation" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/invitation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListInvitationsRequest",
 }) as any as S.Schema<ListInvitationsRequest>;
@@ -7419,13 +7940,18 @@ export interface Invitation {
 }
 export const Invitation = S.suspend(() =>
   S.Struct({
-    AccountId: S.optional(S.String).pipe(T.JsonName("accountId")),
-    InvitationId: S.optional(S.String).pipe(T.JsonName("invitationId")),
-    RelationshipStatus: S.optional(S.String).pipe(
-      T.JsonName("relationshipStatus"),
-    ),
-    InvitedAt: S.optional(S.String).pipe(T.JsonName("invitedAt")),
-  }),
+    AccountId: S.optional(S.String),
+    InvitationId: S.optional(S.String),
+    RelationshipStatus: S.optional(S.String),
+    InvitedAt: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccountId: "accountId",
+      InvitationId: "invitationId",
+      RelationshipStatus: "relationshipStatus",
+      InvitedAt: "invitedAt",
+    }),
+  ),
 ).annotate({ identifier: "Invitation" }) as any as S.Schema<Invitation>;
 export type Invitations = Invitation[];
 export const Invitations = S.Array(Invitation);
@@ -7435,9 +7961,9 @@ export interface ListInvitationsResponse {
 }
 export const ListInvitationsResponse = S.suspend(() =>
   S.Struct({
-    Invitations: S.optional(Invitations).pipe(T.JsonName("invitations")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Invitations: S.optional(Invitations),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Invitations: "invitations", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListInvitationsResponse",
 }) as any as S.Schema<ListInvitationsResponse>;
@@ -7448,28 +7974,27 @@ export interface ListIPSetsRequest {
 }
 export const ListIPSetsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/ipset" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/ipset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListIPSetsRequest",
 }) as any as S.Schema<ListIPSetsRequest>;
@@ -7481,9 +8006,9 @@ export interface ListIPSetsResponse {
 }
 export const ListIPSetsResponse = S.suspend(() =>
   S.Struct({
-    IpSetIds: S.optional(IpSetIds).pipe(T.JsonName("ipSetIds")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    IpSetIds: S.optional(IpSetIds),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ IpSetIds: "ipSetIds", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListIPSetsResponse",
 }) as any as S.Schema<ListIPSetsResponse>;
@@ -7491,21 +8016,18 @@ export interface ListMalwareProtectionPlansRequest {
   NextToken?: string;
 }
 export const ListMalwareProtectionPlansRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
+  S.Struct({ NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")) })
+    .pipe(S.encodeKeys({ NextToken: "nextToken" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/malware-protection-plan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/malware-protection-plan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListMalwareProtectionPlansRequest",
 }) as any as S.Schema<ListMalwareProtectionPlansRequest>;
@@ -7513,11 +8035,9 @@ export interface MalwareProtectionPlanSummary {
   MalwareProtectionPlanId?: string;
 }
 export const MalwareProtectionPlanSummary = S.suspend(() =>
-  S.Struct({
-    MalwareProtectionPlanId: S.optional(S.String).pipe(
-      T.JsonName("malwareProtectionPlanId"),
-    ),
-  }),
+  S.Struct({ MalwareProtectionPlanId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ MalwareProtectionPlanId: "malwareProtectionPlanId" }),
+  ),
 ).annotate({
   identifier: "MalwareProtectionPlanSummary",
 }) as any as S.Schema<MalwareProtectionPlanSummary>;
@@ -7531,11 +8051,14 @@ export interface ListMalwareProtectionPlansResponse {
 }
 export const ListMalwareProtectionPlansResponse = S.suspend(() =>
   S.Struct({
-    MalwareProtectionPlans: S.optional(MalwareProtectionPlansSummary).pipe(
-      T.JsonName("malwareProtectionPlans"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    MalwareProtectionPlans: S.optional(MalwareProtectionPlansSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      MalwareProtectionPlans: "malwareProtectionPlans",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListMalwareProtectionPlansResponse",
 }) as any as S.Schema<ListMalwareProtectionPlansResponse>;
@@ -7556,13 +8079,14 @@ export interface ListMalwareScansFilterCriterion {
 }
 export const ListMalwareScansFilterCriterion = S.suspend(() =>
   S.Struct({
-    ListMalwareScansCriterionKey: S.optional(ListMalwareScansCriterionKey).pipe(
-      T.JsonName("criterionKey"),
-    ),
-    FilterCondition: S.optional(FilterCondition)
-      .pipe(T.JsonName("filterCondition"))
-      .annotate({ identifier: "FilterCondition" }),
-  }),
+    ListMalwareScansCriterionKey: S.optional(ListMalwareScansCriterionKey),
+    FilterCondition: S.optional(FilterCondition),
+  }).pipe(
+    S.encodeKeys({
+      ListMalwareScansCriterionKey: "criterionKey",
+      FilterCondition: "filterCondition",
+    }),
+  ),
 ).annotate({
   identifier: "ListMalwareScansFilterCriterion",
 }) as any as S.Schema<ListMalwareScansFilterCriterion>;
@@ -7578,8 +8102,8 @@ export const ListMalwareScansFilterCriteria = S.suspend(() =>
   S.Struct({
     ListMalwareScansFilterCriterion: S.optional(
       ListMalwareScansFilterCriterionList,
-    ).pipe(T.JsonName("filterCriterion")),
-  }),
+    ),
+  }).pipe(S.encodeKeys({ ListMalwareScansFilterCriterion: "filterCriterion" })),
 ).annotate({
   identifier: "ListMalwareScansFilterCriteria",
 }) as any as S.Schema<ListMalwareScansFilterCriteria>;
@@ -7591,30 +8115,29 @@ export interface ListMalwareScansRequest {
 }
 export const ListMalwareScansRequest = S.suspend(() =>
   S.Struct({
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    FilterCriteria: S.optional(ListMalwareScansFilterCriteria),
+    SortCriteria: S.optional(SortCriteria),
+  })
+    .pipe(
+      S.encodeKeys({
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+        FilterCriteria: "filterCriteria",
+        SortCriteria: "sortCriteria",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/malware-scan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-    FilterCriteria: S.optional(ListMalwareScansFilterCriteria)
-      .pipe(T.JsonName("filterCriteria"))
-      .annotate({ identifier: "ListMalwareScansFilterCriteria" }),
-    SortCriteria: S.optional(SortCriteria)
-      .pipe(T.JsonName("sortCriteria"))
-      .annotate({ identifier: "SortCriteria" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/malware-scan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListMalwareScansRequest",
 }) as any as S.Schema<ListMalwareScansRequest>;
@@ -7630,27 +8153,28 @@ export interface MalwareScan {
 }
 export const MalwareScan = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-    ResourceType: S.optional(MalwareProtectionResourceType).pipe(
-      T.JsonName("resourceType"),
-    ),
-    ScanId: S.optional(S.String).pipe(T.JsonName("scanId")),
-    ScanStatus: S.optional(MalwareProtectionScanStatus).pipe(
-      T.JsonName("scanStatus"),
-    ),
-    ScanResultStatus: S.optional(ScanResultStatus).pipe(
-      T.JsonName("scanResultStatus"),
-    ),
-    ScanType: S.optional(MalwareProtectionScanType).pipe(
-      T.JsonName("scanType"),
-    ),
-    ScanStartedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanStartedAt")),
+    ResourceArn: S.optional(S.String),
+    ResourceType: S.optional(MalwareProtectionResourceType),
+    ScanId: S.optional(S.String),
+    ScanStatus: S.optional(MalwareProtectionScanStatus),
+    ScanResultStatus: S.optional(ScanResultStatus),
+    ScanType: S.optional(MalwareProtectionScanType),
+    ScanStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScanCompletedAt: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("scanCompletedAt")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      ResourceArn: "resourceArn",
+      ResourceType: "resourceType",
+      ScanId: "scanId",
+      ScanStatus: "scanStatus",
+      ScanResultStatus: "scanResultStatus",
+      ScanType: "scanType",
+      ScanStartedAt: "scanStartedAt",
+      ScanCompletedAt: "scanCompletedAt",
+    }),
+  ),
 ).annotate({ identifier: "MalwareScan" }) as any as S.Schema<MalwareScan>;
 export type MalwareScans = MalwareScan[];
 export const MalwareScans = S.Array(MalwareScan);
@@ -7660,9 +8184,9 @@ export interface ListMalwareScansResponse {
 }
 export const ListMalwareScansResponse = S.suspend(() =>
   S.Struct({
-    Scans: S.optional(MalwareScans).pipe(T.JsonName("scans")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Scans: S.optional(MalwareScans),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Scans: "scans", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListMalwareScansResponse",
 }) as any as S.Schema<ListMalwareScansResponse>;
@@ -7674,32 +8198,29 @@ export interface ListMembersRequest {
 }
 export const ListMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    OnlyAssociated: S.optional(S.String).pipe(T.HttpQuery("onlyAssociated")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+        OnlyAssociated: "onlyAssociated",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/member" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-    OnlyAssociated: S.optional(S.String).pipe(
-      T.HttpQuery("onlyAssociated"),
-      T.JsonName("onlyAssociated"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/member" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListMembersRequest",
 }) as any as S.Schema<ListMembersRequest>;
@@ -7715,9 +8236,9 @@ export interface ListMembersResponse {
 }
 export const ListMembersResponse = S.suspend(() =>
   S.Struct({
-    Members: S.optional(Members).pipe(T.JsonName("members")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Members: S.optional(Members),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Members: "members", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
@@ -7727,24 +8248,20 @@ export interface ListOrganizationAdminAccountsRequest {
 }
 export const ListOrganizationAdminAccountsRequest = S.suspend(() =>
   S.Struct({
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(S.encodeKeys({ MaxResults: "maxResults", NextToken: "nextToken" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/admin" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/admin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListOrganizationAdminAccountsRequest",
 }) as any as S.Schema<ListOrganizationAdminAccountsRequest>;
@@ -7756,9 +8273,14 @@ export interface AdminAccount {
 }
 export const AdminAccount = S.suspend(() =>
   S.Struct({
-    AdminAccountId: S.optional(S.String).pipe(T.JsonName("adminAccountId")),
-    AdminStatus: S.optional(AdminStatus).pipe(T.JsonName("adminStatus")),
-  }),
+    AdminAccountId: S.optional(S.String),
+    AdminStatus: S.optional(AdminStatus),
+  }).pipe(
+    S.encodeKeys({
+      AdminAccountId: "adminAccountId",
+      AdminStatus: "adminStatus",
+    }),
+  ),
 ).annotate({ identifier: "AdminAccount" }) as any as S.Schema<AdminAccount>;
 export type AdminAccounts = AdminAccount[];
 export const AdminAccounts = S.Array(AdminAccount);
@@ -7768,9 +8290,11 @@ export interface ListOrganizationAdminAccountsResponse {
 }
 export const ListOrganizationAdminAccountsResponse = S.suspend(() =>
   S.Struct({
-    AdminAccounts: S.optional(AdminAccounts).pipe(T.JsonName("adminAccounts")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    AdminAccounts: S.optional(AdminAccounts),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ AdminAccounts: "adminAccounts", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "ListOrganizationAdminAccountsResponse",
 }) as any as S.Schema<ListOrganizationAdminAccountsResponse>;
@@ -7781,31 +8305,30 @@ export interface ListPublishingDestinationsRequest {
 }
 export const ListPublishingDestinationsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/detector/{DetectorId}/publishingDestination",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/publishingDestination",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListPublishingDestinationsRequest",
 }) as any as S.Schema<ListPublishingDestinationsRequest>;
@@ -7816,12 +8339,16 @@ export interface Destination {
 }
 export const Destination = S.suspend(() =>
   S.Struct({
-    DestinationId: S.optional(S.String).pipe(T.JsonName("destinationId")),
-    DestinationType: S.optional(DestinationType).pipe(
-      T.JsonName("destinationType"),
-    ),
-    Status: S.optional(PublishingStatus).pipe(T.JsonName("status")),
-  }),
+    DestinationId: S.optional(S.String),
+    DestinationType: S.optional(DestinationType),
+    Status: S.optional(PublishingStatus),
+  }).pipe(
+    S.encodeKeys({
+      DestinationId: "destinationId",
+      DestinationType: "destinationType",
+      Status: "status",
+    }),
+  ),
 ).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type Destinations = Destination[];
 export const Destinations = S.Array(Destination);
@@ -7835,9 +8362,11 @@ export interface ListPublishingDestinationsResponse {
 }
 export const ListPublishingDestinationsResponse = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(Destinations).pipe(T.JsonName("destinations")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Destinations: S.optional(Destinations),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Destinations: "destinations", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "ListPublishingDestinationsResponse",
 }) as any as S.Schema<ListPublishingDestinationsResponse>;
@@ -7845,21 +8374,18 @@ export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.JsonName("resourceArn"),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) })
+    .pipe(S.encodeKeys({ ResourceArn: "resourceArn" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -7867,7 +8393,7 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(TagMap) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -7878,28 +8404,30 @@ export interface ListThreatEntitySetsRequest {
 }
 export const ListThreatEntitySetsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/threatentityset",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/threatentityset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListThreatEntitySetsRequest",
 }) as any as S.Schema<ListThreatEntitySetsRequest>;
@@ -7911,11 +8439,14 @@ export interface ListThreatEntitySetsResponse {
 }
 export const ListThreatEntitySetsResponse = S.suspend(() =>
   S.Struct({
-    ThreatEntitySetIds: S.optional(ThreatEntitySetIds).pipe(
-      T.JsonName("threatEntitySetIds"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ThreatEntitySetIds: S.optional(ThreatEntitySetIds),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ThreatEntitySetIds: "threatEntitySetIds",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListThreatEntitySetsResponse",
 }) as any as S.Schema<ListThreatEntitySetsResponse>;
@@ -7926,28 +8457,27 @@ export interface ListThreatIntelSetsRequest {
 }
 export const ListThreatIntelSetsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/detector/{DetectorId}/threatintelset" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/threatintelset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListThreatIntelSetsRequest",
 }) as any as S.Schema<ListThreatIntelSetsRequest>;
@@ -7959,11 +8489,14 @@ export interface ListThreatIntelSetsResponse {
 }
 export const ListThreatIntelSetsResponse = S.suspend(() =>
   S.Struct({
-    ThreatIntelSetIds: S.optional(ThreatIntelSetIds).pipe(
-      T.JsonName("threatIntelSetIds"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ThreatIntelSetIds: S.optional(ThreatIntelSetIds),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ThreatIntelSetIds: "threatIntelSetIds",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListThreatIntelSetsResponse",
 }) as any as S.Schema<ListThreatIntelSetsResponse>;
@@ -7974,28 +8507,30 @@ export interface ListTrustedEntitySetsRequest {
 }
 export const ListTrustedEntitySetsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/detector/{DetectorId}/trustedentityset",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("maxResults"),
-      T.JsonName("maxResults"),
-    ),
-    NextToken: S.optional(S.String).pipe(
-      T.HttpQuery("nextToken"),
-      T.JsonName("nextToken"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/detector/{DetectorId}/trustedentityset" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "ListTrustedEntitySetsRequest",
 }) as any as S.Schema<ListTrustedEntitySetsRequest>;
@@ -8007,11 +8542,14 @@ export interface ListTrustedEntitySetsResponse {
 }
 export const ListTrustedEntitySetsResponse = S.suspend(() =>
   S.Struct({
-    TrustedEntitySetIds: S.optional(TrustedEntitySetIds).pipe(
-      T.JsonName("trustedEntitySetIds"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    TrustedEntitySetIds: S.optional(TrustedEntitySetIds),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      TrustedEntitySetIds: "trustedEntitySetIds",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListTrustedEntitySetsResponse",
 }) as any as S.Schema<ListTrustedEntitySetsResponse>;
@@ -8022,10 +8560,12 @@ export interface S3ObjectForSendObjectMalwareScan {
 }
 export const S3ObjectForSendObjectMalwareScan = S.suspend(() =>
   S.Struct({
-    Bucket: S.optional(S.String).pipe(T.JsonName("bucket")),
-    Key: S.optional(S.String).pipe(T.JsonName("key")),
-    VersionId: S.optional(S.String).pipe(T.JsonName("versionId")),
-  }),
+    Bucket: S.optional(S.String),
+    Key: S.optional(S.String),
+    VersionId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Bucket: "bucket", Key: "key", VersionId: "versionId" }),
+  ),
 ).annotate({
   identifier: "S3ObjectForSendObjectMalwareScan",
 }) as any as S.Schema<S3ObjectForSendObjectMalwareScan>;
@@ -8033,20 +8573,18 @@ export interface SendObjectMalwareScanRequest {
   S3Object?: S3ObjectForSendObjectMalwareScan;
 }
 export const SendObjectMalwareScanRequest = S.suspend(() =>
-  S.Struct({
-    S3Object: S.optional(S3ObjectForSendObjectMalwareScan)
-      .pipe(T.JsonName("s3Object"))
-      .annotate({ identifier: "S3ObjectForSendObjectMalwareScan" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/object-malware-scan/send" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ S3Object: S.optional(S3ObjectForSendObjectMalwareScan) })
+    .pipe(S.encodeKeys({ S3Object: "s3Object" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/object-malware-scan/send" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "SendObjectMalwareScanRequest",
 }) as any as S.Schema<SendObjectMalwareScanRequest>;
@@ -8060,9 +8598,9 @@ export interface RecoveryPoint {
   BackupVaultName?: string;
 }
 export const RecoveryPoint = S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.optional(S.String).pipe(T.JsonName("backupVaultName")),
-  }),
+  S.Struct({ BackupVaultName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ BackupVaultName: "backupVaultName" }),
+  ),
 ).annotate({ identifier: "RecoveryPoint" }) as any as S.Schema<RecoveryPoint>;
 export interface StartMalwareScanConfiguration {
   Role?: string;
@@ -8071,14 +8609,16 @@ export interface StartMalwareScanConfiguration {
 }
 export const StartMalwareScanConfiguration = S.suspend(() =>
   S.Struct({
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    IncrementalScanDetails: S.optional(IncrementalScanDetails)
-      .pipe(T.JsonName("incrementalScanDetails"))
-      .annotate({ identifier: "IncrementalScanDetails" }),
-    RecoveryPoint: S.optional(RecoveryPoint)
-      .pipe(T.JsonName("recoveryPoint"))
-      .annotate({ identifier: "RecoveryPoint" }),
-  }),
+    Role: S.optional(S.String),
+    IncrementalScanDetails: S.optional(IncrementalScanDetails),
+    RecoveryPoint: S.optional(RecoveryPoint),
+  }).pipe(
+    S.encodeKeys({
+      Role: "role",
+      IncrementalScanDetails: "incrementalScanDetails",
+      RecoveryPoint: "recoveryPoint",
+    }),
+  ),
 ).annotate({
   identifier: "StartMalwareScanConfiguration",
 }) as any as S.Schema<StartMalwareScanConfiguration>;
@@ -8089,24 +8629,27 @@ export interface StartMalwareScanRequest {
 }
 export const StartMalwareScanRequest = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.optional(S.String).pipe(T.JsonName("resourceArn")),
-    ClientToken: S.optional(S.String).pipe(
-      T.JsonName("clientToken"),
-      T.IdempotencyToken(),
+    ResourceArn: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    ScanConfiguration: S.optional(StartMalwareScanConfiguration),
+  })
+    .pipe(
+      S.encodeKeys({
+        ResourceArn: "resourceArn",
+        ClientToken: "clientToken",
+        ScanConfiguration: "scanConfiguration",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/malware-scan/start" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    ScanConfiguration: S.optional(StartMalwareScanConfiguration)
-      .pipe(T.JsonName("scanConfiguration"))
-      .annotate({ identifier: "StartMalwareScanConfiguration" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/malware-scan/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "StartMalwareScanRequest",
 }) as any as S.Schema<StartMalwareScanRequest>;
@@ -8114,7 +8657,9 @@ export interface StartMalwareScanResponse {
   ScanId?: string;
 }
 export const StartMalwareScanResponse = S.suspend(() =>
-  S.Struct({ ScanId: S.optional(S.String).pipe(T.JsonName("scanId")) }),
+  S.Struct({ ScanId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ScanId: "scanId" }),
+  ),
 ).annotate({
   identifier: "StartMalwareScanResponse",
 }) as any as S.Schema<StartMalwareScanResponse>;
@@ -8124,21 +8669,20 @@ export interface StartMonitoringMembersRequest {
 }
 export const StartMonitoringMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/start" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "StartMonitoringMembersRequest",
 }) as any as S.Schema<StartMonitoringMembersRequest>;
@@ -8149,11 +8693,9 @@ export interface StartMonitoringMembersResponse {
   })[];
 }
 export const StartMonitoringMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "StartMonitoringMembersResponse",
 }) as any as S.Schema<StartMonitoringMembersResponse>;
@@ -8163,21 +8705,20 @@ export interface StopMonitoringMembersRequest {
 }
 export const StopMonitoringMembersRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", AccountIds: "accountIds" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/stop" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/member/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "StopMonitoringMembersRequest",
 }) as any as S.Schema<StopMonitoringMembersRequest>;
@@ -8188,11 +8729,9 @@ export interface StopMonitoringMembersResponse {
   })[];
 }
 export const StopMonitoringMembersResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "StopMonitoringMembersResponse",
 }) as any as S.Schema<StopMonitoringMembersResponse>;
@@ -8202,21 +8741,20 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.JsonName("resourceArn"),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    Tags: S.optional(TagMap),
+  })
+    .pipe(S.encodeKeys({ ResourceArn: "resourceArn", Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -8230,24 +8768,23 @@ export interface UnarchiveFindingsRequest {
 }
 export const UnarchiveFindingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingIds: S.optional(FindingIds),
+  })
+    .pipe(S.encodeKeys({ DetectorId: "detectorId", FindingIds: "findingIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/findings/unarchive",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    FindingIds: S.optional(FindingIds).pipe(T.JsonName("findingIds")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/findings/unarchive",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UnarchiveFindingsRequest",
 }) as any as S.Schema<UnarchiveFindingsRequest>;
@@ -8263,24 +8800,20 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.JsonName("resourceArn"),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    TagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
+  })
+    .pipe(S.encodeKeys({ ResourceArn: "resourceArn", TagKeys: "tagKeys" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    TagKeys: S.optional(TagKeyList).pipe(
-      T.HttpQuery("tagKeys"),
-      T.JsonName("tagKeys"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
@@ -8297,30 +8830,31 @@ export interface UpdateDetectorRequest {
 }
 export const UpdateDetectorRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    Enable: S.optional(S.Boolean),
+    FindingPublishingFrequency: S.optional(FindingPublishingFrequency),
+    DataSources: S.optional(DataSourceConfigurations),
+    Features: S.optional(DetectorFeatureConfigurations),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        Enable: "enable",
+        FindingPublishingFrequency: "findingPublishingFrequency",
+        DataSources: "dataSources",
+        Features: "features",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Enable: S.optional(S.Boolean).pipe(T.JsonName("enable")),
-    FindingPublishingFrequency: S.optional(FindingPublishingFrequency).pipe(
-      T.JsonName("findingPublishingFrequency"),
-    ),
-    DataSources: S.optional(DataSourceConfigurations)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourceConfigurations" }),
-    Features: S.optional(DetectorFeatureConfigurations).pipe(
-      T.JsonName("features"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateDetectorRequest",
 }) as any as S.Schema<UpdateDetectorRequest>;
@@ -8338,33 +8872,36 @@ export interface UpdateFilterRequest {
 }
 export const UpdateFilterRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    FilterName: S.String.pipe(
-      T.HttpLabel("FilterName"),
-      T.JsonName("filterName"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Action: S.optional(FilterAction).pipe(T.JsonName("action")),
-    Rank: S.optional(S.Number).pipe(T.JsonName("rank")),
-    FindingCriteria: S.optional(FindingCriteria)
-      .pipe(T.JsonName("findingCriteria"))
-      .annotate({ identifier: "FindingCriteria" }),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/filter/{FilterName}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FilterName: S.String.pipe(T.HttpLabel("FilterName")),
+    Description: S.optional(S.String),
+    Action: S.optional(FilterAction),
+    Rank: S.optional(S.Number),
+    FindingCriteria: S.optional(FindingCriteria),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FilterName: "filterName",
+        Description: "description",
+        Action: "action",
+        Rank: "rank",
+        FindingCriteria: "findingCriteria",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/filter/{FilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateFilterRequest",
 }) as any as S.Schema<UpdateFilterRequest>;
@@ -8372,7 +8909,7 @@ export interface UpdateFilterResponse {
   Name: string;
 }
 export const UpdateFilterResponse = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String).pipe(T.JsonName("name")) }),
+  S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
 ).annotate({
   identifier: "UpdateFilterResponse",
 }) as any as S.Schema<UpdateFilterResponse>;
@@ -8386,26 +8923,32 @@ export interface UpdateFindingsFeedbackRequest {
 }
 export const UpdateFindingsFeedbackRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    FindingIds: S.optional(FindingIds).pipe(T.JsonName("findingIds")),
-    Feedback: S.optional(Feedback).pipe(T.JsonName("feedback")),
-    Comments: S.optional(SensitiveString).pipe(T.JsonName("comments")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/findings/feedback",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    FindingIds: S.optional(FindingIds),
+    Feedback: S.optional(Feedback),
+    Comments: S.optional(SensitiveString),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        FindingIds: "findingIds",
+        Feedback: "feedback",
+        Comments: "comments",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/findings/feedback",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateFindingsFeedbackRequest",
 }) as any as S.Schema<UpdateFindingsFeedbackRequest>;
@@ -8425,27 +8968,36 @@ export interface UpdateIPSetRequest {
 }
 export const UpdateIPSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    IpSetId: S.String.pipe(T.HttpLabel("IpSetId")),
+    Name: S.optional(S.String),
+    Location: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ExpectedBucketOwner: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        IpSetId: "ipSetId",
+        Name: "name",
+        Location: "location",
+        Activate: "activate",
+        ExpectedBucketOwner: "expectedBucketOwner",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/ipset/{IpSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    IpSetId: S.String.pipe(T.HttpLabel("IpSetId"), T.JsonName("ipSetId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/ipset/{IpSetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateIPSetRequest",
 }) as any as S.Schema<UpdateIPSetRequest>;
@@ -8458,10 +9010,8 @@ export interface UpdateS3BucketResource {
 }
 export const UpdateS3BucketResource = S.suspend(() =>
   S.Struct({
-    ObjectPrefixes: S.optional(MalwareProtectionPlanObjectPrefixesList).pipe(
-      T.JsonName("objectPrefixes"),
-    ),
-  }),
+    ObjectPrefixes: S.optional(MalwareProtectionPlanObjectPrefixesList),
+  }).pipe(S.encodeKeys({ ObjectPrefixes: "objectPrefixes" })),
 ).annotate({
   identifier: "UpdateS3BucketResource",
 }) as any as S.Schema<UpdateS3BucketResource>;
@@ -8469,11 +9019,9 @@ export interface UpdateProtectedResource {
   S3Bucket?: UpdateS3BucketResource;
 }
 export const UpdateProtectedResource = S.suspend(() =>
-  S.Struct({
-    S3Bucket: S.optional(UpdateS3BucketResource)
-      .pipe(T.JsonName("s3Bucket"))
-      .annotate({ identifier: "UpdateS3BucketResource" }),
-  }),
+  S.Struct({ S3Bucket: S.optional(UpdateS3BucketResource) }).pipe(
+    S.encodeKeys({ S3Bucket: "s3Bucket" }),
+  ),
 ).annotate({
   identifier: "UpdateProtectedResource",
 }) as any as S.Schema<UpdateProtectedResource>;
@@ -8487,28 +9035,32 @@ export const UpdateMalwareProtectionPlanRequest = S.suspend(() =>
   S.Struct({
     MalwareProtectionPlanId: S.String.pipe(
       T.HttpLabel("MalwareProtectionPlanId"),
-      T.JsonName("malwareProtectionPlanId"),
     ),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    Actions: S.optional(MalwareProtectionPlanActions)
-      .pipe(T.JsonName("actions"))
-      .annotate({ identifier: "MalwareProtectionPlanActions" }),
-    ProtectedResource: S.optional(UpdateProtectedResource)
-      .pipe(T.JsonName("protectedResource"))
-      .annotate({ identifier: "UpdateProtectedResource" }),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
+    Role: S.optional(S.String),
+    Actions: S.optional(MalwareProtectionPlanActions),
+    ProtectedResource: S.optional(UpdateProtectedResource),
+  })
+    .pipe(
+      S.encodeKeys({
+        MalwareProtectionPlanId: "malwareProtectionPlanId",
+        Role: "role",
+        Actions: "actions",
+        ProtectedResource: "protectedResource",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/malware-protection-plan/{MalwareProtectionPlanId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateMalwareProtectionPlanRequest",
 }) as any as S.Schema<UpdateMalwareProtectionPlanRequest>;
@@ -8525,29 +9077,30 @@ export interface UpdateMalwareScanSettingsRequest {
 }
 export const UpdateMalwareScanSettingsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ScanResourceCriteria: S.optional(ScanResourceCriteria)
-      .pipe(T.JsonName("scanResourceCriteria"))
-      .annotate({ identifier: "ScanResourceCriteria" }),
-    EbsSnapshotPreservation: S.optional(EbsSnapshotPreservation).pipe(
-      T.JsonName("ebsSnapshotPreservation"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/malware-scan-settings",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ScanResourceCriteria: S.optional(ScanResourceCriteria),
+    EbsSnapshotPreservation: S.optional(EbsSnapshotPreservation),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ScanResourceCriteria: "scanResourceCriteria",
+        EbsSnapshotPreservation: "ebsSnapshotPreservation",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/malware-scan-settings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateMalwareScanSettingsRequest",
 }) as any as S.Schema<UpdateMalwareScanSettingsRequest>;
@@ -8563,11 +9116,9 @@ export interface MemberAdditionalConfiguration {
 }
 export const MemberAdditionalConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeatureAdditionalConfiguration).pipe(
-      T.JsonName("name"),
-    ),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-  }),
+    Name: S.optional(OrgFeatureAdditionalConfiguration),
+    Status: S.optional(FeatureStatus),
+  }).pipe(S.encodeKeys({ Name: "name", Status: "status" })),
 ).annotate({
   identifier: "MemberAdditionalConfiguration",
 }) as any as S.Schema<MemberAdditionalConfiguration>;
@@ -8582,12 +9133,16 @@ export interface MemberFeaturesConfiguration {
 }
 export const MemberFeaturesConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeature).pipe(T.JsonName("name")),
-    Status: S.optional(FeatureStatus).pipe(T.JsonName("status")),
-    AdditionalConfiguration: S.optional(MemberAdditionalConfigurations).pipe(
-      T.JsonName("additionalConfiguration"),
-    ),
-  }),
+    Name: S.optional(OrgFeature),
+    Status: S.optional(FeatureStatus),
+    AdditionalConfiguration: S.optional(MemberAdditionalConfigurations),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      Status: "status",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "MemberFeaturesConfiguration",
 }) as any as S.Schema<MemberFeaturesConfiguration>;
@@ -8603,30 +9158,32 @@ export interface UpdateMemberDetectorsRequest {
 }
 export const UpdateMemberDetectorsRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    AccountIds: S.optional(AccountIds).pipe(T.JsonName("accountIds")),
-    DataSources: S.optional(DataSourceConfigurations)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "DataSourceConfigurations" }),
-    Features: S.optional(MemberFeaturesConfigurations).pipe(
-      T.JsonName("features"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/member/detector/update",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AccountIds: S.optional(AccountIds),
+    DataSources: S.optional(DataSourceConfigurations),
+    Features: S.optional(MemberFeaturesConfigurations),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        AccountIds: "accountIds",
+        DataSources: "dataSources",
+        Features: "features",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/member/detector/update",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateMemberDetectorsRequest",
 }) as any as S.Schema<UpdateMemberDetectorsRequest>;
@@ -8637,11 +9194,9 @@ export interface UpdateMemberDetectorsResponse {
   })[];
 }
 export const UpdateMemberDetectorsResponse = S.suspend(() =>
-  S.Struct({
-    UnprocessedAccounts: S.optional(UnprocessedAccounts).pipe(
-      T.JsonName("unprocessedAccounts"),
-    ),
-  }),
+  S.Struct({ UnprocessedAccounts: S.optional(UnprocessedAccounts) }).pipe(
+    S.encodeKeys({ UnprocessedAccounts: "unprocessedAccounts" }),
+  ),
 ).annotate({
   identifier: "UpdateMemberDetectorsResponse",
 }) as any as S.Schema<UpdateMemberDetectorsResponse>;
@@ -8649,9 +9204,9 @@ export interface OrganizationS3LogsConfiguration {
   AutoEnable?: boolean;
 }
 export const OrganizationS3LogsConfiguration = S.suspend(() =>
-  S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-  }),
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ AutoEnable: "autoEnable" }),
+  ),
 ).annotate({
   identifier: "OrganizationS3LogsConfiguration",
 }) as any as S.Schema<OrganizationS3LogsConfiguration>;
@@ -8659,9 +9214,9 @@ export interface OrganizationKubernetesAuditLogsConfiguration {
   AutoEnable?: boolean;
 }
 export const OrganizationKubernetesAuditLogsConfiguration = S.suspend(() =>
-  S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-  }),
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ AutoEnable: "autoEnable" }),
+  ),
 ).annotate({
   identifier: "OrganizationKubernetesAuditLogsConfiguration",
 }) as any as S.Schema<OrganizationKubernetesAuditLogsConfiguration>;
@@ -8670,10 +9225,8 @@ export interface OrganizationKubernetesConfiguration {
 }
 export const OrganizationKubernetesConfiguration = S.suspend(() =>
   S.Struct({
-    AuditLogs: S.optional(OrganizationKubernetesAuditLogsConfiguration)
-      .pipe(T.JsonName("auditLogs"))
-      .annotate({ identifier: "OrganizationKubernetesAuditLogsConfiguration" }),
-  }),
+    AuditLogs: S.optional(OrganizationKubernetesAuditLogsConfiguration),
+  }).pipe(S.encodeKeys({ AuditLogs: "auditLogs" })),
 ).annotate({
   identifier: "OrganizationKubernetesConfiguration",
 }) as any as S.Schema<OrganizationKubernetesConfiguration>;
@@ -8681,9 +9234,9 @@ export interface OrganizationEbsVolumes {
   AutoEnable?: boolean;
 }
 export const OrganizationEbsVolumes = S.suspend(() =>
-  S.Struct({
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-  }),
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ AutoEnable: "autoEnable" }),
+  ),
 ).annotate({
   identifier: "OrganizationEbsVolumes",
 }) as any as S.Schema<OrganizationEbsVolumes>;
@@ -8691,11 +9244,9 @@ export interface OrganizationScanEc2InstanceWithFindings {
   EbsVolumes?: OrganizationEbsVolumes;
 }
 export const OrganizationScanEc2InstanceWithFindings = S.suspend(() =>
-  S.Struct({
-    EbsVolumes: S.optional(OrganizationEbsVolumes)
-      .pipe(T.JsonName("ebsVolumes"))
-      .annotate({ identifier: "OrganizationEbsVolumes" }),
-  }),
+  S.Struct({ EbsVolumes: S.optional(OrganizationEbsVolumes) }).pipe(
+    S.encodeKeys({ EbsVolumes: "ebsVolumes" }),
+  ),
 ).annotate({
   identifier: "OrganizationScanEc2InstanceWithFindings",
 }) as any as S.Schema<OrganizationScanEc2InstanceWithFindings>;
@@ -8706,10 +9257,12 @@ export const OrganizationMalwareProtectionConfiguration = S.suspend(() =>
   S.Struct({
     ScanEc2InstanceWithFindings: S.optional(
       OrganizationScanEc2InstanceWithFindings,
-    )
-      .pipe(T.JsonName("scanEc2InstanceWithFindings"))
-      .annotate({ identifier: "OrganizationScanEc2InstanceWithFindings" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      ScanEc2InstanceWithFindings: "scanEc2InstanceWithFindings",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationMalwareProtectionConfiguration",
 }) as any as S.Schema<OrganizationMalwareProtectionConfiguration>;
@@ -8720,16 +9273,16 @@ export interface OrganizationDataSourceConfigurations {
 }
 export const OrganizationDataSourceConfigurations = S.suspend(() =>
   S.Struct({
-    S3Logs: S.optional(OrganizationS3LogsConfiguration)
-      .pipe(T.JsonName("s3Logs"))
-      .annotate({ identifier: "OrganizationS3LogsConfiguration" }),
-    Kubernetes: S.optional(OrganizationKubernetesConfiguration)
-      .pipe(T.JsonName("kubernetes"))
-      .annotate({ identifier: "OrganizationKubernetesConfiguration" }),
-    MalwareProtection: S.optional(OrganizationMalwareProtectionConfiguration)
-      .pipe(T.JsonName("malwareProtection"))
-      .annotate({ identifier: "OrganizationMalwareProtectionConfiguration" }),
-  }),
+    S3Logs: S.optional(OrganizationS3LogsConfiguration),
+    Kubernetes: S.optional(OrganizationKubernetesConfiguration),
+    MalwareProtection: S.optional(OrganizationMalwareProtectionConfiguration),
+  }).pipe(
+    S.encodeKeys({
+      S3Logs: "s3Logs",
+      Kubernetes: "kubernetes",
+      MalwareProtection: "malwareProtection",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationDataSourceConfigurations",
 }) as any as S.Schema<OrganizationDataSourceConfigurations>;
@@ -8739,11 +9292,9 @@ export interface OrganizationAdditionalConfiguration {
 }
 export const OrganizationAdditionalConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeatureAdditionalConfiguration).pipe(
-      T.JsonName("name"),
-    ),
-    AutoEnable: S.optional(OrgFeatureStatus).pipe(T.JsonName("autoEnable")),
-  }),
+    Name: S.optional(OrgFeatureAdditionalConfiguration),
+    AutoEnable: S.optional(OrgFeatureStatus),
+  }).pipe(S.encodeKeys({ Name: "name", AutoEnable: "autoEnable" })),
 ).annotate({
   identifier: "OrganizationAdditionalConfiguration",
 }) as any as S.Schema<OrganizationAdditionalConfiguration>;
@@ -8759,12 +9310,16 @@ export interface OrganizationFeatureConfiguration {
 }
 export const OrganizationFeatureConfiguration = S.suspend(() =>
   S.Struct({
-    Name: S.optional(OrgFeature).pipe(T.JsonName("name")),
-    AutoEnable: S.optional(OrgFeatureStatus).pipe(T.JsonName("autoEnable")),
-    AdditionalConfiguration: S.optional(
-      OrganizationAdditionalConfigurations,
-    ).pipe(T.JsonName("additionalConfiguration")),
-  }),
+    Name: S.optional(OrgFeature),
+    AutoEnable: S.optional(OrgFeatureStatus),
+    AdditionalConfiguration: S.optional(OrganizationAdditionalConfigurations),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      AutoEnable: "autoEnable",
+      AdditionalConfiguration: "additionalConfiguration",
+    }),
+  ),
 ).annotate({
   identifier: "OrganizationFeatureConfiguration",
 }) as any as S.Schema<OrganizationFeatureConfiguration>;
@@ -8782,30 +9337,31 @@ export interface UpdateOrganizationConfigurationRequest {
 }
 export const UpdateOrganizationConfigurationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    AutoEnable: S.optional(S.Boolean),
+    DataSources: S.optional(OrganizationDataSourceConfigurations),
+    Features: S.optional(OrganizationFeaturesConfigurations),
+    AutoEnableOrganizationMembers: S.optional(AutoEnableMembers),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        AutoEnable: "autoEnable",
+        DataSources: "dataSources",
+        Features: "features",
+        AutoEnableOrganizationMembers: "autoEnableOrganizationMembers",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/detector/{DetectorId}/admin" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AutoEnable: S.optional(S.Boolean).pipe(T.JsonName("autoEnable")),
-    DataSources: S.optional(OrganizationDataSourceConfigurations)
-      .pipe(T.JsonName("dataSources"))
-      .annotate({ identifier: "OrganizationDataSourceConfigurations" }),
-    Features: S.optional(OrganizationFeaturesConfigurations).pipe(
-      T.JsonName("features"),
-    ),
-    AutoEnableOrganizationMembers: S.optional(AutoEnableMembers).pipe(
-      T.JsonName("autoEnableOrganizationMembers"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/detector/{DetectorId}/admin" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateOrganizationConfigurationRequest",
 }) as any as S.Schema<UpdateOrganizationConfigurationRequest>;
@@ -8822,30 +9378,30 @@ export interface UpdatePublishingDestinationRequest {
 }
 export const UpdatePublishingDestinationRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    DestinationId: S.String.pipe(
-      T.HttpLabel("DestinationId"),
-      T.JsonName("destinationId"),
-    ),
-    DestinationProperties: S.optional(DestinationProperties)
-      .pipe(T.JsonName("destinationProperties"))
-      .annotate({ identifier: "DestinationProperties" }),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    DestinationId: S.String.pipe(T.HttpLabel("DestinationId")),
+    DestinationProperties: S.optional(DestinationProperties),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        DestinationId: "destinationId",
+        DestinationProperties: "destinationProperties",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/publishingDestination/{DestinationId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePublishingDestinationRequest",
 }) as any as S.Schema<UpdatePublishingDestinationRequest>;
@@ -8865,33 +9421,36 @@ export interface UpdateThreatEntitySetRequest {
 }
 export const UpdateThreatEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatEntitySetId: S.String.pipe(
-      T.HttpLabel("ThreatEntitySetId"),
-      T.JsonName("threatEntitySetId"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatEntitySetId: S.String.pipe(T.HttpLabel("ThreatEntitySetId")),
+    Name: S.optional(S.String),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatEntitySetId: "threatEntitySetId",
+        Name: "name",
+        Location: "location",
+        ExpectedBucketOwner: "expectedBucketOwner",
+        Activate: "activate",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/threatentityset/{ThreatEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateThreatEntitySetRequest",
 }) as any as S.Schema<UpdateThreatEntitySetRequest>;
@@ -8911,33 +9470,36 @@ export interface UpdateThreatIntelSetRequest {
 }
 export const UpdateThreatIntelSetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    ThreatIntelSetId: S.String.pipe(
-      T.HttpLabel("ThreatIntelSetId"),
-      T.JsonName("threatIntelSetId"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    ThreatIntelSetId: S.String.pipe(T.HttpLabel("ThreatIntelSetId")),
+    Name: S.optional(S.String),
+    Location: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+    ExpectedBucketOwner: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        ThreatIntelSetId: "threatIntelSetId",
+        Name: "name",
+        Location: "location",
+        Activate: "activate",
+        ExpectedBucketOwner: "expectedBucketOwner",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateThreatIntelSetRequest",
 }) as any as S.Schema<UpdateThreatIntelSetRequest>;
@@ -8957,33 +9519,36 @@ export interface UpdateTrustedEntitySetRequest {
 }
 export const UpdateTrustedEntitySetRequest = S.suspend(() =>
   S.Struct({
-    DetectorId: S.String.pipe(
-      T.HttpLabel("DetectorId"),
-      T.JsonName("detectorId"),
-    ),
-    TrustedEntitySetId: S.String.pipe(
-      T.HttpLabel("TrustedEntitySetId"),
-      T.JsonName("trustedEntitySetId"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Location: S.optional(S.String).pipe(T.JsonName("location")),
-    ExpectedBucketOwner: S.optional(S.String).pipe(
-      T.JsonName("expectedBucketOwner"),
-    ),
-    Activate: S.optional(S.Boolean).pipe(T.JsonName("activate")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+    DetectorId: S.String.pipe(T.HttpLabel("DetectorId")),
+    TrustedEntitySetId: S.String.pipe(T.HttpLabel("TrustedEntitySetId")),
+    Name: S.optional(S.String),
+    Location: S.optional(S.String),
+    ExpectedBucketOwner: S.optional(S.String),
+    Activate: S.optional(S.Boolean),
+  })
+    .pipe(
+      S.encodeKeys({
+        DetectorId: "detectorId",
+        TrustedEntitySetId: "trustedEntitySetId",
+        Name: "name",
+        Location: "location",
+        ExpectedBucketOwner: "expectedBucketOwner",
+        Activate: "activate",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/detector/{DetectorId}/trustedentityset/{TrustedEntitySetId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateTrustedEntitySetRequest",
 }) as any as S.Schema<UpdateTrustedEntitySetRequest>;
@@ -8997,38 +9562,23 @@ export const UpdateTrustedEntitySetResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Type: S.optional(S.String).pipe(T.JsonName("__type")),
-  },
+  { Message: S.optional(S.String), Type: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
   "InternalServerErrorException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Type: S.optional(S.String).pipe(T.JsonName("__type")),
-  },
+  { Message: S.optional(S.String), Type: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Type: S.optional(S.String).pipe(T.JsonName("__type")),
-  },
+  { Message: S.optional(S.String), Type: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Type: S.optional(S.String).pipe(T.JsonName("__type")),
-  },
+  { Message: S.optional(S.String), Type: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Type: S.optional(S.String).pipe(T.JsonName("__type")),
-  },
+  { Message: S.optional(S.String), Type: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations

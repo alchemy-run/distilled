@@ -180,18 +180,6 @@ const propertySignatureSymbol = "effect/PropertySignature" as const;
  */
 export const JsonName = (name: string) => {
   return <A extends Annotatable>(schema: A): A => {
-    // Check if it's a PropertySignature (has the symbol)
-    if (propertySignatureSymbol in schema) {
-      // It's already a PropertySignature - pipe fromKey onto it
-      return (schema as any).pipe(S.fromKey(name)) as A;
-    }
-
-    // It's a Schema - wrap in propertySignature and apply fromKey
-    if (S.isSchema(schema)) {
-      return S.propertySignature(schema as S.Top).pipe(S.fromKey(name)) as any;
-    }
-
-    // Fallback: just add annotation (shouldn't happen in practice)
     return schema.annotate({ [jsonNameSymbol]: name }) as A;
   };
 };
@@ -209,6 +197,20 @@ export const Ec2QueryName = (name: string) =>
 // =============================================================================
 // Timestamp Traits
 // =============================================================================
+
+/**
+ * DateFromString - String ↔ Date transformation via ISO 8601.
+ * Use this instead of bare S.Date when the wire format is a string.
+ */
+export const DateFromString = S.Date.pipe(
+  S.encodeTo(
+    S.String,
+    SchemaTransformation.transform({
+      decode: (s: string) => new Date(s),
+      encode: (d: Date) => d.toISOString(),
+    }),
+  ),
+);
 
 /** smithy.api#timestampFormat - Timestamp serialization format */
 export const timestampFormatSymbol = "distilled-aws/timestamp-format" as const;
@@ -782,7 +784,9 @@ function isEffectStream(
   u: unknown,
 ): u is Stream.Stream<unknown, unknown, unknown> {
   return (
-    u !== null && typeof u === "object" && "effect/Stream" in (u as object)
+    u !== null &&
+    typeof u === "object" &&
+    "~effect/Stream" in Object.getPrototypeOf(u as object)
   );
 }
 
@@ -990,11 +994,13 @@ export const getPropAnnotations = (prop: AST.PropertySignature) => {
  * @deprecated Use getPropAnnotations for PropertySignatures
  */
 export const getAnnotations = (schema: AST.AST) => {
-  const header = AST.getAnnotation<string>(schema, httpHeaderSymbol);
-  const body = AST.getAnnotation<string>(schema, httpPayloadSymbol);
-  const streamBody = AST.getAnnotation<boolean>(schema, httpPayloadSymbol);
-  const path = AST.getAnnotation<string>(schema, contextParamSymbol);
-  const xmlName = AST.getAnnotation<string>(schema, xmlNameSymbol);
+  const header = schema.annotations?.[httpHeaderSymbol] as string | undefined;
+  const body = schema.annotations?.[httpPayloadSymbol] as string | undefined;
+  const streamBody = schema.annotations?.[httpPayloadSymbol] as
+    | boolean
+    | undefined;
+  const path = schema.annotations?.[contextParamSymbol] as string | undefined;
+  const xmlName = schema.annotations?.[xmlNameSymbol] as string | undefined;
 
   return {
     header,
@@ -1030,9 +1036,8 @@ export const getXmlName = (ast: AST.AST): string | undefined => {
 export const hasAnnotation = (ast: AST.AST, symbol: string): boolean => {
   if (ast.annotations?.[symbol] !== undefined) return true;
 
-  // Handle S.suspend - check the inner AST
   if (ast._tag === "Suspend") {
-    return hasAnnotation(ast.f(), symbol);
+    return hasAnnotation(ast.thunk(), symbol);
   }
 
   if (ast._tag === "Union") {
@@ -1043,12 +1048,14 @@ export const hasAnnotation = (ast: AST.AST, symbol: string): boolean => {
     return nonNullishTypes.some((t: AST.AST) => hasAnnotation(t, symbol));
   }
 
-  if (ast._tag === "Transformation") {
-    if (ast.annotations?.[symbol] !== undefined) return true;
-    // For S.Class, annotations are on the 'to' side (the class instance)
-    if (ast.to?.annotations?.[symbol] !== undefined) return true;
-    // Also check 'from' side for other transformations
-    return hasAnnotation(ast.from, symbol);
+  // For Declaration (S.Class), check encoding chain
+  if (ast._tag === "Declaration" && ast.encoding?.length) {
+    if (ast.encoding[0].to?.annotations?.[symbol] !== undefined) return true;
+  }
+
+  // Follow encoding chain for transformed types
+  if (ast.encoding && ast.encoding.length > 0) {
+    return hasAnnotation(ast.encoding[0].to, symbol);
   }
 
   return false;
@@ -1064,19 +1071,20 @@ export const getAnnotationUnwrap = <T>(
   const direct = ast.annotations?.[symbol] as T | undefined;
   if (direct !== undefined) return direct;
 
-  // Handle S.suspend - check the inner AST
   if (ast._tag === "Suspend") {
     return getAnnotationUnwrap(ast.thunk(), symbol);
   }
 
-  if (ast._tag === "Transformation") {
-    // For S.Class, annotations are on the 'to' side (the class instance)
-    const toValue = ast.to?.annotations?.[symbol] as T | undefined;
+  // For Declaration (S.Class), check encoding chain
+  if (ast._tag === "Declaration" && ast.encoding?.length) {
+    const toValue = ast.encoding[0].to?.annotations?.[symbol] as T | undefined;
     if (toValue !== undefined) return toValue;
+  }
 
-    // Also check 'from' side for other transformations
-    const fromValue = ast.from?.annotations?.[symbol] as T | undefined;
-    if (fromValue !== undefined) return fromValue;
+  // Follow encoding chain for transformed types
+  if (ast.encoding && ast.encoding.length > 0) {
+    const encValue = getAnnotationUnwrap<T>(ast.encoding[0].to, symbol);
+    if (encValue !== undefined) return encValue;
   }
 
   if (ast._tag === "Union") {

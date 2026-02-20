@@ -146,15 +146,22 @@ export interface Cors {
 }
 export const Cors = S.suspend(() =>
   S.Struct({
-    AllowCredentials: S.optional(S.Boolean).pipe(
-      T.JsonName("allowCredentials"),
-    ),
-    AllowHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("allowHeaders")),
-    AllowMethods: S.optional(CorsMethodList).pipe(T.JsonName("allowMethods")),
-    AllowOrigins: S.optional(CorsOriginList).pipe(T.JsonName("allowOrigins")),
-    ExposeHeaders: S.optional(CorsHeaderList).pipe(T.JsonName("exposeHeaders")),
-    MaxAge: S.optional(S.Number).pipe(T.JsonName("maxAge")),
-  }),
+    AllowCredentials: S.optional(S.Boolean),
+    AllowHeaders: S.optional(CorsHeaderList),
+    AllowMethods: S.optional(CorsMethodList),
+    AllowOrigins: S.optional(CorsOriginList),
+    ExposeHeaders: S.optional(CorsHeaderList),
+    MaxAge: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AllowCredentials: "allowCredentials",
+      AllowHeaders: "allowHeaders",
+      AllowMethods: "allowMethods",
+      AllowOrigins: "allowOrigins",
+      ExposeHeaders: "exposeHeaders",
+      MaxAge: "maxAge",
+    }),
+  ),
 ).annotate({ identifier: "Cors" }) as any as S.Schema<Cors>;
 export type IpAddressType = "ipv4" | "dualstack" | (string & {});
 export const IpAddressType = S.String;
@@ -180,40 +187,49 @@ export interface CreateApiRequest {
 }
 export const CreateApiRequest = S.suspend(() =>
   S.Struct({
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteKey: S.optional(S.String),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Target: S.optional(S.String),
+    Version: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiKeySelectionExpression: "apiKeySelectionExpression",
+        CorsConfiguration: "corsConfiguration",
+        CredentialsArn: "credentialsArn",
+        Description: "description",
+        DisableSchemaValidation: "disableSchemaValidation",
+        DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+        IpAddressType: "ipAddressType",
+        Name: "name",
+        ProtocolType: "protocolType",
+        RouteKey: "routeKey",
+        RouteSelectionExpression: "routeSelectionExpression",
+        Tags: "tags",
+        Target: "target",
+        Version: "version",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateApiRequest",
 }) as any as S.Schema<CreateApiRequest>;
@@ -240,38 +256,46 @@ export interface CreateApiResponse {
 }
 export const CreateApiResponse = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({
   identifier: "CreateApiResponse",
 }) as any as S.Schema<CreateApiResponse>;
@@ -283,23 +307,31 @@ export interface CreateApiMappingRequest {
 }
 export const CreateApiMappingRequest = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    ApiId: S.optional(S.String),
+    ApiMappingKey: S.optional(S.String),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domainnames/{DomainName}/apimappings",
+    Stage: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiId: "apiId",
+        ApiMappingKey: "apiMappingKey",
+        Stage: "stage",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/domainnames/{DomainName}/apimappings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateApiMappingRequest",
 }) as any as S.Schema<CreateApiMappingRequest>;
@@ -311,11 +343,18 @@ export interface CreateApiMappingResponse {
 }
 export const CreateApiMappingResponse = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }),
+    ApiId: S.optional(S.String),
+    ApiMappingId: S.optional(S.String),
+    ApiMappingKey: S.optional(S.String),
+    Stage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiId: "apiId",
+      ApiMappingId: "apiMappingId",
+      ApiMappingKey: "apiMappingKey",
+      Stage: "stage",
+    }),
+  ),
 ).annotate({
   identifier: "CreateApiMappingResponse",
 }) as any as S.Schema<CreateApiMappingResponse>;
@@ -329,9 +368,9 @@ export interface JWTConfiguration {
 }
 export const JWTConfiguration = S.suspend(() =>
   S.Struct({
-    Audience: S.optional(__listOf__string).pipe(T.JsonName("audience")),
-    Issuer: S.optional(S.String).pipe(T.JsonName("issuer")),
-  }),
+    Audience: S.optional(__listOf__string),
+    Issuer: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Audience: "audience", Issuer: "issuer" })),
 ).annotate({
   identifier: "JWTConfiguration",
 }) as any as S.Schema<JWTConfiguration>;
@@ -351,42 +390,41 @@ export interface CreateAuthorizerRequest {
 export const CreateAuthorizerRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
+    AuthorizerCredentialsArn: S.optional(S.String),
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        AuthorizerCredentialsArn: "authorizerCredentialsArn",
+        AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+        AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+        AuthorizerType: "authorizerType",
+        AuthorizerUri: "authorizerUri",
+        EnableSimpleResponses: "enableSimpleResponses",
+        IdentitySource: "identitySource",
+        IdentityValidationExpression: "identityValidationExpression",
+        JwtConfiguration: "jwtConfiguration",
+        Name: "name",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/authorizers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/authorizers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateAuthorizerRequest",
 }) as any as S.Schema<CreateAuthorizerRequest>;
@@ -405,34 +443,32 @@ export interface CreateAuthorizerResponse {
 }
 export const CreateAuthorizerResponse = S.suspend(() =>
   S.Struct({
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+    AuthorizerCredentialsArn: S.optional(S.String),
+    AuthorizerId: S.optional(S.String),
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AuthorizerCredentialsArn: "authorizerCredentialsArn",
+      AuthorizerId: "authorizerId",
+      AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+      AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+      AuthorizerType: "authorizerType",
+      AuthorizerUri: "authorizerUri",
+      EnableSimpleResponses: "enableSimpleResponses",
+      IdentitySource: "identitySource",
+      IdentityValidationExpression: "identityValidationExpression",
+      JwtConfiguration: "jwtConfiguration",
+      Name: "name",
+    }),
+  ),
 ).annotate({
   identifier: "CreateAuthorizerResponse",
 }) as any as S.Schema<CreateAuthorizerResponse>;
@@ -444,18 +480,20 @@ export interface CreateDeploymentRequest {
 export const CreateDeploymentRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Description: S.optional(S.String),
+    StageName: S.optional(S.String),
+  })
+    .pipe(S.encodeKeys({ Description: "description", StageName: "stageName" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/deployments" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateDeploymentRequest",
 }) as any as S.Schema<CreateDeploymentRequest>;
@@ -475,19 +513,24 @@ export interface CreateDeploymentResponse {
 }
 export const CreateDeploymentResponse = S.suspend(() =>
   S.Struct({
-    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    AutoDeployed: S.optional(S.Boolean),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    DeploymentStatus: S.optional(DeploymentStatus).pipe(
-      T.JsonName("deploymentStatus"),
-    ),
-    DeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("deploymentStatusMessage"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-  }),
+    DeploymentId: S.optional(S.String),
+    DeploymentStatus: S.optional(DeploymentStatus),
+    DeploymentStatusMessage: S.optional(S.String),
+    Description: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AutoDeployed: "autoDeployed",
+      CreatedDate: "createdDate",
+      DeploymentId: "deploymentId",
+      DeploymentStatus: "deploymentStatus",
+      DeploymentStatusMessage: "deploymentStatusMessage",
+      Description: "description",
+    }),
+  ),
 ).annotate({
   identifier: "CreateDeploymentResponse",
 }) as any as S.Schema<CreateDeploymentResponse>;
@@ -517,30 +560,35 @@ export interface DomainNameConfiguration {
 }
 export const DomainNameConfiguration = S.suspend(() =>
   S.Struct({
-    ApiGatewayDomainName: S.optional(S.String).pipe(
-      T.JsonName("apiGatewayDomainName"),
-    ),
-    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-    CertificateName: S.optional(S.String).pipe(T.JsonName("certificateName")),
+    ApiGatewayDomainName: S.optional(S.String),
+    CertificateArn: S.optional(S.String),
+    CertificateName: S.optional(S.String),
     CertificateUploadDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("certificateUploadDate")),
-    DomainNameStatus: S.optional(DomainNameStatus).pipe(
-      T.JsonName("domainNameStatus"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DomainNameStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("domainNameStatusMessage"),
-    ),
-    EndpointType: S.optional(EndpointType).pipe(T.JsonName("endpointType")),
-    HostedZoneId: S.optional(S.String).pipe(T.JsonName("hostedZoneId")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    SecurityPolicy: S.optional(SecurityPolicy).pipe(
-      T.JsonName("securityPolicy"),
-    ),
-    OwnershipVerificationCertificateArn: S.optional(S.String).pipe(
-      T.JsonName("ownershipVerificationCertificateArn"),
-    ),
-  }),
+    DomainNameStatus: S.optional(DomainNameStatus),
+    DomainNameStatusMessage: S.optional(S.String),
+    EndpointType: S.optional(EndpointType),
+    HostedZoneId: S.optional(S.String),
+    IpAddressType: S.optional(IpAddressType),
+    SecurityPolicy: S.optional(SecurityPolicy),
+    OwnershipVerificationCertificateArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayDomainName: "apiGatewayDomainName",
+      CertificateArn: "certificateArn",
+      CertificateName: "certificateName",
+      CertificateUploadDate: "certificateUploadDate",
+      DomainNameStatus: "domainNameStatus",
+      DomainNameStatusMessage: "domainNameStatusMessage",
+      EndpointType: "endpointType",
+      HostedZoneId: "hostedZoneId",
+      IpAddressType: "ipAddressType",
+      SecurityPolicy: "securityPolicy",
+      OwnershipVerificationCertificateArn:
+        "ownershipVerificationCertificateArn",
+    }),
+  ),
 ).annotate({
   identifier: "DomainNameConfiguration",
 }) as any as S.Schema<DomainNameConfiguration>;
@@ -552,11 +600,14 @@ export interface MutualTlsAuthenticationInput {
 }
 export const MutualTlsAuthenticationInput = S.suspend(() =>
   S.Struct({
-    TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
-    TruststoreVersion: S.optional(S.String).pipe(
-      T.JsonName("truststoreVersion"),
-    ),
-  }),
+    TruststoreUri: S.optional(S.String),
+    TruststoreVersion: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      TruststoreUri: "truststoreUri",
+      TruststoreVersion: "truststoreVersion",
+    }),
+  ),
 ).annotate({
   identifier: "MutualTlsAuthenticationInput",
 }) as any as S.Schema<MutualTlsAuthenticationInput>;
@@ -575,25 +626,31 @@ export interface CreateDomainNameRequest {
 }
 export const CreateDomainNameRequest = S.suspend(() =>
   S.Struct({
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
+    DomainName: S.optional(S.String),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput),
+    RoutingMode: S.optional(RoutingMode),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        DomainName: "domainName",
+        DomainNameConfigurations: "domainNameConfigurations",
+        MutualTlsAuthentication: "mutualTlsAuthentication",
+        RoutingMode: "routingMode",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/domainnames" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthenticationInput" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/domainnames" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateDomainNameRequest",
 }) as any as S.Schema<CreateDomainNameRequest>;
@@ -604,14 +661,16 @@ export interface MutualTlsAuthentication {
 }
 export const MutualTlsAuthentication = S.suspend(() =>
   S.Struct({
-    TruststoreUri: S.optional(S.String).pipe(T.JsonName("truststoreUri")),
-    TruststoreVersion: S.optional(S.String).pipe(
-      T.JsonName("truststoreVersion"),
-    ),
-    TruststoreWarnings: S.optional(__listOf__string).pipe(
-      T.JsonName("truststoreWarnings"),
-    ),
-  }),
+    TruststoreUri: S.optional(S.String),
+    TruststoreVersion: S.optional(S.String),
+    TruststoreWarnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      TruststoreUri: "truststoreUri",
+      TruststoreVersion: "truststoreVersion",
+      TruststoreWarnings: "truststoreWarnings",
+    }),
+  ),
 ).annotate({
   identifier: "MutualTlsAuthentication",
 }) as any as S.Schema<MutualTlsAuthentication>;
@@ -626,20 +685,24 @@ export interface CreateDomainNameResponse {
 }
 export const CreateDomainNameResponse = S.suspend(() =>
   S.Struct({
-    ApiMappingSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiMappingSelectionExpression"),
-    ),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
-    ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthentication" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApiMappingSelectionExpression: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    DomainNameArn: S.optional(S.String),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication),
+    RoutingMode: S.optional(RoutingMode),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApiMappingSelectionExpression: "apiMappingSelectionExpression",
+      DomainName: "domainName",
+      DomainNameArn: "domainNameArn",
+      DomainNameConfigurations: "domainNameConfigurations",
+      MutualTlsAuthentication: "mutualTlsAuthentication",
+      RoutingMode: "routingMode",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateDomainNameResponse",
 }) as any as S.Schema<CreateDomainNameResponse>;
@@ -682,11 +745,9 @@ export interface TlsConfigInput {
   ServerNameToVerify?: string;
 }
 export const TlsConfigInput = S.suspend(() =>
-  S.Struct({
-    ServerNameToVerify: S.optional(S.String).pipe(
-      T.JsonName("serverNameToVerify"),
-    ),
-  }),
+  S.Struct({ ServerNameToVerify: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ServerNameToVerify: "serverNameToVerify" }),
+  ),
 ).annotate({ identifier: "TlsConfigInput" }) as any as S.Schema<TlsConfigInput>;
 export interface CreateIntegrationRequest {
   ApiId: string;
@@ -713,57 +774,55 @@ export interface CreateIntegrationRequest {
 export const CreateIntegrationRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    IntegrationMethod: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfigInput),
+  })
+    .pipe(
+      S.encodeKeys({
+        ConnectionId: "connectionId",
+        ConnectionType: "connectionType",
+        ContentHandlingStrategy: "contentHandlingStrategy",
+        CredentialsArn: "credentialsArn",
+        Description: "description",
+        IntegrationMethod: "integrationMethod",
+        IntegrationSubtype: "integrationSubtype",
+        IntegrationType: "integrationType",
+        IntegrationUri: "integrationUri",
+        PassthroughBehavior: "passthroughBehavior",
+        PayloadFormatVersion: "payloadFormatVersion",
+        RequestParameters: "requestParameters",
+        RequestTemplates: "requestTemplates",
+        ResponseParameters: "responseParameters",
+        TemplateSelectionExpression: "templateSelectionExpression",
+        TimeoutInMillis: "timeoutInMillis",
+        TlsConfig: "tlsConfig",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/integrations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfigInput)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfigInput" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/integrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateIntegrationRequest",
 }) as any as S.Schema<CreateIntegrationRequest>;
@@ -771,11 +830,9 @@ export interface TlsConfig {
   ServerNameToVerify?: string;
 }
 export const TlsConfig = S.suspend(() =>
-  S.Struct({
-    ServerNameToVerify: S.optional(S.String).pipe(
-      T.JsonName("serverNameToVerify"),
-    ),
-  }),
+  S.Struct({ ServerNameToVerify: S.optional(S.String) }).pipe(
+    S.encodeKeys({ ServerNameToVerify: "serverNameToVerify" }),
+  ),
 ).annotate({ identifier: "TlsConfig" }) as any as S.Schema<TlsConfig>;
 export interface CreateIntegrationResult {
   ApiGatewayManaged?: boolean;
@@ -803,55 +860,51 @@ export interface CreateIntegrationResult {
 }
 export const CreateIntegrationResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
-    ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseSelectionExpression"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfig)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfig" }),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    IntegrationId: S.optional(S.String),
+    IntegrationMethod: S.optional(S.String),
+    IntegrationResponseSelectionExpression: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfig),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ConnectionId: "connectionId",
+      ConnectionType: "connectionType",
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      CredentialsArn: "credentialsArn",
+      Description: "description",
+      IntegrationId: "integrationId",
+      IntegrationMethod: "integrationMethod",
+      IntegrationResponseSelectionExpression:
+        "integrationResponseSelectionExpression",
+      IntegrationSubtype: "integrationSubtype",
+      IntegrationType: "integrationType",
+      IntegrationUri: "integrationUri",
+      PassthroughBehavior: "passthroughBehavior",
+      PayloadFormatVersion: "payloadFormatVersion",
+      RequestParameters: "requestParameters",
+      RequestTemplates: "requestTemplates",
+      ResponseParameters: "responseParameters",
+      TemplateSelectionExpression: "templateSelectionExpression",
+      TimeoutInMillis: "timeoutInMillis",
+      TlsConfig: "tlsConfig",
+    }),
+  ),
 ).annotate({
   identifier: "CreateIntegrationResult",
 }) as any as S.Schema<CreateIntegrationResult>;
@@ -867,35 +920,35 @@ export interface CreateIntegrationResponseRequest {
 export const CreateIntegrationResponseRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ContentHandlingStrategy: "contentHandlingStrategy",
+        IntegrationResponseKey: "integrationResponseKey",
+        ResponseParameters: "responseParameters",
+        ResponseTemplates: "responseTemplates",
+        TemplateSelectionExpression: "templateSelectionExpression",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateIntegrationResponseRequest",
 }) as any as S.Schema<CreateIntegrationResponseRequest>;
@@ -909,25 +962,22 @@ export interface CreateIntegrationResponseResponse {
 }
 export const CreateIntegrationResponseResponse = S.suspend(() =>
   S.Struct({
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    IntegrationResponseId: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseId"),
-    ),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    IntegrationResponseId: S.optional(S.String),
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      IntegrationResponseId: "integrationResponseId",
+      IntegrationResponseKey: "integrationResponseKey",
+      ResponseParameters: "responseParameters",
+      ResponseTemplates: "responseTemplates",
+      TemplateSelectionExpression: "templateSelectionExpression",
+    }),
+  ),
 ).annotate({
   identifier: "CreateIntegrationResponseResponse",
 }) as any as S.Schema<CreateIntegrationResponseResponse>;
@@ -941,20 +991,29 @@ export interface CreateModelRequest {
 export const CreateModelRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ContentType: "contentType",
+        Description: "description",
+        Name: "name",
+        Schema: "schema",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/models" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateModelRequest",
 }) as any as S.Schema<CreateModelRequest>;
@@ -967,12 +1026,20 @@ export interface CreateModelResponse {
 }
 export const CreateModelResponse = S.suspend(() =>
   S.Struct({
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }),
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
+    ModelId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentType: "contentType",
+      Description: "description",
+      ModelId: "modelId",
+      Name: "name",
+      Schema: "schema",
+    }),
+  ),
 ).annotate({
   identifier: "CreateModelResponse",
 }) as any as S.Schema<CreateModelResponse>;
@@ -983,10 +1050,16 @@ export interface CognitoConfig {
 }
 export const CognitoConfig = S.suspend(() =>
   S.Struct({
-    AppClientId: S.optional(S.String).pipe(T.JsonName("appClientId")),
-    UserPoolArn: S.optional(S.String).pipe(T.JsonName("userPoolArn")),
-    UserPoolDomain: S.optional(S.String).pipe(T.JsonName("userPoolDomain")),
-  }),
+    AppClientId: S.optional(S.String),
+    UserPoolArn: S.optional(S.String),
+    UserPoolDomain: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AppClientId: "appClientId",
+      UserPoolArn: "userPoolArn",
+      UserPoolDomain: "userPoolDomain",
+    }),
+  ),
 ).annotate({ identifier: "CognitoConfig" }) as any as S.Schema<CognitoConfig>;
 export interface None {}
 export const None = S.suspend(() => S.Struct({})).annotate({
@@ -998,13 +1071,9 @@ export interface Authorization {
 }
 export const Authorization = S.suspend(() =>
   S.Struct({
-    CognitoConfig: S.optional(CognitoConfig)
-      .pipe(T.JsonName("cognitoConfig"))
-      .annotate({ identifier: "CognitoConfig" }),
-    None: S.optional(None)
-      .pipe(T.JsonName("none"))
-      .annotate({ identifier: "None" }),
-  }),
+    CognitoConfig: S.optional(CognitoConfig),
+    None: S.optional(None),
+  }).pipe(S.encodeKeys({ CognitoConfig: "cognitoConfig", None: "none" })),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export interface ACMManaged {
   CertificateArn?: string;
@@ -1012,23 +1081,23 @@ export interface ACMManaged {
 }
 export const ACMManaged = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-  }),
+    CertificateArn: S.optional(S.String),
+    DomainName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CertificateArn: "certificateArn",
+      DomainName: "domainName",
+    }),
+  ),
 ).annotate({ identifier: "ACMManaged" }) as any as S.Schema<ACMManaged>;
 export interface EndpointConfigurationRequest {
   AcmManaged?: ACMManaged;
   None?: None;
 }
 export const EndpointConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    AcmManaged: S.optional(ACMManaged)
-      .pipe(T.JsonName("acmManaged"))
-      .annotate({ identifier: "ACMManaged" }),
-    None: S.optional(None)
-      .pipe(T.JsonName("none"))
-      .annotate({ identifier: "None" }),
-  }),
+  S.Struct({ AcmManaged: S.optional(ACMManaged), None: S.optional(None) }).pipe(
+    S.encodeKeys({ AcmManaged: "acmManaged", None: "none" }),
+  ),
 ).annotate({
   identifier: "EndpointConfigurationRequest",
 }) as any as S.Schema<EndpointConfigurationRequest>;
@@ -1044,15 +1113,22 @@ export interface CustomColors {
 }
 export const CustomColors = S.suspend(() =>
   S.Struct({
-    AccentColor: S.optional(S.String).pipe(T.JsonName("accentColor")),
-    BackgroundColor: S.optional(S.String).pipe(T.JsonName("backgroundColor")),
-    ErrorValidationColor: S.optional(S.String).pipe(
-      T.JsonName("errorValidationColor"),
-    ),
-    HeaderColor: S.optional(S.String).pipe(T.JsonName("headerColor")),
-    NavigationColor: S.optional(S.String).pipe(T.JsonName("navigationColor")),
-    TextColor: S.optional(S.String).pipe(T.JsonName("textColor")),
-  }),
+    AccentColor: S.optional(S.String),
+    BackgroundColor: S.optional(S.String),
+    ErrorValidationColor: S.optional(S.String),
+    HeaderColor: S.optional(S.String),
+    NavigationColor: S.optional(S.String),
+    TextColor: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccentColor: "accentColor",
+      BackgroundColor: "backgroundColor",
+      ErrorValidationColor: "errorValidationColor",
+      HeaderColor: "headerColor",
+      NavigationColor: "navigationColor",
+      TextColor: "textColor",
+    }),
+  ),
 ).annotate({ identifier: "CustomColors" }) as any as S.Schema<CustomColors>;
 export interface PortalTheme {
   CustomColors?: CustomColors;
@@ -1060,13 +1136,16 @@ export interface PortalTheme {
 }
 export const PortalTheme = S.suspend(() =>
   S.Struct({
-    CustomColors: S.optional(CustomColors)
-      .pipe(T.JsonName("customColors"))
-      .annotate({ identifier: "CustomColors" }),
+    CustomColors: S.optional(CustomColors),
     LogoLastUploaded: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("logoLastUploaded")),
-  }),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      CustomColors: "customColors",
+      LogoLastUploaded: "logoLastUploaded",
+    }),
+  ),
 ).annotate({ identifier: "PortalTheme" }) as any as S.Schema<PortalTheme>;
 export interface PortalContent {
   Description?: string;
@@ -1075,12 +1154,16 @@ export interface PortalContent {
 }
 export const PortalContent = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    Theme: S.optional(PortalTheme)
-      .pipe(T.JsonName("theme"))
-      .annotate({ identifier: "PortalTheme" }),
-  }),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Theme: S.optional(PortalTheme),
+  }).pipe(
+    S.encodeKeys({
+      Description: "description",
+      DisplayName: "displayName",
+      Theme: "theme",
+    }),
+  ),
 ).annotate({ identifier: "PortalContent" }) as any as S.Schema<PortalContent>;
 export interface CreatePortalRequest {
   Authorization?: Authorization;
@@ -1093,33 +1176,35 @@ export interface CreatePortalRequest {
 }
 export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationRequest)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationRequest" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationRequest),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LogoUri: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
+    RumAppMonitorName: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Authorization: "authorization",
+        EndpointConfiguration: "endpointConfiguration",
+        IncludedPortalProductArns: "includedPortalProductArns",
+        LogoUri: "logoUri",
+        PortalContent: "portalContent",
+        RumAppMonitorName: "rumAppMonitorName",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/portals" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    LogoUri: S.optional(S.String).pipe(T.JsonName("logoUri")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/portals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreatePortalRequest",
 }) as any as S.Schema<CreatePortalRequest>;
@@ -1131,15 +1216,18 @@ export interface EndpointConfigurationResponse {
 }
 export const EndpointConfigurationResponse = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    PortalDefaultDomainName: S.optional(S.String).pipe(
-      T.JsonName("portalDefaultDomainName"),
-    ),
-    PortalDomainHostedZoneId: S.optional(S.String).pipe(
-      T.JsonName("portalDomainHostedZoneId"),
-    ),
-  }),
+    CertificateArn: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    PortalDefaultDomainName: S.optional(S.String),
+    PortalDomainHostedZoneId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CertificateArn: "certificateArn",
+      DomainName: "domainName",
+      PortalDefaultDomainName: "portalDefaultDomainName",
+      PortalDomainHostedZoneId: "portalDomainHostedZoneId",
+    }),
+  ),
 ).annotate({
   identifier: "EndpointConfigurationResponse",
 }) as any as S.Schema<EndpointConfigurationResponse>;
@@ -1156,9 +1244,9 @@ export interface StatusException {
 }
 export const StatusException = S.suspend(() =>
   S.Struct({
-    Exception: S.optional(S.String).pipe(T.JsonName("exception")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  }),
+    Exception: S.optional(S.String),
+    Message: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Exception: "exception", Message: "message" })),
 ).annotate({
   identifier: "StatusException",
 }) as any as S.Schema<StatusException>;
@@ -1200,38 +1288,40 @@ export interface CreatePortalResponse {
 }
 export const CreatePortalResponse = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationResponse" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    LastPublished: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastPublished"),
-    ),
-    LastPublishedDescription: S.optional(S.String).pipe(
-      T.JsonName("lastPublishedDescription"),
-    ),
-    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
-    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-    PublishStatus: S.optional(PublishStatus).pipe(T.JsonName("publishStatus")),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
-    ),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    LastPublishedDescription: S.optional(S.String),
+    PortalArn: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
+    PortalId: S.optional(S.String),
+    PublishStatus: S.optional(PublishStatus),
+    RumAppMonitorName: S.optional(S.String),
+    StatusException: S.optional(StatusException),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Authorization: "authorization",
+      EndpointConfiguration: "endpointConfiguration",
+      IncludedPortalProductArns: "includedPortalProductArns",
+      LastModified: "lastModified",
+      LastPublished: "lastPublished",
+      LastPublishedDescription: "lastPublishedDescription",
+      PortalArn: "portalArn",
+      PortalContent: "portalContent",
+      PortalId: "portalId",
+      PublishStatus: "publishStatus",
+      RumAppMonitorName: "rumAppMonitorName",
+      StatusException: "statusException",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreatePortalResponse",
 }) as any as S.Schema<CreatePortalResponse>;
@@ -1242,19 +1332,27 @@ export interface CreatePortalProductRequest {
 }
 export const CreatePortalProductRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/portalproducts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        DisplayName: "displayName",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/portalproducts" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreatePortalProductRequest",
 }) as any as S.Schema<CreatePortalProductRequest>;
@@ -1264,11 +1362,14 @@ export interface Section {
 }
 export const Section = S.suspend(() =>
   S.Struct({
-    ProductRestEndpointPageArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("productRestEndpointPageArns"),
-    ),
-    SectionName: S.optional(S.String).pipe(T.JsonName("sectionName")),
-  }),
+    ProductRestEndpointPageArns: S.optional(__listOf__stringMin20Max2048),
+    SectionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ProductRestEndpointPageArns: "productRestEndpointPageArns",
+      SectionName: "sectionName",
+    }),
+  ),
 ).annotate({ identifier: "Section" }) as any as S.Schema<Section>;
 export type __listOfSection = Section[];
 export const __listOfSection = S.Array(Section);
@@ -1279,12 +1380,16 @@ export interface DisplayOrder {
 }
 export const DisplayOrder = S.suspend(() =>
   S.Struct({
-    Contents: S.optional(__listOfSection).pipe(T.JsonName("contents")),
-    OverviewPageArn: S.optional(S.String).pipe(T.JsonName("overviewPageArn")),
-    ProductPageArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("productPageArns"),
-    ),
-  }),
+    Contents: S.optional(__listOfSection),
+    OverviewPageArn: S.optional(S.String),
+    ProductPageArns: S.optional(__listOf__stringMin20Max2048),
+  }).pipe(
+    S.encodeKeys({
+      Contents: "contents",
+      OverviewPageArn: "overviewPageArn",
+      ProductPageArns: "productPageArns",
+    }),
+  ),
 ).annotate({ identifier: "DisplayOrder" }) as any as S.Schema<DisplayOrder>;
 export interface CreatePortalProductResponse {
   Description?: string;
@@ -1302,18 +1407,26 @@ export interface CreatePortalProductResponse {
 }
 export const CreatePortalProductResponse = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    DisplayOrder: S.optional(DisplayOrder)
-      .pipe(T.JsonName("displayOrder"))
-      .annotate({ identifier: "DisplayOrder" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    DisplayOrder: S.optional(DisplayOrder),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    PortalProductArn: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Description: "description",
+      DisplayName: "displayName",
+      DisplayOrder: "displayOrder",
+      LastModified: "lastModified",
+      PortalProductArn: "portalProductArn",
+      PortalProductId: "portalProductId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreatePortalProductResponse",
 }) as any as S.Schema<CreatePortalProductResponse>;
@@ -1322,10 +1435,9 @@ export interface DisplayContent {
   Title?: string;
 }
 export const DisplayContent = S.suspend(() =>
-  S.Struct({
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
-    Title: S.optional(S.String).pipe(T.JsonName("title")),
-  }),
+  S.Struct({ Body: S.optional(S.String), Title: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Body: "body", Title: "title" }),
+  ),
 ).annotate({ identifier: "DisplayContent" }) as any as S.Schema<DisplayContent>;
 export interface CreateProductPageRequest {
   DisplayContent?: DisplayContent;
@@ -1333,23 +1445,23 @@ export interface CreateProductPageRequest {
 }
 export const CreateProductPageRequest = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(DisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "DisplayContent" }),
+    DisplayContent: S.optional(DisplayContent),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/portalproducts/{PortalProductId}/productpages",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ DisplayContent: "displayContent" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/portalproducts/{PortalProductId}/productpages",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateProductPageRequest",
 }) as any as S.Schema<CreateProductPageRequest>;
@@ -1364,15 +1476,20 @@ export interface CreateProductPageResponse {
 }
 export const CreateProductPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(DisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "DisplayContent" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(DisplayContent),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-  }),
+    ProductPageArn: S.optional(S.String),
+    ProductPageId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductPageArn: "productPageArn",
+      ProductPageId: "productPageId",
+    }),
+  ),
 ).annotate({
   identifier: "CreateProductPageResponse",
 }) as any as S.Schema<CreateProductPageResponse>;
@@ -1383,10 +1500,16 @@ export interface DisplayContentOverrides {
 }
 export const DisplayContentOverrides = S.suspend(() =>
   S.Struct({
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
-    Endpoint: S.optional(S.String).pipe(T.JsonName("endpoint")),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  }),
+    Body: S.optional(S.String),
+    Endpoint: S.optional(S.String),
+    OperationName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Body: "body",
+      Endpoint: "endpoint",
+      OperationName: "operationName",
+    }),
+  ),
 ).annotate({
   identifier: "DisplayContentOverrides",
 }) as any as S.Schema<DisplayContentOverrides>;
@@ -1396,13 +1519,9 @@ export interface EndpointDisplayContent {
 }
 export const EndpointDisplayContent = S.suspend(() =>
   S.Struct({
-    None: S.optional(None)
-      .pipe(T.JsonName("none"))
-      .annotate({ identifier: "None" }),
-    Overrides: S.optional(DisplayContentOverrides)
-      .pipe(T.JsonName("overrides"))
-      .annotate({ identifier: "DisplayContentOverrides" }),
-  }),
+    None: S.optional(None),
+    Overrides: S.optional(DisplayContentOverrides),
+  }).pipe(S.encodeKeys({ None: "none", Overrides: "overrides" })),
 ).annotate({
   identifier: "EndpointDisplayContent",
 }) as any as S.Schema<EndpointDisplayContent>;
@@ -1414,11 +1533,18 @@ export interface IdentifierParts {
 }
 export const IdentifierParts = S.suspend(() =>
   S.Struct({
-    Method: S.optional(S.String).pipe(T.JsonName("method")),
-    Path: S.optional(S.String).pipe(T.JsonName("path")),
-    RestApiId: S.optional(S.String).pipe(T.JsonName("restApiId")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }),
+    Method: S.optional(S.String),
+    Path: S.optional(S.String),
+    RestApiId: S.optional(S.String),
+    Stage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Method: "method",
+      Path: "path",
+      RestApiId: "restApiId",
+      Stage: "stage",
+    }),
+  ),
 ).annotate({
   identifier: "IdentifierParts",
 }) as any as S.Schema<IdentifierParts>;
@@ -1426,11 +1552,9 @@ export interface RestEndpointIdentifier {
   IdentifierParts?: IdentifierParts;
 }
 export const RestEndpointIdentifier = S.suspend(() =>
-  S.Struct({
-    IdentifierParts: S.optional(IdentifierParts)
-      .pipe(T.JsonName("identifierParts"))
-      .annotate({ identifier: "IdentifierParts" }),
-  }),
+  S.Struct({ IdentifierParts: S.optional(IdentifierParts) }).pipe(
+    S.encodeKeys({ IdentifierParts: "identifierParts" }),
+  ),
 ).annotate({
   identifier: "RestEndpointIdentifier",
 }) as any as S.Schema<RestEndpointIdentifier>;
@@ -1444,27 +1568,31 @@ export interface CreateProductRestEndpointPageRequest {
 }
 export const CreateProductRestEndpointPageRequest = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(EndpointDisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "EndpointDisplayContent" }),
+    DisplayContent: S.optional(EndpointDisplayContent),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
-      .pipe(T.JsonName("restEndpointIdentifier"))
-      .annotate({ identifier: "RestEndpointIdentifier" }),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    TryItState: S.optional(TryItState),
+  })
+    .pipe(
+      S.encodeKeys({
+        DisplayContent: "displayContent",
+        RestEndpointIdentifier: "restEndpointIdentifier",
+        TryItState: "tryItState",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateProductRestEndpointPageRequest",
 }) as any as S.Schema<CreateProductRestEndpointPageRequest>;
@@ -1475,10 +1603,16 @@ export interface EndpointDisplayContentResponse {
 }
 export const EndpointDisplayContentResponse = S.suspend(() =>
   S.Struct({
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
-    Endpoint: S.optional(S.String).pipe(T.JsonName("endpoint")),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-  }),
+    Body: S.optional(S.String),
+    Endpoint: S.optional(S.String),
+    OperationName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Body: "body",
+      Endpoint: "endpoint",
+      OperationName: "operationName",
+    }),
+  ),
 ).annotate({
   identifier: "EndpointDisplayContentResponse",
 }) as any as S.Schema<EndpointDisplayContentResponse>;
@@ -1505,27 +1639,28 @@ export interface CreateProductRestEndpointPageResponse {
 }
 export const CreateProductRestEndpointPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(EndpointDisplayContentResponse)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "EndpointDisplayContentResponse" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(EndpointDisplayContentResponse),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductRestEndpointPageArn: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageArn"),
-    ),
-    ProductRestEndpointPageId: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageId"),
-    ),
-    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
-      .pipe(T.JsonName("restEndpointIdentifier"))
-      .annotate({ identifier: "RestEndpointIdentifier" }),
-    Status: S.optional(Status).pipe(T.JsonName("status")),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "CreateProductRestEndpointPageResponse",
 }) as any as S.Schema<CreateProductRestEndpointPageResponse>;
@@ -1544,7 +1679,9 @@ export interface ParameterConstraints {
   Required?: boolean;
 }
 export const ParameterConstraints = S.suspend(() =>
-  S.Struct({ Required: S.optional(S.Boolean).pipe(T.JsonName("required")) }),
+  S.Struct({ Required: S.optional(S.Boolean) }).pipe(
+    S.encodeKeys({ Required: "required" }),
+  ),
 ).annotate({
   identifier: "ParameterConstraints",
 }) as any as S.Schema<ParameterConstraints>;
@@ -1572,37 +1709,43 @@ export interface CreateRouteRequest {
 export const CreateRouteRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiKeyRequired: "apiKeyRequired",
+        AuthorizationScopes: "authorizationScopes",
+        AuthorizationType: "authorizationType",
+        AuthorizerId: "authorizerId",
+        ModelSelectionExpression: "modelSelectionExpression",
+        OperationName: "operationName",
+        RequestModels: "requestModels",
+        RequestParameters: "requestParameters",
+        RouteKey: "routeKey",
+        RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+        Target: "target",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/routes" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/routes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateRouteRequest",
 }) as any as S.Schema<CreateRouteRequest>;
@@ -1623,32 +1766,36 @@ export interface CreateRouteResult {
 }
 export const CreateRouteResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
-    ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
+    RouteId: S.optional(S.String),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiKeyRequired: "apiKeyRequired",
+      AuthorizationScopes: "authorizationScopes",
+      AuthorizationType: "authorizationType",
+      AuthorizerId: "authorizerId",
+      ModelSelectionExpression: "modelSelectionExpression",
+      OperationName: "operationName",
+      RequestModels: "requestModels",
+      RequestParameters: "requestParameters",
+      RouteId: "routeId",
+      RouteKey: "routeKey",
+      RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+      Target: "target",
+    }),
+  ),
 ).annotate({
   identifier: "CreateRouteResult",
 }) as any as S.Schema<CreateRouteResult>;
@@ -1663,28 +1810,33 @@ export interface CreateRouteResponseRequest {
 export const CreateRouteResponseRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
+    RouteResponseKey: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ModelSelectionExpression: "modelSelectionExpression",
+        ResponseModels: "responseModels",
+        ResponseParameters: "responseParameters",
+        RouteResponseKey: "routeResponseKey",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateRouteResponseRequest",
 }) as any as S.Schema<CreateRouteResponseRequest>;
@@ -1697,16 +1849,20 @@ export interface CreateRouteResponseResponse {
 }
 export const CreateRouteResponseResponse = S.suspend(() =>
   S.Struct({
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
+    RouteResponseId: S.optional(S.String),
+    RouteResponseKey: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ModelSelectionExpression: "modelSelectionExpression",
+      ResponseModels: "responseModels",
+      ResponseParameters: "responseParameters",
+      RouteResponseId: "routeResponseId",
+      RouteResponseKey: "routeResponseKey",
+    }),
+  ),
 ).annotate({
   identifier: "CreateRouteResponseResponse",
 }) as any as S.Schema<CreateRouteResponseResponse>;
@@ -1717,10 +1873,16 @@ export interface RoutingRuleActionInvokeApi {
 }
 export const RoutingRuleActionInvokeApi = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-    StripBasePath: S.optional(S.Boolean).pipe(T.JsonName("stripBasePath")),
-  }),
+    ApiId: S.optional(S.String),
+    Stage: S.optional(S.String),
+    StripBasePath: S.optional(S.Boolean),
+  }).pipe(
+    S.encodeKeys({
+      ApiId: "apiId",
+      Stage: "stage",
+      StripBasePath: "stripBasePath",
+    }),
+  ),
 ).annotate({
   identifier: "RoutingRuleActionInvokeApi",
 }) as any as S.Schema<RoutingRuleActionInvokeApi>;
@@ -1728,11 +1890,9 @@ export interface RoutingRuleAction {
   InvokeApi?: RoutingRuleActionInvokeApi;
 }
 export const RoutingRuleAction = S.suspend(() =>
-  S.Struct({
-    InvokeApi: S.optional(RoutingRuleActionInvokeApi)
-      .pipe(T.JsonName("invokeApi"))
-      .annotate({ identifier: "RoutingRuleActionInvokeApi" }),
-  }),
+  S.Struct({ InvokeApi: S.optional(RoutingRuleActionInvokeApi) }).pipe(
+    S.encodeKeys({ InvokeApi: "invokeApi" }),
+  ),
 ).annotate({
   identifier: "RoutingRuleAction",
 }) as any as S.Schema<RoutingRuleAction>;
@@ -1744,9 +1904,9 @@ export interface RoutingRuleMatchBasePaths {
   AnyOf?: string[];
 }
 export const RoutingRuleMatchBasePaths = S.suspend(() =>
-  S.Struct({
-    AnyOf: S.optional(__listOfSelectionKey).pipe(T.JsonName("anyOf")),
-  }),
+  S.Struct({ AnyOf: S.optional(__listOfSelectionKey) }).pipe(
+    S.encodeKeys({ AnyOf: "anyOf" }),
+  ),
 ).annotate({
   identifier: "RoutingRuleMatchBasePaths",
 }) as any as S.Schema<RoutingRuleMatchBasePaths>;
@@ -1756,9 +1916,9 @@ export interface RoutingRuleMatchHeaderValue {
 }
 export const RoutingRuleMatchHeaderValue = S.suspend(() =>
   S.Struct({
-    Header: S.optional(S.String).pipe(T.JsonName("header")),
-    ValueGlob: S.optional(S.String).pipe(T.JsonName("valueGlob")),
-  }),
+    Header: S.optional(S.String),
+    ValueGlob: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Header: "header", ValueGlob: "valueGlob" })),
 ).annotate({
   identifier: "RoutingRuleMatchHeaderValue",
 }) as any as S.Schema<RoutingRuleMatchHeaderValue>;
@@ -1770,11 +1930,9 @@ export interface RoutingRuleMatchHeaders {
   AnyOf?: RoutingRuleMatchHeaderValue[];
 }
 export const RoutingRuleMatchHeaders = S.suspend(() =>
-  S.Struct({
-    AnyOf: S.optional(__listOfRoutingRuleMatchHeaderValue).pipe(
-      T.JsonName("anyOf"),
-    ),
-  }),
+  S.Struct({ AnyOf: S.optional(__listOfRoutingRuleMatchHeaderValue) }).pipe(
+    S.encodeKeys({ AnyOf: "anyOf" }),
+  ),
 ).annotate({
   identifier: "RoutingRuleMatchHeaders",
 }) as any as S.Schema<RoutingRuleMatchHeaders>;
@@ -1784,13 +1942,14 @@ export interface RoutingRuleCondition {
 }
 export const RoutingRuleCondition = S.suspend(() =>
   S.Struct({
-    MatchBasePaths: S.optional(RoutingRuleMatchBasePaths)
-      .pipe(T.JsonName("matchBasePaths"))
-      .annotate({ identifier: "RoutingRuleMatchBasePaths" }),
-    MatchHeaders: S.optional(RoutingRuleMatchHeaders)
-      .pipe(T.JsonName("matchHeaders"))
-      .annotate({ identifier: "RoutingRuleMatchHeaders" }),
-  }),
+    MatchBasePaths: S.optional(RoutingRuleMatchBasePaths),
+    MatchHeaders: S.optional(RoutingRuleMatchHeaders),
+  }).pipe(
+    S.encodeKeys({
+      MatchBasePaths: "matchBasePaths",
+      MatchHeaders: "matchHeaders",
+    }),
+  ),
 ).annotate({
   identifier: "RoutingRuleCondition",
 }) as any as S.Schema<RoutingRuleCondition>;
@@ -1805,26 +1964,32 @@ export interface CreateRoutingRuleRequest {
 }
 export const CreateRoutingRuleRequest = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v2/domainnames/{DomainName}/routingrules",
+    Priority: S.optional(S.Number),
+  })
+    .pipe(
+      S.encodeKeys({
+        Actions: "actions",
+        Conditions: "conditions",
+        Priority: "priority",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/domainnames/{DomainName}/routingrules",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateRoutingRuleRequest",
 }) as any as S.Schema<CreateRoutingRuleRequest>;
@@ -1850,14 +2015,20 @@ export interface CreateRoutingRuleResponse {
 }
 export const CreateRoutingRuleResponse = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-  }),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
+    Priority: S.optional(S.Number),
+    RoutingRuleArn: S.optional(S.String),
+    RoutingRuleId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Actions: "actions",
+      Conditions: "conditions",
+      Priority: "priority",
+      RoutingRuleArn: "routingRuleArn",
+      RoutingRuleId: "routingRuleId",
+    }),
+  ),
 ).annotate({
   identifier: "CreateRoutingRuleResponse",
 }) as any as S.Schema<CreateRoutingRuleResponse>;
@@ -1867,9 +2038,9 @@ export interface AccessLogSettings {
 }
 export const AccessLogSettings = S.suspend(() =>
   S.Struct({
-    DestinationArn: S.optional(S.String).pipe(T.JsonName("destinationArn")),
-    Format: S.optional(S.String).pipe(T.JsonName("format")),
-  }),
+    DestinationArn: S.optional(S.String),
+    Format: S.optional(S.String),
+  }).pipe(S.encodeKeys({ DestinationArn: "destinationArn", Format: "format" })),
 ).annotate({
   identifier: "AccessLogSettings",
 }) as any as S.Schema<AccessLogSettings>;
@@ -1884,20 +2055,20 @@ export interface RouteSettings {
 }
 export const RouteSettings = S.suspend(() =>
   S.Struct({
-    DataTraceEnabled: S.optional(S.Boolean).pipe(
-      T.JsonName("dataTraceEnabled"),
-    ),
-    DetailedMetricsEnabled: S.optional(S.Boolean).pipe(
-      T.JsonName("detailedMetricsEnabled"),
-    ),
-    LoggingLevel: S.optional(LoggingLevel).pipe(T.JsonName("loggingLevel")),
-    ThrottlingBurstLimit: S.optional(S.Number).pipe(
-      T.JsonName("throttlingBurstLimit"),
-    ),
-    ThrottlingRateLimit: S.optional(S.Number).pipe(
-      T.JsonName("throttlingRateLimit"),
-    ),
-  }),
+    DataTraceEnabled: S.optional(S.Boolean),
+    DetailedMetricsEnabled: S.optional(S.Boolean),
+    LoggingLevel: S.optional(LoggingLevel),
+    ThrottlingBurstLimit: S.optional(S.Number),
+    ThrottlingRateLimit: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      DataTraceEnabled: "dataTraceEnabled",
+      DetailedMetricsEnabled: "detailedMetricsEnabled",
+      LoggingLevel: "loggingLevel",
+      ThrottlingBurstLimit: "throttlingBurstLimit",
+      ThrottlingRateLimit: "throttlingRateLimit",
+    }),
+  ),
 ).annotate({ identifier: "RouteSettings" }) as any as S.Schema<RouteSettings>;
 export type RouteSettingsMap = { [key: string]: RouteSettings | undefined };
 export const RouteSettingsMap = S.Record(
@@ -1921,37 +2092,42 @@ export interface CreateStageRequest {
 }
 export const CreateStageRequest = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
+    AccessLogSettings: S.optional(AccessLogSettings),
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    RouteSettings: S.optional(RouteSettingsMap),
+    StageName: S.optional(S.String),
+    StageVariables: S.optional(StageVariablesMap),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        AccessLogSettings: "accessLogSettings",
+        AutoDeploy: "autoDeploy",
+        ClientCertificateId: "clientCertificateId",
+        DefaultRouteSettings: "defaultRouteSettings",
+        DeploymentId: "deploymentId",
+        Description: "description",
+        RouteSettings: "routeSettings",
+        StageName: "stageName",
+        StageVariables: "stageVariables",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/stages" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
-    ),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/apis/{ApiId}/stages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateStageRequest",
 }) as any as S.Schema<CreateStageRequest>;
@@ -1973,39 +2149,42 @@ export interface CreateStageResponse {
 }
 export const CreateStageResponse = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    AccessLogSettings: S.optional(AccessLogSettings),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
-    ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastDeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("lastDeploymentStatusMessage"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastDeploymentStatusMessage: S.optional(S.String),
     LastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastUpdatedDate")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    RouteSettings: S.optional(RouteSettingsMap),
+    StageName: S.optional(S.String),
+    StageVariables: S.optional(StageVariablesMap),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      AccessLogSettings: "accessLogSettings",
+      ApiGatewayManaged: "apiGatewayManaged",
+      AutoDeploy: "autoDeploy",
+      ClientCertificateId: "clientCertificateId",
+      CreatedDate: "createdDate",
+      DefaultRouteSettings: "defaultRouteSettings",
+      DeploymentId: "deploymentId",
+      Description: "description",
+      LastDeploymentStatusMessage: "lastDeploymentStatusMessage",
+      LastUpdatedDate: "lastUpdatedDate",
+      RouteSettings: "routeSettings",
+      StageName: "stageName",
+      StageVariables: "stageVariables",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateStageResponse",
 }) as any as S.Schema<CreateStageResponse>;
@@ -2021,22 +2200,29 @@ export interface CreateVpcLinkRequest {
 }
 export const CreateVpcLinkRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-      T.JsonName("securityGroupIds"),
+    Name: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIdList),
+    SubnetIds: S.optional(SubnetIdList),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Name: "name",
+        SecurityGroupIds: "securityGroupIds",
+        SubnetIds: "subnetIds",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/vpclinks" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/vpclinks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateVpcLinkRequest",
 }) as any as S.Schema<CreateVpcLinkRequest>;
@@ -2063,24 +2249,30 @@ export interface CreateVpcLinkResponse {
 }
 export const CreateVpcLinkResponse = S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-    VpcLinkStatus: S.optional(VpcLinkStatus).pipe(T.JsonName("vpcLinkStatus")),
-    VpcLinkStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("vpcLinkStatusMessage"),
-    ),
-    VpcLinkVersion: S.optional(VpcLinkVersion).pipe(
-      T.JsonName("vpcLinkVersion"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIdList),
+    SubnetIds: S.optional(SubnetIdList),
+    Tags: S.optional(Tags),
+    VpcLinkId: S.optional(S.String),
+    VpcLinkStatus: S.optional(VpcLinkStatus),
+    VpcLinkStatusMessage: S.optional(S.String),
+    VpcLinkVersion: S.optional(VpcLinkVersion),
+  }).pipe(
+    S.encodeKeys({
+      CreatedDate: "createdDate",
+      Name: "name",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+      Tags: "tags",
+      VpcLinkId: "vpcLinkId",
+      VpcLinkStatus: "vpcLinkStatus",
+      VpcLinkStatusMessage: "vpcLinkStatusMessage",
+      VpcLinkVersion: "vpcLinkVersion",
+    }),
+  ),
 ).annotate({
   identifier: "CreateVpcLinkResponse",
 }) as any as S.Schema<CreateVpcLinkResponse>;
@@ -2778,38 +2970,46 @@ export interface GetApiResponse {
 }
 export const GetApiResponse = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({ identifier: "GetApiResponse" }) as any as S.Schema<GetApiResponse>;
 export interface GetApiMappingRequest {
   ApiMappingId: string;
@@ -2843,11 +3043,18 @@ export interface GetApiMappingResponse {
 }
 export const GetApiMappingResponse = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }),
+    ApiId: S.optional(S.String),
+    ApiMappingId: S.optional(S.String),
+    ApiMappingKey: S.optional(S.String),
+    Stage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiId: "apiId",
+      ApiMappingId: "apiMappingId",
+      ApiMappingKey: "apiMappingKey",
+      Stage: "stage",
+    }),
+  ),
 ).annotate({
   identifier: "GetApiMappingResponse",
 }) as any as S.Schema<GetApiMappingResponse>;
@@ -2885,11 +3092,18 @@ export interface ApiMapping {
 }
 export const ApiMapping = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }),
+    ApiId: S.optional(S.String),
+    ApiMappingId: S.optional(S.String),
+    ApiMappingKey: S.optional(S.String),
+    Stage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiId: "apiId",
+      ApiMappingId: "apiMappingId",
+      ApiMappingKey: "apiMappingKey",
+      Stage: "stage",
+    }),
+  ),
 ).annotate({ identifier: "ApiMapping" }) as any as S.Schema<ApiMapping>;
 export type __listOfApiMapping = ApiMapping[];
 export const __listOfApiMapping = S.Array(ApiMapping);
@@ -2899,9 +3113,9 @@ export interface GetApiMappingsResponse {
 }
 export const GetApiMappingsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfApiMapping).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfApiMapping),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetApiMappingsResponse",
 }) as any as S.Schema<GetApiMappingsResponse>;
@@ -2945,38 +3159,46 @@ export interface Api {
 }
 export const Api = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({ identifier: "Api" }) as any as S.Schema<Api>;
 export type __listOfApi = Api[];
 export const __listOfApi = S.Array(Api);
@@ -2990,9 +3212,9 @@ export interface GetApisResponse {
 }
 export const GetApisResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfApi).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfApi),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetApisResponse",
 }) as any as S.Schema<GetApisResponse>;
@@ -3035,34 +3257,32 @@ export interface GetAuthorizerResponse {
 }
 export const GetAuthorizerResponse = S.suspend(() =>
   S.Struct({
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+    AuthorizerCredentialsArn: S.optional(S.String),
+    AuthorizerId: S.optional(S.String),
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AuthorizerCredentialsArn: "authorizerCredentialsArn",
+      AuthorizerId: "authorizerId",
+      AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+      AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+      AuthorizerType: "authorizerType",
+      AuthorizerUri: "authorizerUri",
+      EnableSimpleResponses: "enableSimpleResponses",
+      IdentitySource: "identitySource",
+      IdentityValidationExpression: "identityValidationExpression",
+      JwtConfiguration: "jwtConfiguration",
+      Name: "name",
+    }),
+  ),
 ).annotate({
   identifier: "GetAuthorizerResponse",
 }) as any as S.Schema<GetAuthorizerResponse>;
@@ -3104,34 +3324,32 @@ export interface Authorizer {
 }
 export const Authorizer = S.suspend(() =>
   S.Struct({
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+    AuthorizerCredentialsArn: S.optional(S.String),
+    AuthorizerId: S.optional(S.String),
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AuthorizerCredentialsArn: "authorizerCredentialsArn",
+      AuthorizerId: "authorizerId",
+      AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+      AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+      AuthorizerType: "authorizerType",
+      AuthorizerUri: "authorizerUri",
+      EnableSimpleResponses: "enableSimpleResponses",
+      IdentitySource: "identitySource",
+      IdentityValidationExpression: "identityValidationExpression",
+      JwtConfiguration: "jwtConfiguration",
+      Name: "name",
+    }),
+  ),
 ).annotate({ identifier: "Authorizer" }) as any as S.Schema<Authorizer>;
 export type __listOfAuthorizer = Authorizer[];
 export const __listOfAuthorizer = S.Array(Authorizer);
@@ -3141,9 +3359,9 @@ export interface GetAuthorizersResponse {
 }
 export const GetAuthorizersResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfAuthorizer).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfAuthorizer),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetAuthorizersResponse",
 }) as any as S.Schema<GetAuthorizersResponse>;
@@ -3181,19 +3399,24 @@ export interface GetDeploymentResponse {
 }
 export const GetDeploymentResponse = S.suspend(() =>
   S.Struct({
-    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    AutoDeployed: S.optional(S.Boolean),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    DeploymentStatus: S.optional(DeploymentStatus).pipe(
-      T.JsonName("deploymentStatus"),
-    ),
-    DeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("deploymentStatusMessage"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-  }),
+    DeploymentId: S.optional(S.String),
+    DeploymentStatus: S.optional(DeploymentStatus),
+    DeploymentStatusMessage: S.optional(S.String),
+    Description: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AutoDeployed: "autoDeployed",
+      CreatedDate: "createdDate",
+      DeploymentId: "deploymentId",
+      DeploymentStatus: "deploymentStatus",
+      DeploymentStatusMessage: "deploymentStatusMessage",
+      Description: "description",
+    }),
+  ),
 ).annotate({
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
@@ -3230,19 +3453,24 @@ export interface Deployment {
 }
 export const Deployment = S.suspend(() =>
   S.Struct({
-    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    AutoDeployed: S.optional(S.Boolean),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    DeploymentStatus: S.optional(DeploymentStatus).pipe(
-      T.JsonName("deploymentStatus"),
-    ),
-    DeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("deploymentStatusMessage"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-  }),
+    DeploymentId: S.optional(S.String),
+    DeploymentStatus: S.optional(DeploymentStatus),
+    DeploymentStatusMessage: S.optional(S.String),
+    Description: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AutoDeployed: "autoDeployed",
+      CreatedDate: "createdDate",
+      DeploymentId: "deploymentId",
+      DeploymentStatus: "deploymentStatus",
+      DeploymentStatusMessage: "deploymentStatusMessage",
+      Description: "description",
+    }),
+  ),
 ).annotate({ identifier: "Deployment" }) as any as S.Schema<Deployment>;
 export type __listOfDeployment = Deployment[];
 export const __listOfDeployment = S.Array(Deployment);
@@ -3252,9 +3480,9 @@ export interface GetDeploymentsResponse {
 }
 export const GetDeploymentsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfDeployment).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfDeployment),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetDeploymentsResponse",
 }) as any as S.Schema<GetDeploymentsResponse>;
@@ -3286,20 +3514,24 @@ export interface GetDomainNameResponse {
 }
 export const GetDomainNameResponse = S.suspend(() =>
   S.Struct({
-    ApiMappingSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiMappingSelectionExpression"),
-    ),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
-    ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthentication" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApiMappingSelectionExpression: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    DomainNameArn: S.optional(S.String),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication),
+    RoutingMode: S.optional(RoutingMode),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApiMappingSelectionExpression: "apiMappingSelectionExpression",
+      DomainName: "domainName",
+      DomainNameArn: "domainNameArn",
+      DomainNameConfigurations: "domainNameConfigurations",
+      MutualTlsAuthentication: "mutualTlsAuthentication",
+      RoutingMode: "routingMode",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetDomainNameResponse",
 }) as any as S.Schema<GetDomainNameResponse>;
@@ -3335,20 +3567,24 @@ export interface DomainName {
 }
 export const DomainName = S.suspend(() =>
   S.Struct({
-    ApiMappingSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiMappingSelectionExpression"),
-    ),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
-    ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthentication" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApiMappingSelectionExpression: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    DomainNameArn: S.optional(S.String),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication),
+    RoutingMode: S.optional(RoutingMode),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApiMappingSelectionExpression: "apiMappingSelectionExpression",
+      DomainName: "domainName",
+      DomainNameArn: "domainNameArn",
+      DomainNameConfigurations: "domainNameConfigurations",
+      MutualTlsAuthentication: "mutualTlsAuthentication",
+      RoutingMode: "routingMode",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "DomainName" }) as any as S.Schema<DomainName>;
 export type __listOfDomainName = DomainName[];
 export const __listOfDomainName = S.Array(DomainName);
@@ -3358,9 +3594,9 @@ export interface GetDomainNamesResponse {
 }
 export const GetDomainNamesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfDomainName).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfDomainName),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetDomainNamesResponse",
 }) as any as S.Schema<GetDomainNamesResponse>;
@@ -3414,55 +3650,51 @@ export interface GetIntegrationResult {
 }
 export const GetIntegrationResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
-    ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseSelectionExpression"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfig)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfig" }),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    IntegrationId: S.optional(S.String),
+    IntegrationMethod: S.optional(S.String),
+    IntegrationResponseSelectionExpression: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfig),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ConnectionId: "connectionId",
+      ConnectionType: "connectionType",
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      CredentialsArn: "credentialsArn",
+      Description: "description",
+      IntegrationId: "integrationId",
+      IntegrationMethod: "integrationMethod",
+      IntegrationResponseSelectionExpression:
+        "integrationResponseSelectionExpression",
+      IntegrationSubtype: "integrationSubtype",
+      IntegrationType: "integrationType",
+      IntegrationUri: "integrationUri",
+      PassthroughBehavior: "passthroughBehavior",
+      PayloadFormatVersion: "payloadFormatVersion",
+      RequestParameters: "requestParameters",
+      RequestTemplates: "requestTemplates",
+      ResponseParameters: "responseParameters",
+      TemplateSelectionExpression: "templateSelectionExpression",
+      TimeoutInMillis: "timeoutInMillis",
+      TlsConfig: "tlsConfig",
+    }),
+  ),
 ).annotate({
   identifier: "GetIntegrationResult",
 }) as any as S.Schema<GetIntegrationResult>;
@@ -3502,25 +3734,22 @@ export interface GetIntegrationResponseResponse {
 }
 export const GetIntegrationResponseResponse = S.suspend(() =>
   S.Struct({
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    IntegrationResponseId: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseId"),
-    ),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    IntegrationResponseId: S.optional(S.String),
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      IntegrationResponseId: "integrationResponseId",
+      IntegrationResponseKey: "integrationResponseKey",
+      ResponseParameters: "responseParameters",
+      ResponseTemplates: "responseTemplates",
+      TemplateSelectionExpression: "templateSelectionExpression",
+    }),
+  ),
 ).annotate({
   identifier: "GetIntegrationResponseResponse",
 }) as any as S.Schema<GetIntegrationResponseResponse>;
@@ -3562,25 +3791,22 @@ export interface IntegrationResponse {
 }
 export const IntegrationResponse = S.suspend(() =>
   S.Struct({
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    IntegrationResponseId: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseId"),
-    ),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    IntegrationResponseId: S.optional(S.String),
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      IntegrationResponseId: "integrationResponseId",
+      IntegrationResponseKey: "integrationResponseKey",
+      ResponseParameters: "responseParameters",
+      ResponseTemplates: "responseTemplates",
+      TemplateSelectionExpression: "templateSelectionExpression",
+    }),
+  ),
 ).annotate({
   identifier: "IntegrationResponse",
 }) as any as S.Schema<IntegrationResponse>;
@@ -3592,9 +3818,9 @@ export interface GetIntegrationResponsesResponse {
 }
 export const GetIntegrationResponsesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfIntegrationResponse).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfIntegrationResponse),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetIntegrationResponsesResponse",
 }) as any as S.Schema<GetIntegrationResponsesResponse>;
@@ -3647,55 +3873,51 @@ export interface Integration {
 }
 export const Integration = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
-    ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseSelectionExpression"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfig)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfig" }),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    IntegrationId: S.optional(S.String),
+    IntegrationMethod: S.optional(S.String),
+    IntegrationResponseSelectionExpression: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfig),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ConnectionId: "connectionId",
+      ConnectionType: "connectionType",
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      CredentialsArn: "credentialsArn",
+      Description: "description",
+      IntegrationId: "integrationId",
+      IntegrationMethod: "integrationMethod",
+      IntegrationResponseSelectionExpression:
+        "integrationResponseSelectionExpression",
+      IntegrationSubtype: "integrationSubtype",
+      IntegrationType: "integrationType",
+      IntegrationUri: "integrationUri",
+      PassthroughBehavior: "passthroughBehavior",
+      PayloadFormatVersion: "payloadFormatVersion",
+      RequestParameters: "requestParameters",
+      RequestTemplates: "requestTemplates",
+      ResponseParameters: "responseParameters",
+      TemplateSelectionExpression: "templateSelectionExpression",
+      TimeoutInMillis: "timeoutInMillis",
+      TlsConfig: "tlsConfig",
+    }),
+  ),
 ).annotate({ identifier: "Integration" }) as any as S.Schema<Integration>;
 export type __listOfIntegration = Integration[];
 export const __listOfIntegration = S.Array(Integration);
@@ -3705,9 +3927,9 @@ export interface GetIntegrationsResponse {
 }
 export const GetIntegrationsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfIntegration).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfIntegration),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetIntegrationsResponse",
 }) as any as S.Schema<GetIntegrationsResponse>;
@@ -3741,12 +3963,20 @@ export interface GetModelResponse {
 }
 export const GetModelResponse = S.suspend(() =>
   S.Struct({
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }),
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
+    ModelId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentType: "contentType",
+      Description: "description",
+      ModelId: "modelId",
+      Name: "name",
+      Schema: "schema",
+    }),
+  ),
 ).annotate({
   identifier: "GetModelResponse",
 }) as any as S.Schema<GetModelResponse>;
@@ -3782,12 +4012,20 @@ export interface Model {
 }
 export const Model = S.suspend(() =>
   S.Struct({
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }),
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
+    ModelId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentType: "contentType",
+      Description: "description",
+      ModelId: "modelId",
+      Name: "name",
+      Schema: "schema",
+    }),
+  ),
 ).annotate({ identifier: "Model" }) as any as S.Schema<Model>;
 export type __listOfModel = Model[];
 export const __listOfModel = S.Array(Model);
@@ -3797,9 +4035,9 @@ export interface GetModelsResponse {
 }
 export const GetModelsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfModel).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfModel),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetModelsResponse",
 }) as any as S.Schema<GetModelsResponse>;
@@ -3831,7 +4069,9 @@ export interface GetModelTemplateResponse {
   Value?: string;
 }
 export const GetModelTemplateResponse = S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String).pipe(T.JsonName("value")) }),
+  S.Struct({ Value: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Value: "value" }),
+  ),
 ).annotate({
   identifier: "GetModelTemplateResponse",
 }) as any as S.Schema<GetModelTemplateResponse>;
@@ -3865,12 +4105,16 @@ export interface Preview {
 }
 export const Preview = S.suspend(() =>
   S.Struct({
-    PreviewStatus: S.optional(PreviewStatus).pipe(T.JsonName("previewStatus")),
-    PreviewUrl: S.optional(S.String).pipe(T.JsonName("previewUrl")),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-  }),
+    PreviewStatus: S.optional(PreviewStatus),
+    PreviewUrl: S.optional(S.String),
+    StatusException: S.optional(StatusException),
+  }).pipe(
+    S.encodeKeys({
+      PreviewStatus: "previewStatus",
+      PreviewUrl: "previewUrl",
+      StatusException: "statusException",
+    }),
+  ),
 ).annotate({ identifier: "Preview" }) as any as S.Schema<Preview>;
 export interface GetPortalResponse {
   Authorization?: Authorization & {
@@ -3911,41 +4155,42 @@ export interface GetPortalResponse {
 }
 export const GetPortalResponse = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationResponse" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    LastPublished: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastPublished"),
-    ),
-    LastPublishedDescription: S.optional(S.String).pipe(
-      T.JsonName("lastPublishedDescription"),
-    ),
-    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
-    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-    Preview: S.optional(Preview)
-      .pipe(T.JsonName("preview"))
-      .annotate({ identifier: "Preview" }),
-    PublishStatus: S.optional(PublishStatus).pipe(T.JsonName("publishStatus")),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
-    ),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    LastPublishedDescription: S.optional(S.String),
+    PortalArn: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
+    PortalId: S.optional(S.String),
+    Preview: S.optional(Preview),
+    PublishStatus: S.optional(PublishStatus),
+    RumAppMonitorName: S.optional(S.String),
+    StatusException: S.optional(StatusException),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Authorization: "authorization",
+      EndpointConfiguration: "endpointConfiguration",
+      IncludedPortalProductArns: "includedPortalProductArns",
+      LastModified: "lastModified",
+      LastPublished: "lastPublished",
+      LastPublishedDescription: "lastPublishedDescription",
+      PortalArn: "portalArn",
+      PortalContent: "portalContent",
+      PortalId: "portalId",
+      Preview: "preview",
+      PublishStatus: "publishStatus",
+      RumAppMonitorName: "rumAppMonitorName",
+      StatusException: "statusException",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetPortalResponse",
 }) as any as S.Schema<GetPortalResponse>;
@@ -3988,18 +4233,26 @@ export interface GetPortalProductResponse {
 }
 export const GetPortalProductResponse = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    DisplayOrder: S.optional(DisplayOrder)
-      .pipe(T.JsonName("displayOrder"))
-      .annotate({ identifier: "DisplayOrder" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    DisplayOrder: S.optional(DisplayOrder),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    PortalProductArn: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Description: "description",
+      DisplayName: "displayName",
+      DisplayOrder: "displayOrder",
+      LastModified: "lastModified",
+      PortalProductArn: "portalProductArn",
+      PortalProductId: "portalProductId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetPortalProductResponse",
 }) as any as S.Schema<GetPortalProductResponse>;
@@ -4031,9 +4284,14 @@ export interface GetPortalProductSharingPolicyResponse {
 }
 export const GetPortalProductSharingPolicyResponse = S.suspend(() =>
   S.Struct({
-    PolicyDocument: S.optional(S.String).pipe(T.JsonName("policyDocument")),
-    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-  }),
+    PolicyDocument: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PolicyDocument: "policyDocument",
+      PortalProductId: "portalProductId",
+    }),
+  ),
 ).annotate({
   identifier: "GetPortalProductSharingPolicyResponse",
 }) as any as S.Schema<GetPortalProductSharingPolicyResponse>;
@@ -4076,15 +4334,20 @@ export interface GetProductPageResponse {
 }
 export const GetProductPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(DisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "DisplayContent" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(DisplayContent),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-  }),
+    ProductPageArn: S.optional(S.String),
+    ProductPageId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductPageArn: "productPageArn",
+      ProductPageId: "productPageId",
+    }),
+  ),
 ).annotate({
   identifier: "GetProductPageResponse",
 }) as any as S.Schema<GetProductPageResponse>;
@@ -4144,30 +4407,30 @@ export interface GetProductRestEndpointPageResponse {
 }
 export const GetProductRestEndpointPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(EndpointDisplayContentResponse)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "EndpointDisplayContentResponse" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(EndpointDisplayContentResponse),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductRestEndpointPageArn: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageArn"),
-    ),
-    ProductRestEndpointPageId: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageId"),
-    ),
-    RawDisplayContent: S.optional(S.String).pipe(
-      T.JsonName("rawDisplayContent"),
-    ),
-    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
-      .pipe(T.JsonName("restEndpointIdentifier"))
-      .annotate({ identifier: "RestEndpointIdentifier" }),
-    Status: S.optional(Status).pipe(T.JsonName("status")),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RawDisplayContent: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RawDisplayContent: "rawDisplayContent",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "GetProductRestEndpointPageResponse",
 }) as any as S.Schema<GetProductRestEndpointPageResponse>;
@@ -4209,32 +4472,36 @@ export interface GetRouteResult {
 }
 export const GetRouteResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
-    ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
+    RouteId: S.optional(S.String),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiKeyRequired: "apiKeyRequired",
+      AuthorizationScopes: "authorizationScopes",
+      AuthorizationType: "authorizationType",
+      AuthorizerId: "authorizerId",
+      ModelSelectionExpression: "modelSelectionExpression",
+      OperationName: "operationName",
+      RequestModels: "requestModels",
+      RequestParameters: "requestParameters",
+      RouteId: "routeId",
+      RouteKey: "routeKey",
+      RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+      Target: "target",
+    }),
+  ),
 ).annotate({ identifier: "GetRouteResult" }) as any as S.Schema<GetRouteResult>;
 export interface GetRouteResponseRequest {
   ApiId: string;
@@ -4271,16 +4538,20 @@ export interface GetRouteResponseResponse {
 }
 export const GetRouteResponseResponse = S.suspend(() =>
   S.Struct({
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
+    RouteResponseId: S.optional(S.String),
+    RouteResponseKey: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ModelSelectionExpression: "modelSelectionExpression",
+      ResponseModels: "responseModels",
+      ResponseParameters: "responseParameters",
+      RouteResponseId: "routeResponseId",
+      RouteResponseKey: "routeResponseKey",
+    }),
+  ),
 ).annotate({
   identifier: "GetRouteResponseResponse",
 }) as any as S.Schema<GetRouteResponseResponse>;
@@ -4321,16 +4592,20 @@ export interface RouteResponse {
 }
 export const RouteResponse = S.suspend(() =>
   S.Struct({
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
+    RouteResponseId: S.optional(S.String),
+    RouteResponseKey: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ModelSelectionExpression: "modelSelectionExpression",
+      ResponseModels: "responseModels",
+      ResponseParameters: "responseParameters",
+      RouteResponseId: "routeResponseId",
+      RouteResponseKey: "routeResponseKey",
+    }),
+  ),
 ).annotate({ identifier: "RouteResponse" }) as any as S.Schema<RouteResponse>;
 export type __listOfRouteResponse = RouteResponse[];
 export const __listOfRouteResponse = S.Array(RouteResponse);
@@ -4340,9 +4615,9 @@ export interface GetRouteResponsesResponse {
 }
 export const GetRouteResponsesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfRouteResponse).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfRouteResponse),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetRouteResponsesResponse",
 }) as any as S.Schema<GetRouteResponsesResponse>;
@@ -4386,32 +4661,36 @@ export interface Route {
 }
 export const Route = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
-    ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
+    RouteId: S.optional(S.String),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiKeyRequired: "apiKeyRequired",
+      AuthorizationScopes: "authorizationScopes",
+      AuthorizationType: "authorizationType",
+      AuthorizerId: "authorizerId",
+      ModelSelectionExpression: "modelSelectionExpression",
+      OperationName: "operationName",
+      RequestModels: "requestModels",
+      RequestParameters: "requestParameters",
+      RouteId: "routeId",
+      RouteKey: "routeKey",
+      RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+      Target: "target",
+    }),
+  ),
 ).annotate({ identifier: "Route" }) as any as S.Schema<Route>;
 export type __listOfRoute = Route[];
 export const __listOfRoute = S.Array(Route);
@@ -4421,9 +4700,9 @@ export interface GetRoutesResponse {
 }
 export const GetRoutesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfRoute).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfRoute),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetRoutesResponse",
 }) as any as S.Schema<GetRoutesResponse>;
@@ -4475,14 +4754,20 @@ export interface GetRoutingRuleResponse {
 }
 export const GetRoutingRuleResponse = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-  }),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
+    Priority: S.optional(S.Number),
+    RoutingRuleArn: S.optional(S.String),
+    RoutingRuleId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Actions: "actions",
+      Conditions: "conditions",
+      Priority: "priority",
+      RoutingRuleArn: "routingRuleArn",
+      RoutingRuleId: "routingRuleId",
+    }),
+  ),
 ).annotate({
   identifier: "GetRoutingRuleResponse",
 }) as any as S.Schema<GetRoutingRuleResponse>;
@@ -4525,39 +4810,42 @@ export interface GetStageResponse {
 }
 export const GetStageResponse = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    AccessLogSettings: S.optional(AccessLogSettings),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
-    ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastDeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("lastDeploymentStatusMessage"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastDeploymentStatusMessage: S.optional(S.String),
     LastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastUpdatedDate")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    RouteSettings: S.optional(RouteSettingsMap),
+    StageName: S.optional(S.String),
+    StageVariables: S.optional(StageVariablesMap),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      AccessLogSettings: "accessLogSettings",
+      ApiGatewayManaged: "apiGatewayManaged",
+      AutoDeploy: "autoDeploy",
+      ClientCertificateId: "clientCertificateId",
+      CreatedDate: "createdDate",
+      DefaultRouteSettings: "defaultRouteSettings",
+      DeploymentId: "deploymentId",
+      Description: "description",
+      LastDeploymentStatusMessage: "lastDeploymentStatusMessage",
+      LastUpdatedDate: "lastUpdatedDate",
+      RouteSettings: "routeSettings",
+      StageName: "stageName",
+      StageVariables: "stageVariables",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetStageResponse",
 }) as any as S.Schema<GetStageResponse>;
@@ -4602,39 +4890,42 @@ export interface Stage {
 }
 export const Stage = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    AccessLogSettings: S.optional(AccessLogSettings),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
-    ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastDeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("lastDeploymentStatusMessage"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastDeploymentStatusMessage: S.optional(S.String),
     LastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastUpdatedDate")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    RouteSettings: S.optional(RouteSettingsMap),
+    StageName: S.optional(S.String),
+    StageVariables: S.optional(StageVariablesMap),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      AccessLogSettings: "accessLogSettings",
+      ApiGatewayManaged: "apiGatewayManaged",
+      AutoDeploy: "autoDeploy",
+      ClientCertificateId: "clientCertificateId",
+      CreatedDate: "createdDate",
+      DefaultRouteSettings: "defaultRouteSettings",
+      DeploymentId: "deploymentId",
+      Description: "description",
+      LastDeploymentStatusMessage: "lastDeploymentStatusMessage",
+      LastUpdatedDate: "lastUpdatedDate",
+      RouteSettings: "routeSettings",
+      StageName: "stageName",
+      StageVariables: "stageVariables",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "Stage" }) as any as S.Schema<Stage>;
 export type __listOfStage = Stage[];
 export const __listOfStage = S.Array(Stage);
@@ -4644,9 +4935,9 @@ export interface GetStagesResponse {
 }
 export const GetStagesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfStage).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfStage),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetStagesResponse",
 }) as any as S.Schema<GetStagesResponse>;
@@ -4669,7 +4960,7 @@ export interface GetTagsResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const GetTagsResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(Tags) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "GetTagsResponse",
 }) as any as S.Schema<GetTagsResponse>;
@@ -4703,24 +4994,30 @@ export interface GetVpcLinkResponse {
 }
 export const GetVpcLinkResponse = S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-    VpcLinkStatus: S.optional(VpcLinkStatus).pipe(T.JsonName("vpcLinkStatus")),
-    VpcLinkStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("vpcLinkStatusMessage"),
-    ),
-    VpcLinkVersion: S.optional(VpcLinkVersion).pipe(
-      T.JsonName("vpcLinkVersion"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIdList),
+    SubnetIds: S.optional(SubnetIdList),
+    Tags: S.optional(Tags),
+    VpcLinkId: S.optional(S.String),
+    VpcLinkStatus: S.optional(VpcLinkStatus),
+    VpcLinkStatusMessage: S.optional(S.String),
+    VpcLinkVersion: S.optional(VpcLinkVersion),
+  }).pipe(
+    S.encodeKeys({
+      CreatedDate: "createdDate",
+      Name: "name",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+      Tags: "tags",
+      VpcLinkId: "vpcLinkId",
+      VpcLinkStatus: "vpcLinkStatus",
+      VpcLinkStatusMessage: "vpcLinkStatusMessage",
+      VpcLinkVersion: "vpcLinkVersion",
+    }),
+  ),
 ).annotate({
   identifier: "GetVpcLinkResponse",
 }) as any as S.Schema<GetVpcLinkResponse>;
@@ -4758,24 +5055,30 @@ export interface VpcLink {
 }
 export const VpcLink = S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-    VpcLinkStatus: S.optional(VpcLinkStatus).pipe(T.JsonName("vpcLinkStatus")),
-    VpcLinkStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("vpcLinkStatusMessage"),
-    ),
-    VpcLinkVersion: S.optional(VpcLinkVersion).pipe(
-      T.JsonName("vpcLinkVersion"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIdList),
+    SubnetIds: S.optional(SubnetIdList),
+    Tags: S.optional(Tags),
+    VpcLinkId: S.optional(S.String),
+    VpcLinkStatus: S.optional(VpcLinkStatus),
+    VpcLinkStatusMessage: S.optional(S.String),
+    VpcLinkVersion: S.optional(VpcLinkVersion),
+  }).pipe(
+    S.encodeKeys({
+      CreatedDate: "createdDate",
+      Name: "name",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+      Tags: "tags",
+      VpcLinkId: "vpcLinkId",
+      VpcLinkStatus: "vpcLinkStatus",
+      VpcLinkStatusMessage: "vpcLinkStatusMessage",
+      VpcLinkVersion: "vpcLinkVersion",
+    }),
+  ),
 ).annotate({ identifier: "VpcLink" }) as any as S.Schema<VpcLink>;
 export type __listOfVpcLink = VpcLink[];
 export const __listOfVpcLink = S.Array(VpcLink);
@@ -4790,9 +5093,9 @@ export interface GetVpcLinksResponse {
 }
 export const GetVpcLinksResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfVpcLink).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfVpcLink),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "GetVpcLinksResponse",
 }) as any as S.Schema<GetVpcLinksResponse>;
@@ -4804,18 +5107,20 @@ export interface ImportApiRequest {
 export const ImportApiRequest = S.suspend(() =>
   S.Struct({
     Basepath: S.optional(S.String).pipe(T.HttpQuery("basepath")),
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
+    Body: S.optional(S.String),
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v2/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Body: "body" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/v2/apis" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ImportApiRequest",
 }) as any as S.Schema<ImportApiRequest>;
@@ -4840,38 +5145,46 @@ export interface ImportApiResponse {
 }
 export const ImportApiResponse = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({
   identifier: "ImportApiResponse",
 }) as any as S.Schema<ImportApiResponse>;
@@ -4908,15 +5221,24 @@ export interface PortalProductSummary {
 }
 export const PortalProductSummary = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    PortalProductArn: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Description: "description",
+      DisplayName: "displayName",
+      LastModified: "lastModified",
+      PortalProductArn: "portalProductArn",
+      PortalProductId: "portalProductId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "PortalProductSummary",
 }) as any as S.Schema<PortalProductSummary>;
@@ -4934,9 +5256,9 @@ export interface ListPortalProductsResponse {
 }
 export const ListPortalProductsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfPortalProductSummary).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfPortalProductSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListPortalProductsResponse",
 }) as any as S.Schema<ListPortalProductsResponse>;
@@ -4979,41 +5301,42 @@ export interface PortalSummary {
 }
 export const PortalSummary = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationResponse" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    LastPublished: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastPublished"),
-    ),
-    LastPublishedDescription: S.optional(S.String).pipe(
-      T.JsonName("lastPublishedDescription"),
-    ),
-    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
-    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-    Preview: S.optional(Preview)
-      .pipe(T.JsonName("preview"))
-      .annotate({ identifier: "Preview" }),
-    PublishStatus: S.optional(PublishStatus).pipe(T.JsonName("publishStatus")),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
-    ),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    LastPublishedDescription: S.optional(S.String),
+    PortalArn: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
+    PortalId: S.optional(S.String),
+    Preview: S.optional(Preview),
+    PublishStatus: S.optional(PublishStatus),
+    RumAppMonitorName: S.optional(S.String),
+    StatusException: S.optional(StatusException),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Authorization: "authorization",
+      EndpointConfiguration: "endpointConfiguration",
+      IncludedPortalProductArns: "includedPortalProductArns",
+      LastModified: "lastModified",
+      LastPublished: "lastPublished",
+      LastPublishedDescription: "lastPublishedDescription",
+      PortalArn: "portalArn",
+      PortalContent: "portalContent",
+      PortalId: "portalId",
+      Preview: "preview",
+      PublishStatus: "publishStatus",
+      RumAppMonitorName: "rumAppMonitorName",
+      StatusException: "statusException",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "PortalSummary" }) as any as S.Schema<PortalSummary>;
 export type __listOfPortalSummary = PortalSummary[];
 export const __listOfPortalSummary = S.Array(PortalSummary);
@@ -5053,9 +5376,9 @@ export interface ListPortalsResponse {
 }
 export const ListPortalsResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfPortalSummary).pipe(T.JsonName("items")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfPortalSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListPortalsResponse",
 }) as any as S.Schema<ListPortalsResponse>;
@@ -5097,13 +5420,20 @@ export interface ProductPageSummaryNoBody {
 }
 export const ProductPageSummaryNoBody = S.suspend(() =>
   S.Struct({
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    PageTitle: S.optional(S.String).pipe(T.JsonName("pageTitle")),
-    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-  }),
+    PageTitle: S.optional(S.String),
+    ProductPageArn: S.optional(S.String),
+    ProductPageId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LastModified: "lastModified",
+      PageTitle: "pageTitle",
+      ProductPageArn: "productPageArn",
+      ProductPageId: "productPageId",
+    }),
+  ),
 ).annotate({
   identifier: "ProductPageSummaryNoBody",
 }) as any as S.Schema<ProductPageSummaryNoBody>;
@@ -5122,11 +5452,9 @@ export interface ListProductPagesResponse {
 }
 export const ListProductPagesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfProductPageSummaryNoBody).pipe(
-      T.JsonName("items"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfProductPageSummaryNoBody),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListProductPagesResponse",
 }) as any as S.Schema<ListProductPagesResponse>;
@@ -5173,26 +5501,30 @@ export interface ProductRestEndpointPageSummaryNoBody {
 }
 export const ProductRestEndpointPageSummaryNoBody = S.suspend(() =>
   S.Struct({
-    Endpoint: S.optional(S.String).pipe(T.JsonName("endpoint")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    Endpoint: S.optional(S.String),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    ProductRestEndpointPageArn: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageArn"),
-    ),
-    ProductRestEndpointPageId: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageId"),
-    ),
-    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
-      .pipe(T.JsonName("restEndpointIdentifier"))
-      .annotate({ identifier: "RestEndpointIdentifier" }),
-    Status: S.optional(Status).pipe(T.JsonName("status")),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }),
+    OperationName: S.optional(S.String),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      Endpoint: "endpoint",
+      LastModified: "lastModified",
+      OperationName: "operationName",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "ProductRestEndpointPageSummaryNoBody",
 }) as any as S.Schema<ProductRestEndpointPageSummaryNoBody>;
@@ -5222,11 +5554,9 @@ export interface ListProductRestEndpointPagesResponse {
 }
 export const ListProductRestEndpointPagesResponse = S.suspend(() =>
   S.Struct({
-    Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody).pipe(
-      T.JsonName("items"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListProductRestEndpointPagesResponse",
 }) as any as S.Schema<ListProductRestEndpointPagesResponse>;
@@ -5267,14 +5597,20 @@ export interface RoutingRule {
 }
 export const RoutingRule = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-  }),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
+    Priority: S.optional(S.Number),
+    RoutingRuleArn: S.optional(S.String),
+    RoutingRuleId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Actions: "actions",
+      Conditions: "conditions",
+      Priority: "priority",
+      RoutingRuleArn: "routingRuleArn",
+      RoutingRuleId: "routingRuleId",
+    }),
+  ),
 ).annotate({ identifier: "RoutingRule" }) as any as S.Schema<RoutingRule>;
 export type __listOfRoutingRule = RoutingRule[];
 export const __listOfRoutingRule = S.Array(RoutingRule);
@@ -5302,11 +5638,11 @@ export interface ListRoutingRulesResponse {
 }
 export const ListRoutingRulesResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    RoutingRules: S.optional(__listOfRoutingRule).pipe(
-      T.JsonName("routingRules"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    RoutingRules: S.optional(__listOfRoutingRule),
+  }).pipe(
+    S.encodeKeys({ NextToken: "nextToken", RoutingRules: "routingRules" }),
+  ),
 ).annotate({
   identifier: "ListRoutingRulesResponse",
 }) as any as S.Schema<ListRoutingRulesResponse>;
@@ -5337,18 +5673,20 @@ export interface PublishPortalRequest {
 }
 export const PublishPortalRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Description: S.optional(S.String),
     PortalId: S.String.pipe(T.HttpLabel("PortalId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/publish" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Description: "description" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/publish" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PublishPortalRequest",
 }) as any as S.Schema<PublishPortalRequest>;
@@ -5362,21 +5700,23 @@ export interface PutPortalProductSharingPolicyRequest {
 }
 export const PutPortalProductSharingPolicyRequest = S.suspend(() =>
   S.Struct({
-    PolicyDocument: S.optional(S.String).pipe(T.JsonName("policyDocument")),
+    PolicyDocument: S.optional(S.String),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ PolicyDocument: "policyDocument" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutPortalProductSharingPolicyRequest",
 }) as any as S.Schema<PutPortalProductSharingPolicyRequest>;
@@ -5396,27 +5736,33 @@ export interface PutRoutingRuleRequest {
 }
 export const PutRoutingRuleRequest = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
+    Priority: S.optional(S.Number),
     RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
+  })
+    .pipe(
+      S.encodeKeys({
+        Actions: "actions",
+        Conditions: "conditions",
+        Priority: "priority",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v2/domainnames/{DomainName}/routingrules/{RoutingRuleId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutRoutingRuleRequest",
 }) as any as S.Schema<PutRoutingRuleRequest>;
@@ -5442,14 +5788,20 @@ export interface PutRoutingRuleResponse {
 }
 export const PutRoutingRuleResponse = S.suspend(() =>
   S.Struct({
-    Actions: S.optional(__listOfRoutingRuleAction).pipe(T.JsonName("actions")),
-    Conditions: S.optional(__listOfRoutingRuleCondition).pipe(
-      T.JsonName("conditions"),
-    ),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    RoutingRuleArn: S.optional(S.String).pipe(T.JsonName("routingRuleArn")),
-    RoutingRuleId: S.optional(S.String).pipe(T.JsonName("routingRuleId")),
-  }),
+    Actions: S.optional(__listOfRoutingRuleAction),
+    Conditions: S.optional(__listOfRoutingRuleCondition),
+    Priority: S.optional(S.Number),
+    RoutingRuleArn: S.optional(S.String),
+    RoutingRuleId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Actions: "actions",
+      Conditions: "conditions",
+      Priority: "priority",
+      RoutingRuleArn: "routingRuleArn",
+      RoutingRuleId: "routingRuleId",
+    }),
+  ),
 ).annotate({
   identifier: "PutRoutingRuleResponse",
 }) as any as S.Schema<PutRoutingRuleResponse>;
@@ -5463,18 +5815,20 @@ export const ReimportApiRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     Basepath: S.optional(S.String).pipe(T.HttpQuery("basepath")),
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
+    Body: S.optional(S.String),
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Body: "body" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ReimportApiRequest",
 }) as any as S.Schema<ReimportApiRequest>;
@@ -5499,38 +5853,46 @@ export interface ReimportApiResponse {
 }
 export const ReimportApiResponse = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({
   identifier: "ReimportApiResponse",
 }) as any as S.Schema<ReimportApiResponse>;
@@ -5571,17 +5933,19 @@ export interface TagResourceRequest {
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(Tags),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v2/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -5632,38 +5996,45 @@ export interface UpdateApiRequest {
 export const UpdateApiRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    RouteKey: S.optional(S.String),
+    RouteSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+    Version: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiKeySelectionExpression: "apiKeySelectionExpression",
+        CorsConfiguration: "corsConfiguration",
+        CredentialsArn: "credentialsArn",
+        Description: "description",
+        DisableSchemaValidation: "disableSchemaValidation",
+        DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+        IpAddressType: "ipAddressType",
+        Name: "name",
+        RouteKey: "routeKey",
+        RouteSelectionExpression: "routeSelectionExpression",
+        Target: "target",
+        Version: "version",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateApiRequest",
 }) as any as S.Schema<UpdateApiRequest>;
@@ -5688,38 +6059,46 @@ export interface UpdateApiResponse {
 }
 export const UpdateApiResponse = S.suspend(() =>
   S.Struct({
-    ApiEndpoint: S.optional(S.String).pipe(T.JsonName("apiEndpoint")),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    ApiEndpoint: S.optional(S.String),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiId: S.optional(S.String),
+    ApiKeySelectionExpression: S.optional(S.String),
+    CorsConfiguration: S.optional(Cors),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiKeySelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiKeySelectionExpression"),
-    ),
-    CorsConfiguration: S.optional(Cors)
-      .pipe(T.JsonName("corsConfiguration"))
-      .annotate({ identifier: "Cors" }),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisableSchemaValidation: S.optional(S.Boolean).pipe(
-      T.JsonName("disableSchemaValidation"),
-    ),
-    DisableExecuteApiEndpoint: S.optional(S.Boolean).pipe(
-      T.JsonName("disableExecuteApiEndpoint"),
-    ),
-    ImportInfo: S.optional(__listOf__string).pipe(T.JsonName("importInfo")),
-    IpAddressType: S.optional(IpAddressType).pipe(T.JsonName("ipAddressType")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    ProtocolType: S.optional(ProtocolType).pipe(T.JsonName("protocolType")),
-    RouteSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeSelectionExpression"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-    Warnings: S.optional(__listOf__string).pipe(T.JsonName("warnings")),
-  }),
+    Description: S.optional(S.String),
+    DisableSchemaValidation: S.optional(S.Boolean),
+    DisableExecuteApiEndpoint: S.optional(S.Boolean),
+    ImportInfo: S.optional(__listOf__string),
+    IpAddressType: S.optional(IpAddressType),
+    Name: S.optional(S.String),
+    ProtocolType: S.optional(ProtocolType),
+    RouteSelectionExpression: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Version: S.optional(S.String),
+    Warnings: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      ApiEndpoint: "apiEndpoint",
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiId: "apiId",
+      ApiKeySelectionExpression: "apiKeySelectionExpression",
+      CorsConfiguration: "corsConfiguration",
+      CreatedDate: "createdDate",
+      Description: "description",
+      DisableSchemaValidation: "disableSchemaValidation",
+      DisableExecuteApiEndpoint: "disableExecuteApiEndpoint",
+      ImportInfo: "importInfo",
+      IpAddressType: "ipAddressType",
+      Name: "name",
+      ProtocolType: "protocolType",
+      RouteSelectionExpression: "routeSelectionExpression",
+      Tags: "tags",
+      Version: "version",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateApiResponse",
 }) as any as S.Schema<UpdateApiResponse>;
@@ -5732,24 +6111,32 @@ export interface UpdateApiMappingRequest {
 }
 export const UpdateApiMappingRequest = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
+    ApiId: S.optional(S.String),
     ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
+    ApiMappingKey: S.optional(S.String),
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
+    Stage: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiId: "apiId",
+        ApiMappingKey: "apiMappingKey",
+        Stage: "stage",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/domainnames/{DomainName}/apimappings/{ApiMappingId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateApiMappingRequest",
 }) as any as S.Schema<UpdateApiMappingRequest>;
@@ -5761,11 +6148,18 @@ export interface UpdateApiMappingResponse {
 }
 export const UpdateApiMappingResponse = S.suspend(() =>
   S.Struct({
-    ApiId: S.optional(S.String).pipe(T.JsonName("apiId")),
-    ApiMappingId: S.optional(S.String).pipe(T.JsonName("apiMappingId")),
-    ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    Stage: S.optional(S.String).pipe(T.JsonName("stage")),
-  }),
+    ApiId: S.optional(S.String),
+    ApiMappingId: S.optional(S.String),
+    ApiMappingKey: S.optional(S.String),
+    Stage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiId: "apiId",
+      ApiMappingId: "apiMappingId",
+      ApiMappingKey: "apiMappingKey",
+      Stage: "stage",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateApiMappingResponse",
 }) as any as S.Schema<UpdateApiMappingResponse>;
@@ -5786,46 +6180,45 @@ export interface UpdateAuthorizerRequest {
 export const UpdateAuthorizerRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
-    ),
+    AuthorizerCredentialsArn: S.optional(S.String),
     AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        AuthorizerCredentialsArn: "authorizerCredentialsArn",
+        AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+        AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+        AuthorizerType: "authorizerType",
+        AuthorizerUri: "authorizerUri",
+        EnableSimpleResponses: "enableSimpleResponses",
+        IdentitySource: "identitySource",
+        IdentityValidationExpression: "identityValidationExpression",
+        JwtConfiguration: "jwtConfiguration",
+        Name: "name",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/apis/{ApiId}/authorizers/{AuthorizerId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateAuthorizerRequest",
 }) as any as S.Schema<UpdateAuthorizerRequest>;
@@ -5844,34 +6237,32 @@ export interface UpdateAuthorizerResponse {
 }
 export const UpdateAuthorizerResponse = S.suspend(() =>
   S.Struct({
-    AuthorizerCredentialsArn: S.optional(S.String).pipe(
-      T.JsonName("authorizerCredentialsArn"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("authorizerPayloadFormatVersion"),
-    ),
-    AuthorizerResultTtlInSeconds: S.optional(S.Number).pipe(
-      T.JsonName("authorizerResultTtlInSeconds"),
-    ),
-    AuthorizerType: S.optional(AuthorizerType).pipe(
-      T.JsonName("authorizerType"),
-    ),
-    AuthorizerUri: S.optional(S.String).pipe(T.JsonName("authorizerUri")),
-    EnableSimpleResponses: S.optional(S.Boolean).pipe(
-      T.JsonName("enableSimpleResponses"),
-    ),
-    IdentitySource: S.optional(IdentitySourceList).pipe(
-      T.JsonName("identitySource"),
-    ),
-    IdentityValidationExpression: S.optional(S.String).pipe(
-      T.JsonName("identityValidationExpression"),
-    ),
-    JwtConfiguration: S.optional(JWTConfiguration)
-      .pipe(T.JsonName("jwtConfiguration"))
-      .annotate({ identifier: "JWTConfiguration" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+    AuthorizerCredentialsArn: S.optional(S.String),
+    AuthorizerId: S.optional(S.String),
+    AuthorizerPayloadFormatVersion: S.optional(S.String),
+    AuthorizerResultTtlInSeconds: S.optional(S.Number),
+    AuthorizerType: S.optional(AuthorizerType),
+    AuthorizerUri: S.optional(S.String),
+    EnableSimpleResponses: S.optional(S.Boolean),
+    IdentitySource: S.optional(IdentitySourceList),
+    IdentityValidationExpression: S.optional(S.String),
+    JwtConfiguration: S.optional(JWTConfiguration),
+    Name: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AuthorizerCredentialsArn: "authorizerCredentialsArn",
+      AuthorizerId: "authorizerId",
+      AuthorizerPayloadFormatVersion: "authorizerPayloadFormatVersion",
+      AuthorizerResultTtlInSeconds: "authorizerResultTtlInSeconds",
+      AuthorizerType: "authorizerType",
+      AuthorizerUri: "authorizerUri",
+      EnableSimpleResponses: "enableSimpleResponses",
+      IdentitySource: "identitySource",
+      IdentityValidationExpression: "identityValidationExpression",
+      JwtConfiguration: "jwtConfiguration",
+      Name: "name",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateAuthorizerResponse",
 }) as any as S.Schema<UpdateAuthorizerResponse>;
@@ -5884,20 +6275,22 @@ export const UpdateDeploymentRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Description: S.optional(S.String),
+  })
+    .pipe(S.encodeKeys({ Description: "description" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/apis/{ApiId}/deployments/{DeploymentId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateDeploymentRequest",
 }) as any as S.Schema<UpdateDeploymentRequest>;
@@ -5911,19 +6304,24 @@ export interface UpdateDeploymentResponse {
 }
 export const UpdateDeploymentResponse = S.suspend(() =>
   S.Struct({
-    AutoDeployed: S.optional(S.Boolean).pipe(T.JsonName("autoDeployed")),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    AutoDeployed: S.optional(S.Boolean),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    DeploymentStatus: S.optional(DeploymentStatus).pipe(
-      T.JsonName("deploymentStatus"),
-    ),
-    DeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("deploymentStatusMessage"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-  }),
+    DeploymentId: S.optional(S.String),
+    DeploymentStatus: S.optional(DeploymentStatus),
+    DeploymentStatusMessage: S.optional(S.String),
+    Description: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AutoDeployed: "autoDeployed",
+      CreatedDate: "createdDate",
+      DeploymentId: "deploymentId",
+      DeploymentStatus: "deploymentStatus",
+      DeploymentStatusMessage: "deploymentStatusMessage",
+      Description: "description",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateDeploymentResponse",
 }) as any as S.Schema<UpdateDeploymentResponse>;
@@ -5936,23 +6334,27 @@ export interface UpdateDomainNameRequest {
 export const UpdateDomainNameRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput),
+    RoutingMode: S.optional(RoutingMode),
+  })
+    .pipe(
+      S.encodeKeys({
+        DomainNameConfigurations: "domainNameConfigurations",
+        MutualTlsAuthentication: "mutualTlsAuthentication",
+        RoutingMode: "routingMode",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/domainnames/{DomainName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthenticationInput" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/domainnames/{DomainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateDomainNameRequest",
 }) as any as S.Schema<UpdateDomainNameRequest>;
@@ -5967,20 +6369,24 @@ export interface UpdateDomainNameResponse {
 }
 export const UpdateDomainNameResponse = S.suspend(() =>
   S.Struct({
-    ApiMappingSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("apiMappingSelectionExpression"),
-    ),
-    DomainName: S.optional(S.String).pipe(T.JsonName("domainName")),
-    DomainNameArn: S.optional(S.String).pipe(T.JsonName("domainNameArn")),
-    DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
-      T.JsonName("domainNameConfigurations"),
-    ),
-    MutualTlsAuthentication: S.optional(MutualTlsAuthentication)
-      .pipe(T.JsonName("mutualTlsAuthentication"))
-      .annotate({ identifier: "MutualTlsAuthentication" }),
-    RoutingMode: S.optional(RoutingMode).pipe(T.JsonName("routingMode")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    ApiMappingSelectionExpression: S.optional(S.String),
+    DomainName: S.optional(S.String),
+    DomainNameArn: S.optional(S.String),
+    DomainNameConfigurations: S.optional(DomainNameConfigurations),
+    MutualTlsAuthentication: S.optional(MutualTlsAuthentication),
+    RoutingMode: S.optional(RoutingMode),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      ApiMappingSelectionExpression: "apiMappingSelectionExpression",
+      DomainName: "domainName",
+      DomainNameArn: "domainNameArn",
+      DomainNameConfigurations: "domainNameConfigurations",
+      MutualTlsAuthentication: "mutualTlsAuthentication",
+      RoutingMode: "routingMode",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateDomainNameResponse",
 }) as any as S.Schema<UpdateDomainNameResponse>;
@@ -6010,61 +6416,59 @@ export interface UpdateIntegrationRequest {
 export const UpdateIntegrationRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
-    ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfigInput)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfigInput" }),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
+    IntegrationMethod: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfigInput),
+  })
+    .pipe(
+      S.encodeKeys({
+        ConnectionId: "connectionId",
+        ConnectionType: "connectionType",
+        ContentHandlingStrategy: "contentHandlingStrategy",
+        CredentialsArn: "credentialsArn",
+        Description: "description",
+        IntegrationMethod: "integrationMethod",
+        IntegrationSubtype: "integrationSubtype",
+        IntegrationType: "integrationType",
+        IntegrationUri: "integrationUri",
+        PassthroughBehavior: "passthroughBehavior",
+        PayloadFormatVersion: "payloadFormatVersion",
+        RequestParameters: "requestParameters",
+        RequestTemplates: "requestTemplates",
+        ResponseParameters: "responseParameters",
+        TemplateSelectionExpression: "templateSelectionExpression",
+        TimeoutInMillis: "timeoutInMillis",
+        TlsConfig: "tlsConfig",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateIntegrationRequest",
 }) as any as S.Schema<UpdateIntegrationRequest>;
@@ -6094,55 +6498,51 @@ export interface UpdateIntegrationResult {
 }
 export const UpdateIntegrationResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
-    ConnectionType: S.optional(ConnectionType).pipe(
-      T.JsonName("connectionType"),
-    ),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationId: S.optional(S.String).pipe(T.JsonName("integrationId")),
-    IntegrationMethod: S.optional(S.String).pipe(
-      T.JsonName("integrationMethod"),
-    ),
-    IntegrationResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseSelectionExpression"),
-    ),
-    IntegrationSubtype: S.optional(S.String).pipe(
-      T.JsonName("integrationSubtype"),
-    ),
-    IntegrationType: S.optional(IntegrationType).pipe(
-      T.JsonName("integrationType"),
-    ),
-    IntegrationUri: S.optional(S.String).pipe(T.JsonName("integrationUri")),
-    PassthroughBehavior: S.optional(PassthroughBehavior).pipe(
-      T.JsonName("passthroughBehavior"),
-    ),
-    PayloadFormatVersion: S.optional(S.String).pipe(
-      T.JsonName("payloadFormatVersion"),
-    ),
-    RequestParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RequestTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("requestTemplates"),
-    ),
-    ResponseParameters: S.optional(ResponseParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-    TimeoutInMillis: S.optional(S.Number).pipe(T.JsonName("timeoutInMillis")),
-    TlsConfig: S.optional(TlsConfig)
-      .pipe(T.JsonName("tlsConfig"))
-      .annotate({ identifier: "TlsConfig" }),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ConnectionId: S.optional(S.String),
+    ConnectionType: S.optional(ConnectionType),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    CredentialsArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    IntegrationId: S.optional(S.String),
+    IntegrationMethod: S.optional(S.String),
+    IntegrationResponseSelectionExpression: S.optional(S.String),
+    IntegrationSubtype: S.optional(S.String),
+    IntegrationType: S.optional(IntegrationType),
+    IntegrationUri: S.optional(S.String),
+    PassthroughBehavior: S.optional(PassthroughBehavior),
+    PayloadFormatVersion: S.optional(S.String),
+    RequestParameters: S.optional(IntegrationParameters),
+    RequestTemplates: S.optional(TemplateMap),
+    ResponseParameters: S.optional(ResponseParameters),
+    TemplateSelectionExpression: S.optional(S.String),
+    TimeoutInMillis: S.optional(S.Number),
+    TlsConfig: S.optional(TlsConfig),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ConnectionId: "connectionId",
+      ConnectionType: "connectionType",
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      CredentialsArn: "credentialsArn",
+      Description: "description",
+      IntegrationId: "integrationId",
+      IntegrationMethod: "integrationMethod",
+      IntegrationResponseSelectionExpression:
+        "integrationResponseSelectionExpression",
+      IntegrationSubtype: "integrationSubtype",
+      IntegrationType: "integrationType",
+      IntegrationUri: "integrationUri",
+      PassthroughBehavior: "passthroughBehavior",
+      PayloadFormatVersion: "payloadFormatVersion",
+      RequestParameters: "requestParameters",
+      RequestTemplates: "requestTemplates",
+      ResponseParameters: "responseParameters",
+      TemplateSelectionExpression: "templateSelectionExpression",
+      TimeoutInMillis: "timeoutInMillis",
+      TlsConfig: "tlsConfig",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateIntegrationResult",
 }) as any as S.Schema<UpdateIntegrationResult>;
@@ -6159,36 +6559,36 @@ export interface UpdateIntegrationResponseRequest {
 export const UpdateIntegrationResponseRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
     IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ContentHandlingStrategy: "contentHandlingStrategy",
+        IntegrationResponseKey: "integrationResponseKey",
+        ResponseParameters: "responseParameters",
+        ResponseTemplates: "responseTemplates",
+        TemplateSelectionExpression: "templateSelectionExpression",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/apis/{ApiId}/integrations/{IntegrationId}/integrationresponses/{IntegrationResponseId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateIntegrationResponseRequest",
 }) as any as S.Schema<UpdateIntegrationResponseRequest>;
@@ -6202,25 +6602,22 @@ export interface UpdateIntegrationResponseResponse {
 }
 export const UpdateIntegrationResponseResponse = S.suspend(() =>
   S.Struct({
-    ContentHandlingStrategy: S.optional(ContentHandlingStrategy).pipe(
-      T.JsonName("contentHandlingStrategy"),
-    ),
-    IntegrationResponseId: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseId"),
-    ),
-    IntegrationResponseKey: S.optional(S.String).pipe(
-      T.JsonName("integrationResponseKey"),
-    ),
-    ResponseParameters: S.optional(IntegrationParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    ResponseTemplates: S.optional(TemplateMap).pipe(
-      T.JsonName("responseTemplates"),
-    ),
-    TemplateSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("templateSelectionExpression"),
-    ),
-  }),
+    ContentHandlingStrategy: S.optional(ContentHandlingStrategy),
+    IntegrationResponseId: S.optional(S.String),
+    IntegrationResponseKey: S.optional(S.String),
+    ResponseParameters: S.optional(IntegrationParameters),
+    ResponseTemplates: S.optional(TemplateMap),
+    TemplateSelectionExpression: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentHandlingStrategy: "contentHandlingStrategy",
+      IntegrationResponseId: "integrationResponseId",
+      IntegrationResponseKey: "integrationResponseKey",
+      ResponseParameters: "responseParameters",
+      ResponseTemplates: "responseTemplates",
+      TemplateSelectionExpression: "templateSelectionExpression",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateIntegrationResponseResponse",
 }) as any as S.Schema<UpdateIntegrationResponseResponse>;
@@ -6235,21 +6632,30 @@ export interface UpdateModelRequest {
 export const UpdateModelRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
     ModelId: S.String.pipe(T.HttpLabel("ModelId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ContentType: "contentType",
+        Description: "description",
+        Name: "name",
+        Schema: "schema",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateModelRequest",
 }) as any as S.Schema<UpdateModelRequest>;
@@ -6262,12 +6668,20 @@ export interface UpdateModelResponse {
 }
 export const UpdateModelResponse = S.suspend(() =>
   S.Struct({
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ModelId: S.optional(S.String).pipe(T.JsonName("modelId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Schema: S.optional(S.String).pipe(T.JsonName("schema")),
-  }),
+    ContentType: S.optional(S.String),
+    Description: S.optional(S.String),
+    ModelId: S.optional(S.String),
+    Name: S.optional(S.String),
+    Schema: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContentType: "contentType",
+      Description: "description",
+      ModelId: "modelId",
+      Name: "name",
+      Schema: "schema",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateModelResponse",
 }) as any as S.Schema<UpdateModelResponse>;
@@ -6282,33 +6696,34 @@ export interface UpdatePortalRequest {
 }
 export const UpdatePortalRequest = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationRequest)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationRequest" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
-    ),
-    LogoUri: S.optional(S.String).pipe(T.JsonName("logoUri")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationRequest),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LogoUri: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
     PortalId: S.String.pipe(T.HttpLabel("PortalId")),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
+    RumAppMonitorName: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        Authorization: "authorization",
+        EndpointConfiguration: "endpointConfiguration",
+        IncludedPortalProductArns: "includedPortalProductArns",
+        LogoUri: "logoUri",
+        PortalContent: "portalContent",
+        RumAppMonitorName: "rumAppMonitorName",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/portals/{PortalId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/portals/{PortalId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdatePortalRequest",
 }) as any as S.Schema<UpdatePortalRequest>;
@@ -6351,41 +6766,42 @@ export interface UpdatePortalResponse {
 }
 export const UpdatePortalResponse = S.suspend(() =>
   S.Struct({
-    Authorization: S.optional(Authorization)
-      .pipe(T.JsonName("authorization"))
-      .annotate({ identifier: "Authorization" }),
-    EndpointConfiguration: S.optional(EndpointConfigurationResponse)
-      .pipe(T.JsonName("endpointConfiguration"))
-      .annotate({ identifier: "EndpointConfigurationResponse" }),
-    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048).pipe(
-      T.JsonName("includedPortalProductArns"),
+    Authorization: S.optional(Authorization),
+    EndpointConfiguration: S.optional(EndpointConfigurationResponse),
+    IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    LastPublished: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastPublished: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastPublished"),
-    ),
-    LastPublishedDescription: S.optional(S.String).pipe(
-      T.JsonName("lastPublishedDescription"),
-    ),
-    PortalArn: S.optional(S.String).pipe(T.JsonName("portalArn")),
-    PortalContent: S.optional(PortalContent)
-      .pipe(T.JsonName("portalContent"))
-      .annotate({ identifier: "PortalContent" }),
-    PortalId: S.optional(S.String).pipe(T.JsonName("portalId")),
-    Preview: S.optional(Preview)
-      .pipe(T.JsonName("preview"))
-      .annotate({ identifier: "Preview" }),
-    PublishStatus: S.optional(PublishStatus).pipe(T.JsonName("publishStatus")),
-    RumAppMonitorName: S.optional(S.String).pipe(
-      T.JsonName("rumAppMonitorName"),
-    ),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    LastPublishedDescription: S.optional(S.String),
+    PortalArn: S.optional(S.String),
+    PortalContent: S.optional(PortalContent),
+    PortalId: S.optional(S.String),
+    Preview: S.optional(Preview),
+    PublishStatus: S.optional(PublishStatus),
+    RumAppMonitorName: S.optional(S.String),
+    StatusException: S.optional(StatusException),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Authorization: "authorization",
+      EndpointConfiguration: "endpointConfiguration",
+      IncludedPortalProductArns: "includedPortalProductArns",
+      LastModified: "lastModified",
+      LastPublished: "lastPublished",
+      LastPublishedDescription: "lastPublishedDescription",
+      PortalArn: "portalArn",
+      PortalContent: "portalContent",
+      PortalId: "portalId",
+      Preview: "preview",
+      PublishStatus: "publishStatus",
+      RumAppMonitorName: "rumAppMonitorName",
+      StatusException: "statusException",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdatePortalResponse",
 }) as any as S.Schema<UpdatePortalResponse>;
@@ -6397,22 +6813,31 @@ export interface UpdatePortalProductRequest {
 }
 export const UpdatePortalProductRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    DisplayOrder: S.optional(DisplayOrder)
-      .pipe(T.JsonName("displayOrder"))
-      .annotate({ identifier: "DisplayOrder" }),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    DisplayOrder: S.optional(DisplayOrder),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/portalproducts/{PortalProductId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        DisplayName: "displayName",
+        DisplayOrder: "displayOrder",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/portalproducts/{PortalProductId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePortalProductRequest",
 }) as any as S.Schema<UpdatePortalProductRequest>;
@@ -6432,18 +6857,26 @@ export interface UpdatePortalProductResponse {
 }
 export const UpdatePortalProductResponse = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
-    DisplayOrder: S.optional(DisplayOrder)
-      .pipe(T.JsonName("displayOrder"))
-      .annotate({ identifier: "DisplayOrder" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    Description: S.optional(S.String),
+    DisplayName: S.optional(S.String),
+    DisplayOrder: S.optional(DisplayOrder),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    PortalProductArn: S.optional(S.String).pipe(T.JsonName("portalProductArn")),
-    PortalProductId: S.optional(S.String).pipe(T.JsonName("portalProductId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    PortalProductArn: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Description: "description",
+      DisplayName: "displayName",
+      DisplayOrder: "displayOrder",
+      LastModified: "lastModified",
+      PortalProductArn: "portalProductArn",
+      PortalProductId: "portalProductId",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdatePortalProductResponse",
 }) as any as S.Schema<UpdatePortalProductResponse>;
@@ -6454,24 +6887,24 @@ export interface UpdateProductPageRequest {
 }
 export const UpdateProductPageRequest = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(DisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "DisplayContent" }),
+    DisplayContent: S.optional(DisplayContent),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ DisplayContent: "displayContent" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateProductPageRequest",
 }) as any as S.Schema<UpdateProductPageRequest>;
@@ -6486,15 +6919,20 @@ export interface UpdateProductPageResponse {
 }
 export const UpdateProductPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(DisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "DisplayContent" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(DisplayContent),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductPageArn: S.optional(S.String).pipe(T.JsonName("productPageArn")),
-    ProductPageId: S.optional(S.String).pipe(T.JsonName("productPageId")),
-  }),
+    ProductPageArn: S.optional(S.String),
+    ProductPageId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductPageArn: "productPageArn",
+      ProductPageId: "productPageId",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateProductPageResponse",
 }) as any as S.Schema<UpdateProductPageResponse>;
@@ -6506,27 +6944,32 @@ export interface UpdateProductRestEndpointPageRequest {
 }
 export const UpdateProductRestEndpointPageRequest = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(EndpointDisplayContent)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "EndpointDisplayContent" }),
+    DisplayContent: S.optional(EndpointDisplayContent),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductRestEndpointPageId: S.String.pipe(
       T.HttpLabel("ProductRestEndpointPageId"),
     ),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+    TryItState: S.optional(TryItState),
+  })
+    .pipe(
+      S.encodeKeys({
+        DisplayContent: "displayContent",
+        TryItState: "tryItState",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateProductRestEndpointPageRequest",
 }) as any as S.Schema<UpdateProductRestEndpointPageRequest>;
@@ -6551,27 +6994,28 @@ export interface UpdateProductRestEndpointPageResponse {
 }
 export const UpdateProductRestEndpointPageResponse = S.suspend(() =>
   S.Struct({
-    DisplayContent: S.optional(EndpointDisplayContentResponse)
-      .pipe(T.JsonName("displayContent"))
-      .annotate({ identifier: "EndpointDisplayContentResponse" }),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastModified"),
+    DisplayContent: S.optional(EndpointDisplayContentResponse),
+    LastModified: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ProductRestEndpointPageArn: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageArn"),
-    ),
-    ProductRestEndpointPageId: S.optional(S.String).pipe(
-      T.JsonName("productRestEndpointPageId"),
-    ),
-    RestEndpointIdentifier: S.optional(RestEndpointIdentifier)
-      .pipe(T.JsonName("restEndpointIdentifier"))
-      .annotate({ identifier: "RestEndpointIdentifier" }),
-    Status: S.optional(Status).pipe(T.JsonName("status")),
-    StatusException: S.optional(StatusException)
-      .pipe(T.JsonName("statusException"))
-      .annotate({ identifier: "StatusException" }),
-    TryItState: S.optional(TryItState).pipe(T.JsonName("tryItState")),
-  }),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateProductRestEndpointPageResponse",
 }) as any as S.Schema<UpdateProductRestEndpointPageResponse>;
@@ -6593,38 +7037,44 @@ export interface UpdateRouteRequest {
 export const UpdateRouteRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
-    ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ApiKeyRequired: "apiKeyRequired",
+        AuthorizationScopes: "authorizationScopes",
+        AuthorizationType: "authorizationType",
+        AuthorizerId: "authorizerId",
+        ModelSelectionExpression: "modelSelectionExpression",
+        OperationName: "operationName",
+        RequestModels: "requestModels",
+        RequestParameters: "requestParameters",
+        RouteKey: "routeKey",
+        RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+        Target: "target",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateRouteRequest",
 }) as any as S.Schema<UpdateRouteRequest>;
@@ -6645,32 +7095,36 @@ export interface UpdateRouteResult {
 }
 export const UpdateRouteResult = S.suspend(() =>
   S.Struct({
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
-    ),
-    ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
-    AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
-      T.JsonName("authorizationScopes"),
-    ),
-    AuthorizationType: S.optional(AuthorizationType).pipe(
-      T.JsonName("authorizationType"),
-    ),
-    AuthorizerId: S.optional(S.String).pipe(T.JsonName("authorizerId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    OperationName: S.optional(S.String).pipe(T.JsonName("operationName")),
-    RequestModels: S.optional(RouteModels).pipe(T.JsonName("requestModels")),
-    RequestParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("requestParameters"),
-    ),
-    RouteId: S.optional(S.String).pipe(T.JsonName("routeId")),
-    RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
-    RouteResponseSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("routeResponseSelectionExpression"),
-    ),
-    Target: S.optional(S.String).pipe(T.JsonName("target")),
-  }),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    ApiKeyRequired: S.optional(S.Boolean),
+    AuthorizationScopes: S.optional(AuthorizationScopes),
+    AuthorizationType: S.optional(AuthorizationType),
+    AuthorizerId: S.optional(S.String),
+    ModelSelectionExpression: S.optional(S.String),
+    OperationName: S.optional(S.String),
+    RequestModels: S.optional(RouteModels),
+    RequestParameters: S.optional(RouteParameters),
+    RouteId: S.optional(S.String),
+    RouteKey: S.optional(S.String),
+    RouteResponseSelectionExpression: S.optional(S.String),
+    Target: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ApiGatewayManaged: "apiGatewayManaged",
+      ApiKeyRequired: "apiKeyRequired",
+      AuthorizationScopes: "authorizationScopes",
+      AuthorizationType: "authorizationType",
+      AuthorizerId: "authorizerId",
+      ModelSelectionExpression: "modelSelectionExpression",
+      OperationName: "operationName",
+      RequestModels: "requestModels",
+      RequestParameters: "requestParameters",
+      RouteId: "routeId",
+      RouteKey: "routeKey",
+      RouteResponseSelectionExpression: "routeResponseSelectionExpression",
+      Target: "target",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateRouteResult",
 }) as any as S.Schema<UpdateRouteResult>;
@@ -6686,29 +7140,34 @@ export interface UpdateRouteResponseRequest {
 export const UpdateRouteResponseRequest = S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
     RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
+    RouteResponseKey: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        ModelSelectionExpression: "modelSelectionExpression",
+        ResponseModels: "responseModels",
+        ResponseParameters: "responseParameters",
+        RouteResponseKey: "routeResponseKey",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/apis/{ApiId}/routes/{RouteId}/routeresponses/{RouteResponseId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateRouteResponseRequest",
 }) as any as S.Schema<UpdateRouteResponseRequest>;
@@ -6721,16 +7180,20 @@ export interface UpdateRouteResponseResponse {
 }
 export const UpdateRouteResponseResponse = S.suspend(() =>
   S.Struct({
-    ModelSelectionExpression: S.optional(S.String).pipe(
-      T.JsonName("modelSelectionExpression"),
-    ),
-    ResponseModels: S.optional(RouteModels).pipe(T.JsonName("responseModels")),
-    ResponseParameters: S.optional(RouteParameters).pipe(
-      T.JsonName("responseParameters"),
-    ),
-    RouteResponseId: S.optional(S.String).pipe(T.JsonName("routeResponseId")),
-    RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
-  }),
+    ModelSelectionExpression: S.optional(S.String),
+    ResponseModels: S.optional(RouteModels),
+    ResponseParameters: S.optional(RouteParameters),
+    RouteResponseId: S.optional(S.String),
+    RouteResponseKey: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ModelSelectionExpression: "modelSelectionExpression",
+      ResponseModels: "responseModels",
+      ResponseParameters: "responseParameters",
+      RouteResponseId: "routeResponseId",
+      RouteResponseKey: "routeResponseKey",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateRouteResponseResponse",
 }) as any as S.Schema<UpdateRouteResponseResponse>;
@@ -6748,36 +7211,39 @@ export interface UpdateStageRequest {
 }
 export const UpdateStageRequest = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
+    AccessLogSettings: S.optional(AccessLogSettings),
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
-    ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
-    ),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    RouteSettings: S.optional(RouteSettingsMap),
     StageName: S.String.pipe(T.HttpLabel("StageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
+    StageVariables: S.optional(StageVariablesMap),
+  })
+    .pipe(
+      S.encodeKeys({
+        AccessLogSettings: "accessLogSettings",
+        AutoDeploy: "autoDeploy",
+        ClientCertificateId: "clientCertificateId",
+        DefaultRouteSettings: "defaultRouteSettings",
+        DeploymentId: "deploymentId",
+        Description: "description",
+        RouteSettings: "routeSettings",
+        StageVariables: "stageVariables",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateStageRequest",
 }) as any as S.Schema<UpdateStageRequest>;
@@ -6799,39 +7265,42 @@ export interface UpdateStageResponse {
 }
 export const UpdateStageResponse = S.suspend(() =>
   S.Struct({
-    AccessLogSettings: S.optional(AccessLogSettings)
-      .pipe(T.JsonName("accessLogSettings"))
-      .annotate({ identifier: "AccessLogSettings" }),
-    ApiGatewayManaged: S.optional(S.Boolean).pipe(
-      T.JsonName("apiGatewayManaged"),
+    AccessLogSettings: S.optional(AccessLogSettings),
+    ApiGatewayManaged: S.optional(S.Boolean),
+    AutoDeploy: S.optional(S.Boolean),
+    ClientCertificateId: S.optional(S.String),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
-    ClientCertificateId: S.optional(S.String).pipe(
-      T.JsonName("clientCertificateId"),
-    ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
-    ),
-    DefaultRouteSettings: S.optional(RouteSettings)
-      .pipe(T.JsonName("defaultRouteSettings"))
-      .annotate({ identifier: "RouteSettings" }),
-    DeploymentId: S.optional(S.String).pipe(T.JsonName("deploymentId")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastDeploymentStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("lastDeploymentStatusMessage"),
-    ),
+    DefaultRouteSettings: S.optional(RouteSettings),
+    DeploymentId: S.optional(S.String),
+    Description: S.optional(S.String),
+    LastDeploymentStatusMessage: S.optional(S.String),
     LastUpdatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastUpdatedDate")),
-    RouteSettings: S.optional(RouteSettingsMap).pipe(
-      T.JsonName("routeSettings"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
-    StageVariables: S.optional(StageVariablesMap).pipe(
-      T.JsonName("stageVariables"),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    RouteSettings: S.optional(RouteSettingsMap),
+    StageName: S.optional(S.String),
+    StageVariables: S.optional(StageVariablesMap),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      AccessLogSettings: "accessLogSettings",
+      ApiGatewayManaged: "apiGatewayManaged",
+      AutoDeploy: "autoDeploy",
+      ClientCertificateId: "clientCertificateId",
+      CreatedDate: "createdDate",
+      DefaultRouteSettings: "defaultRouteSettings",
+      DeploymentId: "deploymentId",
+      Description: "description",
+      LastDeploymentStatusMessage: "lastDeploymentStatusMessage",
+      LastUpdatedDate: "lastUpdatedDate",
+      RouteSettings: "routeSettings",
+      StageName: "stageName",
+      StageVariables: "stageVariables",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateStageResponse",
 }) as any as S.Schema<UpdateStageResponse>;
@@ -6841,18 +7310,20 @@ export interface UpdateVpcLinkRequest {
 }
 export const UpdateVpcLinkRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Name: S.optional(S.String),
     VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v2/vpclinks/{VpcLinkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Name: "name" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/v2/vpclinks/{VpcLinkId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateVpcLinkRequest",
 }) as any as S.Schema<UpdateVpcLinkRequest>;
@@ -6869,24 +7340,30 @@ export interface UpdateVpcLinkResponse {
 }
 export const UpdateVpcLinkResponse = S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdDate"),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(SubnetIdList).pipe(T.JsonName("subnetIds")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    VpcLinkId: S.optional(S.String).pipe(T.JsonName("vpcLinkId")),
-    VpcLinkStatus: S.optional(VpcLinkStatus).pipe(T.JsonName("vpcLinkStatus")),
-    VpcLinkStatusMessage: S.optional(S.String).pipe(
-      T.JsonName("vpcLinkStatusMessage"),
-    ),
-    VpcLinkVersion: S.optional(VpcLinkVersion).pipe(
-      T.JsonName("vpcLinkVersion"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    SecurityGroupIds: S.optional(SecurityGroupIdList),
+    SubnetIds: S.optional(SubnetIdList),
+    Tags: S.optional(Tags),
+    VpcLinkId: S.optional(S.String),
+    VpcLinkStatus: S.optional(VpcLinkStatus),
+    VpcLinkStatusMessage: S.optional(S.String),
+    VpcLinkVersion: S.optional(VpcLinkVersion),
+  }).pipe(
+    S.encodeKeys({
+      CreatedDate: "createdDate",
+      Name: "name",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+      Tags: "tags",
+      VpcLinkId: "vpcLinkId",
+      VpcLinkStatus: "vpcLinkStatus",
+      VpcLinkStatusMessage: "vpcLinkStatusMessage",
+      VpcLinkVersion: "vpcLinkVersion",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateVpcLinkResponse",
 }) as any as S.Schema<UpdateVpcLinkResponse>;
@@ -6894,29 +7371,23 @@ export const UpdateVpcLinkResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
-  {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    ResourceType: S.optional(S.String).pipe(T.JsonName("resourceType")),
-  },
+  { Message: S.optional(S.String), ResourceType: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
-  {
-    LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  },
+  { LimitType: S.optional(S.String), Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 
 //# Operations

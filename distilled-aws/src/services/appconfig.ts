@@ -1025,7 +1025,9 @@ export const DeploymentEvent = S.suspend(() =>
     TriggeredBy: S.optional(TriggeredBy),
     Description: S.optional(S.String),
     ActionInvocations: S.optional(ActionInvocations),
-    OccurredAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    OccurredAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DeploymentEvent",
@@ -1092,8 +1094,12 @@ export const Deployment = S.suspend(() =>
     State: S.optional(DeploymentState),
     EventLog: S.optional(DeploymentEvents),
     PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AppliedExtensions: S.optional(AppliedExtensions),
     KmsKeyArn: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
@@ -1371,8 +1377,12 @@ export const DeploymentSummary = S.suspend(() =>
     FinalBakeTimeInMinutes: S.optional(S.Number),
     State: S.optional(DeploymentState),
     PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     VersionLabel: S.optional(S.String),
   }),
 ).annotate({

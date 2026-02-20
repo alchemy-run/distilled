@@ -232,8 +232,8 @@ export const CreatePolicyStoreOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     arn: S.String,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreatePolicyStoreOutput",
@@ -278,8 +278,8 @@ export const GetPolicyStoreOutput = S.suspend(() =>
     policyStoreId: S.String,
     arn: S.String,
     validationSettings: ValidationSettings,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     description: S.optional(SensitiveString),
     deletionProtection: S.optional(DeletionProtection),
     cedarVersion: S.optional(CedarVersion),
@@ -316,8 +316,8 @@ export const UpdatePolicyStoreOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     arn: S.String,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdatePolicyStoreOutput",
@@ -361,8 +361,10 @@ export const PolicyStoreItem = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     arn: S.String,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(SensitiveString),
   }),
 ).annotate({
@@ -932,8 +934,8 @@ export const GetSchemaOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     schema: SensitiveString,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     namespaces: S.optional(NamespaceList),
   }),
 ).annotate({
@@ -1040,8 +1042,8 @@ export const PutSchemaOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     namespaces: NamespaceList,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "PutSchemaOutput",
@@ -1116,8 +1118,8 @@ export const BatchGetPolicyOutputItem = S.suspend(() =>
     policyId: S.String,
     policyType: PolicyType,
     definition: PolicyDefinitionDetail,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "BatchGetPolicyOutputItem",
@@ -1286,9 +1288,9 @@ export interface CreateIdentitySourceOutput {
 }
 export const CreateIdentitySourceOutput = S.suspend(() =>
   S.Struct({
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     identitySourceId: S.String,
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     policyStoreId: S.String,
   }),
 ).annotate({
@@ -1437,10 +1439,10 @@ export interface GetIdentitySourceOutput {
 }
 export const GetIdentitySourceOutput = S.suspend(() =>
   S.Struct({
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     details: S.optional(IdentitySourceDetails),
     identitySourceId: S.String,
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     policyStoreId: S.String,
     principalEntityType: SensitiveString,
     configuration: S.optional(ConfigurationDetail),
@@ -1575,9 +1577,9 @@ export interface UpdateIdentitySourceOutput {
 }
 export const UpdateIdentitySourceOutput = S.suspend(() =>
   S.Struct({
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     identitySourceId: S.String,
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     policyStoreId: S.String,
   }),
 ).annotate({
@@ -1754,10 +1756,10 @@ export interface IdentitySourceItem {
 }
 export const IdentitySourceItem = S.suspend(() =>
   S.Struct({
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     details: S.optional(IdentitySourceItemDetails),
     identitySourceId: S.String,
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     policyStoreId: S.String,
     principalEntityType: SensitiveString,
     configuration: S.optional(ConfigurationItem),
@@ -1851,8 +1853,8 @@ export const CreatePolicyOutput = S.suspend(() =>
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     effect: S.optional(PolicyEffect),
   }),
 ).annotate({
@@ -1888,8 +1890,8 @@ export const GetPolicyOutput = S.suspend(() =>
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     definition: PolicyDefinitionDetail,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     effect: S.optional(PolicyEffect),
   }),
 ).annotate({
@@ -1946,8 +1948,8 @@ export const UpdatePolicyOutput = S.suspend(() =>
     principal: S.optional(EntityIdentifier),
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     effect: S.optional(PolicyEffect),
   }),
 ).annotate({
@@ -2057,8 +2059,8 @@ export const PolicyItem = S.suspend(() =>
     resource: S.optional(EntityIdentifier),
     actions: S.optional(ActionIdentifierList),
     definition: PolicyDefinitionItem,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     effect: S.optional(PolicyEffect),
   }),
 ).annotate({ identifier: "PolicyItem" }) as any as S.Schema<PolicyItem>;
@@ -2101,8 +2103,8 @@ export const CreatePolicyTemplateOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyTemplateId: S.String,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreatePolicyTemplateOutput",
@@ -2132,8 +2134,8 @@ export const GetPolicyTemplateOutput = S.suspend(() =>
     policyTemplateId: S.String,
     description: S.optional(SensitiveString),
     statement: SensitiveString,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetPolicyTemplateOutput",
@@ -2166,8 +2168,8 @@ export const UpdatePolicyTemplateOutput = S.suspend(() =>
   S.Struct({
     policyStoreId: S.String,
     policyTemplateId: S.String,
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdatePolicyTemplateOutput",
@@ -2217,8 +2219,8 @@ export const PolicyTemplateItem = S.suspend(() =>
     policyStoreId: S.String,
     policyTemplateId: S.String,
     description: S.optional(SensitiveString),
-    createdDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "PolicyTemplateItem",

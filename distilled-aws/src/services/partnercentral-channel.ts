@@ -247,7 +247,7 @@ export const StartServicePeriodPayload = S.suspend(() =>
     note: S.optional(S.String),
     servicePeriodType: ServicePeriodType,
     minimumNoticeDays: S.optional(S.String),
-    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StartServicePeriodPayload",
@@ -504,8 +504,10 @@ export const StartServicePeriodHandshakeDetail = S.suspend(() =>
     note: S.optional(S.String),
     servicePeriodType: S.optional(ServicePeriodType),
     minimumNoticeDays: S.optional(S.String),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StartServicePeriodHandshakeDetail",
@@ -522,8 +524,10 @@ export const RevokeServicePeriodHandshakeDetail = S.suspend(() =>
     note: S.optional(S.String),
     servicePeriodType: S.optional(ServicePeriodType),
     minimumNoticeDays: S.optional(S.String),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "RevokeServicePeriodHandshakeDetail",
@@ -591,8 +595,12 @@ export const ChannelHandshakeSummary = S.suspend(() =>
     receiverAccountId: S.optional(S.String),
     associatedResourceId: S.optional(S.String),
     detail: S.optional(HandshakeDetail),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     status: S.optional(HandshakeStatus),
   }),
 ).annotate({
@@ -954,9 +962,15 @@ export const ProgramManagementAccountSummary = S.suspend(() =>
     displayName: S.optional(S.String),
     accountId: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     status: S.optional(ProgramManagementAccountStatus),
   }),
 ).annotate({
@@ -1163,9 +1177,15 @@ export const RelationshipDetail = S.suspend(() =>
     displayName: S.optional(S.String),
     resaleAccountModel: S.optional(ResaleAccountModel),
     sector: S.optional(Sector),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "RelationshipDetail",
@@ -1339,9 +1359,15 @@ export const RelationshipSummary = S.suspend(() =>
     associatedAccountId: S.optional(S.String),
     displayName: S.optional(S.String),
     sector: S.optional(Sector),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "RelationshipSummary",

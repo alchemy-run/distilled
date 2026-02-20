@@ -170,10 +170,10 @@ export const CreateChatTokenResponse = S.suspend(() =>
   S.Struct({
     token: S.optional(SensitiveString),
     tokenExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     sessionExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -270,8 +270,12 @@ export const CreateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
     state: S.optional(S.String),
@@ -339,8 +343,12 @@ export const CreateRoomResponse = S.suspend(() =>
     arn: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     maximumMessageRatePerSecond: S.optional(S.Number),
     maximumMessageLength: S.optional(S.Number),
     messageReviewHandler: S.optional(MessageReviewHandler),
@@ -485,8 +493,12 @@ export const GetLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
     state: S.optional(S.String),
@@ -527,8 +539,12 @@ export const GetRoomResponse = S.suspend(() =>
     arn: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     maximumMessageRatePerSecond: S.optional(S.Number),
     maximumMessageLength: S.optional(S.Number),
     messageReviewHandler: S.optional(MessageReviewHandler),
@@ -575,8 +591,12 @@ export const LoggingConfigurationSummary = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
     state: S.optional(S.String),
@@ -642,8 +662,12 @@ export const RoomSummary = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     messageReviewHandler: S.optional(MessageReviewHandler),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
     loggingConfigurationIdentifiers: S.optional(
       LoggingConfigurationIdentifierList,
@@ -808,8 +832,12 @@ export const UpdateLoggingConfigurationResponse = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: S.optional(S.String),
     destinationConfiguration: S.optional(DestinationConfiguration),
     state: S.optional(S.String),
@@ -866,8 +894,12 @@ export const UpdateRoomResponse = S.suspend(() =>
     arn: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     maximumMessageRatePerSecond: S.optional(S.Number),
     maximumMessageLength: S.optional(S.Number),
     messageReviewHandler: S.optional(MessageReviewHandler),

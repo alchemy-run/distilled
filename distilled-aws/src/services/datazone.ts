@@ -1537,8 +1537,12 @@ export const CreateAccountPoolOutput = S.suspend(() =>
     resolutionStrategy: S.optional(ResolutionStrategy),
     accountSource: AccountSource,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     domainUnitId: S.optional(S.String),
   }),
@@ -2747,7 +2751,7 @@ export const SparkEmrPropertiesOutput = S.suspend(() =>
     computeArn: S.optional(S.String),
     credentials: S.optional(UsernamePassword),
     credentialsExpiration: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     governanceType: S.optional(GovernanceType),
     instanceProfileArn: S.optional(S.String),
@@ -3230,8 +3234,12 @@ export const CreateEnvironmentOutput = S.suspend(() =>
     id: S.optional(S.String),
     domainId: S.String,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
@@ -3366,8 +3374,12 @@ export const CreateEnvironmentBlueprintOutput = S.suspend(() =>
     deploymentProperties: S.optional(DeploymentProperties),
     userParameters: S.optional(CustomParameterList),
     glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateEnvironmentBlueprintOutput",
@@ -3429,8 +3441,12 @@ export const CreateEnvironmentProfileOutput = S.suspend(() =>
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
@@ -3696,8 +3712,12 @@ export const CreateProjectOutput = S.suspend(() =>
     projectStatus: S.optional(ProjectStatus),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     resourceTags: S.optional(ResourceTags),
     glossaryTerms: S.optional(GlossaryTerms),
     domainUnitId: S.optional(S.String),
@@ -3919,8 +3939,12 @@ export const CreateProjectProfileOutput = S.suspend(() =>
     projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainUnitId: S.optional(S.String),
   }),
 ).annotate({
@@ -4928,8 +4952,12 @@ export const GetAccountPoolOutput = S.suspend(() =>
     resolutionStrategy: S.optional(ResolutionStrategy),
     accountSource: AccountSource,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     domainUnitId: S.optional(S.String),
   }),
@@ -5029,7 +5057,9 @@ export const ConnectionCredentials = S.suspend(() =>
     accessKeyId: S.optional(S.String),
     secretAccessKey: S.optional(S.String),
     sessionToken: S.optional(S.String),
-    expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ConnectionCredentials",
@@ -5178,8 +5208,12 @@ export const GetEnvironmentOutput = S.suspend(() =>
     id: S.optional(S.String),
     domainId: S.String,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
@@ -5292,8 +5326,12 @@ export const GetEnvironmentBlueprintOutput = S.suspend(() =>
     deploymentProperties: S.optional(DeploymentProperties),
     userParameters: S.optional(CustomParameterList),
     glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetEnvironmentBlueprintOutput",
@@ -5333,7 +5371,9 @@ export const GetEnvironmentCredentialsOutput = S.suspend(() =>
     accessKeyId: S.optional(S.String),
     secretAccessKey: S.optional(S.String),
     sessionToken: S.optional(S.String),
-    expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetEnvironmentCredentialsOutput",
@@ -5383,8 +5423,12 @@ export const GetEnvironmentProfileOutput = S.suspend(() =>
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
@@ -5761,8 +5805,12 @@ export const GetProjectOutput = S.suspend(() =>
     projectStatus: S.optional(ProjectStatus),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     resourceTags: S.optional(ResourceTags),
     glossaryTerms: S.optional(GlossaryTerms),
     domainUnitId: S.optional(S.String),
@@ -5824,8 +5872,12 @@ export const GetProjectProfileOutput = S.suspend(() =>
     projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainUnitId: S.optional(S.String),
   }),
 ).annotate({
@@ -6657,8 +6709,8 @@ export const DataSourceRunActivity = S.suspend(() =>
     technicalDescription: S.optional(SensitiveString),
     errorMessage: S.optional(DataSourceErrorMessage),
     lineageSummary: S.optional(LineageInfo),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "DataSourceRunActivity",
@@ -6846,8 +6898,12 @@ export const EnvironmentBlueprintSummary = S.suspend(() =>
     description: S.optional(SensitiveString),
     provider: S.String,
     provisioningProperties: ProvisioningProperties,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "EnvironmentBlueprintSummary",
@@ -6930,8 +6986,12 @@ export const EnvironmentProfileSummary = S.suspend(() =>
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
@@ -7024,8 +7084,12 @@ export const EnvironmentSummary = S.suspend(() =>
     id: S.optional(S.String),
     domainId: S.String,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
@@ -7640,8 +7704,12 @@ export const ProjectProfileSummary = S.suspend(() =>
     description: S.optional(SensitiveString),
     status: S.optional(Status),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainUnitId: S.optional(S.String),
   }),
 ).annotate({
@@ -7711,8 +7779,12 @@ export const ProjectSummary = S.suspend(() =>
     projectStatus: S.optional(ProjectStatus),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainUnitId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProjectSummary" }) as any as S.Schema<ProjectSummary>;
@@ -9634,8 +9706,12 @@ export const UpdateAccountPoolOutput = S.suspend(() =>
     resolutionStrategy: S.optional(ResolutionStrategy),
     accountSource: AccountSource,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     domainUnitId: S.optional(S.String),
   }),
@@ -10044,8 +10120,12 @@ export const UpdateEnvironmentOutput = S.suspend(() =>
     id: S.optional(S.String),
     domainId: S.String,
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
@@ -10170,8 +10250,12 @@ export const UpdateEnvironmentBlueprintOutput = S.suspend(() =>
     deploymentProperties: S.optional(DeploymentProperties),
     userParameters: S.optional(CustomParameterList),
     glossaryTerms: S.optional(GlossaryTerms),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateEnvironmentBlueprintOutput",
@@ -10231,8 +10315,12 @@ export const UpdateEnvironmentProfileOutput = S.suspend(() =>
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     name: SensitiveString,
     description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
@@ -10350,8 +10438,12 @@ export const UpdateProjectOutput = S.suspend(() =>
     projectStatus: S.optional(ProjectStatus),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     resourceTags: S.optional(ResourceTags),
     glossaryTerms: S.optional(GlossaryTerms),
     domainUnitId: S.optional(S.String),
@@ -10429,8 +10521,12 @@ export const UpdateProjectProfileOutput = S.suspend(() =>
     projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainUnitId: S.optional(S.String),
   }),
 ).annotate({
@@ -11868,11 +11964,17 @@ export const CreateDataSourceOutput = S.suspend(() =>
     assetFormsOutput: S.optional(FormOutputList),
     schedule: S.optional(ScheduleConfiguration),
     lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lastRunErrorMessage: S.optional(DataSourceErrorMessage),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateDataSourceOutput",
@@ -12001,12 +12103,18 @@ export const GetDataSourceOutput = S.suspend(() =>
     assetFormsOutput: S.optional(FormOutputList),
     schedule: S.optional(ScheduleConfiguration),
     lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lastRunErrorMessage: S.optional(DataSourceErrorMessage),
     lastRunAssetCount: S.optional(S.Number),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     selfGrantStatus: S.optional(SelfGrantStatusOutput),
   }),
 ).annotate({
@@ -12097,11 +12205,17 @@ export const UpdateDataSourceOutput = S.suspend(() =>
     assetFormsOutput: S.optional(FormOutputList),
     schedule: S.optional(ScheduleConfiguration),
     lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lastRunErrorMessage: S.optional(DataSourceErrorMessage),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     selfGrantStatus: S.optional(SelfGrantStatusOutput),
     retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
   }),
@@ -12182,11 +12296,17 @@ export const DeleteDataSourceOutput = S.suspend(() =>
     assetFormsOutput: S.optional(FormOutputList),
     schedule: S.optional(ScheduleConfiguration),
     lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lastRunErrorMessage: S.optional(DataSourceErrorMessage),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     selfGrantStatus: S.optional(SelfGrantStatusOutput),
     retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
   }),
@@ -12265,11 +12385,17 @@ export const DataSourceSummary = S.suspend(() =>
     enableSetting: S.optional(EnableSetting),
     schedule: S.optional(ScheduleConfiguration),
     lastRunStatus: S.optional(DataSourceRunStatus),
-    lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastRunAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lastRunErrorMessage: S.optional(DataSourceErrorMessage),
     lastRunAssetCount: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(SensitiveString),
   }),
 ).annotate({
@@ -12358,10 +12484,14 @@ export const StartDataSourceRunOutput = S.suspend(() =>
     dataSourceConfigurationSnapshot: S.optional(S.String),
     runStatisticsForAssets: S.optional(RunStatisticsForAssets),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stoppedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StartDataSourceRunOutput",
@@ -12433,10 +12563,14 @@ export const GetDataSourceRunOutput = S.suspend(() =>
     runStatisticsForAssets: S.optional(RunStatisticsForAssets),
     lineageSummary: S.optional(DataSourceRunLineageSummary),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stoppedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetDataSourceRunOutput",
@@ -12494,10 +12628,14 @@ export const DataSourceRunSummary = S.suspend(() =>
     projectId: S.String,
     runStatisticsForAssets: S.optional(RunStatisticsForAssets),
     errorMessage: S.optional(DataSourceErrorMessage),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stoppedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     lineageSummary: S.optional(DataSourceRunLineageSummary),
   }),
 ).annotate({
@@ -13186,8 +13324,12 @@ export const PutEnvironmentBlueprintConfigurationOutput = S.suspend(() =>
     manageAccessRoleArn: S.optional(S.String),
     enabledRegions: S.optional(EnabledRegionList),
     regionalParameters: S.optional(RegionalParameterMap),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     provisioningConfigurations: S.optional(ProvisioningConfigurationList),
   }),
 ).annotate({
@@ -13242,8 +13384,12 @@ export const GetEnvironmentBlueprintConfigurationOutput = S.suspend(() =>
     manageAccessRoleArn: S.optional(S.String),
     enabledRegions: S.optional(EnabledRegionList),
     regionalParameters: S.optional(RegionalParameterMap),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     provisioningConfigurations: S.optional(ProvisioningConfigurationList),
   }),
 ).annotate({
@@ -13330,8 +13476,12 @@ export const EnvironmentBlueprintConfigurationItem = S.suspend(() =>
     manageAccessRoleArn: S.optional(S.String),
     enabledRegions: S.optional(EnabledRegionList),
     regionalParameters: S.optional(RegionalParameterMap),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     provisioningConfigurations: S.optional(ProvisioningConfigurationList),
   }),
 ).annotate({

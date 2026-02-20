@@ -223,15 +223,17 @@ export const Blueprint = S.suspend(() =>
     blueprintArn: S.String,
     schema: SensitiveString,
     type: Type,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     blueprintName: SensitiveString,
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(BlueprintStage),
     kmsKeyId: S.optional(S.String),
     kmsEncryptionContext: S.optional(KmsEncryptionContext),
     optimizationSamples: S.optional(BlueprintOptimizationSamples),
-    optimizationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    optimizationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Blueprint" }) as any as S.Schema<Blueprint>;
 export interface CreateBlueprintVersionResponse {
@@ -627,8 +629,10 @@ export const BlueprintSummary = S.suspend(() =>
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(BlueprintStage),
     blueprintName: S.optional(SensitiveString),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "BlueprintSummary",
@@ -1358,8 +1362,8 @@ export interface DataAutomationProject {
 export const DataAutomationProject = S.suspend(() =>
   S.Struct({
     projectArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     projectName: SensitiveString,
     projectStage: S.optional(DataAutomationProjectStage),
     projectType: S.optional(DataAutomationProjectType),
@@ -1519,7 +1523,7 @@ export const DataAutomationProjectSummary = S.suspend(() =>
     projectStage: S.optional(DataAutomationProjectStage),
     projectType: S.optional(DataAutomationProjectType),
     projectName: S.optional(SensitiveString),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "DataAutomationProjectSummary",

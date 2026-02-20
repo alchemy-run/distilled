@@ -714,8 +714,8 @@ export interface TimeRangeFilterOutput {
 }
 export const TimeRangeFilterOutput = S.suspend(() =>
   S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "TimeRangeFilterOutput",
@@ -766,7 +766,7 @@ export const StartEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Arn: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     KmsKeyId: S.optional(S.String),
@@ -854,7 +854,7 @@ export const GetEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     KmsKeyId: S.optional(S.String),
@@ -933,7 +933,7 @@ export const ListEarthObservationJobOutputConfig = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     OperationType: S.String,
@@ -1013,7 +1013,7 @@ export interface ExportEarthObservationJobOutput {
 export const ExportEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ExportStatus: S.String,
     ExecutionRoleArn: S.String,
     OutputConfig: OutputConfigInput,
@@ -1423,7 +1423,7 @@ export const StartVectorEnrichmentJobOutput = S.suspend(() =>
     Name: S.String,
     Arn: S.String,
     Type: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     KmsKeyId: S.optional(S.String),
@@ -1494,7 +1494,7 @@ export const GetVectorEnrichmentJobOutput = S.suspend(() =>
     Arn: S.String,
     Type: S.String,
     Name: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     KmsKeyId: S.optional(S.String),
@@ -1573,7 +1573,7 @@ export const ListVectorEnrichmentJobOutputConfig = S.suspend(() =>
     Arn: S.String,
     Name: S.String,
     Type: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DurationInSeconds: S.Number,
     Status: S.String,
     Tags: S.optional(Tags),
@@ -1640,7 +1640,7 @@ export interface ExportVectorEnrichmentJobOutput {
 export const ExportVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    CreationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ExecutionRoleArn: S.String,
     ExportStatus: S.String,
     OutputConfig: ExportVectorEnrichmentJobOutputConfig,

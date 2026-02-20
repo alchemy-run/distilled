@@ -539,7 +539,7 @@ export const AuditEvent = S.suspend(() =>
     eventId: S.String,
     type: S.String,
     relatedItemType: S.optional(S.String),
-    performedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    performedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fields: AuditEventFieldList,
     performedBy: S.optional(AuditEventPerformedBy),
   }),
@@ -1110,7 +1110,9 @@ export const ContactContent = S.suspend(() =>
   S.Struct({
     contactArn: S.String,
     channel: S.String,
-    connectedToSystemTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    connectedToSystemTime: T.DateFromString.pipe(
+      T.TimestampFormat("date-time"),
+    ),
   }),
 ).annotate({ identifier: "ContactContent" }) as any as S.Schema<ContactContent>;
 export interface SlaConfiguration {
@@ -1129,8 +1131,10 @@ export const SlaConfiguration = S.suspend(() =>
     status: S.String,
     fieldId: S.optional(S.String),
     targetFieldValues: S.optional(SlaFieldValueUnionList),
-    targetTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    targetTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SlaConfiguration",
@@ -1224,7 +1228,7 @@ export const SearchRelatedItemsResponseItem = S.suspend(() =>
   S.Struct({
     relatedItemId: S.String,
     type: S.String,
-    associationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    associationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     content: RelatedItemContent,
     tags: S.optional(Tags),
     performedBy: S.optional(UserUnion),
@@ -1565,8 +1569,12 @@ export const GetCaseRuleResponse = S.suspend(() =>
     rule: CaseRuleDetails,
     description: S.optional(S.String),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
   }),
 ).annotate({
@@ -1661,7 +1669,7 @@ export const GetDomainResponse = S.suspend(() =>
     domainId: S.String,
     domainArn: S.String,
     name: S.String,
-    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     domainStatus: S.String,
     tags: S.optional(Tags),
   }),
@@ -1879,7 +1887,7 @@ export const SearchAllRelatedItemsResponseItem = S.suspend(() =>
     relatedItemId: S.String,
     caseId: S.String,
     type: S.String,
-    associationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    associationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     content: RelatedItemContent,
     performedBy: S.optional(UserUnion),
     tags: S.optional(Tags),
@@ -2184,8 +2192,12 @@ export const GetFieldResponse = S.suspend(() =>
     namespace: S.String,
     tags: S.optional(Tags),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetFieldResponse",
@@ -2323,8 +2335,12 @@ export const GetLayoutResponse = S.suspend(() =>
     content: LayoutContent,
     tags: S.optional(Tags),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetLayoutResponse",
@@ -2542,8 +2558,12 @@ export const GetTemplateResponse = S.suspend(() =>
     tags: S.optional(Tags),
     status: S.String,
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     rules: S.optional(TemplateCaseRuleList),
   }),
 ).annotate({

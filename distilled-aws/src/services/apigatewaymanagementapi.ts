@@ -134,9 +134,9 @@ export interface Identity {
 }
 export const Identity = S.suspend(() =>
   S.Struct({
-    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
-    UserAgent: S.optional(S.String).pipe(T.JsonName("userAgent")),
-  }),
+    SourceIp: S.optional(S.String),
+    UserAgent: S.optional(S.String),
+  }).pipe(S.encodeKeys({ SourceIp: "sourceIp", UserAgent: "userAgent" })),
 ).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface GetConnectionResponse {
   ConnectedAt?: Date;
@@ -145,16 +145,20 @@ export interface GetConnectionResponse {
 }
 export const GetConnectionResponse = S.suspend(() =>
   S.Struct({
-    ConnectedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("connectedAt"),
+    ConnectedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Identity: S.optional(Identity)
-      .pipe(T.JsonName("identity"))
-      .annotate({ identifier: "Identity" }),
-    LastActiveAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("lastActiveAt"),
+    Identity: S.optional(Identity),
+    LastActiveAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-  }),
+  }).pipe(
+    S.encodeKeys({
+      ConnectedAt: "connectedAt",
+      Identity: "identity",
+      LastActiveAt: "lastActiveAt",
+    }),
+  ),
 ).annotate({
   identifier: "GetConnectionResponse",
 }) as any as S.Schema<GetConnectionResponse>;
@@ -199,7 +203,7 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 ).pipe(C.withThrottlingError) {}
 export class PayloadTooLargeException extends S.TaggedErrorClass<PayloadTooLargeException>()(
   "PayloadTooLargeException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations

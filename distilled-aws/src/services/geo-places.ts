@@ -528,10 +528,9 @@ export interface ValidationExceptionField {
   Message: string;
 }
 export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.JsonName("name")),
-    Message: S.String.pipe(T.JsonName("message")),
-  }),
+  S.Struct({ Name: S.String, Message: S.String }).pipe(
+    S.encodeKeys({ Name: "name", Message: "message" }),
+  ),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
@@ -1705,24 +1704,24 @@ export const SuggestResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withAuthError) {}
 export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
-    Message: S.String.pipe(T.JsonName("message")),
-    Reason: S.String.pipe(T.JsonName("reason")),
-    FieldList: ValidationExceptionFieldList.pipe(T.JsonName("fieldList")),
+    Message: S.String,
+    Reason: S.String,
+    FieldList: ValidationExceptionFieldList,
   },
 ).pipe(C.withBadRequestError) {}
 

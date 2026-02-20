@@ -335,11 +335,15 @@ export const PendingMaintenanceAction = S.suspend(() =>
   S.Struct({
     Action: S.optional(S.String),
     AutoAppliedAfterDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ForcedApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ForcedApplyDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OptInStatus: S.optional(S.String),
-    CurrentApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CurrentApplyDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
   }),
 ).annotate({
@@ -477,7 +481,9 @@ export interface BacktrackDBClusterMessage {
 export const BacktrackDBClusterMessage = S.suspend(() =>
   S.Struct({
     DBClusterIdentifier: S.optional(S.String),
-    BacktrackTo: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    BacktrackTo: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Force: S.optional(S.Boolean),
     UseEarliestTimeOnPointInTimeUnavailable: S.optional(S.Boolean),
   }).pipe(
@@ -506,10 +512,14 @@ export const DBClusterBacktrack = S.suspend(() =>
   S.Struct({
     DBClusterIdentifier: S.optional(S.String),
     BacktrackIdentifier: S.optional(S.String),
-    BacktrackTo: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    BacktrackedFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    BacktrackTo: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    BacktrackedFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     BacktrackRequestCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Status: S.optional(S.String),
   }).pipe(ns),
@@ -561,9 +571,15 @@ export const ExportTask = S.suspend(() =>
     ExportTaskIdentifier: S.optional(S.String),
     SourceArn: S.optional(S.String),
     ExportOnly: S.optional(StringList),
-    SnapshotTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TaskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    TaskStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    TaskEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     S3Bucket: S.optional(S.String),
     S3Prefix: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
@@ -695,14 +711,18 @@ export const DBClusterSnapshot = S.suspend(() =>
     AvailabilityZones: S.optional(AvailabilityZones),
     DBClusterSnapshotIdentifier: S.optional(S.String),
     DBClusterIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Engine: S.optional(S.String),
     EngineMode: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     VpcId: S.optional(S.String),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MasterUsername: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -901,14 +921,18 @@ export const DBSnapshot = S.suspend(() =>
   S.Struct({
     DBSnapshotIdentifier: S.optional(S.String),
     DBInstanceIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Engine: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
     VpcId: S.optional(S.String),
-    InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InstanceCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MasterUsername: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -931,10 +955,10 @@ export const DBSnapshot = S.suspend(() =>
     TagList: S.optional(TagList),
     SnapshotTarget: S.optional(S.String),
     OriginalSnapshotCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     SnapshotDatabaseTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DBSystemId: S.optional(S.String),
     MultiTenant: S.optional(S.Boolean),
@@ -1100,7 +1124,9 @@ export const OptionGroup = S.suspend(() =>
     OptionGroupArn: S.optional(S.String),
     SourceOptionGroup: S.optional(S.String),
     SourceAccountId: S.optional(S.String),
-    CopyTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CopyTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "OptionGroup" }) as any as S.Schema<OptionGroup>;
 export interface CopyOptionGroupResult {
@@ -1203,8 +1229,12 @@ export const BlueGreenDeployment = S.suspend(() =>
     Tasks: S.optional(BlueGreenDeploymentTaskList),
     Status: S.optional(S.String),
     StatusDetails: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DeleteTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TagList: S.optional(TagList),
   }),
 ).annotate({
@@ -1406,7 +1436,9 @@ export const DBEngineVersion = S.suspend(() =>
     Image: S.optional(CustomDBEngineVersionAMI),
     DBEngineMediaType: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SupportedCharacterSets: S.optional(SupportedCharacterSetsList),
     SupportedNcharCharacterSets: S.optional(SupportedCharacterSetsList),
     ValidUpgradeTarget: S.optional(ValidUpgradeTargetList),
@@ -1752,7 +1784,9 @@ export interface CertificateDetails {
 export const CertificateDetails = S.suspend(() =>
   S.Struct({
     CAIdentifier: S.optional(S.String),
-    ValidTill: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidTill: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CertificateDetails",
@@ -2011,7 +2045,7 @@ export const DBCluster = S.suspend(() =>
     Status: S.optional(S.String),
     PercentProgress: S.optional(S.String),
     EarliestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Endpoint: S.optional(S.String),
     ReaderEndpoint: S.optional(S.String),
@@ -2020,7 +2054,7 @@ export const DBCluster = S.suspend(() =>
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LatestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Port: S.optional(S.Number),
     MasterUsername: S.optional(S.String),
@@ -2043,9 +2077,11 @@ export const DBCluster = S.suspend(() =>
     AssociatedRoles: S.optional(DBClusterRoles),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
     CloneGroupId: S.optional(S.String),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EarliestBacktrackTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     BacktrackWindow: S.optional(S.Number),
     BacktrackConsumedChangeRecords: S.optional(S.Number),
@@ -2060,7 +2096,7 @@ export const DBCluster = S.suspend(() =>
     Iops: S.optional(S.Number),
     StorageThroughput: S.optional(S.Number),
     IOOptimizedNextAllowedModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     PubliclyAccessible: S.optional(S.Boolean),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
@@ -2079,7 +2115,7 @@ export const DBCluster = S.suspend(() =>
     GlobalWriteForwardingRequested: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
     AutomaticRestartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServerlessV2ScalingConfiguration: S.optional(
       ServerlessV2ScalingConfigurationInfo,
@@ -2520,7 +2556,7 @@ export const PendingModifiedValues = S.suspend(() =>
     ProcessorFeatures: S.optional(ProcessorFeatureList),
     AutomationMode: S.optional(AutomationMode),
     ResumeFullAutomationModeTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MultiTenant: S.optional(S.Boolean),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
@@ -2748,7 +2784,9 @@ export const DBInstance = S.suspend(() =>
     DBName: S.optional(S.String),
     Endpoint: S.optional(Endpoint),
     AllocatedStorage: S.optional(S.Number),
-    InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InstanceCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PreferredBackupWindow: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     DBSecurityGroups: S.optional(DBSecurityGroupMembershipList),
@@ -2760,7 +2798,7 @@ export const DBInstance = S.suspend(() =>
     UpgradeRolloutOrder: S.optional(UpgradeRolloutOrder),
     PendingModifiedValues: S.optional(PendingModifiedValues),
     LatestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MultiAZ: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
@@ -2812,7 +2850,7 @@ export const DBInstance = S.suspend(() =>
     TagList: S.optional(TagList),
     AutomationMode: S.optional(AutomationMode),
     ResumeFullAutomationModeTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     CustomerOwnedIpEnabled: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
@@ -2827,7 +2865,7 @@ export const DBInstance = S.suspend(() =>
     ),
     BackupTarget: S.optional(S.String),
     AutomaticRestartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     CustomIamInstanceProfile: S.optional(S.String),
     ActivityStreamPolicyStatus: S.optional(ActivityStreamPolicyStatus),
@@ -3176,8 +3214,12 @@ export const DBProxy = S.suspend(() =>
     RequireTLS: S.optional(S.Boolean),
     IdleClientTimeout: S.optional(S.Number),
     DebugLogging: S.optional(S.Boolean),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EndpointNetworkType: S.optional(EndpointNetworkType),
     TargetConnectionNetworkType: S.optional(TargetConnectionNetworkType),
   }),
@@ -3260,7 +3302,9 @@ export const DBProxyEndpoint = S.suspend(() =>
     VpcSecurityGroupIds: S.optional(StringList),
     VpcSubnetIds: S.optional(StringList),
     Endpoint: S.optional(S.String),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TargetRole: S.optional(DBProxyEndpointTargetRole),
     IsDefault: S.optional(S.Boolean),
     EndpointNetworkType: S.optional(EndpointNetworkType),
@@ -3704,7 +3748,9 @@ export const Integration = S.suspend(() =>
     Tags: S.optional(TagList),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Errors: S.optional(IntegrationErrorList),
   }).pipe(ns),
 ).annotate({ identifier: "Integration" }) as any as S.Schema<Integration>;
@@ -3811,7 +3857,7 @@ export interface TenantDatabase {
 export const TenantDatabase = S.suspend(() =>
   S.Struct({
     TenantDatabaseCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DBInstanceIdentifier: S.optional(S.String),
     TenantDBName: S.optional(S.String),
@@ -3946,8 +3992,12 @@ export interface RestoreWindow {
 }
 export const RestoreWindow = S.suspend(() =>
   S.Struct({
-    EarliestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LatestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EarliestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LatestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "RestoreWindow" }) as any as S.Schema<RestoreWindow>;
 export interface DBClusterAutomatedBackup {
@@ -3991,7 +4041,9 @@ export const DBClusterAutomatedBackup = S.suspend(() =>
     LicenseModel: S.optional(S.String),
     Status: S.optional(S.String),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StorageEncrypted: S.optional(S.Boolean),
     AllocatedStorage: S.optional(S.Number),
     EngineVersion: S.optional(S.String),
@@ -4197,7 +4249,9 @@ export const DBInstanceAutomatedBackup = S.suspend(() =>
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
     VpcId: S.optional(S.String),
-    InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InstanceCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MasterUsername: S.optional(S.String),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
@@ -4708,12 +4762,16 @@ export const Certificate = S.suspend(() =>
     CertificateIdentifier: S.optional(S.String),
     CertificateType: S.optional(S.String),
     Thumbprint: S.optional(S.String),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ValidTill: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ValidTill: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CertificateArn: S.optional(S.String),
     CustomerOverride: S.optional(S.Boolean),
     CustomerOverrideValidTill: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
@@ -5417,10 +5475,10 @@ export const SupportedEngineLifecycle = S.suspend(() =>
   S.Struct({
     LifecycleSupportName: S.optional(LifecycleSupportName),
     LifecycleSupportStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     LifecycleSupportEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -5700,8 +5758,12 @@ export const DBProxyTargetGroup = S.suspend(() =>
     IsDefault: S.optional(S.Boolean),
     Status: S.optional(S.String),
     ConnectionPoolConfig: S.optional(ConnectionPoolConfigurationInfo),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DBProxyTargetGroup",
@@ -5830,8 +5892,12 @@ export interface DescribeDBRecommendationsMessage {
 }
 export const DescribeDBRecommendationsMessage = S.suspend(() =>
   S.Struct({
-    LastUpdatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Locale: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
@@ -5951,8 +6017,10 @@ export interface PerformanceIssueDetails {
 }
 export const PerformanceIssueDetails = S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Metrics: S.optional(MetricList),
     Analysis: S.optional(S.String),
   }),
@@ -6042,8 +6110,12 @@ export const DBRecommendation = S.suspend(() =>
     Severity: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     Status: S.optional(S.String),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Detection: S.optional(S.String),
     Recommendation: S.optional(S.String),
     Description: S.optional(S.String),
@@ -6334,7 +6406,7 @@ export const DBSnapshotTenantDatabase = S.suspend(() =>
     EngineName: S.optional(S.String),
     SnapshotType: S.optional(S.String),
     TenantDatabaseCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TenantDBName: S.optional(S.String),
     MasterUsername: S.optional(S.String),
@@ -6568,8 +6640,10 @@ export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     EventCategories: S.optional(EventCategoriesList),
     Filters: S.optional(FilterList),
@@ -6603,7 +6677,7 @@ export const Event = S.suspend(() =>
     SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SourceArn: S.optional(S.String),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
@@ -7343,7 +7417,9 @@ export const ReservedDBInstance = S.suspend(() =>
     ReservedDBInstanceId: S.optional(S.String),
     ReservedDBInstancesOfferingId: S.optional(S.String),
     DBInstanceClass: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Duration: S.optional(S.Number),
     FixedPrice: S.optional(S.Number),
     UsagePrice: S.optional(S.Number),
@@ -9652,7 +9728,9 @@ export const RestoreDBClusterToPointInTimeMessage = S.suspend(() =>
     DBClusterIdentifier: S.optional(S.String),
     RestoreType: S.optional(S.String),
     SourceDBClusterIdentifier: S.optional(S.String),
-    RestoreToTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RestoreToTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UseLatestRestorableTime: S.optional(S.Boolean),
     Port: S.optional(S.Number),
     DBSubnetGroupName: S.optional(S.String),
@@ -10029,7 +10107,9 @@ export const RestoreDBInstanceToPointInTimeMessage = S.suspend(() =>
   S.Struct({
     SourceDBInstanceIdentifier: S.optional(S.String),
     TargetDBInstanceIdentifier: S.optional(S.String),
-    RestoreTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RestoreTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UseLatestRestorableTime: S.optional(S.Boolean),
     DBInstanceClass: S.optional(S.String),
     Port: S.optional(S.Number),

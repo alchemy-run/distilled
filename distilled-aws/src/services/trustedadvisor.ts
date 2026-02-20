@@ -311,8 +311,12 @@ export const OrganizationRecommendation = S.suspend(() =>
     pillarSpecificAggregates: S.optional(
       RecommendationPillarSpecificAggregates,
     ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     arn: S.String,
     description: S.String,
     createdBy: S.optional(S.String),
@@ -320,7 +324,9 @@ export const OrganizationRecommendation = S.suspend(() =>
     updatedOnBehalfOfJobTitle: S.optional(S.String),
     updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(UpdateRecommendationLifecycleStageReasonCode),
-    resolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    resolvedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "OrganizationRecommendation",
@@ -397,8 +403,12 @@ export const Recommendation = S.suspend(() =>
     pillarSpecificAggregates: S.optional(
       RecommendationPillarSpecificAggregates,
     ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     arn: S.String,
     description: S.String,
     createdBy: S.optional(S.String),
@@ -406,7 +416,9 @@ export const Recommendation = S.suspend(() =>
     updatedOnBehalfOfJobTitle: S.optional(S.String),
     updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(UpdateRecommendationLifecycleStageReasonCode),
-    resolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    resolvedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 export interface GetRecommendationResponse {
@@ -549,7 +561,9 @@ export const AccountRecommendationLifecycleSummary = S.suspend(() =>
     updatedOnBehalfOfJobTitle: S.optional(S.String),
     updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(UpdateRecommendationLifecycleStageReasonCode),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "AccountRecommendationLifecycleSummary",
@@ -636,7 +650,7 @@ export const OrganizationRecommendationResourceSummary = S.suspend(() =>
     regionCode: S.String,
     status: ResourceStatus,
     metadata: StringMap,
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     exclusionStatus: S.optional(ExclusionStatus),
     accountId: S.optional(S.String),
     recommendationArn: S.String,
@@ -734,8 +748,12 @@ export const OrganizationRecommendationSummary = S.suspend(() =>
     pillarSpecificAggregates: S.optional(
       RecommendationPillarSpecificAggregates,
     ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     arn: S.String,
   }),
 ).annotate({
@@ -813,7 +831,7 @@ export const RecommendationResourceSummary = S.suspend(() =>
     regionCode: S.String,
     status: ResourceStatus,
     metadata: StringMap,
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     exclusionStatus: S.optional(ExclusionStatus),
     recommendationArn: S.String,
   }),
@@ -908,8 +926,12 @@ export const RecommendationSummary = S.suspend(() =>
     pillarSpecificAggregates: S.optional(
       RecommendationPillarSpecificAggregates,
     ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     arn: S.String,
   }),
 ).annotate({

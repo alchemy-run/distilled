@@ -461,8 +461,12 @@ export const MediaCapturePipeline = S.suspend(() =>
     Status: S.optional(MediaPipelineStatus),
     SinkType: S.optional(MediaPipelineSinkType),
     SinkArn: S.optional(SensitiveString),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ChimeSdkMeetingConfiguration: S.optional(ChimeSdkMeetingConfiguration),
     SseAwsKeyManagementParams: S.optional(SseAwsKeyManagementParams),
     SinkIamRoleArn: S.optional(SensitiveString),
@@ -675,8 +679,12 @@ export const MediaConcatenationPipeline = S.suspend(() =>
     Sources: S.optional(ConcatenationSourceList),
     Sinks: S.optional(ConcatenationSinkList),
     Status: S.optional(MediaPipelineStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "MediaConcatenationPipeline",
@@ -927,7 +935,9 @@ export const MediaInsightsPipeline = S.suspend(() =>
     S3RecordingSinkRuntimeConfiguration: S.optional(
       S3RecordingSinkRuntimeConfiguration,
     ),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ElementStatuses: S.optional(MediaInsightsPipelineElementStatuses),
   }),
 ).annotate({
@@ -1301,8 +1311,12 @@ export const MediaInsightsPipelineConfiguration = S.suspend(() =>
     RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
     Elements: S.optional(MediaInsightsPipelineConfigurationElements),
     MediaInsightsPipelineConfigurationId: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "MediaInsightsPipelineConfiguration",
@@ -1432,8 +1446,12 @@ export const MediaLiveConnectorPipeline = S.suspend(() =>
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
     Status: S.optional(MediaPipelineStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "MediaLiveConnectorPipeline",
@@ -1511,8 +1529,12 @@ export const KinesisVideoStreamPoolConfiguration = S.suspend(() =>
     PoolStatus: S.optional(KinesisVideoStreamPoolStatus),
     PoolSize: S.optional(S.Number),
     StreamConfiguration: S.optional(KinesisVideoStreamConfiguration),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "KinesisVideoStreamPoolConfiguration",
@@ -1602,8 +1624,12 @@ export const MediaStreamPipeline = S.suspend(() =>
   S.Struct({
     MediaPipelineId: S.optional(S.String),
     MediaPipelineArn: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(MediaPipelineStatus),
     Sources: S.optional(MediaStreamSourceList),
     Sinks: S.optional(MediaStreamSinkList),
@@ -1907,8 +1933,12 @@ export const SpeakerSearchTask = S.suspend(() =>
   S.Struct({
     SpeakerSearchTaskId: S.optional(S.String),
     SpeakerSearchTaskStatus: S.optional(MediaPipelineTaskStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SpeakerSearchTask",
@@ -1957,8 +1987,12 @@ export const VoiceToneAnalysisTask = S.suspend(() =>
   S.Struct({
     VoiceToneAnalysisTaskId: S.optional(S.String),
     VoiceToneAnalysisTaskStatus: S.optional(MediaPipelineTaskStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "VoiceToneAnalysisTask",

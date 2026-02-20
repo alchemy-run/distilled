@@ -458,7 +458,9 @@ export const TypeConfigurationDetails = S.suspend(() =>
     Arn: S.optional(S.String),
     Alias: S.optional(S.String),
     Configuration: S.optional(S.String),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TypeArn: S.optional(S.String),
     TypeName: S.optional(S.String),
     IsDefaultConfiguration: S.optional(S.Boolean),
@@ -1532,7 +1534,7 @@ export const LiveResourceDrift = S.suspend(() =>
     PreviousValue: S.optional(S.String),
     ActualValue: S.optional(S.String),
     DriftDetectionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1697,7 +1699,9 @@ export const DescribeChangeSetOutput = S.suspend(() =>
     StackName: S.optional(S.String),
     Description: S.optional(S.String),
     Parameters: S.optional(Parameters),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ExecutionStatus: S.optional(ExecutionStatus),
     Status: S.optional(ChangeSetStatus),
     StatusReason: S.optional(S.String),
@@ -1966,9 +1970,13 @@ export const OperationEvent = S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     ResourceProperties: S.optional(S.String),
@@ -2128,8 +2136,12 @@ export const DescribeGeneratedTemplateOutput = S.suspend(() =>
     Resources: S.optional(ResourceDetails),
     Status: S.optional(GeneratedTemplateStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Progress: S.optional(TemplateProgress),
     StackId: S.optional(S.String),
     TemplateConfiguration: S.optional(TemplateConfiguration),
@@ -2264,8 +2276,10 @@ export const DescribeResourceScanOutput = S.suspend(() =>
     ResourceScanId: S.optional(S.String),
     Status: S.optional(ResourceScanStatus),
     StatusReason: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentageCompleted: S.optional(S.Number),
     ResourceTypes: S.optional(ResourceTypes),
     ResourcesScanned: S.optional(S.Number),
@@ -2316,7 +2330,9 @@ export const DescribeStackDriftDetectionStatusOutput = S.suspend(() =>
     DetectionStatus: S.optional(StackDriftDetectionStatus),
     DetectionStatusReason: S.optional(S.String),
     DriftedStackResourceCount: S.optional(S.Number),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeStackDriftDetectionStatusOutput",
@@ -2373,7 +2389,9 @@ export const StackEvent = S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     ResourceProperties: S.optional(S.String),
@@ -2484,7 +2502,7 @@ export const StackInstance = S.suspend(() =>
     OrganizationalUnitId: S.optional(S.String),
     DriftStatus: S.optional(StackDriftStatus),
     LastDriftCheckTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     LastOperationId: S.optional(S.String),
   }),
@@ -2589,7 +2607,9 @@ export interface StackResourceDriftInformation {
 export const StackResourceDriftInformation = S.suspend(() =>
   S.Struct({
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    LastCheckTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastCheckTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StackResourceDriftInformation",
@@ -2616,7 +2636,7 @@ export const StackResourceDetail = S.suspend(() =>
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
     LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
@@ -2734,7 +2754,9 @@ export const StackResourceDrift = S.suspend(() =>
     ActualProperties: S.optional(S.String),
     PropertyDifferences: S.optional(PropertyDifferences),
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ModuleInfo: S.optional(ModuleInfo),
     DriftStatusReason: S.optional(S.String),
   }),
@@ -2815,7 +2837,9 @@ export const StackResource = S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     Description: S.optional(S.String),
@@ -2912,7 +2936,9 @@ export interface StackDriftInformation {
 export const StackDriftInformation = S.suspend(() =>
   S.Struct({
     StackDriftStatus: S.optional(StackDriftStatus),
-    LastCheckTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastCheckTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StackDriftInformation",
@@ -2964,9 +2990,15 @@ export const Stack = S.suspend(() =>
     ChangeSetId: S.optional(S.String),
     Description: S.optional(S.String),
     Parameters: S.optional(Parameters),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DeletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DeletionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RollbackConfiguration: S.optional(RollbackConfiguration),
     StackStatus: S.optional(StackStatus),
     StackStatusReason: S.optional(S.String),
@@ -3065,7 +3097,7 @@ export const StackSetDriftDetectionDetails = S.suspend(() =>
     DriftStatus: S.optional(StackSetDriftStatus),
     DriftDetectionStatus: S.optional(StackSetDriftDetectionStatus),
     LastDriftCheckTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TotalStackInstancesCount: S.optional(S.Number),
     DriftedStackInstancesCount: S.optional(S.Number),
@@ -3198,8 +3230,12 @@ export const StackSetOperation = S.suspend(() =>
     RetainStacks: S.optional(S.Boolean),
     AdministrationRoleARN: S.optional(S.String),
     ExecutionRoleName: S.optional(S.String),
-    CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DeploymentTargets: S.optional(DeploymentTargets),
     StackSetDriftDetectionDetails: S.optional(StackSetDriftDetectionDetails),
     StatusReason: S.optional(S.String),
@@ -3334,8 +3370,12 @@ export const DescribeTypeOutput = S.suspend(() =>
     Visibility: S.optional(Visibility),
     SourceUrl: S.optional(S.String),
     DocumentationUrl: S.optional(S.String),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    TimeCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    TimeCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ConfigurationSchema: S.optional(S.String),
     PublisherId: S.optional(S.String),
     OriginalTypeName: S.optional(S.String),
@@ -3727,7 +3767,9 @@ export const GetHookResultOutput = S.suspend(() =>
     TypeArn: S.optional(S.String),
     Status: S.optional(HookStatus),
     HookStatusReason: S.optional(S.String),
-    InvokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Target: S.optional(HookTarget),
     Annotations: S.optional(AnnotationList),
   }).pipe(ns),
@@ -4012,7 +4054,9 @@ export const ChangeSetSummary = S.suspend(() =>
     ExecutionStatus: S.optional(ExecutionStatus),
     Status: S.optional(ChangeSetStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     IncludeNestedStacks: S.optional(S.Boolean),
     ParentChangeSetId: S.optional(S.String),
@@ -4117,8 +4161,12 @@ export const TemplateSummary = S.suspend(() =>
     GeneratedTemplateName: S.optional(S.String),
     Status: S.optional(GeneratedTemplateStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NumberOfResources: S.optional(S.Number),
   }),
 ).annotate({
@@ -4198,7 +4246,9 @@ export const HookResultSummary = S.suspend(() =>
     TypeConfigurationVersionId: S.optional(S.String),
     Status: S.optional(HookStatus),
     HookStatusReason: S.optional(S.String),
-    InvokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TargetType: S.optional(ListHookResultsTargetType),
     TargetId: S.optional(S.String),
     TypeArn: S.optional(S.String),
@@ -4422,8 +4472,10 @@ export const ResourceScanSummary = S.suspend(() =>
     ResourceScanId: S.optional(S.String),
     Status: S.optional(ResourceScanStatus),
     StatusReason: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentageCompleted: S.optional(S.Number),
     ScanType: S.optional(ScanType),
   }),
@@ -4499,7 +4551,9 @@ export const StackInstanceResourceDriftsSummary = S.suspend(() =>
     ResourceType: S.optional(S.String),
     PropertyDifferences: S.optional(PropertyDifferences),
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StackInstanceResourceDriftsSummary",
@@ -4614,7 +4668,7 @@ export const StackInstanceSummary = S.suspend(() =>
     OrganizationalUnitId: S.optional(S.String),
     DriftStatus: S.optional(StackDriftStatus),
     LastDriftCheckTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     LastOperationId: S.optional(S.String),
   }),
@@ -4814,7 +4868,9 @@ export interface StackResourceDriftInformationSummary {
 export const StackResourceDriftInformationSummary = S.suspend(() =>
   S.Struct({
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    LastCheckTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastCheckTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StackResourceDriftInformationSummary",
@@ -4835,7 +4891,7 @@ export const StackResourceSummary = S.suspend(() =>
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
     LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
@@ -4898,7 +4954,9 @@ export interface StackDriftInformationSummary {
 export const StackDriftInformationSummary = S.suspend(() =>
   S.Struct({
     StackDriftStatus: S.optional(StackDriftStatus),
-    LastCheckTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastCheckTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StackDriftInformationSummary",
@@ -4922,9 +4980,15 @@ export const StackSummary = S.suspend(() =>
     StackId: S.optional(S.String),
     StackName: S.optional(S.String),
     TemplateDescription: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DeletionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DeletionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StackStatus: S.optional(StackStatus),
     StackStatusReason: S.optional(S.String),
     ParentId: S.optional(S.String),
@@ -5160,8 +5224,12 @@ export const StackSetOperationSummary = S.suspend(() =>
     OperationId: S.optional(S.String),
     Action: S.optional(StackSetOperationAction),
     Status: S.optional(StackSetOperationStatus),
-    CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StatusReason: S.optional(S.String),
     StatusDetails: S.optional(StackSetOperationStatusDetails),
     OperationPreferences: S.optional(StackSetOperationPreferences),
@@ -5230,7 +5298,7 @@ export const StackSetSummary = S.suspend(() =>
     PermissionModel: S.optional(PermissionModels),
     DriftStatus: S.optional(StackDriftStatus),
     LastDriftCheckTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ManagedExecution: S.optional(ManagedExecution),
   }),
@@ -5365,7 +5433,9 @@ export const TypeSummary = S.suspend(() =>
     TypeName: S.optional(S.String),
     DefaultVersionId: S.optional(S.String),
     TypeArn: S.optional(S.String),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     PublisherId: S.optional(S.String),
     OriginalTypeName: S.optional(S.String),
@@ -5439,7 +5509,9 @@ export const TypeVersionSummary = S.suspend(() =>
     VersionId: S.optional(S.String),
     IsDefaultVersion: S.optional(S.Boolean),
     Arn: S.optional(S.String),
-    TimeCreated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    TimeCreated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     PublicVersionNumber: S.optional(S.String),
   }),

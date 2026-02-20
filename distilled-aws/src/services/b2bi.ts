@@ -1059,7 +1059,7 @@ export const CreateCapabilityResponse = S.suspend(() =>
     type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateCapabilityResponse",
@@ -1099,8 +1099,10 @@ export const GetCapabilityResponse = S.suspend(() =>
     type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetCapabilityResponse",
@@ -1148,8 +1150,10 @@ export const UpdateCapabilityResponse = S.suspend(() =>
     type: CapabilityType,
     configuration: CapabilityConfiguration,
     instructionsDocuments: S.optional(InstructionsDocuments),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateCapabilityResponse",
@@ -1208,8 +1212,10 @@ export const CapabilitySummary = S.suspend(() =>
     capabilityId: S.String,
     name: S.String,
     type: CapabilityType,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CapabilitySummary",
@@ -1446,7 +1452,7 @@ export const CreatePartnershipResponse = S.suspend(() =>
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreatePartnershipResponse",
@@ -1492,8 +1498,10 @@ export const GetPartnershipResponse = S.suspend(() =>
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetPartnershipResponse",
@@ -1547,8 +1555,10 @@ export const UpdatePartnershipResponse = S.suspend(() =>
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdatePartnershipResponse",
@@ -1615,8 +1625,10 @@ export const PartnershipSummary = S.suspend(() =>
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "PartnershipSummary",
@@ -1686,7 +1698,7 @@ export const CreateProfileResponse = S.suspend(() =>
     email: S.optional(SensitiveString),
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateProfileResponse",
@@ -1730,8 +1742,10 @@ export const GetProfileResponse = S.suspend(() =>
     businessName: S.String,
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetProfileResponse",
@@ -1785,8 +1799,10 @@ export const UpdateProfileResponse = S.suspend(() =>
     businessName: S.String,
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateProfileResponse",
@@ -1849,8 +1865,10 @@ export const ProfileSummary = S.suspend(() =>
     businessName: S.String,
     logging: S.optional(Logging),
     logGroupName: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "ProfileSummary" }) as any as S.Schema<ProfileSummary>;
 export type ProfileList = ProfileSummary[];
@@ -1992,7 +2010,7 @@ export const CreateTransformerResponse = S.suspend(() =>
     transformerArn: S.String,
     name: S.String,
     status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
@@ -2044,8 +2062,10 @@ export const GetTransformerResponse = S.suspend(() =>
     transformerArn: S.String,
     name: S.String,
     status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
@@ -2119,8 +2139,8 @@ export const UpdateTransformerResponse = S.suspend(() =>
     transformerArn: S.String,
     name: S.String,
     status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),
@@ -2195,8 +2215,10 @@ export const TransformerSummary = S.suspend(() =>
     transformerId: S.String,
     name: S.String,
     status: TransformerStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     fileFormat: S.optional(FileFormat),
     mappingTemplate: S.optional(S.String),
     ediType: S.optional(EdiType),

@@ -355,7 +355,9 @@ export const ParticipantToken = S.suspend(() =>
     attributes: S.optional(ParticipantTokenAttributes),
     duration: S.optional(S.Number),
     capabilities: S.optional(ParticipantTokenCapabilities),
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ParticipantToken",
@@ -921,8 +923,10 @@ export const Destination = S.suspend(() =>
   S.Struct({
     id: S.String,
     state: S.String,
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     configuration: DestinationConfiguration,
     detail: S.optional(DestinationDetail),
   }),
@@ -947,8 +951,10 @@ export const Composition = S.suspend(() =>
     layout: LayoutConfiguration,
     destinations: DestinationList,
     tags: S.optional(Tags),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Composition" }) as any as S.Schema<Composition>;
 export interface GetCompositionResponse {
@@ -1066,7 +1072,9 @@ export const Participant = S.suspend(() =>
     participantId: S.optional(S.String),
     userId: S.optional(S.String),
     state: S.optional(S.String),
-    firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    firstJoinTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     attributes: S.optional(ParticipantAttributes),
     published: S.optional(S.Boolean),
     ispName: S.optional(S.String),
@@ -1185,8 +1193,10 @@ export interface StageSession {
 export const StageSession = S.suspend(() =>
   S.Struct({
     sessionId: S.optional(S.String),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "StageSession" }) as any as S.Schema<StageSession>;
 export interface GetStageSessionResponse {
@@ -1288,8 +1298,10 @@ export const DestinationSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     state: S.String,
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DestinationSummary",
@@ -1312,8 +1324,10 @@ export const CompositionSummary = S.suspend(() =>
     destinations: DestinationSummaryList,
     state: S.String,
     tags: S.optional(Tags),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CompositionSummary",
@@ -1499,7 +1513,9 @@ export const ExchangedParticipantToken = S.suspend(() =>
     capabilities: S.optional(ParticipantTokenCapabilities),
     attributes: S.optional(ParticipantTokenAttributes),
     userId: S.optional(S.String),
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ExchangedParticipantToken",
@@ -1520,7 +1536,9 @@ export const Event = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     participantId: S.optional(S.String),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    eventTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     remoteParticipantId: S.optional(S.String),
     errorCode: S.optional(EventErrorCode),
     destinationStageArn: S.optional(S.String),
@@ -1650,7 +1668,9 @@ export const ParticipantSummary = S.suspend(() =>
     participantId: S.optional(S.String),
     userId: S.optional(S.String),
     state: S.optional(S.String),
-    firstJoinTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    firstJoinTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     published: S.optional(S.Boolean),
     recordingState: S.optional(S.String),
     replicationType: S.optional(S.String),
@@ -1795,8 +1815,10 @@ export interface StageSessionSummary {
 export const StageSessionSummary = S.suspend(() =>
   S.Struct({
     sessionId: S.optional(S.String),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StageSessionSummary",

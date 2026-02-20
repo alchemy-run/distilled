@@ -250,8 +250,12 @@ export const Application = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
     applicationTag: S.optional(ApplicationTagDefinition),
   }),
@@ -306,8 +310,12 @@ export const AttributeGroup = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
   }),
 ).annotate({ identifier: "AttributeGroup" }) as any as S.Schema<AttributeGroup>;
@@ -350,8 +358,12 @@ export const ApplicationSummary = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ApplicationSummary",
@@ -398,8 +410,12 @@ export const AttributeGroupSummary = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
   }),
 ).annotate({
@@ -553,8 +569,12 @@ export const GetApplicationResponse = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     associatedResourceCount: S.optional(S.Number),
     tags: S.optional(Tags),
     integrations: S.optional(Integrations),
@@ -624,7 +644,9 @@ export const Resource = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    associationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    associationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     integrations: S.optional(ResourceIntegrations),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
@@ -719,8 +741,12 @@ export const GetAttributeGroupResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     attributes: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
     createdBy: S.optional(S.String),
   }),

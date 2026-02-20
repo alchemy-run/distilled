@@ -471,8 +471,12 @@ export const GetAuthPolicyResponse = S.suspend(() =>
   S.Struct({
     policy: S.optional(S.String),
     state: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetAuthPolicyResponse",
@@ -544,7 +548,9 @@ export const ServiceNetworkEndpointAssociation = S.suspend(() =>
     id: S.optional(S.String),
     state: S.optional(S.String),
     serviceNetworkArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ServiceNetworkEndpointAssociation",
@@ -789,8 +795,8 @@ export const GetAccessLogSubscriptionResponse = S.suspend(() =>
     resourceArn: S.String,
     destinationArn: S.String,
     serviceNetworkLogType: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetAccessLogSubscriptionResponse",
@@ -910,8 +916,8 @@ export const AccessLogSubscriptionSummary = S.suspend(() =>
     resourceArn: S.String,
     destinationArn: S.String,
     serviceNetworkLogType: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "AccessLogSubscriptionSummary",
@@ -1021,8 +1027,10 @@ export const GetDomainVerificationResponse = S.suspend(() =>
     domainName: S.String,
     status: S.String,
     txtMethodConfig: S.optional(TxtMethodConfig),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastVerifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastVerifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(TagMap),
   }),
 ).annotate({
@@ -1096,8 +1104,10 @@ export const DomainVerificationSummary = S.suspend(() =>
     domainName: S.String,
     status: S.String,
     txtMethodConfig: S.optional(TxtMethodConfig),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastVerifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastVerifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(TagMap),
   }),
 ).annotate({
@@ -1218,8 +1228,12 @@ export const GetListenerResponse = S.suspend(() =>
     serviceArn: S.optional(S.String),
     serviceId: S.optional(S.String),
     defaultAction: S.optional(RuleAction),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetListenerResponse",
@@ -1341,8 +1355,12 @@ export const ListenerSummary = S.suspend(() =>
     name: S.optional(S.String),
     protocol: S.optional(S.String),
     port: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ListenerSummary",
@@ -1470,7 +1488,9 @@ export const CreateResourceConfigurationResponse = S.suspend(() =>
       ResourceConfigurationDefinition,
     ),
     allowAssociationToShareableServiceNetwork: S.optional(S.Boolean),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureReason: S.optional(S.String),
     customDomainName: S.optional(S.String),
     domainVerificationId: S.optional(S.String),
@@ -1542,10 +1562,14 @@ export const GetResourceConfigurationResponse = S.suspend(() =>
     resourceConfigurationDefinition: S.optional(
       ResourceConfigurationDefinition,
     ),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     amazonManaged: S.optional(S.Boolean),
     failureReason: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     domainVerificationId: S.optional(S.String),
     domainVerificationArn: S.optional(S.String),
     domainVerificationStatus: S.optional(S.String),
@@ -1706,8 +1730,12 @@ export const ResourceConfigurationSummary = S.suspend(() =>
     type: S.optional(S.String),
     status: S.optional(S.String),
     amazonManaged: S.optional(S.Boolean),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     customDomainName: S.optional(S.String),
     domainVerificationId: S.optional(S.String),
     groupDomain: S.optional(S.String),
@@ -1829,7 +1857,9 @@ export const ResourceEndpointAssociationSummary = S.suspend(() =>
     vpcEndpointId: S.optional(S.String),
     vpcEndpointOwner: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ResourceEndpointAssociationSummary",
@@ -1962,8 +1992,12 @@ export const GetResourceGatewayResponse = S.suspend(() =>
     securityGroupIds: S.optional(SecurityGroupList),
     ipAddressType: S.optional(S.String),
     ipv4AddressesPerEni: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetResourceGatewayResponse",
@@ -2103,8 +2137,12 @@ export const ResourceGatewaySummary = S.suspend(() =>
     securityGroupIds: S.optional(SecurityGroupList),
     ipAddressType: S.optional(S.String),
     ipv4AddressesPerEni: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ResourceGatewaySummary",
@@ -2223,8 +2261,12 @@ export const GetRuleResponse = S.suspend(() =>
     match: S.optional(RuleMatch),
     priority: S.optional(S.Number),
     action: S.optional(RuleAction),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetRuleResponse",
@@ -2357,8 +2399,12 @@ export const RuleSummary = S.suspend(() =>
     name: S.optional(S.String),
     isDefault: S.optional(S.Boolean),
     priority: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
 export type RuleSummaryList = RuleSummary[];
@@ -2473,8 +2519,12 @@ export const GetServiceResponse = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     dnsEntry: S.optional(DnsEntry),
     customDomainName: S.optional(S.String),
     certificateArn: S.optional(S.String),
@@ -2600,8 +2650,12 @@ export const ServiceSummary = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     dnsEntry: S.optional(DnsEntry),
     customDomainName: S.optional(S.String),
     status: S.optional(S.String),
@@ -2708,8 +2762,12 @@ export const GetServiceNetworkResponse = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     arn: S.optional(S.String),
     authType: S.optional(S.String),
     sharingConfig: S.optional(SharingConfig),
@@ -2827,8 +2885,12 @@ export const ServiceNetworkSummary = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     numberOfAssociatedVPCs: S.optional(S.Number),
     numberOfAssociatedServices: S.optional(S.Number),
     numberOfAssociatedResourceConfigurations: S.optional(S.Number),
@@ -2943,7 +3005,9 @@ export const GetServiceNetworkResourceAssociationResponse = S.suspend(() =>
     arn: S.optional(S.String),
     status: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     resourceConfigurationId: S.optional(S.String),
     resourceConfigurationArn: S.optional(S.String),
     resourceConfigurationName: S.optional(S.String),
@@ -2952,7 +3016,9 @@ export const GetServiceNetworkResourceAssociationResponse = S.suspend(() =>
     serviceNetworkName: S.optional(S.String),
     failureReason: S.optional(S.String),
     failureCode: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     privateDnsEntry: S.optional(DnsEntry),
     privateDnsEnabled: S.optional(S.Boolean),
     dnsEntry: S.optional(DnsEntry),
@@ -3055,7 +3121,9 @@ export const ServiceNetworkResourceAssociationSummary = S.suspend(() =>
     arn: S.optional(S.String),
     status: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     resourceConfigurationId: S.optional(S.String),
     resourceConfigurationArn: S.optional(S.String),
     resourceConfigurationName: S.optional(S.String),
@@ -3180,7 +3248,9 @@ export const GetServiceNetworkServiceAssociationResponse = S.suspend(() =>
     status: S.optional(S.String),
     arn: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     serviceId: S.optional(S.String),
     serviceName: S.optional(S.String),
     serviceArn: S.optional(S.String),
@@ -3283,7 +3353,9 @@ export const ServiceNetworkServiceAssociationSummary = S.suspend(() =>
     status: S.optional(S.String),
     arn: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     serviceId: S.optional(S.String),
     serviceName: S.optional(S.String),
     serviceArn: S.optional(S.String),
@@ -3425,7 +3497,9 @@ export const GetServiceNetworkVpcAssociationResponse = S.suspend(() =>
     status: S.optional(S.String),
     arn: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     serviceNetworkId: S.optional(S.String),
     serviceNetworkName: S.optional(S.String),
     serviceNetworkArn: S.optional(S.String),
@@ -3434,7 +3508,9 @@ export const GetServiceNetworkVpcAssociationResponse = S.suspend(() =>
     privateDnsEnabled: S.optional(S.Boolean),
     failureMessage: S.optional(S.String),
     failureCode: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     dnsOptions: S.optional(DnsOptions),
   }),
 ).annotate({
@@ -3569,14 +3645,18 @@ export const ServiceNetworkVpcAssociationSummary = S.suspend(() =>
     arn: S.optional(S.String),
     status: S.optional(S.String),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     serviceNetworkId: S.optional(S.String),
     serviceNetworkName: S.optional(S.String),
     serviceNetworkArn: S.optional(S.String),
     privateDnsEnabled: S.optional(S.Boolean),
     dnsOptions: S.optional(DnsOptions),
     vpcId: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ServiceNetworkVpcAssociationSummary",
@@ -3738,8 +3818,12 @@ export const GetTargetGroupResponse = S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     config: S.optional(TargetGroupConfig),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     status: S.optional(S.String),
     serviceArns: S.optional(ServiceArnList),
     failureMessage: S.optional(S.String),
@@ -3871,12 +3955,16 @@ export const TargetGroupSummary = S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     port: S.optional(S.Number),
     protocol: S.optional(S.String),
     ipAddressType: S.optional(S.String),
     vpcIdentifier: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     status: S.optional(S.String),
     serviceArns: S.optional(ServiceArnList),
     lambdaEventStructureVersion: S.optional(S.String),

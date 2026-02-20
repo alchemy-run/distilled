@@ -665,8 +665,12 @@ export const AutomationRulesConfig = S.suspend(() =>
     IsTerminal: S.optional(S.Boolean),
     Criteria: S.optional(AutomationRulesFindingFilters),
     Actions: S.optional(ActionList),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CreatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -771,7 +775,9 @@ export const ConfigurationPolicyAssociationSummary = S.suspend(() =>
     TargetId: S.optional(S.String),
     TargetType: S.optional(TargetType),
     AssociationType: S.optional(AssociationType),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AssociationStatus: S.optional(ConfigurationPolicyAssociationStatus),
     AssociationStatusMessage: S.optional(S.String),
   }),
@@ -1104,7 +1110,9 @@ export const StandardsControlAssociationDetail = S.suspend(() =>
     SecurityControlArn: S.optional(S.String),
     AssociationStatus: S.optional(AssociationStatus),
     RelatedRequirements: S.optional(RelatedRequirementsList),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UpdatedReason: S.optional(S.String),
     StandardsControlTitle: S.optional(S.String),
     StandardsControlDescription: S.optional(S.String),
@@ -13539,8 +13547,12 @@ export const CreateConfigurationPolicyResponse = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ConfigurationPolicy: S.optional(Policy),
   }),
 ).annotate({
@@ -14677,7 +14689,7 @@ export const StandardsControl = S.suspend(() =>
     ControlStatus: S.optional(ControlStatus),
     DisabledReason: S.optional(S.String),
     ControlStatusUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ControlId: S.optional(S.String),
     Title: S.optional(S.String),
@@ -15007,7 +15019,9 @@ export const Invitation = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     InvitationId: S.optional(S.String),
-    InvitedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MemberStatus: S.optional(S.String),
   }),
 ).annotate({ identifier: "Invitation" }) as any as S.Schema<Invitation>;
@@ -15093,8 +15107,12 @@ export const GetAutomationRuleV2Response = S.suspend(() =>
     Description: S.optional(S.String),
     Criteria: S.optional(Criteria),
     Actions: S.optional(AutomationRulesActionListV2),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetAutomationRuleV2Response",
@@ -15131,8 +15149,12 @@ export const GetConfigurationPolicyResponse = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ConfigurationPolicy: S.optional(Policy),
   }),
 ).annotate({
@@ -15170,7 +15192,9 @@ export const GetConfigurationPolicyAssociationResponse = S.suspend(() =>
     TargetId: S.optional(S.String),
     TargetType: S.optional(TargetType),
     AssociationType: S.optional(AssociationType),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AssociationStatus: S.optional(ConfigurationPolicyAssociationStatus),
     AssociationStatusMessage: S.optional(S.String),
   }),
@@ -15203,7 +15227,9 @@ export const HealthCheck = S.suspend(() =>
   S.Struct({
     ConnectorStatus: S.optional(ConnectorStatus),
     Message: S.optional(S.String),
-    LastCheckedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastCheckedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "HealthCheck" }) as any as S.Schema<HealthCheck>;
 export type ConnectorAuthStatus = "ACTIVE" | "FAILED" | (string & {});
@@ -15268,8 +15294,12 @@ export const GetConnectorV2Response = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Health: S.optional(HealthCheck),
     ProviderDetail: S.optional(ProviderDetail),
   }),
@@ -15367,8 +15397,10 @@ export interface GetFindingHistoryRequest {
 export const GetFindingHistoryRequest = S.suspend(() =>
   S.Struct({
     FindingIdentifier: S.optional(AwsSecurityFindingIdentifier),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -15428,7 +15460,9 @@ export interface FindingHistoryRecord {
 export const FindingHistoryRecord = S.suspend(() =>
   S.Struct({
     FindingIdentifier: S.optional(AwsSecurityFindingIdentifier),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     FindingCreated: S.optional(S.Boolean),
     UpdateSource: S.optional(FindingHistoryUpdateSource),
     Updates: S.optional(FindingHistoryUpdatesList),
@@ -15707,8 +15741,10 @@ export interface GetFindingsTrendsV2Request {
 export const GetFindingsTrendsV2Request = S.suspend(() =>
   S.Struct({
     Filters: S.optional(FindingsTrendsFilters),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -15762,7 +15798,9 @@ export interface TrendsMetricsResult {
 }
 export const TrendsMetricsResult = S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TrendsValues: S.optional(TrendsValues),
   }),
 ).annotate({
@@ -16030,8 +16068,12 @@ export const Member = S.suspend(() =>
     MasterId: S.optional(S.String),
     AdministratorId: S.optional(S.String),
     MemberStatus: S.optional(S.String),
-    InvitedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Member" }) as any as S.Schema<Member>;
 export type MemberList = Member[];
@@ -16302,8 +16344,10 @@ export interface GetResourcesTrendsV2Request {
 export const GetResourcesTrendsV2Request = S.suspend(() =>
   S.Struct({
     Filters: S.optional(ResourcesTrendsFilters),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -16339,7 +16383,9 @@ export interface ResourcesTrendsMetricsResult {
 }
 export const ResourcesTrendsMetricsResult = S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TrendsValues: S.optional(ResourcesTrendsValues),
   }),
 ).annotate({
@@ -16915,8 +16961,12 @@ export const AutomationRulesMetadata = S.suspend(() =>
     RuleName: S.optional(S.String),
     Description: S.optional(S.String),
     IsTerminal: S.optional(S.Boolean),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CreatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -16990,8 +17040,12 @@ export const AutomationRulesMetadataV2 = S.suspend(() =>
     RuleStatus: S.optional(RuleStatusV2),
     Description: S.optional(S.String),
     Actions: S.optional(AutomationRulesActionTypeListV2),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "AutomationRulesMetadataV2",
@@ -17045,7 +17099,9 @@ export const ConfigurationPolicySummary = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ServiceEnabled: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -17181,7 +17237,9 @@ export const ConnectorSummary = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ProviderSummary: S.optional(ProviderSummary),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ConnectorSummary",
@@ -17499,7 +17557,9 @@ export const StandardsControlAssociationSummary = S.suspend(() =>
     SecurityControlArn: S.optional(S.String),
     AssociationStatus: S.optional(AssociationStatus),
     RelatedRequirements: S.optional(RelatedRequirementsList),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UpdatedReason: S.optional(S.String),
     StandardsControlTitle: S.optional(S.String),
     StandardsControlDescription: S.optional(S.String),
@@ -17628,7 +17688,9 @@ export const StartConfigurationPolicyAssociationResponse = S.suspend(() =>
     TargetId: S.optional(S.String),
     TargetType: S.optional(TargetType),
     AssociationType: S.optional(AssociationType),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AssociationStatus: S.optional(ConfigurationPolicyAssociationStatus),
     AssociationStatusMessage: S.optional(S.String),
   }),
@@ -17867,8 +17929,12 @@ export const UpdateConfigurationPolicyResponse = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ConfigurationPolicy: S.optional(Policy),
   }),
 ).annotate({

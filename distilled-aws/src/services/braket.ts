@@ -533,7 +533,9 @@ export interface JobEventDetails {
 export const JobEventDetails = S.suspend(() =>
   S.Struct({
     eventType: S.optional(S.String),
-    timeOfEvent: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timeOfEvent: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     message: S.optional(S.String),
   }),
 ).annotate({
@@ -592,9 +594,11 @@ export const GetJobResponse = S.suspend(() =>
     checkpointConfig: S.optional(JobCheckpointConfig),
     algorithmSpecification: AlgorithmSpecification,
     instanceConfig: InstanceConfig,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     billableDuration: S.optional(S.Number),
     deviceConfig: S.optional(DeviceConfig),
     events: S.optional(JobEvents),
@@ -680,9 +684,11 @@ export const JobSummary = S.suspend(() =>
     jobArn: S.String,
     jobName: S.String,
     device: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagsMap),
   }),
 ).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
@@ -830,8 +836,8 @@ export const GetQuantumTaskResponse = S.suspend(() =>
     shots: S.Number,
     outputS3Bucket: S.String,
     outputS3Directory: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagsMap),
     jobArn: S.optional(S.String),
     queueInfo: S.optional(QuantumTaskQueueInfo),
@@ -927,8 +933,8 @@ export const QuantumTaskSummary = S.suspend(() =>
     shots: S.Number,
     outputS3Bucket: S.String,
     outputS3Directory: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(TagsMap),
   }),
 ).annotate({
@@ -1111,8 +1117,8 @@ export const SpendingLimitSummary = S.suspend(() =>
     spendingLimit: S.String,
     queuedSpend: S.String,
     totalSpend: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tags: S.optional(TagsMap),
   }),
 ).annotate({

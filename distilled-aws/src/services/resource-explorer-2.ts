@@ -143,7 +143,9 @@ export const View = S.suspend(() =>
   S.Struct({
     ViewArn: S.optional(S.String),
     Owner: S.optional(S.String),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Scope: S.optional(S.String),
     IncludedProperties: S.optional(IncludedPropertyList),
     Filters: S.optional(SearchFilter),
@@ -332,8 +334,12 @@ export const GetIndexOutput = S.suspend(() =>
     State: S.optional(S.String),
     ReplicatingFrom: S.optional(RegionList),
     ReplicatingTo: S.optional(RegionList),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(TagMap),
   }),
 ).annotate({ identifier: "GetIndexOutput" }) as any as S.Schema<GetIndexOutput>;
@@ -371,7 +377,9 @@ export const ManagedView = S.suspend(() =>
     ManagedViewArn: S.optional(S.String),
     ManagedViewName: S.optional(S.String),
     TrustedService: S.optional(S.String),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Owner: S.optional(S.String),
     Scope: S.optional(S.String),
     IncludedProperties: S.optional(IncludedPropertyList),
@@ -661,7 +669,9 @@ export interface ResourceProperty {
 export const ResourceProperty = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastReportedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Data: S.optional(S.Top),
   }),
 ).annotate({
@@ -685,7 +695,9 @@ export const Resource = S.suspend(() =>
     Region: S.optional(S.String),
     ResourceType: S.optional(S.String),
     Service: S.optional(S.String),
-    LastReportedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastReportedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Properties: S.optional(ResourcePropertyList),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
@@ -802,7 +814,7 @@ export interface StreamingAccessDetails {
 export const StreamingAccessDetails = S.suspend(() =>
   S.Struct({
     ServicePrincipal: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StreamingAccessDetails",
@@ -1022,7 +1034,9 @@ export const CreateIndexOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     State: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateIndexOutput",
@@ -1056,7 +1070,9 @@ export const UpdateIndexTypeOutput = S.suspend(() =>
     Arn: S.optional(S.String),
     Type: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateIndexTypeOutput",
@@ -1087,7 +1103,9 @@ export const DeleteIndexOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DeleteIndexOutput",

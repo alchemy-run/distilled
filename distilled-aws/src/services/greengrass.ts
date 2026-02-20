@@ -1940,8 +1940,8 @@ export interface GetConnectivityInfoResponse {
 export const GetConnectivityInfoResponse = S.suspend(() =>
   S.Struct({
     ConnectivityInfo: S.optional(__listOfConnectivityInfo),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  }),
+    Message: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Message: "message" })),
 ).annotate({
   identifier: "GetConnectivityInfoResponse",
 }) as any as S.Schema<GetConnectivityInfoResponse>;
@@ -3084,8 +3084,8 @@ export const DefinitionInformation = S.suspend(() =>
     LatestVersion: S.optional(S.String),
     LatestVersionArn: S.optional(S.String),
     Name: S.optional(S.String),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(Tags),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "DefinitionInformation",
 }) as any as S.Schema<DefinitionInformation>;
@@ -3996,9 +3996,9 @@ export interface UpdateConnectivityInfoResponse {
 }
 export const UpdateConnectivityInfoResponse = S.suspend(() =>
   S.Struct({
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
+    Message: S.optional(S.String),
     Version: S.optional(S.String),
-  }),
+  }).pipe(S.encodeKeys({ Message: "message" })),
 ).annotate({
   identifier: "UpdateConnectivityInfoResponse",
 }) as any as S.Schema<UpdateConnectivityInfoResponse>;

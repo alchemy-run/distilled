@@ -222,7 +222,9 @@ export interface TimestampForCollection {
 }
 export const TimestampForCollection = S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "TimestampForCollection",
@@ -414,7 +416,7 @@ export const DatasourcePackageUsageInfo = S.suspend(() =>
   S.Struct({
     VolumeUsageInBytes: S.optional(S.Number),
     VolumeUsageUpdateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -465,15 +467,19 @@ export const MemberDetail = S.suspend(() =>
     AdministratorId: S.optional(S.String),
     Status: S.optional(MemberStatus),
     DisabledReason: S.optional(MemberDisabledReason),
-    InvitedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     VolumeUsageInBytes: S.optional(S.Number),
     VolumeUsageUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     PercentOfGraphUtilization: S.optional(S.Number),
     PercentOfGraphUtilizationUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     InvitationType: S.optional(InvitationType),
     VolumeUsageByDatasourcePackage: S.optional(VolumeUsageByDatasourcePackage),
@@ -685,9 +691,15 @@ export const GetInvestigationResponse = S.suspend(() =>
     InvestigationId: S.optional(S.String),
     EntityArn: S.optional(S.String),
     EntityType: S.optional(EntityType),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ScopeStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ScopeEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ScopeStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ScopeEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(Status),
     Severity: S.optional(Severity),
     State: S.optional(State),
@@ -809,7 +821,9 @@ export interface Graph {
 export const Graph = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Graph" }) as any as S.Schema<Graph>;
 export type GraphList = Graph[];
@@ -1037,8 +1051,8 @@ export interface DateFilter {
 }
 export const DateFilter = S.suspend(() =>
   S.Struct({
-    StartInclusive: S.Date.pipe(T.TimestampFormat("date-time")),
-    EndInclusive: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartInclusive: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndInclusive: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "DateFilter" }) as any as S.Schema<DateFilter>;
 export interface FilterCriteria {
@@ -1110,7 +1124,9 @@ export const InvestigationDetail = S.suspend(() =>
     Severity: S.optional(Severity),
     Status: S.optional(Status),
     State: S.optional(State),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EntityArn: S.optional(S.String),
     EntityType: S.optional(EntityType),
   }),
@@ -1229,7 +1245,9 @@ export const Administrator = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     GraphArn: S.optional(S.String),
-    DelegationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DelegationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Administrator" }) as any as S.Schema<Administrator>;
 export type AdministratorList = Administrator[];
@@ -1302,8 +1320,8 @@ export const StartInvestigationRequest = S.suspend(() =>
   S.Struct({
     GraphArn: S.String,
     EntityArn: S.String,
-    ScopeStartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    ScopeEndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ScopeStartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ScopeEndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/investigations/startInvestigation" }),

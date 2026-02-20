@@ -221,10 +221,7 @@ function collectSerializationTraits(
     pipes.push(`T.XmlAttribute()`);
   }
 
-  // smithy.api#jsonName
-  if (traits["smithy.api#jsonName"] != null) {
-    pipes.push(`T.JsonName("${traits["smithy.api#jsonName"]}")`);
-  }
+  // smithy.api#jsonName - handled at struct level via S.encodeKeys, not per-field
 
   // Note: timestampFormat is NOT handled here - it's applied directly to S.Date
   // in the structure member processing code, since it needs to be on the inner
@@ -1284,7 +1281,6 @@ const convertShapeToSchema: (
           () =>
             Effect.gen(function* () {
               const sdkFile = yield* SdkFile;
-              // Use epoch-seconds for restJson1 and awsJson1_0/1_1, otherwise standard S.Date
               if (
                 sdkFile.serviceTraits.protocol === "aws.protocols#restJson1" ||
                 sdkFile.serviceTraits.protocol === "aws.protocols#awsJson1_0" ||
@@ -1292,7 +1288,7 @@ const convertShapeToSchema: (
               ) {
                 return `S.Date.pipe(T.TimestampFormat("epoch-seconds"))`;
               }
-              return "S.Date";
+              return "T.DateFromString";
             }),
         ),
         Match.when(
@@ -1441,6 +1437,9 @@ const convertShapeToSchema: (
                   | string
                   | undefined;
                 if (format) {
+                  if (format === "date-time") {
+                    return `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
+                  }
                   return `S.Date.pipe(T.TimestampFormat("${format}"))`;
                 }
                 // Default based on protocol
@@ -1458,9 +1457,9 @@ const convertShapeToSchema: (
                   sdkFile.serviceTraits.protocol === "aws.protocols#awsQuery" ||
                   sdkFile.serviceTraits.protocol === "aws.protocols#ec2Query"
                 ) {
-                  return `S.Date.pipe(T.TimestampFormat("date-time"))`;
+                  return `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
                 }
-                return "S.Date";
+                return "T.DateFromString";
               }),
           ),
           Match.when(
@@ -1630,6 +1629,8 @@ const convertShapeToSchema: (
                 // True if this member has @clientOptional + @required
                 // In output contexts, these should appear required in the interface
                 isSoftRequired: boolean;
+                // Wire name from smithy.api#jsonName (if different from member name)
+                jsonName?: string;
               }
 
               const membersEffect = Effect.all(
@@ -1720,9 +1721,10 @@ const convertShapeToSchema: (
                     let schema = baseSchema;
                     let tsType = baseTsType;
 
-                    // Check if base schema is a timestamp (contains S.Date or TimestampFormat)
+                    // Check if base schema is a timestamp (contains S.Date, DateFromString, or TimestampFormat)
                     const isTimestampSchema =
                       baseSchema.includes("S.Date") ||
+                      baseSchema.includes("DateFromString") ||
                       baseSchema.includes("TimestampFormat") ||
                       member.target === "smithy.api#Timestamp";
 
@@ -1733,7 +1735,11 @@ const convertShapeToSchema: (
                       tsType = "Date";
                     } else if (isTimestampSchema && explicitFormat) {
                       // Explicit format on member overrides target
-                      schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
+                      if (explicitFormat === "date-time") {
+                        schema = `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
+                      } else {
+                        schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
+                      }
                       tsType = "Date";
                     }
 
@@ -1801,12 +1807,20 @@ const convertShapeToSchema: (
                         : undefined,
                     );
 
+                    const jsonName = member.traits?.["smithy.api#jsonName"] as
+                      | string
+                      | undefined;
+
                     return {
                       name: memberName,
                       schemaExpr: schema,
                       tsType,
                       isOptional,
                       isSoftRequired,
+                      jsonName:
+                        jsonName && jsonName !== memberName
+                          ? jsonName
+                          : undefined,
                     };
                   }),
                 ),
@@ -1929,6 +1943,15 @@ const convertShapeToSchema: (
                       }
                     }
 
+                    // Build S.encodeKeys for jsonName key renaming
+                    const encodeKeysEntries = members
+                      .filter((m) => m.jsonName)
+                      .map((m) => `${m.name}: "${m.jsonName}"`);
+                    const encodeKeysPipe =
+                      encodeKeysEntries.length > 0
+                        ? `.pipe(S.encodeKeys({ ${encodeKeysEntries.join(", ")} }))`
+                        : "";
+
                     // Build annotation pipe for schema - trait annotations go inside the suspend closure,
                     // but identifier goes OUTSIDE on the suspend itself for JSON Schema generation
                     let innerPipe = "";
@@ -1943,7 +1966,7 @@ const convertShapeToSchema: (
                     // Generate interface + suspend(struct) pattern
                     // Trait annotations inside suspend, identifier outside
                     const interfaceDef = `export interface ${currentSchemaName} { ${interfaceFields} }`;
-                    const schemaDef = `export const ${currentSchemaName} = S.suspend(() => S.Struct({${schemaFields}})${innerPipe})${outerAnnotation} as any as S.Schema<${currentSchemaName}>;`;
+                    const schemaDef = `export const ${currentSchemaName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${currentSchemaName}>;`;
 
                     return `${interfaceDef}\n${schemaDef}`;
                   }),

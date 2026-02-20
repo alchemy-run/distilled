@@ -173,7 +173,9 @@ export interface CreateAccessTokenRequest {
 export const CreateAccessTokenRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    expiresTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiresTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/v1/accessTokens" }),
@@ -197,7 +199,7 @@ export const CreateAccessTokenResponse = S.suspend(() =>
   S.Struct({
     secret: SensitiveString,
     name: S.String,
-    expiresTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    expiresTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     accessTokenId: S.String,
   }),
 ).annotate({
@@ -254,7 +256,9 @@ export const AccessTokenSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    expiresTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiresTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "AccessTokenSummary",
@@ -504,7 +508,7 @@ export const DevEnvironmentSummary = S.suspend(() =>
     spaceName: S.optional(S.String),
     projectName: S.optional(S.String),
     id: S.String,
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     creatorId: S.String,
     status: S.String,
     statusReason: S.optional(S.String),
@@ -544,8 +548,8 @@ export interface ListEventLogsRequest {
 export const ListEventLogsRequest = S.suspend(() =>
   S.Struct({
     spaceName: S.String.pipe(T.HttpLabel("spaceName")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     eventName: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -616,7 +620,7 @@ export const EventLogEntry = S.suspend(() =>
     eventType: S.String,
     eventCategory: S.String,
     eventSource: S.String,
-    eventTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    eventTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     operationType: S.String,
     userIdentity: UserIdentity,
     projectInformation: S.optional(ProjectInformation),
@@ -995,7 +999,7 @@ export const GetDevEnvironmentResponse = S.suspend(() =>
     spaceName: S.String,
     projectName: S.String,
     id: S.String,
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     creatorId: S.String,
     status: S.String,
     statusReason: S.optional(S.String),
@@ -1148,7 +1152,7 @@ export const DevEnvironmentSessionSummary = S.suspend(() =>
     spaceName: S.String,
     projectName: S.String,
     devEnvironmentId: S.String,
-    startedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     id: S.String,
   }),
 ).annotate({
@@ -1471,8 +1475,8 @@ export const GetSourceRepositoryResponse = S.suspend(() =>
     projectName: S.String,
     name: S.String,
     description: S.optional(S.String),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSourceRepositoryResponse",
@@ -1553,8 +1557,8 @@ export const ListSourceRepositoriesItem = S.suspend(() =>
     id: S.String,
     name: S.String,
     description: S.optional(S.String),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSourceRepositoriesItem",
@@ -1647,7 +1651,9 @@ export const CreateSourceRepositoryBranchResponse = S.suspend(() =>
   S.Struct({
     ref: S.optional(S.String),
     name: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     headCommitId: S.optional(S.String),
   }),
 ).annotate({
@@ -1693,7 +1699,9 @@ export const ListSourceRepositoryBranchesItem = S.suspend(() =>
   S.Struct({
     ref: S.optional(S.String),
     name: S.optional(S.String),
-    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     headCommitId: S.optional(S.String),
   }),
 ).annotate({
@@ -1772,8 +1780,8 @@ export const GetWorkflowResponse = S.suspend(() =>
     sourceRepositoryName: S.optional(S.String),
     sourceBranchName: S.optional(S.String),
     definition: WorkflowDefinition,
-    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     runMode: S.String,
     status: S.String,
   }),
@@ -1842,8 +1850,8 @@ export const WorkflowSummary = S.suspend(() =>
     sourceRepositoryName: S.String,
     sourceBranchName: S.String,
     definition: WorkflowDefinitionSummary,
-    createdTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     runMode: S.String,
     status: S.String,
   }),
@@ -1959,9 +1967,9 @@ export const GetWorkflowRunResponse = S.suspend(() =>
     workflowId: S.String,
     status: S.String,
     statusReasons: S.optional(WorkflowRunStatusReasons),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetWorkflowRunResponse",
@@ -2021,9 +2029,9 @@ export const WorkflowRunSummary = S.suspend(() =>
     workflowName: S.String,
     status: S.String,
     statusReasons: S.optional(WorkflowRunStatusReasons),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "WorkflowRunSummary",
@@ -2071,7 +2079,7 @@ export const GetSubscriptionResponse = S.suspend(() =>
     awsAccountName: S.optional(S.String),
     pendingSubscriptionType: S.optional(S.String),
     pendingSubscriptionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({

@@ -387,8 +387,8 @@ export interface Schedule {
 }
 export const Schedule = S.suspend(() =>
   S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     refreshFrequency: S.optional(S.String),
   }),
 ).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
@@ -1512,7 +1512,7 @@ export interface OutboundRequest {
 export const OutboundRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.String,
-    expirationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    expirationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     channelSubtypeParameters: ChannelSubtypeParameters,
   }),
 ).annotate({
@@ -1587,7 +1587,9 @@ export const ProfileOutboundRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.String,
     profileId: S.String,
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ProfileOutboundRequest",

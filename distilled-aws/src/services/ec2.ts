@@ -702,13 +702,13 @@ export const AddressTransfer = S.suspend(() =>
       T.Ec2QueryName("TransferAccountId"),
     ),
     TransferOfferExpirationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("transferOfferExpirationTimestamp"),
       T.Ec2QueryName("TransferOfferExpirationTimestamp"),
     ),
     TransferOfferAcceptedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("transferOfferAcceptedTimestamp"),
       T.Ec2QueryName("TransferOfferAcceptedTimestamp"),
@@ -1087,10 +1087,9 @@ export const TransitGatewayPeeringAttachment = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -1214,10 +1213,9 @@ export const TransitGatewayVpcAttachment = S.suspend(() =>
       T.XmlName("subnetIds"),
       T.Ec2QueryName("SubnetIds"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Options: S.optional(TransitGatewayVpcAttachmentOptions)
       .pipe(T.XmlName("options"), T.Ec2QueryName("Options"))
       .annotate({ identifier: "TransitGatewayVpcAttachmentOptions" }),
@@ -1492,7 +1490,7 @@ export const VpcPeeringConnection = S.suspend(() =>
       .pipe(T.XmlName("accepterVpcInfo"), T.Ec2QueryName("AccepterVpcInfo"))
       .annotate({ identifier: "VpcPeeringConnectionVpcInfo" }),
     ExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("expirationTime"), T.Ec2QueryName("ExpirationTime")),
     RequesterVpcInfo: S.optional(VpcPeeringConnectionVpcInfo)
       .pipe(T.XmlName("requesterVpcInfo"), T.Ec2QueryName("RequesterVpcInfo"))
@@ -2594,10 +2592,9 @@ export const IamInstanceProfileAssociation = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
   }),
 ).annotate({
   identifier: "IamInstanceProfileAssociation",
@@ -4376,10 +4373,9 @@ export const VolumeAttachment = S.suspend(() =>
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
     ),
-    AttachTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("attachTime"),
-      T.Ec2QueryName("AttachTime"),
-    ),
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
   }).pipe(ns),
 ).annotate({
   identifier: "VolumeAttachment",
@@ -5050,14 +5046,12 @@ export const BundleTask = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updateTime"),
-      T.Ec2QueryName("UpdateTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    UpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updateTime"), T.Ec2QueryName("UpdateTime")),
     Storage: S.optional(Storage)
       .pipe(T.XmlName("storage"), T.Ec2QueryName("Storage"))
       .annotate({ identifier: "Storage" }),
@@ -5591,10 +5585,9 @@ export const ReservedInstancesListing = S.suspend(() =>
       T.XmlName("clientToken"),
       T.Ec2QueryName("ClientToken"),
     ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
     InstanceCounts: S.optional(InstanceCountList).pipe(
       T.XmlName("instanceCounts"),
       T.Ec2QueryName("InstanceCounts"),
@@ -5623,10 +5616,9 @@ export const ReservedInstancesListing = S.suspend(() =>
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
     ),
-    UpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updateDate"),
-      T.Ec2QueryName("UpdateDate"),
-    ),
+    UpdateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updateDate"), T.Ec2QueryName("UpdateDate")),
   }),
 ).annotate({
   identifier: "ReservedInstancesListing",
@@ -6274,10 +6266,9 @@ export const Volume = S.suspend(() =>
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     Attachments: S.optional(VolumeAttachmentList).pipe(
       T.XmlName("attachmentSet"),
       T.Ec2QueryName("AttachmentSet"),
@@ -6427,14 +6418,16 @@ export const CreateCapacityReservationRequest = S.suspend(() =>
     InstanceCount: S.optional(S.Number),
     EbsOptimized: S.optional(S.Boolean),
     EphemeralStorage: S.optional(S.Boolean),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndDateType: S.optional(EndDateType),
     InstanceMatchCriteria: S.optional(InstanceMatchCriteria),
     TagSpecifications: S.optional(TagSpecificationList),
     DryRun: S.optional(S.Boolean),
     OutpostArn: S.optional(S.String),
     PlacementGroupArn: S.optional(S.String),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CommitmentDuration: S.optional(S.Number),
     DeliveryPreference: S.optional(CapacityReservationDeliveryPreference),
   }).pipe(
@@ -6508,7 +6501,7 @@ export const CapacityReservationCommitmentInfo = S.suspend(() =>
       T.Ec2QueryName("CommittedInstanceCount"),
     ),
     CommitmentEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("commitmentEndDate"), T.Ec2QueryName("CommitmentEndDate")),
   }),
 ).annotate({
@@ -6663,14 +6656,12 @@ export const CapacityReservation = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
     EndDateType: S.optional(EndDateType).pipe(
       T.XmlName("endDateType"),
       T.Ec2QueryName("EndDateType"),
@@ -6679,10 +6670,9 @@ export const CapacityReservation = S.suspend(() =>
       T.XmlName("instanceMatchCriteria"),
       T.Ec2QueryName("InstanceMatchCriteria"),
     ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -7992,7 +7982,7 @@ export const CreateCapacityReservationFleetRequest = S.suspend(() =>
     ).pipe(T.XmlName("InstanceTypeSpecification")),
     Tenancy: S.optional(FleetCapacityReservationTenancy),
     TotalTargetCapacity: S.optional(S.Number),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     InstanceMatchCriteria: S.optional(FleetInstanceMatchCriteria),
     TagSpecifications: S.optional(TagSpecificationList).pipe(
       T.XmlName("TagSpecification"),
@@ -8059,10 +8049,9 @@ export const FleetCapacityReservation = S.suspend(() =>
       T.XmlName("ebsOptimized"),
       T.Ec2QueryName("EbsOptimized"),
     ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
     Weight: S.optional(S.Number).pipe(
       T.XmlName("weight"),
       T.Ec2QueryName("Weight"),
@@ -8120,14 +8109,12 @@ export const CreateCapacityReservationFleetResult = S.suspend(() =>
       T.XmlName("allocationStrategy"),
       T.Ec2QueryName("AllocationStrategy"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
     Tenancy: S.optional(FleetCapacityReservationTenancy).pipe(
       T.XmlName("tenancy"),
       T.Ec2QueryName("Tenancy"),
@@ -9342,10 +9329,9 @@ export const MacModificationTask = S.suspend(() =>
         T.Ec2QueryName("MacSystemIntegrityProtectionConfig"),
       )
       .annotate({ identifier: "MacSystemIntegrityProtectionConfiguration" }),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -10225,8 +10211,12 @@ export const CreateFleetRequest = S.suspend(() =>
     TargetCapacitySpecification: S.optional(TargetCapacitySpecificationRequest),
     TerminateInstancesWithExpiration: S.optional(S.Boolean),
     Type: S.optional(FleetType),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ReplaceUnhealthyInstances: S.optional(S.Boolean),
     TagSpecifications: S.optional(TagSpecificationList).pipe(
       T.XmlName("TagSpecification"),
@@ -11414,10 +11404,9 @@ export const Ec2InstanceConnectEndpoint = S.suspend(() =>
       T.XmlName("availabilityZone"),
       T.Ec2QueryName("AvailabilityZone"),
     ),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createdAt"),
-      T.Ec2QueryName("CreatedAt"),
-    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createdAt"), T.Ec2QueryName("CreatedAt")),
     SubnetId: S.optional(S.String).pipe(
       T.XmlName("subnetId"),
       T.Ec2QueryName("SubnetId"),
@@ -12122,10 +12111,9 @@ export const IpamExternalResourceVerificationToken = S.suspend(() =>
       T.XmlName("tokenName"),
       T.Ec2QueryName("TokenName"),
     ),
-    NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("notAfter"),
-      T.Ec2QueryName("NotAfter"),
-    ),
+    NotAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("notAfter"), T.Ec2QueryName("NotAfter")),
     Status: S.optional(TokenState).pipe(
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
@@ -13629,7 +13617,9 @@ export const LaunchTemplateSpotMarketOptionsRequest = S.suspend(() =>
     MaxPrice: S.optional(S.String),
     SpotInstanceType: S.optional(SpotInstanceType),
     BlockDurationMinutes: S.optional(S.Number),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     InstanceInterruptionBehavior: S.optional(InstanceInterruptionBehavior),
   }),
 ).annotate({
@@ -13976,10 +13966,9 @@ export const LaunchTemplate = S.suspend(() =>
       T.XmlName("launchTemplateName"),
       T.Ec2QueryName("LaunchTemplateName"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     CreatedBy: S.optional(S.String).pipe(
       T.XmlName("createdBy"),
       T.Ec2QueryName("CreatedBy"),
@@ -14596,10 +14585,9 @@ export const LaunchTemplateSpotMarketOptions = S.suspend(() =>
       T.XmlName("blockDurationMinutes"),
       T.Ec2QueryName("BlockDurationMinutes"),
     ),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validUntil"),
-      T.Ec2QueryName("ValidUntil"),
-    ),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validUntil"), T.Ec2QueryName("ValidUntil")),
     InstanceInterruptionBehavior: S.optional(InstanceInterruptionBehavior).pipe(
       T.XmlName("instanceInterruptionBehavior"),
       T.Ec2QueryName("InstanceInterruptionBehavior"),
@@ -15070,10 +15058,9 @@ export const LaunchTemplateVersion = S.suspend(() =>
       T.XmlName("versionDescription"),
       T.Ec2QueryName("VersionDescription"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     CreatedBy: S.optional(S.String).pipe(
       T.XmlName("createdBy"),
       T.Ec2QueryName("CreatedBy"),
@@ -16100,18 +16087,16 @@ export interface ProvisionedBandwidth {
 }
 export const ProvisionedBandwidth = S.suspend(() =>
   S.Struct({
-    ProvisionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("provisionTime"),
-      T.Ec2QueryName("ProvisionTime"),
-    ),
+    ProvisionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("provisionTime"), T.Ec2QueryName("ProvisionTime")),
     Provisioned: S.optional(S.String).pipe(
       T.XmlName("provisioned"),
       T.Ec2QueryName("Provisioned"),
     ),
-    RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("requestTime"),
-      T.Ec2QueryName("RequestTime"),
-    ),
+    RequestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("requestTime"), T.Ec2QueryName("RequestTime")),
     Requested: S.optional(S.String).pipe(
       T.XmlName("requested"),
       T.Ec2QueryName("Requested"),
@@ -16223,14 +16208,12 @@ export interface NatGateway {
 }
 export const NatGateway = S.suspend(() =>
   S.Struct({
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
-    DeleteTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("deleteTime"),
-      T.Ec2QueryName("DeleteTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
+    DeleteTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("deleteTime"), T.Ec2QueryName("DeleteTime")),
     FailureCode: S.optional(S.String).pipe(
       T.XmlName("failureCode"),
       T.Ec2QueryName("FailureCode"),
@@ -16727,14 +16710,12 @@ export const NetworkInsightsAccessScope = S.suspend(() =>
       T.XmlName("networkInsightsAccessScopeArn"),
       T.Ec2QueryName("NetworkInsightsAccessScopeArn"),
     ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createdDate"),
-      T.Ec2QueryName("CreatedDate"),
-    ),
-    UpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updatedDate"),
-      T.Ec2QueryName("UpdatedDate"),
-    ),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createdDate"), T.Ec2QueryName("CreatedDate")),
+    UpdatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updatedDate"), T.Ec2QueryName("UpdatedDate")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -17051,10 +17032,9 @@ export const NetworkInsightsPath = S.suspend(() =>
       T.XmlName("networkInsightsPathArn"),
       T.Ec2QueryName("NetworkInsightsPathArn"),
     ),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createdDate"),
-      T.Ec2QueryName("CreatedDate"),
-    ),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createdDate"), T.Ec2QueryName("CreatedDate")),
     Source: S.optional(S.String).pipe(
       T.XmlName("source"),
       T.Ec2QueryName("Source"),
@@ -17302,10 +17282,9 @@ export interface NetworkInterfaceAttachment {
 }
 export const NetworkInterfaceAttachment = S.suspend(() =>
   S.Struct({
-    AttachTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("attachTime"),
-      T.Ec2QueryName("AttachTime"),
-    ),
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
     AttachmentId: S.optional(S.String).pipe(
       T.XmlName("attachmentId"),
       T.Ec2QueryName("AttachmentId"),
@@ -19144,7 +19123,7 @@ export const Snapshot = S.suspend(() =>
       T.Ec2QueryName("StorageTier"),
     ),
     RestoreExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("restoreExpiryTime"), T.Ec2QueryName("RestoreExpiryTime")),
     SseType: S.optional(SSEType).pipe(
       T.XmlName("sseType"),
@@ -19163,7 +19142,7 @@ export const Snapshot = S.suspend(() =>
       T.Ec2QueryName("CompletionDurationMinutes"),
     ),
     CompletionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("completionTime"), T.Ec2QueryName("CompletionTime")),
     FullSnapshotSizeInBytes: S.optional(S.Number).pipe(
       T.XmlName("fullSnapshotSizeInBytes"),
@@ -19185,10 +19164,9 @@ export const Snapshot = S.suspend(() =>
       T.XmlName("statusMessage"),
       T.Ec2QueryName("StatusMessage"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
     Progress: S.optional(S.String).pipe(
       T.XmlName("progress"),
       T.Ec2QueryName("Progress"),
@@ -19314,10 +19292,9 @@ export const SnapshotInfo = S.suspend(() =>
       T.XmlName("volumeSize"),
       T.Ec2QueryName("VolumeSize"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
     Progress: S.optional(S.String).pipe(
       T.XmlName("progress"),
       T.Ec2QueryName("Progress"),
@@ -20402,10 +20379,9 @@ export const TransitGateway = S.suspend(() =>
       T.XmlName("description"),
       T.Ec2QueryName("Description"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Options: S.optional(TransitGatewayOptions)
       .pipe(T.XmlName("options"), T.Ec2QueryName("Options"))
       .annotate({ identifier: "TransitGatewayOptions" }),
@@ -20505,10 +20481,9 @@ export const TransitGatewayConnect = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Options: S.optional(TransitGatewayConnectOptions)
       .pipe(T.XmlName("options"), T.Ec2QueryName("Options"))
       .annotate({ identifier: "TransitGatewayConnectOptions" }),
@@ -20684,10 +20659,9 @@ export const TransitGatewayConnectPeer = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     ConnectPeerConfiguration: S.optional(TransitGatewayConnectPeerConfiguration)
       .pipe(
         T.XmlName("connectPeerConfiguration"),
@@ -20782,7 +20756,7 @@ export const TransitGatewayMeteringPolicy = S.suspend(() =>
       T.Ec2QueryName("State"),
     ),
     UpdateEffectiveAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("updateEffectiveAt"), T.Ec2QueryName("UpdateEffectiveAt")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
@@ -20945,12 +20919,11 @@ export const TransitGatewayMeteringPolicyEntry = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updatedAt"),
-      T.Ec2QueryName("UpdatedAt"),
-    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updatedAt"), T.Ec2QueryName("UpdatedAt")),
     UpdateEffectiveAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("updateEffectiveAt"), T.Ec2QueryName("UpdateEffectiveAt")),
     MeteringPolicyRule: S.optional(TransitGatewayMeteringPolicyRule)
       .pipe(
@@ -21097,10 +21070,9 @@ export const TransitGatewayMulticastDomain = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -21233,10 +21205,9 @@ export const TransitGatewayPolicyTable = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -21556,10 +21527,9 @@ export const TransitGatewayRouteTable = S.suspend(() =>
       T.XmlName("defaultPropagationRouteTable"),
       T.Ec2QueryName("DefaultPropagationRouteTable"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -21678,10 +21648,9 @@ export const TransitGatewayRouteTableAnnouncement = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -22782,16 +22751,16 @@ export const VpcBlockPublicAccessExclusion = S.suspend(() =>
       T.Ec2QueryName("Reason"),
     ),
     CreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("creationTimestamp"), T.Ec2QueryName("CreationTimestamp")),
     LastUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastUpdateTimestamp"),
       T.Ec2QueryName("LastUpdateTimestamp"),
     ),
     DeletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("deletionTimestamp"), T.Ec2QueryName("DeletionTimestamp")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
@@ -23191,7 +23160,7 @@ export const VpcEndpoint = S.suspend(() =>
       T.Ec2QueryName("DnsEntrySet"),
     ),
     CreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("creationTimestamp"), T.Ec2QueryName("CreationTimestamp")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
@@ -24455,7 +24424,7 @@ export const VgwTelemetry = S.suspend(() =>
       T.Ec2QueryName("AcceptedRouteCount"),
     ),
     LastStatusChange: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("lastStatusChange"), T.Ec2QueryName("LastStatusChange")),
     OutsideIpAddress: S.optional(S.String).pipe(
       T.XmlName("outsideIpAddress"),
@@ -29233,10 +29202,9 @@ export interface IdFormat {
 }
 export const IdFormat = S.suspend(() =>
   S.Struct({
-    Deadline: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("deadline"),
-      T.Ec2QueryName("Deadline"),
-    ),
+    Deadline: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("deadline"), T.Ec2QueryName("Deadline")),
     Resource: S.optional(S.String).pipe(
       T.XmlName("resource"),
       T.Ec2QueryName("Resource"),
@@ -29700,19 +29668,19 @@ export const CapacityBlockExtension = S.suspend(() =>
       T.Ec2QueryName("CapacityBlockExtensionStatus"),
     ),
     CapacityBlockExtensionPurchaseDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("capacityBlockExtensionPurchaseDate"),
       T.Ec2QueryName("CapacityBlockExtensionPurchaseDate"),
     ),
     CapacityBlockExtensionStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("capacityBlockExtensionStartDate"),
       T.Ec2QueryName("CapacityBlockExtensionStartDate"),
     ),
     CapacityBlockExtensionEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("capacityBlockExtensionEndDate"),
       T.Ec2QueryName("CapacityBlockExtensionEndDate"),
@@ -29817,18 +29785,17 @@ export const CapacityBlockExtensionOffering = S.suspend(() =>
       T.XmlName("availabilityZoneId"),
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
     CapacityBlockExtensionStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("capacityBlockExtensionStartDate"),
       T.Ec2QueryName("CapacityBlockExtensionStartDate"),
     ),
     CapacityBlockExtensionEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("capacityBlockExtensionEndDate"),
       T.Ec2QueryName("CapacityBlockExtensionEndDate"),
@@ -29897,8 +29864,12 @@ export const DescribeCapacityBlockOfferingsRequest = S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     InstanceType: S.optional(S.String),
     InstanceCount: S.optional(S.Number),
-    StartDateRange: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndDateRange: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartDateRange: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndDateRange: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CapacityDurationHours: S.optional(S.Number),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -29951,14 +29922,12 @@ export const CapacityBlockOffering = S.suspend(() =>
       T.XmlName("instanceCount"),
       T.Ec2QueryName("InstanceCount"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
     CapacityBlockDurationHours: S.optional(S.Number).pipe(
       T.XmlName("capacityBlockDurationHours"),
       T.Ec2QueryName("CapacityBlockDurationHours"),
@@ -30092,18 +30061,15 @@ export const CapacityBlock = S.suspend(() =>
       T.XmlName("capacityReservationIdSet"),
       T.Ec2QueryName("CapacityReservationIdSet"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
     State: S.optional(CapacityBlockResourceState).pipe(
       T.XmlName("state"),
       T.Ec2QueryName("State"),
@@ -30346,10 +30312,9 @@ export const CapacityManagerDataExportResponse = S.suspend(() =>
       T.XmlName("outputFormat"),
       T.Ec2QueryName("OutputFormat"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     LatestDeliveryStatus: S.optional(CapacityManagerDataExportStatus).pipe(
       T.XmlName("latestDeliveryStatus"),
       T.Ec2QueryName("LatestDeliveryStatus"),
@@ -30363,7 +30328,7 @@ export const CapacityManagerDataExportResponse = S.suspend(() =>
       T.Ec2QueryName("LatestDeliveryS3LocationUri"),
     ),
     LatestDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("latestDeliveryTime"),
       T.Ec2QueryName("LatestDeliveryTime"),
@@ -30501,7 +30466,7 @@ export const CapacityReservationBillingRequest = S.suspend(() =>
       T.Ec2QueryName("UnusedReservationBillingOwnerId"),
     ),
     LastUpdateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("lastUpdateTime"), T.Ec2QueryName("LastUpdateTime")),
     Status: S.optional(CapacityReservationBillingRequestStatus).pipe(
       T.XmlName("status"),
@@ -30618,14 +30583,12 @@ export const CapacityReservationFleet = S.suspend(() =>
       T.XmlName("tenancy"),
       T.Ec2QueryName("Tenancy"),
     ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     InstanceMatchCriteria: S.optional(FleetInstanceMatchCriteria).pipe(
       T.XmlName("instanceMatchCriteria"),
       T.Ec2QueryName("InstanceMatchCriteria"),
@@ -32225,14 +32188,12 @@ export const DeclarativePoliciesReport = S.suspend(() =>
       T.XmlName("targetId"),
       T.Ec2QueryName("TargetId"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endTime"),
-      T.Ec2QueryName("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endTime"), T.Ec2QueryName("EndTime")),
     Status: S.optional(ReportState).pipe(
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
@@ -32797,7 +32758,7 @@ export const DescribeFastLaunchImagesSuccessItem = S.suspend(() =>
       T.Ec2QueryName("StateTransitionReason"),
     ),
     StateTransitionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("stateTransitionTime"),
       T.Ec2QueryName("StateTransitionTime"),
@@ -32909,25 +32870,21 @@ export const DescribeFastSnapshotRestoreSuccessItem = S.suspend(() =>
       T.XmlName("ownerAlias"),
       T.Ec2QueryName("OwnerAlias"),
     ),
-    EnablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enablingTime"),
-      T.Ec2QueryName("EnablingTime"),
-    ),
+    EnablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enablingTime"), T.Ec2QueryName("EnablingTime")),
     OptimizingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("optimizingTime"), T.Ec2QueryName("OptimizingTime")),
-    EnabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enabledTime"),
-      T.Ec2QueryName("EnabledTime"),
-    ),
-    DisablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disablingTime"),
-      T.Ec2QueryName("DisablingTime"),
-    ),
-    DisabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disabledTime"),
-      T.Ec2QueryName("DisabledTime"),
-    ),
+    EnabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enabledTime"), T.Ec2QueryName("EnabledTime")),
+    DisablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disablingTime"), T.Ec2QueryName("DisablingTime")),
+    DisabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disabledTime"), T.Ec2QueryName("DisabledTime")),
   }),
 ).annotate({
   identifier: "DescribeFastSnapshotRestoreSuccessItem",
@@ -32980,7 +32937,9 @@ export const DescribeFleetHistoryRequest = S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     FleetId: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(
     T.all(
       ns,
@@ -33032,10 +32991,9 @@ export const HistoryRecordEntry = S.suspend(() =>
       T.XmlName("eventType"),
       T.Ec2QueryName("EventType"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
   }),
 ).annotate({
   identifier: "HistoryRecordEntry",
@@ -33060,7 +33018,7 @@ export const DescribeFleetHistoryResult = S.suspend(() =>
       T.Ec2QueryName("HistoryRecordSet"),
     ),
     LastEvaluatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("lastEvaluatedTime"), T.Ec2QueryName("LastEvaluatedTime")),
     NextToken: S.optional(S.String).pipe(
       T.XmlName("nextToken"),
@@ -33070,10 +33028,9 @@ export const DescribeFleetHistoryResult = S.suspend(() =>
       T.XmlName("fleetId"),
       T.Ec2QueryName("FleetId"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeFleetHistoryResult",
@@ -33502,10 +33459,9 @@ export const FleetData = S.suspend(() =>
       T.XmlName("activityStatus"),
       T.Ec2QueryName("ActivityStatus"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     FleetId: S.optional(S.String).pipe(
       T.XmlName("fleetId"),
       T.Ec2QueryName("FleetId"),
@@ -33547,14 +33503,12 @@ export const FleetData = S.suspend(() =>
       T.Ec2QueryName("TerminateInstancesWithExpiration"),
     ),
     Type: S.optional(FleetType).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validFrom"),
-      T.Ec2QueryName("ValidFrom"),
-    ),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validUntil"),
-      T.Ec2QueryName("ValidUntil"),
-    ),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validFrom"), T.Ec2QueryName("ValidFrom")),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validUntil"), T.Ec2QueryName("ValidUntil")),
     ReplaceUnhealthyInstances: S.optional(S.Boolean).pipe(
       T.XmlName("replaceUnhealthyInstances"),
       T.Ec2QueryName("ReplaceUnhealthyInstances"),
@@ -33676,10 +33630,9 @@ export interface FlowLog {
 }
 export const FlowLog = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     DeliverLogsErrorMessage: S.optional(S.String).pipe(
       T.XmlName("deliverLogsErrorMessage"),
       T.Ec2QueryName("DeliverLogsErrorMessage"),
@@ -34004,14 +33957,12 @@ export const FpgaImage = S.suspend(() =>
     State: S.optional(FpgaImageState)
       .pipe(T.XmlName("state"), T.Ec2QueryName("State"))
       .annotate({ identifier: "FpgaImageState" }),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updateTime"),
-      T.Ec2QueryName("UpdateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
+    UpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updateTime"), T.Ec2QueryName("UpdateTime")),
     OwnerId: S.optional(S.String).pipe(
       T.XmlName("ownerId"),
       T.Ec2QueryName("OwnerId"),
@@ -34234,7 +34185,7 @@ export const HostReservation = S.suspend(() =>
       T.XmlName("duration"),
       T.Ec2QueryName("Duration"),
     ),
-    End: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+    End: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
       T.XmlName("end"),
       T.Ec2QueryName("End"),
     ),
@@ -34262,10 +34213,9 @@ export const HostReservation = S.suspend(() =>
       T.XmlName("paymentOption"),
       T.Ec2QueryName("PaymentOption"),
     ),
-    Start: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("start"),
-      T.Ec2QueryName("Start"),
-    ),
+    Start: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("start"), T.Ec2QueryName("Start")),
     State: S.optional(ReservationState).pipe(
       T.XmlName("state"),
       T.Ec2QueryName("State"),
@@ -34519,12 +34469,11 @@ export const Host = S.suspend(() =>
       T.Ec2QueryName("State"),
     ),
     AllocationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("allocationTime"), T.Ec2QueryName("AllocationTime")),
-    ReleaseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("releaseTime"),
-      T.Ec2QueryName("ReleaseTime"),
-    ),
+    ReleaseTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("releaseTime"), T.Ec2QueryName("ReleaseTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -35358,7 +35307,7 @@ export const ImageUsageReportEntry = S.suspend(() =>
       T.Ec2QueryName("ImageId"),
     ),
     ReportCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("reportCreationTime"),
       T.Ec2QueryName("ReportCreationTime"),
@@ -35512,12 +35461,11 @@ export const ImageUsageReport = S.suspend(() =>
       T.XmlName("stateReason"),
       T.Ec2QueryName("StateReason"),
     ),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     ExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("expirationTime"), T.Ec2QueryName("ExpirationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
@@ -36014,10 +35962,9 @@ export interface EbsInstanceBlockDevice {
 }
 export const EbsInstanceBlockDevice = S.suspend(() =>
   S.Struct({
-    AttachTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("attachTime"),
-      T.Ec2QueryName("AttachTime"),
-    ),
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
     DeleteOnTermination: S.optional(S.Boolean).pipe(
       T.XmlName("deleteOnTermination"),
       T.Ec2QueryName("DeleteOnTermination"),
@@ -36516,10 +36463,9 @@ export const InstanceImageMetadata = S.suspend(() =>
       T.XmlName("instanceType"),
       T.Ec2QueryName("InstanceType"),
     ),
-    LaunchTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("launchTime"),
-      T.Ec2QueryName("LaunchTime"),
-    ),
+    LaunchTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("launchTime"), T.Ec2QueryName("LaunchTime")),
     AvailabilityZone: S.optional(S.String).pipe(
       T.XmlName("availabilityZone"),
       T.Ec2QueryName("AvailabilityZone"),
@@ -36672,7 +36618,7 @@ export const ElasticInferenceAcceleratorAssociation = S.suspend(() =>
       T.Ec2QueryName("ElasticInferenceAcceleratorAssociationState"),
     ),
     ElasticInferenceAcceleratorAssociationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("elasticInferenceAcceleratorAssociationTime"),
       T.Ec2QueryName("ElasticInferenceAcceleratorAssociationTime"),
@@ -36766,10 +36712,9 @@ export interface InstanceNetworkInterfaceAttachment {
 }
 export const InstanceNetworkInterfaceAttachment = S.suspend(() =>
   S.Struct({
-    AttachTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("attachTime"),
-      T.Ec2QueryName("AttachTime"),
-    ),
+    AttachTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("attachTime"), T.Ec2QueryName("AttachTime")),
     AttachmentId: S.optional(S.String).pipe(
       T.XmlName("attachmentId"),
       T.Ec2QueryName("AttachmentId"),
@@ -37425,7 +37370,7 @@ export const Instance = S.suspend(() =>
       T.Ec2QueryName("UsageOperation"),
     ),
     UsageOperationUpdateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("usageOperationUpdateTime"),
       T.Ec2QueryName("UsageOperationUpdateTime"),
@@ -37502,10 +37447,9 @@ export const Instance = S.suspend(() =>
       T.XmlName("instanceType"),
       T.Ec2QueryName("InstanceType"),
     ),
-    LaunchTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("launchTime"),
-      T.Ec2QueryName("LaunchTime"),
-    ),
+    LaunchTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("launchTime"), T.Ec2QueryName("LaunchTime")),
     Placement: S.optional(Placement)
       .pipe(T.XmlName("placement"), T.Ec2QueryName("Placement"))
       .annotate({ identifier: "Placement" }),
@@ -37611,8 +37555,10 @@ export interface DescribeInstanceSqlHaHistoryStatesRequest {
 export const DescribeInstanceSqlHaHistoryStatesRequest = S.suspend(() =>
   S.Struct({
     InstanceIds: S.optional(InstanceIdStringList).pipe(T.XmlName("InstanceId")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
@@ -37668,7 +37614,7 @@ export const RegisteredInstance = S.suspend(() =>
       T.Ec2QueryName("ProcessingStatus"),
     ),
     LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("lastUpdatedTime"), T.Ec2QueryName("LastUpdatedTime")),
     SqlServerCredentials: S.optional(S.String).pipe(
       T.XmlName("sqlServerCredentials"),
@@ -37815,16 +37761,14 @@ export const InstanceStatusEvent = S.suspend(() =>
       T.XmlName("description"),
       T.Ec2QueryName("Description"),
     ),
-    NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("notAfter"),
-      T.Ec2QueryName("NotAfter"),
-    ),
-    NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("notBefore"),
-      T.Ec2QueryName("NotBefore"),
-    ),
+    NotAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("notAfter"), T.Ec2QueryName("NotAfter")),
+    NotBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("notBefore"), T.Ec2QueryName("NotBefore")),
     NotBeforeDeadline: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("notBeforeDeadline"), T.Ec2QueryName("NotBeforeDeadline")),
   }),
 ).annotate({
@@ -37852,10 +37796,9 @@ export interface InstanceStatusDetails {
 }
 export const InstanceStatusDetails = S.suspend(() =>
   S.Struct({
-    ImpairedSince: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("impairedSince"),
-      T.Ec2QueryName("ImpairedSince"),
-    ),
+    ImpairedSince: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("impairedSince"), T.Ec2QueryName("ImpairedSince")),
     Name: S.optional(StatusName).pipe(
       T.XmlName("name"),
       T.Ec2QueryName("Name"),
@@ -37907,10 +37850,9 @@ export interface EbsStatusDetails {
 }
 export const EbsStatusDetails = S.suspend(() =>
   S.Struct({
-    ImpairedSince: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("impairedSince"),
-      T.Ec2QueryName("ImpairedSince"),
-    ),
+    ImpairedSince: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("impairedSince"), T.Ec2QueryName("ImpairedSince")),
     Name: S.optional(StatusName).pipe(
       T.XmlName("name"),
       T.Ec2QueryName("Name"),
@@ -39968,10 +39910,9 @@ export const KeyPairInfo = S.suspend(() =>
       T.XmlName("publicKey"),
       T.Ec2QueryName("PublicKey"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     KeyName: S.optional(S.String).pipe(
       T.XmlName("keyName"),
       T.Ec2QueryName("KeyName"),
@@ -40597,25 +40538,23 @@ export const LockedSnapshotsInfo = S.suspend(() =>
       T.Ec2QueryName("CoolOffPeriod"),
     ),
     CoolOffPeriodExpiresOn: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("coolOffPeriodExpiresOn"),
       T.Ec2QueryName("CoolOffPeriodExpiresOn"),
     ),
-    LockCreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("lockCreatedOn"),
-      T.Ec2QueryName("LockCreatedOn"),
-    ),
+    LockCreatedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("lockCreatedOn"), T.Ec2QueryName("LockCreatedOn")),
     LockDurationStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lockDurationStartTime"),
       T.Ec2QueryName("LockDurationStartTime"),
     ),
-    LockExpiresOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("lockExpiresOn"),
-      T.Ec2QueryName("LockExpiresOn"),
-    ),
+    LockExpiresOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("lockExpiresOn"), T.Ec2QueryName("LockExpiresOn")),
   }),
 ).annotate({
   identifier: "LockedSnapshotsInfo",
@@ -41039,10 +40978,10 @@ export const DescribeNetworkInsightsAccessScopeAnalysesRequest = S.suspend(() =>
     ).pipe(T.XmlName("NetworkInsightsAccessScopeAnalysisId")),
     NetworkInsightsAccessScopeId: S.optional(S.String),
     AnalysisStartTimeBegin: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     AnalysisStartTimeEnd: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
     MaxResults: S.optional(S.Number),
@@ -41105,14 +41044,12 @@ export const NetworkInsightsAccessScopeAnalysis = S.suspend(() =>
       T.XmlName("warningMessage"),
       T.Ec2QueryName("WarningMessage"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
     FindingsFound: S.optional(FindingsFound).pipe(
       T.XmlName("findingsFound"),
       T.Ec2QueryName("FindingsFound"),
@@ -41236,8 +41173,12 @@ export const DescribeNetworkInsightsAnalysesRequest = S.suspend(() =>
       T.XmlName("NetworkInsightsAnalysisId"),
     ),
     NetworkInsightsPathId: S.optional(S.String),
-    AnalysisStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    AnalysisEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AnalysisStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    AnalysisEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
     MaxResults: S.optional(S.Number),
     DryRun: S.optional(S.Boolean),
@@ -42226,10 +42167,9 @@ export const NetworkInsightsAnalysis = S.suspend(() =>
       T.XmlName("filterOutArnSet"),
       T.Ec2QueryName("FilterOutArnSet"),
     ),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
     Status: S.optional(AnalysisStatus).pipe(
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
@@ -43272,11 +43212,10 @@ export const ReservedInstances = S.suspend(() =>
       T.XmlName("availabilityZone"),
       T.Ec2QueryName("AvailabilityZone"),
     ),
-    Start: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("start"),
-      T.Ec2QueryName("Start"),
-    ),
-    End: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
+    Start: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("start"), T.Ec2QueryName("Start")),
+    End: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
       T.XmlName("end"),
       T.Ec2QueryName("End"),
     ),
@@ -43501,14 +43440,12 @@ export const ReservedInstancesModification = S.suspend(() =>
       T.XmlName("clientToken"),
       T.Ec2QueryName("ClientToken"),
     ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
-    EffectiveDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("effectiveDate"),
-      T.Ec2QueryName("EffectiveDate"),
-    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
+    EffectiveDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("effectiveDate"), T.Ec2QueryName("EffectiveDate")),
     ModificationResults: S.optional(
       ReservedInstancesModificationResultList,
     ).pipe(
@@ -43531,10 +43468,9 @@ export const ReservedInstancesModification = S.suspend(() =>
       T.XmlName("statusMessage"),
       T.Ec2QueryName("StatusMessage"),
     ),
-    UpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updateDate"),
-      T.Ec2QueryName("UpdateDate"),
-    ),
+    UpdateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updateDate"), T.Ec2QueryName("UpdateDate")),
   }),
 ).annotate({
   identifier: "ReservedInstancesModification",
@@ -43994,8 +43930,12 @@ export interface SlotDateTimeRangeRequest {
 }
 export const SlotDateTimeRangeRequest = S.suspend(() =>
   S.Struct({
-    EarliestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LatestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EarliestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LatestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SlotDateTimeRangeRequest",
@@ -44119,7 +44059,7 @@ export const ScheduledInstanceAvailability = S.suspend(() =>
       T.Ec2QueryName("AvailableInstanceCount"),
     ),
     FirstSlotStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("firstSlotStartTime"),
       T.Ec2QueryName("FirstSlotStartTime"),
@@ -44203,8 +44143,12 @@ export interface SlotStartTimeRangeRequest {
 }
 export const SlotStartTimeRangeRequest = S.suspend(() =>
   S.Struct({
-    EarliestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LatestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EarliestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LatestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SlotStartTimeRangeRequest",
@@ -44264,10 +44208,9 @@ export const ScheduledInstance = S.suspend(() =>
       T.XmlName("availabilityZone"),
       T.Ec2QueryName("AvailabilityZone"),
     ),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createDate"),
-      T.Ec2QueryName("CreateDate"),
-    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createDate"), T.Ec2QueryName("CreateDate")),
     HourlyPrice: S.optional(S.String).pipe(
       T.XmlName("hourlyPrice"),
       T.Ec2QueryName("HourlyPrice"),
@@ -44285,14 +44228,14 @@ export const ScheduledInstance = S.suspend(() =>
       T.Ec2QueryName("NetworkPlatform"),
     ),
     NextSlotStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("nextSlotStartTime"), T.Ec2QueryName("NextSlotStartTime")),
     Platform: S.optional(S.String).pipe(
       T.XmlName("platform"),
       T.Ec2QueryName("Platform"),
     ),
     PreviousSlotEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("previousSlotEndTime"),
       T.Ec2QueryName("PreviousSlotEndTime"),
@@ -44308,14 +44251,12 @@ export const ScheduledInstance = S.suspend(() =>
       T.XmlName("slotDurationInHours"),
       T.Ec2QueryName("SlotDurationInHours"),
     ),
-    TermEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("termEndDate"),
-      T.Ec2QueryName("TermEndDate"),
-    ),
-    TermStartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("termStartDate"),
-      T.Ec2QueryName("TermStartDate"),
-    ),
+    TermEndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("termEndDate"), T.Ec2QueryName("TermEndDate")),
+    TermStartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("termStartDate"), T.Ec2QueryName("TermStartDate")),
     TotalScheduledInstanceHours: S.optional(S.Number).pipe(
       T.XmlName("totalScheduledInstanceHours"),
       T.Ec2QueryName("TotalScheduledInstanceHours"),
@@ -45022,7 +44963,7 @@ export const SnapshotTierStatus = S.suspend(() =>
       T.Ec2QueryName("StorageTier"),
     ),
     LastTieringStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastTieringStartTime"),
       T.Ec2QueryName("LastTieringStartTime"),
@@ -45040,13 +44981,13 @@ export const SnapshotTierStatus = S.suspend(() =>
       T.Ec2QueryName("LastTieringOperationStatusDetail"),
     ),
     ArchivalCompleteTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("archivalCompleteTime"),
       T.Ec2QueryName("ArchivalCompleteTime"),
     ),
     RestoreExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("restoreExpiryTime"), T.Ec2QueryName("RestoreExpiryTime")),
   }),
 ).annotate({
@@ -45204,10 +45145,9 @@ export const DescribeSpotFleetRequestHistoryRequest = S.suspend(() =>
       T.XmlName("eventType"),
       T.Ec2QueryName("EventType"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
     NextToken: S.optional(S.String).pipe(
       T.XmlName("nextToken"),
       T.Ec2QueryName("NextToken"),
@@ -45244,10 +45184,9 @@ export const HistoryRecord = S.suspend(() =>
       T.XmlName("eventType"),
       T.Ec2QueryName("EventType"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
   }),
 ).annotate({ identifier: "HistoryRecord" }) as any as S.Schema<HistoryRecord>;
 export type HistoryRecords = HistoryRecord[];
@@ -45270,7 +45209,7 @@ export const DescribeSpotFleetRequestHistoryResponse = S.suspend(() =>
       T.Ec2QueryName("HistoryRecordSet"),
     ),
     LastEvaluatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("lastEvaluatedTime"), T.Ec2QueryName("LastEvaluatedTime")),
     NextToken: S.optional(S.String).pipe(
       T.XmlName("nextToken"),
@@ -45280,10 +45219,9 @@ export const DescribeSpotFleetRequestHistoryResponse = S.suspend(() =>
       T.XmlName("spotFleetRequestId"),
       T.Ec2QueryName("SpotFleetRequestId"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeSpotFleetRequestHistoryResponse",
@@ -45914,14 +45852,12 @@ export const SpotFleetRequestConfigData = S.suspend(() =>
       T.Ec2QueryName("TerminateInstancesWithExpiration"),
     ),
     Type: S.optional(FleetType).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validFrom"),
-      T.Ec2QueryName("ValidFrom"),
-    ),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validUntil"),
-      T.Ec2QueryName("ValidUntil"),
-    ),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validFrom"), T.Ec2QueryName("ValidFrom")),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validUntil"), T.Ec2QueryName("ValidUntil")),
     ReplaceUnhealthyInstances: S.optional(S.Boolean).pipe(
       T.XmlName("replaceUnhealthyInstances"),
       T.Ec2QueryName("ReplaceUnhealthyInstances"),
@@ -45969,10 +45905,9 @@ export const SpotFleetRequestConfig = S.suspend(() =>
       T.XmlName("activityStatus"),
       T.Ec2QueryName("ActivityStatus"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     SpotFleetRequestConfig: S.optional(SpotFleetRequestConfigData)
       .pipe(
         T.XmlName("spotFleetRequestConfig"),
@@ -46176,10 +46111,9 @@ export const SpotInstanceStatus = S.suspend(() =>
       T.XmlName("message"),
       T.Ec2QueryName("Message"),
     ),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("updateTime"),
-      T.Ec2QueryName("UpdateTime"),
-    ),
+    UpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("updateTime"), T.Ec2QueryName("UpdateTime")),
   }),
 ).annotate({
   identifier: "SpotInstanceStatus",
@@ -46220,10 +46154,9 @@ export const SpotInstanceRequest = S.suspend(() =>
       T.XmlName("blockDurationMinutes"),
       T.Ec2QueryName("BlockDurationMinutes"),
     ),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     Fault: S.optional(SpotInstanceStateFault)
       .pipe(T.XmlName("fault"), T.Ec2QueryName("Fault"))
       .annotate({ identifier: "SpotInstanceStateFault" }),
@@ -46276,14 +46209,12 @@ export const SpotInstanceRequest = S.suspend(() =>
       T.XmlName("type"),
       T.Ec2QueryName("Type"),
     ),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validFrom"),
-      T.Ec2QueryName("ValidFrom"),
-    ),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validUntil"),
-      T.Ec2QueryName("ValidUntil"),
-    ),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validFrom"), T.Ec2QueryName("ValidFrom")),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validUntil"), T.Ec2QueryName("ValidUntil")),
     InstanceInterruptionBehavior: S.optional(InstanceInterruptionBehavior).pipe(
       T.XmlName("instanceInterruptionBehavior"),
       T.Ec2QueryName("InstanceInterruptionBehavior"),
@@ -46343,14 +46274,12 @@ export const DescribeSpotPriceHistoryRequest = S.suspend(() =>
       T.XmlName("dryRun"),
       T.Ec2QueryName("DryRun"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endTime"),
-      T.Ec2QueryName("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endTime"), T.Ec2QueryName("EndTime")),
     InstanceTypes: S.optional(InstanceTypeList).pipe(T.XmlName("InstanceType")),
     ProductDescriptions: S.optional(ProductDescriptionList).pipe(
       T.XmlName("ProductDescription"),
@@ -46412,10 +46341,9 @@ export const SpotPrice = S.suspend(() =>
       T.XmlName("spotPrice"),
       T.Ec2QueryName("SpotPrice"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
   }),
 ).annotate({ identifier: "SpotPrice" }) as any as S.Schema<SpotPrice>;
 export type SpotPriceHistoryList = SpotPrice[];
@@ -46627,10 +46555,9 @@ export const StoreImageTaskResult = S.suspend(() =>
       T.XmlName("amiId"),
       T.Ec2QueryName("AmiId"),
     ),
-    TaskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("taskStartTime"),
-      T.Ec2QueryName("TaskStartTime"),
-    ),
+    TaskStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("taskStartTime"), T.Ec2QueryName("TaskStartTime")),
     Bucket: S.optional(S.String).pipe(
       T.XmlName("bucket"),
       T.Ec2QueryName("Bucket"),
@@ -47143,10 +47070,9 @@ export const TransitGatewayAttachment = S.suspend(() =>
     Association: S.optional(TransitGatewayAttachmentAssociation)
       .pipe(T.XmlName("association"), T.Ec2QueryName("Association"))
       .annotate({ identifier: "TransitGatewayAttachmentAssociation" }),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationTime"),
-      T.Ec2QueryName("CreationTime"),
-    ),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationTime"), T.Ec2QueryName("CreationTime")),
     Tags: S.optional(TagList).pipe(
       T.XmlName("tagSet"),
       T.Ec2QueryName("TagSet"),
@@ -48489,14 +48415,12 @@ export const VolumeModification = S.suspend(() =>
       T.XmlName("progress"),
       T.Ec2QueryName("Progress"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endTime"),
-      T.Ec2QueryName("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endTime"), T.Ec2QueryName("EndTime")),
   }),
 ).annotate({
   identifier: "VolumeModification",
@@ -48609,14 +48533,12 @@ export const VolumeStatusEvent = S.suspend(() =>
       T.XmlName("eventType"),
       T.Ec2QueryName("EventType"),
     ),
-    NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("notAfter"),
-      T.Ec2QueryName("NotAfter"),
-    ),
-    NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("notBefore"),
-      T.Ec2QueryName("NotBefore"),
-    ),
+    NotAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("notAfter"), T.Ec2QueryName("NotAfter")),
+    NotBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("notBefore"), T.Ec2QueryName("NotBefore")),
     InstanceId: S.optional(S.String).pipe(
       T.XmlName("instanceId"),
       T.Ec2QueryName("InstanceId"),
@@ -49011,7 +48933,7 @@ export const VpcBlockPublicAccessOptions = S.suspend(() =>
       T.Ec2QueryName("Reason"),
     ),
     LastUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastUpdateTimestamp"),
       T.Ec2QueryName("LastUpdateTimestamp"),
@@ -49474,7 +49396,7 @@ export const VpcEndpointConnection = S.suspend(() =>
       T.Ec2QueryName("VpcEndpointState"),
     ),
     CreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("creationTimestamp"), T.Ec2QueryName("CreationTimestamp")),
     DnsEntries: S.optional(DnsEntrySet).pipe(
       T.XmlName("dnsEntrySet"),
@@ -50671,7 +50593,7 @@ export const DisableFastLaunchResult = S.suspend(() =>
       T.Ec2QueryName("StateTransitionReason"),
     ),
     StateTransitionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("stateTransitionTime"),
       T.Ec2QueryName("StateTransitionTime"),
@@ -50764,25 +50686,21 @@ export const DisableFastSnapshotRestoreSuccessItem = S.suspend(() =>
       T.XmlName("ownerAlias"),
       T.Ec2QueryName("OwnerAlias"),
     ),
-    EnablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enablingTime"),
-      T.Ec2QueryName("EnablingTime"),
-    ),
+    EnablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enablingTime"), T.Ec2QueryName("EnablingTime")),
     OptimizingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("optimizingTime"), T.Ec2QueryName("OptimizingTime")),
-    EnabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enabledTime"),
-      T.Ec2QueryName("EnabledTime"),
-    ),
-    DisablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disablingTime"),
-      T.Ec2QueryName("DisablingTime"),
-    ),
-    DisabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disabledTime"),
-      T.Ec2QueryName("DisabledTime"),
-    ),
+    EnabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enabledTime"), T.Ec2QueryName("EnabledTime")),
+    DisablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disablingTime"), T.Ec2QueryName("DisablingTime")),
+    DisabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disabledTime"), T.Ec2QueryName("DisabledTime")),
   }),
 ).annotate({
   identifier: "DisableFastSnapshotRestoreSuccessItem",
@@ -52467,7 +52385,7 @@ export const EnableFastLaunchResult = S.suspend(() =>
       T.Ec2QueryName("StateTransitionReason"),
     ),
     StateTransitionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("stateTransitionTime"),
       T.Ec2QueryName("StateTransitionTime"),
@@ -52552,25 +52470,21 @@ export const EnableFastSnapshotRestoreSuccessItem = S.suspend(() =>
       T.XmlName("ownerAlias"),
       T.Ec2QueryName("OwnerAlias"),
     ),
-    EnablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enablingTime"),
-      T.Ec2QueryName("EnablingTime"),
-    ),
+    EnablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enablingTime"), T.Ec2QueryName("EnablingTime")),
     OptimizingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("optimizingTime"), T.Ec2QueryName("OptimizingTime")),
-    EnabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("enabledTime"),
-      T.Ec2QueryName("EnabledTime"),
-    ),
-    DisablingTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disablingTime"),
-      T.Ec2QueryName("DisablingTime"),
-    ),
-    DisabledTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("disabledTime"),
-      T.Ec2QueryName("DisabledTime"),
-    ),
+    EnabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("enabledTime"), T.Ec2QueryName("EnabledTime")),
+    DisablingTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disablingTime"), T.Ec2QueryName("DisablingTime")),
+    DisabledTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("disabledTime"), T.Ec2QueryName("DisabledTime")),
   }),
 ).annotate({
   identifier: "EnableFastSnapshotRestoreSuccessItem",
@@ -52755,7 +52669,9 @@ export interface EnableImageDeprecationRequest {
 export const EnableImageDeprecationRequest = S.suspend(() =>
   S.Struct({
     ImageId: S.optional(S.String),
-    DeprecateAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DeprecateAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -54048,8 +53964,10 @@ export interface GetAwsNetworkPerformanceDataRequest {
 export const GetAwsNetworkPerformanceDataRequest = S.suspend(() =>
   S.Struct({
     DataQueries: S.optional(DataQueries).pipe(T.XmlName("DataQuery")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
@@ -54075,14 +53993,12 @@ export interface MetricPoint {
 }
 export const MetricPoint = S.suspend(() =>
   S.Struct({
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startDate"),
-      T.Ec2QueryName("StartDate"),
-    ),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endDate"),
-      T.Ec2QueryName("EndDate"),
-    ),
+    StartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startDate"), T.Ec2QueryName("StartDate")),
+    EndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endDate"), T.Ec2QueryName("EndDate")),
     Value: S.optional(S.Number).pipe(
       T.XmlName("value"),
       T.Ec2QueryName("Value"),
@@ -54213,13 +54129,13 @@ export const GetCapacityManagerAttributesResult = S.suspend(() =>
       T.Ec2QueryName("IngestionStatusMessage"),
     ),
     EarliestDatapointTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("earliestDatapointTimestamp"),
       T.Ec2QueryName("EarliestDatapointTimestamp"),
     ),
     LatestDatapointTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("latestDatapointTimestamp"),
       T.Ec2QueryName("LatestDatapointTimestamp"),
@@ -54370,8 +54286,10 @@ export interface GetCapacityManagerMetricDataRequest {
 export const GetCapacityManagerMetricDataRequest = S.suspend(() =>
   S.Struct({
     MetricNames: S.optional(MetricSet).pipe(T.XmlName("MetricName")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Period: S.optional(S.Number),
     GroupBy: S.optional(GroupBySet).pipe(T.XmlName("GroupBy")),
     FilterBy: S.optional(CapacityManagerConditionSet),
@@ -54456,19 +54374,19 @@ export const CapacityManagerDimension = S.suspend(() =>
       T.Ec2QueryName("ReservationType"),
     ),
     ReservationCreateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("reservationCreateTimestamp"),
       T.Ec2QueryName("ReservationCreateTimestamp"),
     ),
     ReservationStartTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("reservationStartTimestamp"),
       T.Ec2QueryName("ReservationStartTimestamp"),
     ),
     ReservationEndTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("reservationEndTimestamp"),
       T.Ec2QueryName("ReservationEndTimestamp"),
@@ -54527,10 +54445,9 @@ export const MetricDataResult = S.suspend(() =>
     Dimension: S.optional(CapacityManagerDimension)
       .pipe(T.XmlName("dimension"), T.Ec2QueryName("Dimension"))
       .annotate({ identifier: "CapacityManagerDimension" }),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
     MetricValues: S.optional(MetricValueSet).pipe(
       T.XmlName("metricValueSet"),
       T.Ec2QueryName("MetricValueSet"),
@@ -54577,8 +54494,10 @@ export const GetCapacityManagerMetricDimensionsRequest = S.suspend(() =>
   S.Struct({
     GroupBy: S.optional(GroupBySet).pipe(T.XmlName("GroupBy")),
     FilterBy: S.optional(CapacityManagerConditionSet),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MetricNames: S.optional(MetricSet).pipe(T.XmlName("MetricName")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -54853,10 +54772,9 @@ export const GetConsoleOutputResult = S.suspend(() =>
       T.XmlName("instanceId"),
       T.Ec2QueryName("InstanceId"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
     Output: S.optional(S.String).pipe(
       T.XmlName("output"),
       T.Ec2QueryName("Output"),
@@ -55026,14 +54944,12 @@ export const GetDeclarativePoliciesReportSummaryResult = S.suspend(() =>
       T.XmlName("targetId"),
       T.Ec2QueryName("TargetId"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endTime"),
-      T.Ec2QueryName("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endTime"), T.Ec2QueryName("EndTime")),
     NumberOfAccounts: S.optional(S.Number).pipe(
       T.XmlName("numberOfAccounts"),
       T.Ec2QueryName("NumberOfAccounts"),
@@ -55244,8 +55160,12 @@ export const AthenaIntegration = S.suspend(() =>
   S.Struct({
     IntegrationResultS3DestinationArn: S.optional(S.String),
     PartitionLoadFrequency: S.optional(PartitionLoadFrequency),
-    PartitionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    PartitionEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    PartitionStartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    PartitionEndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "AthenaIntegration",
@@ -55510,10 +55430,9 @@ export interface ImageAncestryEntry {
 }
 export const ImageAncestryEntry = S.suspend(() =>
   S.Struct({
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("creationDate"),
-      T.Ec2QueryName("CreationDate"),
-    ),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("creationDate"), T.Ec2QueryName("CreationDate")),
     ImageId: S.optional(S.String).pipe(
       T.XmlName("imageId"),
       T.Ec2QueryName("ImageId"),
@@ -55853,8 +55772,10 @@ export const GetIpamAddressHistoryRequest = S.suspend(() =>
     Cidr: S.optional(S.String),
     IpamScopeId: S.optional(S.String),
     VpcId: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -55944,10 +55865,10 @@ export const IpamAddressHistoryRecord = S.suspend(() =>
       T.Ec2QueryName("VpcId"),
     ),
     SampledStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("sampledStartTime"), T.Ec2QueryName("SampledStartTime")),
     SampledEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("sampledEndTime"), T.Ec2QueryName("SampledEndTime")),
   }),
 ).annotate({
@@ -56053,13 +55974,13 @@ export const IpamDiscoveredAccount = S.suspend(() =>
       .pipe(T.XmlName("failureReason"), T.Ec2QueryName("FailureReason"))
       .annotate({ identifier: "IpamDiscoveryFailureReason" }),
     LastAttemptedDiscoveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastAttemptedDiscoveryTime"),
       T.Ec2QueryName("LastAttemptedDiscoveryTime"),
     ),
     LastSuccessfulDiscoveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastSuccessfulDiscoveryTime"),
       T.Ec2QueryName("LastSuccessfulDiscoveryTime"),
@@ -56307,10 +56228,9 @@ export const IpamDiscoveredPublicAddress = S.suspend(() =>
       T.XmlName("securityGroupSet"),
       T.Ec2QueryName("SecurityGroupSet"),
     ),
-    SampleTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("sampleTime"),
-      T.Ec2QueryName("SampleTime"),
-    ),
+    SampleTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("sampleTime"), T.Ec2QueryName("SampleTime")),
   }),
 ).annotate({
   identifier: "IpamDiscoveredPublicAddress",
@@ -56335,7 +56255,7 @@ export const GetIpamDiscoveredPublicAddressesResult = S.suspend(() =>
       T.Ec2QueryName("IpamDiscoveredPublicAddressSet"),
     ),
     OldestSampleTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("oldestSampleTime"), T.Ec2QueryName("OldestSampleTime")),
     NextToken: S.optional(S.String).pipe(
       T.XmlName("nextToken"),
@@ -56454,10 +56374,9 @@ export const IpamDiscoveredResourceCidr = S.suspend(() =>
       T.XmlName("networkInterfaceAttachmentStatus"),
       T.Ec2QueryName("NetworkInterfaceAttachmentStatus"),
     ),
-    SampleTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("sampleTime"),
-      T.Ec2QueryName("SampleTime"),
-    ),
+    SampleTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("sampleTime"), T.Ec2QueryName("SampleTime")),
     AvailabilityZoneId: S.optional(S.String).pipe(
       T.XmlName("availabilityZoneId"),
       T.Ec2QueryName("AvailabilityZoneId"),
@@ -57531,10 +57450,9 @@ export const GetPasswordDataResult = S.suspend(() =>
       T.XmlName("instanceId"),
       T.Ec2QueryName("InstanceId"),
     ),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("timestamp"),
-      T.Ec2QueryName("Timestamp"),
-    ),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("timestamp"), T.Ec2QueryName("Timestamp")),
     PasswordData: S.optional(SensitiveString).pipe(
       T.XmlName("passwordData"),
       T.Ec2QueryName("PasswordData"),
@@ -57683,7 +57601,7 @@ export const GetReservedInstancesExchangeQuoteResult = S.suspend(() =>
       T.Ec2QueryName("IsValidExchange"),
     ),
     OutputReservedInstancesWillExpireAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("outputReservedInstancesWillExpireAt"),
       T.Ec2QueryName("OutputReservedInstancesWillExpireAt"),
@@ -59285,13 +59203,13 @@ export const MaintenanceDetails = S.suspend(() =>
       T.Ec2QueryName("PendingMaintenance"),
     ),
     MaintenanceAutoAppliedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("maintenanceAutoAppliedAfter"),
       T.Ec2QueryName("MaintenanceAutoAppliedAfter"),
     ),
     LastMaintenanceApplied: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lastMaintenanceApplied"),
       T.Ec2QueryName("LastMaintenanceApplied"),
@@ -59388,9 +59306,13 @@ export interface ClientData {
 export const ClientData = S.suspend(() =>
   S.Struct({
     Comment: S.optional(S.String),
-    UploadEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UploadEnd: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UploadSize: S.optional(S.Number),
-    UploadStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UploadStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "ClientData" }) as any as S.Schema<ClientData>;
 export interface UserBucket {
@@ -60003,13 +59925,13 @@ export const ImageRecycleBinInfo = S.suspend(() =>
       T.Ec2QueryName("Description"),
     ),
     RecycleBinEnterTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinEnterTime"),
       T.Ec2QueryName("RecycleBinEnterTime"),
     ),
     RecycleBinExitTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinExitTime"),
       T.Ec2QueryName("RecycleBinExitTime"),
@@ -60082,13 +60004,13 @@ export const SnapshotRecycleBinInfo = S.suspend(() =>
       T.Ec2QueryName("SnapshotId"),
     ),
     RecycleBinEnterTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinEnterTime"),
       T.Ec2QueryName("RecycleBinEnterTime"),
     ),
     RecycleBinExitTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinExitTime"),
       T.Ec2QueryName("RecycleBinExitTime"),
@@ -60215,18 +60137,17 @@ export const VolumeRecycleBinInfo = S.suspend(() =>
     Operator: S.optional(OperatorResponse)
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("createTime"),
-      T.Ec2QueryName("CreateTime"),
-    ),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("createTime"), T.Ec2QueryName("CreateTime")),
     RecycleBinEnterTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinEnterTime"),
       T.Ec2QueryName("RecycleBinEnterTime"),
     ),
     RecycleBinExitTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("recycleBinExitTime"),
       T.Ec2QueryName("RecycleBinExitTime"),
@@ -60276,7 +60197,9 @@ export const LockSnapshotRequest = S.suspend(() =>
     LockMode: S.optional(LockMode),
     CoolOffPeriod: S.optional(S.Number),
     LockDuration: S.optional(S.Number),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(
     T.all(
       ns,
@@ -60320,21 +60243,19 @@ export const LockSnapshotResult = S.suspend(() =>
       T.Ec2QueryName("CoolOffPeriod"),
     ),
     CoolOffPeriodExpiresOn: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("coolOffPeriodExpiresOn"),
       T.Ec2QueryName("CoolOffPeriodExpiresOn"),
     ),
-    LockCreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("lockCreatedOn"),
-      T.Ec2QueryName("LockCreatedOn"),
-    ),
-    LockExpiresOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("lockExpiresOn"),
-      T.Ec2QueryName("LockExpiresOn"),
-    ),
+    LockCreatedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("lockCreatedOn"), T.Ec2QueryName("LockCreatedOn")),
+    LockExpiresOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("lockExpiresOn"), T.Ec2QueryName("LockExpiresOn")),
     LockDurationStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(
       T.XmlName("lockDurationStartTime"),
       T.Ec2QueryName("LockDurationStartTime"),
@@ -60435,7 +60356,7 @@ export const ModifyCapacityReservationRequest = S.suspend(() =>
   S.Struct({
     CapacityReservationId: S.optional(S.String),
     InstanceCount: S.optional(S.Number),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndDateType: S.optional(EndDateType),
     Accept: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean),
@@ -60479,7 +60400,7 @@ export const ModifyCapacityReservationFleetRequest = S.suspend(() =>
   S.Struct({
     CapacityReservationFleetId: S.optional(S.String),
     TotalTargetCapacity: S.optional(S.Number),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DryRun: S.optional(S.Boolean),
     RemoveEndDate: S.optional(S.Boolean),
   }).pipe(
@@ -61466,7 +61387,9 @@ export const ModifyInstanceEventStartTimeRequest = S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     InstanceId: S.optional(S.String),
     InstanceEventId: S.optional(S.String),
-    NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    NotBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(
     T.all(
       ns,
@@ -62804,7 +62727,7 @@ export const ModifySnapshotTierResult = S.suspend(() =>
       T.Ec2QueryName("SnapshotId"),
     ),
     TieringStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("tieringStartTime"), T.Ec2QueryName("TieringStartTime")),
   }).pipe(ns),
 ).annotate({
@@ -65345,7 +65268,9 @@ export const PurchaseReservedInstancesOfferingRequest = S.suspend(() =>
   S.Struct({
     InstanceCount: S.optional(S.Number),
     ReservedInstancesOfferingId: S.optional(S.String),
-    PurchaseTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    PurchaseTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DryRun: S.optional(S.Boolean).pipe(
       T.XmlName("dryRun"),
       T.Ec2QueryName("DryRun"),
@@ -66617,14 +66542,12 @@ export const ReportInstanceStatusRequest = S.suspend(() =>
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("endTime"),
-      T.Ec2QueryName("EndTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("endTime"), T.Ec2QueryName("EndTime")),
     ReasonCodes: S.optional(ReasonCodesList).pipe(
       T.XmlName("reasonCode"),
       T.Ec2QueryName("ReasonCode"),
@@ -66831,14 +66754,12 @@ export const RequestSpotInstancesRequest = S.suspend(() =>
       T.XmlName("type"),
       T.Ec2QueryName("Type"),
     ),
-    ValidFrom: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validFrom"),
-      T.Ec2QueryName("ValidFrom"),
-    ),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("validUntil"),
-      T.Ec2QueryName("ValidUntil"),
-    ),
+    ValidFrom: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validFrom"), T.Ec2QueryName("ValidFrom")),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("validUntil"), T.Ec2QueryName("ValidUntil")),
     LaunchGroup: S.optional(S.String).pipe(
       T.XmlName("launchGroup"),
       T.Ec2QueryName("LaunchGroup"),
@@ -67314,10 +67235,9 @@ export const RestoreSnapshotFromRecycleBinResult = S.suspend(() =>
       T.XmlName("progress"),
       T.Ec2QueryName("Progress"),
     ),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.XmlName("startTime"),
-      T.Ec2QueryName("StartTime"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.XmlName("startTime"), T.Ec2QueryName("StartTime")),
     State: S.optional(SnapshotState).pipe(
       T.XmlName("status"),
       T.Ec2QueryName("Status"),
@@ -67377,7 +67297,7 @@ export const RestoreSnapshotTierResult = S.suspend(() =>
       T.Ec2QueryName("SnapshotId"),
     ),
     RestoreStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.XmlName("restoreStartTime"), T.Ec2QueryName("RestoreStartTime")),
     RestoreDuration: S.optional(S.Number).pipe(
       T.XmlName("restoreDuration"),
@@ -67740,7 +67660,9 @@ export const SpotMarketOptions = S.suspend(() =>
     MaxPrice: S.optional(S.String),
     SpotInstanceType: S.optional(SpotInstanceType),
     BlockDurationMinutes: S.optional(S.Number),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     InstanceInterruptionBehavior: S.optional(InstanceInterruptionBehavior),
   }),
 ).annotate({

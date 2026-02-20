@@ -911,7 +911,9 @@ export const LoadBalancer = S.suspend(() =>
     LoadBalancerArn: S.optional(S.String),
     DNSName: S.optional(S.String),
     CanonicalHostedZoneId: S.optional(S.String),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     LoadBalancerName: S.optional(S.String),
     Scheme: S.optional(LoadBalancerSchemeEnum),
     VpcId: S.optional(S.String),
@@ -1673,7 +1675,9 @@ export interface DescribeCapacityReservationOutput {
 }
 export const DescribeCapacityReservationOutput = S.suspend(() =>
   S.Struct({
-    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DecreaseRequestsRemaining: S.optional(S.Number),
     MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
     CapacityReservationState: S.optional(ZonalCapacityReservationStates),
@@ -2580,7 +2584,9 @@ export interface ModifyCapacityReservationOutput {
 }
 export const ModifyCapacityReservationOutput = S.suspend(() =>
   S.Struct({
-    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DecreaseRequestsRemaining: S.optional(S.Number),
     MinimumLoadBalancerCapacity: S.optional(MinimumLoadBalancerCapacity),
     CapacityReservationState: S.optional(ZonalCapacityReservationStates),

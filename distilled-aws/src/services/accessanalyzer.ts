@@ -1026,7 +1026,7 @@ export const AccessPreview = S.suspend(() =>
     id: S.String,
     analyzerArn: S.String,
     configurations: ConfigurationsMap,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReason: S.optional(AccessPreviewStatusReason),
   }),
@@ -1081,9 +1081,9 @@ export const AnalyzedResource = S.suspend(() =>
   S.Struct({
     resourceArn: S.String,
     resourceType: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    analyzedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    analyzedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     isPublic: S.Boolean,
     actions: S.optional(ActionList),
     sharedVia: S.optional(SharedViaList),
@@ -1174,9 +1174,9 @@ export const Finding = S.suspend(() =>
     isPublic: S.optional(S.Boolean),
     resourceType: S.String,
     condition: ConditionKeyMap,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    analyzedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    analyzedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     resourceOwnerAccount: S.String,
     error: S.optional(S.String),
@@ -1234,7 +1234,9 @@ export interface UnusedPermissionsRecommendedStep {
 }
 export const UnusedPermissionsRecommendedStep = S.suspend(() =>
   S.Struct({
-    policyUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    policyUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     recommendedAction: S.String,
     recommendedPolicy: S.optional(S.String),
     existingPolicyId: S.optional(S.String),
@@ -1264,8 +1266,10 @@ export interface GetFindingRecommendationResponse {
 }
 export const GetFindingRecommendationResponse = S.suspend(() =>
   S.Struct({
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     nextToken: S.optional(S.String),
     error: S.optional(RecommendationError),
     resourceArn: S.String,
@@ -1460,7 +1464,9 @@ export interface GetFindingsStatisticsResponse {
 export const GetFindingsStatisticsResponse = S.suspend(() =>
   S.Struct({
     findingsStatistics: S.optional(FindingsStatisticsList),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetFindingsStatisticsResponse",
@@ -1543,7 +1549,9 @@ export interface UnusedAction {
 export const UnusedAction = S.suspend(() =>
   S.Struct({
     action: S.String,
-    lastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastAccessed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "UnusedAction" }) as any as S.Schema<UnusedAction>;
 export type UnusedActionList = UnusedAction[];
@@ -1557,7 +1565,9 @@ export const UnusedPermissionDetails = S.suspend(() =>
   S.Struct({
     actions: S.optional(UnusedActionList),
     serviceNamespace: S.String,
-    lastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastAccessed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UnusedPermissionDetails",
@@ -1569,7 +1579,9 @@ export interface UnusedIamUserAccessKeyDetails {
 export const UnusedIamUserAccessKeyDetails = S.suspend(() =>
   S.Struct({
     accessKeyId: S.String,
-    lastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastAccessed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UnusedIamUserAccessKeyDetails",
@@ -1579,7 +1591,9 @@ export interface UnusedIamRoleDetails {
 }
 export const UnusedIamRoleDetails = S.suspend(() =>
   S.Struct({
-    lastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastAccessed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UnusedIamRoleDetails",
@@ -1589,7 +1603,9 @@ export interface UnusedIamUserPasswordDetails {
 }
 export const UnusedIamUserPasswordDetails = S.suspend(() =>
   S.Struct({
-    lastAccessed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastAccessed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UnusedIamUserPasswordDetails",
@@ -1669,8 +1685,8 @@ export interface GetFindingV2Response {
 }
 export const GetFindingV2Response = S.suspend(() =>
   S.Struct({
-    analyzedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    analyzedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     error: S.optional(S.String),
     id: S.String,
     nextToken: S.optional(S.String),
@@ -1678,7 +1694,7 @@ export const GetFindingV2Response = S.suspend(() =>
     resourceType: S.String,
     resourceOwnerAccount: S.String,
     status: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     findingDetails: FindingDetailsList,
     findingType: S.optional(S.String),
   }),
@@ -1730,8 +1746,10 @@ export const JobDetails = S.suspend(() =>
   S.Struct({
     jobId: S.String,
     status: S.String,
-    startedOn: S.Date.pipe(T.TimestampFormat("date-time")),
-    completedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedOn: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     jobError: S.optional(JobError),
   }),
 ).annotate({ identifier: "JobDetails" }) as any as S.Schema<JobDetails>;
@@ -1761,8 +1779,8 @@ export interface CloudTrailProperties {
 export const CloudTrailProperties = S.suspend(() =>
   S.Struct({
     trailProperties: TrailPropertiesList,
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CloudTrailProperties",
@@ -1889,7 +1907,7 @@ export const AccessPreviewFinding = S.suspend(() =>
     resource: S.optional(S.String),
     isPublic: S.optional(S.Boolean),
     resourceType: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     changeType: S.String,
     status: S.String,
     resourceOwnerAccount: S.String,
@@ -1948,7 +1966,7 @@ export const AccessPreviewSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     analyzerArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReason: S.optional(AccessPreviewStatusReason),
   }),
@@ -2085,9 +2103,9 @@ export const FindingSummary = S.suspend(() =>
     isPublic: S.optional(S.Boolean),
     resourceType: S.String,
     condition: ConditionKeyMap,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    analyzedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    analyzedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     resourceOwnerAccount: S.String,
     error: S.optional(S.String),
@@ -2147,15 +2165,15 @@ export interface FindingSummaryV2 {
 }
 export const FindingSummaryV2 = S.suspend(() =>
   S.Struct({
-    analyzedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    analyzedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     error: S.optional(S.String),
     id: S.String,
     resource: S.optional(S.String),
     resourceType: S.String,
     resourceOwnerAccount: S.String,
     status: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     findingType: S.optional(S.String),
   }),
 ).annotate({
@@ -2207,8 +2225,10 @@ export const PolicyGeneration = S.suspend(() =>
     jobId: S.String,
     principalArn: S.String,
     status: S.String,
-    startedOn: S.Date.pipe(T.TimestampFormat("date-time")),
-    completedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedOn: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "PolicyGeneration",
@@ -2286,8 +2306,8 @@ export const CloudTrailDetails = S.suspend(() =>
   S.Struct({
     trails: TrailList,
     accessRole: S.String,
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CloudTrailDetails",
@@ -2710,10 +2730,10 @@ export const AnalyzerSummary = S.suspend(() =>
     arn: S.String,
     name: S.String,
     type: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lastResourceAnalyzed: S.optional(S.String),
     lastResourceAnalyzedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     tags: S.optional(TagsMap),
     status: S.String,
@@ -2885,8 +2905,8 @@ export const ArchiveRuleSummary = S.suspend(() =>
   S.Struct({
     ruleName: S.String,
     filter: FilterCriteriaMap,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ArchiveRuleSummary",

@@ -317,7 +317,7 @@ export const Credentials = S.suspend(() =>
     AccessKeyId: S.String,
     SecretAccessKey: SensitiveString,
     SessionToken: S.String,
-    Expiration: S.Date.pipe(T.TimestampFormat("date-time")),
+    Expiration: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
 export interface AssumedRoleUser {
@@ -721,7 +721,9 @@ export interface GetWebIdentityTokenResponse {
 export const GetWebIdentityTokenResponse = S.suspend(() =>
   S.Struct({
     WebIdentityToken: S.optional(SensitiveString),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "GetWebIdentityTokenResponse",

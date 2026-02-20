@@ -654,7 +654,7 @@ export const ReplicationGroup = S.suspend(() =>
     CacheNodeType: S.optional(S.String),
     AuthTokenEnabled: S.optional(S.Boolean),
     AuthTokenLastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TransitEncryptionEnabled: S.optional(S.Boolean),
     AtRestEncryptionEnabled: S.optional(S.Boolean),
@@ -664,7 +664,7 @@ export const ReplicationGroup = S.suspend(() =>
     UserGroupIds: S.optional(UserGroupIdList),
     LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationList),
     ReplicationGroupCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DataTiering: S.optional(DataTieringStatus),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
@@ -743,8 +743,12 @@ export const ServerlessCacheSnapshot = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     SnapshotType: S.optional(S.String),
     Status: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpiryTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpiryTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     BytesUsedForCache: S.optional(S.String),
     ServerlessCacheConfiguration: S.optional(ServerlessCacheConfiguration),
   }),
@@ -834,9 +838,11 @@ export const NodeSnapshot = S.suspend(() =>
     NodeGroupConfiguration: S.optional(NodeGroupConfiguration),
     CacheSize: S.optional(S.String),
     CacheNodeCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    SnapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "NodeSnapshot" }) as any as S.Schema<NodeSnapshot>;
 export type NodeSnapshotList = NodeSnapshot[];
@@ -890,7 +896,7 @@ export const Snapshot = S.suspend(() =>
     PreferredAvailabilityZone: S.optional(S.String),
     PreferredOutpostArn: S.optional(S.String),
     CacheClusterCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     PreferredMaintenanceWindow: S.optional(S.String),
     TopicArn: S.optional(S.String),
@@ -1143,7 +1149,7 @@ export const CacheNode = S.suspend(() =>
     CacheNodeId: S.optional(S.String),
     CacheNodeStatus: S.optional(S.String),
     CacheNodeCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Endpoint: S.optional(Endpoint),
     ParameterGroupStatus: S.optional(S.String),
@@ -1218,7 +1224,7 @@ export const CacheCluster = S.suspend(() =>
     PreferredAvailabilityZone: S.optional(S.String),
     PreferredOutpostArn: S.optional(S.String),
     CacheClusterCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     PreferredMaintenanceWindow: S.optional(S.String),
     PendingModifiedValues: S.optional(PendingModifiedValues),
@@ -1234,7 +1240,7 @@ export const CacheCluster = S.suspend(() =>
     SnapshotWindow: S.optional(S.String),
     AuthTokenEnabled: S.optional(S.Boolean),
     AuthTokenLastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TransitEncryptionEnabled: S.optional(S.Boolean),
     AtRestEncryptionEnabled: S.optional(S.Boolean),
@@ -1754,7 +1760,9 @@ export const ServerlessCache = S.suspend(() =>
   S.Struct({
     ServerlessCacheName: S.optional(S.String),
     Description: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(S.String),
     Engine: S.optional(S.String),
     MajorEngineVersion: S.optional(S.String),
@@ -2845,8 +2853,10 @@ export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -2875,7 +2885,7 @@ export const Event = S.suspend(() =>
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
@@ -3050,7 +3060,9 @@ export const ReservedCacheNode = S.suspend(() =>
     ReservedCacheNodeId: S.optional(S.String),
     ReservedCacheNodesOfferingId: S.optional(S.String),
     CacheNodeType: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Duration: S.optional(S.Number),
     FixedPrice: S.optional(S.Number),
     UsagePrice: S.optional(S.Number),
@@ -3305,14 +3317,14 @@ export const ServiceUpdate = S.suspend(() =>
   S.Struct({
     ServiceUpdateName: S.optional(S.String),
     ServiceUpdateReleaseDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceUpdateEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
     ServiceUpdateRecommendedApplyByDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
     ServiceUpdateDescription: S.optional(S.String),
@@ -3395,8 +3407,10 @@ export interface TimeRangeFilter {
 }
 export const TimeRangeFilter = S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "TimeRangeFilter",
@@ -3470,17 +3484,21 @@ export const NodeGroupMemberUpdateStatus = S.suspend(() =>
     CacheClusterId: S.optional(S.String),
     CacheNodeId: S.optional(S.String),
     NodeUpdateStatus: S.optional(NodeUpdateStatus),
-    NodeDeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+    NodeDeletionDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    NodeUpdateEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    NodeUpdateStartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    NodeUpdateEndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
     NodeUpdateInitiatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     NodeUpdateStatusModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -3524,17 +3542,21 @@ export const CacheNodeUpdateStatus = S.suspend(() =>
   S.Struct({
     CacheNodeId: S.optional(S.String),
     NodeUpdateStatus: S.optional(NodeUpdateStatus),
-    NodeDeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+    NodeDeletionDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    NodeUpdateEndDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    NodeUpdateStartDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    NodeUpdateEndDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
     NodeUpdateInitiatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     NodeUpdateStatusModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -3571,21 +3593,21 @@ export const UpdateAction = S.suspend(() =>
     CacheClusterId: S.optional(S.String),
     ServiceUpdateName: S.optional(S.String),
     ServiceUpdateReleaseDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
     ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
     ServiceUpdateRecommendedApplyByDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceUpdateType: S.optional(ServiceUpdateType),
     UpdateActionAvailableDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     UpdateActionStatus: S.optional(UpdateActionStatus),
     NodesUpdated: S.optional(S.String),
     UpdateActionStatusModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     SlaMet: S.optional(SlaMet),
     NodeGroupUpdateStatus: S.optional(NodeGroupUpdateStatusList),

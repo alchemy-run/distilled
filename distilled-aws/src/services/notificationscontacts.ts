@@ -237,8 +237,8 @@ export const EmailContact = S.suspend(() =>
     name: SensitiveString,
     address: SensitiveString,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "EmailContact" }) as any as S.Schema<EmailContact>;
 export interface GetEmailContactResponse {

@@ -99,8 +99,6 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
           },
         };
 
-        // Serialize body - always JSON, no HTTP bindings
-        // Effect Schema handles jsonName key renaming via S.fromKey
         request.body = JSON.stringify(encoded ?? {});
 
         return request;

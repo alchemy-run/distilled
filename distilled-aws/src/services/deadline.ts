@@ -401,9 +401,11 @@ export const GetQueueFleetAssociationResponse = S.suspend(() =>
     queueId: S.String,
     fleetId: S.String,
     status: QueueFleetAssociationStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -453,9 +455,11 @@ export interface GetQueueLimitAssociationResponse {
 }
 export const GetQueueLimitAssociationResponse = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     queueId: S.String,
     limitId: S.String,
@@ -537,9 +541,11 @@ export const Statistics = S.suspend(() =>
     costInUsd: Stats,
     runtimeInSeconds: Stats,
     aggregationStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    aggregationEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    aggregationEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Statistics" }) as any as S.Schema<Statistics>;
 export type StatisticsList = Statistics[];
@@ -662,9 +668,11 @@ export const QueueFleetAssociationSummary = S.suspend(() =>
     queueId: S.String,
     fleetId: S.String,
     status: QueueFleetAssociationStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -727,9 +735,11 @@ export interface QueueLimitAssociationSummary {
 }
 export const QueueLimitAssociationSummary = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     queueId: S.String,
     limitId: S.String,
@@ -801,7 +811,7 @@ export const DateTimeFilterExpression = S.suspend(() =>
   S.Struct({
     name: S.String,
     operator: ComparisonOperator,
-    dateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    dateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "DateTimeFilterExpression",
@@ -1076,10 +1086,16 @@ export const JobSearchSummary = S.suspend(() =>
     maxFailedTasksCount: S.optional(S.Number),
     maxRetriesPerTask: S.optional(S.Number),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     jobParameters: S.optional(JobParameters),
     maxWorkerCount: S.optional(S.Number),
@@ -1212,11 +1228,17 @@ export const StepSearchSummary = S.suspend(() =>
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     parameterSpace: S.optional(ParameterSpace),
   }),
@@ -1354,9 +1376,13 @@ export const TaskSearchSummary = S.suspend(() =>
     targetRunStatus: S.optional(TaskTargetRunStatus),
     parameters: S.optional(TaskParameters),
     failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1470,9 +1496,13 @@ export const WorkerSearchSummary = S.suspend(() =>
     status: S.optional(WorkerStatus),
     hostProperties: S.optional(HostPropertiesResponse),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "WorkerSearchSummary",
@@ -1532,8 +1562,8 @@ export const StartSessionsStatisticsAggregationRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     resourceIds: SessionsStatisticsResources,
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     timezone: S.optional(S.String),
     period: S.optional(Period),
     groupBy: UsageGroupBy,
@@ -1769,9 +1799,11 @@ export const GetFarmResponse = S.suspend(() =>
     displayName: S.String,
     description: S.optional(SensitiveString),
     kmsKeyArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -1862,9 +1894,11 @@ export const FarmSummary = S.suspend(() =>
     farmId: S.String,
     displayName: S.String,
     kmsKeyArn: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "FarmSummary" }) as any as S.Schema<FarmSummary>;
@@ -2155,9 +2189,11 @@ export const GetLimitResponse = S.suspend(() =>
     displayName: S.String,
     amountRequirementName: S.String,
     maxCount: S.Number,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     farmId: S.String,
     limitId: S.String,
@@ -2206,9 +2242,11 @@ export const GetStorageProfileResponse = S.suspend(() =>
     storageProfileId: S.String,
     displayName: S.String,
     osFamily: StorageProfileOperatingSystemFamily,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     fileSystemLocations: S.optional(FileSystemLocationsList),
   }),
@@ -2305,9 +2343,11 @@ export const LimitSummary = S.suspend(() =>
     displayName: S.String,
     amountRequirementName: S.String,
     maxCount: S.Number,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     farmId: S.String,
     limitId: S.String,
@@ -2485,8 +2525,8 @@ export interface FixedBudgetSchedule {
 }
 export const FixedBudgetSchedule = S.suspend(() =>
   S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "FixedBudgetSchedule",
@@ -2615,10 +2655,14 @@ export const GetBudgetResponse = S.suspend(() =>
     actions: ResponseBudgetActionList,
     schedule: BudgetSchedule,
     createdBy: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    queueStoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    queueStoppedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetBudgetResponse",
@@ -2757,9 +2801,11 @@ export const BudgetSummary = S.suspend(() =>
     approximateDollarLimit: S.Number,
     usages: ConsumedUsages,
     createdBy: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "BudgetSummary" }) as any as S.Schema<BudgetSummary>;
 export type BudgetSummaries = BudgetSummary[];
@@ -3176,9 +3222,11 @@ export const GetFleetResponse = S.suspend(() =>
     hostConfiguration: S.optional(HostConfiguration),
     capabilities: S.optional(FleetCapabilities),
     roleArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -3323,9 +3371,11 @@ export const FleetSummary = S.suspend(() =>
     minWorkerCount: S.Number,
     maxWorkerCount: S.Number,
     configuration: FleetConfiguration,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "FleetSummary" }) as any as S.Schema<FleetSummary>;
@@ -3413,7 +3463,7 @@ export const AwsCredentials = S.suspend(() =>
     accessKeyId: SensitiveString,
     secretAccessKey: SensitiveString,
     sessionToken: SensitiveString,
-    expiration: S.Date.pipe(T.TimestampFormat("date-time")),
+    expiration: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "AwsCredentials" }) as any as S.Schema<AwsCredentials>;
 export interface AssumeFleetRoleForReadResponse {
@@ -3632,9 +3682,11 @@ export const GetWorkerResponse = S.suspend(() =>
     hostProperties: S.optional(HostPropertiesResponse),
     status: WorkerStatus,
     log: S.optional(LogConfiguration),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -3802,9 +3854,11 @@ export const WorkerSummary = S.suspend(() =>
     status: WorkerStatus,
     hostProperties: S.optional(HostPropertiesResponse),
     log: S.optional(LogConfiguration),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkerSummary" }) as any as S.Schema<WorkerSummary>;
@@ -4340,9 +4394,9 @@ export const WorkerSessionSummary = S.suspend(() =>
     sessionId: S.String,
     queueId: S.String,
     jobId: S.String,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
   }),
 ).annotate({
@@ -4402,9 +4456,13 @@ export const UpdatedSessionActionInfo = S.suspend(() =>
     completedStatus: S.optional(CompletedStatus),
     processExitCode: S.optional(S.Number),
     progressMessage: S.optional(SensitiveString),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     progressPercent: S.optional(S.Number),
     manifests: S.optional(TaskRunManifestPropertiesListRequest),
   }),
@@ -4711,9 +4769,11 @@ export const GetQueueResponse = S.suspend(() =>
     ),
     allowedStorageProfileIds: S.optional(AllowedStorageProfileIds),
     jobRunAsUser: S.optional(JobRunAsUser),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -4851,9 +4911,11 @@ export const QueueSummary = S.suspend(() =>
     status: QueueStatus,
     defaultBudgetAction: DefaultQueueBudgetAction,
     blockedReason: S.optional(QueueBlockedReason),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "QueueSummary" }) as any as S.Schema<QueueSummary>;
@@ -5123,9 +5185,11 @@ export const GetQueueEnvironmentResponse = S.suspend(() =>
     priority: S.Number,
     templateType: EnvironmentTemplateType,
     template: SensitiveString,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -5491,12 +5555,16 @@ export const GetJobResponse = S.suspend(() =>
     lifecycleStatus: JobLifecycleStatus,
     lifecycleStatusMessage: S.String,
     priority: S.Number,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     taskRunStatus: S.optional(TaskRunStatus),
     targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
@@ -5618,12 +5686,16 @@ export const JobSummary = S.suspend(() =>
     lifecycleStatus: JobLifecycleStatus,
     lifecycleStatusMessage: S.String,
     priority: S.Number,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     taskRunStatus: S.optional(TaskRunStatus),
     targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
@@ -5809,11 +5881,13 @@ export const GetSessionResponse = S.suspend(() =>
     sessionId: S.String,
     fleetId: S.String,
     workerId: S.String,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     log: LogConfiguration,
     lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
     hostProperties: S.optional(HostPropertiesResponse),
@@ -5979,9 +6053,13 @@ export const GetSessionActionResponse = S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
     status: SessionActionStatus,
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    workerUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     progressPercent: S.optional(S.Number),
     sessionId: S.String,
     processExitCode: S.optional(S.Number),
@@ -6113,12 +6191,16 @@ export const GetStepResponse = S.suspend(() =>
     taskRunStatusCounts: TaskRunStatusCounts,
     taskFailureRetryCount: S.optional(S.Number),
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencyCounts: S.optional(DependencyCounts),
     requiredCapabilities: S.optional(StepRequiredCapabilities),
     parameterSpace: S.optional(ParameterSpace),
@@ -6172,15 +6254,19 @@ export interface GetTaskResponse {
 export const GetTaskResponse = S.suspend(() =>
   S.Struct({
     taskId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     runStatus: TaskRunStatus,
     targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
     parameters: S.optional(TaskParameters),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
   }),
@@ -6412,9 +6498,13 @@ export const SessionActionSummary = S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
     status: SessionActionStatus,
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    workerUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     progressPercent: S.optional(S.Number),
     definition: SessionActionDefinitionSummary,
     manifests: S.optional(TaskRunManifestPropertiesListResponse),
@@ -6482,10 +6572,12 @@ export const SessionSummary = S.suspend(() =>
     sessionId: S.String,
     fleetId: S.String,
     workerId: S.String,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lifecycleStatus: SessionLifecycleStatus,
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
   }),
@@ -6663,12 +6755,16 @@ export const StepSummary = S.suspend(() =>
     taskRunStatusCounts: TaskRunStatusCounts,
     taskFailureRetryCount: S.optional(S.Number),
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencyCounts: S.optional(DependencyCounts),
   }),
 ).annotate({ identifier: "StepSummary" }) as any as S.Schema<StepSummary>;
@@ -6732,15 +6828,19 @@ export interface TaskSummary {
 export const TaskSummary = S.suspend(() =>
   S.Struct({
     taskId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     runStatus: TaskRunStatus,
     targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
     parameters: S.optional(TaskParameters),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
   }),
@@ -7223,9 +7323,11 @@ export const GetMonitorResponse = S.suspend(() =>
     roleArn: S.String,
     identityCenterInstanceArn: S.String,
     identityCenterApplicationArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -7324,9 +7426,11 @@ export const MonitorSummary = S.suspend(() =>
     roleArn: S.String,
     identityCenterInstanceArn: S.String,
     identityCenterApplicationArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "MonitorSummary" }) as any as S.Schema<MonitorSummary>;

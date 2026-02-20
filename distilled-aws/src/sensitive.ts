@@ -42,7 +42,7 @@ export const Sensitive = <A>(
   schema
     .pipe(
       S.decodeTo(
-        S.Union([S.toType(schema), S.RedactedFromValue(S.toType(schema))]),
+        S.Union([S.toType(schema), S.Redacted(S.toType(schema))]),
         SchemaTransformation.transform({
           // Decode: wire format → always wrap in Redacted
           decode: (a) => Redacted.make(a) as any,
@@ -69,19 +69,14 @@ export const SensitiveString = Sensitive(S.String).annotate({
  * Wire format is base64 string, TypeScript type is Uint8Array | Redacted<Uint8Array>.
  * At runtime, decoded values are always Redacted<Uint8Array>.
  */
-export const SensitiveBlob = S.String.pipe(
-  S.decodeTo(
-    S.Union([
-      S.instanceOf(Uint8Array<ArrayBufferLike>),
-      S.RedactedFromValue(S.instanceOf(Uint8Array<ArrayBufferLike>)),
-    ]),
-    SchemaTransformation.transform({
-      decode: (s) =>
-        Redacted.make(Uint8Array.from(atob(s), (c) => c.charCodeAt(0))),
-      encode: (v) => {
-        const bytes = Redacted.isRedacted(v) ? Redacted.value(v) : v;
-        return btoa(String.fromCharCode(...bytes));
-      },
-    }),
+export const SensitiveBlob = Sensitive(
+  S.String.pipe(
+    S.decodeTo(
+      S.instanceOf(Uint8Array),
+      SchemaTransformation.transform({
+        decode: (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0)),
+        encode: (bytes) => btoa(String.fromCharCode(...bytes)),
+      }),
+    ),
   ),
 ).annotate({ identifier: "SensitiveBlob" });

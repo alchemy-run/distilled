@@ -522,7 +522,9 @@ export const LeadInteraction = S.suspend(() =>
     SourceId: S.String,
     SourceName: S.String,
     Usecase: S.optional(S.String),
-    InteractionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InteractionDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CustomerAction: S.String,
     BusinessProblem: S.optional(SensitiveString),
     Contact: LeadContact,
@@ -589,7 +591,7 @@ export const CreateEngagementContextResponse = S.suspend(() =>
     EngagementId: S.optional(S.String),
     EngagementArn: S.optional(S.String),
     EngagementLastModifiedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ContextId: S.optional(S.String),
   }),
@@ -810,7 +812,9 @@ export const UpdateEngagementContextRequest = S.suspend(() =>
     Catalog: S.String,
     EngagementIdentifier: S.String,
     ContextIdentifier: S.String,
-    EngagementLastModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EngagementLastModifiedAt: T.DateFromString.pipe(
+      T.TimestampFormat("date-time"),
+    ),
     Type: EngagementContextType,
     Payload: UpdateEngagementContextPayload,
   }).pipe(
@@ -836,7 +840,9 @@ export const UpdateEngagementContextResponse = S.suspend(() =>
   S.Struct({
     EngagementId: S.String,
     EngagementArn: S.String,
-    EngagementLastModifiedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    EngagementLastModifiedAt: T.DateFromString.pipe(
+      T.TimestampFormat("date-time"),
+    ),
     ContextId: S.String,
   }),
 ).annotate({
@@ -894,7 +900,9 @@ export const CreateEngagementResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateEngagementResponse",
@@ -935,10 +943,14 @@ export const GetEngagementResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     Title: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CreatedBy: S.optional(SensitiveString),
     MemberCount: S.optional(S.Number),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ModifiedBy: S.optional(SensitiveString),
     Contexts: S.optional(EngagementContexts),
   }),
@@ -1013,10 +1025,14 @@ export const EngagementSummary = S.suspend(() =>
     Arn: S.optional(S.String),
     Id: S.optional(S.String),
     Title: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CreatedBy: S.optional(SensitiveString),
     MemberCount: S.optional(S.Number),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ModifiedBy: S.optional(SensitiveString),
     ContextTypes: S.optional(EngagementContextTypeList),
   }),
@@ -1160,7 +1176,9 @@ export const StartEngagementByAcceptingInvitationTaskResponse = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -1241,7 +1259,9 @@ export const ListEngagementByAcceptingInvitationTaskSummary = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -1329,7 +1349,9 @@ export const StartEngagementFromOpportunityTaskResponse = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -1390,7 +1412,9 @@ export const ListEngagementFromOpportunityTaskSummary = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -1861,8 +1885,12 @@ export const GetEngagementInvitationResponse = S.suspend(() =>
     EngagementId: S.optional(S.String),
     EngagementTitle: S.optional(S.String),
     Status: S.optional(InvitationStatus),
-    InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SenderAwsAccountId: S.optional(SensitiveString),
     SenderCompanyName: S.optional(S.String),
     Receiver: S.optional(Receiver),
@@ -1961,8 +1989,12 @@ export const EngagementInvitationSummary = S.suspend(() =>
     EngagementId: S.optional(S.String),
     EngagementTitle: S.optional(S.String),
     Status: S.optional(InvitationStatus),
-    InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InvitationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SenderAwsAccountId: S.optional(SensitiveString),
     SenderCompanyName: S.optional(S.String),
     Receiver: S.optional(Receiver),
@@ -2317,7 +2349,7 @@ export interface NextStepsHistory {
 export const NextStepsHistory = S.suspend(() =>
   S.Struct({
     Value: S.String,
-    Time: S.Date.pipe(T.TimestampFormat("date-time")),
+    Time: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "NextStepsHistory",
@@ -2407,7 +2439,9 @@ export const CreateOpportunityResponse = S.suspend(() =>
   S.Struct({
     Id: S.String,
     PartnerOpportunityIdentifier: S.optional(S.String),
-    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateOpportunityResponse",
@@ -2485,8 +2519,8 @@ export const GetOpportunityResponse = S.suspend(() =>
     SoftwareRevenue: S.optional(SoftwareRevenue),
     Id: S.String,
     Arn: S.optional(S.String),
-    LastModifiedDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    CreatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    LastModifiedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    CreatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     RelatedEntityIdentifiers: RelatedEntityIdentifiers,
     LifeCycle: S.optional(LifeCycle),
     OpportunityTeam: S.optional(PartnerOpportunityTeamMembersList),
@@ -2519,7 +2553,7 @@ export const UpdateOpportunityRequest = S.suspend(() =>
     OpportunityType: S.optional(OpportunityType),
     Marketing: S.optional(Marketing),
     SoftwareRevenue: S.optional(SoftwareRevenue),
-    LastModifiedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    LastModifiedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Identifier: S.String,
     LifeCycle: S.optional(LifeCycle),
   }).pipe(
@@ -2542,7 +2576,7 @@ export interface UpdateOpportunityResponse {
 export const UpdateOpportunityResponse = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    LastModifiedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateOpportunityResponse",
@@ -2569,10 +2603,10 @@ export interface LastModifiedDate {
 export const LastModifiedDate = S.suspend(() =>
   S.Struct({
     AfterLastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     BeforeLastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -2696,8 +2730,12 @@ export const OpportunitySummary = S.suspend(() =>
     Arn: S.optional(S.String),
     PartnerOpportunityIdentifier: S.optional(S.String),
     OpportunityType: S.optional(OpportunityType),
-    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     LifeCycle: S.optional(LifeCycleSummary),
     Customer: S.optional(CustomerSummary),
     Project: S.optional(ProjectSummary),
@@ -2936,7 +2974,7 @@ export interface ProfileNextStepsHistory {
 export const ProfileNextStepsHistory = S.suspend(() =>
   S.Struct({
     Value: S.String,
-    Time: S.Date.pipe(T.TimestampFormat("date-time")),
+    Time: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ProfileNextStepsHistory",
@@ -3223,7 +3261,9 @@ export const StartOpportunityFromEngagementTaskResponse = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -3288,7 +3328,9 @@ export const ListOpportunityFromEngagementTaskSummary = S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     TaskArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     TaskStatus: S.optional(TaskStatus),
     Message: S.optional(S.String),
     ReasonCode: S.optional(ReasonCode),
@@ -3463,7 +3505,9 @@ export const GetResourceSnapshotResponse = S.suspend(() =>
     Catalog: S.String,
     Arn: S.optional(S.String),
     CreatedBy: S.optional(SensitiveString),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EngagementId: S.optional(S.String),
     ResourceType: S.optional(ResourceType),
     ResourceId: S.optional(S.String),
@@ -3692,10 +3736,12 @@ export const GetResourceSnapshotJobResponse = S.suspend(() =>
     ResourceId: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     ResourceSnapshotTemplateName: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(ResourceSnapshotJobStatus),
     LastSuccessfulExecutionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     LastFailure: S.optional(S.String),
   }),
@@ -3911,7 +3957,7 @@ export const SolutionBase = S.suspend(() =>
     Name: S.String,
     Status: SolutionStatus,
     Category: S.String,
-    CreatedDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "SolutionBase" }) as any as S.Schema<SolutionBase>;
 export type SolutionList = SolutionBase[];

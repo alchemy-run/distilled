@@ -151,8 +151,12 @@ export const FindingsReportSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     profilingGroupName: S.optional(S.String),
-    profileStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    profileEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    profileStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    profileEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     totalNumberOfFindings: S.optional(S.Number),
   }),
 ).annotate({
@@ -295,7 +299,7 @@ export interface AggregatedProfileTime {
 }
 export const AggregatedProfileTime = S.suspend(() =>
   S.Struct({
-    start: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    start: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     period: S.optional(S.String),
   }),
 ).annotate({
@@ -309,11 +313,11 @@ export interface ProfilingStatus {
 export const ProfilingStatus = S.suspend(() =>
   S.Struct({
     latestAgentProfileReportedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     latestAggregatedProfile: S.optional(AggregatedProfileTime),
     latestAgentOrchestratedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -334,8 +338,12 @@ export const ProfilingGroupDescription = S.suspend(() =>
     name: S.optional(S.String),
     agentOrchestrationConfig: S.optional(AgentOrchestrationConfig),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     profilingStatus: S.optional(ProfilingStatus),
     computePlatform: S.optional(S.String),
     tags: S.optional(TagsMap),
@@ -571,12 +579,12 @@ export interface BatchGetFrameMetricDataRequest {
 export const BatchGetFrameMetricDataRequest = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("startTime"),
-    ),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("endTime"),
-    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("startTime")),
+    endTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("endTime")),
     period: S.optional(S.String).pipe(T.HttpQuery("period")),
     targetResolution: S.optional(S.String).pipe(
       T.HttpQuery("targetResolution"),
@@ -602,7 +610,7 @@ export interface TimestampStructure {
   value: Date;
 }
 export const TimestampStructure = S.suspend(() =>
-  S.Struct({ value: S.Date.pipe(T.TimestampFormat("date-time")) }),
+  S.Struct({ value: T.DateFromString.pipe(T.TimestampFormat("date-time")) }),
 ).annotate({
   identifier: "TimestampStructure",
 }) as any as S.Schema<TimestampStructure>;
@@ -638,8 +646,8 @@ export interface BatchGetFrameMetricDataResponse {
 }
 export const BatchGetFrameMetricDataResponse = S.suspend(() =>
   S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     resolution: S.String,
     endTimes: ListOfTimestamps,
     unprocessedEndTimes: UnprocessedEndTimeMap,
@@ -776,13 +784,13 @@ export interface GetProfileRequest {
 export const GetProfileRequest = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("startTime"),
-    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("startTime")),
     period: S.optional(S.String).pipe(T.HttpQuery("period")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("endTime"),
-    ),
+    endTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("endTime")),
     maxDepth: S.optional(S.Number).pipe(T.HttpQuery("maxDepth")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
   }).pipe(
@@ -826,10 +834,10 @@ export interface GetRecommendationsRequest {
 export const GetRecommendationsRequest = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("startTime"),
     ),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("endTime"),
     ),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
@@ -903,8 +911,8 @@ export const Recommendation = S.suspend(() =>
     allMatchesSum: S.Number,
     pattern: Pattern,
     topMatches: Matches,
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 export type Recommendations = Recommendation[];
@@ -932,8 +940,8 @@ export interface AnomalyInstance {
 export const AnomalyInstance = S.suspend(() =>
   S.Struct({
     id: S.String,
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     userFeedback: S.optional(UserFeedback),
   }),
 ).annotate({
@@ -961,8 +969,8 @@ export interface GetRecommendationsResponse {
 export const GetRecommendationsResponse = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String,
-    profileStartTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    profileEndTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    profileStartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    profileEndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     recommendations: Recommendations,
     anomalies: Anomalies,
   }),
@@ -980,10 +988,10 @@ export interface ListFindingsReportsRequest {
 export const ListFindingsReportsRequest = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("startTime"),
     ),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("endTime"),
     ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1031,10 +1039,10 @@ export interface ListProfileTimesRequest {
 export const ListProfileTimesRequest = S.suspend(() =>
   S.Struct({
     profilingGroupName: S.String.pipe(T.HttpLabel("profilingGroupName")),
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("startTime"),
     ),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("endTime"),
     ),
     period: S.String.pipe(T.HttpQuery("period")),
@@ -1061,7 +1069,9 @@ export interface ProfileTime {
   start?: Date;
 }
 export const ProfileTime = S.suspend(() =>
-  S.Struct({ start: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))) }),
+  S.Struct({
+    start: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
 ).annotate({ identifier: "ProfileTime" }) as any as S.Schema<ProfileTime>;
 export type ProfileTimes = ProfileTime[];
 export const ProfileTimes = S.Array(ProfileTime);

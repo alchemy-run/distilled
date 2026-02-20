@@ -162,11 +162,11 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
 const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
   // For Suspend (S.suspend), unwrap and recurse
   if (ast._tag === "Suspend") {
-    return getStreamingPayloadInfo((ast as AST.Suspend).f());
+    return getStreamingPayloadInfo(ast.thunk());
   }
 
-  // For TypeLiteral (struct), check property signatures
-  if (ast._tag === "TypeLiteral") {
+  // For Objects (struct), check property signatures
+  if (ast._tag === "Objects") {
     for (const prop of ast.propertySignatures) {
       if (hasHttpPayload(prop) && isStreamingType(prop.type)) {
         return {
@@ -178,11 +178,14 @@ const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
     }
   }
 
-  // For Transformation (S.Class), check the 'from' side (which has the property signatures)
-  if (ast._tag === "Transformation") {
-    if (ast.from) {
-      return getStreamingPayloadInfo(ast.from);
-    }
+  // For Declaration (S.Class), check via encoding chain
+  if (ast._tag === "Declaration" && ast.encoding?.length) {
+    return getStreamingPayloadInfo(ast.encoding[0].to);
+  }
+
+  // Follow encoding chain for other transformed types
+  if (ast.encoding && ast.encoding.length > 0) {
+    return getStreamingPayloadInfo(ast.encoding[0].to);
   }
 
   return {

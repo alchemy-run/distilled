@@ -162,7 +162,9 @@ export interface DescribeHumanLoopResponse {
 }
 export const DescribeHumanLoopResponse = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     FailureReason: S.optional(S.String),
     FailureCode: S.optional(S.String),
     HumanLoopStatus: S.optional(HumanLoopStatus),
@@ -187,10 +189,10 @@ export interface ListHumanLoopsRequest {
 export const ListHumanLoopsRequest = S.suspend(() =>
   S.Struct({
     CreationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("CreationTimeAfter")),
     CreationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("CreationTimeBefore")),
     FlowDefinitionArn: S.optional(S.String).pipe(
       T.HttpQuery("FlowDefinitionArn"),
@@ -222,7 +224,9 @@ export const HumanLoopSummary = S.suspend(() =>
   S.Struct({
     HumanLoopName: S.optional(S.String),
     HumanLoopStatus: S.optional(HumanLoopStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     FailureReason: S.optional(S.String),
     FlowDefinitionArn: S.optional(S.String),
   }),

@@ -2513,7 +2513,9 @@ export const KinesisStreamingSourceOptions = S.suspend(() =>
     RoleSessionName: S.optional(S.String),
     AddRecordTimestamp: S.optional(S.String),
     EmitConsumerLagMetrics: S.optional(S.String),
-    StartingTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartingTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     FanoutConsumerARN: S.optional(S.String),
   }),
 ).annotate({
@@ -2590,7 +2592,9 @@ export const KafkaStreamingSourceOptions = S.suspend(() =>
     IncludeHeaders: S.optional(S.Boolean),
     AddRecordTimestamp: S.optional(S.String),
     EmitConsumerLagMetrics: S.optional(S.String),
-    StartingTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartingTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "KafkaStreamingSourceOptions",

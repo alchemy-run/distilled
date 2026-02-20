@@ -125,7 +125,7 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(TagMap) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -237,17 +237,19 @@ export interface TagResourceRequest {
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap.pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: TagMap,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -296,17 +298,19 @@ export const CreateChannelGroupRequest = S.suspend(() =>
       T.IdempotencyToken(),
     ),
     Description: S.optional(S.String),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/channelGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(TagMap),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/channelGroup" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChannelGroupRequest",
 }) as any as S.Schema<CreateChannelGroupRequest>;
@@ -386,8 +390,8 @@ export const GetChannelGroupResponse = S.suspend(() =>
     ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Description: S.optional(S.String),
     ETag: S.optional(S.String),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(TagMap),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "GetChannelGroupResponse",
 }) as any as S.Schema<GetChannelGroupResponse>;
@@ -433,8 +437,8 @@ export const UpdateChannelGroupResponse = S.suspend(() =>
     ModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Description: S.optional(S.String),
     ETag: S.optional(S.String),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(TagMap),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateChannelGroupResponse",
 }) as any as S.Schema<UpdateChannelGroupResponse>;
@@ -560,20 +564,22 @@ export const CreateChannelRequest = S.suspend(() =>
     Description: S.optional(S.String),
     InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channelGroup/{ChannelGroupName}/channel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(TagMap),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/channelGroup/{ChannelGroupName}/channel",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChannelRequest",
 }) as any as S.Schema<CreateChannelRequest>;
@@ -733,10 +739,10 @@ export const UpdateChannelResponse = S.suspend(() =>
     IngestEndpoints: S.optional(IngestEndpointList),
     InputType: S.optional(InputType),
     ETag: S.optional(S.String),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
+    Tags: S.optional(TagMap),
     InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
     OutputHeaderConfiguration: S.optional(OutputHeaderConfiguration),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateChannelResponse",
 }) as any as S.Schema<UpdateChannelResponse>;
@@ -1796,9 +1802,9 @@ export const UpdateOriginEndpointResponse = S.suspend(() =>
       ForceEndpointErrorConfiguration,
     ),
     ETag: S.optional(S.String),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
+    Tags: S.optional(TagMap),
     DashManifests: S.optional(GetDashManifests),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateOriginEndpointResponse",
 }) as any as S.Schema<UpdateOriginEndpointResponse>;

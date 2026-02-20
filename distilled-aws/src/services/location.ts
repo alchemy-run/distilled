@@ -197,7 +197,9 @@ export const CreateKeyRequest = S.suspend(() =>
     KeyName: S.String,
     Restrictions: ApiKeyRestrictions,
     Description: S.optional(S.String),
-    ExpireTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExpireTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NoExpiry: S.optional(S.Boolean),
     Tags: S.optional(TagMap),
   }).pipe(
@@ -224,7 +226,7 @@ export const CreateKeyResponse = S.suspend(() =>
     Key: SensitiveString,
     KeyArn: S.String,
     KeyName: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateKeyResponse",
@@ -234,10 +236,9 @@ export interface ValidationExceptionField {
   Message: string;
 }
 export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.JsonName("name")),
-    Message: S.String.pipe(T.JsonName("message")),
-  }),
+  S.Struct({ Name: S.String, Message: S.String }).pipe(
+    S.encodeKeys({ Name: "name", Message: "message" }),
+  ),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
@@ -277,9 +278,9 @@ export const DescribeKeyResponse = S.suspend(() =>
     KeyArn: S.String,
     KeyName: S.String,
     Restrictions: ApiKeyRestrictions,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpireTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
@@ -298,7 +299,9 @@ export const UpdateKeyRequest = S.suspend(() =>
   S.Struct({
     KeyName: S.String.pipe(T.HttpLabel("KeyName")),
     Description: S.optional(S.String),
-    ExpireTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExpireTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NoExpiry: S.optional(S.Boolean),
     ForceUpdate: S.optional(S.Boolean),
     Restrictions: S.optional(ApiKeyRestrictions),
@@ -324,7 +327,7 @@ export const UpdateKeyResponse = S.suspend(() =>
   S.Struct({
     KeyArn: S.String,
     KeyName: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateKeyResponse",
@@ -394,11 +397,11 @@ export interface ListKeysResponseEntry {
 export const ListKeysResponseEntry = S.suspend(() =>
   S.Struct({
     KeyName: S.String,
-    ExpireTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    ExpireTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Description: S.optional(S.String),
     Restrictions: ApiKeyRestrictions,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListKeysResponseEntry",
@@ -532,7 +535,7 @@ export const CreateGeofenceCollectionResponse = S.suspend(() =>
   S.Struct({
     CollectionName: S.String,
     CollectionArn: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateGeofenceCollectionResponse",
@@ -580,8 +583,8 @@ export const DescribeGeofenceCollectionResponse = S.suspend(() =>
     PricingPlanDataSource: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagMap),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     GeofenceCount: S.optional(S.Number),
   }),
 ).annotate({
@@ -624,7 +627,7 @@ export const UpdateGeofenceCollectionResponse = S.suspend(() =>
   S.Struct({
     CollectionName: S.String,
     CollectionArn: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateGeofenceCollectionResponse",
@@ -692,8 +695,8 @@ export const ListGeofenceCollectionsResponseEntry = S.suspend(() =>
     Description: S.String,
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListGeofenceCollectionsResponseEntry",
@@ -792,7 +795,7 @@ export interface DevicePositionUpdate {
 export const DevicePositionUpdate = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Position: Position,
     Accuracy: S.optional(PositionalAccuracy),
     PositionProperties: S.optional(PositionPropertyMap),
@@ -834,7 +837,7 @@ export interface BatchEvaluateGeofencesError {
 export const BatchEvaluateGeofencesError = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Error: BatchItemError,
   }),
 ).annotate({
@@ -933,8 +936,8 @@ export interface BatchPutGeofenceSuccess {
 export const BatchPutGeofenceSuccess = S.suspend(() =>
   S.Struct({
     GeofenceId: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "BatchPutGeofenceSuccess",
@@ -1024,7 +1027,7 @@ export const ForecastedEvent = S.suspend(() =>
     NearestDistance: S.Number,
     EventType: S.String,
     ForecastedBreachTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     GeofenceProperties: S.optional(PropertyMap),
   }),
@@ -1086,8 +1089,8 @@ export const GetGeofenceResponse = S.suspend(() =>
     GeofenceId: S.String,
     Geometry: GeofenceGeometry,
     Status: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     GeofenceProperties: S.optional(PropertyMap),
   }),
 ).annotate({
@@ -1132,8 +1135,8 @@ export const ListGeofenceResponseEntry = S.suspend(() =>
     GeofenceId: S.String,
     Geometry: GeofenceGeometry,
     Status: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     GeofenceProperties: S.optional(PropertyMap),
   }),
 ).annotate({
@@ -1189,8 +1192,8 @@ export interface PutGeofenceResponse {
 export const PutGeofenceResponse = S.suspend(() =>
   S.Struct({
     GeofenceId: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "PutGeofenceResponse",
@@ -1247,7 +1250,7 @@ export const CreateMapResponse = S.suspend(() =>
   S.Struct({
     MapName: S.String,
     MapArn: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateMapResponse",
@@ -1289,8 +1292,8 @@ export const DescribeMapResponse = S.suspend(() =>
     Configuration: MapConfiguration,
     Description: S.String,
     Tags: S.optional(TagMap),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "DescribeMapResponse",
@@ -1341,7 +1344,7 @@ export const UpdateMapResponse = S.suspend(() =>
   S.Struct({
     MapName: S.String,
     MapArn: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateMapResponse",
@@ -1402,8 +1405,8 @@ export const ListMapsResponseEntry = S.suspend(() =>
     Description: S.String,
     DataSource: S.String,
     PricingPlan: S.optional(S.String),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListMapsResponseEntry",
@@ -1632,7 +1635,7 @@ export const CreatePlaceIndexResponse = S.suspend(() =>
   S.Struct({
     IndexName: S.String,
     IndexArn: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreatePlaceIndexResponse",
@@ -1671,8 +1674,8 @@ export const DescribePlaceIndexResponse = S.suspend(() =>
     IndexArn: S.String,
     PricingPlan: S.optional(S.String),
     Description: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DataSource: S.String,
     DataSourceConfiguration: DataSourceConfiguration,
     Tags: S.optional(TagMap),
@@ -1714,7 +1717,7 @@ export const UpdatePlaceIndexResponse = S.suspend(() =>
   S.Struct({
     IndexName: S.String,
     IndexArn: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdatePlaceIndexResponse",
@@ -1775,8 +1778,8 @@ export const ListPlaceIndexesResponseEntry = S.suspend(() =>
     Description: S.String,
     DataSource: S.String,
     PricingPlan: S.optional(S.String),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListPlaceIndexesResponseEntry",
@@ -2196,7 +2199,7 @@ export const CreateRouteCalculatorResponse = S.suspend(() =>
   S.Struct({
     CalculatorName: S.String,
     CalculatorArn: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateRouteCalculatorResponse",
@@ -2236,8 +2239,8 @@ export const DescribeRouteCalculatorResponse = S.suspend(() =>
     CalculatorArn: S.String,
     PricingPlan: S.optional(S.String),
     Description: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DataSource: S.String,
     Tags: S.optional(TagMap),
   }),
@@ -2279,7 +2282,7 @@ export const UpdateRouteCalculatorResponse = S.suspend(() =>
   S.Struct({
     CalculatorName: S.String,
     CalculatorArn: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateRouteCalculatorResponse",
@@ -2347,8 +2350,8 @@ export const ListRouteCalculatorsResponseEntry = S.suspend(() =>
     Description: S.String,
     DataSource: S.String,
     PricingPlan: S.optional(S.String),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListRouteCalculatorsResponseEntry",
@@ -2446,13 +2449,17 @@ export const CalculateRouteRequest = S.suspend(() =>
     DestinationPosition: Position,
     WaypointPositions: S.optional(WaypointPositionList),
     TravelMode: S.optional(S.String),
-    DepartureTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DepartureTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DepartNow: S.optional(S.Boolean),
     DistanceUnit: S.optional(S.String),
     IncludeLegGeometry: S.optional(S.Boolean),
     CarModeOptions: S.optional(CalculateRouteCarModeOptions),
     TruckModeOptions: S.optional(CalculateRouteTruckModeOptions),
-    ArrivalTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ArrivalTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OptimizeFor: S.optional(S.String),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
@@ -2564,7 +2571,9 @@ export const CalculateRouteMatrixRequest = S.suspend(() =>
     DeparturePositions: PositionList,
     DestinationPositions: PositionList,
     TravelMode: S.optional(S.String),
-    DepartureTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DepartureTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DepartNow: S.optional(S.Boolean),
     DistanceUnit: S.optional(S.String),
     CarModeOptions: S.optional(CalculateRouteCarModeOptions),
@@ -2689,7 +2698,7 @@ export const CreateTrackerResponse = S.suspend(() =>
   S.Struct({
     TrackerName: S.String,
     TrackerArn: S.String,
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateTrackerResponse",
@@ -2733,8 +2742,8 @@ export const DescribeTrackerResponse = S.suspend(() =>
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
     Tags: S.optional(TagMap),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     KmsKeyId: S.optional(S.String),
     PositionFiltering: S.optional(S.String),
     EventBridgeEnabled: S.optional(S.Boolean),
@@ -2783,7 +2792,7 @@ export const UpdateTrackerResponse = S.suspend(() =>
   S.Struct({
     TrackerName: S.String,
     TrackerArn: S.String,
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateTrackerResponse",
@@ -2844,8 +2853,8 @@ export const ListTrackersResponseEntry = S.suspend(() =>
     Description: S.String,
     PricingPlan: S.optional(S.String),
     PricingPlanDataSource: S.optional(S.String),
-    CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListTrackersResponseEntry",
@@ -2990,8 +2999,8 @@ export interface DevicePosition {
 export const DevicePosition = S.suspend(() =>
   S.Struct({
     DeviceId: S.optional(S.String),
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Position: Position,
     Accuracy: S.optional(PositionalAccuracy),
     PositionProperties: S.optional(PositionPropertyMap),
@@ -3043,7 +3052,7 @@ export interface BatchUpdateDevicePositionError {
 export const BatchUpdateDevicePositionError = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Error: BatchItemError,
   }),
 ).annotate({
@@ -3127,8 +3136,8 @@ export interface GetDevicePositionResponse {
 export const GetDevicePositionResponse = S.suspend(() =>
   S.Struct({
     DeviceId: S.optional(S.String),
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Position: Position,
     Accuracy: S.optional(PositionalAccuracy),
     PositionProperties: S.optional(PositionPropertyMap),
@@ -3149,8 +3158,12 @@ export const GetDevicePositionHistoryRequest = S.suspend(() =>
     TrackerName: S.String.pipe(T.HttpLabel("TrackerName")),
     DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
     NextToken: S.optional(S.String),
-    StartTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTimeInclusive: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTimeExclusive: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -3226,7 +3239,7 @@ export interface ListDevicePositionsResponseEntry {
 export const ListDevicePositionsResponseEntry = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Position: Position,
     Accuracy: S.optional(PositionalAccuracy),
     PositionProperties: S.optional(PositionPropertyMap),
@@ -3372,7 +3385,7 @@ export interface DeviceState {
 export const DeviceState = S.suspend(() =>
   S.Struct({
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Position: Position,
     Accuracy: S.optional(PositionalAccuracy),
     Ipv4Address: S.optional(S.String),
@@ -3431,8 +3444,8 @@ export const VerifyDevicePositionResponse = S.suspend(() =>
   S.Struct({
     InferredState: InferredState,
     DeviceId: S.String,
-    SampleTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    ReceivedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    SampleTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ReceivedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DistanceUnit: S.String,
   }),
 ).annotate({
@@ -3442,37 +3455,37 @@ export const VerifyDevicePositionResponse = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
   "AccessDeniedException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withAuthError) {}
 export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withConflictError) {}
 export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
   "InternalServerException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withServerError, C.withRetryableError) {}
 export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withQuotaError) {}
 export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>()(
   "ThrottlingException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
   T.Retryable(),
 ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException extends S.TaggedErrorClass<ValidationException>()(
   "ValidationException",
   {
-    Message: S.String.pipe(T.JsonName("message")),
-    Reason: S.String.pipe(T.JsonName("reason")),
-    FieldList: ValidationExceptionFieldList.pipe(T.JsonName("fieldList")),
+    Message: S.String,
+    Reason: S.String,
+    FieldList: ValidationExceptionFieldList,
   },
 ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { Message: S.String.pipe(T.JsonName("message")) },
+  { Message: S.String },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations

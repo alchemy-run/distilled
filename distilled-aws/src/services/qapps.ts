@@ -324,9 +324,11 @@ export const CreateLibraryItemOutput = S.suspend(() =>
   S.Struct({
     libraryItemId: S.String,
     status: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isVerified: S.optional(S.Boolean),
@@ -380,7 +382,9 @@ export const CreatePresignedUrlOutput = S.suspend(() =>
     fileId: S.String,
     presignedUrl: S.String,
     presignedUrlFields: PresignedUrlFields,
-    presignedUrlExpiration: S.Date.pipe(T.TimestampFormat("date-time")),
+    presignedUrlExpiration: T.DateFromString.pipe(
+      T.TimestampFormat("date-time"),
+    ),
   }),
 ).annotate({
   identifier: "CreatePresignedUrlOutput",
@@ -706,9 +710,9 @@ export const CreateQAppOutput = S.suspend(() =>
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
     status: AppStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.String,
     requiredCapabilities: S.optional(AppRequiredCapabilities),
   }),
@@ -912,7 +916,7 @@ export interface ExportQAppSessionDataOutput {
 export const ExportQAppSessionDataOutput = S.suspend(() =>
   S.Struct({
     csvFileLink: S.String,
-    expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    expiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     sessionArn: S.String,
   }),
 ).annotate({
@@ -979,9 +983,11 @@ export const GetLibraryItemOutput = S.suspend(() =>
     appVersion: S.Number,
     categories: CategoryList,
     status: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -1216,9 +1222,9 @@ export const GetQAppOutput = S.suspend(() =>
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
     status: AppStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.String,
     requiredCapabilities: S.optional(AppRequiredCapabilities),
     appDefinition: AppDefinition,
@@ -1261,7 +1267,9 @@ export const Submission = S.suspend(() =>
   S.Struct({
     value: S.optional(S.Top),
     submissionId: S.optional(S.String),
-    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Submission" }) as any as S.Schema<Submission>;
 export type SubmissionList = Submission[];
@@ -1470,9 +1478,11 @@ export const LibraryItemMember = S.suspend(() =>
     appVersion: S.Number,
     categories: CategoryList,
     status: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -1533,7 +1543,7 @@ export const UserAppItem = S.suspend(() =>
     appArn: S.String,
     title: S.String,
     description: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     canEdit: S.optional(S.Boolean),
     status: S.optional(S.String),
     isVerified: S.optional(S.Boolean),
@@ -1590,7 +1600,9 @@ export const QAppSessionData = S.suspend(() =>
     value: S.optional(S.Top),
     user: User,
     submissionId: S.optional(S.String),
-    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "QAppSessionData",
@@ -1893,9 +1905,11 @@ export const UpdateLibraryItemOutput = S.suspend(() =>
     appVersion: S.Number,
     categories: CategoryList,
     status: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     ratingCount: S.Number,
     isRatedByUser: S.optional(S.Boolean),
@@ -1984,9 +1998,9 @@ export const UpdateQAppOutput = S.suspend(() =>
     initialPrompt: S.optional(S.String),
     appVersion: S.Number,
     status: AppStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.String,
     requiredCapabilities: S.optional(AppRequiredCapabilities),
   }),

@@ -2256,9 +2256,9 @@ export interface ApiKeys {
 export const ApiKeys = S.suspend(() =>
   S.Struct({
     warnings: S.optional(ListOfString),
-    items: S.optional(ListOfApiKey).pipe(T.JsonName("item")),
+    items: S.optional(ListOfApiKey),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "ApiKeys" }) as any as S.Schema<ApiKeys>;
 export interface GetAuthorizerRequest {
   restApiId: string;
@@ -2315,9 +2315,9 @@ export interface Authorizers {
 }
 export const Authorizers = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfAuthorizer).pipe(T.JsonName("item")),
+    items: S.optional(ListOfAuthorizer),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "Authorizers" }) as any as S.Schema<Authorizers>;
 export interface GetBasePathMappingRequest {
   domainName: string;
@@ -2381,9 +2381,9 @@ export interface BasePathMappings {
 }
 export const BasePathMappings = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfBasePathMapping).pipe(T.JsonName("item")),
+    items: S.optional(ListOfBasePathMapping),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "BasePathMappings",
 }) as any as S.Schema<BasePathMappings>;
@@ -2438,9 +2438,9 @@ export interface ClientCertificates {
 }
 export const ClientCertificates = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfClientCertificate).pipe(T.JsonName("item")),
+    items: S.optional(ListOfClientCertificate),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "ClientCertificates",
 }) as any as S.Schema<ClientCertificates>;
@@ -2501,9 +2501,9 @@ export interface Deployments {
 }
 export const Deployments = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfDeployment).pipe(T.JsonName("item")),
+    items: S.optional(ListOfDeployment),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "Deployments" }) as any as S.Schema<Deployments>;
 export interface GetDocumentationPartRequest {
   restApiId: string;
@@ -2575,9 +2575,9 @@ export interface DocumentationParts {
 }
 export const DocumentationParts = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfDocumentationPart).pipe(T.JsonName("item")),
+    items: S.optional(ListOfDocumentationPart),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "DocumentationParts",
 }) as any as S.Schema<DocumentationParts>;
@@ -2639,9 +2639,9 @@ export interface DocumentationVersions {
 }
 export const DocumentationVersions = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfDocumentationVersion).pipe(T.JsonName("item")),
+    items: S.optional(ListOfDocumentationVersion),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "DocumentationVersions",
 }) as any as S.Schema<DocumentationVersions>;
@@ -2701,11 +2701,9 @@ export interface DomainNameAccessAssociations {
 }
 export const DomainNameAccessAssociations = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfDomainNameAccessAssociation).pipe(
-      T.JsonName("item"),
-    ),
+    items: S.optional(ListOfDomainNameAccessAssociation),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "DomainNameAccessAssociations",
 }) as any as S.Schema<DomainNameAccessAssociations>;
@@ -2740,9 +2738,9 @@ export interface DomainNames {
 }
 export const DomainNames = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfDomainName).pipe(T.JsonName("item")),
+    items: S.optional(ListOfDomainName),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "DomainNames" }) as any as S.Schema<DomainNames>;
 export interface GetExportRequest {
   restApiId: string;
@@ -2861,9 +2859,9 @@ export interface GatewayResponses {
 }
 export const GatewayResponses = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfGatewayResponse).pipe(T.JsonName("item")),
+    items: S.optional(ListOfGatewayResponse),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "GatewayResponses",
 }) as any as S.Schema<GatewayResponses>;
@@ -3032,9 +3030,9 @@ export interface Models {
 }
 export const Models = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfModel).pipe(T.JsonName("item")),
+    items: S.optional(ListOfModel),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "Models" }) as any as S.Schema<Models>;
 export interface GetModelTemplateRequest {
   restApiId: string;
@@ -3121,9 +3119,9 @@ export interface RequestValidators {
 }
 export const RequestValidators = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfRequestValidator).pipe(T.JsonName("item")),
+    items: S.optional(ListOfRequestValidator),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({
   identifier: "RequestValidators",
 }) as any as S.Schema<RequestValidators>;
@@ -3186,9 +3184,9 @@ export interface Resources {
 }
 export const Resources = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfResource).pipe(T.JsonName("item")),
+    items: S.optional(ListOfResource),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "Resources" }) as any as S.Schema<Resources>;
 export interface GetRestApiRequest {
   restApiId: string;
@@ -3236,9 +3234,9 @@ export interface RestApis {
 }
 export const RestApis = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfRestApi).pipe(T.JsonName("item")),
+    items: S.optional(ListOfRestApi),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "RestApis" }) as any as S.Schema<RestApis>;
 export interface GetSdkRequest {
   restApiId: string;
@@ -3358,7 +3356,9 @@ export interface SdkTypes {
   items?: SdkType[];
 }
 export const SdkTypes = S.suspend(() =>
-  S.Struct({ items: S.optional(ListOfSdkType).pipe(T.JsonName("item")) }),
+  S.Struct({ items: S.optional(ListOfSdkType) }).pipe(
+    S.encodeKeys({ items: "item" }),
+  ),
 ).annotate({ identifier: "SdkTypes" }) as any as S.Schema<SdkTypes>;
 export interface GetStageRequest {
   restApiId: string;
@@ -3487,9 +3487,9 @@ export const Usage = S.suspend(() =>
     usagePlanId: S.optional(S.String),
     startDate: S.optional(S.String),
     endDate: S.optional(S.String),
-    items: S.optional(MapOfKeyUsages).pipe(T.JsonName("values")),
+    items: S.optional(MapOfKeyUsages),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "values" })),
 ).annotate({ identifier: "Usage" }) as any as S.Schema<Usage>;
 export interface GetUsagePlanRequest {
   usagePlanId: string;
@@ -3562,9 +3562,9 @@ export interface UsagePlanKeys {
 }
 export const UsagePlanKeys = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfUsagePlanKey).pipe(T.JsonName("item")),
+    items: S.optional(ListOfUsagePlanKey),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "UsagePlanKeys" }) as any as S.Schema<UsagePlanKeys>;
 export interface GetUsagePlansRequest {
   position?: string;
@@ -3597,9 +3597,9 @@ export interface UsagePlans {
 }
 export const UsagePlans = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfUsagePlan).pipe(T.JsonName("item")),
+    items: S.optional(ListOfUsagePlan),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "UsagePlans" }) as any as S.Schema<UsagePlans>;
 export interface GetVpcLinkRequest {
   vpcLinkId: string;
@@ -3647,9 +3647,9 @@ export interface VpcLinks {
 }
 export const VpcLinks = S.suspend(() =>
   S.Struct({
-    items: S.optional(ListOfVpcLink).pipe(T.JsonName("item")),
+    items: S.optional(ListOfVpcLink),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }),
+  }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "VpcLinks" }) as any as S.Schema<VpcLinks>;
 export type ApiKeysFormat = "csv" | (string & {});
 export const ApiKeysFormat = S.String;
@@ -3806,12 +3806,9 @@ export const PutIntegrationRequest = S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(
-      T.HttpLabel("httpMethod"),
-      T.JsonName("requestHttpMethod"),
-    ),
+    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
     type: IntegrationType,
-    integrationHttpMethod: S.optional(S.String).pipe(T.JsonName("httpMethod")),
+    integrationHttpMethod: S.optional(S.String),
     uri: S.optional(S.String),
     connectionType: S.optional(ConnectionType),
     connectionId: S.optional(S.String),
@@ -3826,19 +3823,26 @@ export const PutIntegrationRequest = S.suspend(() =>
     tlsConfig: S.optional(TlsConfig),
     responseTransferMode: S.optional(ResponseTransferMode),
     integrationTarget: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
+  })
+    .pipe(
+      S.encodeKeys({
+        httpMethod: "requestHttpMethod",
+        integrationHttpMethod: "httpMethod",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutIntegrationRequest",
 }) as any as S.Schema<PutIntegrationRequest>;

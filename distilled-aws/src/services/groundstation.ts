@@ -1733,8 +1733,8 @@ export interface ISO8601TimeRange {
 }
 export const ISO8601TimeRange = S.suspend(() =>
   S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ISO8601TimeRange",
@@ -1756,7 +1756,7 @@ export interface AzElSegment {
 }
 export const AzElSegment = S.suspend(() =>
   S.Struct({
-    referenceEpoch: S.Date.pipe(T.TimestampFormat("date-time")),
+    referenceEpoch: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     validTimeRange: ISO8601TimeRange,
     azElList: TimeAzElList,
   }),

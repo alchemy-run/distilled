@@ -183,16 +183,18 @@ export interface AssociateServiceRoleToAccountRequest {
   roleArn: string;
 }
 export const AssociateServiceRoleToAccountRequest = S.suspend(() =>
-  S.Struct({ roleArn: S.String.pipe(T.JsonName("RoleArn")) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ roleArn: S.String })
+    .pipe(S.encodeKeys({ roleArn: "RoleArn" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/greengrass/servicerole" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AssociateServiceRoleToAccountRequest",
 }) as any as S.Schema<AssociateServiceRoleToAccountRequest>;
@@ -200,9 +202,9 @@ export interface AssociateServiceRoleToAccountResponse {
   associatedAt?: string;
 }
 export const AssociateServiceRoleToAccountResponse = S.suspend(() =>
-  S.Struct({
-    associatedAt: S.optional(S.String).pipe(T.JsonName("AssociatedAt")),
-  }),
+  S.Struct({ associatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ associatedAt: "AssociatedAt" }),
+  ),
 ).annotate({
   identifier: "AssociateServiceRoleToAccountResponse",
 }) as any as S.Schema<AssociateServiceRoleToAccountResponse>;
@@ -1032,9 +1034,9 @@ export interface DisassociateServiceRoleFromAccountResponse {
   disassociatedAt?: string;
 }
 export const DisassociateServiceRoleFromAccountResponse = S.suspend(() =>
-  S.Struct({
-    disassociatedAt: S.optional(S.String).pipe(T.JsonName("DisassociatedAt")),
-  }),
+  S.Struct({ disassociatedAt: S.optional(S.String) }).pipe(
+    S.encodeKeys({ disassociatedAt: "DisassociatedAt" }),
+  ),
 ).annotate({
   identifier: "DisassociateServiceRoleFromAccountResponse",
 }) as any as S.Schema<DisassociateServiceRoleFromAccountResponse>;
@@ -1149,11 +1151,18 @@ export interface ConnectivityInfo {
 }
 export const ConnectivityInfo = S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String).pipe(T.JsonName("Id")),
-    hostAddress: S.optional(S.String).pipe(T.JsonName("HostAddress")),
-    portNumber: S.optional(S.Number).pipe(T.JsonName("PortNumber")),
-    metadata: S.optional(S.String).pipe(T.JsonName("Metadata")),
-  }),
+    id: S.optional(S.String),
+    hostAddress: S.optional(S.String),
+    portNumber: S.optional(S.Number),
+    metadata: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      id: "Id",
+      hostAddress: "HostAddress",
+      portNumber: "PortNumber",
+      metadata: "Metadata",
+    }),
+  ),
 ).annotate({
   identifier: "ConnectivityInfo",
 }) as any as S.Schema<ConnectivityInfo>;
@@ -1165,11 +1174,11 @@ export interface GetConnectivityInfoResponse {
 }
 export const GetConnectivityInfoResponse = S.suspend(() =>
   S.Struct({
-    connectivityInfo: S.optional(ConnectivityInfoList).pipe(
-      T.JsonName("ConnectivityInfo"),
-    ),
-    message: S.optional(S.String).pipe(T.JsonName("Message")),
-  }),
+    connectivityInfo: S.optional(ConnectivityInfoList),
+    message: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ connectivityInfo: "ConnectivityInfo", message: "Message" }),
+  ),
 ).annotate({
   identifier: "GetConnectivityInfoResponse",
 }) as any as S.Schema<GetConnectivityInfoResponse>;
@@ -1310,9 +1319,9 @@ export interface GetServiceRoleForAccountResponse {
 }
 export const GetServiceRoleForAccountResponse = S.suspend(() =>
   S.Struct({
-    associatedAt: S.optional(S.String).pipe(T.JsonName("AssociatedAt")),
-    roleArn: S.optional(S.String).pipe(T.JsonName("RoleArn")),
-  }),
+    associatedAt: S.optional(S.String),
+    roleArn: S.optional(S.String),
+  }).pipe(S.encodeKeys({ associatedAt: "AssociatedAt", roleArn: "RoleArn" })),
 ).annotate({
   identifier: "GetServiceRoleForAccountResponse",
 }) as any as S.Schema<GetServiceRoleForAccountResponse>;
@@ -1975,21 +1984,28 @@ export interface UpdateConnectivityInfoRequest {
 }
 export const UpdateConnectivityInfoRequest = S.suspend(() =>
   S.Struct({
-    thingName: S.String.pipe(T.HttpLabel("thingName"), T.JsonName("ThingName")),
-    connectivityInfo: ConnectivityInfoList.pipe(T.JsonName("ConnectivityInfo")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/greengrass/things/{thingName}/connectivityInfo",
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
+    connectivityInfo: ConnectivityInfoList,
+  })
+    .pipe(
+      S.encodeKeys({
+        thingName: "ThingName",
+        connectivityInfo: "ConnectivityInfo",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/greengrass/things/{thingName}/connectivityInfo",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateConnectivityInfoRequest",
 }) as any as S.Schema<UpdateConnectivityInfoRequest>;
@@ -1999,9 +2015,9 @@ export interface UpdateConnectivityInfoResponse {
 }
 export const UpdateConnectivityInfoResponse = S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String).pipe(T.JsonName("Version")),
-    message: S.optional(S.String).pipe(T.JsonName("Message")),
-  }),
+    version: S.optional(S.String),
+    message: S.optional(S.String),
+  }).pipe(S.encodeKeys({ version: "Version", message: "Message" })),
 ).annotate({
   identifier: "UpdateConnectivityInfoResponse",
 }) as any as S.Schema<UpdateConnectivityInfoResponse>;

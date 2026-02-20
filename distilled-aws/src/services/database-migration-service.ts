@@ -545,8 +545,12 @@ export interface SourceDataSetting {
 export const SourceDataSetting = S.suspend(() =>
   S.Struct({
     CDCStartPosition: S.optional(S.String),
-    CDCStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CDCStopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CDCStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CDCStopTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SlotName: S.optional(S.String),
   }),
 ).annotate({
@@ -642,8 +646,10 @@ export const DataMigrationStatistics = S.suspend(() =>
     CDCLatency: S.optional(S.Number),
     TablesQueued: S.optional(S.Number),
     TablesErrored: S.optional(S.Number),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DataMigrationStatistics",
@@ -676,13 +682,13 @@ export const DataMigration = S.suspend(() =>
     DataMigrationName: S.optional(S.String),
     DataMigrationArn: S.optional(S.String),
     DataMigrationCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DataMigrationStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DataMigrationEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServiceAccessRoleArn: S.optional(S.String),
     MigrationProjectArn: S.optional(S.String),
@@ -1164,7 +1170,7 @@ export const DataProvider = S.suspend(() =>
     DataProviderName: S.optional(S.String),
     DataProviderArn: S.optional(S.String),
     DataProviderCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Description: S.optional(S.String),
     Engine: S.optional(S.String),
@@ -2401,7 +2407,7 @@ export const InstanceProfile = S.suspend(() =>
     InstanceProfileName: S.optional(S.String),
     Description: S.optional(S.String),
     InstanceProfileCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     SubnetGroupIdentifier: S.optional(S.String),
     VpcSecurityGroups: S.optional(StringList),
@@ -2517,7 +2523,7 @@ export const MigrationProject = S.suspend(() =>
     MigrationProjectName: S.optional(S.String),
     MigrationProjectArn: S.optional(S.String),
     MigrationProjectCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     SourceDataProviderDescriptors: S.optional(DataProviderDescriptorList),
     TargetDataProviderDescriptors: S.optional(DataProviderDescriptorList),

@@ -369,7 +369,9 @@ export const CreateJobTemplateResponse = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateJobTemplateResponse",
@@ -876,9 +878,13 @@ export const JobRun = S.suspend(() =>
     releaseLabel: S.optional(S.String),
     configurationOverrides: S.optional(ConfigurationOverrides),
     jobDriver: S.optional(JobDriver),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
-    finishedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    finishedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     stateDetails: S.optional(S.String),
     failureReason: S.optional(FailureReason),
     tags: S.optional(TagMap),
@@ -927,7 +933,9 @@ export const JobTemplate = S.suspend(() =>
     name: S.optional(S.String),
     id: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
     tags: S.optional(TagMap),
     jobTemplateData: JobTemplateData,
@@ -1021,7 +1029,9 @@ export const Endpoint = S.suspend(() =>
     certificateAuthority: S.optional(Certificate),
     configurationOverrides: S.optional(ConfigurationOverrides),
     serverUrl: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     securityGroup: S.optional(S.String),
     subnetIds: S.optional(SubnetIds),
     stateDetails: S.optional(S.String),
@@ -1068,7 +1078,9 @@ export const SecurityConfiguration = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
     securityConfigurationData: S.optional(SecurityConfigurationData),
     tags: S.optional(TagMap),
@@ -1125,7 +1137,9 @@ export const VirtualCluster = S.suspend(() =>
     arn: S.optional(S.String),
     state: S.optional(VirtualClusterState),
     containerProvider: S.optional(ContainerProvider),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(TagMap),
     securityConfigurationId: S.optional(S.String),
   }),
@@ -1185,7 +1199,9 @@ export const GetManagedEndpointSessionCredentialsResponse = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     credentials: S.optional(Credentials),
-    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetManagedEndpointSessionCredentialsResponse",
@@ -1204,12 +1220,12 @@ export interface ListJobRunsRequest {
 export const ListJobRunsRequest = S.suspend(() =>
   S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     states: S.optional(JobRunStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1249,12 +1265,12 @@ export interface ListJobTemplatesRequest {
 }
 export const ListJobTemplatesRequest = S.suspend(() =>
   S.Struct({
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -1300,12 +1316,12 @@ export interface ListManagedEndpointsRequest {
 export const ListManagedEndpointsRequest = S.suspend(() =>
   S.Struct({
     virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
     types: S.optional(EndpointTypes).pipe(T.HttpQuery("types")),
     states: S.optional(EndpointStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1348,12 +1364,12 @@ export interface ListSecurityConfigurationsRequest {
 }
 export const ListSecurityConfigurationsRequest = S.suspend(() =>
   S.Struct({
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
@@ -1428,12 +1444,12 @@ export const ListVirtualClustersRequest = S.suspend(() =>
     containerProviderType: S.optional(ContainerProviderType).pipe(
       T.HttpQuery("containerProviderType"),
     ),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
     states: S.optional(VirtualClusterStates).pipe(T.HttpQuery("states")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),

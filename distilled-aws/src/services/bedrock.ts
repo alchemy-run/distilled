@@ -486,8 +486,8 @@ export const CreateAutomatedReasoningPolicyResponse = S.suspend(() =>
     name: SensitiveString,
     description: S.optional(SensitiveString),
     definitionHash: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateAutomatedReasoningPolicyResponse",
@@ -532,8 +532,10 @@ export const GetAutomatedReasoningPolicyResponse = S.suspend(() =>
     description: S.optional(SensitiveString),
     definitionHash: S.String,
     kmsKeyArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetAutomatedReasoningPolicyResponse",
@@ -577,7 +579,7 @@ export const UpdateAutomatedReasoningPolicyResponse = S.suspend(() =>
     policyArn: S.String,
     name: SensitiveString,
     definitionHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateAutomatedReasoningPolicyResponse",
@@ -651,8 +653,8 @@ export const AutomatedReasoningPolicySummary = S.suspend(() =>
     description: S.optional(SensitiveString),
     version: S.String,
     policyId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "AutomatedReasoningPolicySummary",
@@ -799,7 +801,7 @@ export const CreateAutomatedReasoningPolicyVersionResponse = S.suspend(() =>
     name: SensitiveString,
     description: S.optional(SensitiveString),
     definitionHash: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateAutomatedReasoningPolicyVersionResponse",
@@ -814,7 +816,7 @@ export const DeleteAutomatedReasoningPolicyBuildWorkflowRequest = S.suspend(
     S.Struct({
       policyArn: S.String.pipe(T.HttpLabel("policyArn")),
       buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
-      lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+      lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
         T.HttpQuery("updatedAt"),
       ),
     }).pipe(
@@ -848,7 +850,7 @@ export const DeleteAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
   S.Struct({
     policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("updatedAt"),
     ),
   }).pipe(
@@ -1374,7 +1376,7 @@ export const GetAutomatedReasoningPolicyAnnotationsResponse = S.suspend(() =>
     buildWorkflowId: S.String,
     annotations: AutomatedReasoningPolicyAnnotationList,
     annotationSetHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetAutomatedReasoningPolicyAnnotationsResponse",
@@ -1447,8 +1449,8 @@ export const GetAutomatedReasoningPolicyBuildWorkflowResponse = S.suspend(() =>
       AutomatedReasoningPolicyBuildDocumentContentType,
     ),
     documentDescription: S.optional(SensitiveString),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetAutomatedReasoningPolicyBuildWorkflowResponse",
@@ -2045,8 +2047,8 @@ export const AutomatedReasoningPolicyTestCase = S.suspend(() =>
     guardContent: SensitiveString,
     queryContent: S.optional(SensitiveString),
     expectedAggregatedFindingsResult: S.optional(AutomatedReasoningCheckResult),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     confidenceThreshold: S.optional(S.Number),
   }),
 ).annotate({
@@ -2404,7 +2406,7 @@ export const AutomatedReasoningPolicyTestResult = S.suspend(() =>
     testFindings: S.optional(AutomatedReasoningCheckFindingList),
     testRunResult: S.optional(AutomatedReasoningPolicyTestRunResult),
     aggregatedTestFindingsResult: S.optional(AutomatedReasoningCheckResult),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyTestResult",
@@ -2457,8 +2459,8 @@ export const AutomatedReasoningPolicyBuildWorkflowSummary = S.suspend(() =>
     buildWorkflowId: S.String,
     status: AutomatedReasoningPolicyBuildWorkflowStatus,
     buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "AutomatedReasoningPolicyBuildWorkflowSummary",
@@ -2747,7 +2749,7 @@ export const UpdateAutomatedReasoningPolicyAnnotationsResponse = S.suspend(() =>
     policyArn: S.String,
     buildWorkflowId: S.String,
     annotationSetHash: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateAutomatedReasoningPolicyAnnotationsResponse",
@@ -2768,7 +2770,7 @@ export const UpdateAutomatedReasoningPolicyTestCaseRequest = S.suspend(() =>
     testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
     guardContent: SensitiveString,
     queryContent: S.optional(SensitiveString),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     expectedAggregatedFindingsResult: AutomatedReasoningCheckResult,
     confidenceThreshold: S.optional(S.Number),
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -2878,8 +2880,8 @@ export const MarketplaceModelEndpoint = S.suspend(() =>
     modelSourceIdentifier: S.String,
     status: S.optional(Status),
     statusMessage: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     endpointConfig: EndpointConfig,
     endpointStatus: S.String,
     endpointStatusMessage: S.optional(S.String),
@@ -3014,8 +3016,8 @@ export const MarketplaceModelEndpointSummary = S.suspend(() =>
     modelSourceIdentifier: S.String,
     status: S.optional(Status),
     statusMessage: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "MarketplaceModelEndpointSummary",
@@ -3235,12 +3237,14 @@ export const GetCustomModelDeploymentResponse = S.suspend(() =>
     customModelDeploymentArn: S.String,
     modelDeploymentName: S.String,
     modelArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: CustomModelDeploymentStatus,
     description: S.optional(S.String),
     updateDetails: S.optional(CustomModelDeploymentUpdateDetails),
     failureMessage: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetCustomModelDeploymentResponse",
@@ -3262,12 +3266,12 @@ export interface ListCustomModelDeploymentsRequest {
 }
 export const ListCustomModelDeploymentsRequest = S.suspend(() =>
   S.Struct({
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdBefore"),
-    ),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("createdAfter"),
-    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdBefore")),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("createdAfter")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3307,9 +3311,11 @@ export const CustomModelDeploymentSummary = S.suspend(() =>
     customModelDeploymentArn: S.String,
     customModelDeploymentName: S.String,
     modelArn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: CustomModelDeploymentStatus,
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureMessage: S.optional(S.String),
   }),
 ).annotate({
@@ -3697,7 +3703,7 @@ export const GetCustomModelResponse = S.suspend(() =>
     outputDataConfig: S.optional(OutputDataConfig),
     trainingMetrics: S.optional(TrainingMetrics),
     validationMetrics: S.optional(ValidationMetrics),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     customizationConfig: S.optional(CustomizationConfig),
     modelStatus: S.optional(ModelStatus),
     failureMessage: S.optional(S.String),
@@ -3721,10 +3727,10 @@ export interface ListCustomModelsRequest {
 export const ListCustomModelsRequest = S.suspend(() =>
   S.Struct({
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
     baseModelArnEquals: S.optional(S.String).pipe(
@@ -3766,7 +3772,7 @@ export const CustomModelSummary = S.suspend(() =>
   S.Struct({
     modelArn: S.String,
     modelName: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     baseModelArn: S.String,
     baseModelName: S.String,
     customizationType: S.optional(CustomizationType),
@@ -3856,9 +3862,13 @@ export const AccountEnforcedGuardrailOutputConfiguration = S.suspend(() =>
     guardrailId: S.optional(S.String),
     inputTags: S.optional(InputTags),
     guardrailVersion: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     createdBy: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
     owner: S.optional(S.String),
   }),
@@ -3927,7 +3937,9 @@ export interface PutEnforcedGuardrailConfigurationResponse {
 export const PutEnforcedGuardrailConfigurationResponse = S.suspend(() =>
   S.Struct({
     configId: S.optional(S.String),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -4997,8 +5009,10 @@ export const GetEvaluationJobResponse = S.suspend(() =>
     evaluationConfig: EvaluationConfig,
     inferenceConfig: EvaluationInferenceConfig,
     outputDataConfig: EvaluationOutputDataConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     failureMessages: S.optional(ErrorMessages),
   }),
 ).annotate({
@@ -5020,10 +5034,10 @@ export interface ListEvaluationJobsRequest {
 export const ListEvaluationJobsRequest = S.suspend(() =>
   S.Struct({
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     statusEquals: S.optional(EvaluationJobStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -5124,7 +5138,7 @@ export const EvaluationSummary = S.suspend(() =>
     jobArn: S.String,
     jobName: S.String,
     status: EvaluationJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     jobType: EvaluationJobType,
     evaluationTaskTypes: EvaluationTaskTypes,
     modelIdentifiers: S.optional(EvaluationBedrockModelIdentifiers),
@@ -5588,7 +5602,7 @@ export const CreateGuardrailResponse = S.suspend(() =>
     guardrailId: S.String,
     guardrailArn: S.String,
     version: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateGuardrailResponse",
@@ -5918,8 +5932,8 @@ export const GetGuardrailResponse = S.suspend(() =>
     contextualGroundingPolicy: S.optional(GuardrailContextualGroundingPolicy),
     automatedReasoningPolicy: S.optional(GuardrailAutomatedReasoningPolicy),
     crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusReasons: S.optional(GuardrailStatusReasons),
     failureRecommendations: S.optional(GuardrailFailureRecommendations),
     blockedInputMessaging: SensitiveString,
@@ -5989,7 +6003,7 @@ export const UpdateGuardrailResponse = S.suspend(() =>
     guardrailId: S.String,
     guardrailArn: S.String,
     version: S.String,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateGuardrailResponse",
@@ -6065,8 +6079,8 @@ export const GuardrailSummary = S.suspend(() =>
     name: SensitiveString,
     description: S.optional(SensitiveString),
     version: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     crossRegionDetails: S.optional(GuardrailCrossRegionDetails),
   }),
 ).annotate({
@@ -6214,8 +6228,12 @@ export const GetInferenceProfileResponse = S.suspend(() =>
   S.Struct({
     inferenceProfileName: S.String,
     description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     inferenceProfileArn: S.String,
     models: InferenceProfileModels,
     inferenceProfileId: S.String,
@@ -6293,8 +6311,12 @@ export const InferenceProfileSummary = S.suspend(() =>
   S.Struct({
     inferenceProfileName: S.String,
     description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     inferenceProfileArn: S.String,
     models: InferenceProfileModels,
     inferenceProfileId: S.String,
@@ -6501,7 +6523,7 @@ export const GetModelCopyJobResponse = S.suspend(() =>
   S.Struct({
     jobArn: S.String,
     status: ModelCopyJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     targetModelArn: S.String,
     targetModelName: S.optional(S.String),
     sourceAccountId: S.String,
@@ -6529,10 +6551,10 @@ export interface ListModelCopyJobsRequest {
 export const ListModelCopyJobsRequest = S.suspend(() =>
   S.Struct({
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     statusEquals: S.optional(ModelCopyJobStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -6580,7 +6602,7 @@ export const ModelCopyJobSummary = S.suspend(() =>
   S.Struct({
     jobArn: S.String,
     status: ModelCopyJobStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     targetModelArn: S.String,
     targetModelName: S.optional(S.String),
     sourceAccountId: S.String,
@@ -6725,7 +6747,9 @@ export const GetImportedModelResponse = S.suspend(() =>
     jobName: S.optional(S.String),
     jobArn: S.optional(S.String),
     modelDataSource: S.optional(ModelDataSource),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     modelArchitecture: S.optional(S.String),
     modelKmsKeyArn: S.optional(S.String),
     instructSupported: S.optional(S.Boolean),
@@ -6782,9 +6806,13 @@ export const GetModelImportJobResponse = S.suspend(() =>
     modelDataSource: S.optional(ModelDataSource),
     status: S.optional(ModelImportJobStatus),
     failureMessage: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     vpcConfig: S.optional(VpcConfig),
     importedModelKmsKeyArn: S.optional(S.String),
   }),
@@ -6803,10 +6831,10 @@ export interface ListImportedModelsRequest {
 export const ListImportedModelsRequest = S.suspend(() =>
   S.Struct({
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -6837,7 +6865,7 @@ export const ImportedModelSummary = S.suspend(() =>
   S.Struct({
     modelArn: S.String,
     modelName: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     instructSupported: S.optional(S.Boolean),
     modelArchitecture: S.optional(S.String),
   }),
@@ -6871,10 +6899,10 @@ export interface ListModelImportJobsRequest {
 export const ListModelImportJobsRequest = S.suspend(() =>
   S.Struct({
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     statusEquals: S.optional(ModelImportJobStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -6912,9 +6940,11 @@ export const ModelImportJobSummary = S.suspend(() =>
     jobArn: S.String,
     jobName: S.String,
     status: ModelImportJobStatus,
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     importedModelArn: S.optional(S.String),
     importedModelName: S.optional(S.String),
   }),
@@ -7076,14 +7106,18 @@ export const GetModelInvocationJobResponse = S.suspend(() =>
     roleArn: S.String,
     status: S.optional(ModelInvocationJobStatus),
     message: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     inputDataConfig: ModelInvocationJobInputDataConfig,
     outputDataConfig: ModelInvocationJobOutputDataConfig,
     vpcConfig: S.optional(VpcConfig),
     timeoutDurationInHours: S.optional(S.Number),
-    jobExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    jobExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetModelInvocationJobResponse",
@@ -7101,10 +7135,10 @@ export interface ListModelInvocationJobsRequest {
 export const ListModelInvocationJobsRequest = S.suspend(() =>
   S.Struct({
     submitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeAfter")),
     submitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeBefore")),
     statusEquals: S.optional(ModelInvocationJobStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -7153,14 +7187,18 @@ export const ModelInvocationJobSummary = S.suspend(() =>
     roleArn: S.String,
     status: S.optional(ModelInvocationJobStatus),
     message: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     inputDataConfig: ModelInvocationJobInputDataConfig,
     outputDataConfig: ModelInvocationJobOutputDataConfig,
     vpcConfig: S.optional(VpcConfig),
     timeoutDurationInHours: S.optional(S.Number),
-    jobExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    jobExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ModelInvocationJobSummary",
@@ -7459,8 +7497,12 @@ export const GetPromptRouterResponse = S.suspend(() =>
     promptRouterName: S.String,
     routingCriteria: RoutingCriteria,
     description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     promptRouterArn: S.String,
     models: PromptRouterTargetModels,
     fallbackModel: PromptRouterTargetModel,
@@ -7535,8 +7577,12 @@ export const PromptRouterSummary = S.suspend(() =>
     promptRouterName: S.String,
     routingCriteria: RoutingCriteria,
     description: S.optional(SensitiveString),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     promptRouterArn: S.String,
     models: PromptRouterTargetModels,
     fallbackModel: PromptRouterTargetModel,
@@ -7688,12 +7734,12 @@ export const GetProvisionedModelThroughputResponse = S.suspend(() =>
     desiredModelArn: S.String,
     foundationModelArn: S.String,
     status: ProvisionedModelStatus,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     failureMessage: S.optional(S.String),
     commitmentDuration: S.optional(CommitmentDuration),
     commitmentExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -7715,10 +7761,10 @@ export interface ListProvisionedModelThroughputsRequest {
 export const ListProvisionedModelThroughputsRequest = S.suspend(() =>
   S.Struct({
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     statusEquals: S.optional(ProvisionedModelStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -7768,10 +7814,10 @@ export const ProvisionedModelSummary = S.suspend(() =>
     status: ProvisionedModelStatus,
     commitmentDuration: S.optional(CommitmentDuration),
     commitmentExpirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ProvisionedModelSummary",
@@ -8213,8 +8259,12 @@ export interface ValidationDetails {
 export const ValidationDetails = S.suspend(() =>
   S.Struct({
     status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ValidationDetails",
@@ -8227,8 +8277,12 @@ export interface DataProcessingDetails {
 export const DataProcessingDetails = S.suspend(() =>
   S.Struct({
     status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DataProcessingDetails",
@@ -8241,8 +8295,12 @@ export interface TrainingDetails {
 export const TrainingDetails = S.suspend(() =>
   S.Struct({
     status: S.optional(JobStatusDetails),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "TrainingDetails",
@@ -8295,9 +8353,11 @@ export const GetModelCustomizationJobResponse = S.suspend(() =>
     status: S.optional(ModelCustomizationJobStatus),
     statusDetails: S.optional(StatusDetails),
     failureMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     baseModelArn: S.String,
     hyperParameters: S.optional(ModelCustomizationHyperParameters),
     trainingDataConfig: TrainingDataConfig,
@@ -8334,10 +8394,10 @@ export interface ListModelCustomizationJobsRequest {
 export const ListModelCustomizationJobsRequest = S.suspend(() =>
   S.Struct({
     creationTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeAfter")),
     creationTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("creationTimeBefore")),
     statusEquals: S.optional(FineTuningJobStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -8380,9 +8440,11 @@ export const ModelCustomizationJobSummary = S.suspend(() =>
     jobName: S.String,
     status: ModelCustomizationJobStatus,
     statusDetails: S.optional(StatusDetails),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     customModelArn: S.optional(S.String),
     customModelName: S.optional(S.String),
     customizationType: S.optional(CustomizationType),

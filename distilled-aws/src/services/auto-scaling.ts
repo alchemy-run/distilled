@@ -402,8 +402,10 @@ export interface ScheduledUpdateGroupActionRequest {
 export const ScheduledUpdateGroupActionRequest = S.suspend(() =>
   S.Struct({
     ScheduledActionName: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Recurrence: S.optional(S.String),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
@@ -1732,7 +1734,9 @@ export const AutoScalingGroup = S.suspend(() =>
     HealthCheckType: S.optional(S.String),
     HealthCheckGracePeriod: S.optional(S.Number),
     Instances: S.optional(Instances),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SuspendedProcesses: S.optional(SuspendedProcesses),
     PlacementGroup: S.optional(S.String),
     VPCZoneIdentifier: S.optional(S.String),
@@ -2058,7 +2062,9 @@ export interface RollbackDetails {
 export const RollbackDetails = S.suspend(() =>
   S.Struct({
     RollbackReason: S.optional(S.String),
-    RollbackStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RollbackStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PercentageCompleteOnRollback: S.optional(S.Number),
     InstancesToUpdateOnRollback: S.optional(S.Number),
     ProgressDetailsOnRollback: S.optional(InstanceRefreshProgressDetails),
@@ -2089,8 +2095,10 @@ export const InstanceRefresh = S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     Status: S.optional(InstanceRefreshStatus),
     StatusReason: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentageComplete: S.optional(S.Number),
     InstancesToUpdate: S.optional(S.Number),
     ProgressDetails: S.optional(InstanceRefreshProgressDetails),
@@ -2194,7 +2202,9 @@ export const LaunchConfiguration = S.suspend(() =>
     InstanceMonitoring: S.optional(InstanceMonitoring),
     SpotPrice: S.optional(S.String),
     IamInstanceProfile: S.optional(S.String),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EbsOptimized: S.optional(S.Boolean),
     AssociatePublicIpAddress: S.optional(S.Boolean),
     PlacementTenancy: S.optional(S.String),
@@ -3087,8 +3097,10 @@ export const Activity = S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     Description: S.optional(S.String),
     Cause: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StatusCode: S.optional(ScalingActivityStatusCode),
     StatusMessage: S.optional(S.String),
     Progress: S.optional(S.Number),
@@ -3157,8 +3169,10 @@ export const DescribeScheduledActionsType = S.suspend(() =>
   S.Struct({
     AutoScalingGroupName: S.optional(S.String),
     ScheduledActionNames: S.optional(ScheduledActionNames),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(
@@ -3193,9 +3207,11 @@ export const ScheduledUpdateGroupAction = S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     ScheduledActionName: S.optional(S.String),
     ScheduledActionARN: S.optional(S.String),
-    Time: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Time: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Recurrence: S.optional(S.String),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),
@@ -3679,8 +3695,10 @@ export const GetPredictiveScalingForecastType = S.suspend(() =>
   S.Struct({
     AutoScalingGroupName: S.optional(S.String),
     PolicyName: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(
     T.all(
       ns,
@@ -3697,7 +3715,7 @@ export const GetPredictiveScalingForecastType = S.suspend(() =>
 }) as any as S.Schema<GetPredictiveScalingForecastType>;
 export type PredictiveScalingForecastTimestamps = Date[];
 export const PredictiveScalingForecastTimestamps = S.Array(
-  S.Date.pipe(T.TimestampFormat("date-time")),
+  T.DateFromString.pipe(T.TimestampFormat("date-time")),
 );
 export type PredictiveScalingForecastValues = number[];
 export const PredictiveScalingForecastValues = S.Array(S.Number);
@@ -3802,7 +3820,9 @@ export const GetPredictiveScalingForecastAnswer = S.suspend(() =>
   S.Struct({
     LoadForecast: S.optional(LoadForecasts),
     CapacityForecast: S.optional(CapacityForecast),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "GetPredictiveScalingForecastAnswer",
@@ -4054,9 +4074,11 @@ export const PutScheduledUpdateGroupActionType = S.suspend(() =>
   S.Struct({
     AutoScalingGroupName: S.optional(S.String),
     ScheduledActionName: S.optional(S.String),
-    Time: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Time: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Recurrence: S.optional(S.String),
     MinSize: S.optional(S.Number),
     MaxSize: S.optional(S.Number),

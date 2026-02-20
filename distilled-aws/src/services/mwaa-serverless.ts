@@ -240,9 +240,13 @@ export const GetTaskInstanceResponse = S.suspend(() =>
     Status: S.optional(TaskInstanceStatus),
     DurationInSeconds: S.optional(S.Number),
     OperatorName: S.optional(S.String),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AttemptNumber: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     TaskId: S.optional(S.String),
@@ -425,7 +429,9 @@ export interface CreateWorkflowResponse {
 export const CreateWorkflowResponse = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevisionId: S.optional(S.String),
     WorkflowStatus: S.optional(WorkflowStatus),
     WorkflowVersion: S.optional(S.String),
@@ -488,8 +494,12 @@ export const GetWorkflowResponse = S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     LoggingConfiguration: S.optional(LoggingConfiguration),
     EngineVersion: S.optional(EngineVersion),
@@ -546,7 +556,9 @@ export interface UpdateWorkflowResponse {
 export const UpdateWorkflowResponse = S.suspend(() =>
   S.Struct({
     WorkflowArn: S.String,
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     WorkflowVersion: S.optional(S.String),
     Warnings: S.optional(WarningMessages),
   }),
@@ -620,8 +632,12 @@ export const WorkflowSummary = S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     WorkflowStatus: S.optional(WorkflowStatus),
     TriggerMode: S.optional(S.String),
   }),
@@ -686,7 +702,9 @@ export const StartWorkflowRunResponse = S.suspend(() =>
   S.Struct({
     RunId: S.optional(S.String),
     Status: S.optional(WorkflowRunStatus),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StartWorkflowRunResponse",
@@ -736,10 +754,18 @@ export const WorkflowRunDetail = S.suspend(() =>
     WorkflowVersion: S.optional(S.String),
     RunId: S.optional(S.String),
     RunType: S.optional(RunType),
-    StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Duration: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     TaskInstances: S.optional(TaskInstanceIds),
@@ -842,9 +868,13 @@ export interface RunDetailSummary {
 export const RunDetailSummary = S.suspend(() =>
   S.Struct({
     Status: S.optional(WorkflowRunStatus),
-    CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "RunDetailSummary",
@@ -919,8 +949,12 @@ export const WorkflowVersionSummary = S.suspend(() =>
     WorkflowVersion: S.String,
     WorkflowArn: S.String,
     IsLatestVersion: S.optional(S.Boolean),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DefinitionS3Location: S.optional(DefinitionS3Location),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
     TriggerMode: S.optional(S.String),

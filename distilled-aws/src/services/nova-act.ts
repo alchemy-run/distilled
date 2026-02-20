@@ -259,8 +259,8 @@ export const ActSummary = S.suspend(() =>
     sessionId: S.String,
     actId: S.String,
     status: ActStatus,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     traceLocation: S.optional(TraceLocation),
   }),
 ).annotate({ identifier: "ActSummary" }) as any as S.Schema<ActSummary>;
@@ -646,7 +646,7 @@ export const GetWorkflowDefinitionResponse = S.suspend(() =>
   S.Struct({
     name: S.String,
     arn: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     description: S.optional(SensitiveString),
     exportConfig: S.optional(WorkflowExportConfig),
     status: WorkflowDefinitionStatus,
@@ -719,7 +719,7 @@ export const WorkflowDefinitionSummary = S.suspend(() =>
   S.Struct({
     workflowDefinitionArn: S.String,
     workflowDefinitionName: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     status: WorkflowDefinitionStatus,
   }),
 ).annotate({
@@ -838,8 +838,8 @@ export const GetWorkflowRunResponse = S.suspend(() =>
     workflowRunArn: S.String,
     workflowRunId: S.String,
     status: WorkflowRunStatus,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     modelId: S.String,
     logGroupName: S.optional(S.String),
   }),
@@ -955,8 +955,8 @@ export const WorkflowRunSummary = S.suspend(() =>
     workflowRunArn: S.String,
     workflowRunId: S.String,
     status: WorkflowRunStatus,
-    startedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     traceLocation: S.optional(TraceLocation),
   }),
 ).annotate({

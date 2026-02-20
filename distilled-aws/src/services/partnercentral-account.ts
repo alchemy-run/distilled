@@ -145,7 +145,9 @@ export interface RegistrantVerificationResponse {
 export const RegistrantVerificationResponse = S.suspend(() =>
   S.Struct({
     CompletionUrl: S.String,
-    CompletionUrlExpiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CompletionUrlExpiresAt: T.DateFromString.pipe(
+      T.TimestampFormat("date-time"),
+    ),
   }),
 ).annotate({
   identifier: "RegistrantVerificationResponse",
@@ -177,8 +179,10 @@ export const GetVerificationResponse = S.suspend(() =>
     VerificationStatus: VerificationStatus,
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    CompletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetVerificationResponse",
@@ -356,8 +360,10 @@ export const StartVerificationResponse = S.suspend(() =>
     VerificationStatus: VerificationStatus,
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    CompletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "StartVerificationResponse",
@@ -471,9 +477,11 @@ export const CreateConnectionInvitationResponse = S.suspend(() =>
     Arn: S.String,
     ConnectionId: S.optional(S.String),
     ConnectionType: ConnectionType,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -518,9 +526,11 @@ export const GetConnectionInvitationResponse = S.suspend(() =>
     Arn: S.String,
     ConnectionId: S.optional(S.String),
     ConnectionType: ConnectionType,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -577,9 +587,11 @@ export const ConnectionInvitationSummary = S.suspend(() =>
     Arn: S.String,
     ConnectionId: S.optional(S.String),
     ConnectionType: ConnectionType,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -673,11 +685,13 @@ export interface ConnectionTypeDetail {
 }
 export const ConnectionTypeDetail = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     InviterEmail: S.String,
     InviterName: SensitiveString,
     Status: ConnectionTypeStatus,
-    CanceledAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CanceledAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CanceledBy: S.optional(S.String),
     OtherParticipant: Participant,
   }),
@@ -705,7 +719,7 @@ export const Connection = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     OtherParticipantAccountId: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeDetailMap,
   }),
 ).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
@@ -756,9 +770,11 @@ export const CancelConnectionInvitationResponse = S.suspend(() =>
     Arn: S.String,
     ConnectionId: S.optional(S.String),
     ConnectionType: ConnectionType,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -810,9 +826,11 @@ export const RejectConnectionInvitationResponse = S.suspend(() =>
     Arn: S.String,
     ConnectionId: S.optional(S.String),
     ConnectionType: ConnectionType,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -853,7 +871,7 @@ export const GetConnectionPreferencesResponse = S.suspend(() =>
     Arn: S.String,
     AccessType: AccessType,
     ExcludedParticipantIds: S.optional(ParticipantIdentifierList),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Revision: S.Number,
   }),
 ).annotate({
@@ -891,7 +909,7 @@ export const UpdateConnectionPreferencesResponse = S.suspend(() =>
     Arn: S.String,
     AccessType: AccessType,
     ExcludedParticipantIds: S.optional(ParticipantIdentifierList),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Revision: S.Number,
   }),
 ).annotate({
@@ -922,7 +940,7 @@ export const GetConnectionResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     OtherParticipantAccountId: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeDetailMap,
   }),
 ).annotate({
@@ -978,7 +996,7 @@ export const ConnectionSummary = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     OtherParticipantAccountId: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeSummaryMap,
   }),
 ).annotate({
@@ -1032,7 +1050,7 @@ export const CancelConnectionResponse = S.suspend(() =>
     Id: S.String,
     Arn: S.String,
     OtherParticipantAccountId: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeDetailMap,
   }),
 ).annotate({
@@ -1182,7 +1200,7 @@ export interface PartnerDomain {
 export const PartnerDomain = S.suspend(() =>
   S.Struct({
     DomainName: S.String,
-    RegisteredAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    RegisteredAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "PartnerDomain" }) as any as S.Schema<PartnerDomain>;
 export type PartnerDomainList = PartnerDomain[];
@@ -1203,7 +1221,7 @@ export const CreatePartnerResponse = S.suspend(() =>
     Arn: S.String,
     Id: S.String,
     LegalName: SensitiveString,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Profile: PartnerProfile,
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),
     AllianceLeadContact: AllianceLeadContact,
@@ -1237,7 +1255,7 @@ export const GetPartnerResponse = S.suspend(() =>
     Arn: S.String,
     Id: S.String,
     LegalName: SensitiveString,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Profile: PartnerProfile,
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),
   }),
@@ -1268,7 +1286,7 @@ export const PartnerSummary = S.suspend(() =>
     Arn: S.String,
     Id: S.String,
     LegalName: SensitiveString,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "PartnerSummary" }) as any as S.Schema<PartnerSummary>;
 export type PartnerSummaryList = PartnerSummary[];
@@ -1401,9 +1419,9 @@ export const CancelProfileUpdateTaskResponse = S.suspend(() =>
     Id: S.String,
     TaskId: S.String,
     TaskDetails: TaskDetails,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Status: ProfileTaskStatus,
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
 ).annotate({
@@ -1489,9 +1507,9 @@ export const GetProfileUpdateTaskResponse = S.suspend(() =>
     Id: S.String,
     TaskId: S.String,
     TaskDetails: TaskDetails,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Status: ProfileTaskStatus,
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
 ).annotate({
@@ -1632,9 +1650,9 @@ export const StartProfileUpdateTaskResponse = S.suspend(() =>
     Id: S.String,
     TaskId: S.String,
     TaskDetails: TaskDetails,
-    StartedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Status: ProfileTaskStatus,
-    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ErrorDetailList: S.optional(ErrorDetailList),
   }),
 ).annotate({

@@ -284,16 +284,18 @@ export interface AssociateCertificateRequest {
   Arn?: string;
 }
 export const AssociateCertificateRequest = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String).pipe(T.JsonName("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/certificates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ Arn: S.optional(S.String) })
+    .pipe(S.encodeKeys({ Arn: "arn" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/certificates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AssociateCertificateRequest",
 }) as any as S.Schema<AssociateCertificateRequest>;
@@ -334,7 +336,9 @@ export interface AccelerationSettings {
   Mode?: AccelerationMode;
 }
 export const AccelerationSettings = S.suspend(() =>
-  S.Struct({ Mode: S.optional(AccelerationMode).pipe(T.JsonName("mode")) }),
+  S.Struct({ Mode: S.optional(AccelerationMode) }).pipe(
+    S.encodeKeys({ Mode: "mode" }),
+  ),
 ).annotate({
   identifier: "AccelerationSettings",
 }) as any as S.Schema<AccelerationSettings>;
@@ -352,10 +356,16 @@ export interface HopDestination {
 }
 export const HopDestination = S.suspend(() =>
   S.Struct({
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    WaitMinutes: S.optional(S.Number).pipe(T.JsonName("waitMinutes")),
-  }),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    WaitMinutes: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Priority: "priority",
+      Queue: "queue",
+      WaitMinutes: "waitMinutes",
+    }),
+  ),
 ).annotate({ identifier: "HopDestination" }) as any as S.Schema<HopDestination>;
 export type __listOfHopDestination = HopDestination[];
 export const __listOfHopDestination = S.Array(HopDestination);
@@ -363,11 +373,9 @@ export interface AvailBlanking {
   AvailBlankingImage?: string;
 }
 export const AvailBlanking = S.suspend(() =>
-  S.Struct({
-    AvailBlankingImage: S.optional(S.String).pipe(
-      T.JsonName("availBlankingImage"),
-    ),
-  }),
+  S.Struct({ AvailBlankingImage: S.optional(S.String) }).pipe(
+    S.encodeKeys({ AvailBlankingImage: "availBlankingImage" }),
+  ),
 ).annotate({ identifier: "AvailBlanking" }) as any as S.Schema<AvailBlanking>;
 export type ColorSpace =
   | "FOLLOW"
@@ -389,18 +397,20 @@ export interface ColorConversion3DLUTSetting {
 }
 export const ColorConversion3DLUTSetting = S.suspend(() =>
   S.Struct({
-    FileInput: S.optional(S.String).pipe(T.JsonName("fileInput")),
-    InputColorSpace: S.optional(ColorSpace).pipe(T.JsonName("inputColorSpace")),
-    InputMasteringLuminance: S.optional(S.Number).pipe(
-      T.JsonName("inputMasteringLuminance"),
-    ),
-    OutputColorSpace: S.optional(ColorSpace).pipe(
-      T.JsonName("outputColorSpace"),
-    ),
-    OutputMasteringLuminance: S.optional(S.Number).pipe(
-      T.JsonName("outputMasteringLuminance"),
-    ),
-  }),
+    FileInput: S.optional(S.String),
+    InputColorSpace: S.optional(ColorSpace),
+    InputMasteringLuminance: S.optional(S.Number),
+    OutputColorSpace: S.optional(ColorSpace),
+    OutputMasteringLuminance: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FileInput: "fileInput",
+      InputColorSpace: "inputColorSpace",
+      InputMasteringLuminance: "inputMasteringLuminance",
+      OutputColorSpace: "outputColorSpace",
+      OutputMasteringLuminance: "outputMasteringLuminance",
+    }),
+  ),
 ).annotate({
   identifier: "ColorConversion3DLUTSetting",
 }) as any as S.Schema<ColorConversion3DLUTSetting>;
@@ -412,7 +422,9 @@ export interface EsamManifestConfirmConditionNotification {
   MccXml?: string;
 }
 export const EsamManifestConfirmConditionNotification = S.suspend(() =>
-  S.Struct({ MccXml: S.optional(S.String).pipe(T.JsonName("mccXml")) }),
+  S.Struct({ MccXml: S.optional(S.String) }).pipe(
+    S.encodeKeys({ MccXml: "mccXml" }),
+  ),
 ).annotate({
   identifier: "EsamManifestConfirmConditionNotification",
 }) as any as S.Schema<EsamManifestConfirmConditionNotification>;
@@ -420,7 +432,9 @@ export interface EsamSignalProcessingNotification {
   SccXml?: string;
 }
 export const EsamSignalProcessingNotification = S.suspend(() =>
-  S.Struct({ SccXml: S.optional(S.String).pipe(T.JsonName("sccXml")) }),
+  S.Struct({ SccXml: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SccXml: "sccXml" }),
+  ),
 ).annotate({
   identifier: "EsamSignalProcessingNotification",
 }) as any as S.Schema<EsamSignalProcessingNotification>;
@@ -433,16 +447,17 @@ export const EsamSettings = S.suspend(() =>
   S.Struct({
     ManifestConfirmConditionNotification: S.optional(
       EsamManifestConfirmConditionNotification,
-    )
-      .pipe(T.JsonName("manifestConfirmConditionNotification"))
-      .annotate({ identifier: "EsamManifestConfirmConditionNotification" }),
-    ResponseSignalPreroll: S.optional(S.Number).pipe(
-      T.JsonName("responseSignalPreroll"),
     ),
-    SignalProcessingNotification: S.optional(EsamSignalProcessingNotification)
-      .pipe(T.JsonName("signalProcessingNotification"))
-      .annotate({ identifier: "EsamSignalProcessingNotification" }),
-  }),
+    ResponseSignalPreroll: S.optional(S.Number),
+    SignalProcessingNotification: S.optional(EsamSignalProcessingNotification),
+  }).pipe(
+    S.encodeKeys({
+      ManifestConfirmConditionNotification:
+        "manifestConfirmConditionNotification",
+      ResponseSignalPreroll: "responseSignalPreroll",
+      SignalProcessingNotification: "signalProcessingNotification",
+    }),
+  ),
 ).annotate({ identifier: "EsamSettings" }) as any as S.Schema<EsamSettings>;
 export type CopyProtectionAction = "PASSTHROUGH" | "STRIP" | (string & {});
 export const CopyProtectionAction = S.String;
@@ -454,11 +469,14 @@ export interface ExtendedDataServices {
 }
 export const ExtendedDataServices = S.suspend(() =>
   S.Struct({
-    CopyProtectionAction: S.optional(CopyProtectionAction).pipe(
-      T.JsonName("copyProtectionAction"),
-    ),
-    VchipAction: S.optional(VchipAction).pipe(T.JsonName("vchipAction")),
-  }),
+    CopyProtectionAction: S.optional(CopyProtectionAction),
+    VchipAction: S.optional(VchipAction),
+  }).pipe(
+    S.encodeKeys({
+      CopyProtectionAction: "copyProtectionAction",
+      VchipAction: "vchipAction",
+    }),
+  ),
 ).annotate({
   identifier: "ExtendedDataServices",
 }) as any as S.Schema<ExtendedDataServices>;
@@ -477,13 +495,9 @@ export interface AdvancedInputFilterSettings {
 }
 export const AdvancedInputFilterSettings = S.suspend(() =>
   S.Struct({
-    AddTexture: S.optional(AdvancedInputFilterAddTexture).pipe(
-      T.JsonName("addTexture"),
-    ),
-    Sharpening: S.optional(AdvancedInputFilterSharpen).pipe(
-      T.JsonName("sharpening"),
-    ),
-  }),
+    AddTexture: S.optional(AdvancedInputFilterAddTexture),
+    Sharpening: S.optional(AdvancedInputFilterSharpen),
+  }).pipe(S.encodeKeys({ AddTexture: "addTexture", Sharpening: "sharpening" })),
 ).annotate({
   identifier: "AdvancedInputFilterSettings",
 }) as any as S.Schema<AdvancedInputFilterSettings>;
@@ -493,11 +507,9 @@ export interface AudioSelectorGroup {
   AudioSelectorNames?: string[];
 }
 export const AudioSelectorGroup = S.suspend(() =>
-  S.Struct({
-    AudioSelectorNames: S.optional(__listOf__stringMin1).pipe(
-      T.JsonName("audioSelectorNames"),
-    ),
-  }),
+  S.Struct({ AudioSelectorNames: S.optional(__listOf__stringMin1) }).pipe(
+    S.encodeKeys({ AudioSelectorNames: "audioSelectorNames" }),
+  ),
 ).annotate({
   identifier: "AudioSelectorGroup",
 }) as any as S.Schema<AudioSelectorGroup>;
@@ -720,12 +732,16 @@ export interface HlsRenditionGroupSettings {
 }
 export const HlsRenditionGroupSettings = S.suspend(() =>
   S.Struct({
-    RenditionGroupId: S.optional(S.String).pipe(T.JsonName("renditionGroupId")),
-    RenditionLanguageCode: S.optional(LanguageCode).pipe(
-      T.JsonName("renditionLanguageCode"),
-    ),
-    RenditionName: S.optional(S.String).pipe(T.JsonName("renditionName")),
-  }),
+    RenditionGroupId: S.optional(S.String),
+    RenditionLanguageCode: S.optional(LanguageCode),
+    RenditionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      RenditionGroupId: "renditionGroupId",
+      RenditionLanguageCode: "renditionLanguageCode",
+      RenditionName: "renditionName",
+    }),
+  ),
 ).annotate({
   identifier: "HlsRenditionGroupSettings",
 }) as any as S.Schema<HlsRenditionGroupSettings>;
@@ -741,13 +757,14 @@ export interface OutputChannelMapping {
 }
 export const OutputChannelMapping = S.suspend(() =>
   S.Struct({
-    InputChannels: S.optional(__listOf__integerMinNegative60Max6).pipe(
-      T.JsonName("inputChannels"),
-    ),
-    InputChannelsFineTune: S.optional(__listOf__doubleMinNegative60Max6).pipe(
-      T.JsonName("inputChannelsFineTune"),
-    ),
-  }),
+    InputChannels: S.optional(__listOf__integerMinNegative60Max6),
+    InputChannelsFineTune: S.optional(__listOf__doubleMinNegative60Max6),
+  }).pipe(
+    S.encodeKeys({
+      InputChannels: "inputChannels",
+      InputChannelsFineTune: "inputChannelsFineTune",
+    }),
+  ),
 ).annotate({
   identifier: "OutputChannelMapping",
 }) as any as S.Schema<OutputChannelMapping>;
@@ -757,11 +774,9 @@ export interface ChannelMapping {
   OutputChannels?: OutputChannelMapping[];
 }
 export const ChannelMapping = S.suspend(() =>
-  S.Struct({
-    OutputChannels: S.optional(__listOfOutputChannelMapping).pipe(
-      T.JsonName("outputChannels"),
-    ),
-  }),
+  S.Struct({ OutputChannels: S.optional(__listOfOutputChannelMapping) }).pipe(
+    S.encodeKeys({ OutputChannels: "outputChannels" }),
+  ),
 ).annotate({ identifier: "ChannelMapping" }) as any as S.Schema<ChannelMapping>;
 export interface RemixSettings {
   AudioDescriptionAudioChannel?: number;
@@ -772,18 +787,20 @@ export interface RemixSettings {
 }
 export const RemixSettings = S.suspend(() =>
   S.Struct({
-    AudioDescriptionAudioChannel: S.optional(S.Number).pipe(
-      T.JsonName("audioDescriptionAudioChannel"),
-    ),
-    AudioDescriptionDataChannel: S.optional(S.Number).pipe(
-      T.JsonName("audioDescriptionDataChannel"),
-    ),
-    ChannelMapping: S.optional(ChannelMapping)
-      .pipe(T.JsonName("channelMapping"))
-      .annotate({ identifier: "ChannelMapping" }),
-    ChannelsIn: S.optional(S.Number).pipe(T.JsonName("channelsIn")),
-    ChannelsOut: S.optional(S.Number).pipe(T.JsonName("channelsOut")),
-  }),
+    AudioDescriptionAudioChannel: S.optional(S.Number),
+    AudioDescriptionDataChannel: S.optional(S.Number),
+    ChannelMapping: S.optional(ChannelMapping),
+    ChannelsIn: S.optional(S.Number),
+    ChannelsOut: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptionAudioChannel: "audioDescriptionAudioChannel",
+      AudioDescriptionDataChannel: "audioDescriptionDataChannel",
+      ChannelMapping: "channelMapping",
+      ChannelsIn: "channelsIn",
+      ChannelsOut: "channelsOut",
+    }),
+  ),
 ).annotate({ identifier: "RemixSettings" }) as any as S.Schema<RemixSettings>;
 export type AudioSelectorType =
   | "PID"
@@ -811,40 +828,36 @@ export interface AudioSelector {
 }
 export const AudioSelector = S.suspend(() =>
   S.Struct({
-    AudioDurationCorrection: S.optional(AudioDurationCorrection).pipe(
-      T.JsonName("audioDurationCorrection"),
-    ),
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    DefaultSelection: S.optional(AudioDefaultSelection).pipe(
-      T.JsonName("defaultSelection"),
-    ),
-    ExternalAudioFileInput: S.optional(S.String).pipe(
-      T.JsonName("externalAudioFileInput"),
-    ),
-    HlsRenditionGroupSettings: S.optional(HlsRenditionGroupSettings)
-      .pipe(T.JsonName("hlsRenditionGroupSettings"))
-      .annotate({ identifier: "HlsRenditionGroupSettings" }),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    Offset: S.optional(S.Number).pipe(T.JsonName("offset")),
-    Pids: S.optional(__listOf__integerMin1Max2147483647).pipe(
-      T.JsonName("pids"),
-    ),
-    ProgramSelection: S.optional(S.Number).pipe(T.JsonName("programSelection")),
-    RemixSettings: S.optional(RemixSettings)
-      .pipe(T.JsonName("remixSettings"))
-      .annotate({ identifier: "RemixSettings" }),
-    SelectorType: S.optional(AudioSelectorType).pipe(
-      T.JsonName("selectorType"),
-    ),
-    Streams: S.optional(__listOf__integerMin1Max2147483647).pipe(
-      T.JsonName("streams"),
-    ),
-    Tracks: S.optional(__listOf__integerMin1Max2147483647).pipe(
-      T.JsonName("tracks"),
-    ),
-  }),
+    AudioDurationCorrection: S.optional(AudioDurationCorrection),
+    CustomLanguageCode: S.optional(S.String),
+    DefaultSelection: S.optional(AudioDefaultSelection),
+    ExternalAudioFileInput: S.optional(S.String),
+    HlsRenditionGroupSettings: S.optional(HlsRenditionGroupSettings),
+    LanguageCode: S.optional(LanguageCode),
+    Offset: S.optional(S.Number),
+    Pids: S.optional(__listOf__integerMin1Max2147483647),
+    ProgramSelection: S.optional(S.Number),
+    RemixSettings: S.optional(RemixSettings),
+    SelectorType: S.optional(AudioSelectorType),
+    Streams: S.optional(__listOf__integerMin1Max2147483647),
+    Tracks: S.optional(__listOf__integerMin1Max2147483647),
+  }).pipe(
+    S.encodeKeys({
+      AudioDurationCorrection: "audioDurationCorrection",
+      CustomLanguageCode: "customLanguageCode",
+      DefaultSelection: "defaultSelection",
+      ExternalAudioFileInput: "externalAudioFileInput",
+      HlsRenditionGroupSettings: "hlsRenditionGroupSettings",
+      LanguageCode: "languageCode",
+      Offset: "offset",
+      Pids: "pids",
+      ProgramSelection: "programSelection",
+      RemixSettings: "remixSettings",
+      SelectorType: "selectorType",
+      Streams: "streams",
+      Tracks: "tracks",
+    }),
+  ),
 ).annotate({ identifier: "AudioSelector" }) as any as S.Schema<AudioSelector>;
 export type __mapOfAudioSelector = { [key: string]: AudioSelector | undefined };
 export const __mapOfAudioSelector = S.Record(
@@ -865,16 +878,16 @@ export interface AncillarySourceSettings {
 }
 export const AncillarySourceSettings = S.suspend(() =>
   S.Struct({
-    Convert608To708: S.optional(AncillaryConvert608To708).pipe(
-      T.JsonName("convert608To708"),
-    ),
-    SourceAncillaryChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("sourceAncillaryChannelNumber"),
-    ),
-    TerminateCaptions: S.optional(AncillaryTerminateCaptions).pipe(
-      T.JsonName("terminateCaptions"),
-    ),
-  }),
+    Convert608To708: S.optional(AncillaryConvert608To708),
+    SourceAncillaryChannelNumber: S.optional(S.Number),
+    TerminateCaptions: S.optional(AncillaryTerminateCaptions),
+  }).pipe(
+    S.encodeKeys({
+      Convert608To708: "convert608To708",
+      SourceAncillaryChannelNumber: "sourceAncillaryChannelNumber",
+      TerminateCaptions: "terminateCaptions",
+    }),
+  ),
 ).annotate({
   identifier: "AncillarySourceSettings",
 }) as any as S.Schema<AncillarySourceSettings>;
@@ -882,7 +895,7 @@ export interface DvbSubSourceSettings {
   Pid?: number;
 }
 export const DvbSubSourceSettings = S.suspend(() =>
-  S.Struct({ Pid: S.optional(S.Number).pipe(T.JsonName("pid")) }),
+  S.Struct({ Pid: S.optional(S.Number) }).pipe(S.encodeKeys({ Pid: "pid" })),
 ).annotate({
   identifier: "DvbSubSourceSettings",
 }) as any as S.Schema<DvbSubSourceSettings>;
@@ -901,19 +914,18 @@ export interface EmbeddedSourceSettings {
 }
 export const EmbeddedSourceSettings = S.suspend(() =>
   S.Struct({
-    Convert608To708: S.optional(EmbeddedConvert608To708).pipe(
-      T.JsonName("convert608To708"),
-    ),
-    Source608ChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("source608ChannelNumber"),
-    ),
-    Source608TrackNumber: S.optional(S.Number).pipe(
-      T.JsonName("source608TrackNumber"),
-    ),
-    TerminateCaptions: S.optional(EmbeddedTerminateCaptions).pipe(
-      T.JsonName("terminateCaptions"),
-    ),
-  }),
+    Convert608To708: S.optional(EmbeddedConvert608To708),
+    Source608ChannelNumber: S.optional(S.Number),
+    Source608TrackNumber: S.optional(S.Number),
+    TerminateCaptions: S.optional(EmbeddedTerminateCaptions),
+  }).pipe(
+    S.encodeKeys({
+      Convert608To708: "convert608To708",
+      Source608ChannelNumber: "source608ChannelNumber",
+      Source608TrackNumber: "source608TrackNumber",
+      TerminateCaptions: "terminateCaptions",
+    }),
+  ),
 ).annotate({
   identifier: "EmbeddedSourceSettings",
 }) as any as S.Schema<EmbeddedSourceSettings>;
@@ -935,13 +947,14 @@ export interface CaptionSourceFramerate {
 }
 export const CaptionSourceFramerate = S.suspend(() =>
   S.Struct({
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionSourceFramerate",
 }) as any as S.Schema<CaptionSourceFramerate>;
@@ -967,27 +980,26 @@ export interface FileSourceSettings {
 }
 export const FileSourceSettings = S.suspend(() =>
   S.Struct({
-    ByteRateLimit: S.optional(CaptionSourceByteRateLimit).pipe(
-      T.JsonName("byteRateLimit"),
-    ),
-    Convert608To708: S.optional(FileSourceConvert608To708).pipe(
-      T.JsonName("convert608To708"),
-    ),
-    ConvertPaintToPop: S.optional(CaptionSourceConvertPaintOnToPopOn).pipe(
-      T.JsonName("convertPaintToPop"),
-    ),
-    Framerate: S.optional(CaptionSourceFramerate)
-      .pipe(T.JsonName("framerate"))
-      .annotate({ identifier: "CaptionSourceFramerate" }),
-    SourceFile: S.optional(S.String).pipe(T.JsonName("sourceFile")),
-    TimeDelta: S.optional(S.Number).pipe(T.JsonName("timeDelta")),
-    TimeDeltaUnits: S.optional(FileSourceTimeDeltaUnits).pipe(
-      T.JsonName("timeDeltaUnits"),
-    ),
-    UpconvertSTLToTeletext: S.optional(
-      CaptionSourceUpconvertSTLToTeletext,
-    ).pipe(T.JsonName("upconvertSTLToTeletext")),
-  }),
+    ByteRateLimit: S.optional(CaptionSourceByteRateLimit),
+    Convert608To708: S.optional(FileSourceConvert608To708),
+    ConvertPaintToPop: S.optional(CaptionSourceConvertPaintOnToPopOn),
+    Framerate: S.optional(CaptionSourceFramerate),
+    SourceFile: S.optional(S.String),
+    TimeDelta: S.optional(S.Number),
+    TimeDeltaUnits: S.optional(FileSourceTimeDeltaUnits),
+    UpconvertSTLToTeletext: S.optional(CaptionSourceUpconvertSTLToTeletext),
+  }).pipe(
+    S.encodeKeys({
+      ByteRateLimit: "byteRateLimit",
+      Convert608To708: "convert608To708",
+      ConvertPaintToPop: "convertPaintToPop",
+      Framerate: "framerate",
+      SourceFile: "sourceFile",
+      TimeDelta: "timeDelta",
+      TimeDeltaUnits: "timeDeltaUnits",
+      UpconvertSTLToTeletext: "upconvertSTLToTeletext",
+    }),
+  ),
 ).annotate({
   identifier: "FileSourceSettings",
 }) as any as S.Schema<FileSourceSettings>;
@@ -1013,7 +1025,9 @@ export interface TeletextSourceSettings {
   PageNumber?: string;
 }
 export const TeletextSourceSettings = S.suspend(() =>
-  S.Struct({ PageNumber: S.optional(S.String).pipe(T.JsonName("pageNumber")) }),
+  S.Struct({ PageNumber: S.optional(S.String) }).pipe(
+    S.encodeKeys({ PageNumber: "pageNumber" }),
+  ),
 ).annotate({
   identifier: "TeletextSourceSettings",
 }) as any as S.Schema<TeletextSourceSettings>;
@@ -1023,9 +1037,11 @@ export interface TrackSourceSettings {
 }
 export const TrackSourceSettings = S.suspend(() =>
   S.Struct({
-    StreamNumber: S.optional(S.Number).pipe(T.JsonName("streamNumber")),
-    TrackNumber: S.optional(S.Number).pipe(T.JsonName("trackNumber")),
-  }),
+    StreamNumber: S.optional(S.Number),
+    TrackNumber: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({ StreamNumber: "streamNumber", TrackNumber: "trackNumber" }),
+  ),
 ).annotate({
   identifier: "TrackSourceSettings",
 }) as any as S.Schema<TrackSourceSettings>;
@@ -1036,12 +1052,16 @@ export interface WebvttHlsSourceSettings {
 }
 export const WebvttHlsSourceSettings = S.suspend(() =>
   S.Struct({
-    RenditionGroupId: S.optional(S.String).pipe(T.JsonName("renditionGroupId")),
-    RenditionLanguageCode: S.optional(LanguageCode).pipe(
-      T.JsonName("renditionLanguageCode"),
-    ),
-    RenditionName: S.optional(S.String).pipe(T.JsonName("renditionName")),
-  }),
+    RenditionGroupId: S.optional(S.String),
+    RenditionLanguageCode: S.optional(LanguageCode),
+    RenditionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      RenditionGroupId: "renditionGroupId",
+      RenditionLanguageCode: "renditionLanguageCode",
+      RenditionName: "renditionName",
+    }),
+  ),
 ).annotate({
   identifier: "WebvttHlsSourceSettings",
 }) as any as S.Schema<WebvttHlsSourceSettings>;
@@ -1057,29 +1077,26 @@ export interface CaptionSourceSettings {
 }
 export const CaptionSourceSettings = S.suspend(() =>
   S.Struct({
-    AncillarySourceSettings: S.optional(AncillarySourceSettings)
-      .pipe(T.JsonName("ancillarySourceSettings"))
-      .annotate({ identifier: "AncillarySourceSettings" }),
-    DvbSubSourceSettings: S.optional(DvbSubSourceSettings)
-      .pipe(T.JsonName("dvbSubSourceSettings"))
-      .annotate({ identifier: "DvbSubSourceSettings" }),
-    EmbeddedSourceSettings: S.optional(EmbeddedSourceSettings)
-      .pipe(T.JsonName("embeddedSourceSettings"))
-      .annotate({ identifier: "EmbeddedSourceSettings" }),
-    FileSourceSettings: S.optional(FileSourceSettings)
-      .pipe(T.JsonName("fileSourceSettings"))
-      .annotate({ identifier: "FileSourceSettings" }),
-    SourceType: S.optional(CaptionSourceType).pipe(T.JsonName("sourceType")),
-    TeletextSourceSettings: S.optional(TeletextSourceSettings)
-      .pipe(T.JsonName("teletextSourceSettings"))
-      .annotate({ identifier: "TeletextSourceSettings" }),
-    TrackSourceSettings: S.optional(TrackSourceSettings)
-      .pipe(T.JsonName("trackSourceSettings"))
-      .annotate({ identifier: "TrackSourceSettings" }),
-    WebvttHlsSourceSettings: S.optional(WebvttHlsSourceSettings)
-      .pipe(T.JsonName("webvttHlsSourceSettings"))
-      .annotate({ identifier: "WebvttHlsSourceSettings" }),
-  }),
+    AncillarySourceSettings: S.optional(AncillarySourceSettings),
+    DvbSubSourceSettings: S.optional(DvbSubSourceSettings),
+    EmbeddedSourceSettings: S.optional(EmbeddedSourceSettings),
+    FileSourceSettings: S.optional(FileSourceSettings),
+    SourceType: S.optional(CaptionSourceType),
+    TeletextSourceSettings: S.optional(TeletextSourceSettings),
+    TrackSourceSettings: S.optional(TrackSourceSettings),
+    WebvttHlsSourceSettings: S.optional(WebvttHlsSourceSettings),
+  }).pipe(
+    S.encodeKeys({
+      AncillarySourceSettings: "ancillarySourceSettings",
+      DvbSubSourceSettings: "dvbSubSourceSettings",
+      EmbeddedSourceSettings: "embeddedSourceSettings",
+      FileSourceSettings: "fileSourceSettings",
+      SourceType: "sourceType",
+      TeletextSourceSettings: "teletextSourceSettings",
+      TrackSourceSettings: "trackSourceSettings",
+      WebvttHlsSourceSettings: "webvttHlsSourceSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionSourceSettings",
 }) as any as S.Schema<CaptionSourceSettings>;
@@ -1090,14 +1107,16 @@ export interface CaptionSelector {
 }
 export const CaptionSelector = S.suspend(() =>
   S.Struct({
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    SourceSettings: S.optional(CaptionSourceSettings)
-      .pipe(T.JsonName("sourceSettings"))
-      .annotate({ identifier: "CaptionSourceSettings" }),
-  }),
+    CustomLanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    SourceSettings: S.optional(CaptionSourceSettings),
+  }).pipe(
+    S.encodeKeys({
+      CustomLanguageCode: "customLanguageCode",
+      LanguageCode: "languageCode",
+      SourceSettings: "sourceSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionSelector",
 }) as any as S.Schema<CaptionSelector>;
@@ -1116,11 +1135,11 @@ export interface Rectangle {
 }
 export const Rectangle = S.suspend(() =>
   S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    X: S.optional(S.Number).pipe(T.JsonName("x")),
-    Y: S.optional(S.Number).pipe(T.JsonName("y")),
-  }),
+    Height: S.optional(S.Number),
+    Width: S.optional(S.Number),
+    X: S.optional(S.Number),
+    Y: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ Height: "height", Width: "width", X: "x", Y: "y" })),
 ).annotate({ identifier: "Rectangle" }) as any as S.Schema<Rectangle>;
 export type InputDeblockFilter = "ENABLED" | "DISABLED" | (string & {});
 export const InputDeblockFilter = S.String;
@@ -1134,17 +1153,18 @@ export interface InputDecryptionSettings {
 }
 export const InputDecryptionSettings = S.suspend(() =>
   S.Struct({
-    DecryptionMode: S.optional(DecryptionMode).pipe(
-      T.JsonName("decryptionMode"),
-    ),
-    EncryptedDecryptionKey: S.optional(S.String).pipe(
-      T.JsonName("encryptedDecryptionKey"),
-    ),
-    InitializationVector: S.optional(S.String).pipe(
-      T.JsonName("initializationVector"),
-    ),
-    KmsKeyRegion: S.optional(S.String).pipe(T.JsonName("kmsKeyRegion")),
-  }),
+    DecryptionMode: S.optional(DecryptionMode),
+    EncryptedDecryptionKey: S.optional(S.String),
+    InitializationVector: S.optional(S.String),
+    KmsKeyRegion: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      DecryptionMode: "decryptionMode",
+      EncryptedDecryptionKey: "encryptedDecryptionKey",
+      InitializationVector: "initializationVector",
+      KmsKeyRegion: "kmsKeyRegion",
+    }),
+  ),
 ).annotate({
   identifier: "InputDecryptionSettings",
 }) as any as S.Schema<InputDecryptionSettings>;
@@ -1164,18 +1184,20 @@ export interface DynamicAudioSelector {
 }
 export const DynamicAudioSelector = S.suspend(() =>
   S.Struct({
-    AudioDurationCorrection: S.optional(AudioDurationCorrection).pipe(
-      T.JsonName("audioDurationCorrection"),
-    ),
-    ExternalAudioFileInput: S.optional(S.String).pipe(
-      T.JsonName("externalAudioFileInput"),
-    ),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    Offset: S.optional(S.Number).pipe(T.JsonName("offset")),
-    SelectorType: S.optional(DynamicAudioSelectorType).pipe(
-      T.JsonName("selectorType"),
-    ),
-  }),
+    AudioDurationCorrection: S.optional(AudioDurationCorrection),
+    ExternalAudioFileInput: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    Offset: S.optional(S.Number),
+    SelectorType: S.optional(DynamicAudioSelectorType),
+  }).pipe(
+    S.encodeKeys({
+      AudioDurationCorrection: "audioDurationCorrection",
+      ExternalAudioFileInput: "externalAudioFileInput",
+      LanguageCode: "languageCode",
+      Offset: "offset",
+      SelectorType: "selectorType",
+    }),
+  ),
 ).annotate({
   identifier: "DynamicAudioSelector",
 }) as any as S.Schema<DynamicAudioSelector>;
@@ -1203,20 +1225,32 @@ export interface InsertableImage {
 }
 export const InsertableImage = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    FadeIn: S.optional(S.Number).pipe(T.JsonName("fadeIn")),
-    FadeOut: S.optional(S.Number).pipe(T.JsonName("fadeOut")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    ImageInserterInput: S.optional(S.String).pipe(
-      T.JsonName("imageInserterInput"),
-    ),
-    ImageX: S.optional(S.Number).pipe(T.JsonName("imageX")),
-    ImageY: S.optional(S.Number).pipe(T.JsonName("imageY")),
-    Layer: S.optional(S.Number).pipe(T.JsonName("layer")),
-    Opacity: S.optional(S.Number).pipe(T.JsonName("opacity")),
-    StartTime: S.optional(S.String).pipe(T.JsonName("startTime")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Duration: S.optional(S.Number),
+    FadeIn: S.optional(S.Number),
+    FadeOut: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    ImageInserterInput: S.optional(S.String),
+    ImageX: S.optional(S.Number),
+    ImageY: S.optional(S.Number),
+    Layer: S.optional(S.Number),
+    Opacity: S.optional(S.Number),
+    StartTime: S.optional(S.String),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Duration: "duration",
+      FadeIn: "fadeIn",
+      FadeOut: "fadeOut",
+      Height: "height",
+      ImageInserterInput: "imageInserterInput",
+      ImageX: "imageX",
+      ImageY: "imageY",
+      Layer: "layer",
+      Opacity: "opacity",
+      StartTime: "startTime",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "InsertableImage",
 }) as any as S.Schema<InsertableImage>;
@@ -1228,13 +1262,14 @@ export interface ImageInserter {
 }
 export const ImageInserter = S.suspend(() =>
   S.Struct({
-    InsertableImages: S.optional(__listOfInsertableImage).pipe(
-      T.JsonName("insertableImages"),
-    ),
-    SdrReferenceWhiteLevel: S.optional(S.Number).pipe(
-      T.JsonName("sdrReferenceWhiteLevel"),
-    ),
-  }),
+    InsertableImages: S.optional(__listOfInsertableImage),
+    SdrReferenceWhiteLevel: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      InsertableImages: "insertableImages",
+      SdrReferenceWhiteLevel: "sdrReferenceWhiteLevel",
+    }),
+  ),
 ).annotate({ identifier: "ImageInserter" }) as any as S.Schema<ImageInserter>;
 export interface InputClipping {
   EndTimecode?: string;
@@ -1242,9 +1277,14 @@ export interface InputClipping {
 }
 export const InputClipping = S.suspend(() =>
   S.Struct({
-    EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
-    StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
-  }),
+    EndTimecode: S.optional(S.String),
+    StartTimecode: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EndTimecode: "endTimecode",
+      StartTimecode: "startTimecode",
+    }),
+  ),
 ).annotate({ identifier: "InputClipping" }) as any as S.Schema<InputClipping>;
 export type __listOfInputClipping = InputClipping[];
 export const __listOfInputClipping = S.Array(InputClipping);
@@ -1268,13 +1308,18 @@ export interface InputTamsSettings {
 }
 export const InputTamsSettings = S.suspend(() =>
   S.Struct({
-    AuthConnectionArn: S.optional(S.String).pipe(
-      T.JsonName("authConnectionArn"),
-    ),
-    GapHandling: S.optional(TamsGapHandling).pipe(T.JsonName("gapHandling")),
-    SourceId: S.optional(S.String).pipe(T.JsonName("sourceId")),
-    Timerange: S.optional(S.String).pipe(T.JsonName("timerange")),
-  }),
+    AuthConnectionArn: S.optional(S.String),
+    GapHandling: S.optional(TamsGapHandling),
+    SourceId: S.optional(S.String),
+    Timerange: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AuthConnectionArn: "authConnectionArn",
+      GapHandling: "gapHandling",
+      SourceId: "sourceId",
+      Timerange: "timerange",
+    }),
+  ),
 ).annotate({
   identifier: "InputTamsSettings",
 }) as any as S.Schema<InputTamsSettings>;
@@ -1296,19 +1341,26 @@ export interface InputVideoGenerator {
 }
 export const InputVideoGenerator = S.suspend(() =>
   S.Struct({
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    ImageInput: S.optional(S.String).pipe(T.JsonName("imageInput")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Channels: S.optional(S.Number),
+    Duration: S.optional(S.Number),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    ImageInput: S.optional(S.String),
+    SampleRate: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Channels: "channels",
+      Duration: "duration",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      Height: "height",
+      ImageInput: "imageInput",
+      SampleRate: "sampleRate",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "InputVideoGenerator",
 }) as any as S.Schema<InputVideoGenerator>;
@@ -1323,12 +1375,20 @@ export interface VideoOverlayCrop {
 }
 export const VideoOverlayCrop = S.suspend(() =>
   S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Unit: S.optional(VideoOverlayUnit).pipe(T.JsonName("unit")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    X: S.optional(S.Number).pipe(T.JsonName("x")),
-    Y: S.optional(S.Number).pipe(T.JsonName("y")),
-  }),
+    Height: S.optional(S.Number),
+    Unit: S.optional(VideoOverlayUnit),
+    Width: S.optional(S.Number),
+    X: S.optional(S.Number),
+    Y: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Height: "height",
+      Unit: "unit",
+      Width: "width",
+      X: "x",
+      Y: "y",
+    }),
+  ),
 ).annotate({
   identifier: "VideoOverlayCrop",
 }) as any as S.Schema<VideoOverlayCrop>;
@@ -1342,13 +1402,22 @@ export interface VideoOverlayPosition {
 }
 export const VideoOverlayPosition = S.suspend(() =>
   S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Opacity: S.optional(S.Number).pipe(T.JsonName("opacity")),
-    Unit: S.optional(VideoOverlayUnit).pipe(T.JsonName("unit")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
-    YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
-  }),
+    Height: S.optional(S.Number),
+    Opacity: S.optional(S.Number),
+    Unit: S.optional(VideoOverlayUnit),
+    Width: S.optional(S.Number),
+    XPosition: S.optional(S.Number),
+    YPosition: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Height: "height",
+      Opacity: "opacity",
+      Unit: "unit",
+      Width: "width",
+      XPosition: "xPosition",
+      YPosition: "yPosition",
+    }),
+  ),
 ).annotate({
   identifier: "VideoOverlayPosition",
 }) as any as S.Schema<VideoOverlayPosition>;
@@ -1358,9 +1427,14 @@ export interface VideoOverlayInputClipping {
 }
 export const VideoOverlayInputClipping = S.suspend(() =>
   S.Struct({
-    EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
-    StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
-  }),
+    EndTimecode: S.optional(S.String),
+    StartTimecode: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EndTimecode: "endTimecode",
+      StartTimecode: "startTimecode",
+    }),
+  ),
 ).annotate({
   identifier: "VideoOverlayInputClipping",
 }) as any as S.Schema<VideoOverlayInputClipping>;
@@ -1377,18 +1451,20 @@ export interface VideoOverlayInput {
 }
 export const VideoOverlayInput = S.suspend(() =>
   S.Struct({
-    AudioSelectors: S.optional(__mapOfAudioSelector).pipe(
-      T.JsonName("audioSelectors"),
-    ),
-    FileInput: S.optional(S.String).pipe(T.JsonName("fileInput")),
-    InputClippings: S.optional(__listOfVideoOverlayInputClipping).pipe(
-      T.JsonName("inputClippings"),
-    ),
-    TimecodeSource: S.optional(InputTimecodeSource).pipe(
-      T.JsonName("timecodeSource"),
-    ),
-    TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
-  }),
+    AudioSelectors: S.optional(__mapOfAudioSelector),
+    FileInput: S.optional(S.String),
+    InputClippings: S.optional(__listOfVideoOverlayInputClipping),
+    TimecodeSource: S.optional(InputTimecodeSource),
+    TimecodeStart: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioSelectors: "audioSelectors",
+      FileInput: "fileInput",
+      InputClippings: "inputClippings",
+      TimecodeSource: "timecodeSource",
+      TimecodeStart: "timecodeStart",
+    }),
+  ),
 ).annotate({
   identifier: "VideoOverlayInput",
 }) as any as S.Schema<VideoOverlayInput>;
@@ -1401,12 +1477,16 @@ export interface VideoOverlayTransition {
 }
 export const VideoOverlayTransition = S.suspend(() =>
   S.Struct({
-    EndPosition: S.optional(VideoOverlayPosition)
-      .pipe(T.JsonName("endPosition"))
-      .annotate({ identifier: "VideoOverlayPosition" }),
-    EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
-    StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
-  }),
+    EndPosition: S.optional(VideoOverlayPosition),
+    EndTimecode: S.optional(S.String),
+    StartTimecode: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EndPosition: "endPosition",
+      EndTimecode: "endTimecode",
+      StartTimecode: "startTimecode",
+    }),
+  ),
 ).annotate({
   identifier: "VideoOverlayTransition",
 }) as any as S.Schema<VideoOverlayTransition>;
@@ -1423,22 +1503,24 @@ export interface VideoOverlay {
 }
 export const VideoOverlay = S.suspend(() =>
   S.Struct({
-    Crop: S.optional(VideoOverlayCrop)
-      .pipe(T.JsonName("crop"))
-      .annotate({ identifier: "VideoOverlayCrop" }),
-    EndTimecode: S.optional(S.String).pipe(T.JsonName("endTimecode")),
-    InitialPosition: S.optional(VideoOverlayPosition)
-      .pipe(T.JsonName("initialPosition"))
-      .annotate({ identifier: "VideoOverlayPosition" }),
-    Input: S.optional(VideoOverlayInput)
-      .pipe(T.JsonName("input"))
-      .annotate({ identifier: "VideoOverlayInput" }),
-    Playback: S.optional(VideoOverlayPlayBackMode).pipe(T.JsonName("playback")),
-    StartTimecode: S.optional(S.String).pipe(T.JsonName("startTimecode")),
-    Transitions: S.optional(__listOfVideoOverlayTransition).pipe(
-      T.JsonName("transitions"),
-    ),
-  }),
+    Crop: S.optional(VideoOverlayCrop),
+    EndTimecode: S.optional(S.String),
+    InitialPosition: S.optional(VideoOverlayPosition),
+    Input: S.optional(VideoOverlayInput),
+    Playback: S.optional(VideoOverlayPlayBackMode),
+    StartTimecode: S.optional(S.String),
+    Transitions: S.optional(__listOfVideoOverlayTransition),
+  }).pipe(
+    S.encodeKeys({
+      Crop: "crop",
+      EndTimecode: "endTimecode",
+      InitialPosition: "initialPosition",
+      Input: "input",
+      Playback: "playback",
+      StartTimecode: "startTimecode",
+      Transitions: "transitions",
+    }),
+  ),
 ).annotate({ identifier: "VideoOverlay" }) as any as S.Schema<VideoOverlay>;
 export type __listOfVideoOverlay = VideoOverlay[];
 export const __listOfVideoOverlay = S.Array(VideoOverlay);
@@ -1464,23 +1546,34 @@ export interface Hdr10Metadata {
 }
 export const Hdr10Metadata = S.suspend(() =>
   S.Struct({
-    BluePrimaryX: S.optional(S.Number).pipe(T.JsonName("bluePrimaryX")),
-    BluePrimaryY: S.optional(S.Number).pipe(T.JsonName("bluePrimaryY")),
-    GreenPrimaryX: S.optional(S.Number).pipe(T.JsonName("greenPrimaryX")),
-    GreenPrimaryY: S.optional(S.Number).pipe(T.JsonName("greenPrimaryY")),
-    MaxContentLightLevel: S.optional(S.Number).pipe(
-      T.JsonName("maxContentLightLevel"),
-    ),
-    MaxFrameAverageLightLevel: S.optional(S.Number).pipe(
-      T.JsonName("maxFrameAverageLightLevel"),
-    ),
-    MaxLuminance: S.optional(S.Number).pipe(T.JsonName("maxLuminance")),
-    MinLuminance: S.optional(S.Number).pipe(T.JsonName("minLuminance")),
-    RedPrimaryX: S.optional(S.Number).pipe(T.JsonName("redPrimaryX")),
-    RedPrimaryY: S.optional(S.Number).pipe(T.JsonName("redPrimaryY")),
-    WhitePointX: S.optional(S.Number).pipe(T.JsonName("whitePointX")),
-    WhitePointY: S.optional(S.Number).pipe(T.JsonName("whitePointY")),
-  }),
+    BluePrimaryX: S.optional(S.Number),
+    BluePrimaryY: S.optional(S.Number),
+    GreenPrimaryX: S.optional(S.Number),
+    GreenPrimaryY: S.optional(S.Number),
+    MaxContentLightLevel: S.optional(S.Number),
+    MaxFrameAverageLightLevel: S.optional(S.Number),
+    MaxLuminance: S.optional(S.Number),
+    MinLuminance: S.optional(S.Number),
+    RedPrimaryX: S.optional(S.Number),
+    RedPrimaryY: S.optional(S.Number),
+    WhitePointX: S.optional(S.Number),
+    WhitePointY: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BluePrimaryX: "bluePrimaryX",
+      BluePrimaryY: "bluePrimaryY",
+      GreenPrimaryX: "greenPrimaryX",
+      GreenPrimaryY: "greenPrimaryY",
+      MaxContentLightLevel: "maxContentLightLevel",
+      MaxFrameAverageLightLevel: "maxFrameAverageLightLevel",
+      MaxLuminance: "maxLuminance",
+      MinLuminance: "minLuminance",
+      RedPrimaryX: "redPrimaryX",
+      RedPrimaryY: "redPrimaryY",
+      WhitePointX: "whitePointX",
+      WhitePointY: "whitePointY",
+    }),
+  ),
 ).annotate({ identifier: "Hdr10Metadata" }) as any as S.Schema<Hdr10Metadata>;
 export type PadVideo = "DISABLED" | "BLACK" | (string & {});
 export const PadVideo = S.String;
@@ -1517,30 +1610,36 @@ export interface VideoSelector {
 }
 export const VideoSelector = S.suspend(() =>
   S.Struct({
-    AlphaBehavior: S.optional(AlphaBehavior).pipe(T.JsonName("alphaBehavior")),
-    ColorSpace: S.optional(ColorSpace).pipe(T.JsonName("colorSpace")),
-    ColorSpaceUsage: S.optional(ColorSpaceUsage).pipe(
-      T.JsonName("colorSpaceUsage"),
-    ),
-    EmbeddedTimecodeOverride: S.optional(EmbeddedTimecodeOverride).pipe(
-      T.JsonName("embeddedTimecodeOverride"),
-    ),
-    Hdr10Metadata: S.optional(Hdr10Metadata)
-      .pipe(T.JsonName("hdr10Metadata"))
-      .annotate({ identifier: "Hdr10Metadata" }),
-    MaxLuminance: S.optional(S.Number).pipe(T.JsonName("maxLuminance")),
-    PadVideo: S.optional(PadVideo).pipe(T.JsonName("padVideo")),
-    Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    Rotate: S.optional(InputRotate).pipe(T.JsonName("rotate")),
-    SampleRange: S.optional(InputSampleRange).pipe(T.JsonName("sampleRange")),
-    SelectorType: S.optional(VideoSelectorType).pipe(
-      T.JsonName("selectorType"),
-    ),
-    Streams: S.optional(__listOf__integerMin1Max2147483647).pipe(
-      T.JsonName("streams"),
-    ),
-  }),
+    AlphaBehavior: S.optional(AlphaBehavior),
+    ColorSpace: S.optional(ColorSpace),
+    ColorSpaceUsage: S.optional(ColorSpaceUsage),
+    EmbeddedTimecodeOverride: S.optional(EmbeddedTimecodeOverride),
+    Hdr10Metadata: S.optional(Hdr10Metadata),
+    MaxLuminance: S.optional(S.Number),
+    PadVideo: S.optional(PadVideo),
+    Pid: S.optional(S.Number),
+    ProgramNumber: S.optional(S.Number),
+    Rotate: S.optional(InputRotate),
+    SampleRange: S.optional(InputSampleRange),
+    SelectorType: S.optional(VideoSelectorType),
+    Streams: S.optional(__listOf__integerMin1Max2147483647),
+  }).pipe(
+    S.encodeKeys({
+      AlphaBehavior: "alphaBehavior",
+      ColorSpace: "colorSpace",
+      ColorSpaceUsage: "colorSpaceUsage",
+      EmbeddedTimecodeOverride: "embeddedTimecodeOverride",
+      Hdr10Metadata: "hdr10Metadata",
+      MaxLuminance: "maxLuminance",
+      PadVideo: "padVideo",
+      Pid: "pid",
+      ProgramNumber: "programNumber",
+      Rotate: "rotate",
+      SampleRange: "sampleRange",
+      SelectorType: "selectorType",
+      Streams: "streams",
+    }),
+  ),
 ).annotate({ identifier: "VideoSelector" }) as any as S.Schema<VideoSelector>;
 export interface Input {
   AdvancedInputFilter?: AdvancedInputFilter;
@@ -1573,76 +1672,64 @@ export interface Input {
 }
 export const Input = S.suspend(() =>
   S.Struct({
-    AdvancedInputFilter: S.optional(AdvancedInputFilter).pipe(
-      T.JsonName("advancedInputFilter"),
-    ),
-    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings)
-      .pipe(T.JsonName("advancedInputFilterSettings"))
-      .annotate({ identifier: "AdvancedInputFilterSettings" }),
-    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup).pipe(
-      T.JsonName("audioSelectorGroups"),
-    ),
-    AudioSelectors: S.optional(__mapOfAudioSelector).pipe(
-      T.JsonName("audioSelectors"),
-    ),
-    CaptionSelectors: S.optional(__mapOfCaptionSelector).pipe(
-      T.JsonName("captionSelectors"),
-    ),
-    Crop: S.optional(Rectangle)
-      .pipe(T.JsonName("crop"))
-      .annotate({ identifier: "Rectangle" }),
-    DeblockFilter: S.optional(InputDeblockFilter).pipe(
-      T.JsonName("deblockFilter"),
-    ),
-    DecryptionSettings: S.optional(InputDecryptionSettings)
-      .pipe(T.JsonName("decryptionSettings"))
-      .annotate({ identifier: "InputDecryptionSettings" }),
-    DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
-      T.JsonName("denoiseFilter"),
-    ),
-    DolbyVisionMetadataXml: S.optional(S.String).pipe(
-      T.JsonName("dolbyVisionMetadataXml"),
-    ),
-    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector).pipe(
-      T.JsonName("dynamicAudioSelectors"),
-    ),
-    FileInput: S.optional(S.String).pipe(T.JsonName("fileInput")),
-    FilterEnable: S.optional(InputFilterEnable).pipe(
-      T.JsonName("filterEnable"),
-    ),
-    FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
-    ImageInserter: S.optional(ImageInserter)
-      .pipe(T.JsonName("imageInserter"))
-      .annotate({ identifier: "ImageInserter" }),
-    InputClippings: S.optional(__listOfInputClipping).pipe(
-      T.JsonName("inputClippings"),
-    ),
-    InputScanType: S.optional(InputScanType).pipe(T.JsonName("inputScanType")),
-    Position: S.optional(Rectangle)
-      .pipe(T.JsonName("position"))
-      .annotate({ identifier: "Rectangle" }),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    PsiControl: S.optional(InputPsiControl).pipe(T.JsonName("psiControl")),
-    SupplementalImps: S.optional(__listOf__stringPatternS3ASSETMAPXml).pipe(
-      T.JsonName("supplementalImps"),
-    ),
-    TamsSettings: S.optional(InputTamsSettings)
-      .pipe(T.JsonName("tamsSettings"))
-      .annotate({ identifier: "InputTamsSettings" }),
-    TimecodeSource: S.optional(InputTimecodeSource).pipe(
-      T.JsonName("timecodeSource"),
-    ),
-    TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
-    VideoGenerator: S.optional(InputVideoGenerator)
-      .pipe(T.JsonName("videoGenerator"))
-      .annotate({ identifier: "InputVideoGenerator" }),
-    VideoOverlays: S.optional(__listOfVideoOverlay).pipe(
-      T.JsonName("videoOverlays"),
-    ),
-    VideoSelector: S.optional(VideoSelector)
-      .pipe(T.JsonName("videoSelector"))
-      .annotate({ identifier: "VideoSelector" }),
-  }),
+    AdvancedInputFilter: S.optional(AdvancedInputFilter),
+    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings),
+    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup),
+    AudioSelectors: S.optional(__mapOfAudioSelector),
+    CaptionSelectors: S.optional(__mapOfCaptionSelector),
+    Crop: S.optional(Rectangle),
+    DeblockFilter: S.optional(InputDeblockFilter),
+    DecryptionSettings: S.optional(InputDecryptionSettings),
+    DenoiseFilter: S.optional(InputDenoiseFilter),
+    DolbyVisionMetadataXml: S.optional(S.String),
+    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector),
+    FileInput: S.optional(S.String),
+    FilterEnable: S.optional(InputFilterEnable),
+    FilterStrength: S.optional(S.Number),
+    ImageInserter: S.optional(ImageInserter),
+    InputClippings: S.optional(__listOfInputClipping),
+    InputScanType: S.optional(InputScanType),
+    Position: S.optional(Rectangle),
+    ProgramNumber: S.optional(S.Number),
+    PsiControl: S.optional(InputPsiControl),
+    SupplementalImps: S.optional(__listOf__stringPatternS3ASSETMAPXml),
+    TamsSettings: S.optional(InputTamsSettings),
+    TimecodeSource: S.optional(InputTimecodeSource),
+    TimecodeStart: S.optional(S.String),
+    VideoGenerator: S.optional(InputVideoGenerator),
+    VideoOverlays: S.optional(__listOfVideoOverlay),
+    VideoSelector: S.optional(VideoSelector),
+  }).pipe(
+    S.encodeKeys({
+      AdvancedInputFilter: "advancedInputFilter",
+      AdvancedInputFilterSettings: "advancedInputFilterSettings",
+      AudioSelectorGroups: "audioSelectorGroups",
+      AudioSelectors: "audioSelectors",
+      CaptionSelectors: "captionSelectors",
+      Crop: "crop",
+      DeblockFilter: "deblockFilter",
+      DecryptionSettings: "decryptionSettings",
+      DenoiseFilter: "denoiseFilter",
+      DolbyVisionMetadataXml: "dolbyVisionMetadataXml",
+      DynamicAudioSelectors: "dynamicAudioSelectors",
+      FileInput: "fileInput",
+      FilterEnable: "filterEnable",
+      FilterStrength: "filterStrength",
+      ImageInserter: "imageInserter",
+      InputClippings: "inputClippings",
+      InputScanType: "inputScanType",
+      Position: "position",
+      ProgramNumber: "programNumber",
+      PsiControl: "psiControl",
+      SupplementalImps: "supplementalImps",
+      TamsSettings: "tamsSettings",
+      TimecodeSource: "timecodeSource",
+      TimecodeStart: "timecodeStart",
+      VideoGenerator: "videoGenerator",
+      VideoOverlays: "videoOverlays",
+      VideoSelector: "videoSelector",
+    }),
+  ),
 ).annotate({ identifier: "Input" }) as any as S.Schema<Input>;
 export type __listOfInput = Input[];
 export const __listOfInput = S.Array(Input);
@@ -1663,22 +1750,36 @@ export interface KantarWatermarkSettings {
 }
 export const KantarWatermarkSettings = S.suspend(() =>
   S.Struct({
-    ChannelName: S.optional(S.String).pipe(T.JsonName("channelName")),
-    ContentReference: S.optional(S.String).pipe(T.JsonName("contentReference")),
-    CredentialsSecretName: S.optional(S.String).pipe(
-      T.JsonName("credentialsSecretName"),
-    ),
-    FileOffset: S.optional(S.Number).pipe(T.JsonName("fileOffset")),
-    KantarLicenseId: S.optional(S.Number).pipe(T.JsonName("kantarLicenseId")),
-    KantarServerUrl: S.optional(S.String).pipe(T.JsonName("kantarServerUrl")),
-    LogDestination: S.optional(S.String).pipe(T.JsonName("logDestination")),
-    Metadata3: S.optional(S.String).pipe(T.JsonName("metadata3")),
-    Metadata4: S.optional(S.String).pipe(T.JsonName("metadata4")),
-    Metadata5: S.optional(S.String).pipe(T.JsonName("metadata5")),
-    Metadata6: S.optional(S.String).pipe(T.JsonName("metadata6")),
-    Metadata7: S.optional(S.String).pipe(T.JsonName("metadata7")),
-    Metadata8: S.optional(S.String).pipe(T.JsonName("metadata8")),
-  }),
+    ChannelName: S.optional(S.String),
+    ContentReference: S.optional(S.String),
+    CredentialsSecretName: S.optional(S.String),
+    FileOffset: S.optional(S.Number),
+    KantarLicenseId: S.optional(S.Number),
+    KantarServerUrl: S.optional(S.String),
+    LogDestination: S.optional(S.String),
+    Metadata3: S.optional(S.String),
+    Metadata4: S.optional(S.String),
+    Metadata5: S.optional(S.String),
+    Metadata6: S.optional(S.String),
+    Metadata7: S.optional(S.String),
+    Metadata8: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelName: "channelName",
+      ContentReference: "contentReference",
+      CredentialsSecretName: "credentialsSecretName",
+      FileOffset: "fileOffset",
+      KantarLicenseId: "kantarLicenseId",
+      KantarServerUrl: "kantarServerUrl",
+      LogDestination: "logDestination",
+      Metadata3: "metadata3",
+      Metadata4: "metadata4",
+      Metadata5: "metadata5",
+      Metadata6: "metadata6",
+      Metadata7: "metadata7",
+      Metadata8: "metadata8",
+    }),
+  ),
 ).annotate({
   identifier: "KantarWatermarkSettings",
 }) as any as S.Schema<KantarWatermarkSettings>;
@@ -1688,13 +1789,14 @@ export interface MotionImageInsertionFramerate {
 }
 export const MotionImageInsertionFramerate = S.suspend(() =>
   S.Struct({
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+    }),
+  ),
 ).annotate({
   identifier: "MotionImageInsertionFramerate",
 }) as any as S.Schema<MotionImageInsertionFramerate>;
@@ -1705,10 +1807,9 @@ export interface MotionImageInsertionOffset {
   ImageY?: number;
 }
 export const MotionImageInsertionOffset = S.suspend(() =>
-  S.Struct({
-    ImageX: S.optional(S.Number).pipe(T.JsonName("imageX")),
-    ImageY: S.optional(S.Number).pipe(T.JsonName("imageY")),
-  }),
+  S.Struct({ ImageX: S.optional(S.Number), ImageY: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ ImageX: "imageX", ImageY: "imageY" }),
+  ),
 ).annotate({
   identifier: "MotionImageInsertionOffset",
 }) as any as S.Schema<MotionImageInsertionOffset>;
@@ -1724,19 +1825,22 @@ export interface MotionImageInserter {
 }
 export const MotionImageInserter = S.suspend(() =>
   S.Struct({
-    Framerate: S.optional(MotionImageInsertionFramerate)
-      .pipe(T.JsonName("framerate"))
-      .annotate({ identifier: "MotionImageInsertionFramerate" }),
-    Input: S.optional(S.String).pipe(T.JsonName("input")),
-    InsertionMode: S.optional(MotionImageInsertionMode).pipe(
-      T.JsonName("insertionMode"),
-    ),
-    Offset: S.optional(MotionImageInsertionOffset)
-      .pipe(T.JsonName("offset"))
-      .annotate({ identifier: "MotionImageInsertionOffset" }),
-    Playback: S.optional(MotionImagePlayback).pipe(T.JsonName("playback")),
-    StartTime: S.optional(S.String).pipe(T.JsonName("startTime")),
-  }),
+    Framerate: S.optional(MotionImageInsertionFramerate),
+    Input: S.optional(S.String),
+    InsertionMode: S.optional(MotionImageInsertionMode),
+    Offset: S.optional(MotionImageInsertionOffset),
+    Playback: S.optional(MotionImagePlayback),
+    StartTime: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Framerate: "framerate",
+      Input: "input",
+      InsertionMode: "insertionMode",
+      Offset: "offset",
+      Playback: "playback",
+      StartTime: "startTime",
+    }),
+  ),
 ).annotate({
   identifier: "MotionImageInserter",
 }) as any as S.Schema<MotionImageInserter>;
@@ -1746,9 +1850,14 @@ export interface NielsenConfiguration {
 }
 export const NielsenConfiguration = S.suspend(() =>
   S.Struct({
-    BreakoutCode: S.optional(S.Number).pipe(T.JsonName("breakoutCode")),
-    DistributorId: S.optional(S.String).pipe(T.JsonName("distributorId")),
-  }),
+    BreakoutCode: S.optional(S.Number),
+    DistributorId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      BreakoutCode: "breakoutCode",
+      DistributorId: "distributorId",
+    }),
+  ),
 ).annotate({
   identifier: "NielsenConfiguration",
 }) as any as S.Schema<NielsenConfiguration>;
@@ -1783,26 +1892,32 @@ export interface NielsenNonLinearWatermarkSettings {
 }
 export const NielsenNonLinearWatermarkSettings = S.suspend(() =>
   S.Struct({
-    ActiveWatermarkProcess: S.optional(NielsenActiveWatermarkProcessType).pipe(
-      T.JsonName("activeWatermarkProcess"),
-    ),
-    AdiFilename: S.optional(S.String).pipe(T.JsonName("adiFilename")),
-    AssetId: S.optional(S.String).pipe(T.JsonName("assetId")),
-    AssetName: S.optional(S.String).pipe(T.JsonName("assetName")),
-    CbetSourceId: S.optional(S.String).pipe(T.JsonName("cbetSourceId")),
-    EpisodeId: S.optional(S.String).pipe(T.JsonName("episodeId")),
-    MetadataDestination: S.optional(S.String).pipe(
-      T.JsonName("metadataDestination"),
-    ),
-    SourceId: S.optional(S.Number).pipe(T.JsonName("sourceId")),
-    SourceWatermarkStatus: S.optional(NielsenSourceWatermarkStatusType).pipe(
-      T.JsonName("sourceWatermarkStatus"),
-    ),
-    TicServerUrl: S.optional(S.String).pipe(T.JsonName("ticServerUrl")),
-    UniqueTicPerAudioTrack: S.optional(NielsenUniqueTicPerAudioTrackType).pipe(
-      T.JsonName("uniqueTicPerAudioTrack"),
-    ),
-  }),
+    ActiveWatermarkProcess: S.optional(NielsenActiveWatermarkProcessType),
+    AdiFilename: S.optional(S.String),
+    AssetId: S.optional(S.String),
+    AssetName: S.optional(S.String),
+    CbetSourceId: S.optional(S.String),
+    EpisodeId: S.optional(S.String),
+    MetadataDestination: S.optional(S.String),
+    SourceId: S.optional(S.Number),
+    SourceWatermarkStatus: S.optional(NielsenSourceWatermarkStatusType),
+    TicServerUrl: S.optional(S.String),
+    UniqueTicPerAudioTrack: S.optional(NielsenUniqueTicPerAudioTrackType),
+  }).pipe(
+    S.encodeKeys({
+      ActiveWatermarkProcess: "activeWatermarkProcess",
+      AdiFilename: "adiFilename",
+      AssetId: "assetId",
+      AssetName: "assetName",
+      CbetSourceId: "cbetSourceId",
+      EpisodeId: "episodeId",
+      MetadataDestination: "metadataDestination",
+      SourceId: "sourceId",
+      SourceWatermarkStatus: "sourceWatermarkStatus",
+      TicServerUrl: "ticServerUrl",
+      UniqueTicPerAudioTrack: "uniqueTicPerAudioTrack",
+    }),
+  ),
 ).annotate({
   identifier: "NielsenNonLinearWatermarkSettings",
 }) as any as S.Schema<NielsenNonLinearWatermarkSettings>;
@@ -1815,10 +1930,12 @@ export interface AllowedRenditionSize {
 }
 export const AllowedRenditionSize = S.suspend(() =>
   S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Required: S.optional(RequiredFlag).pipe(T.JsonName("required")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Height: S.optional(S.Number),
+    Required: S.optional(RequiredFlag),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({ Height: "height", Required: "required", Width: "width" }),
+  ),
 ).annotate({
   identifier: "AllowedRenditionSize",
 }) as any as S.Schema<AllowedRenditionSize>;
@@ -1829,10 +1946,9 @@ export interface ForceIncludeRenditionSize {
   Width?: number;
 }
 export const ForceIncludeRenditionSize = S.suspend(() =>
-  S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+  S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Height: "height", Width: "width" }),
+  ),
 ).annotate({
   identifier: "ForceIncludeRenditionSize",
 }) as any as S.Schema<ForceIncludeRenditionSize>;
@@ -1845,10 +1961,9 @@ export interface MinBottomRenditionSize {
   Width?: number;
 }
 export const MinBottomRenditionSize = S.suspend(() =>
-  S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+  S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Height: "height", Width: "width" }),
+  ),
 ).annotate({
   identifier: "MinBottomRenditionSize",
 }) as any as S.Schema<MinBottomRenditionSize>;
@@ -1857,10 +1972,9 @@ export interface MinTopRenditionSize {
   Width?: number;
 }
 export const MinTopRenditionSize = S.suspend(() =>
-  S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+  S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Height: "height", Width: "width" }),
+  ),
 ).annotate({
   identifier: "MinTopRenditionSize",
 }) as any as S.Schema<MinTopRenditionSize>;
@@ -1880,20 +1994,20 @@ export interface AutomatedAbrRule {
 }
 export const AutomatedAbrRule = S.suspend(() =>
   S.Struct({
-    AllowedRenditions: S.optional(__listOfAllowedRenditionSize).pipe(
-      T.JsonName("allowedRenditions"),
-    ),
-    ForceIncludeRenditions: S.optional(__listOfForceIncludeRenditionSize).pipe(
-      T.JsonName("forceIncludeRenditions"),
-    ),
-    MinBottomRenditionSize: S.optional(MinBottomRenditionSize)
-      .pipe(T.JsonName("minBottomRenditionSize"))
-      .annotate({ identifier: "MinBottomRenditionSize" }),
-    MinTopRenditionSize: S.optional(MinTopRenditionSize)
-      .pipe(T.JsonName("minTopRenditionSize"))
-      .annotate({ identifier: "MinTopRenditionSize" }),
-    Type: S.optional(RuleType).pipe(T.JsonName("type")),
-  }),
+    AllowedRenditions: S.optional(__listOfAllowedRenditionSize),
+    ForceIncludeRenditions: S.optional(__listOfForceIncludeRenditionSize),
+    MinBottomRenditionSize: S.optional(MinBottomRenditionSize),
+    MinTopRenditionSize: S.optional(MinTopRenditionSize),
+    Type: S.optional(RuleType),
+  }).pipe(
+    S.encodeKeys({
+      AllowedRenditions: "allowedRenditions",
+      ForceIncludeRenditions: "forceIncludeRenditions",
+      MinBottomRenditionSize: "minBottomRenditionSize",
+      MinTopRenditionSize: "minTopRenditionSize",
+      Type: "type",
+    }),
+  ),
 ).annotate({
   identifier: "AutomatedAbrRule",
 }) as any as S.Schema<AutomatedAbrRule>;
@@ -1908,12 +2022,20 @@ export interface AutomatedAbrSettings {
 }
 export const AutomatedAbrSettings = S.suspend(() =>
   S.Struct({
-    MaxAbrBitrate: S.optional(S.Number).pipe(T.JsonName("maxAbrBitrate")),
-    MaxQualityLevel: S.optional(S.Number).pipe(T.JsonName("maxQualityLevel")),
-    MaxRenditions: S.optional(S.Number).pipe(T.JsonName("maxRenditions")),
-    MinAbrBitrate: S.optional(S.Number).pipe(T.JsonName("minAbrBitrate")),
-    Rules: S.optional(__listOfAutomatedAbrRule).pipe(T.JsonName("rules")),
-  }),
+    MaxAbrBitrate: S.optional(S.Number),
+    MaxQualityLevel: S.optional(S.Number),
+    MaxRenditions: S.optional(S.Number),
+    MinAbrBitrate: S.optional(S.Number),
+    Rules: S.optional(__listOfAutomatedAbrRule),
+  }).pipe(
+    S.encodeKeys({
+      MaxAbrBitrate: "maxAbrBitrate",
+      MaxQualityLevel: "maxQualityLevel",
+      MaxRenditions: "maxRenditions",
+      MinAbrBitrate: "minAbrBitrate",
+      Rules: "rules",
+    }),
+  ),
 ).annotate({
   identifier: "AutomatedAbrSettings",
 }) as any as S.Schema<AutomatedAbrSettings>;
@@ -1921,11 +2043,9 @@ export interface AutomatedEncodingSettings {
   AbrSettings?: AutomatedAbrSettings;
 }
 export const AutomatedEncodingSettings = S.suspend(() =>
-  S.Struct({
-    AbrSettings: S.optional(AutomatedAbrSettings)
-      .pipe(T.JsonName("abrSettings"))
-      .annotate({ identifier: "AutomatedAbrSettings" }),
-  }),
+  S.Struct({ AbrSettings: S.optional(AutomatedAbrSettings) }).pipe(
+    S.encodeKeys({ AbrSettings: "abrSettings" }),
+  ),
 ).annotate({
   identifier: "AutomatedEncodingSettings",
 }) as any as S.Schema<AutomatedEncodingSettings>;
@@ -1935,13 +2055,14 @@ export interface CmafAdditionalManifest {
 }
 export const CmafAdditionalManifest = S.suspend(() =>
   S.Struct({
-    ManifestNameModifier: S.optional(S.String).pipe(
-      T.JsonName("manifestNameModifier"),
-    ),
-    SelectedOutputs: S.optional(__listOf__stringMin1).pipe(
-      T.JsonName("selectedOutputs"),
-    ),
-  }),
+    ManifestNameModifier: S.optional(S.String),
+    SelectedOutputs: S.optional(__listOf__stringMin1),
+  }).pipe(
+    S.encodeKeys({
+      ManifestNameModifier: "manifestNameModifier",
+      SelectedOutputs: "selectedOutputs",
+    }),
+  ),
 ).annotate({
   identifier: "CmafAdditionalManifest",
 }) as any as S.Schema<CmafAdditionalManifest>;
@@ -1969,9 +2090,9 @@ export interface S3DestinationAccessControl {
   CannedAcl?: S3ObjectCannedAcl;
 }
 export const S3DestinationAccessControl = S.suspend(() =>
-  S.Struct({
-    CannedAcl: S.optional(S3ObjectCannedAcl).pipe(T.JsonName("cannedAcl")),
-  }),
+  S.Struct({ CannedAcl: S.optional(S3ObjectCannedAcl) }).pipe(
+    S.encodeKeys({ CannedAcl: "cannedAcl" }),
+  ),
 ).annotate({
   identifier: "S3DestinationAccessControl",
 }) as any as S.Schema<S3DestinationAccessControl>;
@@ -1987,14 +2108,16 @@ export interface S3EncryptionSettings {
 }
 export const S3EncryptionSettings = S.suspend(() =>
   S.Struct({
-    EncryptionType: S.optional(S3ServerSideEncryptionType).pipe(
-      T.JsonName("encryptionType"),
-    ),
-    KmsEncryptionContext: S.optional(S.String).pipe(
-      T.JsonName("kmsEncryptionContext"),
-    ),
-    KmsKeyArn: S.optional(S.String).pipe(T.JsonName("kmsKeyArn")),
-  }),
+    EncryptionType: S.optional(S3ServerSideEncryptionType),
+    KmsEncryptionContext: S.optional(S.String),
+    KmsKeyArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EncryptionType: "encryptionType",
+      KmsEncryptionContext: "kmsEncryptionContext",
+      KmsKeyArn: "kmsKeyArn",
+    }),
+  ),
 ).annotate({
   identifier: "S3EncryptionSettings",
 }) as any as S.Schema<S3EncryptionSettings>;
@@ -2015,14 +2138,16 @@ export interface S3DestinationSettings {
 }
 export const S3DestinationSettings = S.suspend(() =>
   S.Struct({
-    AccessControl: S.optional(S3DestinationAccessControl)
-      .pipe(T.JsonName("accessControl"))
-      .annotate({ identifier: "S3DestinationAccessControl" }),
-    Encryption: S.optional(S3EncryptionSettings)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "S3EncryptionSettings" }),
-    StorageClass: S.optional(S3StorageClass).pipe(T.JsonName("storageClass")),
-  }),
+    AccessControl: S.optional(S3DestinationAccessControl),
+    Encryption: S.optional(S3EncryptionSettings),
+    StorageClass: S.optional(S3StorageClass),
+  }).pipe(
+    S.encodeKeys({
+      AccessControl: "accessControl",
+      Encryption: "encryption",
+      StorageClass: "storageClass",
+    }),
+  ),
 ).annotate({
   identifier: "S3DestinationSettings",
 }) as any as S.Schema<S3DestinationSettings>;
@@ -2030,11 +2155,9 @@ export interface DestinationSettings {
   S3Settings?: S3DestinationSettings;
 }
 export const DestinationSettings = S.suspend(() =>
-  S.Struct({
-    S3Settings: S.optional(S3DestinationSettings)
-      .pipe(T.JsonName("s3Settings"))
-      .annotate({ identifier: "S3DestinationSettings" }),
-  }),
+  S.Struct({ S3Settings: S.optional(S3DestinationSettings) }).pipe(
+    S.encodeKeys({ S3Settings: "s3Settings" }),
+  ),
 ).annotate({
   identifier: "DestinationSettings",
 }) as any as S.Schema<DestinationSettings>;
@@ -2076,13 +2199,14 @@ export interface EncryptionContractConfiguration {
 }
 export const EncryptionContractConfiguration = S.suspend(() =>
   S.Struct({
-    SpekeAudioPreset: S.optional(PresetSpeke20Audio).pipe(
-      T.JsonName("spekeAudioPreset"),
-    ),
-    SpekeVideoPreset: S.optional(PresetSpeke20Video).pipe(
-      T.JsonName("spekeVideoPreset"),
-    ),
-  }),
+    SpekeAudioPreset: S.optional(PresetSpeke20Audio),
+    SpekeVideoPreset: S.optional(PresetSpeke20Video),
+  }).pipe(
+    S.encodeKeys({
+      SpekeAudioPreset: "spekeAudioPreset",
+      SpekeVideoPreset: "spekeVideoPreset",
+    }),
+  ),
 ).annotate({
   identifier: "EncryptionContractConfiguration",
 }) as any as S.Schema<EncryptionContractConfiguration>;
@@ -2096,19 +2220,28 @@ export interface SpekeKeyProviderCmaf {
 }
 export const SpekeKeyProviderCmaf = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
+    CertificateArn: S.optional(S.String),
     DashSignaledSystemIds: S.optional(
       __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
-    ).pipe(T.JsonName("dashSignaledSystemIds")),
-    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
-      .pipe(T.JsonName("encryptionContractConfiguration"))
-      .annotate({ identifier: "EncryptionContractConfiguration" }),
+    ),
+    EncryptionContractConfiguration: S.optional(
+      EncryptionContractConfiguration,
+    ),
     HlsSignaledSystemIds: S.optional(
       __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
-    ).pipe(T.JsonName("hlsSignaledSystemIds")),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    ),
+    ResourceId: S.optional(S.String),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CertificateArn: "certificateArn",
+      DashSignaledSystemIds: "dashSignaledSystemIds",
+      EncryptionContractConfiguration: "encryptionContractConfiguration",
+      HlsSignaledSystemIds: "hlsSignaledSystemIds",
+      ResourceId: "resourceId",
+      Url: "url",
+    }),
+  ),
 ).annotate({
   identifier: "SpekeKeyProviderCmaf",
 }) as any as S.Schema<SpekeKeyProviderCmaf>;
@@ -2120,13 +2253,18 @@ export interface StaticKeyProvider {
 }
 export const StaticKeyProvider = S.suspend(() =>
   S.Struct({
-    KeyFormat: S.optional(S.String).pipe(T.JsonName("keyFormat")),
-    KeyFormatVersions: S.optional(S.String).pipe(
-      T.JsonName("keyFormatVersions"),
-    ),
-    StaticKeyValue: S.optional(S.String).pipe(T.JsonName("staticKeyValue")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    KeyFormat: S.optional(S.String),
+    KeyFormatVersions: S.optional(S.String),
+    StaticKeyValue: S.optional(S.String),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      KeyFormat: "keyFormat",
+      KeyFormatVersions: "keyFormatVersions",
+      StaticKeyValue: "staticKeyValue",
+      Url: "url",
+    }),
+  ),
 ).annotate({
   identifier: "StaticKeyProvider",
 }) as any as S.Schema<StaticKeyProvider>;
@@ -2142,23 +2280,24 @@ export interface CmafEncryptionSettings {
 }
 export const CmafEncryptionSettings = S.suspend(() =>
   S.Struct({
-    ConstantInitializationVector: S.optional(S.String).pipe(
-      T.JsonName("constantInitializationVector"),
-    ),
-    EncryptionMethod: S.optional(CmafEncryptionType).pipe(
-      T.JsonName("encryptionMethod"),
-    ),
+    ConstantInitializationVector: S.optional(S.String),
+    EncryptionMethod: S.optional(CmafEncryptionType),
     InitializationVectorInManifest: S.optional(
       CmafInitializationVectorInManifest,
-    ).pipe(T.JsonName("initializationVectorInManifest")),
-    SpekeKeyProvider: S.optional(SpekeKeyProviderCmaf)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProviderCmaf" }),
-    StaticKeyProvider: S.optional(StaticKeyProvider)
-      .pipe(T.JsonName("staticKeyProvider"))
-      .annotate({ identifier: "StaticKeyProvider" }),
-    Type: S.optional(CmafKeyProviderType).pipe(T.JsonName("type")),
-  }),
+    ),
+    SpekeKeyProvider: S.optional(SpekeKeyProviderCmaf),
+    StaticKeyProvider: S.optional(StaticKeyProvider),
+    Type: S.optional(CmafKeyProviderType),
+  }).pipe(
+    S.encodeKeys({
+      ConstantInitializationVector: "constantInitializationVector",
+      EncryptionMethod: "encryptionMethod",
+      InitializationVectorInManifest: "initializationVectorInManifest",
+      SpekeKeyProvider: "spekeKeyProvider",
+      StaticKeyProvider: "staticKeyProvider",
+      Type: "type",
+    }),
+  ),
 ).annotate({
   identifier: "CmafEncryptionSettings",
 }) as any as S.Schema<CmafEncryptionSettings>;
@@ -2184,17 +2323,22 @@ export interface CmafImageBasedTrickPlaySettings {
 }
 export const CmafImageBasedTrickPlaySettings = S.suspend(() =>
   S.Struct({
-    IntervalCadence: S.optional(CmafIntervalCadence).pipe(
-      T.JsonName("intervalCadence"),
-    ),
-    ThumbnailHeight: S.optional(S.Number).pipe(T.JsonName("thumbnailHeight")),
-    ThumbnailInterval: S.optional(S.Number).pipe(
-      T.JsonName("thumbnailInterval"),
-    ),
-    ThumbnailWidth: S.optional(S.Number).pipe(T.JsonName("thumbnailWidth")),
-    TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
-    TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
-  }),
+    IntervalCadence: S.optional(CmafIntervalCadence),
+    ThumbnailHeight: S.optional(S.Number),
+    ThumbnailInterval: S.optional(S.Number),
+    ThumbnailWidth: S.optional(S.Number),
+    TileHeight: S.optional(S.Number),
+    TileWidth: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      IntervalCadence: "intervalCadence",
+      ThumbnailHeight: "thumbnailHeight",
+      ThumbnailInterval: "thumbnailInterval",
+      ThumbnailWidth: "thumbnailWidth",
+      TileHeight: "tileHeight",
+      TileWidth: "tileWidth",
+    }),
+  ),
 ).annotate({
   identifier: "CmafImageBasedTrickPlaySettings",
 }) as any as S.Schema<CmafImageBasedTrickPlaySettings>;
@@ -2278,77 +2422,71 @@ export interface CmafGroupSettings {
 }
 export const CmafGroupSettings = S.suspend(() =>
   S.Struct({
-    AdditionalManifests: S.optional(__listOfCmafAdditionalManifest).pipe(
-      T.JsonName("additionalManifests"),
-    ),
-    BaseUrl: S.optional(S.String).pipe(T.JsonName("baseUrl")),
-    ClientCache: S.optional(CmafClientCache).pipe(T.JsonName("clientCache")),
-    CodecSpecification: S.optional(CmafCodecSpecification).pipe(
-      T.JsonName("codecSpecification"),
-    ),
-    DashIFrameTrickPlayNameModifier: S.optional(S.String).pipe(
-      T.JsonName("dashIFrameTrickPlayNameModifier"),
-    ),
-    DashManifestStyle: S.optional(DashManifestStyle).pipe(
-      T.JsonName("dashManifestStyle"),
-    ),
-    Destination: S.optional(S.String).pipe(T.JsonName("destination")),
-    DestinationSettings: S.optional(DestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "DestinationSettings" }),
-    Encryption: S.optional(CmafEncryptionSettings)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "CmafEncryptionSettings" }),
-    FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
-    ImageBasedTrickPlay: S.optional(CmafImageBasedTrickPlay).pipe(
-      T.JsonName("imageBasedTrickPlay"),
-    ),
-    ImageBasedTrickPlaySettings: S.optional(CmafImageBasedTrickPlaySettings)
-      .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotate({ identifier: "CmafImageBasedTrickPlaySettings" }),
-    ManifestCompression: S.optional(CmafManifestCompression).pipe(
-      T.JsonName("manifestCompression"),
-    ),
-    ManifestDurationFormat: S.optional(CmafManifestDurationFormat).pipe(
-      T.JsonName("manifestDurationFormat"),
-    ),
-    MinBufferTime: S.optional(S.Number).pipe(T.JsonName("minBufferTime")),
-    MinFinalSegmentLength: S.optional(S.Number).pipe(
-      T.JsonName("minFinalSegmentLength"),
-    ),
-    MpdManifestBandwidthType: S.optional(CmafMpdManifestBandwidthType).pipe(
-      T.JsonName("mpdManifestBandwidthType"),
-    ),
-    MpdProfile: S.optional(CmafMpdProfile).pipe(T.JsonName("mpdProfile")),
-    PtsOffsetHandlingForBFrames: S.optional(
-      CmafPtsOffsetHandlingForBFrames,
-    ).pipe(T.JsonName("ptsOffsetHandlingForBFrames")),
-    SegmentControl: S.optional(CmafSegmentControl).pipe(
-      T.JsonName("segmentControl"),
-    ),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentLengthControl: S.optional(CmafSegmentLengthControl).pipe(
-      T.JsonName("segmentLengthControl"),
-    ),
-    StreamInfResolution: S.optional(CmafStreamInfResolution).pipe(
-      T.JsonName("streamInfResolution"),
-    ),
+    AdditionalManifests: S.optional(__listOfCmafAdditionalManifest),
+    BaseUrl: S.optional(S.String),
+    ClientCache: S.optional(CmafClientCache),
+    CodecSpecification: S.optional(CmafCodecSpecification),
+    DashIFrameTrickPlayNameModifier: S.optional(S.String),
+    DashManifestStyle: S.optional(DashManifestStyle),
+    Destination: S.optional(S.String),
+    DestinationSettings: S.optional(DestinationSettings),
+    Encryption: S.optional(CmafEncryptionSettings),
+    FragmentLength: S.optional(S.Number),
+    ImageBasedTrickPlay: S.optional(CmafImageBasedTrickPlay),
+    ImageBasedTrickPlaySettings: S.optional(CmafImageBasedTrickPlaySettings),
+    ManifestCompression: S.optional(CmafManifestCompression),
+    ManifestDurationFormat: S.optional(CmafManifestDurationFormat),
+    MinBufferTime: S.optional(S.Number),
+    MinFinalSegmentLength: S.optional(S.Number),
+    MpdManifestBandwidthType: S.optional(CmafMpdManifestBandwidthType),
+    MpdProfile: S.optional(CmafMpdProfile),
+    PtsOffsetHandlingForBFrames: S.optional(CmafPtsOffsetHandlingForBFrames),
+    SegmentControl: S.optional(CmafSegmentControl),
+    SegmentLength: S.optional(S.Number),
+    SegmentLengthControl: S.optional(CmafSegmentLengthControl),
+    StreamInfResolution: S.optional(CmafStreamInfResolution),
     TargetDurationCompatibilityMode: S.optional(
       CmafTargetDurationCompatibilityMode,
-    ).pipe(T.JsonName("targetDurationCompatibilityMode")),
-    VideoCompositionOffsets: S.optional(CmafVideoCompositionOffsets).pipe(
-      T.JsonName("videoCompositionOffsets"),
     ),
-    WriteDashManifest: S.optional(CmafWriteDASHManifest).pipe(
-      T.JsonName("writeDashManifest"),
-    ),
-    WriteHlsManifest: S.optional(CmafWriteHLSManifest).pipe(
-      T.JsonName("writeHlsManifest"),
-    ),
+    VideoCompositionOffsets: S.optional(CmafVideoCompositionOffsets),
+    WriteDashManifest: S.optional(CmafWriteDASHManifest),
+    WriteHlsManifest: S.optional(CmafWriteHLSManifest),
     WriteSegmentTimelineInRepresentation: S.optional(
       CmafWriteSegmentTimelineInRepresentation,
-    ).pipe(T.JsonName("writeSegmentTimelineInRepresentation")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      AdditionalManifests: "additionalManifests",
+      BaseUrl: "baseUrl",
+      ClientCache: "clientCache",
+      CodecSpecification: "codecSpecification",
+      DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
+      DashManifestStyle: "dashManifestStyle",
+      Destination: "destination",
+      DestinationSettings: "destinationSettings",
+      Encryption: "encryption",
+      FragmentLength: "fragmentLength",
+      ImageBasedTrickPlay: "imageBasedTrickPlay",
+      ImageBasedTrickPlaySettings: "imageBasedTrickPlaySettings",
+      ManifestCompression: "manifestCompression",
+      ManifestDurationFormat: "manifestDurationFormat",
+      MinBufferTime: "minBufferTime",
+      MinFinalSegmentLength: "minFinalSegmentLength",
+      MpdManifestBandwidthType: "mpdManifestBandwidthType",
+      MpdProfile: "mpdProfile",
+      PtsOffsetHandlingForBFrames: "ptsOffsetHandlingForBFrames",
+      SegmentControl: "segmentControl",
+      SegmentLength: "segmentLength",
+      SegmentLengthControl: "segmentLengthControl",
+      StreamInfResolution: "streamInfResolution",
+      TargetDurationCompatibilityMode: "targetDurationCompatibilityMode",
+      VideoCompositionOffsets: "videoCompositionOffsets",
+      WriteDashManifest: "writeDashManifest",
+      WriteHlsManifest: "writeHlsManifest",
+      WriteSegmentTimelineInRepresentation:
+        "writeSegmentTimelineInRepresentation",
+    }),
+  ),
 ).annotate({
   identifier: "CmafGroupSettings",
 }) as any as S.Schema<CmafGroupSettings>;
@@ -2358,13 +2496,14 @@ export interface DashAdditionalManifest {
 }
 export const DashAdditionalManifest = S.suspend(() =>
   S.Struct({
-    ManifestNameModifier: S.optional(S.String).pipe(
-      T.JsonName("manifestNameModifier"),
-    ),
-    SelectedOutputs: S.optional(__listOf__stringMin1).pipe(
-      T.JsonName("selectedOutputs"),
-    ),
-  }),
+    ManifestNameModifier: S.optional(S.String),
+    SelectedOutputs: S.optional(__listOf__stringMin1),
+  }).pipe(
+    S.encodeKeys({
+      ManifestNameModifier: "manifestNameModifier",
+      SelectedOutputs: "selectedOutputs",
+    }),
+  ),
 ).annotate({
   identifier: "DashAdditionalManifest",
 }) as any as S.Schema<DashAdditionalManifest>;
@@ -2393,16 +2532,24 @@ export interface SpekeKeyProvider {
 }
 export const SpekeKeyProvider = S.suspend(() =>
   S.Struct({
-    CertificateArn: S.optional(S.String).pipe(T.JsonName("certificateArn")),
-    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration)
-      .pipe(T.JsonName("encryptionContractConfiguration"))
-      .annotate({ identifier: "EncryptionContractConfiguration" }),
-    ResourceId: S.optional(S.String).pipe(T.JsonName("resourceId")),
+    CertificateArn: S.optional(S.String),
+    EncryptionContractConfiguration: S.optional(
+      EncryptionContractConfiguration,
+    ),
+    ResourceId: S.optional(S.String),
     SystemIds: S.optional(
       __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
-    ).pipe(T.JsonName("systemIds")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    ),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CertificateArn: "certificateArn",
+      EncryptionContractConfiguration: "encryptionContractConfiguration",
+      ResourceId: "resourceId",
+      SystemIds: "systemIds",
+      Url: "url",
+    }),
+  ),
 ).annotate({
   identifier: "SpekeKeyProvider",
 }) as any as S.Schema<SpekeKeyProvider>;
@@ -2412,13 +2559,14 @@ export interface DashIsoEncryptionSettings {
 }
 export const DashIsoEncryptionSettings = S.suspend(() =>
   S.Struct({
-    PlaybackDeviceCompatibility: S.optional(
-      DashIsoPlaybackDeviceCompatibility,
-    ).pipe(T.JsonName("playbackDeviceCompatibility")),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+    PlaybackDeviceCompatibility: S.optional(DashIsoPlaybackDeviceCompatibility),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider),
+  }).pipe(
+    S.encodeKeys({
+      PlaybackDeviceCompatibility: "playbackDeviceCompatibility",
+      SpekeKeyProvider: "spekeKeyProvider",
+    }),
+  ),
 ).annotate({
   identifier: "DashIsoEncryptionSettings",
 }) as any as S.Schema<DashIsoEncryptionSettings>;
@@ -2446,17 +2594,22 @@ export interface DashIsoImageBasedTrickPlaySettings {
 }
 export const DashIsoImageBasedTrickPlaySettings = S.suspend(() =>
   S.Struct({
-    IntervalCadence: S.optional(DashIsoIntervalCadence).pipe(
-      T.JsonName("intervalCadence"),
-    ),
-    ThumbnailHeight: S.optional(S.Number).pipe(T.JsonName("thumbnailHeight")),
-    ThumbnailInterval: S.optional(S.Number).pipe(
-      T.JsonName("thumbnailInterval"),
-    ),
-    ThumbnailWidth: S.optional(S.Number).pipe(T.JsonName("thumbnailWidth")),
-    TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
-    TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
-  }),
+    IntervalCadence: S.optional(DashIsoIntervalCadence),
+    ThumbnailHeight: S.optional(S.Number),
+    ThumbnailInterval: S.optional(S.Number),
+    ThumbnailWidth: S.optional(S.Number),
+    TileHeight: S.optional(S.Number),
+    TileWidth: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      IntervalCadence: "intervalCadence",
+      ThumbnailHeight: "thumbnailHeight",
+      ThumbnailInterval: "thumbnailInterval",
+      ThumbnailWidth: "thumbnailWidth",
+      TileHeight: "tileHeight",
+      TileWidth: "tileWidth",
+    }),
+  ),
 ).annotate({
   identifier: "DashIsoImageBasedTrickPlaySettings",
 }) as any as S.Schema<DashIsoImageBasedTrickPlaySettings>;
@@ -2519,61 +2672,59 @@ export interface DashIsoGroupSettings {
 }
 export const DashIsoGroupSettings = S.suspend(() =>
   S.Struct({
-    AdditionalManifests: S.optional(__listOfDashAdditionalManifest).pipe(
-      T.JsonName("additionalManifests"),
-    ),
+    AdditionalManifests: S.optional(__listOfDashAdditionalManifest),
     AudioChannelConfigSchemeIdUri: S.optional(
       DashIsoGroupAudioChannelConfigSchemeIdUri,
-    ).pipe(T.JsonName("audioChannelConfigSchemeIdUri")),
-    BaseUrl: S.optional(S.String).pipe(T.JsonName("baseUrl")),
-    DashIFrameTrickPlayNameModifier: S.optional(S.String).pipe(
-      T.JsonName("dashIFrameTrickPlayNameModifier"),
     ),
-    DashManifestStyle: S.optional(DashManifestStyle).pipe(
-      T.JsonName("dashManifestStyle"),
-    ),
-    Destination: S.optional(S.String).pipe(T.JsonName("destination")),
-    DestinationSettings: S.optional(DestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "DestinationSettings" }),
-    Encryption: S.optional(DashIsoEncryptionSettings)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "DashIsoEncryptionSettings" }),
-    FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
-    HbbtvCompliance: S.optional(DashIsoHbbtvCompliance).pipe(
-      T.JsonName("hbbtvCompliance"),
-    ),
-    ImageBasedTrickPlay: S.optional(DashIsoImageBasedTrickPlay).pipe(
-      T.JsonName("imageBasedTrickPlay"),
-    ),
-    ImageBasedTrickPlaySettings: S.optional(DashIsoImageBasedTrickPlaySettings)
-      .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotate({ identifier: "DashIsoImageBasedTrickPlaySettings" }),
-    MinBufferTime: S.optional(S.Number).pipe(T.JsonName("minBufferTime")),
-    MinFinalSegmentLength: S.optional(S.Number).pipe(
-      T.JsonName("minFinalSegmentLength"),
-    ),
-    MpdManifestBandwidthType: S.optional(DashIsoMpdManifestBandwidthType).pipe(
-      T.JsonName("mpdManifestBandwidthType"),
-    ),
-    MpdProfile: S.optional(DashIsoMpdProfile).pipe(T.JsonName("mpdProfile")),
-    PtsOffsetHandlingForBFrames: S.optional(
-      DashIsoPtsOffsetHandlingForBFrames,
-    ).pipe(T.JsonName("ptsOffsetHandlingForBFrames")),
-    SegmentControl: S.optional(DashIsoSegmentControl).pipe(
-      T.JsonName("segmentControl"),
-    ),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentLengthControl: S.optional(DashIsoSegmentLengthControl).pipe(
-      T.JsonName("segmentLengthControl"),
-    ),
-    VideoCompositionOffsets: S.optional(DashIsoVideoCompositionOffsets).pipe(
-      T.JsonName("videoCompositionOffsets"),
-    ),
+    BaseUrl: S.optional(S.String),
+    DashIFrameTrickPlayNameModifier: S.optional(S.String),
+    DashManifestStyle: S.optional(DashManifestStyle),
+    Destination: S.optional(S.String),
+    DestinationSettings: S.optional(DestinationSettings),
+    Encryption: S.optional(DashIsoEncryptionSettings),
+    FragmentLength: S.optional(S.Number),
+    HbbtvCompliance: S.optional(DashIsoHbbtvCompliance),
+    ImageBasedTrickPlay: S.optional(DashIsoImageBasedTrickPlay),
+    ImageBasedTrickPlaySettings: S.optional(DashIsoImageBasedTrickPlaySettings),
+    MinBufferTime: S.optional(S.Number),
+    MinFinalSegmentLength: S.optional(S.Number),
+    MpdManifestBandwidthType: S.optional(DashIsoMpdManifestBandwidthType),
+    MpdProfile: S.optional(DashIsoMpdProfile),
+    PtsOffsetHandlingForBFrames: S.optional(DashIsoPtsOffsetHandlingForBFrames),
+    SegmentControl: S.optional(DashIsoSegmentControl),
+    SegmentLength: S.optional(S.Number),
+    SegmentLengthControl: S.optional(DashIsoSegmentLengthControl),
+    VideoCompositionOffsets: S.optional(DashIsoVideoCompositionOffsets),
     WriteSegmentTimelineInRepresentation: S.optional(
       DashIsoWriteSegmentTimelineInRepresentation,
-    ).pipe(T.JsonName("writeSegmentTimelineInRepresentation")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      AdditionalManifests: "additionalManifests",
+      AudioChannelConfigSchemeIdUri: "audioChannelConfigSchemeIdUri",
+      BaseUrl: "baseUrl",
+      DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
+      DashManifestStyle: "dashManifestStyle",
+      Destination: "destination",
+      DestinationSettings: "destinationSettings",
+      Encryption: "encryption",
+      FragmentLength: "fragmentLength",
+      HbbtvCompliance: "hbbtvCompliance",
+      ImageBasedTrickPlay: "imageBasedTrickPlay",
+      ImageBasedTrickPlaySettings: "imageBasedTrickPlaySettings",
+      MinBufferTime: "minBufferTime",
+      MinFinalSegmentLength: "minFinalSegmentLength",
+      MpdManifestBandwidthType: "mpdManifestBandwidthType",
+      MpdProfile: "mpdProfile",
+      PtsOffsetHandlingForBFrames: "ptsOffsetHandlingForBFrames",
+      SegmentControl: "segmentControl",
+      SegmentLength: "segmentLength",
+      SegmentLengthControl: "segmentLengthControl",
+      VideoCompositionOffsets: "videoCompositionOffsets",
+      WriteSegmentTimelineInRepresentation:
+        "writeSegmentTimelineInRepresentation",
+    }),
+  ),
 ).annotate({
   identifier: "DashIsoGroupSettings",
 }) as any as S.Schema<DashIsoGroupSettings>;
@@ -2583,11 +2734,14 @@ export interface FileGroupSettings {
 }
 export const FileGroupSettings = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(S.String).pipe(T.JsonName("destination")),
-    DestinationSettings: S.optional(DestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "DestinationSettings" }),
-  }),
+    Destination: S.optional(S.String),
+    DestinationSettings: S.optional(DestinationSettings),
+  }).pipe(
+    S.encodeKeys({
+      Destination: "destination",
+      DestinationSettings: "destinationSettings",
+    }),
+  ),
 ).annotate({
   identifier: "FileGroupSettings",
 }) as any as S.Schema<FileGroupSettings>;
@@ -2601,13 +2755,14 @@ export interface HlsAdditionalManifest {
 }
 export const HlsAdditionalManifest = S.suspend(() =>
   S.Struct({
-    ManifestNameModifier: S.optional(S.String).pipe(
-      T.JsonName("manifestNameModifier"),
-    ),
-    SelectedOutputs: S.optional(__listOf__stringMin1).pipe(
-      T.JsonName("selectedOutputs"),
-    ),
-  }),
+    ManifestNameModifier: S.optional(S.String),
+    SelectedOutputs: S.optional(__listOf__stringMin1),
+  }).pipe(
+    S.encodeKeys({
+      ManifestNameModifier: "manifestNameModifier",
+      SelectedOutputs: "selectedOutputs",
+    }),
+  ),
 ).annotate({
   identifier: "HlsAdditionalManifest",
 }) as any as S.Schema<HlsAdditionalManifest>;
@@ -2623,15 +2778,18 @@ export interface HlsCaptionLanguageMapping {
 }
 export const HlsCaptionLanguageMapping = S.suspend(() =>
   S.Struct({
-    CaptionChannel: S.optional(S.Number).pipe(T.JsonName("captionChannel")),
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-  }),
+    CaptionChannel: S.optional(S.Number),
+    CustomLanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    LanguageDescription: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CaptionChannel: "captionChannel",
+      CustomLanguageCode: "customLanguageCode",
+      LanguageCode: "languageCode",
+      LanguageDescription: "languageDescription",
+    }),
+  ),
 ).annotate({
   identifier: "HlsCaptionLanguageMapping",
 }) as any as S.Schema<HlsCaptionLanguageMapping>;
@@ -2681,26 +2839,26 @@ export interface HlsEncryptionSettings {
 }
 export const HlsEncryptionSettings = S.suspend(() =>
   S.Struct({
-    ConstantInitializationVector: S.optional(S.String).pipe(
-      T.JsonName("constantInitializationVector"),
-    ),
-    EncryptionMethod: S.optional(HlsEncryptionType).pipe(
-      T.JsonName("encryptionMethod"),
-    ),
+    ConstantInitializationVector: S.optional(S.String),
+    EncryptionMethod: S.optional(HlsEncryptionType),
     InitializationVectorInManifest: S.optional(
       HlsInitializationVectorInManifest,
-    ).pipe(T.JsonName("initializationVectorInManifest")),
-    OfflineEncrypted: S.optional(HlsOfflineEncrypted).pipe(
-      T.JsonName("offlineEncrypted"),
     ),
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-    StaticKeyProvider: S.optional(StaticKeyProvider)
-      .pipe(T.JsonName("staticKeyProvider"))
-      .annotate({ identifier: "StaticKeyProvider" }),
-    Type: S.optional(HlsKeyProviderType).pipe(T.JsonName("type")),
-  }),
+    OfflineEncrypted: S.optional(HlsOfflineEncrypted),
+    SpekeKeyProvider: S.optional(SpekeKeyProvider),
+    StaticKeyProvider: S.optional(StaticKeyProvider),
+    Type: S.optional(HlsKeyProviderType),
+  }).pipe(
+    S.encodeKeys({
+      ConstantInitializationVector: "constantInitializationVector",
+      EncryptionMethod: "encryptionMethod",
+      InitializationVectorInManifest: "initializationVectorInManifest",
+      OfflineEncrypted: "offlineEncrypted",
+      SpekeKeyProvider: "spekeKeyProvider",
+      StaticKeyProvider: "staticKeyProvider",
+      Type: "type",
+    }),
+  ),
 ).annotate({
   identifier: "HlsEncryptionSettings",
 }) as any as S.Schema<HlsEncryptionSettings>;
@@ -2726,17 +2884,22 @@ export interface HlsImageBasedTrickPlaySettings {
 }
 export const HlsImageBasedTrickPlaySettings = S.suspend(() =>
   S.Struct({
-    IntervalCadence: S.optional(HlsIntervalCadence).pipe(
-      T.JsonName("intervalCadence"),
-    ),
-    ThumbnailHeight: S.optional(S.Number).pipe(T.JsonName("thumbnailHeight")),
-    ThumbnailInterval: S.optional(S.Number).pipe(
-      T.JsonName("thumbnailInterval"),
-    ),
-    ThumbnailWidth: S.optional(S.Number).pipe(T.JsonName("thumbnailWidth")),
-    TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
-    TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
-  }),
+    IntervalCadence: S.optional(HlsIntervalCadence),
+    ThumbnailHeight: S.optional(S.Number),
+    ThumbnailInterval: S.optional(S.Number),
+    ThumbnailWidth: S.optional(S.Number),
+    TileHeight: S.optional(S.Number),
+    TileWidth: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      IntervalCadence: "intervalCadence",
+      ThumbnailHeight: "thumbnailHeight",
+      ThumbnailInterval: "thumbnailInterval",
+      ThumbnailWidth: "thumbnailWidth",
+      TileHeight: "tileHeight",
+      TileWidth: "tileWidth",
+    }),
+  ),
 ).annotate({
   identifier: "HlsImageBasedTrickPlaySettings",
 }) as any as S.Schema<HlsImageBasedTrickPlaySettings>;
@@ -2815,91 +2978,76 @@ export interface HlsGroupSettings {
 }
 export const HlsGroupSettings = S.suspend(() =>
   S.Struct({
-    AdMarkers: S.optional(__listOfHlsAdMarkers).pipe(T.JsonName("adMarkers")),
-    AdditionalManifests: S.optional(__listOfHlsAdditionalManifest).pipe(
-      T.JsonName("additionalManifests"),
-    ),
-    AudioOnlyHeader: S.optional(HlsAudioOnlyHeader).pipe(
-      T.JsonName("audioOnlyHeader"),
-    ),
-    BaseUrl: S.optional(S.String).pipe(T.JsonName("baseUrl")),
-    CaptionLanguageMappings: S.optional(__listOfHlsCaptionLanguageMapping).pipe(
-      T.JsonName("captionLanguageMappings"),
-    ),
-    CaptionLanguageSetting: S.optional(HlsCaptionLanguageSetting).pipe(
-      T.JsonName("captionLanguageSetting"),
-    ),
-    CaptionSegmentLengthControl: S.optional(
-      HlsCaptionSegmentLengthControl,
-    ).pipe(T.JsonName("captionSegmentLengthControl")),
-    ClientCache: S.optional(HlsClientCache).pipe(T.JsonName("clientCache")),
-    CodecSpecification: S.optional(HlsCodecSpecification).pipe(
-      T.JsonName("codecSpecification"),
-    ),
-    Destination: S.optional(S.String).pipe(T.JsonName("destination")),
-    DestinationSettings: S.optional(DestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "DestinationSettings" }),
-    DirectoryStructure: S.optional(HlsDirectoryStructure).pipe(
-      T.JsonName("directoryStructure"),
-    ),
-    Encryption: S.optional(HlsEncryptionSettings)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "HlsEncryptionSettings" }),
-    ImageBasedTrickPlay: S.optional(HlsImageBasedTrickPlay).pipe(
-      T.JsonName("imageBasedTrickPlay"),
-    ),
-    ImageBasedTrickPlaySettings: S.optional(HlsImageBasedTrickPlaySettings)
-      .pipe(T.JsonName("imageBasedTrickPlaySettings"))
-      .annotate({ identifier: "HlsImageBasedTrickPlaySettings" }),
-    ManifestCompression: S.optional(HlsManifestCompression).pipe(
-      T.JsonName("manifestCompression"),
-    ),
-    ManifestDurationFormat: S.optional(HlsManifestDurationFormat).pipe(
-      T.JsonName("manifestDurationFormat"),
-    ),
-    MinFinalSegmentLength: S.optional(S.Number).pipe(
-      T.JsonName("minFinalSegmentLength"),
-    ),
-    MinSegmentLength: S.optional(S.Number).pipe(T.JsonName("minSegmentLength")),
-    OutputSelection: S.optional(HlsOutputSelection).pipe(
-      T.JsonName("outputSelection"),
-    ),
-    ProgramDateTime: S.optional(HlsProgramDateTime).pipe(
-      T.JsonName("programDateTime"),
-    ),
-    ProgramDateTimePeriod: S.optional(S.Number).pipe(
-      T.JsonName("programDateTimePeriod"),
-    ),
-    ProgressiveWriteHlsManifest: S.optional(
-      HlsProgressiveWriteHlsManifest,
-    ).pipe(T.JsonName("progressiveWriteHlsManifest")),
-    SegmentControl: S.optional(HlsSegmentControl).pipe(
-      T.JsonName("segmentControl"),
-    ),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentLengthControl: S.optional(HlsSegmentLengthControl).pipe(
-      T.JsonName("segmentLengthControl"),
-    ),
-    SegmentsPerSubdirectory: S.optional(S.Number).pipe(
-      T.JsonName("segmentsPerSubdirectory"),
-    ),
-    StreamInfResolution: S.optional(HlsStreamInfResolution).pipe(
-      T.JsonName("streamInfResolution"),
-    ),
+    AdMarkers: S.optional(__listOfHlsAdMarkers),
+    AdditionalManifests: S.optional(__listOfHlsAdditionalManifest),
+    AudioOnlyHeader: S.optional(HlsAudioOnlyHeader),
+    BaseUrl: S.optional(S.String),
+    CaptionLanguageMappings: S.optional(__listOfHlsCaptionLanguageMapping),
+    CaptionLanguageSetting: S.optional(HlsCaptionLanguageSetting),
+    CaptionSegmentLengthControl: S.optional(HlsCaptionSegmentLengthControl),
+    ClientCache: S.optional(HlsClientCache),
+    CodecSpecification: S.optional(HlsCodecSpecification),
+    Destination: S.optional(S.String),
+    DestinationSettings: S.optional(DestinationSettings),
+    DirectoryStructure: S.optional(HlsDirectoryStructure),
+    Encryption: S.optional(HlsEncryptionSettings),
+    ImageBasedTrickPlay: S.optional(HlsImageBasedTrickPlay),
+    ImageBasedTrickPlaySettings: S.optional(HlsImageBasedTrickPlaySettings),
+    ManifestCompression: S.optional(HlsManifestCompression),
+    ManifestDurationFormat: S.optional(HlsManifestDurationFormat),
+    MinFinalSegmentLength: S.optional(S.Number),
+    MinSegmentLength: S.optional(S.Number),
+    OutputSelection: S.optional(HlsOutputSelection),
+    ProgramDateTime: S.optional(HlsProgramDateTime),
+    ProgramDateTimePeriod: S.optional(S.Number),
+    ProgressiveWriteHlsManifest: S.optional(HlsProgressiveWriteHlsManifest),
+    SegmentControl: S.optional(HlsSegmentControl),
+    SegmentLength: S.optional(S.Number),
+    SegmentLengthControl: S.optional(HlsSegmentLengthControl),
+    SegmentsPerSubdirectory: S.optional(S.Number),
+    StreamInfResolution: S.optional(HlsStreamInfResolution),
     TargetDurationCompatibilityMode: S.optional(
       HlsTargetDurationCompatibilityMode,
-    ).pipe(T.JsonName("targetDurationCompatibilityMode")),
-    TimedMetadataId3Frame: S.optional(HlsTimedMetadataId3Frame).pipe(
-      T.JsonName("timedMetadataId3Frame"),
     ),
-    TimedMetadataId3Period: S.optional(S.Number).pipe(
-      T.JsonName("timedMetadataId3Period"),
-    ),
-    TimestampDeltaMilliseconds: S.optional(S.Number).pipe(
-      T.JsonName("timestampDeltaMilliseconds"),
-    ),
-  }),
+    TimedMetadataId3Frame: S.optional(HlsTimedMetadataId3Frame),
+    TimedMetadataId3Period: S.optional(S.Number),
+    TimestampDeltaMilliseconds: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AdMarkers: "adMarkers",
+      AdditionalManifests: "additionalManifests",
+      AudioOnlyHeader: "audioOnlyHeader",
+      BaseUrl: "baseUrl",
+      CaptionLanguageMappings: "captionLanguageMappings",
+      CaptionLanguageSetting: "captionLanguageSetting",
+      CaptionSegmentLengthControl: "captionSegmentLengthControl",
+      ClientCache: "clientCache",
+      CodecSpecification: "codecSpecification",
+      Destination: "destination",
+      DestinationSettings: "destinationSettings",
+      DirectoryStructure: "directoryStructure",
+      Encryption: "encryption",
+      ImageBasedTrickPlay: "imageBasedTrickPlay",
+      ImageBasedTrickPlaySettings: "imageBasedTrickPlaySettings",
+      ManifestCompression: "manifestCompression",
+      ManifestDurationFormat: "manifestDurationFormat",
+      MinFinalSegmentLength: "minFinalSegmentLength",
+      MinSegmentLength: "minSegmentLength",
+      OutputSelection: "outputSelection",
+      ProgramDateTime: "programDateTime",
+      ProgramDateTimePeriod: "programDateTimePeriod",
+      ProgressiveWriteHlsManifest: "progressiveWriteHlsManifest",
+      SegmentControl: "segmentControl",
+      SegmentLength: "segmentLength",
+      SegmentLengthControl: "segmentLengthControl",
+      SegmentsPerSubdirectory: "segmentsPerSubdirectory",
+      StreamInfResolution: "streamInfResolution",
+      TargetDurationCompatibilityMode: "targetDurationCompatibilityMode",
+      TimedMetadataId3Frame: "timedMetadataId3Frame",
+      TimedMetadataId3Period: "timedMetadataId3Period",
+      TimestampDeltaMilliseconds: "timestampDeltaMilliseconds",
+    }),
+  ),
 ).annotate({
   identifier: "HlsGroupSettings",
 }) as any as S.Schema<HlsGroupSettings>;
@@ -2909,13 +3057,14 @@ export interface MsSmoothAdditionalManifest {
 }
 export const MsSmoothAdditionalManifest = S.suspend(() =>
   S.Struct({
-    ManifestNameModifier: S.optional(S.String).pipe(
-      T.JsonName("manifestNameModifier"),
-    ),
-    SelectedOutputs: S.optional(__listOf__stringMin1).pipe(
-      T.JsonName("selectedOutputs"),
-    ),
-  }),
+    ManifestNameModifier: S.optional(S.String),
+    SelectedOutputs: S.optional(__listOf__stringMin1),
+  }).pipe(
+    S.encodeKeys({
+      ManifestNameModifier: "manifestNameModifier",
+      SelectedOutputs: "selectedOutputs",
+    }),
+  ),
 ).annotate({
   identifier: "MsSmoothAdditionalManifest",
 }) as any as S.Schema<MsSmoothAdditionalManifest>;
@@ -2932,11 +3081,9 @@ export interface MsSmoothEncryptionSettings {
   SpekeKeyProvider?: SpekeKeyProvider;
 }
 export const MsSmoothEncryptionSettings = S.suspend(() =>
-  S.Struct({
-    SpekeKeyProvider: S.optional(SpekeKeyProvider)
-      .pipe(T.JsonName("spekeKeyProvider"))
-      .annotate({ identifier: "SpekeKeyProvider" }),
-  }),
+  S.Struct({ SpekeKeyProvider: S.optional(SpekeKeyProvider) }).pipe(
+    S.encodeKeys({ SpekeKeyProvider: "spekeKeyProvider" }),
+  ),
 ).annotate({
   identifier: "MsSmoothEncryptionSettings",
 }) as any as S.Schema<MsSmoothEncryptionSettings>;
@@ -2959,27 +3106,26 @@ export interface MsSmoothGroupSettings {
 }
 export const MsSmoothGroupSettings = S.suspend(() =>
   S.Struct({
-    AdditionalManifests: S.optional(__listOfMsSmoothAdditionalManifest).pipe(
-      T.JsonName("additionalManifests"),
-    ),
-    AudioDeduplication: S.optional(MsSmoothAudioDeduplication).pipe(
-      T.JsonName("audioDeduplication"),
-    ),
-    Destination: S.optional(S.String).pipe(T.JsonName("destination")),
-    DestinationSettings: S.optional(DestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "DestinationSettings" }),
-    Encryption: S.optional(MsSmoothEncryptionSettings)
-      .pipe(T.JsonName("encryption"))
-      .annotate({ identifier: "MsSmoothEncryptionSettings" }),
-    FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
-    FragmentLengthControl: S.optional(MsSmoothFragmentLengthControl).pipe(
-      T.JsonName("fragmentLengthControl"),
-    ),
-    ManifestEncoding: S.optional(MsSmoothManifestEncoding).pipe(
-      T.JsonName("manifestEncoding"),
-    ),
-  }),
+    AdditionalManifests: S.optional(__listOfMsSmoothAdditionalManifest),
+    AudioDeduplication: S.optional(MsSmoothAudioDeduplication),
+    Destination: S.optional(S.String),
+    DestinationSettings: S.optional(DestinationSettings),
+    Encryption: S.optional(MsSmoothEncryptionSettings),
+    FragmentLength: S.optional(S.Number),
+    FragmentLengthControl: S.optional(MsSmoothFragmentLengthControl),
+    ManifestEncoding: S.optional(MsSmoothManifestEncoding),
+  }).pipe(
+    S.encodeKeys({
+      AdditionalManifests: "additionalManifests",
+      AudioDeduplication: "audioDeduplication",
+      Destination: "destination",
+      DestinationSettings: "destinationSettings",
+      Encryption: "encryption",
+      FragmentLength: "fragmentLength",
+      FragmentLengthControl: "fragmentLengthControl",
+      ManifestEncoding: "manifestEncoding",
+    }),
+  ),
 ).annotate({
   identifier: "MsSmoothGroupSettings",
 }) as any as S.Schema<MsSmoothGroupSettings>;
@@ -3014,26 +3160,24 @@ export interface OutputGroupSettings {
 }
 export const OutputGroupSettings = S.suspend(() =>
   S.Struct({
-    CmafGroupSettings: S.optional(CmafGroupSettings)
-      .pipe(T.JsonName("cmafGroupSettings"))
-      .annotate({ identifier: "CmafGroupSettings" }),
-    DashIsoGroupSettings: S.optional(DashIsoGroupSettings)
-      .pipe(T.JsonName("dashIsoGroupSettings"))
-      .annotate({ identifier: "DashIsoGroupSettings" }),
-    FileGroupSettings: S.optional(FileGroupSettings)
-      .pipe(T.JsonName("fileGroupSettings"))
-      .annotate({ identifier: "FileGroupSettings" }),
-    HlsGroupSettings: S.optional(HlsGroupSettings)
-      .pipe(T.JsonName("hlsGroupSettings"))
-      .annotate({ identifier: "HlsGroupSettings" }),
-    MsSmoothGroupSettings: S.optional(MsSmoothGroupSettings)
-      .pipe(T.JsonName("msSmoothGroupSettings"))
-      .annotate({ identifier: "MsSmoothGroupSettings" }),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    Type: S.optional(OutputGroupType).pipe(T.JsonName("type")),
-  }),
+    CmafGroupSettings: S.optional(CmafGroupSettings),
+    DashIsoGroupSettings: S.optional(DashIsoGroupSettings),
+    FileGroupSettings: S.optional(FileGroupSettings),
+    HlsGroupSettings: S.optional(HlsGroupSettings),
+    MsSmoothGroupSettings: S.optional(MsSmoothGroupSettings),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    Type: S.optional(OutputGroupType),
+  }).pipe(
+    S.encodeKeys({
+      CmafGroupSettings: "cmafGroupSettings",
+      DashIsoGroupSettings: "dashIsoGroupSettings",
+      FileGroupSettings: "fileGroupSettings",
+      HlsGroupSettings: "hlsGroupSettings",
+      MsSmoothGroupSettings: "msSmoothGroupSettings",
+      PerFrameMetrics: "perFrameMetrics",
+      Type: "type",
+    }),
+  ),
 ).annotate({
   identifier: "OutputGroupSettings",
 }) as any as S.Schema<OutputGroupSettings>;
@@ -3076,11 +3220,11 @@ export interface AudioChannelTaggingSettings {
 }
 export const AudioChannelTaggingSettings = S.suspend(() =>
   S.Struct({
-    ChannelTag: S.optional(AudioChannelTag).pipe(T.JsonName("channelTag")),
-    ChannelTags: S.optional(__listOfAudioChannelTag).pipe(
-      T.JsonName("channelTags"),
-    ),
-  }),
+    ChannelTag: S.optional(AudioChannelTag),
+    ChannelTags: S.optional(__listOfAudioChannelTag),
+  }).pipe(
+    S.encodeKeys({ ChannelTag: "channelTag", ChannelTags: "channelTags" }),
+  ),
 ).annotate({
   identifier: "AudioChannelTaggingSettings",
 }) as any as S.Schema<AudioChannelTaggingSettings>;
@@ -3117,26 +3261,24 @@ export interface AudioNormalizationSettings {
 }
 export const AudioNormalizationSettings = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(AudioNormalizationAlgorithm).pipe(
-      T.JsonName("algorithm"),
-    ),
-    AlgorithmControl: S.optional(AudioNormalizationAlgorithmControl).pipe(
-      T.JsonName("algorithmControl"),
-    ),
-    CorrectionGateLevel: S.optional(S.Number).pipe(
-      T.JsonName("correctionGateLevel"),
-    ),
-    LoudnessLogging: S.optional(AudioNormalizationLoudnessLogging).pipe(
-      T.JsonName("loudnessLogging"),
-    ),
-    PeakCalculation: S.optional(AudioNormalizationPeakCalculation).pipe(
-      T.JsonName("peakCalculation"),
-    ),
-    TargetLkfs: S.optional(S.Number).pipe(T.JsonName("targetLkfs")),
-    TruePeakLimiterThreshold: S.optional(S.Number).pipe(
-      T.JsonName("truePeakLimiterThreshold"),
-    ),
-  }),
+    Algorithm: S.optional(AudioNormalizationAlgorithm),
+    AlgorithmControl: S.optional(AudioNormalizationAlgorithmControl),
+    CorrectionGateLevel: S.optional(S.Number),
+    LoudnessLogging: S.optional(AudioNormalizationLoudnessLogging),
+    PeakCalculation: S.optional(AudioNormalizationPeakCalculation),
+    TargetLkfs: S.optional(S.Number),
+    TruePeakLimiterThreshold: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      AlgorithmControl: "algorithmControl",
+      CorrectionGateLevel: "correctionGateLevel",
+      LoudnessLogging: "loudnessLogging",
+      PeakCalculation: "peakCalculation",
+      TargetLkfs: "targetLkfs",
+      TruePeakLimiterThreshold: "truePeakLimiterThreshold",
+    }),
+  ),
 ).annotate({
   identifier: "AudioNormalizationSettings",
 }) as any as S.Schema<AudioNormalizationSettings>;
@@ -3146,11 +3288,9 @@ export interface AudioPitchCorrectionSettings {
   SlowPalPitchCorrection?: SlowPalPitchCorrection;
 }
 export const AudioPitchCorrectionSettings = S.suspend(() =>
-  S.Struct({
-    SlowPalPitchCorrection: S.optional(SlowPalPitchCorrection).pipe(
-      T.JsonName("slowPalPitchCorrection"),
-    ),
-  }),
+  S.Struct({ SlowPalPitchCorrection: S.optional(SlowPalPitchCorrection) }).pipe(
+    S.encodeKeys({ SlowPalPitchCorrection: "slowPalPitchCorrection" }),
+  ),
 ).annotate({
   identifier: "AudioPitchCorrectionSettings",
 }) as any as S.Schema<AudioPitchCorrectionSettings>;
@@ -3207,27 +3347,34 @@ export const AacSettings = S.suspend(() =>
   S.Struct({
     AudioDescriptionBroadcasterMix: S.optional(
       AacAudioDescriptionBroadcasterMix,
-    ).pipe(T.JsonName("audioDescriptionBroadcasterMix")),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodecProfile: S.optional(AacCodecProfile).pipe(T.JsonName("codecProfile")),
-    CodingMode: S.optional(AacCodingMode).pipe(T.JsonName("codingMode")),
-    LoudnessMeasurementMode: S.optional(AacLoudnessMeasurementMode).pipe(
-      T.JsonName("loudnessMeasurementMode"),
     ),
-    RapInterval: S.optional(S.Number).pipe(T.JsonName("rapInterval")),
-    RateControlMode: S.optional(AacRateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    RawFormat: S.optional(AacRawFormat).pipe(T.JsonName("rawFormat")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    Specification: S.optional(AacSpecification).pipe(
-      T.JsonName("specification"),
-    ),
-    TargetLoudnessRange: S.optional(S.Number).pipe(
-      T.JsonName("targetLoudnessRange"),
-    ),
-    VbrQuality: S.optional(AacVbrQuality).pipe(T.JsonName("vbrQuality")),
-  }),
+    Bitrate: S.optional(S.Number),
+    CodecProfile: S.optional(AacCodecProfile),
+    CodingMode: S.optional(AacCodingMode),
+    LoudnessMeasurementMode: S.optional(AacLoudnessMeasurementMode),
+    RapInterval: S.optional(S.Number),
+    RateControlMode: S.optional(AacRateControlMode),
+    RawFormat: S.optional(AacRawFormat),
+    SampleRate: S.optional(S.Number),
+    Specification: S.optional(AacSpecification),
+    TargetLoudnessRange: S.optional(S.Number),
+    VbrQuality: S.optional(AacVbrQuality),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptionBroadcasterMix: "audioDescriptionBroadcasterMix",
+      Bitrate: "bitrate",
+      CodecProfile: "codecProfile",
+      CodingMode: "codingMode",
+      LoudnessMeasurementMode: "loudnessMeasurementMode",
+      RapInterval: "rapInterval",
+      RateControlMode: "rateControlMode",
+      RawFormat: "rawFormat",
+      SampleRate: "sampleRate",
+      Specification: "specification",
+      TargetLoudnessRange: "targetLoudnessRange",
+      VbrQuality: "vbrQuality",
+    }),
+  ),
 ).annotate({ identifier: "AacSettings" }) as any as S.Schema<AacSettings>;
 export type Ac3BitstreamMode =
   | "COMPLETE_MAIN"
@@ -3291,27 +3438,32 @@ export interface Ac3Settings {
 }
 export const Ac3Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BitstreamMode: S.optional(Ac3BitstreamMode).pipe(
-      T.JsonName("bitstreamMode"),
-    ),
-    CodingMode: S.optional(Ac3CodingMode).pipe(T.JsonName("codingMode")),
-    Dialnorm: S.optional(S.Number).pipe(T.JsonName("dialnorm")),
-    DynamicRangeCompressionLine: S.optional(
-      Ac3DynamicRangeCompressionLine,
-    ).pipe(T.JsonName("dynamicRangeCompressionLine")),
+    Bitrate: S.optional(S.Number),
+    BitstreamMode: S.optional(Ac3BitstreamMode),
+    CodingMode: S.optional(Ac3CodingMode),
+    Dialnorm: S.optional(S.Number),
+    DynamicRangeCompressionLine: S.optional(Ac3DynamicRangeCompressionLine),
     DynamicRangeCompressionProfile: S.optional(
       Ac3DynamicRangeCompressionProfile,
-    ).pipe(T.JsonName("dynamicRangeCompressionProfile")),
-    DynamicRangeCompressionRf: S.optional(Ac3DynamicRangeCompressionRf).pipe(
-      T.JsonName("dynamicRangeCompressionRf"),
     ),
-    LfeFilter: S.optional(Ac3LfeFilter).pipe(T.JsonName("lfeFilter")),
-    MetadataControl: S.optional(Ac3MetadataControl).pipe(
-      T.JsonName("metadataControl"),
-    ),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    DynamicRangeCompressionRf: S.optional(Ac3DynamicRangeCompressionRf),
+    LfeFilter: S.optional(Ac3LfeFilter),
+    MetadataControl: S.optional(Ac3MetadataControl),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      BitstreamMode: "bitstreamMode",
+      CodingMode: "codingMode",
+      Dialnorm: "dialnorm",
+      DynamicRangeCompressionLine: "dynamicRangeCompressionLine",
+      DynamicRangeCompressionProfile: "dynamicRangeCompressionProfile",
+      DynamicRangeCompressionRf: "dynamicRangeCompressionRf",
+      LfeFilter: "lfeFilter",
+      MetadataControl: "metadataControl",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "Ac3Settings" }) as any as S.Schema<Ac3Settings>;
 export interface AiffSettings {
   BitDepth?: number;
@@ -3320,10 +3472,16 @@ export interface AiffSettings {
 }
 export const AiffSettings = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    BitDepth: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      Channels: "channels",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "AiffSettings" }) as any as S.Schema<AiffSettings>;
 export type AudioCodec =
   | "AAC"
@@ -3424,50 +3582,46 @@ export interface Eac3AtmosSettings {
 }
 export const Eac3AtmosSettings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BitstreamMode: S.optional(Eac3AtmosBitstreamMode).pipe(
-      T.JsonName("bitstreamMode"),
-    ),
-    CodingMode: S.optional(Eac3AtmosCodingMode).pipe(T.JsonName("codingMode")),
-    DialogueIntelligence: S.optional(Eac3AtmosDialogueIntelligence).pipe(
-      T.JsonName("dialogueIntelligence"),
-    ),
-    DownmixControl: S.optional(Eac3AtmosDownmixControl).pipe(
-      T.JsonName("downmixControl"),
-    ),
+    Bitrate: S.optional(S.Number),
+    BitstreamMode: S.optional(Eac3AtmosBitstreamMode),
+    CodingMode: S.optional(Eac3AtmosCodingMode),
+    DialogueIntelligence: S.optional(Eac3AtmosDialogueIntelligence),
+    DownmixControl: S.optional(Eac3AtmosDownmixControl),
     DynamicRangeCompressionLine: S.optional(
       Eac3AtmosDynamicRangeCompressionLine,
-    ).pipe(T.JsonName("dynamicRangeCompressionLine")),
-    DynamicRangeCompressionRf: S.optional(
-      Eac3AtmosDynamicRangeCompressionRf,
-    ).pipe(T.JsonName("dynamicRangeCompressionRf")),
-    DynamicRangeControl: S.optional(Eac3AtmosDynamicRangeControl).pipe(
-      T.JsonName("dynamicRangeControl"),
     ),
-    LoRoCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoCenterMixLevel"),
-    ),
-    LoRoSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoSurroundMixLevel"),
-    ),
-    LtRtCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtCenterMixLevel"),
-    ),
-    LtRtSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtSurroundMixLevel"),
-    ),
-    MeteringMode: S.optional(Eac3AtmosMeteringMode).pipe(
-      T.JsonName("meteringMode"),
-    ),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    SpeechThreshold: S.optional(S.Number).pipe(T.JsonName("speechThreshold")),
-    StereoDownmix: S.optional(Eac3AtmosStereoDownmix).pipe(
-      T.JsonName("stereoDownmix"),
-    ),
-    SurroundExMode: S.optional(Eac3AtmosSurroundExMode).pipe(
-      T.JsonName("surroundExMode"),
-    ),
-  }),
+    DynamicRangeCompressionRf: S.optional(Eac3AtmosDynamicRangeCompressionRf),
+    DynamicRangeControl: S.optional(Eac3AtmosDynamicRangeControl),
+    LoRoCenterMixLevel: S.optional(S.Number),
+    LoRoSurroundMixLevel: S.optional(S.Number),
+    LtRtCenterMixLevel: S.optional(S.Number),
+    LtRtSurroundMixLevel: S.optional(S.Number),
+    MeteringMode: S.optional(Eac3AtmosMeteringMode),
+    SampleRate: S.optional(S.Number),
+    SpeechThreshold: S.optional(S.Number),
+    StereoDownmix: S.optional(Eac3AtmosStereoDownmix),
+    SurroundExMode: S.optional(Eac3AtmosSurroundExMode),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      BitstreamMode: "bitstreamMode",
+      CodingMode: "codingMode",
+      DialogueIntelligence: "dialogueIntelligence",
+      DownmixControl: "downmixControl",
+      DynamicRangeCompressionLine: "dynamicRangeCompressionLine",
+      DynamicRangeCompressionRf: "dynamicRangeCompressionRf",
+      DynamicRangeControl: "dynamicRangeControl",
+      LoRoCenterMixLevel: "loRoCenterMixLevel",
+      LoRoSurroundMixLevel: "loRoSurroundMixLevel",
+      LtRtCenterMixLevel: "ltRtCenterMixLevel",
+      LtRtSurroundMixLevel: "ltRtSurroundMixLevel",
+      MeteringMode: "meteringMode",
+      SampleRate: "sampleRate",
+      SpeechThreshold: "speechThreshold",
+      StereoDownmix: "stereoDownmix",
+      SurroundExMode: "surroundExMode",
+    }),
+  ),
 ).annotate({
   identifier: "Eac3AtmosSettings",
 }) as any as S.Schema<Eac3AtmosSettings>;
@@ -3567,52 +3721,52 @@ export interface Eac3Settings {
 }
 export const Eac3Settings = S.suspend(() =>
   S.Struct({
-    AttenuationControl: S.optional(Eac3AttenuationControl).pipe(
-      T.JsonName("attenuationControl"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BitstreamMode: S.optional(Eac3BitstreamMode).pipe(
-      T.JsonName("bitstreamMode"),
-    ),
-    CodingMode: S.optional(Eac3CodingMode).pipe(T.JsonName("codingMode")),
-    DcFilter: S.optional(Eac3DcFilter).pipe(T.JsonName("dcFilter")),
-    Dialnorm: S.optional(S.Number).pipe(T.JsonName("dialnorm")),
-    DynamicRangeCompressionLine: S.optional(
-      Eac3DynamicRangeCompressionLine,
-    ).pipe(T.JsonName("dynamicRangeCompressionLine")),
-    DynamicRangeCompressionRf: S.optional(Eac3DynamicRangeCompressionRf).pipe(
-      T.JsonName("dynamicRangeCompressionRf"),
-    ),
-    LfeControl: S.optional(Eac3LfeControl).pipe(T.JsonName("lfeControl")),
-    LfeFilter: S.optional(Eac3LfeFilter).pipe(T.JsonName("lfeFilter")),
-    LoRoCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoCenterMixLevel"),
-    ),
-    LoRoSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoSurroundMixLevel"),
-    ),
-    LtRtCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtCenterMixLevel"),
-    ),
-    LtRtSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtSurroundMixLevel"),
-    ),
-    MetadataControl: S.optional(Eac3MetadataControl).pipe(
-      T.JsonName("metadataControl"),
-    ),
-    PassthroughControl: S.optional(Eac3PassthroughControl).pipe(
-      T.JsonName("passthroughControl"),
-    ),
-    PhaseControl: S.optional(Eac3PhaseControl).pipe(T.JsonName("phaseControl")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    StereoDownmix: S.optional(Eac3StereoDownmix).pipe(
-      T.JsonName("stereoDownmix"),
-    ),
-    SurroundExMode: S.optional(Eac3SurroundExMode).pipe(
-      T.JsonName("surroundExMode"),
-    ),
-    SurroundMode: S.optional(Eac3SurroundMode).pipe(T.JsonName("surroundMode")),
-  }),
+    AttenuationControl: S.optional(Eac3AttenuationControl),
+    Bitrate: S.optional(S.Number),
+    BitstreamMode: S.optional(Eac3BitstreamMode),
+    CodingMode: S.optional(Eac3CodingMode),
+    DcFilter: S.optional(Eac3DcFilter),
+    Dialnorm: S.optional(S.Number),
+    DynamicRangeCompressionLine: S.optional(Eac3DynamicRangeCompressionLine),
+    DynamicRangeCompressionRf: S.optional(Eac3DynamicRangeCompressionRf),
+    LfeControl: S.optional(Eac3LfeControl),
+    LfeFilter: S.optional(Eac3LfeFilter),
+    LoRoCenterMixLevel: S.optional(S.Number),
+    LoRoSurroundMixLevel: S.optional(S.Number),
+    LtRtCenterMixLevel: S.optional(S.Number),
+    LtRtSurroundMixLevel: S.optional(S.Number),
+    MetadataControl: S.optional(Eac3MetadataControl),
+    PassthroughControl: S.optional(Eac3PassthroughControl),
+    PhaseControl: S.optional(Eac3PhaseControl),
+    SampleRate: S.optional(S.Number),
+    StereoDownmix: S.optional(Eac3StereoDownmix),
+    SurroundExMode: S.optional(Eac3SurroundExMode),
+    SurroundMode: S.optional(Eac3SurroundMode),
+  }).pipe(
+    S.encodeKeys({
+      AttenuationControl: "attenuationControl",
+      Bitrate: "bitrate",
+      BitstreamMode: "bitstreamMode",
+      CodingMode: "codingMode",
+      DcFilter: "dcFilter",
+      Dialnorm: "dialnorm",
+      DynamicRangeCompressionLine: "dynamicRangeCompressionLine",
+      DynamicRangeCompressionRf: "dynamicRangeCompressionRf",
+      LfeControl: "lfeControl",
+      LfeFilter: "lfeFilter",
+      LoRoCenterMixLevel: "loRoCenterMixLevel",
+      LoRoSurroundMixLevel: "loRoSurroundMixLevel",
+      LtRtCenterMixLevel: "ltRtCenterMixLevel",
+      LtRtSurroundMixLevel: "ltRtSurroundMixLevel",
+      MetadataControl: "metadataControl",
+      PassthroughControl: "passthroughControl",
+      PhaseControl: "phaseControl",
+      SampleRate: "sampleRate",
+      StereoDownmix: "stereoDownmix",
+      SurroundExMode: "surroundExMode",
+      SurroundMode: "surroundMode",
+    }),
+  ),
 ).annotate({ identifier: "Eac3Settings" }) as any as S.Schema<Eac3Settings>;
 export interface FlacSettings {
   BitDepth?: number;
@@ -3621,10 +3775,16 @@ export interface FlacSettings {
 }
 export const FlacSettings = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    BitDepth: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      Channels: "channels",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "FlacSettings" }) as any as S.Schema<FlacSettings>;
 export type Mp2AudioDescriptionMix =
   | "BROADCASTER_MIXED_AD"
@@ -3639,13 +3799,18 @@ export interface Mp2Settings {
 }
 export const Mp2Settings = S.suspend(() =>
   S.Struct({
-    AudioDescriptionMix: S.optional(Mp2AudioDescriptionMix).pipe(
-      T.JsonName("audioDescriptionMix"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    AudioDescriptionMix: S.optional(Mp2AudioDescriptionMix),
+    Bitrate: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptionMix: "audioDescriptionMix",
+      Bitrate: "bitrate",
+      Channels: "channels",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "Mp2Settings" }) as any as S.Schema<Mp2Settings>;
 export type Mp3RateControlMode = "CBR" | "VBR" | (string & {});
 export const Mp3RateControlMode = S.String;
@@ -3658,14 +3823,20 @@ export interface Mp3Settings {
 }
 export const Mp3Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    RateControlMode: S.optional(Mp3RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    VbrQuality: S.optional(S.Number).pipe(T.JsonName("vbrQuality")),
-  }),
+    Bitrate: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    RateControlMode: S.optional(Mp3RateControlMode),
+    SampleRate: S.optional(S.Number),
+    VbrQuality: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      Channels: "channels",
+      RateControlMode: "rateControlMode",
+      SampleRate: "sampleRate",
+      VbrQuality: "vbrQuality",
+    }),
+  ),
 ).annotate({ identifier: "Mp3Settings" }) as any as S.Schema<Mp3Settings>;
 export interface OpusSettings {
   Bitrate?: number;
@@ -3674,10 +3845,16 @@ export interface OpusSettings {
 }
 export const OpusSettings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    Bitrate: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      Channels: "channels",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "OpusSettings" }) as any as S.Schema<OpusSettings>;
 export interface VorbisSettings {
   Channels?: number;
@@ -3686,10 +3863,16 @@ export interface VorbisSettings {
 }
 export const VorbisSettings = S.suspend(() =>
   S.Struct({
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    VbrQuality: S.optional(S.Number).pipe(T.JsonName("vbrQuality")),
-  }),
+    Channels: S.optional(S.Number),
+    SampleRate: S.optional(S.Number),
+    VbrQuality: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Channels: "channels",
+      SampleRate: "sampleRate",
+      VbrQuality: "vbrQuality",
+    }),
+  ),
 ).annotate({ identifier: "VorbisSettings" }) as any as S.Schema<VorbisSettings>;
 export type WavFormat = "RIFF" | "RF64" | "EXTENSIBLE" | (string & {});
 export const WavFormat = S.String;
@@ -3701,11 +3884,18 @@ export interface WavSettings {
 }
 export const WavSettings = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    Format: S.optional(WavFormat).pipe(T.JsonName("format")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    BitDepth: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    Format: S.optional(WavFormat),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      Channels: "channels",
+      Format: "format",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "WavSettings" }) as any as S.Schema<WavSettings>;
 export interface AudioCodecSettings {
   AacSettings?: AacSettings;
@@ -3723,41 +3913,34 @@ export interface AudioCodecSettings {
 }
 export const AudioCodecSettings = S.suspend(() =>
   S.Struct({
-    AacSettings: S.optional(AacSettings)
-      .pipe(T.JsonName("aacSettings"))
-      .annotate({ identifier: "AacSettings" }),
-    Ac3Settings: S.optional(Ac3Settings)
-      .pipe(T.JsonName("ac3Settings"))
-      .annotate({ identifier: "Ac3Settings" }),
-    AiffSettings: S.optional(AiffSettings)
-      .pipe(T.JsonName("aiffSettings"))
-      .annotate({ identifier: "AiffSettings" }),
-    Codec: S.optional(AudioCodec).pipe(T.JsonName("codec")),
-    Eac3AtmosSettings: S.optional(Eac3AtmosSettings)
-      .pipe(T.JsonName("eac3AtmosSettings"))
-      .annotate({ identifier: "Eac3AtmosSettings" }),
-    Eac3Settings: S.optional(Eac3Settings)
-      .pipe(T.JsonName("eac3Settings"))
-      .annotate({ identifier: "Eac3Settings" }),
-    FlacSettings: S.optional(FlacSettings)
-      .pipe(T.JsonName("flacSettings"))
-      .annotate({ identifier: "FlacSettings" }),
-    Mp2Settings: S.optional(Mp2Settings)
-      .pipe(T.JsonName("mp2Settings"))
-      .annotate({ identifier: "Mp2Settings" }),
-    Mp3Settings: S.optional(Mp3Settings)
-      .pipe(T.JsonName("mp3Settings"))
-      .annotate({ identifier: "Mp3Settings" }),
-    OpusSettings: S.optional(OpusSettings)
-      .pipe(T.JsonName("opusSettings"))
-      .annotate({ identifier: "OpusSettings" }),
-    VorbisSettings: S.optional(VorbisSettings)
-      .pipe(T.JsonName("vorbisSettings"))
-      .annotate({ identifier: "VorbisSettings" }),
-    WavSettings: S.optional(WavSettings)
-      .pipe(T.JsonName("wavSettings"))
-      .annotate({ identifier: "WavSettings" }),
-  }),
+    AacSettings: S.optional(AacSettings),
+    Ac3Settings: S.optional(Ac3Settings),
+    AiffSettings: S.optional(AiffSettings),
+    Codec: S.optional(AudioCodec),
+    Eac3AtmosSettings: S.optional(Eac3AtmosSettings),
+    Eac3Settings: S.optional(Eac3Settings),
+    FlacSettings: S.optional(FlacSettings),
+    Mp2Settings: S.optional(Mp2Settings),
+    Mp3Settings: S.optional(Mp3Settings),
+    OpusSettings: S.optional(OpusSettings),
+    VorbisSettings: S.optional(VorbisSettings),
+    WavSettings: S.optional(WavSettings),
+  }).pipe(
+    S.encodeKeys({
+      AacSettings: "aacSettings",
+      Ac3Settings: "ac3Settings",
+      AiffSettings: "aiffSettings",
+      Codec: "codec",
+      Eac3AtmosSettings: "eac3AtmosSettings",
+      Eac3Settings: "eac3Settings",
+      FlacSettings: "flacSettings",
+      Mp2Settings: "mp2Settings",
+      Mp3Settings: "mp3Settings",
+      OpusSettings: "opusSettings",
+      VorbisSettings: "vorbisSettings",
+      WavSettings: "wavSettings",
+    }),
+  ),
 ).annotate({
   identifier: "AudioCodecSettings",
 }) as any as S.Schema<AudioCodecSettings>;
@@ -3782,35 +3965,34 @@ export interface AudioDescription {
 }
 export const AudioDescription = S.suspend(() =>
   S.Struct({
-    AudioChannelTaggingSettings: S.optional(AudioChannelTaggingSettings)
-      .pipe(T.JsonName("audioChannelTaggingSettings"))
-      .annotate({ identifier: "AudioChannelTaggingSettings" }),
-    AudioNormalizationSettings: S.optional(AudioNormalizationSettings)
-      .pipe(T.JsonName("audioNormalizationSettings"))
-      .annotate({ identifier: "AudioNormalizationSettings" }),
-    AudioPitchCorrectionSettings: S.optional(AudioPitchCorrectionSettings)
-      .pipe(T.JsonName("audioPitchCorrectionSettings"))
-      .annotate({ identifier: "AudioPitchCorrectionSettings" }),
-    AudioSourceName: S.optional(S.String).pipe(T.JsonName("audioSourceName")),
-    AudioType: S.optional(S.Number).pipe(T.JsonName("audioType")),
-    AudioTypeControl: S.optional(AudioTypeControl).pipe(
-      T.JsonName("audioTypeControl"),
-    ),
-    CodecSettings: S.optional(AudioCodecSettings)
-      .pipe(T.JsonName("codecSettings"))
-      .annotate({ identifier: "AudioCodecSettings" }),
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    LanguageCodeControl: S.optional(AudioLanguageCodeControl).pipe(
-      T.JsonName("languageCodeControl"),
-    ),
-    RemixSettings: S.optional(RemixSettings)
-      .pipe(T.JsonName("remixSettings"))
-      .annotate({ identifier: "RemixSettings" }),
-    StreamName: S.optional(S.String).pipe(T.JsonName("streamName")),
-  }),
+    AudioChannelTaggingSettings: S.optional(AudioChannelTaggingSettings),
+    AudioNormalizationSettings: S.optional(AudioNormalizationSettings),
+    AudioPitchCorrectionSettings: S.optional(AudioPitchCorrectionSettings),
+    AudioSourceName: S.optional(S.String),
+    AudioType: S.optional(S.Number),
+    AudioTypeControl: S.optional(AudioTypeControl),
+    CodecSettings: S.optional(AudioCodecSettings),
+    CustomLanguageCode: S.optional(S.String),
+    LanguageCode: S.optional(LanguageCode),
+    LanguageCodeControl: S.optional(AudioLanguageCodeControl),
+    RemixSettings: S.optional(RemixSettings),
+    StreamName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioChannelTaggingSettings: "audioChannelTaggingSettings",
+      AudioNormalizationSettings: "audioNormalizationSettings",
+      AudioPitchCorrectionSettings: "audioPitchCorrectionSettings",
+      AudioSourceName: "audioSourceName",
+      AudioType: "audioType",
+      AudioTypeControl: "audioTypeControl",
+      CodecSettings: "codecSettings",
+      CustomLanguageCode: "customLanguageCode",
+      LanguageCode: "languageCode",
+      LanguageCodeControl: "languageCodeControl",
+      RemixSettings: "remixSettings",
+      StreamName: "streamName",
+    }),
+  ),
 ).annotate({
   identifier: "AudioDescription",
 }) as any as S.Schema<AudioDescription>;
@@ -3918,57 +4100,62 @@ export interface BurninDestinationSettings {
 }
 export const BurninDestinationSettings = S.suspend(() =>
   S.Struct({
-    Alignment: S.optional(BurninSubtitleAlignment).pipe(
-      T.JsonName("alignment"),
-    ),
-    ApplyFontColor: S.optional(BurninSubtitleApplyFontColor).pipe(
-      T.JsonName("applyFontColor"),
-    ),
-    BackgroundColor: S.optional(BurninSubtitleBackgroundColor).pipe(
-      T.JsonName("backgroundColor"),
-    ),
-    BackgroundOpacity: S.optional(S.Number).pipe(
-      T.JsonName("backgroundOpacity"),
-    ),
-    FallbackFont: S.optional(BurninSubtitleFallbackFont).pipe(
-      T.JsonName("fallbackFont"),
-    ),
-    FontColor: S.optional(BurninSubtitleFontColor).pipe(
-      T.JsonName("fontColor"),
-    ),
-    FontFileBold: S.optional(S.String).pipe(T.JsonName("fontFileBold")),
-    FontFileBoldItalic: S.optional(S.String).pipe(
-      T.JsonName("fontFileBoldItalic"),
-    ),
-    FontFileItalic: S.optional(S.String).pipe(T.JsonName("fontFileItalic")),
-    FontFileRegular: S.optional(S.String).pipe(T.JsonName("fontFileRegular")),
-    FontOpacity: S.optional(S.Number).pipe(T.JsonName("fontOpacity")),
-    FontResolution: S.optional(S.Number).pipe(T.JsonName("fontResolution")),
-    FontScript: S.optional(FontScript).pipe(T.JsonName("fontScript")),
-    FontSize: S.optional(S.Number).pipe(T.JsonName("fontSize")),
-    HexFontColor: S.optional(S.String).pipe(T.JsonName("hexFontColor")),
-    OutlineColor: S.optional(BurninSubtitleOutlineColor).pipe(
-      T.JsonName("outlineColor"),
-    ),
-    OutlineSize: S.optional(S.Number).pipe(T.JsonName("outlineSize")),
-    RemoveRubyReserveAttributes: S.optional(RemoveRubyReserveAttributes).pipe(
-      T.JsonName("removeRubyReserveAttributes"),
-    ),
-    ShadowColor: S.optional(BurninSubtitleShadowColor).pipe(
-      T.JsonName("shadowColor"),
-    ),
-    ShadowOpacity: S.optional(S.Number).pipe(T.JsonName("shadowOpacity")),
-    ShadowXOffset: S.optional(S.Number).pipe(T.JsonName("shadowXOffset")),
-    ShadowYOffset: S.optional(S.Number).pipe(T.JsonName("shadowYOffset")),
-    StylePassthrough: S.optional(BurnInSubtitleStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-    TeletextSpacing: S.optional(BurninSubtitleTeletextSpacing).pipe(
-      T.JsonName("teletextSpacing"),
-    ),
-    XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
-    YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
-  }),
+    Alignment: S.optional(BurninSubtitleAlignment),
+    ApplyFontColor: S.optional(BurninSubtitleApplyFontColor),
+    BackgroundColor: S.optional(BurninSubtitleBackgroundColor),
+    BackgroundOpacity: S.optional(S.Number),
+    FallbackFont: S.optional(BurninSubtitleFallbackFont),
+    FontColor: S.optional(BurninSubtitleFontColor),
+    FontFileBold: S.optional(S.String),
+    FontFileBoldItalic: S.optional(S.String),
+    FontFileItalic: S.optional(S.String),
+    FontFileRegular: S.optional(S.String),
+    FontOpacity: S.optional(S.Number),
+    FontResolution: S.optional(S.Number),
+    FontScript: S.optional(FontScript),
+    FontSize: S.optional(S.Number),
+    HexFontColor: S.optional(S.String),
+    OutlineColor: S.optional(BurninSubtitleOutlineColor),
+    OutlineSize: S.optional(S.Number),
+    RemoveRubyReserveAttributes: S.optional(RemoveRubyReserveAttributes),
+    ShadowColor: S.optional(BurninSubtitleShadowColor),
+    ShadowOpacity: S.optional(S.Number),
+    ShadowXOffset: S.optional(S.Number),
+    ShadowYOffset: S.optional(S.Number),
+    StylePassthrough: S.optional(BurnInSubtitleStylePassthrough),
+    TeletextSpacing: S.optional(BurninSubtitleTeletextSpacing),
+    XPosition: S.optional(S.Number),
+    YPosition: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Alignment: "alignment",
+      ApplyFontColor: "applyFontColor",
+      BackgroundColor: "backgroundColor",
+      BackgroundOpacity: "backgroundOpacity",
+      FallbackFont: "fallbackFont",
+      FontColor: "fontColor",
+      FontFileBold: "fontFileBold",
+      FontFileBoldItalic: "fontFileBoldItalic",
+      FontFileItalic: "fontFileItalic",
+      FontFileRegular: "fontFileRegular",
+      FontOpacity: "fontOpacity",
+      FontResolution: "fontResolution",
+      FontScript: "fontScript",
+      FontSize: "fontSize",
+      HexFontColor: "hexFontColor",
+      OutlineColor: "outlineColor",
+      OutlineSize: "outlineSize",
+      RemoveRubyReserveAttributes: "removeRubyReserveAttributes",
+      ShadowColor: "shadowColor",
+      ShadowOpacity: "shadowOpacity",
+      ShadowXOffset: "shadowXOffset",
+      ShadowYOffset: "shadowYOffset",
+      StylePassthrough: "stylePassthrough",
+      TeletextSpacing: "teletextSpacing",
+      XPosition: "xPosition",
+      YPosition: "yPosition",
+    }),
+  ),
 ).annotate({
   identifier: "BurninDestinationSettings",
 }) as any as S.Schema<BurninDestinationSettings>;
@@ -4092,58 +4279,72 @@ export interface DvbSubDestinationSettings {
 }
 export const DvbSubDestinationSettings = S.suspend(() =>
   S.Struct({
-    Alignment: S.optional(DvbSubtitleAlignment).pipe(T.JsonName("alignment")),
-    ApplyFontColor: S.optional(DvbSubtitleApplyFontColor).pipe(
-      T.JsonName("applyFontColor"),
-    ),
-    BackgroundColor: S.optional(DvbSubtitleBackgroundColor).pipe(
-      T.JsonName("backgroundColor"),
-    ),
-    BackgroundOpacity: S.optional(S.Number).pipe(
-      T.JsonName("backgroundOpacity"),
-    ),
-    DdsHandling: S.optional(DvbddsHandling).pipe(T.JsonName("ddsHandling")),
-    DdsXCoordinate: S.optional(S.Number).pipe(T.JsonName("ddsXCoordinate")),
-    DdsYCoordinate: S.optional(S.Number).pipe(T.JsonName("ddsYCoordinate")),
-    FallbackFont: S.optional(DvbSubSubtitleFallbackFont).pipe(
-      T.JsonName("fallbackFont"),
-    ),
-    FontColor: S.optional(DvbSubtitleFontColor).pipe(T.JsonName("fontColor")),
-    FontFileBold: S.optional(S.String).pipe(T.JsonName("fontFileBold")),
-    FontFileBoldItalic: S.optional(S.String).pipe(
-      T.JsonName("fontFileBoldItalic"),
-    ),
-    FontFileItalic: S.optional(S.String).pipe(T.JsonName("fontFileItalic")),
-    FontFileRegular: S.optional(S.String).pipe(T.JsonName("fontFileRegular")),
-    FontOpacity: S.optional(S.Number).pipe(T.JsonName("fontOpacity")),
-    FontResolution: S.optional(S.Number).pipe(T.JsonName("fontResolution")),
-    FontScript: S.optional(FontScript).pipe(T.JsonName("fontScript")),
-    FontSize: S.optional(S.Number).pipe(T.JsonName("fontSize")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    HexFontColor: S.optional(S.String).pipe(T.JsonName("hexFontColor")),
-    OutlineColor: S.optional(DvbSubtitleOutlineColor).pipe(
-      T.JsonName("outlineColor"),
-    ),
-    OutlineSize: S.optional(S.Number).pipe(T.JsonName("outlineSize")),
-    ShadowColor: S.optional(DvbSubtitleShadowColor).pipe(
-      T.JsonName("shadowColor"),
-    ),
-    ShadowOpacity: S.optional(S.Number).pipe(T.JsonName("shadowOpacity")),
-    ShadowXOffset: S.optional(S.Number).pipe(T.JsonName("shadowXOffset")),
-    ShadowYOffset: S.optional(S.Number).pipe(T.JsonName("shadowYOffset")),
-    StylePassthrough: S.optional(DvbSubtitleStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-    SubtitlingType: S.optional(DvbSubtitlingType).pipe(
-      T.JsonName("subtitlingType"),
-    ),
-    TeletextSpacing: S.optional(DvbSubtitleTeletextSpacing).pipe(
-      T.JsonName("teletextSpacing"),
-    ),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
-    YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
-  }),
+    Alignment: S.optional(DvbSubtitleAlignment),
+    ApplyFontColor: S.optional(DvbSubtitleApplyFontColor),
+    BackgroundColor: S.optional(DvbSubtitleBackgroundColor),
+    BackgroundOpacity: S.optional(S.Number),
+    DdsHandling: S.optional(DvbddsHandling),
+    DdsXCoordinate: S.optional(S.Number),
+    DdsYCoordinate: S.optional(S.Number),
+    FallbackFont: S.optional(DvbSubSubtitleFallbackFont),
+    FontColor: S.optional(DvbSubtitleFontColor),
+    FontFileBold: S.optional(S.String),
+    FontFileBoldItalic: S.optional(S.String),
+    FontFileItalic: S.optional(S.String),
+    FontFileRegular: S.optional(S.String),
+    FontOpacity: S.optional(S.Number),
+    FontResolution: S.optional(S.Number),
+    FontScript: S.optional(FontScript),
+    FontSize: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    HexFontColor: S.optional(S.String),
+    OutlineColor: S.optional(DvbSubtitleOutlineColor),
+    OutlineSize: S.optional(S.Number),
+    ShadowColor: S.optional(DvbSubtitleShadowColor),
+    ShadowOpacity: S.optional(S.Number),
+    ShadowXOffset: S.optional(S.Number),
+    ShadowYOffset: S.optional(S.Number),
+    StylePassthrough: S.optional(DvbSubtitleStylePassthrough),
+    SubtitlingType: S.optional(DvbSubtitlingType),
+    TeletextSpacing: S.optional(DvbSubtitleTeletextSpacing),
+    Width: S.optional(S.Number),
+    XPosition: S.optional(S.Number),
+    YPosition: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Alignment: "alignment",
+      ApplyFontColor: "applyFontColor",
+      BackgroundColor: "backgroundColor",
+      BackgroundOpacity: "backgroundOpacity",
+      DdsHandling: "ddsHandling",
+      DdsXCoordinate: "ddsXCoordinate",
+      DdsYCoordinate: "ddsYCoordinate",
+      FallbackFont: "fallbackFont",
+      FontColor: "fontColor",
+      FontFileBold: "fontFileBold",
+      FontFileBoldItalic: "fontFileBoldItalic",
+      FontFileItalic: "fontFileItalic",
+      FontFileRegular: "fontFileRegular",
+      FontOpacity: "fontOpacity",
+      FontResolution: "fontResolution",
+      FontScript: "fontScript",
+      FontSize: "fontSize",
+      Height: "height",
+      HexFontColor: "hexFontColor",
+      OutlineColor: "outlineColor",
+      OutlineSize: "outlineSize",
+      ShadowColor: "shadowColor",
+      ShadowOpacity: "shadowOpacity",
+      ShadowXOffset: "shadowXOffset",
+      ShadowYOffset: "shadowYOffset",
+      StylePassthrough: "stylePassthrough",
+      SubtitlingType: "subtitlingType",
+      TeletextSpacing: "teletextSpacing",
+      Width: "width",
+      XPosition: "xPosition",
+      YPosition: "yPosition",
+    }),
+  ),
 ).annotate({
   identifier: "DvbSubDestinationSettings",
 }) as any as S.Schema<DvbSubDestinationSettings>;
@@ -4153,13 +4354,14 @@ export interface EmbeddedDestinationSettings {
 }
 export const EmbeddedDestinationSettings = S.suspend(() =>
   S.Struct({
-    Destination608ChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("destination608ChannelNumber"),
-    ),
-    Destination708ServiceNumber: S.optional(S.Number).pipe(
-      T.JsonName("destination708ServiceNumber"),
-    ),
-  }),
+    Destination608ChannelNumber: S.optional(S.Number),
+    Destination708ServiceNumber: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Destination608ChannelNumber: "destination608ChannelNumber",
+      Destination708ServiceNumber: "destination708ServiceNumber",
+    }),
+  ),
 ).annotate({
   identifier: "EmbeddedDestinationSettings",
 }) as any as S.Schema<EmbeddedDestinationSettings>;
@@ -4173,13 +4375,14 @@ export interface ImscDestinationSettings {
 }
 export const ImscDestinationSettings = S.suspend(() =>
   S.Struct({
-    Accessibility: S.optional(ImscAccessibilitySubs).pipe(
-      T.JsonName("accessibility"),
-    ),
-    StylePassthrough: S.optional(ImscStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-  }),
+    Accessibility: S.optional(ImscAccessibilitySubs),
+    StylePassthrough: S.optional(ImscStylePassthrough),
+  }).pipe(
+    S.encodeKeys({
+      Accessibility: "accessibility",
+      StylePassthrough: "stylePassthrough",
+    }),
+  ),
 ).annotate({
   identifier: "ImscDestinationSettings",
 }) as any as S.Schema<ImscDestinationSettings>;
@@ -4195,11 +4398,9 @@ export interface SccDestinationSettings {
   Framerate?: SccDestinationFramerate;
 }
 export const SccDestinationSettings = S.suspend(() =>
-  S.Struct({
-    Framerate: S.optional(SccDestinationFramerate).pipe(
-      T.JsonName("framerate"),
-    ),
-  }),
+  S.Struct({ Framerate: S.optional(SccDestinationFramerate) }).pipe(
+    S.encodeKeys({ Framerate: "framerate" }),
+  ),
 ).annotate({
   identifier: "SccDestinationSettings",
 }) as any as S.Schema<SccDestinationSettings>;
@@ -4209,11 +4410,9 @@ export interface SrtDestinationSettings {
   StylePassthrough?: SrtStylePassthrough;
 }
 export const SrtDestinationSettings = S.suspend(() =>
-  S.Struct({
-    StylePassthrough: S.optional(SrtStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-  }),
+  S.Struct({ StylePassthrough: S.optional(SrtStylePassthrough) }).pipe(
+    S.encodeKeys({ StylePassthrough: "stylePassthrough" }),
+  ),
 ).annotate({
   identifier: "SrtDestinationSettings",
 }) as any as S.Schema<SrtDestinationSettings>;
@@ -4233,11 +4432,9 @@ export interface TeletextDestinationSettings {
 }
 export const TeletextDestinationSettings = S.suspend(() =>
   S.Struct({
-    PageNumber: S.optional(S.String).pipe(T.JsonName("pageNumber")),
-    PageTypes: S.optional(__listOfTeletextPageType).pipe(
-      T.JsonName("pageTypes"),
-    ),
-  }),
+    PageNumber: S.optional(S.String),
+    PageTypes: S.optional(__listOfTeletextPageType),
+  }).pipe(S.encodeKeys({ PageNumber: "pageNumber", PageTypes: "pageTypes" })),
 ).annotate({
   identifier: "TeletextDestinationSettings",
 }) as any as S.Schema<TeletextDestinationSettings>;
@@ -4247,11 +4444,9 @@ export interface TtmlDestinationSettings {
   StylePassthrough?: TtmlStylePassthrough;
 }
 export const TtmlDestinationSettings = S.suspend(() =>
-  S.Struct({
-    StylePassthrough: S.optional(TtmlStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-  }),
+  S.Struct({ StylePassthrough: S.optional(TtmlStylePassthrough) }).pipe(
+    S.encodeKeys({ StylePassthrough: "stylePassthrough" }),
+  ),
 ).annotate({
   identifier: "TtmlDestinationSettings",
 }) as any as S.Schema<TtmlDestinationSettings>;
@@ -4270,13 +4465,14 @@ export interface WebvttDestinationSettings {
 }
 export const WebvttDestinationSettings = S.suspend(() =>
   S.Struct({
-    Accessibility: S.optional(WebvttAccessibilitySubs).pipe(
-      T.JsonName("accessibility"),
-    ),
-    StylePassthrough: S.optional(WebvttStylePassthrough).pipe(
-      T.JsonName("stylePassthrough"),
-    ),
-  }),
+    Accessibility: S.optional(WebvttAccessibilitySubs),
+    StylePassthrough: S.optional(WebvttStylePassthrough),
+  }).pipe(
+    S.encodeKeys({
+      Accessibility: "accessibility",
+      StylePassthrough: "stylePassthrough",
+    }),
+  ),
 ).annotate({
   identifier: "WebvttDestinationSettings",
 }) as any as S.Schema<WebvttDestinationSettings>;
@@ -4294,37 +4490,30 @@ export interface CaptionDestinationSettings {
 }
 export const CaptionDestinationSettings = S.suspend(() =>
   S.Struct({
-    BurninDestinationSettings: S.optional(BurninDestinationSettings)
-      .pipe(T.JsonName("burninDestinationSettings"))
-      .annotate({ identifier: "BurninDestinationSettings" }),
-    DestinationType: S.optional(CaptionDestinationType).pipe(
-      T.JsonName("destinationType"),
-    ),
-    DvbSubDestinationSettings: S.optional(DvbSubDestinationSettings)
-      .pipe(T.JsonName("dvbSubDestinationSettings"))
-      .annotate({ identifier: "DvbSubDestinationSettings" }),
-    EmbeddedDestinationSettings: S.optional(EmbeddedDestinationSettings)
-      .pipe(T.JsonName("embeddedDestinationSettings"))
-      .annotate({ identifier: "EmbeddedDestinationSettings" }),
-    ImscDestinationSettings: S.optional(ImscDestinationSettings)
-      .pipe(T.JsonName("imscDestinationSettings"))
-      .annotate({ identifier: "ImscDestinationSettings" }),
-    SccDestinationSettings: S.optional(SccDestinationSettings)
-      .pipe(T.JsonName("sccDestinationSettings"))
-      .annotate({ identifier: "SccDestinationSettings" }),
-    SrtDestinationSettings: S.optional(SrtDestinationSettings)
-      .pipe(T.JsonName("srtDestinationSettings"))
-      .annotate({ identifier: "SrtDestinationSettings" }),
-    TeletextDestinationSettings: S.optional(TeletextDestinationSettings)
-      .pipe(T.JsonName("teletextDestinationSettings"))
-      .annotate({ identifier: "TeletextDestinationSettings" }),
-    TtmlDestinationSettings: S.optional(TtmlDestinationSettings)
-      .pipe(T.JsonName("ttmlDestinationSettings"))
-      .annotate({ identifier: "TtmlDestinationSettings" }),
-    WebvttDestinationSettings: S.optional(WebvttDestinationSettings)
-      .pipe(T.JsonName("webvttDestinationSettings"))
-      .annotate({ identifier: "WebvttDestinationSettings" }),
-  }),
+    BurninDestinationSettings: S.optional(BurninDestinationSettings),
+    DestinationType: S.optional(CaptionDestinationType),
+    DvbSubDestinationSettings: S.optional(DvbSubDestinationSettings),
+    EmbeddedDestinationSettings: S.optional(EmbeddedDestinationSettings),
+    ImscDestinationSettings: S.optional(ImscDestinationSettings),
+    SccDestinationSettings: S.optional(SccDestinationSettings),
+    SrtDestinationSettings: S.optional(SrtDestinationSettings),
+    TeletextDestinationSettings: S.optional(TeletextDestinationSettings),
+    TtmlDestinationSettings: S.optional(TtmlDestinationSettings),
+    WebvttDestinationSettings: S.optional(WebvttDestinationSettings),
+  }).pipe(
+    S.encodeKeys({
+      BurninDestinationSettings: "burninDestinationSettings",
+      DestinationType: "destinationType",
+      DvbSubDestinationSettings: "dvbSubDestinationSettings",
+      EmbeddedDestinationSettings: "embeddedDestinationSettings",
+      ImscDestinationSettings: "imscDestinationSettings",
+      SccDestinationSettings: "sccDestinationSettings",
+      SrtDestinationSettings: "srtDestinationSettings",
+      TeletextDestinationSettings: "teletextDestinationSettings",
+      TtmlDestinationSettings: "ttmlDestinationSettings",
+      WebvttDestinationSettings: "webvttDestinationSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionDestinationSettings",
 }) as any as S.Schema<CaptionDestinationSettings>;
@@ -4337,20 +4526,20 @@ export interface CaptionDescription {
 }
 export const CaptionDescription = S.suspend(() =>
   S.Struct({
-    CaptionSelectorName: S.optional(S.String).pipe(
-      T.JsonName("captionSelectorName"),
-    ),
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    DestinationSettings: S.optional(CaptionDestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "CaptionDestinationSettings" }),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-  }),
+    CaptionSelectorName: S.optional(S.String),
+    CustomLanguageCode: S.optional(S.String),
+    DestinationSettings: S.optional(CaptionDestinationSettings),
+    LanguageCode: S.optional(LanguageCode),
+    LanguageDescription: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CaptionSelectorName: "captionSelectorName",
+      CustomLanguageCode: "customLanguageCode",
+      DestinationSettings: "destinationSettings",
+      LanguageCode: "languageCode",
+      LanguageDescription: "languageDescription",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionDescription",
 }) as any as S.Schema<CaptionDescription>;
@@ -4416,46 +4605,44 @@ export interface CmfcSettings {
 }
 export const CmfcSettings = S.suspend(() =>
   S.Struct({
-    AudioDuration: S.optional(CmfcAudioDuration).pipe(
-      T.JsonName("audioDuration"),
-    ),
-    AudioGroupId: S.optional(S.String).pipe(T.JsonName("audioGroupId")),
-    AudioRenditionSets: S.optional(S.String).pipe(
-      T.JsonName("audioRenditionSets"),
-    ),
-    AudioTrackType: S.optional(CmfcAudioTrackType).pipe(
-      T.JsonName("audioTrackType"),
-    ),
-    C2paManifest: S.optional(CmfcC2paManifest).pipe(T.JsonName("c2paManifest")),
-    CertificateSecret: S.optional(S.String).pipe(
-      T.JsonName("certificateSecret"),
-    ),
-    DescriptiveVideoServiceFlag: S.optional(
-      CmfcDescriptiveVideoServiceFlag,
-    ).pipe(T.JsonName("descriptiveVideoServiceFlag")),
-    IFrameOnlyManifest: S.optional(CmfcIFrameOnlyManifest).pipe(
-      T.JsonName("iFrameOnlyManifest"),
-    ),
-    KlvMetadata: S.optional(CmfcKlvMetadata).pipe(T.JsonName("klvMetadata")),
-    ManifestMetadataSignaling: S.optional(CmfcManifestMetadataSignaling).pipe(
-      T.JsonName("manifestMetadataSignaling"),
-    ),
-    Scte35Esam: S.optional(CmfcScte35Esam).pipe(T.JsonName("scte35Esam")),
-    Scte35Source: S.optional(CmfcScte35Source).pipe(T.JsonName("scte35Source")),
-    SigningKmsKey: S.optional(S.String).pipe(T.JsonName("signingKmsKey")),
-    TimedMetadata: S.optional(CmfcTimedMetadata).pipe(
-      T.JsonName("timedMetadata"),
-    ),
-    TimedMetadataBoxVersion: S.optional(CmfcTimedMetadataBoxVersion).pipe(
-      T.JsonName("timedMetadataBoxVersion"),
-    ),
-    TimedMetadataSchemeIdUri: S.optional(S.String).pipe(
-      T.JsonName("timedMetadataSchemeIdUri"),
-    ),
-    TimedMetadataValue: S.optional(S.String).pipe(
-      T.JsonName("timedMetadataValue"),
-    ),
-  }),
+    AudioDuration: S.optional(CmfcAudioDuration),
+    AudioGroupId: S.optional(S.String),
+    AudioRenditionSets: S.optional(S.String),
+    AudioTrackType: S.optional(CmfcAudioTrackType),
+    C2paManifest: S.optional(CmfcC2paManifest),
+    CertificateSecret: S.optional(S.String),
+    DescriptiveVideoServiceFlag: S.optional(CmfcDescriptiveVideoServiceFlag),
+    IFrameOnlyManifest: S.optional(CmfcIFrameOnlyManifest),
+    KlvMetadata: S.optional(CmfcKlvMetadata),
+    ManifestMetadataSignaling: S.optional(CmfcManifestMetadataSignaling),
+    Scte35Esam: S.optional(CmfcScte35Esam),
+    Scte35Source: S.optional(CmfcScte35Source),
+    SigningKmsKey: S.optional(S.String),
+    TimedMetadata: S.optional(CmfcTimedMetadata),
+    TimedMetadataBoxVersion: S.optional(CmfcTimedMetadataBoxVersion),
+    TimedMetadataSchemeIdUri: S.optional(S.String),
+    TimedMetadataValue: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioDuration: "audioDuration",
+      AudioGroupId: "audioGroupId",
+      AudioRenditionSets: "audioRenditionSets",
+      AudioTrackType: "audioTrackType",
+      C2paManifest: "c2paManifest",
+      CertificateSecret: "certificateSecret",
+      DescriptiveVideoServiceFlag: "descriptiveVideoServiceFlag",
+      IFrameOnlyManifest: "iFrameOnlyManifest",
+      KlvMetadata: "klvMetadata",
+      ManifestMetadataSignaling: "manifestMetadataSignaling",
+      Scte35Esam: "scte35Esam",
+      Scte35Source: "scte35Source",
+      SigningKmsKey: "signingKmsKey",
+      TimedMetadata: "timedMetadata",
+      TimedMetadataBoxVersion: "timedMetadataBoxVersion",
+      TimedMetadataSchemeIdUri: "timedMetadataSchemeIdUri",
+      TimedMetadataValue: "timedMetadataValue",
+    }),
+  ),
 ).annotate({ identifier: "CmfcSettings" }) as any as S.Schema<CmfcSettings>;
 export type ContainerType =
   | "F4V"
@@ -4483,11 +4670,9 @@ export interface F4vSettings {
   MoovPlacement?: F4vMoovPlacement;
 }
 export const F4vSettings = S.suspend(() =>
-  S.Struct({
-    MoovPlacement: S.optional(F4vMoovPlacement).pipe(
-      T.JsonName("moovPlacement"),
-    ),
-  }),
+  S.Struct({ MoovPlacement: S.optional(F4vMoovPlacement) }).pipe(
+    S.encodeKeys({ MoovPlacement: "moovPlacement" }),
+  ),
 ).annotate({ identifier: "F4vSettings" }) as any as S.Schema<F4vSettings>;
 export type M2tsAudioBufferModel = "DVB" | "ATSC" | (string & {});
 export const M2tsAudioBufferModel = S.String;
@@ -4509,10 +4694,16 @@ export interface DvbNitSettings {
 }
 export const DvbNitSettings = S.suspend(() =>
   S.Struct({
-    NetworkId: S.optional(S.Number).pipe(T.JsonName("networkId")),
-    NetworkName: S.optional(S.String).pipe(T.JsonName("networkName")),
-    NitInterval: S.optional(S.Number).pipe(T.JsonName("nitInterval")),
-  }),
+    NetworkId: S.optional(S.Number),
+    NetworkName: S.optional(S.String),
+    NitInterval: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      NetworkId: "networkId",
+      NetworkName: "networkName",
+      NitInterval: "nitInterval",
+    }),
+  ),
 ).annotate({ identifier: "DvbNitSettings" }) as any as S.Schema<DvbNitSettings>;
 export type OutputSdt =
   | "SDT_FOLLOW"
@@ -4529,21 +4720,26 @@ export interface DvbSdtSettings {
 }
 export const DvbSdtSettings = S.suspend(() =>
   S.Struct({
-    OutputSdt: S.optional(OutputSdt).pipe(T.JsonName("outputSdt")),
-    SdtInterval: S.optional(S.Number).pipe(T.JsonName("sdtInterval")),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-    ServiceProviderName: S.optional(S.String).pipe(
-      T.JsonName("serviceProviderName"),
-    ),
-  }),
+    OutputSdt: S.optional(OutputSdt),
+    SdtInterval: S.optional(S.Number),
+    ServiceName: S.optional(S.String),
+    ServiceProviderName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      OutputSdt: "outputSdt",
+      SdtInterval: "sdtInterval",
+      ServiceName: "serviceName",
+      ServiceProviderName: "serviceProviderName",
+    }),
+  ),
 ).annotate({ identifier: "DvbSdtSettings" }) as any as S.Schema<DvbSdtSettings>;
 export interface DvbTdtSettings {
   TdtInterval?: number;
 }
 export const DvbTdtSettings = S.suspend(() =>
-  S.Struct({
-    TdtInterval: S.optional(S.Number).pipe(T.JsonName("tdtInterval")),
-  }),
+  S.Struct({ TdtInterval: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ TdtInterval: "tdtInterval" }),
+  ),
 ).annotate({ identifier: "DvbTdtSettings" }) as any as S.Schema<DvbTdtSettings>;
 export type M2tsEbpAudioInterval =
   | "VIDEO_AND_FIXED_INTERVALS"
@@ -4578,9 +4774,9 @@ export interface M2tsScte35Esam {
   Scte35EsamPid?: number;
 }
 export const M2tsScte35Esam = S.suspend(() =>
-  S.Struct({
-    Scte35EsamPid: S.optional(S.Number).pipe(T.JsonName("scte35EsamPid")),
-  }),
+  S.Struct({ Scte35EsamPid: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Scte35EsamPid: "scte35EsamPid" }),
+  ),
 ).annotate({ identifier: "M2tsScte35Esam" }) as any as S.Schema<M2tsScte35Esam>;
 export type M2tsScte35Source = "PASSTHROUGH" | "NONE" | (string & {});
 export const M2tsScte35Source = S.String;
@@ -4645,88 +4841,96 @@ export interface M2tsSettings {
 }
 export const M2tsSettings = S.suspend(() =>
   S.Struct({
-    AudioBufferModel: S.optional(M2tsAudioBufferModel).pipe(
-      T.JsonName("audioBufferModel"),
-    ),
-    AudioDuration: S.optional(M2tsAudioDuration).pipe(
-      T.JsonName("audioDuration"),
-    ),
-    AudioFramesPerPes: S.optional(S.Number).pipe(
-      T.JsonName("audioFramesPerPes"),
-    ),
-    AudioPids: S.optional(__listOf__integerMin32Max8182).pipe(
-      T.JsonName("audioPids"),
-    ),
-    AudioPtsOffsetDelta: S.optional(S.Number).pipe(
-      T.JsonName("audioPtsOffsetDelta"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BufferModel: S.optional(M2tsBufferModel).pipe(T.JsonName("bufferModel")),
-    DataPTSControl: S.optional(M2tsDataPtsControl).pipe(
-      T.JsonName("dataPTSControl"),
-    ),
-    DvbNitSettings: S.optional(DvbNitSettings)
-      .pipe(T.JsonName("dvbNitSettings"))
-      .annotate({ identifier: "DvbNitSettings" }),
-    DvbSdtSettings: S.optional(DvbSdtSettings)
-      .pipe(T.JsonName("dvbSdtSettings"))
-      .annotate({ identifier: "DvbSdtSettings" }),
-    DvbSubPids: S.optional(__listOf__integerMin32Max8182).pipe(
-      T.JsonName("dvbSubPids"),
-    ),
-    DvbTdtSettings: S.optional(DvbTdtSettings)
-      .pipe(T.JsonName("dvbTdtSettings"))
-      .annotate({ identifier: "DvbTdtSettings" }),
-    DvbTeletextPid: S.optional(S.Number).pipe(T.JsonName("dvbTeletextPid")),
-    EbpAudioInterval: S.optional(M2tsEbpAudioInterval).pipe(
-      T.JsonName("ebpAudioInterval"),
-    ),
-    EbpPlacement: S.optional(M2tsEbpPlacement).pipe(T.JsonName("ebpPlacement")),
-    EsRateInPes: S.optional(M2tsEsRateInPes).pipe(T.JsonName("esRateInPes")),
-    ForceTsVideoEbpOrder: S.optional(M2tsForceTsVideoEbpOrder).pipe(
-      T.JsonName("forceTsVideoEbpOrder"),
-    ),
-    FragmentTime: S.optional(S.Number).pipe(T.JsonName("fragmentTime")),
-    KlvMetadata: S.optional(M2tsKlvMetadata).pipe(T.JsonName("klvMetadata")),
-    MaxPcrInterval: S.optional(S.Number).pipe(T.JsonName("maxPcrInterval")),
-    MinEbpInterval: S.optional(S.Number).pipe(T.JsonName("minEbpInterval")),
-    NielsenId3: S.optional(M2tsNielsenId3).pipe(T.JsonName("nielsenId3")),
-    NullPacketBitrate: S.optional(S.Number).pipe(
-      T.JsonName("nullPacketBitrate"),
-    ),
-    PatInterval: S.optional(S.Number).pipe(T.JsonName("patInterval")),
-    PcrControl: S.optional(M2tsPcrControl).pipe(T.JsonName("pcrControl")),
-    PcrPid: S.optional(S.Number).pipe(T.JsonName("pcrPid")),
-    PmtInterval: S.optional(S.Number).pipe(T.JsonName("pmtInterval")),
-    PmtPid: S.optional(S.Number).pipe(T.JsonName("pmtPid")),
-    PreventBufferUnderflow: S.optional(M2tsPreventBufferUnderflow).pipe(
-      T.JsonName("preventBufferUnderflow"),
-    ),
-    PrivateMetadataPid: S.optional(S.Number).pipe(
-      T.JsonName("privateMetadataPid"),
-    ),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    PtsOffset: S.optional(S.Number).pipe(T.JsonName("ptsOffset")),
-    PtsOffsetMode: S.optional(TsPtsOffset).pipe(T.JsonName("ptsOffsetMode")),
-    RateMode: S.optional(M2tsRateMode).pipe(T.JsonName("rateMode")),
-    Scte35Esam: S.optional(M2tsScte35Esam)
-      .pipe(T.JsonName("scte35Esam"))
-      .annotate({ identifier: "M2tsScte35Esam" }),
-    Scte35Pid: S.optional(S.Number).pipe(T.JsonName("scte35Pid")),
-    Scte35Source: S.optional(M2tsScte35Source).pipe(T.JsonName("scte35Source")),
-    SegmentationMarkers: S.optional(M2tsSegmentationMarkers).pipe(
-      T.JsonName("segmentationMarkers"),
-    ),
-    SegmentationStyle: S.optional(M2tsSegmentationStyle).pipe(
-      T.JsonName("segmentationStyle"),
-    ),
-    SegmentationTime: S.optional(S.Number).pipe(T.JsonName("segmentationTime")),
-    TimedMetadataPid: S.optional(S.Number).pipe(T.JsonName("timedMetadataPid")),
-    TransportStreamId: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamId"),
-    ),
-    VideoPid: S.optional(S.Number).pipe(T.JsonName("videoPid")),
-  }),
+    AudioBufferModel: S.optional(M2tsAudioBufferModel),
+    AudioDuration: S.optional(M2tsAudioDuration),
+    AudioFramesPerPes: S.optional(S.Number),
+    AudioPids: S.optional(__listOf__integerMin32Max8182),
+    AudioPtsOffsetDelta: S.optional(S.Number),
+    Bitrate: S.optional(S.Number),
+    BufferModel: S.optional(M2tsBufferModel),
+    DataPTSControl: S.optional(M2tsDataPtsControl),
+    DvbNitSettings: S.optional(DvbNitSettings),
+    DvbSdtSettings: S.optional(DvbSdtSettings),
+    DvbSubPids: S.optional(__listOf__integerMin32Max8182),
+    DvbTdtSettings: S.optional(DvbTdtSettings),
+    DvbTeletextPid: S.optional(S.Number),
+    EbpAudioInterval: S.optional(M2tsEbpAudioInterval),
+    EbpPlacement: S.optional(M2tsEbpPlacement),
+    EsRateInPes: S.optional(M2tsEsRateInPes),
+    ForceTsVideoEbpOrder: S.optional(M2tsForceTsVideoEbpOrder),
+    FragmentTime: S.optional(S.Number),
+    KlvMetadata: S.optional(M2tsKlvMetadata),
+    MaxPcrInterval: S.optional(S.Number),
+    MinEbpInterval: S.optional(S.Number),
+    NielsenId3: S.optional(M2tsNielsenId3),
+    NullPacketBitrate: S.optional(S.Number),
+    PatInterval: S.optional(S.Number),
+    PcrControl: S.optional(M2tsPcrControl),
+    PcrPid: S.optional(S.Number),
+    PmtInterval: S.optional(S.Number),
+    PmtPid: S.optional(S.Number),
+    PreventBufferUnderflow: S.optional(M2tsPreventBufferUnderflow),
+    PrivateMetadataPid: S.optional(S.Number),
+    ProgramNumber: S.optional(S.Number),
+    PtsOffset: S.optional(S.Number),
+    PtsOffsetMode: S.optional(TsPtsOffset),
+    RateMode: S.optional(M2tsRateMode),
+    Scte35Esam: S.optional(M2tsScte35Esam),
+    Scte35Pid: S.optional(S.Number),
+    Scte35Source: S.optional(M2tsScte35Source),
+    SegmentationMarkers: S.optional(M2tsSegmentationMarkers),
+    SegmentationStyle: S.optional(M2tsSegmentationStyle),
+    SegmentationTime: S.optional(S.Number),
+    TimedMetadataPid: S.optional(S.Number),
+    TransportStreamId: S.optional(S.Number),
+    VideoPid: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioBufferModel: "audioBufferModel",
+      AudioDuration: "audioDuration",
+      AudioFramesPerPes: "audioFramesPerPes",
+      AudioPids: "audioPids",
+      AudioPtsOffsetDelta: "audioPtsOffsetDelta",
+      Bitrate: "bitrate",
+      BufferModel: "bufferModel",
+      DataPTSControl: "dataPTSControl",
+      DvbNitSettings: "dvbNitSettings",
+      DvbSdtSettings: "dvbSdtSettings",
+      DvbSubPids: "dvbSubPids",
+      DvbTdtSettings: "dvbTdtSettings",
+      DvbTeletextPid: "dvbTeletextPid",
+      EbpAudioInterval: "ebpAudioInterval",
+      EbpPlacement: "ebpPlacement",
+      EsRateInPes: "esRateInPes",
+      ForceTsVideoEbpOrder: "forceTsVideoEbpOrder",
+      FragmentTime: "fragmentTime",
+      KlvMetadata: "klvMetadata",
+      MaxPcrInterval: "maxPcrInterval",
+      MinEbpInterval: "minEbpInterval",
+      NielsenId3: "nielsenId3",
+      NullPacketBitrate: "nullPacketBitrate",
+      PatInterval: "patInterval",
+      PcrControl: "pcrControl",
+      PcrPid: "pcrPid",
+      PmtInterval: "pmtInterval",
+      PmtPid: "pmtPid",
+      PreventBufferUnderflow: "preventBufferUnderflow",
+      PrivateMetadataPid: "privateMetadataPid",
+      ProgramNumber: "programNumber",
+      PtsOffset: "ptsOffset",
+      PtsOffsetMode: "ptsOffsetMode",
+      RateMode: "rateMode",
+      Scte35Esam: "scte35Esam",
+      Scte35Pid: "scte35Pid",
+      Scte35Source: "scte35Source",
+      SegmentationMarkers: "segmentationMarkers",
+      SegmentationStyle: "segmentationStyle",
+      SegmentationTime: "segmentationTime",
+      TimedMetadataPid: "timedMetadataPid",
+      TransportStreamId: "transportStreamId",
+      VideoPid: "videoPid",
+    }),
+  ),
 ).annotate({ identifier: "M2tsSettings" }) as any as S.Schema<M2tsSettings>;
 export type M3u8AudioDuration =
   | "DEFAULT_CODEC_DURATION"
@@ -4772,43 +4976,54 @@ export interface M3u8Settings {
 }
 export const M3u8Settings = S.suspend(() =>
   S.Struct({
-    AudioDuration: S.optional(M3u8AudioDuration).pipe(
-      T.JsonName("audioDuration"),
-    ),
-    AudioFramesPerPes: S.optional(S.Number).pipe(
-      T.JsonName("audioFramesPerPes"),
-    ),
-    AudioPids: S.optional(__listOf__integerMin32Max8182).pipe(
-      T.JsonName("audioPids"),
-    ),
-    AudioPtsOffsetDelta: S.optional(S.Number).pipe(
-      T.JsonName("audioPtsOffsetDelta"),
-    ),
-    DataPTSControl: S.optional(M3u8DataPtsControl).pipe(
-      T.JsonName("dataPTSControl"),
-    ),
-    MaxPcrInterval: S.optional(S.Number).pipe(T.JsonName("maxPcrInterval")),
-    NielsenId3: S.optional(M3u8NielsenId3).pipe(T.JsonName("nielsenId3")),
-    PatInterval: S.optional(S.Number).pipe(T.JsonName("patInterval")),
-    PcrControl: S.optional(M3u8PcrControl).pipe(T.JsonName("pcrControl")),
-    PcrPid: S.optional(S.Number).pipe(T.JsonName("pcrPid")),
-    PmtInterval: S.optional(S.Number).pipe(T.JsonName("pmtInterval")),
-    PmtPid: S.optional(S.Number).pipe(T.JsonName("pmtPid")),
-    PrivateMetadataPid: S.optional(S.Number).pipe(
-      T.JsonName("privateMetadataPid"),
-    ),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    PtsOffset: S.optional(S.Number).pipe(T.JsonName("ptsOffset")),
-    PtsOffsetMode: S.optional(TsPtsOffset).pipe(T.JsonName("ptsOffsetMode")),
-    Scte35Pid: S.optional(S.Number).pipe(T.JsonName("scte35Pid")),
-    Scte35Source: S.optional(M3u8Scte35Source).pipe(T.JsonName("scte35Source")),
-    TimedMetadata: S.optional(TimedMetadata).pipe(T.JsonName("timedMetadata")),
-    TimedMetadataPid: S.optional(S.Number).pipe(T.JsonName("timedMetadataPid")),
-    TransportStreamId: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamId"),
-    ),
-    VideoPid: S.optional(S.Number).pipe(T.JsonName("videoPid")),
-  }),
+    AudioDuration: S.optional(M3u8AudioDuration),
+    AudioFramesPerPes: S.optional(S.Number),
+    AudioPids: S.optional(__listOf__integerMin32Max8182),
+    AudioPtsOffsetDelta: S.optional(S.Number),
+    DataPTSControl: S.optional(M3u8DataPtsControl),
+    MaxPcrInterval: S.optional(S.Number),
+    NielsenId3: S.optional(M3u8NielsenId3),
+    PatInterval: S.optional(S.Number),
+    PcrControl: S.optional(M3u8PcrControl),
+    PcrPid: S.optional(S.Number),
+    PmtInterval: S.optional(S.Number),
+    PmtPid: S.optional(S.Number),
+    PrivateMetadataPid: S.optional(S.Number),
+    ProgramNumber: S.optional(S.Number),
+    PtsOffset: S.optional(S.Number),
+    PtsOffsetMode: S.optional(TsPtsOffset),
+    Scte35Pid: S.optional(S.Number),
+    Scte35Source: S.optional(M3u8Scte35Source),
+    TimedMetadata: S.optional(TimedMetadata),
+    TimedMetadataPid: S.optional(S.Number),
+    TransportStreamId: S.optional(S.Number),
+    VideoPid: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioDuration: "audioDuration",
+      AudioFramesPerPes: "audioFramesPerPes",
+      AudioPids: "audioPids",
+      AudioPtsOffsetDelta: "audioPtsOffsetDelta",
+      DataPTSControl: "dataPTSControl",
+      MaxPcrInterval: "maxPcrInterval",
+      NielsenId3: "nielsenId3",
+      PatInterval: "patInterval",
+      PcrControl: "pcrControl",
+      PcrPid: "pcrPid",
+      PmtInterval: "pmtInterval",
+      PmtPid: "pmtPid",
+      PrivateMetadataPid: "privateMetadataPid",
+      ProgramNumber: "programNumber",
+      PtsOffset: "ptsOffset",
+      PtsOffsetMode: "ptsOffsetMode",
+      Scte35Pid: "scte35Pid",
+      Scte35Source: "scte35Source",
+      TimedMetadata: "timedMetadata",
+      TimedMetadataPid: "timedMetadataPid",
+      TransportStreamId: "transportStreamId",
+      VideoPid: "videoPid",
+    }),
+  ),
 ).annotate({ identifier: "M3u8Settings" }) as any as S.Schema<M3u8Settings>;
 export type MovClapAtom = "INCLUDE" | "EXCLUDE" | (string & {});
 export const MovClapAtom = S.String;
@@ -4829,16 +5044,20 @@ export interface MovSettings {
 }
 export const MovSettings = S.suspend(() =>
   S.Struct({
-    ClapAtom: S.optional(MovClapAtom).pipe(T.JsonName("clapAtom")),
-    CslgAtom: S.optional(MovCslgAtom).pipe(T.JsonName("cslgAtom")),
-    Mpeg2FourCCControl: S.optional(MovMpeg2FourCCControl).pipe(
-      T.JsonName("mpeg2FourCCControl"),
-    ),
-    PaddingControl: S.optional(MovPaddingControl).pipe(
-      T.JsonName("paddingControl"),
-    ),
-    Reference: S.optional(MovReference).pipe(T.JsonName("reference")),
-  }),
+    ClapAtom: S.optional(MovClapAtom),
+    CslgAtom: S.optional(MovCslgAtom),
+    Mpeg2FourCCControl: S.optional(MovMpeg2FourCCControl),
+    PaddingControl: S.optional(MovPaddingControl),
+    Reference: S.optional(MovReference),
+  }).pipe(
+    S.encodeKeys({
+      ClapAtom: "clapAtom",
+      CslgAtom: "cslgAtom",
+      Mpeg2FourCCControl: "mpeg2FourCCControl",
+      PaddingControl: "paddingControl",
+      Reference: "reference",
+    }),
+  ),
 ).annotate({ identifier: "MovSettings" }) as any as S.Schema<MovSettings>;
 export type Mp4C2paManifest = "INCLUDE" | "EXCLUDE" | (string & {});
 export const Mp4C2paManifest = S.String;
@@ -4864,22 +5083,28 @@ export interface Mp4Settings {
 }
 export const Mp4Settings = S.suspend(() =>
   S.Struct({
-    AudioDuration: S.optional(CmfcAudioDuration).pipe(
-      T.JsonName("audioDuration"),
-    ),
-    C2paManifest: S.optional(Mp4C2paManifest).pipe(T.JsonName("c2paManifest")),
-    CertificateSecret: S.optional(S.String).pipe(
-      T.JsonName("certificateSecret"),
-    ),
-    CslgAtom: S.optional(Mp4CslgAtom).pipe(T.JsonName("cslgAtom")),
-    CttsVersion: S.optional(S.Number).pipe(T.JsonName("cttsVersion")),
-    FreeSpaceBox: S.optional(Mp4FreeSpaceBox).pipe(T.JsonName("freeSpaceBox")),
-    MoovPlacement: S.optional(Mp4MoovPlacement).pipe(
-      T.JsonName("moovPlacement"),
-    ),
-    Mp4MajorBrand: S.optional(S.String).pipe(T.JsonName("mp4MajorBrand")),
-    SigningKmsKey: S.optional(S.String).pipe(T.JsonName("signingKmsKey")),
-  }),
+    AudioDuration: S.optional(CmfcAudioDuration),
+    C2paManifest: S.optional(Mp4C2paManifest),
+    CertificateSecret: S.optional(S.String),
+    CslgAtom: S.optional(Mp4CslgAtom),
+    CttsVersion: S.optional(S.Number),
+    FreeSpaceBox: S.optional(Mp4FreeSpaceBox),
+    MoovPlacement: S.optional(Mp4MoovPlacement),
+    Mp4MajorBrand: S.optional(S.String),
+    SigningKmsKey: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioDuration: "audioDuration",
+      C2paManifest: "c2paManifest",
+      CertificateSecret: "certificateSecret",
+      CslgAtom: "cslgAtom",
+      CttsVersion: "cttsVersion",
+      FreeSpaceBox: "freeSpaceBox",
+      MoovPlacement: "moovPlacement",
+      Mp4MajorBrand: "mp4MajorBrand",
+      SigningKmsKey: "signingKmsKey",
+    }),
+  ),
 ).annotate({ identifier: "Mp4Settings" }) as any as S.Schema<Mp4Settings>;
 export type MpdAccessibilityCaptionHints =
   | "INCLUDE"
@@ -4931,39 +5156,38 @@ export interface MpdSettings {
 }
 export const MpdSettings = S.suspend(() =>
   S.Struct({
-    AccessibilityCaptionHints: S.optional(MpdAccessibilityCaptionHints).pipe(
-      T.JsonName("accessibilityCaptionHints"),
-    ),
-    AudioDuration: S.optional(MpdAudioDuration).pipe(
-      T.JsonName("audioDuration"),
-    ),
-    C2paManifest: S.optional(MpdC2paManifest).pipe(T.JsonName("c2paManifest")),
-    CaptionContainerType: S.optional(MpdCaptionContainerType).pipe(
-      T.JsonName("captionContainerType"),
-    ),
-    CertificateSecret: S.optional(S.String).pipe(
-      T.JsonName("certificateSecret"),
-    ),
-    KlvMetadata: S.optional(MpdKlvMetadata).pipe(T.JsonName("klvMetadata")),
-    ManifestMetadataSignaling: S.optional(MpdManifestMetadataSignaling).pipe(
-      T.JsonName("manifestMetadataSignaling"),
-    ),
-    Scte35Esam: S.optional(MpdScte35Esam).pipe(T.JsonName("scte35Esam")),
-    Scte35Source: S.optional(MpdScte35Source).pipe(T.JsonName("scte35Source")),
-    SigningKmsKey: S.optional(S.String).pipe(T.JsonName("signingKmsKey")),
-    TimedMetadata: S.optional(MpdTimedMetadata).pipe(
-      T.JsonName("timedMetadata"),
-    ),
-    TimedMetadataBoxVersion: S.optional(MpdTimedMetadataBoxVersion).pipe(
-      T.JsonName("timedMetadataBoxVersion"),
-    ),
-    TimedMetadataSchemeIdUri: S.optional(S.String).pipe(
-      T.JsonName("timedMetadataSchemeIdUri"),
-    ),
-    TimedMetadataValue: S.optional(S.String).pipe(
-      T.JsonName("timedMetadataValue"),
-    ),
-  }),
+    AccessibilityCaptionHints: S.optional(MpdAccessibilityCaptionHints),
+    AudioDuration: S.optional(MpdAudioDuration),
+    C2paManifest: S.optional(MpdC2paManifest),
+    CaptionContainerType: S.optional(MpdCaptionContainerType),
+    CertificateSecret: S.optional(S.String),
+    KlvMetadata: S.optional(MpdKlvMetadata),
+    ManifestMetadataSignaling: S.optional(MpdManifestMetadataSignaling),
+    Scte35Esam: S.optional(MpdScte35Esam),
+    Scte35Source: S.optional(MpdScte35Source),
+    SigningKmsKey: S.optional(S.String),
+    TimedMetadata: S.optional(MpdTimedMetadata),
+    TimedMetadataBoxVersion: S.optional(MpdTimedMetadataBoxVersion),
+    TimedMetadataSchemeIdUri: S.optional(S.String),
+    TimedMetadataValue: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AccessibilityCaptionHints: "accessibilityCaptionHints",
+      AudioDuration: "audioDuration",
+      C2paManifest: "c2paManifest",
+      CaptionContainerType: "captionContainerType",
+      CertificateSecret: "certificateSecret",
+      KlvMetadata: "klvMetadata",
+      ManifestMetadataSignaling: "manifestMetadataSignaling",
+      Scte35Esam: "scte35Esam",
+      Scte35Source: "scte35Source",
+      SigningKmsKey: "signingKmsKey",
+      TimedMetadata: "timedMetadata",
+      TimedMetadataBoxVersion: "timedMetadataBoxVersion",
+      TimedMetadataSchemeIdUri: "timedMetadataSchemeIdUri",
+      TimedMetadataValue: "timedMetadataValue",
+    }),
+  ),
 ).annotate({ identifier: "MpdSettings" }) as any as S.Schema<MpdSettings>;
 export type MxfAfdSignaling = "NO_COPY" | "COPY_FROM_VIDEO" | (string & {});
 export const MxfAfdSignaling = S.String;
@@ -4986,11 +5210,14 @@ export interface MxfXavcProfileSettings {
 }
 export const MxfXavcProfileSettings = S.suspend(() =>
   S.Struct({
-    DurationMode: S.optional(MxfXavcDurationMode).pipe(
-      T.JsonName("durationMode"),
-    ),
-    MaxAncDataSize: S.optional(S.Number).pipe(T.JsonName("maxAncDataSize")),
-  }),
+    DurationMode: S.optional(MxfXavcDurationMode),
+    MaxAncDataSize: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      DurationMode: "durationMode",
+      MaxAncDataSize: "maxAncDataSize",
+    }),
+  ),
 ).annotate({
   identifier: "MxfXavcProfileSettings",
 }) as any as S.Schema<MxfXavcProfileSettings>;
@@ -5001,12 +5228,16 @@ export interface MxfSettings {
 }
 export const MxfSettings = S.suspend(() =>
   S.Struct({
-    AfdSignaling: S.optional(MxfAfdSignaling).pipe(T.JsonName("afdSignaling")),
-    Profile: S.optional(MxfProfile).pipe(T.JsonName("profile")),
-    XavcProfileSettings: S.optional(MxfXavcProfileSettings)
-      .pipe(T.JsonName("xavcProfileSettings"))
-      .annotate({ identifier: "MxfXavcProfileSettings" }),
-  }),
+    AfdSignaling: S.optional(MxfAfdSignaling),
+    Profile: S.optional(MxfProfile),
+    XavcProfileSettings: S.optional(MxfXavcProfileSettings),
+  }).pipe(
+    S.encodeKeys({
+      AfdSignaling: "afdSignaling",
+      Profile: "profile",
+      XavcProfileSettings: "xavcProfileSettings",
+    }),
+  ),
 ).annotate({ identifier: "MxfSettings" }) as any as S.Schema<MxfSettings>;
 export interface ContainerSettings {
   CmfcSettings?: CmfcSettings;
@@ -5021,32 +5252,28 @@ export interface ContainerSettings {
 }
 export const ContainerSettings = S.suspend(() =>
   S.Struct({
-    CmfcSettings: S.optional(CmfcSettings)
-      .pipe(T.JsonName("cmfcSettings"))
-      .annotate({ identifier: "CmfcSettings" }),
-    Container: S.optional(ContainerType).pipe(T.JsonName("container")),
-    F4vSettings: S.optional(F4vSettings)
-      .pipe(T.JsonName("f4vSettings"))
-      .annotate({ identifier: "F4vSettings" }),
-    M2tsSettings: S.optional(M2tsSettings)
-      .pipe(T.JsonName("m2tsSettings"))
-      .annotate({ identifier: "M2tsSettings" }),
-    M3u8Settings: S.optional(M3u8Settings)
-      .pipe(T.JsonName("m3u8Settings"))
-      .annotate({ identifier: "M3u8Settings" }),
-    MovSettings: S.optional(MovSettings)
-      .pipe(T.JsonName("movSettings"))
-      .annotate({ identifier: "MovSettings" }),
-    Mp4Settings: S.optional(Mp4Settings)
-      .pipe(T.JsonName("mp4Settings"))
-      .annotate({ identifier: "Mp4Settings" }),
-    MpdSettings: S.optional(MpdSettings)
-      .pipe(T.JsonName("mpdSettings"))
-      .annotate({ identifier: "MpdSettings" }),
-    MxfSettings: S.optional(MxfSettings)
-      .pipe(T.JsonName("mxfSettings"))
-      .annotate({ identifier: "MxfSettings" }),
-  }),
+    CmfcSettings: S.optional(CmfcSettings),
+    Container: S.optional(ContainerType),
+    F4vSettings: S.optional(F4vSettings),
+    M2tsSettings: S.optional(M2tsSettings),
+    M3u8Settings: S.optional(M3u8Settings),
+    MovSettings: S.optional(MovSettings),
+    Mp4Settings: S.optional(Mp4Settings),
+    MpdSettings: S.optional(MpdSettings),
+    MxfSettings: S.optional(MxfSettings),
+  }).pipe(
+    S.encodeKeys({
+      CmfcSettings: "cmfcSettings",
+      Container: "container",
+      F4vSettings: "f4vSettings",
+      M2tsSettings: "m2tsSettings",
+      M3u8Settings: "m3u8Settings",
+      MovSettings: "movSettings",
+      Mp4Settings: "mp4Settings",
+      MpdSettings: "mpdSettings",
+      MxfSettings: "mxfSettings",
+    }),
+  ),
 ).annotate({
   identifier: "ContainerSettings",
 }) as any as S.Schema<ContainerSettings>;
@@ -5081,34 +5308,32 @@ export interface HlsSettings {
 }
 export const HlsSettings = S.suspend(() =>
   S.Struct({
-    AudioGroupId: S.optional(S.String).pipe(T.JsonName("audioGroupId")),
-    AudioOnlyContainer: S.optional(HlsAudioOnlyContainer).pipe(
-      T.JsonName("audioOnlyContainer"),
-    ),
-    AudioRenditionSets: S.optional(S.String).pipe(
-      T.JsonName("audioRenditionSets"),
-    ),
-    AudioTrackType: S.optional(HlsAudioTrackType).pipe(
-      T.JsonName("audioTrackType"),
-    ),
-    DescriptiveVideoServiceFlag: S.optional(
-      HlsDescriptiveVideoServiceFlag,
-    ).pipe(T.JsonName("descriptiveVideoServiceFlag")),
-    IFrameOnlyManifest: S.optional(HlsIFrameOnlyManifest).pipe(
-      T.JsonName("iFrameOnlyManifest"),
-    ),
-    SegmentModifier: S.optional(S.String).pipe(T.JsonName("segmentModifier")),
-  }),
+    AudioGroupId: S.optional(S.String),
+    AudioOnlyContainer: S.optional(HlsAudioOnlyContainer),
+    AudioRenditionSets: S.optional(S.String),
+    AudioTrackType: S.optional(HlsAudioTrackType),
+    DescriptiveVideoServiceFlag: S.optional(HlsDescriptiveVideoServiceFlag),
+    IFrameOnlyManifest: S.optional(HlsIFrameOnlyManifest),
+    SegmentModifier: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioGroupId: "audioGroupId",
+      AudioOnlyContainer: "audioOnlyContainer",
+      AudioRenditionSets: "audioRenditionSets",
+      AudioTrackType: "audioTrackType",
+      DescriptiveVideoServiceFlag: "descriptiveVideoServiceFlag",
+      IFrameOnlyManifest: "iFrameOnlyManifest",
+      SegmentModifier: "segmentModifier",
+    }),
+  ),
 ).annotate({ identifier: "HlsSettings" }) as any as S.Schema<HlsSettings>;
 export interface OutputSettings {
   HlsSettings?: HlsSettings;
 }
 export const OutputSettings = S.suspend(() =>
-  S.Struct({
-    HlsSettings: S.optional(HlsSettings)
-      .pipe(T.JsonName("hlsSettings"))
-      .annotate({ identifier: "HlsSettings" }),
-  }),
+  S.Struct({ HlsSettings: S.optional(HlsSettings) }).pipe(
+    S.encodeKeys({ HlsSettings: "hlsSettings" }),
+  ),
 ).annotate({ identifier: "OutputSettings" }) as any as S.Schema<OutputSettings>;
 export type AfdSignaling = "NONE" | "AUTO" | "FIXED" | (string & {});
 export const AfdSignaling = S.String;
@@ -5151,11 +5376,14 @@ export interface Av1QvbrSettings {
 }
 export const Av1QvbrSettings = S.suspend(() =>
   S.Struct({
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    QvbrQualityLevelFineTune: S.optional(S.Number).pipe(
-      T.JsonName("qvbrQualityLevelFineTune"),
-    ),
-  }),
+    QvbrQualityLevel: S.optional(S.Number),
+    QvbrQualityLevelFineTune: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      QvbrQualityLevel: "qvbrQualityLevel",
+      QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
+    }),
+  ),
 ).annotate({
   identifier: "Av1QvbrSettings",
 }) as any as S.Schema<Av1QvbrSettings>;
@@ -5185,44 +5413,41 @@ export interface Av1Settings {
 }
 export const Av1Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(Av1AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    BitDepth: S.optional(Av1BitDepth).pipe(T.JsonName("bitDepth")),
-    FilmGrainSynthesis: S.optional(Av1FilmGrainSynthesis).pipe(
-      T.JsonName("filmGrainSynthesis"),
-    ),
-    FramerateControl: S.optional(Av1FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      Av1FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    NumberBFramesBetweenReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberBFramesBetweenReferenceFrames"),
-    ),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    QvbrSettings: S.optional(Av1QvbrSettings)
-      .pipe(T.JsonName("qvbrSettings"))
-      .annotate({ identifier: "Av1QvbrSettings" }),
-    RateControlMode: S.optional(Av1RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    SpatialAdaptiveQuantization: S.optional(
-      Av1SpatialAdaptiveQuantization,
-    ).pipe(T.JsonName("spatialAdaptiveQuantization")),
-  }),
+    AdaptiveQuantization: S.optional(Av1AdaptiveQuantization),
+    BitDepth: S.optional(Av1BitDepth),
+    FilmGrainSynthesis: S.optional(Av1FilmGrainSynthesis),
+    FramerateControl: S.optional(Av1FramerateControl),
+    FramerateConversionAlgorithm: S.optional(Av1FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    MaxBitrate: S.optional(S.Number),
+    NumberBFramesBetweenReferenceFrames: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    QvbrSettings: S.optional(Av1QvbrSettings),
+    RateControlMode: S.optional(Av1RateControlMode),
+    Slices: S.optional(S.Number),
+    SpatialAdaptiveQuantization: S.optional(Av1SpatialAdaptiveQuantization),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      BitDepth: "bitDepth",
+      FilmGrainSynthesis: "filmGrainSynthesis",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopSize: "gopSize",
+      MaxBitrate: "maxBitrate",
+      NumberBFramesBetweenReferenceFrames:
+        "numberBFramesBetweenReferenceFrames",
+      PerFrameMetrics: "perFrameMetrics",
+      QvbrSettings: "qvbrSettings",
+      RateControlMode: "rateControlMode",
+      Slices: "slices",
+      SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+    }),
+  ),
 ).annotate({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
 export type AvcIntraClass =
   | "CLASS_50"
@@ -5241,10 +5466,8 @@ export interface AvcIntraUhdSettings {
 }
 export const AvcIntraUhdSettings = S.suspend(() =>
   S.Struct({
-    QualityTuningLevel: S.optional(AvcIntraUhdQualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-  }),
+    QualityTuningLevel: S.optional(AvcIntraUhdQualityTuningLevel),
+  }).pipe(S.encodeKeys({ QualityTuningLevel: "qualityTuningLevel" })),
 ).annotate({
   identifier: "AvcIntraUhdSettings",
 }) as any as S.Schema<AvcIntraUhdSettings>;
@@ -5292,34 +5515,34 @@ export interface AvcIntraSettings {
 }
 export const AvcIntraSettings = S.suspend(() =>
   S.Struct({
-    AvcIntraClass: S.optional(AvcIntraClass).pipe(T.JsonName("avcIntraClass")),
-    AvcIntraUhdSettings: S.optional(AvcIntraUhdSettings)
-      .pipe(T.JsonName("avcIntraUhdSettings"))
-      .annotate({ identifier: "AvcIntraUhdSettings" }),
-    FramerateControl: S.optional(AvcIntraFramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
+    AvcIntraClass: S.optional(AvcIntraClass),
+    AvcIntraUhdSettings: S.optional(AvcIntraUhdSettings),
+    FramerateControl: S.optional(AvcIntraFramerateControl),
     FramerateConversionAlgorithm: S.optional(
       AvcIntraFramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
     ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    InterlaceMode: S.optional(AvcIntraInterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    ScanTypeConversionMode: S.optional(AvcIntraScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SlowPal: S.optional(AvcIntraSlowPal).pipe(T.JsonName("slowPal")),
-    Telecine: S.optional(AvcIntraTelecine).pipe(T.JsonName("telecine")),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    InterlaceMode: S.optional(AvcIntraInterlaceMode),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    ScanTypeConversionMode: S.optional(AvcIntraScanTypeConversionMode),
+    SlowPal: S.optional(AvcIntraSlowPal),
+    Telecine: S.optional(AvcIntraTelecine),
+  }).pipe(
+    S.encodeKeys({
+      AvcIntraClass: "avcIntraClass",
+      AvcIntraUhdSettings: "avcIntraUhdSettings",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      InterlaceMode: "interlaceMode",
+      PerFrameMetrics: "perFrameMetrics",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SlowPal: "slowPal",
+      Telecine: "telecine",
+    }),
+  ),
 ).annotate({
   identifier: "AvcIntraSettings",
 }) as any as S.Schema<AvcIntraSettings>;
@@ -5348,15 +5571,18 @@ export interface FrameCaptureSettings {
 }
 export const FrameCaptureSettings = S.suspend(() =>
   S.Struct({
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    MaxCaptures: S.optional(S.Number).pipe(T.JsonName("maxCaptures")),
-    Quality: S.optional(S.Number).pipe(T.JsonName("quality")),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    MaxCaptures: S.optional(S.Number),
+    Quality: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      MaxCaptures: "maxCaptures",
+      Quality: "quality",
+    }),
+  ),
 ).annotate({
   identifier: "FrameCaptureSettings",
 }) as any as S.Schema<FrameCaptureSettings>;
@@ -5378,19 +5604,18 @@ export interface GifSettings {
 }
 export const GifSettings = S.suspend(() =>
   S.Struct({
-    FramerateControl: S.optional(GifFramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      GifFramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-  }),
+    FramerateControl: S.optional(GifFramerateControl),
+    FramerateConversionAlgorithm: S.optional(GifFramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+    }),
+  ),
 ).annotate({ identifier: "GifSettings" }) as any as S.Schema<GifSettings>;
 export type H264AdaptiveQuantization =
   | "OFF"
@@ -5423,13 +5648,9 @@ export interface BandwidthReductionFilter {
 }
 export const BandwidthReductionFilter = S.suspend(() =>
   S.Struct({
-    Sharpening: S.optional(BandwidthReductionFilterSharpening).pipe(
-      T.JsonName("sharpening"),
-    ),
-    Strength: S.optional(BandwidthReductionFilterStrength).pipe(
-      T.JsonName("strength"),
-    ),
-  }),
+    Sharpening: S.optional(BandwidthReductionFilterSharpening),
+    Strength: S.optional(BandwidthReductionFilterStrength),
+  }).pipe(S.encodeKeys({ Sharpening: "sharpening", Strength: "strength" })),
 ).annotate({
   identifier: "BandwidthReductionFilter",
 }) as any as S.Schema<BandwidthReductionFilter>;
@@ -5521,14 +5742,16 @@ export interface H264QvbrSettings {
 }
 export const H264QvbrSettings = S.suspend(() =>
   S.Struct({
-    MaxAverageBitrate: S.optional(S.Number).pipe(
-      T.JsonName("maxAverageBitrate"),
-    ),
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    QvbrQualityLevelFineTune: S.optional(S.Number).pipe(
-      T.JsonName("qvbrQualityLevelFineTune"),
-    ),
-  }),
+    MaxAverageBitrate: S.optional(S.Number),
+    QvbrQualityLevel: S.optional(S.Number),
+    QvbrQualityLevelFineTune: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MaxAverageBitrate: "maxAverageBitrate",
+      QvbrQualityLevel: "qvbrQualityLevel",
+      QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
+    }),
+  ),
 ).annotate({
   identifier: "H264QvbrSettings",
 }) as any as S.Schema<H264QvbrSettings>;
@@ -5625,109 +5848,103 @@ export interface H264Settings {
 }
 export const H264Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(H264AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    BandwidthReductionFilter: S.optional(BandwidthReductionFilter)
-      .pipe(T.JsonName("bandwidthReductionFilter"))
-      .annotate({ identifier: "BandwidthReductionFilter" }),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodecLevel: S.optional(H264CodecLevel).pipe(T.JsonName("codecLevel")),
-    CodecProfile: S.optional(H264CodecProfile).pipe(T.JsonName("codecProfile")),
-    DynamicSubGop: S.optional(H264DynamicSubGop).pipe(
-      T.JsonName("dynamicSubGop"),
-    ),
-    EndOfStreamMarkers: S.optional(H264EndOfStreamMarkers).pipe(
-      T.JsonName("endOfStreamMarkers"),
-    ),
-    EntropyEncoding: S.optional(H264EntropyEncoding).pipe(
-      T.JsonName("entropyEncoding"),
-    ),
-    FieldEncoding: S.optional(H264FieldEncoding).pipe(
-      T.JsonName("fieldEncoding"),
-    ),
-    FlickerAdaptiveQuantization: S.optional(
-      H264FlickerAdaptiveQuantization,
-    ).pipe(T.JsonName("flickerAdaptiveQuantization")),
-    FramerateControl: S.optional(H264FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      H264FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopBReference: S.optional(H264GopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(H264GopSizeUnits).pipe(T.JsonName("gopSizeUnits")),
-    HrdBufferFinalFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferFinalFillPercentage"),
-    ),
-    HrdBufferInitialFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferInitialFillPercentage"),
-    ),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    InterlaceMode: S.optional(H264InterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    NumberBFramesBetweenReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberBFramesBetweenReferenceFrames"),
-    ),
-    NumberReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberReferenceFrames"),
-    ),
-    ParControl: S.optional(H264ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    QualityTuningLevel: S.optional(H264QualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    QvbrSettings: S.optional(H264QvbrSettings)
-      .pipe(T.JsonName("qvbrSettings"))
-      .annotate({ identifier: "H264QvbrSettings" }),
-    RateControlMode: S.optional(H264RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    RepeatPps: S.optional(H264RepeatPps).pipe(T.JsonName("repeatPps")),
-    SaliencyAwareEncoding: S.optional(H264SaliencyAwareEncoding).pipe(
-      T.JsonName("saliencyAwareEncoding"),
-    ),
-    ScanTypeConversionMode: S.optional(H264ScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SceneChangeDetect: S.optional(H264SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    SlowPal: S.optional(H264SlowPal).pipe(T.JsonName("slowPal")),
-    Softness: S.optional(S.Number).pipe(T.JsonName("softness")),
-    SpatialAdaptiveQuantization: S.optional(
-      H264SpatialAdaptiveQuantization,
-    ).pipe(T.JsonName("spatialAdaptiveQuantization")),
-    Syntax: S.optional(H264Syntax).pipe(T.JsonName("syntax")),
-    Telecine: S.optional(H264Telecine).pipe(T.JsonName("telecine")),
-    TemporalAdaptiveQuantization: S.optional(
-      H264TemporalAdaptiveQuantization,
-    ).pipe(T.JsonName("temporalAdaptiveQuantization")),
-    UnregisteredSeiTimecode: S.optional(H264UnregisteredSeiTimecode).pipe(
-      T.JsonName("unregisteredSeiTimecode"),
-    ),
-    WriteMp4PackagingType: S.optional(H264WriteMp4PackagingType).pipe(
-      T.JsonName("writeMp4PackagingType"),
-    ),
-  }),
+    AdaptiveQuantization: S.optional(H264AdaptiveQuantization),
+    BandwidthReductionFilter: S.optional(BandwidthReductionFilter),
+    Bitrate: S.optional(S.Number),
+    CodecLevel: S.optional(H264CodecLevel),
+    CodecProfile: S.optional(H264CodecProfile),
+    DynamicSubGop: S.optional(H264DynamicSubGop),
+    EndOfStreamMarkers: S.optional(H264EndOfStreamMarkers),
+    EntropyEncoding: S.optional(H264EntropyEncoding),
+    FieldEncoding: S.optional(H264FieldEncoding),
+    FlickerAdaptiveQuantization: S.optional(H264FlickerAdaptiveQuantization),
+    FramerateControl: S.optional(H264FramerateControl),
+    FramerateConversionAlgorithm: S.optional(H264FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopBReference: S.optional(H264GopBReference),
+    GopClosedCadence: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(H264GopSizeUnits),
+    HrdBufferFinalFillPercentage: S.optional(S.Number),
+    HrdBufferInitialFillPercentage: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    InterlaceMode: S.optional(H264InterlaceMode),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    NumberBFramesBetweenReferenceFrames: S.optional(S.Number),
+    NumberReferenceFrames: S.optional(S.Number),
+    ParControl: S.optional(H264ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    QualityTuningLevel: S.optional(H264QualityTuningLevel),
+    QvbrSettings: S.optional(H264QvbrSettings),
+    RateControlMode: S.optional(H264RateControlMode),
+    RepeatPps: S.optional(H264RepeatPps),
+    SaliencyAwareEncoding: S.optional(H264SaliencyAwareEncoding),
+    ScanTypeConversionMode: S.optional(H264ScanTypeConversionMode),
+    SceneChangeDetect: S.optional(H264SceneChangeDetect),
+    Slices: S.optional(S.Number),
+    SlowPal: S.optional(H264SlowPal),
+    Softness: S.optional(S.Number),
+    SpatialAdaptiveQuantization: S.optional(H264SpatialAdaptiveQuantization),
+    Syntax: S.optional(H264Syntax),
+    Telecine: S.optional(H264Telecine),
+    TemporalAdaptiveQuantization: S.optional(H264TemporalAdaptiveQuantization),
+    UnregisteredSeiTimecode: S.optional(H264UnregisteredSeiTimecode),
+    WriteMp4PackagingType: S.optional(H264WriteMp4PackagingType),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      BandwidthReductionFilter: "bandwidthReductionFilter",
+      Bitrate: "bitrate",
+      CodecLevel: "codecLevel",
+      CodecProfile: "codecProfile",
+      DynamicSubGop: "dynamicSubGop",
+      EndOfStreamMarkers: "endOfStreamMarkers",
+      EntropyEncoding: "entropyEncoding",
+      FieldEncoding: "fieldEncoding",
+      FlickerAdaptiveQuantization: "flickerAdaptiveQuantization",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopBReference: "gopBReference",
+      GopClosedCadence: "gopClosedCadence",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      HrdBufferFinalFillPercentage: "hrdBufferFinalFillPercentage",
+      HrdBufferInitialFillPercentage: "hrdBufferInitialFillPercentage",
+      HrdBufferSize: "hrdBufferSize",
+      InterlaceMode: "interlaceMode",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      NumberBFramesBetweenReferenceFrames:
+        "numberBFramesBetweenReferenceFrames",
+      NumberReferenceFrames: "numberReferenceFrames",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      PerFrameMetrics: "perFrameMetrics",
+      QualityTuningLevel: "qualityTuningLevel",
+      QvbrSettings: "qvbrSettings",
+      RateControlMode: "rateControlMode",
+      RepeatPps: "repeatPps",
+      SaliencyAwareEncoding: "saliencyAwareEncoding",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SceneChangeDetect: "sceneChangeDetect",
+      Slices: "slices",
+      SlowPal: "slowPal",
+      Softness: "softness",
+      SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+      Syntax: "syntax",
+      Telecine: "telecine",
+      TemporalAdaptiveQuantization: "temporalAdaptiveQuantization",
+      UnregisteredSeiTimecode: "unregisteredSeiTimecode",
+      WriteMp4PackagingType: "writeMp4PackagingType",
+    }),
+  ),
 ).annotate({ identifier: "H264Settings" }) as any as S.Schema<H264Settings>;
 export type H265AdaptiveQuantization =
   | "OFF"
@@ -5832,14 +6049,16 @@ export interface H265QvbrSettings {
 }
 export const H265QvbrSettings = S.suspend(() =>
   S.Struct({
-    MaxAverageBitrate: S.optional(S.Number).pipe(
-      T.JsonName("maxAverageBitrate"),
-    ),
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    QvbrQualityLevelFineTune: S.optional(S.Number).pipe(
-      T.JsonName("qvbrQualityLevelFineTune"),
-    ),
-  }),
+    MaxAverageBitrate: S.optional(S.Number),
+    QvbrQualityLevel: S.optional(S.Number),
+    QvbrQualityLevelFineTune: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MaxAverageBitrate: "maxAverageBitrate",
+      QvbrQualityLevel: "qvbrQualityLevel",
+      QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
+    }),
+  ),
 ).annotate({
   identifier: "H265QvbrSettings",
 }) as any as S.Schema<H265QvbrSettings>;
@@ -5946,118 +6165,115 @@ export interface H265Settings {
 }
 export const H265Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(H265AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    AlternateTransferFunctionSei: S.optional(
-      H265AlternateTransferFunctionSei,
-    ).pipe(T.JsonName("alternateTransferFunctionSei")),
-    BandwidthReductionFilter: S.optional(BandwidthReductionFilter)
-      .pipe(T.JsonName("bandwidthReductionFilter"))
-      .annotate({ identifier: "BandwidthReductionFilter" }),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodecLevel: S.optional(H265CodecLevel).pipe(T.JsonName("codecLevel")),
-    CodecProfile: S.optional(H265CodecProfile).pipe(T.JsonName("codecProfile")),
-    Deblocking: S.optional(H265Deblocking).pipe(T.JsonName("deblocking")),
-    DynamicSubGop: S.optional(H265DynamicSubGop).pipe(
-      T.JsonName("dynamicSubGop"),
-    ),
-    EndOfStreamMarkers: S.optional(H265EndOfStreamMarkers).pipe(
-      T.JsonName("endOfStreamMarkers"),
-    ),
-    FlickerAdaptiveQuantization: S.optional(
-      H265FlickerAdaptiveQuantization,
-    ).pipe(T.JsonName("flickerAdaptiveQuantization")),
-    FramerateControl: S.optional(H265FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      H265FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopBReference: S.optional(H265GopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(H265GopSizeUnits).pipe(T.JsonName("gopSizeUnits")),
-    HrdBufferFinalFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferFinalFillPercentage"),
-    ),
-    HrdBufferInitialFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferInitialFillPercentage"),
-    ),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    InterlaceMode: S.optional(H265InterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    MvOverPictureBoundaries: S.optional(H265MvOverPictureBoundaries).pipe(
-      T.JsonName("mvOverPictureBoundaries"),
-    ),
-    MvTemporalPredictor: S.optional(H265MvTemporalPredictor).pipe(
-      T.JsonName("mvTemporalPredictor"),
-    ),
-    NumberBFramesBetweenReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberBFramesBetweenReferenceFrames"),
-    ),
-    NumberReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberReferenceFrames"),
-    ),
-    ParControl: S.optional(H265ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    QualityTuningLevel: S.optional(H265QualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    QvbrSettings: S.optional(H265QvbrSettings)
-      .pipe(T.JsonName("qvbrSettings"))
-      .annotate({ identifier: "H265QvbrSettings" }),
-    RateControlMode: S.optional(H265RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
+    AdaptiveQuantization: S.optional(H265AdaptiveQuantization),
+    AlternateTransferFunctionSei: S.optional(H265AlternateTransferFunctionSei),
+    BandwidthReductionFilter: S.optional(BandwidthReductionFilter),
+    Bitrate: S.optional(S.Number),
+    CodecLevel: S.optional(H265CodecLevel),
+    CodecProfile: S.optional(H265CodecProfile),
+    Deblocking: S.optional(H265Deblocking),
+    DynamicSubGop: S.optional(H265DynamicSubGop),
+    EndOfStreamMarkers: S.optional(H265EndOfStreamMarkers),
+    FlickerAdaptiveQuantization: S.optional(H265FlickerAdaptiveQuantization),
+    FramerateControl: S.optional(H265FramerateControl),
+    FramerateConversionAlgorithm: S.optional(H265FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopBReference: S.optional(H265GopBReference),
+    GopClosedCadence: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(H265GopSizeUnits),
+    HrdBufferFinalFillPercentage: S.optional(S.Number),
+    HrdBufferInitialFillPercentage: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    InterlaceMode: S.optional(H265InterlaceMode),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    MvOverPictureBoundaries: S.optional(H265MvOverPictureBoundaries),
+    MvTemporalPredictor: S.optional(H265MvTemporalPredictor),
+    NumberBFramesBetweenReferenceFrames: S.optional(S.Number),
+    NumberReferenceFrames: S.optional(S.Number),
+    ParControl: S.optional(H265ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    QualityTuningLevel: S.optional(H265QualityTuningLevel),
+    QvbrSettings: S.optional(H265QvbrSettings),
+    RateControlMode: S.optional(H265RateControlMode),
     SampleAdaptiveOffsetFilterMode: S.optional(
       H265SampleAdaptiveOffsetFilterMode,
-    ).pipe(T.JsonName("sampleAdaptiveOffsetFilterMode")),
-    ScanTypeConversionMode: S.optional(H265ScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
     ),
-    SceneChangeDetect: S.optional(H265SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    SlowPal: S.optional(H265SlowPal).pipe(T.JsonName("slowPal")),
-    SpatialAdaptiveQuantization: S.optional(
-      H265SpatialAdaptiveQuantization,
-    ).pipe(T.JsonName("spatialAdaptiveQuantization")),
-    Telecine: S.optional(H265Telecine).pipe(T.JsonName("telecine")),
-    TemporalAdaptiveQuantization: S.optional(
-      H265TemporalAdaptiveQuantization,
-    ).pipe(T.JsonName("temporalAdaptiveQuantization")),
-    TemporalIds: S.optional(H265TemporalIds).pipe(T.JsonName("temporalIds")),
-    TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
-    TilePadding: S.optional(H265TilePadding).pipe(T.JsonName("tilePadding")),
-    TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
-    Tiles: S.optional(H265Tiles).pipe(T.JsonName("tiles")),
-    TreeBlockSize: S.optional(H265TreeBlockSize).pipe(
-      T.JsonName("treeBlockSize"),
-    ),
-    UnregisteredSeiTimecode: S.optional(H265UnregisteredSeiTimecode).pipe(
-      T.JsonName("unregisteredSeiTimecode"),
-    ),
-    WriteMp4PackagingType: S.optional(H265WriteMp4PackagingType).pipe(
-      T.JsonName("writeMp4PackagingType"),
-    ),
-  }),
+    ScanTypeConversionMode: S.optional(H265ScanTypeConversionMode),
+    SceneChangeDetect: S.optional(H265SceneChangeDetect),
+    Slices: S.optional(S.Number),
+    SlowPal: S.optional(H265SlowPal),
+    SpatialAdaptiveQuantization: S.optional(H265SpatialAdaptiveQuantization),
+    Telecine: S.optional(H265Telecine),
+    TemporalAdaptiveQuantization: S.optional(H265TemporalAdaptiveQuantization),
+    TemporalIds: S.optional(H265TemporalIds),
+    TileHeight: S.optional(S.Number),
+    TilePadding: S.optional(H265TilePadding),
+    TileWidth: S.optional(S.Number),
+    Tiles: S.optional(H265Tiles),
+    TreeBlockSize: S.optional(H265TreeBlockSize),
+    UnregisteredSeiTimecode: S.optional(H265UnregisteredSeiTimecode),
+    WriteMp4PackagingType: S.optional(H265WriteMp4PackagingType),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      AlternateTransferFunctionSei: "alternateTransferFunctionSei",
+      BandwidthReductionFilter: "bandwidthReductionFilter",
+      Bitrate: "bitrate",
+      CodecLevel: "codecLevel",
+      CodecProfile: "codecProfile",
+      Deblocking: "deblocking",
+      DynamicSubGop: "dynamicSubGop",
+      EndOfStreamMarkers: "endOfStreamMarkers",
+      FlickerAdaptiveQuantization: "flickerAdaptiveQuantization",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopBReference: "gopBReference",
+      GopClosedCadence: "gopClosedCadence",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      HrdBufferFinalFillPercentage: "hrdBufferFinalFillPercentage",
+      HrdBufferInitialFillPercentage: "hrdBufferInitialFillPercentage",
+      HrdBufferSize: "hrdBufferSize",
+      InterlaceMode: "interlaceMode",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      MvOverPictureBoundaries: "mvOverPictureBoundaries",
+      MvTemporalPredictor: "mvTemporalPredictor",
+      NumberBFramesBetweenReferenceFrames:
+        "numberBFramesBetweenReferenceFrames",
+      NumberReferenceFrames: "numberReferenceFrames",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      PerFrameMetrics: "perFrameMetrics",
+      QualityTuningLevel: "qualityTuningLevel",
+      QvbrSettings: "qvbrSettings",
+      RateControlMode: "rateControlMode",
+      SampleAdaptiveOffsetFilterMode: "sampleAdaptiveOffsetFilterMode",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SceneChangeDetect: "sceneChangeDetect",
+      Slices: "slices",
+      SlowPal: "slowPal",
+      SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+      Telecine: "telecine",
+      TemporalAdaptiveQuantization: "temporalAdaptiveQuantization",
+      TemporalIds: "temporalIds",
+      TileHeight: "tileHeight",
+      TilePadding: "tilePadding",
+      TileWidth: "tileWidth",
+      Tiles: "tiles",
+      TreeBlockSize: "treeBlockSize",
+      UnregisteredSeiTimecode: "unregisteredSeiTimecode",
+      WriteMp4PackagingType: "writeMp4PackagingType",
+    }),
+  ),
 ).annotate({ identifier: "H265Settings" }) as any as S.Schema<H265Settings>;
 export type Mpeg2AdaptiveQuantization =
   | "OFF"
@@ -6181,81 +6397,79 @@ export interface Mpeg2Settings {
 }
 export const Mpeg2Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(Mpeg2AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodecLevel: S.optional(Mpeg2CodecLevel).pipe(T.JsonName("codecLevel")),
-    CodecProfile: S.optional(Mpeg2CodecProfile).pipe(
-      T.JsonName("codecProfile"),
-    ),
-    DynamicSubGop: S.optional(Mpeg2DynamicSubGop).pipe(
-      T.JsonName("dynamicSubGop"),
-    ),
-    FramerateControl: S.optional(Mpeg2FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      Mpeg2FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(Mpeg2GopSizeUnits).pipe(
-      T.JsonName("gopSizeUnits"),
-    ),
-    HrdBufferFinalFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferFinalFillPercentage"),
-    ),
-    HrdBufferInitialFillPercentage: S.optional(S.Number).pipe(
-      T.JsonName("hrdBufferInitialFillPercentage"),
-    ),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    InterlaceMode: S.optional(Mpeg2InterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    IntraDcPrecision: S.optional(Mpeg2IntraDcPrecision).pipe(
-      T.JsonName("intraDcPrecision"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    NumberBFramesBetweenReferenceFrames: S.optional(S.Number).pipe(
-      T.JsonName("numberBFramesBetweenReferenceFrames"),
-    ),
-    ParControl: S.optional(Mpeg2ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    QualityTuningLevel: S.optional(Mpeg2QualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    RateControlMode: S.optional(Mpeg2RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    ScanTypeConversionMode: S.optional(Mpeg2ScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SceneChangeDetect: S.optional(Mpeg2SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    SlowPal: S.optional(Mpeg2SlowPal).pipe(T.JsonName("slowPal")),
-    Softness: S.optional(S.Number).pipe(T.JsonName("softness")),
-    SpatialAdaptiveQuantization: S.optional(
-      Mpeg2SpatialAdaptiveQuantization,
-    ).pipe(T.JsonName("spatialAdaptiveQuantization")),
-    Syntax: S.optional(Mpeg2Syntax).pipe(T.JsonName("syntax")),
-    Telecine: S.optional(Mpeg2Telecine).pipe(T.JsonName("telecine")),
-    TemporalAdaptiveQuantization: S.optional(
-      Mpeg2TemporalAdaptiveQuantization,
-    ).pipe(T.JsonName("temporalAdaptiveQuantization")),
-  }),
+    AdaptiveQuantization: S.optional(Mpeg2AdaptiveQuantization),
+    Bitrate: S.optional(S.Number),
+    CodecLevel: S.optional(Mpeg2CodecLevel),
+    CodecProfile: S.optional(Mpeg2CodecProfile),
+    DynamicSubGop: S.optional(Mpeg2DynamicSubGop),
+    FramerateControl: S.optional(Mpeg2FramerateControl),
+    FramerateConversionAlgorithm: S.optional(Mpeg2FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopClosedCadence: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(Mpeg2GopSizeUnits),
+    HrdBufferFinalFillPercentage: S.optional(S.Number),
+    HrdBufferInitialFillPercentage: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    InterlaceMode: S.optional(Mpeg2InterlaceMode),
+    IntraDcPrecision: S.optional(Mpeg2IntraDcPrecision),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    NumberBFramesBetweenReferenceFrames: S.optional(S.Number),
+    ParControl: S.optional(Mpeg2ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    QualityTuningLevel: S.optional(Mpeg2QualityTuningLevel),
+    RateControlMode: S.optional(Mpeg2RateControlMode),
+    ScanTypeConversionMode: S.optional(Mpeg2ScanTypeConversionMode),
+    SceneChangeDetect: S.optional(Mpeg2SceneChangeDetect),
+    SlowPal: S.optional(Mpeg2SlowPal),
+    Softness: S.optional(S.Number),
+    SpatialAdaptiveQuantization: S.optional(Mpeg2SpatialAdaptiveQuantization),
+    Syntax: S.optional(Mpeg2Syntax),
+    Telecine: S.optional(Mpeg2Telecine),
+    TemporalAdaptiveQuantization: S.optional(Mpeg2TemporalAdaptiveQuantization),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      Bitrate: "bitrate",
+      CodecLevel: "codecLevel",
+      CodecProfile: "codecProfile",
+      DynamicSubGop: "dynamicSubGop",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopClosedCadence: "gopClosedCadence",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      HrdBufferFinalFillPercentage: "hrdBufferFinalFillPercentage",
+      HrdBufferInitialFillPercentage: "hrdBufferInitialFillPercentage",
+      HrdBufferSize: "hrdBufferSize",
+      InterlaceMode: "interlaceMode",
+      IntraDcPrecision: "intraDcPrecision",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      NumberBFramesBetweenReferenceFrames:
+        "numberBFramesBetweenReferenceFrames",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      PerFrameMetrics: "perFrameMetrics",
+      QualityTuningLevel: "qualityTuningLevel",
+      RateControlMode: "rateControlMode",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SceneChangeDetect: "sceneChangeDetect",
+      SlowPal: "slowPal",
+      Softness: "softness",
+      SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+      Syntax: "syntax",
+      Telecine: "telecine",
+      TemporalAdaptiveQuantization: "temporalAdaptiveQuantization",
+    }),
+  ),
 ).annotate({ identifier: "Mpeg2Settings" }) as any as S.Schema<Mpeg2Settings>;
 export type FrameControl =
   | "NEAREST_IDRFRAME"
@@ -6270,11 +6484,14 @@ export interface PassthroughSettings {
 }
 export const PassthroughSettings = S.suspend(() =>
   S.Struct({
-    FrameControl: S.optional(FrameControl).pipe(T.JsonName("frameControl")),
-    VideoSelectorMode: S.optional(VideoSelectorMode).pipe(
-      T.JsonName("videoSelectorMode"),
-    ),
-  }),
+    FrameControl: S.optional(FrameControl),
+    VideoSelectorMode: S.optional(VideoSelectorMode),
+  }).pipe(
+    S.encodeKeys({
+      FrameControl: "frameControl",
+      VideoSelectorMode: "videoSelectorMode",
+    }),
+  ),
 ).annotate({
   identifier: "PassthroughSettings",
 }) as any as S.Schema<PassthroughSettings>;
@@ -6344,39 +6561,40 @@ export interface ProresSettings {
 }
 export const ProresSettings = S.suspend(() =>
   S.Struct({
-    ChromaSampling: S.optional(ProresChromaSampling).pipe(
-      T.JsonName("chromaSampling"),
-    ),
-    CodecProfile: S.optional(ProresCodecProfile).pipe(
-      T.JsonName("codecProfile"),
-    ),
-    FramerateControl: S.optional(ProresFramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
+    ChromaSampling: S.optional(ProresChromaSampling),
+    CodecProfile: S.optional(ProresCodecProfile),
+    FramerateControl: S.optional(ProresFramerateControl),
     FramerateConversionAlgorithm: S.optional(
       ProresFramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
     ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    InterlaceMode: S.optional(ProresInterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    ParControl: S.optional(ProresParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    ScanTypeConversionMode: S.optional(ProresScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SlowPal: S.optional(ProresSlowPal).pipe(T.JsonName("slowPal")),
-    Telecine: S.optional(ProresTelecine).pipe(T.JsonName("telecine")),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    InterlaceMode: S.optional(ProresInterlaceMode),
+    ParControl: S.optional(ProresParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    ScanTypeConversionMode: S.optional(ProresScanTypeConversionMode),
+    SlowPal: S.optional(ProresSlowPal),
+    Telecine: S.optional(ProresTelecine),
+  }).pipe(
+    S.encodeKeys({
+      ChromaSampling: "chromaSampling",
+      CodecProfile: "codecProfile",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      InterlaceMode: "interlaceMode",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      PerFrameMetrics: "perFrameMetrics",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SlowPal: "slowPal",
+      Telecine: "telecine",
+    }),
+  ),
 ).annotate({ identifier: "ProresSettings" }) as any as S.Schema<ProresSettings>;
 export type UncompressedFourcc = "I420" | "I422" | "I444" | (string & {});
 export const UncompressedFourcc = S.String;
@@ -6419,28 +6637,30 @@ export interface UncompressedSettings {
 }
 export const UncompressedSettings = S.suspend(() =>
   S.Struct({
-    Fourcc: S.optional(UncompressedFourcc).pipe(T.JsonName("fourcc")),
-    FramerateControl: S.optional(UncompressedFramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
+    Fourcc: S.optional(UncompressedFourcc),
+    FramerateControl: S.optional(UncompressedFramerateControl),
     FramerateConversionAlgorithm: S.optional(
       UncompressedFramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
     ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    InterlaceMode: S.optional(UncompressedInterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    ScanTypeConversionMode: S.optional(UncompressedScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SlowPal: S.optional(UncompressedSlowPal).pipe(T.JsonName("slowPal")),
-    Telecine: S.optional(UncompressedTelecine).pipe(T.JsonName("telecine")),
-  }),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    InterlaceMode: S.optional(UncompressedInterlaceMode),
+    ScanTypeConversionMode: S.optional(UncompressedScanTypeConversionMode),
+    SlowPal: S.optional(UncompressedSlowPal),
+    Telecine: S.optional(UncompressedTelecine),
+  }).pipe(
+    S.encodeKeys({
+      Fourcc: "fourcc",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      InterlaceMode: "interlaceMode",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SlowPal: "slowPal",
+      Telecine: "telecine",
+    }),
+  ),
 ).annotate({
   identifier: "UncompressedSettings",
 }) as any as S.Schema<UncompressedSettings>;
@@ -6486,28 +6706,28 @@ export interface Vc3Settings {
 }
 export const Vc3Settings = S.suspend(() =>
   S.Struct({
-    FramerateControl: S.optional(Vc3FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      Vc3FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    InterlaceMode: S.optional(Vc3InterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    ScanTypeConversionMode: S.optional(Vc3ScanTypeConversionMode).pipe(
-      T.JsonName("scanTypeConversionMode"),
-    ),
-    SlowPal: S.optional(Vc3SlowPal).pipe(T.JsonName("slowPal")),
-    Telecine: S.optional(Vc3Telecine).pipe(T.JsonName("telecine")),
-    Vc3Class: S.optional(Vc3Class).pipe(T.JsonName("vc3Class")),
-  }),
+    FramerateControl: S.optional(Vc3FramerateControl),
+    FramerateConversionAlgorithm: S.optional(Vc3FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    InterlaceMode: S.optional(Vc3InterlaceMode),
+    ScanTypeConversionMode: S.optional(Vc3ScanTypeConversionMode),
+    SlowPal: S.optional(Vc3SlowPal),
+    Telecine: S.optional(Vc3Telecine),
+    Vc3Class: S.optional(Vc3Class),
+  }).pipe(
+    S.encodeKeys({
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      InterlaceMode: "interlaceMode",
+      ScanTypeConversionMode: "scanTypeConversionMode",
+      SlowPal: "slowPal",
+      Telecine: "telecine",
+      Vc3Class: "vc3Class",
+    }),
+  ),
 ).annotate({ identifier: "Vc3Settings" }) as any as S.Schema<Vc3Settings>;
 export type Vp8FramerateControl =
   | "INITIALIZE_FROM_SOURCE"
@@ -6550,32 +6770,36 @@ export interface Vp8Settings {
 }
 export const Vp8Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    FramerateControl: S.optional(Vp8FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      Vp8FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    ParControl: S.optional(Vp8ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    QualityTuningLevel: S.optional(Vp8QualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    RateControlMode: S.optional(Vp8RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-  }),
+    Bitrate: S.optional(S.Number),
+    FramerateControl: S.optional(Vp8FramerateControl),
+    FramerateConversionAlgorithm: S.optional(Vp8FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    MaxBitrate: S.optional(S.Number),
+    ParControl: S.optional(Vp8ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    QualityTuningLevel: S.optional(Vp8QualityTuningLevel),
+    RateControlMode: S.optional(Vp8RateControlMode),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopSize: "gopSize",
+      HrdBufferSize: "hrdBufferSize",
+      MaxBitrate: "maxBitrate",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      QualityTuningLevel: "qualityTuningLevel",
+      RateControlMode: "rateControlMode",
+    }),
+  ),
 ).annotate({ identifier: "Vp8Settings" }) as any as S.Schema<Vp8Settings>;
 export type Vp9FramerateControl =
   | "INITIALIZE_FROM_SOURCE"
@@ -6618,32 +6842,36 @@ export interface Vp9Settings {
 }
 export const Vp9Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    FramerateControl: S.optional(Vp9FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      Vp9FramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    ParControl: S.optional(Vp9ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    QualityTuningLevel: S.optional(Vp9QualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    RateControlMode: S.optional(Vp9RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-  }),
+    Bitrate: S.optional(S.Number),
+    FramerateControl: S.optional(Vp9FramerateControl),
+    FramerateConversionAlgorithm: S.optional(Vp9FramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    MaxBitrate: S.optional(S.Number),
+    ParControl: S.optional(Vp9ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    QualityTuningLevel: S.optional(Vp9QualityTuningLevel),
+    RateControlMode: S.optional(Vp9RateControlMode),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopSize: "gopSize",
+      HrdBufferSize: "hrdBufferSize",
+      MaxBitrate: "maxBitrate",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      QualityTuningLevel: "qualityTuningLevel",
+      RateControlMode: "rateControlMode",
+    }),
+  ),
 ).annotate({ identifier: "Vp9Settings" }) as any as S.Schema<Vp9Settings>;
 export type XavcAdaptiveQuantization =
   | "OFF"
@@ -6699,11 +6927,9 @@ export interface Xavc4kIntraCbgProfileSettings {
   XavcClass?: Xavc4kIntraCbgProfileClass;
 }
 export const Xavc4kIntraCbgProfileSettings = S.suspend(() =>
-  S.Struct({
-    XavcClass: S.optional(Xavc4kIntraCbgProfileClass).pipe(
-      T.JsonName("xavcClass"),
-    ),
-  }),
+  S.Struct({ XavcClass: S.optional(Xavc4kIntraCbgProfileClass) }).pipe(
+    S.encodeKeys({ XavcClass: "xavcClass" }),
+  ),
 ).annotate({
   identifier: "Xavc4kIntraCbgProfileSettings",
 }) as any as S.Schema<Xavc4kIntraCbgProfileSettings>;
@@ -6717,11 +6943,9 @@ export interface Xavc4kIntraVbrProfileSettings {
   XavcClass?: Xavc4kIntraVbrProfileClass;
 }
 export const Xavc4kIntraVbrProfileSettings = S.suspend(() =>
-  S.Struct({
-    XavcClass: S.optional(Xavc4kIntraVbrProfileClass).pipe(
-      T.JsonName("xavcClass"),
-    ),
-  }),
+  S.Struct({ XavcClass: S.optional(Xavc4kIntraVbrProfileClass) }).pipe(
+    S.encodeKeys({ XavcClass: "xavcClass" }),
+  ),
 ).annotate({
   identifier: "Xavc4kIntraVbrProfileSettings",
 }) as any as S.Schema<Xavc4kIntraVbrProfileSettings>;
@@ -6758,25 +6982,26 @@ export interface Xavc4kProfileSettings {
 }
 export const Xavc4kProfileSettings = S.suspend(() =>
   S.Struct({
-    BitrateClass: S.optional(Xavc4kProfileBitrateClass).pipe(
-      T.JsonName("bitrateClass"),
-    ),
-    CodecProfile: S.optional(Xavc4kProfileCodecProfile).pipe(
-      T.JsonName("codecProfile"),
-    ),
-    FlickerAdaptiveQuantization: S.optional(
-      XavcFlickerAdaptiveQuantization,
-    ).pipe(T.JsonName("flickerAdaptiveQuantization")),
-    GopBReference: S.optional(XavcGopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    QualityTuningLevel: S.optional(Xavc4kProfileQualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-  }),
+    BitrateClass: S.optional(Xavc4kProfileBitrateClass),
+    CodecProfile: S.optional(Xavc4kProfileCodecProfile),
+    FlickerAdaptiveQuantization: S.optional(XavcFlickerAdaptiveQuantization),
+    GopBReference: S.optional(XavcGopBReference),
+    GopClosedCadence: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    QualityTuningLevel: S.optional(Xavc4kProfileQualityTuningLevel),
+    Slices: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitrateClass: "bitrateClass",
+      CodecProfile: "codecProfile",
+      FlickerAdaptiveQuantization: "flickerAdaptiveQuantization",
+      GopBReference: "gopBReference",
+      GopClosedCadence: "gopClosedCadence",
+      HrdBufferSize: "hrdBufferSize",
+      QualityTuningLevel: "qualityTuningLevel",
+      Slices: "slices",
+    }),
+  ),
 ).annotate({
   identifier: "Xavc4kProfileSettings",
 }) as any as S.Schema<Xavc4kProfileSettings>;
@@ -6790,11 +7015,9 @@ export interface XavcHdIntraCbgProfileSettings {
   XavcClass?: XavcHdIntraCbgProfileClass;
 }
 export const XavcHdIntraCbgProfileSettings = S.suspend(() =>
-  S.Struct({
-    XavcClass: S.optional(XavcHdIntraCbgProfileClass).pipe(
-      T.JsonName("xavcClass"),
-    ),
-  }),
+  S.Struct({ XavcClass: S.optional(XavcHdIntraCbgProfileClass) }).pipe(
+    S.encodeKeys({ XavcClass: "xavcClass" }),
+  ),
 ).annotate({
   identifier: "XavcHdIntraCbgProfileSettings",
 }) as any as S.Schema<XavcHdIntraCbgProfileSettings>;
@@ -6833,26 +7056,28 @@ export interface XavcHdProfileSettings {
 }
 export const XavcHdProfileSettings = S.suspend(() =>
   S.Struct({
-    BitrateClass: S.optional(XavcHdProfileBitrateClass).pipe(
-      T.JsonName("bitrateClass"),
-    ),
-    FlickerAdaptiveQuantization: S.optional(
-      XavcFlickerAdaptiveQuantization,
-    ).pipe(T.JsonName("flickerAdaptiveQuantization")),
-    GopBReference: S.optional(XavcGopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    HrdBufferSize: S.optional(S.Number).pipe(T.JsonName("hrdBufferSize")),
-    InterlaceMode: S.optional(XavcInterlaceMode).pipe(
-      T.JsonName("interlaceMode"),
-    ),
-    QualityTuningLevel: S.optional(XavcHdProfileQualityTuningLevel).pipe(
-      T.JsonName("qualityTuningLevel"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    Telecine: S.optional(XavcHdProfileTelecine).pipe(T.JsonName("telecine")),
-  }),
+    BitrateClass: S.optional(XavcHdProfileBitrateClass),
+    FlickerAdaptiveQuantization: S.optional(XavcFlickerAdaptiveQuantization),
+    GopBReference: S.optional(XavcGopBReference),
+    GopClosedCadence: S.optional(S.Number),
+    HrdBufferSize: S.optional(S.Number),
+    InterlaceMode: S.optional(XavcInterlaceMode),
+    QualityTuningLevel: S.optional(XavcHdProfileQualityTuningLevel),
+    Slices: S.optional(S.Number),
+    Telecine: S.optional(XavcHdProfileTelecine),
+  }).pipe(
+    S.encodeKeys({
+      BitrateClass: "bitrateClass",
+      FlickerAdaptiveQuantization: "flickerAdaptiveQuantization",
+      GopBReference: "gopBReference",
+      GopClosedCadence: "gopClosedCadence",
+      HrdBufferSize: "hrdBufferSize",
+      InterlaceMode: "interlaceMode",
+      QualityTuningLevel: "qualityTuningLevel",
+      Slices: "slices",
+      Telecine: "telecine",
+    }),
+  ),
 ).annotate({
   identifier: "XavcHdProfileSettings",
 }) as any as S.Schema<XavcHdProfileSettings>;
@@ -6877,52 +7102,44 @@ export interface XavcSettings {
 }
 export const XavcSettings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(XavcAdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    EntropyEncoding: S.optional(XavcEntropyEncoding).pipe(
-      T.JsonName("entropyEncoding"),
-    ),
-    FramerateControl: S.optional(XavcFramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateConversionAlgorithm: S.optional(
-      XavcFramerateConversionAlgorithm,
-    ).pipe(T.JsonName("framerateConversionAlgorithm")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    PerFrameMetrics: S.optional(__listOfFrameMetricType).pipe(
-      T.JsonName("perFrameMetrics"),
-    ),
-    Profile: S.optional(XavcProfile).pipe(T.JsonName("profile")),
-    SlowPal: S.optional(XavcSlowPal).pipe(T.JsonName("slowPal")),
-    Softness: S.optional(S.Number).pipe(T.JsonName("softness")),
-    SpatialAdaptiveQuantization: S.optional(
-      XavcSpatialAdaptiveQuantization,
-    ).pipe(T.JsonName("spatialAdaptiveQuantization")),
-    TemporalAdaptiveQuantization: S.optional(
-      XavcTemporalAdaptiveQuantization,
-    ).pipe(T.JsonName("temporalAdaptiveQuantization")),
-    Xavc4kIntraCbgProfileSettings: S.optional(Xavc4kIntraCbgProfileSettings)
-      .pipe(T.JsonName("xavc4kIntraCbgProfileSettings"))
-      .annotate({ identifier: "Xavc4kIntraCbgProfileSettings" }),
-    Xavc4kIntraVbrProfileSettings: S.optional(Xavc4kIntraVbrProfileSettings)
-      .pipe(T.JsonName("xavc4kIntraVbrProfileSettings"))
-      .annotate({ identifier: "Xavc4kIntraVbrProfileSettings" }),
-    Xavc4kProfileSettings: S.optional(Xavc4kProfileSettings)
-      .pipe(T.JsonName("xavc4kProfileSettings"))
-      .annotate({ identifier: "Xavc4kProfileSettings" }),
-    XavcHdIntraCbgProfileSettings: S.optional(XavcHdIntraCbgProfileSettings)
-      .pipe(T.JsonName("xavcHdIntraCbgProfileSettings"))
-      .annotate({ identifier: "XavcHdIntraCbgProfileSettings" }),
-    XavcHdProfileSettings: S.optional(XavcHdProfileSettings)
-      .pipe(T.JsonName("xavcHdProfileSettings"))
-      .annotate({ identifier: "XavcHdProfileSettings" }),
-  }),
+    AdaptiveQuantization: S.optional(XavcAdaptiveQuantization),
+    EntropyEncoding: S.optional(XavcEntropyEncoding),
+    FramerateControl: S.optional(XavcFramerateControl),
+    FramerateConversionAlgorithm: S.optional(XavcFramerateConversionAlgorithm),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    PerFrameMetrics: S.optional(__listOfFrameMetricType),
+    Profile: S.optional(XavcProfile),
+    SlowPal: S.optional(XavcSlowPal),
+    Softness: S.optional(S.Number),
+    SpatialAdaptiveQuantization: S.optional(XavcSpatialAdaptiveQuantization),
+    TemporalAdaptiveQuantization: S.optional(XavcTemporalAdaptiveQuantization),
+    Xavc4kIntraCbgProfileSettings: S.optional(Xavc4kIntraCbgProfileSettings),
+    Xavc4kIntraVbrProfileSettings: S.optional(Xavc4kIntraVbrProfileSettings),
+    Xavc4kProfileSettings: S.optional(Xavc4kProfileSettings),
+    XavcHdIntraCbgProfileSettings: S.optional(XavcHdIntraCbgProfileSettings),
+    XavcHdProfileSettings: S.optional(XavcHdProfileSettings),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      EntropyEncoding: "entropyEncoding",
+      FramerateControl: "framerateControl",
+      FramerateConversionAlgorithm: "framerateConversionAlgorithm",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      PerFrameMetrics: "perFrameMetrics",
+      Profile: "profile",
+      SlowPal: "slowPal",
+      Softness: "softness",
+      SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+      TemporalAdaptiveQuantization: "temporalAdaptiveQuantization",
+      Xavc4kIntraCbgProfileSettings: "xavc4kIntraCbgProfileSettings",
+      Xavc4kIntraVbrProfileSettings: "xavc4kIntraVbrProfileSettings",
+      Xavc4kProfileSettings: "xavc4kProfileSettings",
+      XavcHdIntraCbgProfileSettings: "xavcHdIntraCbgProfileSettings",
+      XavcHdProfileSettings: "xavcHdProfileSettings",
+    }),
+  ),
 ).annotate({ identifier: "XavcSettings" }) as any as S.Schema<XavcSettings>;
 export interface VideoCodecSettings {
   Av1Settings?: Av1Settings;
@@ -6943,50 +7160,40 @@ export interface VideoCodecSettings {
 }
 export const VideoCodecSettings = S.suspend(() =>
   S.Struct({
-    Av1Settings: S.optional(Av1Settings)
-      .pipe(T.JsonName("av1Settings"))
-      .annotate({ identifier: "Av1Settings" }),
-    AvcIntraSettings: S.optional(AvcIntraSettings)
-      .pipe(T.JsonName("avcIntraSettings"))
-      .annotate({ identifier: "AvcIntraSettings" }),
-    Codec: S.optional(VideoCodec).pipe(T.JsonName("codec")),
-    FrameCaptureSettings: S.optional(FrameCaptureSettings)
-      .pipe(T.JsonName("frameCaptureSettings"))
-      .annotate({ identifier: "FrameCaptureSettings" }),
-    GifSettings: S.optional(GifSettings)
-      .pipe(T.JsonName("gifSettings"))
-      .annotate({ identifier: "GifSettings" }),
-    H264Settings: S.optional(H264Settings)
-      .pipe(T.JsonName("h264Settings"))
-      .annotate({ identifier: "H264Settings" }),
-    H265Settings: S.optional(H265Settings)
-      .pipe(T.JsonName("h265Settings"))
-      .annotate({ identifier: "H265Settings" }),
-    Mpeg2Settings: S.optional(Mpeg2Settings)
-      .pipe(T.JsonName("mpeg2Settings"))
-      .annotate({ identifier: "Mpeg2Settings" }),
-    PassthroughSettings: S.optional(PassthroughSettings)
-      .pipe(T.JsonName("passthroughSettings"))
-      .annotate({ identifier: "PassthroughSettings" }),
-    ProresSettings: S.optional(ProresSettings)
-      .pipe(T.JsonName("proresSettings"))
-      .annotate({ identifier: "ProresSettings" }),
-    UncompressedSettings: S.optional(UncompressedSettings)
-      .pipe(T.JsonName("uncompressedSettings"))
-      .annotate({ identifier: "UncompressedSettings" }),
-    Vc3Settings: S.optional(Vc3Settings)
-      .pipe(T.JsonName("vc3Settings"))
-      .annotate({ identifier: "Vc3Settings" }),
-    Vp8Settings: S.optional(Vp8Settings)
-      .pipe(T.JsonName("vp8Settings"))
-      .annotate({ identifier: "Vp8Settings" }),
-    Vp9Settings: S.optional(Vp9Settings)
-      .pipe(T.JsonName("vp9Settings"))
-      .annotate({ identifier: "Vp9Settings" }),
-    XavcSettings: S.optional(XavcSettings)
-      .pipe(T.JsonName("xavcSettings"))
-      .annotate({ identifier: "XavcSettings" }),
-  }),
+    Av1Settings: S.optional(Av1Settings),
+    AvcIntraSettings: S.optional(AvcIntraSettings),
+    Codec: S.optional(VideoCodec),
+    FrameCaptureSettings: S.optional(FrameCaptureSettings),
+    GifSettings: S.optional(GifSettings),
+    H264Settings: S.optional(H264Settings),
+    H265Settings: S.optional(H265Settings),
+    Mpeg2Settings: S.optional(Mpeg2Settings),
+    PassthroughSettings: S.optional(PassthroughSettings),
+    ProresSettings: S.optional(ProresSettings),
+    UncompressedSettings: S.optional(UncompressedSettings),
+    Vc3Settings: S.optional(Vc3Settings),
+    Vp8Settings: S.optional(Vp8Settings),
+    Vp9Settings: S.optional(Vp9Settings),
+    XavcSettings: S.optional(XavcSettings),
+  }).pipe(
+    S.encodeKeys({
+      Av1Settings: "av1Settings",
+      AvcIntraSettings: "avcIntraSettings",
+      Codec: "codec",
+      FrameCaptureSettings: "frameCaptureSettings",
+      GifSettings: "gifSettings",
+      H264Settings: "h264Settings",
+      H265Settings: "h265Settings",
+      Mpeg2Settings: "mpeg2Settings",
+      PassthroughSettings: "passthroughSettings",
+      ProresSettings: "proresSettings",
+      UncompressedSettings: "uncompressedSettings",
+      Vc3Settings: "vc3Settings",
+      Vp8Settings: "vp8Settings",
+      Vp9Settings: "vp9Settings",
+      XavcSettings: "xavcSettings",
+    }),
+  ),
 ).annotate({
   identifier: "VideoCodecSettings",
 }) as any as S.Schema<VideoCodecSettings>;
@@ -7019,15 +7226,18 @@ export interface ClipLimits {
 }
 export const ClipLimits = S.suspend(() =>
   S.Struct({
-    MaximumRGBTolerance: S.optional(S.Number).pipe(
-      T.JsonName("maximumRGBTolerance"),
-    ),
-    MaximumYUV: S.optional(S.Number).pipe(T.JsonName("maximumYUV")),
-    MinimumRGBTolerance: S.optional(S.Number).pipe(
-      T.JsonName("minimumRGBTolerance"),
-    ),
-    MinimumYUV: S.optional(S.Number).pipe(T.JsonName("minimumYUV")),
-  }),
+    MaximumRGBTolerance: S.optional(S.Number),
+    MaximumYUV: S.optional(S.Number),
+    MinimumRGBTolerance: S.optional(S.Number),
+    MinimumYUV: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MaximumRGBTolerance: "maximumRGBTolerance",
+      MaximumYUV: "maximumYUV",
+      MinimumRGBTolerance: "minimumRGBTolerance",
+      MinimumYUV: "minimumYUV",
+    }),
+  ),
 ).annotate({ identifier: "ClipLimits" }) as any as S.Schema<ClipLimits>;
 export type ColorSpaceConversion =
   | "NONE"
@@ -7063,30 +7273,32 @@ export interface ColorCorrector {
 }
 export const ColorCorrector = S.suspend(() =>
   S.Struct({
-    Brightness: S.optional(S.Number).pipe(T.JsonName("brightness")),
-    ClipLimits: S.optional(ClipLimits)
-      .pipe(T.JsonName("clipLimits"))
-      .annotate({ identifier: "ClipLimits" }),
-    ColorSpaceConversion: S.optional(ColorSpaceConversion).pipe(
-      T.JsonName("colorSpaceConversion"),
-    ),
-    Contrast: S.optional(S.Number).pipe(T.JsonName("contrast")),
-    Hdr10Metadata: S.optional(Hdr10Metadata)
-      .pipe(T.JsonName("hdr10Metadata"))
-      .annotate({ identifier: "Hdr10Metadata" }),
-    HdrToSdrToneMapper: S.optional(HDRToSDRToneMapper).pipe(
-      T.JsonName("hdrToSdrToneMapper"),
-    ),
-    Hue: S.optional(S.Number).pipe(T.JsonName("hue")),
-    MaxLuminance: S.optional(S.Number).pipe(T.JsonName("maxLuminance")),
-    SampleRangeConversion: S.optional(SampleRangeConversion).pipe(
-      T.JsonName("sampleRangeConversion"),
-    ),
-    Saturation: S.optional(S.Number).pipe(T.JsonName("saturation")),
-    SdrReferenceWhiteLevel: S.optional(S.Number).pipe(
-      T.JsonName("sdrReferenceWhiteLevel"),
-    ),
-  }),
+    Brightness: S.optional(S.Number),
+    ClipLimits: S.optional(ClipLimits),
+    ColorSpaceConversion: S.optional(ColorSpaceConversion),
+    Contrast: S.optional(S.Number),
+    Hdr10Metadata: S.optional(Hdr10Metadata),
+    HdrToSdrToneMapper: S.optional(HDRToSDRToneMapper),
+    Hue: S.optional(S.Number),
+    MaxLuminance: S.optional(S.Number),
+    SampleRangeConversion: S.optional(SampleRangeConversion),
+    Saturation: S.optional(S.Number),
+    SdrReferenceWhiteLevel: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Brightness: "brightness",
+      ClipLimits: "clipLimits",
+      ColorSpaceConversion: "colorSpaceConversion",
+      Contrast: "contrast",
+      Hdr10Metadata: "hdr10Metadata",
+      HdrToSdrToneMapper: "hdrToSdrToneMapper",
+      Hue: "hue",
+      MaxLuminance: "maxLuminance",
+      SampleRangeConversion: "sampleRangeConversion",
+      Saturation: "saturation",
+      SdrReferenceWhiteLevel: "sdrReferenceWhiteLevel",
+    }),
+  ),
 ).annotate({ identifier: "ColorCorrector" }) as any as S.Schema<ColorCorrector>;
 export type DeinterlaceAlgorithm =
   | "INTERPOLATE"
@@ -7111,10 +7323,12 @@ export interface Deinterlacer {
 }
 export const Deinterlacer = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(DeinterlaceAlgorithm).pipe(T.JsonName("algorithm")),
-    Control: S.optional(DeinterlacerControl).pipe(T.JsonName("control")),
-    Mode: S.optional(DeinterlacerMode).pipe(T.JsonName("mode")),
-  }),
+    Algorithm: S.optional(DeinterlaceAlgorithm),
+    Control: S.optional(DeinterlacerControl),
+    Mode: S.optional(DeinterlacerMode),
+  }).pipe(
+    S.encodeKeys({ Algorithm: "algorithm", Control: "control", Mode: "mode" }),
+  ),
 ).annotate({ identifier: "Deinterlacer" }) as any as S.Schema<Deinterlacer>;
 export interface DolbyVisionLevel6Metadata {
   MaxCll?: number;
@@ -7122,9 +7336,9 @@ export interface DolbyVisionLevel6Metadata {
 }
 export const DolbyVisionLevel6Metadata = S.suspend(() =>
   S.Struct({
-    MaxCll: S.optional(S.Number).pipe(T.JsonName("maxCll")),
-    MaxFall: S.optional(S.Number).pipe(T.JsonName("maxFall")),
-  }),
+    MaxCll: S.optional(S.Number),
+    MaxFall: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ MaxCll: "maxCll", MaxFall: "maxFall" })),
 ).annotate({
   identifier: "DolbyVisionLevel6Metadata",
 }) as any as S.Schema<DolbyVisionLevel6Metadata>;
@@ -7146,13 +7360,18 @@ export interface DolbyVision {
 }
 export const DolbyVision = S.suspend(() =>
   S.Struct({
-    L6Metadata: S.optional(DolbyVisionLevel6Metadata)
-      .pipe(T.JsonName("l6Metadata"))
-      .annotate({ identifier: "DolbyVisionLevel6Metadata" }),
-    L6Mode: S.optional(DolbyVisionLevel6Mode).pipe(T.JsonName("l6Mode")),
-    Mapping: S.optional(DolbyVisionMapping).pipe(T.JsonName("mapping")),
-    Profile: S.optional(DolbyVisionProfile).pipe(T.JsonName("profile")),
-  }),
+    L6Metadata: S.optional(DolbyVisionLevel6Metadata),
+    L6Mode: S.optional(DolbyVisionLevel6Mode),
+    Mapping: S.optional(DolbyVisionMapping),
+    Profile: S.optional(DolbyVisionProfile),
+  }).pipe(
+    S.encodeKeys({
+      L6Metadata: "l6Metadata",
+      L6Mode: "l6Mode",
+      Mapping: "mapping",
+      Profile: "profile",
+    }),
+  ),
 ).annotate({ identifier: "DolbyVision" }) as any as S.Schema<DolbyVision>;
 export interface Hdr10Plus {
   MasteringMonitorNits?: number;
@@ -7160,13 +7379,14 @@ export interface Hdr10Plus {
 }
 export const Hdr10Plus = S.suspend(() =>
   S.Struct({
-    MasteringMonitorNits: S.optional(S.Number).pipe(
-      T.JsonName("masteringMonitorNits"),
-    ),
-    TargetMonitorNits: S.optional(S.Number).pipe(
-      T.JsonName("targetMonitorNits"),
-    ),
-  }),
+    MasteringMonitorNits: S.optional(S.Number),
+    TargetMonitorNits: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MasteringMonitorNits: "masteringMonitorNits",
+      TargetMonitorNits: "targetMonitorNits",
+    }),
+  ),
 ).annotate({ identifier: "Hdr10Plus" }) as any as S.Schema<Hdr10Plus>;
 export type NoiseReducerFilter =
   | "BILATERAL"
@@ -7183,7 +7403,9 @@ export interface NoiseReducerFilterSettings {
   Strength?: number;
 }
 export const NoiseReducerFilterSettings = S.suspend(() =>
-  S.Struct({ Strength: S.optional(S.Number).pipe(T.JsonName("strength")) }),
+  S.Struct({ Strength: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Strength: "strength" }),
+  ),
 ).annotate({
   identifier: "NoiseReducerFilterSettings",
 }) as any as S.Schema<NoiseReducerFilterSettings>;
@@ -7194,12 +7416,16 @@ export interface NoiseReducerSpatialFilterSettings {
 }
 export const NoiseReducerSpatialFilterSettings = S.suspend(() =>
   S.Struct({
-    PostFilterSharpenStrength: S.optional(S.Number).pipe(
-      T.JsonName("postFilterSharpenStrength"),
-    ),
-    Speed: S.optional(S.Number).pipe(T.JsonName("speed")),
-    Strength: S.optional(S.Number).pipe(T.JsonName("strength")),
-  }),
+    PostFilterSharpenStrength: S.optional(S.Number),
+    Speed: S.optional(S.Number),
+    Strength: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      PostFilterSharpenStrength: "postFilterSharpenStrength",
+      Speed: "speed",
+      Strength: "strength",
+    }),
+  ),
 ).annotate({
   identifier: "NoiseReducerSpatialFilterSettings",
 }) as any as S.Schema<NoiseReducerSpatialFilterSettings>;
@@ -7224,16 +7450,22 @@ export interface NoiseReducerTemporalFilterSettings {
 }
 export const NoiseReducerTemporalFilterSettings = S.suspend(() =>
   S.Struct({
-    AggressiveMode: S.optional(S.Number).pipe(T.JsonName("aggressiveMode")),
-    PostTemporalSharpening: S.optional(NoiseFilterPostTemporalSharpening).pipe(
-      T.JsonName("postTemporalSharpening"),
-    ),
+    AggressiveMode: S.optional(S.Number),
+    PostTemporalSharpening: S.optional(NoiseFilterPostTemporalSharpening),
     PostTemporalSharpeningStrength: S.optional(
       NoiseFilterPostTemporalSharpeningStrength,
-    ).pipe(T.JsonName("postTemporalSharpeningStrength")),
-    Speed: S.optional(S.Number).pipe(T.JsonName("speed")),
-    Strength: S.optional(S.Number).pipe(T.JsonName("strength")),
-  }),
+    ),
+    Speed: S.optional(S.Number),
+    Strength: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AggressiveMode: "aggressiveMode",
+      PostTemporalSharpening: "postTemporalSharpening",
+      PostTemporalSharpeningStrength: "postTemporalSharpeningStrength",
+      Speed: "speed",
+      Strength: "strength",
+    }),
+  ),
 ).annotate({
   identifier: "NoiseReducerTemporalFilterSettings",
 }) as any as S.Schema<NoiseReducerTemporalFilterSettings>;
@@ -7245,17 +7477,18 @@ export interface NoiseReducer {
 }
 export const NoiseReducer = S.suspend(() =>
   S.Struct({
-    Filter: S.optional(NoiseReducerFilter).pipe(T.JsonName("filter")),
-    FilterSettings: S.optional(NoiseReducerFilterSettings)
-      .pipe(T.JsonName("filterSettings"))
-      .annotate({ identifier: "NoiseReducerFilterSettings" }),
-    SpatialFilterSettings: S.optional(NoiseReducerSpatialFilterSettings)
-      .pipe(T.JsonName("spatialFilterSettings"))
-      .annotate({ identifier: "NoiseReducerSpatialFilterSettings" }),
-    TemporalFilterSettings: S.optional(NoiseReducerTemporalFilterSettings)
-      .pipe(T.JsonName("temporalFilterSettings"))
-      .annotate({ identifier: "NoiseReducerTemporalFilterSettings" }),
-  }),
+    Filter: S.optional(NoiseReducerFilter),
+    FilterSettings: S.optional(NoiseReducerFilterSettings),
+    SpatialFilterSettings: S.optional(NoiseReducerSpatialFilterSettings),
+    TemporalFilterSettings: S.optional(NoiseReducerTemporalFilterSettings),
+  }).pipe(
+    S.encodeKeys({
+      Filter: "filter",
+      FilterSettings: "filterSettings",
+      SpatialFilterSettings: "spatialFilterSettings",
+      TemporalFilterSettings: "temporalFilterSettings",
+    }),
+  ),
 ).annotate({ identifier: "NoiseReducer" }) as any as S.Schema<NoiseReducer>;
 export type WatermarkingStrength =
   | "LIGHTEST"
@@ -7273,11 +7506,18 @@ export interface NexGuardFileMarkerSettings {
 }
 export const NexGuardFileMarkerSettings = S.suspend(() =>
   S.Struct({
-    License: S.optional(S.String).pipe(T.JsonName("license")),
-    Payload: S.optional(S.Number).pipe(T.JsonName("payload")),
-    Preset: S.optional(S.String).pipe(T.JsonName("preset")),
-    Strength: S.optional(WatermarkingStrength).pipe(T.JsonName("strength")),
-  }),
+    License: S.optional(S.String),
+    Payload: S.optional(S.Number),
+    Preset: S.optional(S.String),
+    Strength: S.optional(WatermarkingStrength),
+  }).pipe(
+    S.encodeKeys({
+      License: "license",
+      Payload: "payload",
+      Preset: "preset",
+      Strength: "strength",
+    }),
+  ),
 ).annotate({
   identifier: "NexGuardFileMarkerSettings",
 }) as any as S.Schema<NexGuardFileMarkerSettings>;
@@ -7286,10 +7526,10 @@ export interface PartnerWatermarking {
 }
 export const PartnerWatermarking = S.suspend(() =>
   S.Struct({
-    NexguardFileMarkerSettings: S.optional(NexGuardFileMarkerSettings)
-      .pipe(T.JsonName("nexguardFileMarkerSettings"))
-      .annotate({ identifier: "NexGuardFileMarkerSettings" }),
-  }),
+    NexguardFileMarkerSettings: S.optional(NexGuardFileMarkerSettings),
+  }).pipe(
+    S.encodeKeys({ NexguardFileMarkerSettings: "nexguardFileMarkerSettings" }),
+  ),
 ).annotate({
   identifier: "PartnerWatermarking",
 }) as any as S.Schema<PartnerWatermarking>;
@@ -7312,10 +7552,16 @@ export interface TimecodeBurnin {
 }
 export const TimecodeBurnin = S.suspend(() =>
   S.Struct({
-    FontSize: S.optional(S.Number).pipe(T.JsonName("fontSize")),
-    Position: S.optional(TimecodeBurninPosition).pipe(T.JsonName("position")),
-    Prefix: S.optional(S.String).pipe(T.JsonName("prefix")),
-  }),
+    FontSize: S.optional(S.Number),
+    Position: S.optional(TimecodeBurninPosition),
+    Prefix: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FontSize: "fontSize",
+      Position: "position",
+      Prefix: "prefix",
+    }),
+  ),
 ).annotate({ identifier: "TimecodeBurnin" }) as any as S.Schema<TimecodeBurnin>;
 export interface VideoPreprocessor {
   ColorCorrector?: ColorCorrector;
@@ -7329,31 +7575,26 @@ export interface VideoPreprocessor {
 }
 export const VideoPreprocessor = S.suspend(() =>
   S.Struct({
-    ColorCorrector: S.optional(ColorCorrector)
-      .pipe(T.JsonName("colorCorrector"))
-      .annotate({ identifier: "ColorCorrector" }),
-    Deinterlacer: S.optional(Deinterlacer)
-      .pipe(T.JsonName("deinterlacer"))
-      .annotate({ identifier: "Deinterlacer" }),
-    DolbyVision: S.optional(DolbyVision)
-      .pipe(T.JsonName("dolbyVision"))
-      .annotate({ identifier: "DolbyVision" }),
-    Hdr10Plus: S.optional(Hdr10Plus)
-      .pipe(T.JsonName("hdr10Plus"))
-      .annotate({ identifier: "Hdr10Plus" }),
-    ImageInserter: S.optional(ImageInserter)
-      .pipe(T.JsonName("imageInserter"))
-      .annotate({ identifier: "ImageInserter" }),
-    NoiseReducer: S.optional(NoiseReducer)
-      .pipe(T.JsonName("noiseReducer"))
-      .annotate({ identifier: "NoiseReducer" }),
-    PartnerWatermarking: S.optional(PartnerWatermarking)
-      .pipe(T.JsonName("partnerWatermarking"))
-      .annotate({ identifier: "PartnerWatermarking" }),
-    TimecodeBurnin: S.optional(TimecodeBurnin)
-      .pipe(T.JsonName("timecodeBurnin"))
-      .annotate({ identifier: "TimecodeBurnin" }),
-  }),
+    ColorCorrector: S.optional(ColorCorrector),
+    Deinterlacer: S.optional(Deinterlacer),
+    DolbyVision: S.optional(DolbyVision),
+    Hdr10Plus: S.optional(Hdr10Plus),
+    ImageInserter: S.optional(ImageInserter),
+    NoiseReducer: S.optional(NoiseReducer),
+    PartnerWatermarking: S.optional(PartnerWatermarking),
+    TimecodeBurnin: S.optional(TimecodeBurnin),
+  }).pipe(
+    S.encodeKeys({
+      ColorCorrector: "colorCorrector",
+      Deinterlacer: "deinterlacer",
+      DolbyVision: "dolbyVision",
+      Hdr10Plus: "hdr10Plus",
+      ImageInserter: "imageInserter",
+      NoiseReducer: "noiseReducer",
+      PartnerWatermarking: "partnerWatermarking",
+      TimecodeBurnin: "timecodeBurnin",
+    }),
+  ),
 ).annotate({
   identifier: "VideoPreprocessor",
 }) as any as S.Schema<VideoPreprocessor>;
@@ -7378,40 +7619,44 @@ export interface VideoDescription {
 }
 export const VideoDescription = S.suspend(() =>
   S.Struct({
-    AfdSignaling: S.optional(AfdSignaling).pipe(T.JsonName("afdSignaling")),
-    AntiAlias: S.optional(AntiAlias).pipe(T.JsonName("antiAlias")),
-    ChromaPositionMode: S.optional(ChromaPositionMode).pipe(
-      T.JsonName("chromaPositionMode"),
-    ),
-    CodecSettings: S.optional(VideoCodecSettings)
-      .pipe(T.JsonName("codecSettings"))
-      .annotate({ identifier: "VideoCodecSettings" }),
-    ColorMetadata: S.optional(ColorMetadata).pipe(T.JsonName("colorMetadata")),
-    Crop: S.optional(Rectangle)
-      .pipe(T.JsonName("crop"))
-      .annotate({ identifier: "Rectangle" }),
-    DropFrameTimecode: S.optional(DropFrameTimecode).pipe(
-      T.JsonName("dropFrameTimecode"),
-    ),
-    FixedAfd: S.optional(S.Number).pipe(T.JsonName("fixedAfd")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Position: S.optional(Rectangle)
-      .pipe(T.JsonName("position"))
-      .annotate({ identifier: "Rectangle" }),
-    RespondToAfd: S.optional(RespondToAfd).pipe(T.JsonName("respondToAfd")),
-    ScalingBehavior: S.optional(ScalingBehavior).pipe(
-      T.JsonName("scalingBehavior"),
-    ),
-    Sharpness: S.optional(S.Number).pipe(T.JsonName("sharpness")),
-    TimecodeInsertion: S.optional(VideoTimecodeInsertion).pipe(
-      T.JsonName("timecodeInsertion"),
-    ),
-    TimecodeTrack: S.optional(TimecodeTrack).pipe(T.JsonName("timecodeTrack")),
-    VideoPreprocessors: S.optional(VideoPreprocessor)
-      .pipe(T.JsonName("videoPreprocessors"))
-      .annotate({ identifier: "VideoPreprocessor" }),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    AfdSignaling: S.optional(AfdSignaling),
+    AntiAlias: S.optional(AntiAlias),
+    ChromaPositionMode: S.optional(ChromaPositionMode),
+    CodecSettings: S.optional(VideoCodecSettings),
+    ColorMetadata: S.optional(ColorMetadata),
+    Crop: S.optional(Rectangle),
+    DropFrameTimecode: S.optional(DropFrameTimecode),
+    FixedAfd: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Position: S.optional(Rectangle),
+    RespondToAfd: S.optional(RespondToAfd),
+    ScalingBehavior: S.optional(ScalingBehavior),
+    Sharpness: S.optional(S.Number),
+    TimecodeInsertion: S.optional(VideoTimecodeInsertion),
+    TimecodeTrack: S.optional(TimecodeTrack),
+    VideoPreprocessors: S.optional(VideoPreprocessor),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AfdSignaling: "afdSignaling",
+      AntiAlias: "antiAlias",
+      ChromaPositionMode: "chromaPositionMode",
+      CodecSettings: "codecSettings",
+      ColorMetadata: "colorMetadata",
+      Crop: "crop",
+      DropFrameTimecode: "dropFrameTimecode",
+      FixedAfd: "fixedAfd",
+      Height: "height",
+      Position: "position",
+      RespondToAfd: "respondToAfd",
+      ScalingBehavior: "scalingBehavior",
+      Sharpness: "sharpness",
+      TimecodeInsertion: "timecodeInsertion",
+      TimecodeTrack: "timecodeTrack",
+      VideoPreprocessors: "videoPreprocessors",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "VideoDescription",
 }) as any as S.Schema<VideoDescription>;
@@ -7427,25 +7672,26 @@ export interface Output {
 }
 export const Output = S.suspend(() =>
   S.Struct({
-    AudioDescriptions: S.optional(__listOfAudioDescription).pipe(
-      T.JsonName("audioDescriptions"),
-    ),
-    CaptionDescriptions: S.optional(__listOfCaptionDescription).pipe(
-      T.JsonName("captionDescriptions"),
-    ),
-    ContainerSettings: S.optional(ContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "ContainerSettings" }),
-    Extension: S.optional(S.String).pipe(T.JsonName("extension")),
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-    OutputSettings: S.optional(OutputSettings)
-      .pipe(T.JsonName("outputSettings"))
-      .annotate({ identifier: "OutputSettings" }),
-    Preset: S.optional(S.String).pipe(T.JsonName("preset")),
-    VideoDescription: S.optional(VideoDescription)
-      .pipe(T.JsonName("videoDescription"))
-      .annotate({ identifier: "VideoDescription" }),
-  }),
+    AudioDescriptions: S.optional(__listOfAudioDescription),
+    CaptionDescriptions: S.optional(__listOfCaptionDescription),
+    ContainerSettings: S.optional(ContainerSettings),
+    Extension: S.optional(S.String),
+    NameModifier: S.optional(S.String),
+    OutputSettings: S.optional(OutputSettings),
+    Preset: S.optional(S.String),
+    VideoDescription: S.optional(VideoDescription),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptions: "audioDescriptions",
+      CaptionDescriptions: "captionDescriptions",
+      ContainerSettings: "containerSettings",
+      Extension: "extension",
+      NameModifier: "nameModifier",
+      OutputSettings: "outputSettings",
+      Preset: "preset",
+      VideoDescription: "videoDescription",
+    }),
+  ),
 ).annotate({ identifier: "Output" }) as any as S.Schema<Output>;
 export type __listOfOutput = Output[];
 export const __listOfOutput = S.Array(Output);
@@ -7458,16 +7704,20 @@ export interface OutputGroup {
 }
 export const OutputGroup = S.suspend(() =>
   S.Struct({
-    AutomatedEncodingSettings: S.optional(AutomatedEncodingSettings)
-      .pipe(T.JsonName("automatedEncodingSettings"))
-      .annotate({ identifier: "AutomatedEncodingSettings" }),
-    CustomName: S.optional(S.String).pipe(T.JsonName("customName")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OutputGroupSettings: S.optional(OutputGroupSettings)
-      .pipe(T.JsonName("outputGroupSettings"))
-      .annotate({ identifier: "OutputGroupSettings" }),
-    Outputs: S.optional(__listOfOutput).pipe(T.JsonName("outputs")),
-  }),
+    AutomatedEncodingSettings: S.optional(AutomatedEncodingSettings),
+    CustomName: S.optional(S.String),
+    Name: S.optional(S.String),
+    OutputGroupSettings: S.optional(OutputGroupSettings),
+    Outputs: S.optional(__listOfOutput),
+  }).pipe(
+    S.encodeKeys({
+      AutomatedEncodingSettings: "automatedEncodingSettings",
+      CustomName: "customName",
+      Name: "name",
+      OutputGroupSettings: "outputGroupSettings",
+      Outputs: "outputs",
+    }),
+  ),
 ).annotate({ identifier: "OutputGroup" }) as any as S.Schema<OutputGroup>;
 export type __listOfOutputGroup = OutputGroup[];
 export const __listOfOutputGroup = S.Array(OutputGroup);
@@ -7485,21 +7735,27 @@ export interface TimecodeConfig {
 }
 export const TimecodeConfig = S.suspend(() =>
   S.Struct({
-    Anchor: S.optional(S.String).pipe(T.JsonName("anchor")),
-    Source: S.optional(TimecodeSource).pipe(T.JsonName("source")),
-    Start: S.optional(S.String).pipe(T.JsonName("start")),
-    TimestampOffset: S.optional(S.String).pipe(T.JsonName("timestampOffset")),
-  }),
+    Anchor: S.optional(S.String),
+    Source: S.optional(TimecodeSource),
+    Start: S.optional(S.String),
+    TimestampOffset: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Anchor: "anchor",
+      Source: "source",
+      Start: "start",
+      TimestampOffset: "timestampOffset",
+    }),
+  ),
 ).annotate({ identifier: "TimecodeConfig" }) as any as S.Schema<TimecodeConfig>;
 export interface Id3Insertion {
   Id3?: string;
   Timecode?: string;
 }
 export const Id3Insertion = S.suspend(() =>
-  S.Struct({
-    Id3: S.optional(S.String).pipe(T.JsonName("id3")),
-    Timecode: S.optional(S.String).pipe(T.JsonName("timecode")),
-  }),
+  S.Struct({ Id3: S.optional(S.String), Timecode: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Id3: "id3", Timecode: "timecode" }),
+  ),
 ).annotate({ identifier: "Id3Insertion" }) as any as S.Schema<Id3Insertion>;
 export type __listOfId3Insertion = Id3Insertion[];
 export const __listOfId3Insertion = S.Array(Id3Insertion);
@@ -7507,11 +7763,9 @@ export interface TimedMetadataInsertion {
   Id3Insertions?: Id3Insertion[];
 }
 export const TimedMetadataInsertion = S.suspend(() =>
-  S.Struct({
-    Id3Insertions: S.optional(__listOfId3Insertion).pipe(
-      T.JsonName("id3Insertions"),
-    ),
-  }),
+  S.Struct({ Id3Insertions: S.optional(__listOfId3Insertion) }).pipe(
+    S.encodeKeys({ Id3Insertions: "id3Insertions" }),
+  ),
 ).annotate({
   identifier: "TimedMetadataInsertion",
 }) as any as S.Schema<TimedMetadataInsertion>;
@@ -7533,43 +7787,40 @@ export interface JobSettings {
 }
 export const JobSettings = S.suspend(() =>
   S.Struct({
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
-    AvailBlanking: S.optional(AvailBlanking)
-      .pipe(T.JsonName("availBlanking"))
-      .annotate({ identifier: "AvailBlanking" }),
+    AdAvailOffset: S.optional(S.Number),
+    AvailBlanking: S.optional(AvailBlanking),
     ColorConversion3DLUTSettings: S.optional(
       __listOfColorConversion3DLUTSetting,
-    ).pipe(T.JsonName("colorConversion3DLUTSettings")),
-    Esam: S.optional(EsamSettings)
-      .pipe(T.JsonName("esam"))
-      .annotate({ identifier: "EsamSettings" }),
-    ExtendedDataServices: S.optional(ExtendedDataServices)
-      .pipe(T.JsonName("extendedDataServices"))
-      .annotate({ identifier: "ExtendedDataServices" }),
-    FollowSource: S.optional(S.Number).pipe(T.JsonName("followSource")),
-    Inputs: S.optional(__listOfInput).pipe(T.JsonName("inputs")),
-    KantarWatermark: S.optional(KantarWatermarkSettings)
-      .pipe(T.JsonName("kantarWatermark"))
-      .annotate({ identifier: "KantarWatermarkSettings" }),
-    MotionImageInserter: S.optional(MotionImageInserter)
-      .pipe(T.JsonName("motionImageInserter"))
-      .annotate({ identifier: "MotionImageInserter" }),
-    NielsenConfiguration: S.optional(NielsenConfiguration)
-      .pipe(T.JsonName("nielsenConfiguration"))
-      .annotate({ identifier: "NielsenConfiguration" }),
-    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings)
-      .pipe(T.JsonName("nielsenNonLinearWatermark"))
-      .annotate({ identifier: "NielsenNonLinearWatermarkSettings" }),
-    OutputGroups: S.optional(__listOfOutputGroup).pipe(
-      T.JsonName("outputGroups"),
     ),
-    TimecodeConfig: S.optional(TimecodeConfig)
-      .pipe(T.JsonName("timecodeConfig"))
-      .annotate({ identifier: "TimecodeConfig" }),
-    TimedMetadataInsertion: S.optional(TimedMetadataInsertion)
-      .pipe(T.JsonName("timedMetadataInsertion"))
-      .annotate({ identifier: "TimedMetadataInsertion" }),
-  }),
+    Esam: S.optional(EsamSettings),
+    ExtendedDataServices: S.optional(ExtendedDataServices),
+    FollowSource: S.optional(S.Number),
+    Inputs: S.optional(__listOfInput),
+    KantarWatermark: S.optional(KantarWatermarkSettings),
+    MotionImageInserter: S.optional(MotionImageInserter),
+    NielsenConfiguration: S.optional(NielsenConfiguration),
+    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings),
+    OutputGroups: S.optional(__listOfOutputGroup),
+    TimecodeConfig: S.optional(TimecodeConfig),
+    TimedMetadataInsertion: S.optional(TimedMetadataInsertion),
+  }).pipe(
+    S.encodeKeys({
+      AdAvailOffset: "adAvailOffset",
+      AvailBlanking: "availBlanking",
+      ColorConversion3DLUTSettings: "colorConversion3DLUTSettings",
+      Esam: "esam",
+      ExtendedDataServices: "extendedDataServices",
+      FollowSource: "followSource",
+      Inputs: "inputs",
+      KantarWatermark: "kantarWatermark",
+      MotionImageInserter: "motionImageInserter",
+      NielsenConfiguration: "nielsenConfiguration",
+      NielsenNonLinearWatermark: "nielsenNonLinearWatermark",
+      OutputGroups: "outputGroups",
+      TimecodeConfig: "timecodeConfig",
+      TimedMetadataInsertion: "timedMetadataInsertion",
+    }),
+  ),
 ).annotate({ identifier: "JobSettings" }) as any as S.Schema<JobSettings>;
 export type SimulateReservedQueue = "DISABLED" | "ENABLED" | (string & {});
 export const SimulateReservedQueue = S.String;
@@ -7611,45 +7862,49 @@ export interface CreateJobRequest {
 }
 export const CreateJobRequest = S.suspend(() =>
   S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotate({ identifier: "AccelerationSettings" }),
-    BillingTagsSource: S.optional(BillingTagsSource).pipe(
-      T.JsonName("billingTagsSource"),
+    AccelerationSettings: S.optional(AccelerationSettings),
+    BillingTagsSource: S.optional(BillingTagsSource),
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    HopDestinations: S.optional(__listOfHopDestination),
+    JobEngineVersion: S.optional(S.String),
+    JobTemplate: S.optional(S.String),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    Role: S.optional(S.String),
+    Settings: S.optional(JobSettings),
+    SimulateReservedQueue: S.optional(SimulateReservedQueue),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval),
+    Tags: S.optional(__mapOf__string),
+    UserMetadata: S.optional(__mapOf__string),
+  })
+    .pipe(
+      S.encodeKeys({
+        AccelerationSettings: "accelerationSettings",
+        BillingTagsSource: "billingTagsSource",
+        ClientRequestToken: "clientRequestToken",
+        HopDestinations: "hopDestinations",
+        JobEngineVersion: "jobEngineVersion",
+        JobTemplate: "jobTemplate",
+        Priority: "priority",
+        Queue: "queue",
+        Role: "role",
+        Settings: "settings",
+        SimulateReservedQueue: "simulateReservedQueue",
+        StatusUpdateInterval: "statusUpdateInterval",
+        Tags: "tags",
+        UserMetadata: "userMetadata",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/jobs" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    ClientRequestToken: S.optional(S.String).pipe(
-      T.JsonName("clientRequestToken"),
-      T.IdempotencyToken(),
-    ),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    JobEngineVersion: S.optional(S.String).pipe(T.JsonName("jobEngineVersion")),
-    JobTemplate: S.optional(S.String).pipe(T.JsonName("jobTemplate")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    Settings: S.optional(JobSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "JobSettings" }),
-    SimulateReservedQueue: S.optional(SimulateReservedQueue).pipe(
-      T.JsonName("simulateReservedQueue"),
-    ),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-    UserMetadata: S.optional(__mapOf__string).pipe(T.JsonName("userMetadata")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateJobRequest",
 }) as any as S.Schema<CreateJobRequest>;
@@ -7670,9 +7925,9 @@ export interface JobMessages {
 }
 export const JobMessages = S.suspend(() =>
   S.Struct({
-    Info: S.optional(__listOf__string).pipe(T.JsonName("info")),
-    Warning: S.optional(__listOf__string).pipe(T.JsonName("warning")),
-  }),
+    Info: S.optional(__listOf__string),
+    Warning: S.optional(__listOf__string),
+  }).pipe(S.encodeKeys({ Info: "info", Warning: "warning" })),
 ).annotate({ identifier: "JobMessages" }) as any as S.Schema<JobMessages>;
 export interface VideoDetail {
   HeightInPx?: number;
@@ -7680,9 +7935,9 @@ export interface VideoDetail {
 }
 export const VideoDetail = S.suspend(() =>
   S.Struct({
-    HeightInPx: S.optional(S.Number).pipe(T.JsonName("heightInPx")),
-    WidthInPx: S.optional(S.Number).pipe(T.JsonName("widthInPx")),
-  }),
+    HeightInPx: S.optional(S.Number),
+    WidthInPx: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ HeightInPx: "heightInPx", WidthInPx: "widthInPx" })),
 ).annotate({ identifier: "VideoDetail" }) as any as S.Schema<VideoDetail>;
 export interface OutputDetail {
   DurationInMs?: number;
@@ -7690,11 +7945,14 @@ export interface OutputDetail {
 }
 export const OutputDetail = S.suspend(() =>
   S.Struct({
-    DurationInMs: S.optional(S.Number).pipe(T.JsonName("durationInMs")),
-    VideoDetails: S.optional(VideoDetail)
-      .pipe(T.JsonName("videoDetails"))
-      .annotate({ identifier: "VideoDetail" }),
-  }),
+    DurationInMs: S.optional(S.Number),
+    VideoDetails: S.optional(VideoDetail),
+  }).pipe(
+    S.encodeKeys({
+      DurationInMs: "durationInMs",
+      VideoDetails: "videoDetails",
+    }),
+  ),
 ).annotate({ identifier: "OutputDetail" }) as any as S.Schema<OutputDetail>;
 export type __listOfOutputDetail = OutputDetail[];
 export const __listOfOutputDetail = S.Array(OutputDetail);
@@ -7702,11 +7960,9 @@ export interface OutputGroupDetail {
   OutputDetails?: OutputDetail[];
 }
 export const OutputGroupDetail = S.suspend(() =>
-  S.Struct({
-    OutputDetails: S.optional(__listOfOutputDetail).pipe(
-      T.JsonName("outputDetails"),
-    ),
-  }),
+  S.Struct({ OutputDetails: S.optional(__listOfOutputDetail) }).pipe(
+    S.encodeKeys({ OutputDetails: "outputDetails" }),
+  ),
 ).annotate({
   identifier: "OutputGroupDetail",
 }) as any as S.Schema<OutputGroupDetail>;
@@ -7719,12 +7975,16 @@ export interface QueueTransition {
 }
 export const QueueTransition = S.suspend(() =>
   S.Struct({
-    DestinationQueue: S.optional(S.String).pipe(T.JsonName("destinationQueue")),
-    SourceQueue: S.optional(S.String).pipe(T.JsonName("sourceQueue")),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("timestamp"),
-    ),
-  }),
+    DestinationQueue: S.optional(S.String),
+    SourceQueue: S.optional(S.String),
+    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({
+      DestinationQueue: "destinationQueue",
+      SourceQueue: "sourceQueue",
+      Timestamp: "timestamp",
+    }),
+  ),
 ).annotate({
   identifier: "QueueTransition",
 }) as any as S.Schema<QueueTransition>;
@@ -7747,26 +8007,25 @@ export interface Timing {
 }
 export const Timing = S.suspend(() =>
   S.Struct({
-    FinishTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("finishTime")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("startTime"),
-    ),
-    SubmitTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("submitTime")),
-  }),
+    FinishTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    S.encodeKeys({
+      FinishTime: "finishTime",
+      StartTime: "startTime",
+      SubmitTime: "submitTime",
+    }),
+  ),
 ).annotate({ identifier: "Timing" }) as any as S.Schema<Timing>;
 export interface WarningGroup {
   Code?: number;
   Count?: number;
 }
 export const WarningGroup = S.suspend(() =>
-  S.Struct({
-    Code: S.optional(S.Number).pipe(T.JsonName("code")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-  }),
+  S.Struct({ Code: S.optional(S.Number), Count: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Code: "code", Count: "count" }),
+  ),
 ).annotate({ identifier: "WarningGroup" }) as any as S.Schema<WarningGroup>;
 export type __listOfWarningGroup = WarningGroup[];
 export const __listOfWarningGroup = S.Array(WarningGroup);
@@ -7805,70 +8064,72 @@ export interface Job {
 }
 export const Job = S.suspend(() =>
   S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotate({ identifier: "AccelerationSettings" }),
-    AccelerationStatus: S.optional(AccelerationStatus).pipe(
-      T.JsonName("accelerationStatus"),
-    ),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    BillingTagsSource: S.optional(BillingTagsSource).pipe(
-      T.JsonName("billingTagsSource"),
-    ),
-    ClientRequestToken: S.optional(S.String).pipe(
-      T.JsonName("clientRequestToken"),
-    ),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    CurrentPhase: S.optional(JobPhase).pipe(T.JsonName("currentPhase")),
-    ErrorCode: S.optional(S.Number).pipe(T.JsonName("errorCode")),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    JobEngineVersionRequested: S.optional(S.String).pipe(
-      T.JsonName("jobEngineVersionRequested"),
-    ),
-    JobEngineVersionUsed: S.optional(S.String).pipe(
-      T.JsonName("jobEngineVersionUsed"),
-    ),
-    JobPercentComplete: S.optional(S.Number).pipe(
-      T.JsonName("jobPercentComplete"),
-    ),
-    JobTemplate: S.optional(S.String).pipe(T.JsonName("jobTemplate")),
-    LastShareDetails: S.optional(S.String).pipe(T.JsonName("lastShareDetails")),
-    Messages: S.optional(JobMessages)
-      .pipe(T.JsonName("messages"))
-      .annotate({ identifier: "JobMessages" }),
-    OutputGroupDetails: S.optional(__listOfOutputGroupDetail).pipe(
-      T.JsonName("outputGroupDetails"),
-    ),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    QueueTransitions: S.optional(__listOfQueueTransition).pipe(
-      T.JsonName("queueTransitions"),
-    ),
-    RetryCount: S.optional(S.Number).pipe(T.JsonName("retryCount")),
-    Role: S.optional(S.String).pipe(T.JsonName("role")),
-    Settings: S.optional(JobSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "JobSettings" }),
-    ShareStatus: S.optional(ShareStatus).pipe(T.JsonName("shareStatus")),
-    SimulateReservedQueue: S.optional(SimulateReservedQueue).pipe(
-      T.JsonName("simulateReservedQueue"),
-    ),
-    Status: S.optional(JobStatus).pipe(T.JsonName("status")),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Timing: S.optional(Timing)
-      .pipe(T.JsonName("timing"))
-      .annotate({ identifier: "Timing" }),
-    UserMetadata: S.optional(__mapOf__string).pipe(T.JsonName("userMetadata")),
-    Warnings: S.optional(__listOfWarningGroup).pipe(T.JsonName("warnings")),
-  }),
+    AccelerationSettings: S.optional(AccelerationSettings),
+    AccelerationStatus: S.optional(AccelerationStatus),
+    Arn: S.optional(S.String),
+    BillingTagsSource: S.optional(BillingTagsSource),
+    ClientRequestToken: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CurrentPhase: S.optional(JobPhase),
+    ErrorCode: S.optional(S.Number),
+    ErrorMessage: S.optional(S.String),
+    HopDestinations: S.optional(__listOfHopDestination),
+    Id: S.optional(S.String),
+    JobEngineVersionRequested: S.optional(S.String),
+    JobEngineVersionUsed: S.optional(S.String),
+    JobPercentComplete: S.optional(S.Number),
+    JobTemplate: S.optional(S.String),
+    LastShareDetails: S.optional(S.String),
+    Messages: S.optional(JobMessages),
+    OutputGroupDetails: S.optional(__listOfOutputGroupDetail),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    QueueTransitions: S.optional(__listOfQueueTransition),
+    RetryCount: S.optional(S.Number),
+    Role: S.optional(S.String),
+    Settings: S.optional(JobSettings),
+    ShareStatus: S.optional(ShareStatus),
+    SimulateReservedQueue: S.optional(SimulateReservedQueue),
+    Status: S.optional(JobStatus),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval),
+    Timing: S.optional(Timing),
+    UserMetadata: S.optional(__mapOf__string),
+    Warnings: S.optional(__listOfWarningGroup),
+  }).pipe(
+    S.encodeKeys({
+      AccelerationSettings: "accelerationSettings",
+      AccelerationStatus: "accelerationStatus",
+      Arn: "arn",
+      BillingTagsSource: "billingTagsSource",
+      ClientRequestToken: "clientRequestToken",
+      CreatedAt: "createdAt",
+      CurrentPhase: "currentPhase",
+      ErrorCode: "errorCode",
+      ErrorMessage: "errorMessage",
+      HopDestinations: "hopDestinations",
+      Id: "id",
+      JobEngineVersionRequested: "jobEngineVersionRequested",
+      JobEngineVersionUsed: "jobEngineVersionUsed",
+      JobPercentComplete: "jobPercentComplete",
+      JobTemplate: "jobTemplate",
+      LastShareDetails: "lastShareDetails",
+      Messages: "messages",
+      OutputGroupDetails: "outputGroupDetails",
+      Priority: "priority",
+      Queue: "queue",
+      QueueTransitions: "queueTransitions",
+      RetryCount: "retryCount",
+      Role: "role",
+      Settings: "settings",
+      ShareStatus: "shareStatus",
+      SimulateReservedQueue: "simulateReservedQueue",
+      Status: "status",
+      StatusUpdateInterval: "statusUpdateInterval",
+      Timing: "timing",
+      UserMetadata: "userMetadata",
+      Warnings: "warnings",
+    }),
+  ),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 export interface CreateJobResponse {
   Job?: Job & {
@@ -7879,11 +8140,7 @@ export interface CreateJobResponse {
   };
 }
 export const CreateJobResponse = S.suspend(() =>
-  S.Struct({
-    Job: S.optional(Job)
-      .pipe(T.JsonName("job"))
-      .annotate({ identifier: "Job" }),
-  }),
+  S.Struct({ Job: S.optional(Job) }).pipe(S.encodeKeys({ Job: "job" })),
 ).annotate({
   identifier: "CreateJobResponse",
 }) as any as S.Schema<CreateJobResponse>;
@@ -7913,63 +8170,54 @@ export interface InputTemplate {
 }
 export const InputTemplate = S.suspend(() =>
   S.Struct({
-    AdvancedInputFilter: S.optional(AdvancedInputFilter).pipe(
-      T.JsonName("advancedInputFilter"),
-    ),
-    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings)
-      .pipe(T.JsonName("advancedInputFilterSettings"))
-      .annotate({ identifier: "AdvancedInputFilterSettings" }),
-    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup).pipe(
-      T.JsonName("audioSelectorGroups"),
-    ),
-    AudioSelectors: S.optional(__mapOfAudioSelector).pipe(
-      T.JsonName("audioSelectors"),
-    ),
-    CaptionSelectors: S.optional(__mapOfCaptionSelector).pipe(
-      T.JsonName("captionSelectors"),
-    ),
-    Crop: S.optional(Rectangle)
-      .pipe(T.JsonName("crop"))
-      .annotate({ identifier: "Rectangle" }),
-    DeblockFilter: S.optional(InputDeblockFilter).pipe(
-      T.JsonName("deblockFilter"),
-    ),
-    DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
-      T.JsonName("denoiseFilter"),
-    ),
-    DolbyVisionMetadataXml: S.optional(S.String).pipe(
-      T.JsonName("dolbyVisionMetadataXml"),
-    ),
-    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector).pipe(
-      T.JsonName("dynamicAudioSelectors"),
-    ),
-    FilterEnable: S.optional(InputFilterEnable).pipe(
-      T.JsonName("filterEnable"),
-    ),
-    FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
-    ImageInserter: S.optional(ImageInserter)
-      .pipe(T.JsonName("imageInserter"))
-      .annotate({ identifier: "ImageInserter" }),
-    InputClippings: S.optional(__listOfInputClipping).pipe(
-      T.JsonName("inputClippings"),
-    ),
-    InputScanType: S.optional(InputScanType).pipe(T.JsonName("inputScanType")),
-    Position: S.optional(Rectangle)
-      .pipe(T.JsonName("position"))
-      .annotate({ identifier: "Rectangle" }),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    PsiControl: S.optional(InputPsiControl).pipe(T.JsonName("psiControl")),
-    TimecodeSource: S.optional(InputTimecodeSource).pipe(
-      T.JsonName("timecodeSource"),
-    ),
-    TimecodeStart: S.optional(S.String).pipe(T.JsonName("timecodeStart")),
-    VideoOverlays: S.optional(__listOfVideoOverlay).pipe(
-      T.JsonName("videoOverlays"),
-    ),
-    VideoSelector: S.optional(VideoSelector)
-      .pipe(T.JsonName("videoSelector"))
-      .annotate({ identifier: "VideoSelector" }),
-  }),
+    AdvancedInputFilter: S.optional(AdvancedInputFilter),
+    AdvancedInputFilterSettings: S.optional(AdvancedInputFilterSettings),
+    AudioSelectorGroups: S.optional(__mapOfAudioSelectorGroup),
+    AudioSelectors: S.optional(__mapOfAudioSelector),
+    CaptionSelectors: S.optional(__mapOfCaptionSelector),
+    Crop: S.optional(Rectangle),
+    DeblockFilter: S.optional(InputDeblockFilter),
+    DenoiseFilter: S.optional(InputDenoiseFilter),
+    DolbyVisionMetadataXml: S.optional(S.String),
+    DynamicAudioSelectors: S.optional(__mapOfDynamicAudioSelector),
+    FilterEnable: S.optional(InputFilterEnable),
+    FilterStrength: S.optional(S.Number),
+    ImageInserter: S.optional(ImageInserter),
+    InputClippings: S.optional(__listOfInputClipping),
+    InputScanType: S.optional(InputScanType),
+    Position: S.optional(Rectangle),
+    ProgramNumber: S.optional(S.Number),
+    PsiControl: S.optional(InputPsiControl),
+    TimecodeSource: S.optional(InputTimecodeSource),
+    TimecodeStart: S.optional(S.String),
+    VideoOverlays: S.optional(__listOfVideoOverlay),
+    VideoSelector: S.optional(VideoSelector),
+  }).pipe(
+    S.encodeKeys({
+      AdvancedInputFilter: "advancedInputFilter",
+      AdvancedInputFilterSettings: "advancedInputFilterSettings",
+      AudioSelectorGroups: "audioSelectorGroups",
+      AudioSelectors: "audioSelectors",
+      CaptionSelectors: "captionSelectors",
+      Crop: "crop",
+      DeblockFilter: "deblockFilter",
+      DenoiseFilter: "denoiseFilter",
+      DolbyVisionMetadataXml: "dolbyVisionMetadataXml",
+      DynamicAudioSelectors: "dynamicAudioSelectors",
+      FilterEnable: "filterEnable",
+      FilterStrength: "filterStrength",
+      ImageInserter: "imageInserter",
+      InputClippings: "inputClippings",
+      InputScanType: "inputScanType",
+      Position: "position",
+      ProgramNumber: "programNumber",
+      PsiControl: "psiControl",
+      TimecodeSource: "timecodeSource",
+      TimecodeStart: "timecodeStart",
+      VideoOverlays: "videoOverlays",
+      VideoSelector: "videoSelector",
+    }),
+  ),
 ).annotate({ identifier: "InputTemplate" }) as any as S.Schema<InputTemplate>;
 export type __listOfInputTemplate = InputTemplate[];
 export const __listOfInputTemplate = S.Array(InputTemplate);
@@ -7991,43 +8239,40 @@ export interface JobTemplateSettings {
 }
 export const JobTemplateSettings = S.suspend(() =>
   S.Struct({
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
-    AvailBlanking: S.optional(AvailBlanking)
-      .pipe(T.JsonName("availBlanking"))
-      .annotate({ identifier: "AvailBlanking" }),
+    AdAvailOffset: S.optional(S.Number),
+    AvailBlanking: S.optional(AvailBlanking),
     ColorConversion3DLUTSettings: S.optional(
       __listOfColorConversion3DLUTSetting,
-    ).pipe(T.JsonName("colorConversion3DLUTSettings")),
-    Esam: S.optional(EsamSettings)
-      .pipe(T.JsonName("esam"))
-      .annotate({ identifier: "EsamSettings" }),
-    ExtendedDataServices: S.optional(ExtendedDataServices)
-      .pipe(T.JsonName("extendedDataServices"))
-      .annotate({ identifier: "ExtendedDataServices" }),
-    FollowSource: S.optional(S.Number).pipe(T.JsonName("followSource")),
-    Inputs: S.optional(__listOfInputTemplate).pipe(T.JsonName("inputs")),
-    KantarWatermark: S.optional(KantarWatermarkSettings)
-      .pipe(T.JsonName("kantarWatermark"))
-      .annotate({ identifier: "KantarWatermarkSettings" }),
-    MotionImageInserter: S.optional(MotionImageInserter)
-      .pipe(T.JsonName("motionImageInserter"))
-      .annotate({ identifier: "MotionImageInserter" }),
-    NielsenConfiguration: S.optional(NielsenConfiguration)
-      .pipe(T.JsonName("nielsenConfiguration"))
-      .annotate({ identifier: "NielsenConfiguration" }),
-    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings)
-      .pipe(T.JsonName("nielsenNonLinearWatermark"))
-      .annotate({ identifier: "NielsenNonLinearWatermarkSettings" }),
-    OutputGroups: S.optional(__listOfOutputGroup).pipe(
-      T.JsonName("outputGroups"),
     ),
-    TimecodeConfig: S.optional(TimecodeConfig)
-      .pipe(T.JsonName("timecodeConfig"))
-      .annotate({ identifier: "TimecodeConfig" }),
-    TimedMetadataInsertion: S.optional(TimedMetadataInsertion)
-      .pipe(T.JsonName("timedMetadataInsertion"))
-      .annotate({ identifier: "TimedMetadataInsertion" }),
-  }),
+    Esam: S.optional(EsamSettings),
+    ExtendedDataServices: S.optional(ExtendedDataServices),
+    FollowSource: S.optional(S.Number),
+    Inputs: S.optional(__listOfInputTemplate),
+    KantarWatermark: S.optional(KantarWatermarkSettings),
+    MotionImageInserter: S.optional(MotionImageInserter),
+    NielsenConfiguration: S.optional(NielsenConfiguration),
+    NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings),
+    OutputGroups: S.optional(__listOfOutputGroup),
+    TimecodeConfig: S.optional(TimecodeConfig),
+    TimedMetadataInsertion: S.optional(TimedMetadataInsertion),
+  }).pipe(
+    S.encodeKeys({
+      AdAvailOffset: "adAvailOffset",
+      AvailBlanking: "availBlanking",
+      ColorConversion3DLUTSettings: "colorConversion3DLUTSettings",
+      Esam: "esam",
+      ExtendedDataServices: "extendedDataServices",
+      FollowSource: "followSource",
+      Inputs: "inputs",
+      KantarWatermark: "kantarWatermark",
+      MotionImageInserter: "motionImageInserter",
+      NielsenConfiguration: "nielsenConfiguration",
+      NielsenNonLinearWatermark: "nielsenNonLinearWatermark",
+      OutputGroups: "outputGroups",
+      TimecodeConfig: "timecodeConfig",
+      TimedMetadataInsertion: "timedMetadataInsertion",
+    }),
+  ),
 ).annotate({
   identifier: "JobTemplateSettings",
 }) as any as S.Schema<JobTemplateSettings>;
@@ -8045,34 +8290,41 @@ export interface CreateJobTemplateRequest {
 }
 export const CreateJobTemplateRequest = S.suspend(() =>
   S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotate({ identifier: "AccelerationSettings" }),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
+    AccelerationSettings: S.optional(AccelerationSettings),
+    Category: S.optional(S.String),
+    Description: S.optional(S.String),
+    HopDestinations: S.optional(__listOfHopDestination),
+    Name: S.optional(S.String),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    Settings: S.optional(JobTemplateSettings),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval),
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(
+      S.encodeKeys({
+        AccelerationSettings: "accelerationSettings",
+        Category: "category",
+        Description: "description",
+        HopDestinations: "hopDestinations",
+        Name: "name",
+        Priority: "priority",
+        Queue: "queue",
+        Settings: "settings",
+        StatusUpdateInterval: "statusUpdateInterval",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/jobTemplates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Settings: S.optional(JobTemplateSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "JobTemplateSettings" }),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobTemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateJobTemplateRequest",
 }) as any as S.Schema<CreateJobTemplateRequest>;
@@ -8095,32 +8347,36 @@ export interface JobTemplate {
 }
 export const JobTemplate = S.suspend(() =>
   S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotate({ identifier: "AccelerationSettings" }),
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
-    LastUpdated: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastUpdated")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Settings: S.optional(JobTemplateSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "JobTemplateSettings" }),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
-    ),
-    Type: S.optional(Type).pipe(T.JsonName("type")),
-  }),
+    AccelerationSettings: S.optional(AccelerationSettings),
+    Arn: S.optional(S.String),
+    Category: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    HopDestinations: S.optional(__listOfHopDestination),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.optional(S.String),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    Settings: S.optional(JobTemplateSettings),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval),
+    Type: S.optional(Type),
+  }).pipe(
+    S.encodeKeys({
+      AccelerationSettings: "accelerationSettings",
+      Arn: "arn",
+      Category: "category",
+      CreatedAt: "createdAt",
+      Description: "description",
+      HopDestinations: "hopDestinations",
+      LastUpdated: "lastUpdated",
+      Name: "name",
+      Priority: "priority",
+      Queue: "queue",
+      Settings: "settings",
+      StatusUpdateInterval: "statusUpdateInterval",
+      Type: "type",
+    }),
+  ),
 ).annotate({ identifier: "JobTemplate" }) as any as S.Schema<JobTemplate>;
 export interface CreateJobTemplateResponse {
   JobTemplate?: JobTemplate & {
@@ -8130,11 +8386,9 @@ export interface CreateJobTemplateResponse {
   };
 }
 export const CreateJobTemplateResponse = S.suspend(() =>
-  S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotate({ identifier: "JobTemplate" }),
-  }),
+  S.Struct({ JobTemplate: S.optional(JobTemplate) }).pipe(
+    S.encodeKeys({ JobTemplate: "jobTemplate" }),
+  ),
 ).annotate({
   identifier: "CreateJobTemplateResponse",
 }) as any as S.Schema<CreateJobTemplateResponse>;
@@ -8146,17 +8400,18 @@ export interface CaptionDescriptionPreset {
 }
 export const CaptionDescriptionPreset = S.suspend(() =>
   S.Struct({
-    CustomLanguageCode: S.optional(S.String).pipe(
-      T.JsonName("customLanguageCode"),
-    ),
-    DestinationSettings: S.optional(CaptionDestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "CaptionDestinationSettings" }),
-    LanguageCode: S.optional(LanguageCode).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-  }),
+    CustomLanguageCode: S.optional(S.String),
+    DestinationSettings: S.optional(CaptionDestinationSettings),
+    LanguageCode: S.optional(LanguageCode),
+    LanguageDescription: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CustomLanguageCode: "customLanguageCode",
+      DestinationSettings: "destinationSettings",
+      LanguageCode: "languageCode",
+      LanguageDescription: "languageDescription",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionDescriptionPreset",
 }) as any as S.Schema<CaptionDescriptionPreset>;
@@ -8172,19 +8427,18 @@ export interface PresetSettings {
 }
 export const PresetSettings = S.suspend(() =>
   S.Struct({
-    AudioDescriptions: S.optional(__listOfAudioDescription).pipe(
-      T.JsonName("audioDescriptions"),
-    ),
-    CaptionDescriptions: S.optional(__listOfCaptionDescriptionPreset).pipe(
-      T.JsonName("captionDescriptions"),
-    ),
-    ContainerSettings: S.optional(ContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "ContainerSettings" }),
-    VideoDescription: S.optional(VideoDescription)
-      .pipe(T.JsonName("videoDescription"))
-      .annotate({ identifier: "VideoDescription" }),
-  }),
+    AudioDescriptions: S.optional(__listOfAudioDescription),
+    CaptionDescriptions: S.optional(__listOfCaptionDescriptionPreset),
+    ContainerSettings: S.optional(ContainerSettings),
+    VideoDescription: S.optional(VideoDescription),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptions: "audioDescriptions",
+      CaptionDescriptions: "captionDescriptions",
+      ContainerSettings: "containerSettings",
+      VideoDescription: "videoDescription",
+    }),
+  ),
 ).annotate({ identifier: "PresetSettings" }) as any as S.Schema<PresetSettings>;
 export interface CreatePresetRequest {
   Category?: string;
@@ -8195,23 +8449,31 @@ export interface CreatePresetRequest {
 }
 export const CreatePresetRequest = S.suspend(() =>
   S.Struct({
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Settings: S.optional(PresetSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "PresetSettings" }),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/presets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Category: S.optional(S.String),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    Settings: S.optional(PresetSettings),
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(
+      S.encodeKeys({
+        Category: "category",
+        Description: "description",
+        Name: "name",
+        Settings: "settings",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/presets" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreatePresetRequest",
 }) as any as S.Schema<CreatePresetRequest>;
@@ -8227,31 +8489,34 @@ export interface Preset {
 }
 export const Preset = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastUpdated: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastUpdated")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Settings: S.optional(PresetSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "PresetSettings" }),
-    Type: S.optional(Type).pipe(T.JsonName("type")),
-  }),
+    Arn: S.optional(S.String),
+    Category: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.optional(S.String),
+    Settings: S.optional(PresetSettings),
+    Type: S.optional(Type),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Category: "category",
+      CreatedAt: "createdAt",
+      Description: "description",
+      LastUpdated: "lastUpdated",
+      Name: "name",
+      Settings: "settings",
+      Type: "type",
+    }),
+  ),
 ).annotate({ identifier: "Preset" }) as any as S.Schema<Preset>;
 export interface CreatePresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const CreatePresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotate({ identifier: "Preset" }),
-  }),
+  S.Struct({ Preset: S.optional(Preset) }).pipe(
+    S.encodeKeys({ Preset: "preset" }),
+  ),
 ).annotate({
   identifier: "CreatePresetResponse",
 }) as any as S.Schema<CreatePresetResponse>;
@@ -8268,10 +8533,16 @@ export interface ReservationPlanSettings {
 }
 export const ReservationPlanSettings = S.suspend(() =>
   S.Struct({
-    Commitment: S.optional(Commitment).pipe(T.JsonName("commitment")),
-    RenewalType: S.optional(RenewalType).pipe(T.JsonName("renewalType")),
-    ReservedSlots: S.optional(S.Number).pipe(T.JsonName("reservedSlots")),
-  }),
+    Commitment: S.optional(Commitment),
+    RenewalType: S.optional(RenewalType),
+    ReservedSlots: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Commitment: "commitment",
+      RenewalType: "renewalType",
+      ReservedSlots: "reservedSlots",
+    }),
+  ),
 ).annotate({
   identifier: "ReservationPlanSettings",
 }) as any as S.Schema<ReservationPlanSettings>;
@@ -8288,25 +8559,35 @@ export interface CreateQueueRequest {
 }
 export const CreateQueueRequest = S.suspend(() =>
   S.Struct({
-    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PricingPlan: S.optional(PricingPlan).pipe(T.JsonName("pricingPlan")),
-    ReservationPlanSettings: S.optional(ReservationPlanSettings)
-      .pipe(T.JsonName("reservationPlanSettings"))
-      .annotate({ identifier: "ReservationPlanSettings" }),
-    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/queues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    ConcurrentJobs: S.optional(S.Number),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    PricingPlan: S.optional(PricingPlan),
+    ReservationPlanSettings: S.optional(ReservationPlanSettings),
+    Status: S.optional(QueueStatus),
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(
+      S.encodeKeys({
+        ConcurrentJobs: "concurrentJobs",
+        Description: "description",
+        Name: "name",
+        PricingPlan: "pricingPlan",
+        ReservationPlanSettings: "reservationPlanSettings",
+        Status: "status",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/queues" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateQueueRequest",
 }) as any as S.Schema<CreateQueueRequest>;
@@ -8322,17 +8603,22 @@ export interface ReservationPlan {
 }
 export const ReservationPlan = S.suspend(() =>
   S.Struct({
-    Commitment: S.optional(Commitment).pipe(T.JsonName("commitment")),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("expiresAt"),
-    ),
-    PurchasedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("purchasedAt")),
-    RenewalType: S.optional(RenewalType).pipe(T.JsonName("renewalType")),
-    ReservedSlots: S.optional(S.Number).pipe(T.JsonName("reservedSlots")),
-    Status: S.optional(ReservationPlanStatus).pipe(T.JsonName("status")),
-  }),
+    Commitment: S.optional(Commitment),
+    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    PurchasedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RenewalType: S.optional(RenewalType),
+    ReservedSlots: S.optional(S.Number),
+    Status: S.optional(ReservationPlanStatus),
+  }).pipe(
+    S.encodeKeys({
+      Commitment: "commitment",
+      ExpiresAt: "expiresAt",
+      PurchasedAt: "purchasedAt",
+      RenewalType: "renewalType",
+      ReservedSlots: "reservedSlots",
+      Status: "status",
+    }),
+  ),
 ).annotate({
   identifier: "ReservationPlan",
 }) as any as S.Schema<ReservationPlan>;
@@ -8344,11 +8630,18 @@ export interface ServiceOverride {
 }
 export const ServiceOverride = S.suspend(() =>
   S.Struct({
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OverrideValue: S.optional(S.String).pipe(T.JsonName("overrideValue")),
-    Value: S.optional(S.String).pipe(T.JsonName("value")),
-  }),
+    Message: S.optional(S.String),
+    Name: S.optional(S.String),
+    OverrideValue: S.optional(S.String),
+    Value: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Message: "message",
+      Name: "name",
+      OverrideValue: "overrideValue",
+      Value: "value",
+    }),
+  ),
 ).annotate({
   identifier: "ServiceOverride",
 }) as any as S.Schema<ServiceOverride>;
@@ -8371,42 +8664,42 @@ export interface Queue {
 }
 export const Queue = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.JsonName("createdAt"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    LastUpdated: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastUpdated")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PricingPlan: S.optional(PricingPlan).pipe(T.JsonName("pricingPlan")),
-    ProgressingJobsCount: S.optional(S.Number).pipe(
-      T.JsonName("progressingJobsCount"),
-    ),
-    ReservationPlan: S.optional(ReservationPlan)
-      .pipe(T.JsonName("reservationPlan"))
-      .annotate({ identifier: "ReservationPlan" }),
-    ServiceOverrides: S.optional(__listOfServiceOverride).pipe(
-      T.JsonName("serviceOverrides"),
-    ),
-    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
-    SubmittedJobsCount: S.optional(S.Number).pipe(
-      T.JsonName("submittedJobsCount"),
-    ),
-    Type: S.optional(Type).pipe(T.JsonName("type")),
-  }),
+    Arn: S.optional(S.String),
+    ConcurrentJobs: S.optional(S.Number),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Description: S.optional(S.String),
+    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Name: S.optional(S.String),
+    PricingPlan: S.optional(PricingPlan),
+    ProgressingJobsCount: S.optional(S.Number),
+    ReservationPlan: S.optional(ReservationPlan),
+    ServiceOverrides: S.optional(__listOfServiceOverride),
+    Status: S.optional(QueueStatus),
+    SubmittedJobsCount: S.optional(S.Number),
+    Type: S.optional(Type),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ConcurrentJobs: "concurrentJobs",
+      CreatedAt: "createdAt",
+      Description: "description",
+      LastUpdated: "lastUpdated",
+      Name: "name",
+      PricingPlan: "pricingPlan",
+      ProgressingJobsCount: "progressingJobsCount",
+      ReservationPlan: "reservationPlan",
+      ServiceOverrides: "serviceOverrides",
+      Status: "status",
+      SubmittedJobsCount: "submittedJobsCount",
+      Type: "type",
+    }),
+  ),
 ).annotate({ identifier: "Queue" }) as any as S.Schema<Queue>;
 export interface CreateQueueResponse {
   Queue?: Queue & { Name: string };
 }
 export const CreateQueueResponse = S.suspend(() =>
-  S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotate({ identifier: "Queue" }),
-  }),
+  S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
 ).annotate({
   identifier: "CreateQueueResponse",
 }) as any as S.Schema<CreateQueueResponse>;
@@ -8415,19 +8708,18 @@ export interface CreateResourceShareRequest {
   SupportCaseId?: string;
 }
 export const CreateResourceShareRequest = S.suspend(() =>
-  S.Struct({
-    JobId: S.optional(S.String).pipe(T.JsonName("jobId")),
-    SupportCaseId: S.optional(S.String).pipe(T.JsonName("supportCaseId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/resourceShares" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ JobId: S.optional(S.String), SupportCaseId: S.optional(S.String) })
+    .pipe(S.encodeKeys({ JobId: "jobId", SupportCaseId: "supportCaseId" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/resourceShares" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateResourceShareRequest",
 }) as any as S.Schema<CreateResourceShareRequest>;
@@ -8528,19 +8820,27 @@ export interface DescribeEndpointsRequest {
 }
 export const DescribeEndpointsRequest = S.suspend(() =>
   S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    Mode: S.optional(DescribeEndpointsMode).pipe(T.JsonName("mode")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    MaxResults: S.optional(S.Number),
+    Mode: S.optional(DescribeEndpointsMode),
+    NextToken: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        MaxResults: "maxResults",
+        Mode: "mode",
+        NextToken: "nextToken",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeEndpointsRequest",
 }) as any as S.Schema<DescribeEndpointsRequest>;
@@ -8548,7 +8848,7 @@ export interface Endpoint {
   Url?: string;
 }
 export const Endpoint = S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String).pipe(T.JsonName("url")) }),
+  S.Struct({ Url: S.optional(S.String) }).pipe(S.encodeKeys({ Url: "url" })),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 export type __listOfEndpoint = Endpoint[];
 export const __listOfEndpoint = S.Array(Endpoint);
@@ -8558,9 +8858,9 @@ export interface DescribeEndpointsResponse {
 }
 export const DescribeEndpointsResponse = S.suspend(() =>
   S.Struct({
-    Endpoints: S.optional(__listOfEndpoint).pipe(T.JsonName("endpoints")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Endpoints: S.optional(__listOfEndpoint),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Endpoints: "endpoints", NextToken: "nextToken" })),
 ).annotate({
   identifier: "DescribeEndpointsResponse",
 }) as any as S.Schema<DescribeEndpointsResponse>;
@@ -8611,11 +8911,7 @@ export interface GetJobResponse {
   };
 }
 export const GetJobResponse = S.suspend(() =>
-  S.Struct({
-    Job: S.optional(Job)
-      .pipe(T.JsonName("job"))
-      .annotate({ identifier: "Job" }),
-  }),
+  S.Struct({ Job: S.optional(Job) }).pipe(S.encodeKeys({ Job: "job" })),
 ).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 export interface GetJobsQueryResultsRequest {
   Id: string;
@@ -8655,10 +8951,12 @@ export interface GetJobsQueryResultsResponse {
 }
 export const GetJobsQueryResultsResponse = S.suspend(() =>
   S.Struct({
-    Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Status: S.optional(JobsQueryStatus).pipe(T.JsonName("status")),
-  }),
+    Jobs: S.optional(__listOfJob),
+    NextToken: S.optional(S.String),
+    Status: S.optional(JobsQueryStatus),
+  }).pipe(
+    S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken", Status: "status" }),
+  ),
 ).annotate({
   identifier: "GetJobsQueryResultsResponse",
 }) as any as S.Schema<GetJobsQueryResultsResponse>;
@@ -8687,11 +8985,9 @@ export interface GetJobTemplateResponse {
   };
 }
 export const GetJobTemplateResponse = S.suspend(() =>
-  S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotate({ identifier: "JobTemplate" }),
-  }),
+  S.Struct({ JobTemplate: S.optional(JobTemplate) }).pipe(
+    S.encodeKeys({ JobTemplate: "jobTemplate" }),
+  ),
 ).annotate({
   identifier: "GetJobTemplateResponse",
 }) as any as S.Schema<GetJobTemplateResponse>;
@@ -8719,20 +9015,24 @@ export interface Policy {
 }
 export const Policy = S.suspend(() =>
   S.Struct({
-    HttpInputs: S.optional(InputPolicy).pipe(T.JsonName("httpInputs")),
-    HttpsInputs: S.optional(InputPolicy).pipe(T.JsonName("httpsInputs")),
-    S3Inputs: S.optional(InputPolicy).pipe(T.JsonName("s3Inputs")),
-  }),
+    HttpInputs: S.optional(InputPolicy),
+    HttpsInputs: S.optional(InputPolicy),
+    S3Inputs: S.optional(InputPolicy),
+  }).pipe(
+    S.encodeKeys({
+      HttpInputs: "httpInputs",
+      HttpsInputs: "httpsInputs",
+      S3Inputs: "s3Inputs",
+    }),
+  ),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface GetPolicyResponse {
   Policy?: Policy;
 }
 export const GetPolicyResponse = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(Policy)
-      .pipe(T.JsonName("policy"))
-      .annotate({ identifier: "Policy" }),
-  }),
+  S.Struct({ Policy: S.optional(Policy) }).pipe(
+    S.encodeKeys({ Policy: "policy" }),
+  ),
 ).annotate({
   identifier: "GetPolicyResponse",
 }) as any as S.Schema<GetPolicyResponse>;
@@ -8757,11 +9057,9 @@ export interface GetPresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const GetPresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotate({ identifier: "Preset" }),
-  }),
+  S.Struct({ Preset: S.optional(Preset) }).pipe(
+    S.encodeKeys({ Preset: "preset" }),
+  ),
 ).annotate({
   identifier: "GetPresetResponse",
 }) as any as S.Schema<GetPresetResponse>;
@@ -8786,11 +9084,7 @@ export interface GetQueueResponse {
   Queue?: Queue & { Name: string };
 }
 export const GetQueueResponse = S.suspend(() =>
-  S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotate({ identifier: "Queue" }),
-  }),
+  S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
 ).annotate({
   identifier: "GetQueueResponse",
 }) as any as S.Schema<GetQueueResponse>;
@@ -8834,9 +9128,9 @@ export interface ListJobsResponse {
 }
 export const ListJobsResponse = S.suspend(() =>
   S.Struct({
-    Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Jobs: S.optional(__listOfJob),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListJobsResponse",
 }) as any as S.Schema<ListJobsResponse>;
@@ -8885,11 +9179,11 @@ export interface ListJobTemplatesResponse {
 }
 export const ListJobTemplatesResponse = S.suspend(() =>
   S.Struct({
-    JobTemplates: S.optional(__listOfJobTemplate).pipe(
-      T.JsonName("jobTemplates"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    JobTemplates: S.optional(__listOfJobTemplate),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ JobTemplates: "jobTemplates", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "ListJobTemplatesResponse",
 }) as any as S.Schema<ListJobTemplatesResponse>;
@@ -8930,9 +9224,9 @@ export interface ListPresetsResponse {
 }
 export const ListPresetsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Presets: S.optional(__listOfPreset).pipe(T.JsonName("presets")),
-  }),
+    NextToken: S.optional(S.String),
+    Presets: S.optional(__listOfPreset),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", Presets: "presets" })),
 ).annotate({
   identifier: "ListPresetsResponse",
 }) as any as S.Schema<ListPresetsResponse>;
@@ -8973,15 +9267,18 @@ export interface ListQueuesResponse {
 }
 export const ListQueuesResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Queues: S.optional(__listOfQueue).pipe(T.JsonName("queues")),
-    TotalConcurrentJobs: S.optional(S.Number).pipe(
-      T.JsonName("totalConcurrentJobs"),
-    ),
-    UnallocatedConcurrentJobs: S.optional(S.Number).pipe(
-      T.JsonName("unallocatedConcurrentJobs"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    Queues: S.optional(__listOfQueue),
+    TotalConcurrentJobs: S.optional(S.Number),
+    UnallocatedConcurrentJobs: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      NextToken: "nextToken",
+      Queues: "queues",
+      TotalConcurrentJobs: "totalConcurrentJobs",
+      UnallocatedConcurrentJobs: "unallocatedConcurrentJobs",
+    }),
+  ),
 ).annotate({
   identifier: "ListQueuesResponse",
 }) as any as S.Schema<ListQueuesResponse>;
@@ -9008,19 +9305,17 @@ export interface ResourceTags {
 }
 export const ResourceTags = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Arn: "arn", Tags: "tags" })),
 ).annotate({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
 export interface ListTagsForResourceResponse {
   ResourceTags?: ResourceTags;
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({
-    ResourceTags: S.optional(ResourceTags)
-      .pipe(T.JsonName("resourceTags"))
-      .annotate({ identifier: "ResourceTags" }),
-  }),
+  S.Struct({ ResourceTags: S.optional(ResourceTags) }).pipe(
+    S.encodeKeys({ ResourceTags: "resourceTags" }),
+  ),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -9051,11 +9346,11 @@ export interface JobEngineVersion {
 }
 export const JobEngineVersion = S.suspend(() =>
   S.Struct({
-    ExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("expirationDate")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }),
+    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Version: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ ExpirationDate: "expirationDate", Version: "version" }),
+  ),
 ).annotate({
   identifier: "JobEngineVersion",
 }) as any as S.Schema<JobEngineVersion>;
@@ -9067,9 +9362,9 @@ export interface ListVersionsResponse {
 }
 export const ListVersionsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Versions: S.optional(__listOfJobEngineVersion).pipe(T.JsonName("versions")),
-  }),
+    NextToken: S.optional(S.String),
+    Versions: S.optional(__listOfJobEngineVersion),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", Versions: "versions" })),
 ).annotate({
   identifier: "ListVersionsResponse",
 }) as any as S.Schema<ListVersionsResponse>;
@@ -9077,7 +9372,9 @@ export interface ProbeInputFile {
   FileUrl?: string;
 }
 export const ProbeInputFile = S.suspend(() =>
-  S.Struct({ FileUrl: S.optional(S.String).pipe(T.JsonName("fileUrl")) }),
+  S.Struct({ FileUrl: S.optional(S.String) }).pipe(
+    S.encodeKeys({ FileUrl: "fileUrl" }),
+  ),
 ).annotate({ identifier: "ProbeInputFile" }) as any as S.Schema<ProbeInputFile>;
 export type __listOfProbeInputFile = ProbeInputFile[];
 export const __listOfProbeInputFile = S.Array(ProbeInputFile);
@@ -9085,20 +9382,18 @@ export interface ProbeRequest {
   InputFiles?: ProbeInputFile[];
 }
 export const ProbeRequest = S.suspend(() =>
-  S.Struct({
-    InputFiles: S.optional(__listOfProbeInputFile).pipe(
-      T.JsonName("inputFiles"),
+  S.Struct({ InputFiles: S.optional(__listOfProbeInputFile) })
+    .pipe(S.encodeKeys({ InputFiles: "inputFiles" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/probe" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/probe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({ identifier: "ProbeRequest" }) as any as S.Schema<ProbeRequest>;
 export type Format =
   | "mp4"
@@ -9114,9 +9409,9 @@ export interface FrameRate {
 }
 export const FrameRate = S.suspend(() =>
   S.Struct({
-    Denominator: S.optional(S.Number).pipe(T.JsonName("denominator")),
-    Numerator: S.optional(S.Number).pipe(T.JsonName("numerator")),
-  }),
+    Denominator: S.optional(S.Number),
+    Numerator: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ Denominator: "denominator", Numerator: "numerator" })),
 ).annotate({ identifier: "FrameRate" }) as any as S.Schema<FrameRate>;
 export interface AudioProperties {
   BitDepth?: number;
@@ -9128,15 +9423,22 @@ export interface AudioProperties {
 }
 export const AudioProperties = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    BitRate: S.optional(S.Number).pipe(T.JsonName("bitRate")),
-    Channels: S.optional(S.Number).pipe(T.JsonName("channels")),
-    FrameRate: S.optional(FrameRate)
-      .pipe(T.JsonName("frameRate"))
-      .annotate({ identifier: "FrameRate" }),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    BitDepth: S.optional(S.Number),
+    BitRate: S.optional(S.Number),
+    Channels: S.optional(S.Number),
+    FrameRate: S.optional(FrameRate),
+    LanguageCode: S.optional(S.String),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      BitRate: "bitRate",
+      Channels: "channels",
+      FrameRate: "frameRate",
+      LanguageCode: "languageCode",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({
   identifier: "AudioProperties",
 }) as any as S.Schema<AudioProperties>;
@@ -9173,9 +9475,9 @@ export interface DataProperties {
   LanguageCode?: string;
 }
 export const DataProperties = S.suspend(() =>
-  S.Struct({
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-  }),
+  S.Struct({ LanguageCode: S.optional(S.String) }).pipe(
+    S.encodeKeys({ LanguageCode: "languageCode" }),
+  ),
 ).annotate({ identifier: "DataProperties" }) as any as S.Schema<DataProperties>;
 export type TrackType = "video" | "audio" | "data" | (string & {});
 export const TrackType = S.String;
@@ -9256,28 +9558,32 @@ export interface CodecMetadata {
 }
 export const CodecMetadata = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    ChromaSubsampling: S.optional(S.String).pipe(
-      T.JsonName("chromaSubsampling"),
-    ),
-    CodedFrameRate: S.optional(FrameRate)
-      .pipe(T.JsonName("codedFrameRate"))
-      .annotate({ identifier: "FrameRate" }),
-    ColorPrimaries: S.optional(ColorPrimaries).pipe(
-      T.JsonName("colorPrimaries"),
-    ),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Level: S.optional(S.String).pipe(T.JsonName("level")),
-    MatrixCoefficients: S.optional(MatrixCoefficients).pipe(
-      T.JsonName("matrixCoefficients"),
-    ),
-    Profile: S.optional(S.String).pipe(T.JsonName("profile")),
-    ScanType: S.optional(S.String).pipe(T.JsonName("scanType")),
-    TransferCharacteristics: S.optional(TransferCharacteristics).pipe(
-      T.JsonName("transferCharacteristics"),
-    ),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    BitDepth: S.optional(S.Number),
+    ChromaSubsampling: S.optional(S.String),
+    CodedFrameRate: S.optional(FrameRate),
+    ColorPrimaries: S.optional(ColorPrimaries),
+    Height: S.optional(S.Number),
+    Level: S.optional(S.String),
+    MatrixCoefficients: S.optional(MatrixCoefficients),
+    Profile: S.optional(S.String),
+    ScanType: S.optional(S.String),
+    TransferCharacteristics: S.optional(TransferCharacteristics),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      ChromaSubsampling: "chromaSubsampling",
+      CodedFrameRate: "codedFrameRate",
+      ColorPrimaries: "colorPrimaries",
+      Height: "height",
+      Level: "level",
+      MatrixCoefficients: "matrixCoefficients",
+      Profile: "profile",
+      ScanType: "scanType",
+      TransferCharacteristics: "transferCharacteristics",
+      Width: "width",
+    }),
+  ),
 ).annotate({ identifier: "CodecMetadata" }) as any as S.Schema<CodecMetadata>;
 export interface VideoProperties {
   BitDepth?: number;
@@ -9292,26 +9598,28 @@ export interface VideoProperties {
 }
 export const VideoProperties = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    BitRate: S.optional(S.Number).pipe(T.JsonName("bitRate")),
-    CodecMetadata: S.optional(CodecMetadata)
-      .pipe(T.JsonName("codecMetadata"))
-      .annotate({ identifier: "CodecMetadata" }),
-    ColorPrimaries: S.optional(ColorPrimaries).pipe(
-      T.JsonName("colorPrimaries"),
-    ),
-    FrameRate: S.optional(FrameRate)
-      .pipe(T.JsonName("frameRate"))
-      .annotate({ identifier: "FrameRate" }),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    MatrixCoefficients: S.optional(MatrixCoefficients).pipe(
-      T.JsonName("matrixCoefficients"),
-    ),
-    TransferCharacteristics: S.optional(TransferCharacteristics).pipe(
-      T.JsonName("transferCharacteristics"),
-    ),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    BitDepth: S.optional(S.Number),
+    BitRate: S.optional(S.Number),
+    CodecMetadata: S.optional(CodecMetadata),
+    ColorPrimaries: S.optional(ColorPrimaries),
+    FrameRate: S.optional(FrameRate),
+    Height: S.optional(S.Number),
+    MatrixCoefficients: S.optional(MatrixCoefficients),
+    TransferCharacteristics: S.optional(TransferCharacteristics),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      BitRate: "bitRate",
+      CodecMetadata: "codecMetadata",
+      ColorPrimaries: "colorPrimaries",
+      FrameRate: "frameRate",
+      Height: "height",
+      MatrixCoefficients: "matrixCoefficients",
+      TransferCharacteristics: "transferCharacteristics",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "VideoProperties",
 }) as any as S.Schema<VideoProperties>;
@@ -9326,20 +9634,24 @@ export interface Track {
 }
 export const Track = S.suspend(() =>
   S.Struct({
-    AudioProperties: S.optional(AudioProperties)
-      .pipe(T.JsonName("audioProperties"))
-      .annotate({ identifier: "AudioProperties" }),
-    Codec: S.optional(Codec).pipe(T.JsonName("codec")),
-    DataProperties: S.optional(DataProperties)
-      .pipe(T.JsonName("dataProperties"))
-      .annotate({ identifier: "DataProperties" }),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    Index: S.optional(S.Number).pipe(T.JsonName("index")),
-    TrackType: S.optional(TrackType).pipe(T.JsonName("trackType")),
-    VideoProperties: S.optional(VideoProperties)
-      .pipe(T.JsonName("videoProperties"))
-      .annotate({ identifier: "VideoProperties" }),
-  }),
+    AudioProperties: S.optional(AudioProperties),
+    Codec: S.optional(Codec),
+    DataProperties: S.optional(DataProperties),
+    Duration: S.optional(S.Number),
+    Index: S.optional(S.Number),
+    TrackType: S.optional(TrackType),
+    VideoProperties: S.optional(VideoProperties),
+  }).pipe(
+    S.encodeKeys({
+      AudioProperties: "audioProperties",
+      Codec: "codec",
+      DataProperties: "dataProperties",
+      Duration: "duration",
+      Index: "index",
+      TrackType: "trackType",
+      VideoProperties: "videoProperties",
+    }),
+  ),
 ).annotate({ identifier: "Track" }) as any as S.Schema<Track>;
 export type __listOfTrack = Track[];
 export const __listOfTrack = S.Array(Track);
@@ -9350,10 +9662,12 @@ export interface Container {
 }
 export const Container = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    Format: S.optional(Format).pipe(T.JsonName("format")),
-    Tracks: S.optional(__listOfTrack).pipe(T.JsonName("tracks")),
-  }),
+    Duration: S.optional(S.Number),
+    Format: S.optional(Format),
+    Tracks: S.optional(__listOfTrack),
+  }).pipe(
+    S.encodeKeys({ Duration: "duration", Format: "format", Tracks: "tracks" }),
+  ),
 ).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
 export interface Metadata {
   ETag?: string;
@@ -9363,13 +9677,18 @@ export interface Metadata {
 }
 export const Metadata = S.suspend(() =>
   S.Struct({
-    ETag: S.optional(S.String).pipe(T.JsonName("eTag")),
-    FileSize: S.optional(S.Number).pipe(T.JsonName("fileSize")),
-    LastModified: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.JsonName("lastModified")),
-    MimeType: S.optional(S.String).pipe(T.JsonName("mimeType")),
-  }),
+    ETag: S.optional(S.String),
+    FileSize: S.optional(S.Number),
+    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    MimeType: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ETag: "eTag",
+      FileSize: "fileSize",
+      LastModified: "lastModified",
+      MimeType: "mimeType",
+    }),
+  ),
 ).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
 export type __listOf__integer = number[];
 export const __listOf__integer = S.Array(S.Number);
@@ -9380,16 +9699,16 @@ export interface TrackMapping {
 }
 export const TrackMapping = S.suspend(() =>
   S.Struct({
-    AudioTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("audioTrackIndexes"),
-    ),
-    DataTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("dataTrackIndexes"),
-    ),
-    VideoTrackIndexes: S.optional(__listOf__integer).pipe(
-      T.JsonName("videoTrackIndexes"),
-    ),
-  }),
+    AudioTrackIndexes: S.optional(__listOf__integer),
+    DataTrackIndexes: S.optional(__listOf__integer),
+    VideoTrackIndexes: S.optional(__listOf__integer),
+  }).pipe(
+    S.encodeKeys({
+      AudioTrackIndexes: "audioTrackIndexes",
+      DataTrackIndexes: "dataTrackIndexes",
+      VideoTrackIndexes: "videoTrackIndexes",
+    }),
+  ),
 ).annotate({ identifier: "TrackMapping" }) as any as S.Schema<TrackMapping>;
 export type __listOfTrackMapping = TrackMapping[];
 export const __listOfTrackMapping = S.Array(TrackMapping);
@@ -9400,16 +9719,16 @@ export interface ProbeResult {
 }
 export const ProbeResult = S.suspend(() =>
   S.Struct({
-    Container: S.optional(Container)
-      .pipe(T.JsonName("container"))
-      .annotate({ identifier: "Container" }),
-    Metadata: S.optional(Metadata)
-      .pipe(T.JsonName("metadata"))
-      .annotate({ identifier: "Metadata" }),
-    TrackMappings: S.optional(__listOfTrackMapping).pipe(
-      T.JsonName("trackMappings"),
-    ),
-  }),
+    Container: S.optional(Container),
+    Metadata: S.optional(Metadata),
+    TrackMappings: S.optional(__listOfTrackMapping),
+  }).pipe(
+    S.encodeKeys({
+      Container: "container",
+      Metadata: "metadata",
+      TrackMappings: "trackMappings",
+    }),
+  ),
 ).annotate({ identifier: "ProbeResult" }) as any as S.Schema<ProbeResult>;
 export type __listOfProbeResult = ProbeResult[];
 export const __listOfProbeResult = S.Array(ProbeResult);
@@ -9417,30 +9736,26 @@ export interface ProbeResponse {
   ProbeResults?: ProbeResult[];
 }
 export const ProbeResponse = S.suspend(() =>
-  S.Struct({
-    ProbeResults: S.optional(__listOfProbeResult).pipe(
-      T.JsonName("probeResults"),
-    ),
-  }),
+  S.Struct({ ProbeResults: S.optional(__listOfProbeResult) }).pipe(
+    S.encodeKeys({ ProbeResults: "probeResults" }),
+  ),
 ).annotate({ identifier: "ProbeResponse" }) as any as S.Schema<ProbeResponse>;
 export interface PutPolicyRequest {
   Policy?: Policy;
 }
 export const PutPolicyRequest = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(Policy)
-      .pipe(T.JsonName("policy"))
-      .annotate({ identifier: "Policy" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ Policy: S.optional(Policy) })
+    .pipe(S.encodeKeys({ Policy: "policy" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/2017-08-29/policy" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutPolicyRequest",
 }) as any as S.Schema<PutPolicyRequest>;
@@ -9448,11 +9763,9 @@ export interface PutPolicyResponse {
   Policy?: Policy;
 }
 export const PutPolicyResponse = S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(Policy)
-      .pipe(T.JsonName("policy"))
-      .annotate({ identifier: "Policy" }),
-  }),
+  S.Struct({ Policy: S.optional(Policy) }).pipe(
+    S.encodeKeys({ Policy: "policy" }),
+  ),
 ).annotate({
   identifier: "PutPolicyResponse",
 }) as any as S.Schema<PutPolicyResponse>;
@@ -9496,9 +9809,9 @@ export interface SearchJobsResponse {
 }
 export const SearchJobsResponse = S.suspend(() =>
   S.Struct({
-    Jobs: S.optional(__listOfJob).pipe(T.JsonName("jobs")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Jobs: S.optional(__listOfJob),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" })),
 ).annotate({
   identifier: "SearchJobsResponse",
 }) as any as S.Schema<SearchJobsResponse>;
@@ -9520,9 +9833,9 @@ export interface JobsQueryFilter {
 }
 export const JobsQueryFilter = S.suspend(() =>
   S.Struct({
-    Key: S.optional(JobsQueryFilterKey).pipe(T.JsonName("key")),
-    Values: S.optional(__listOf__stringMax100).pipe(T.JsonName("values")),
-  }),
+    Key: S.optional(JobsQueryFilterKey),
+    Values: S.optional(__listOf__stringMax100),
+  }).pipe(S.encodeKeys({ Key: "key", Values: "values" })),
 ).annotate({
   identifier: "JobsQueryFilter",
 }) as any as S.Schema<JobsQueryFilter>;
@@ -9536,22 +9849,29 @@ export interface StartJobsQueryRequest {
 }
 export const StartJobsQueryRequest = S.suspend(() =>
   S.Struct({
-    FilterList: S.optional(__listOfJobsQueryFilter).pipe(
-      T.JsonName("filterList"),
+    FilterList: S.optional(__listOfJobsQueryFilter),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    Order: S.optional(Order),
+  })
+    .pipe(
+      S.encodeKeys({
+        FilterList: "filterList",
+        MaxResults: "maxResults",
+        NextToken: "nextToken",
+        Order: "order",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/jobsQueries" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Order: S.optional(Order).pipe(T.JsonName("order")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/jobsQueries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "StartJobsQueryRequest",
 }) as any as S.Schema<StartJobsQueryRequest>;
@@ -9559,7 +9879,7 @@ export interface StartJobsQueryResponse {
   Id?: string;
 }
 export const StartJobsQueryResponse = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
+  S.Struct({ Id: S.optional(S.String) }).pipe(S.encodeKeys({ Id: "id" })),
 ).annotate({
   identifier: "StartJobsQueryResponse",
 }) as any as S.Schema<StartJobsQueryResponse>;
@@ -9568,19 +9888,18 @@ export interface TagResourceRequest {
   Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2017-08-29/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ Arn: S.optional(S.String), Tags: S.optional(__mapOf__string) })
+    .pipe(S.encodeKeys({ Arn: "arn", Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/2017-08-29/tags" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -9595,17 +9914,19 @@ export interface UntagResourceRequest {
 export const UntagResourceRequest = S.suspend(() =>
   S.Struct({
     Arn: S.String.pipe(T.HttpLabel("Arn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.JsonName("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    TagKeys: S.optional(__listOf__string),
+  })
+    .pipe(S.encodeKeys({ TagKeys: "tagKeys" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
@@ -9626,33 +9947,38 @@ export interface UpdateJobTemplateRequest {
 }
 export const UpdateJobTemplateRequest = S.suspend(() =>
   S.Struct({
-    AccelerationSettings: S.optional(AccelerationSettings)
-      .pipe(T.JsonName("accelerationSettings"))
-      .annotate({ identifier: "AccelerationSettings" }),
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    HopDestinations: S.optional(__listOfHopDestination).pipe(
-      T.JsonName("hopDestinations"),
-    ),
+    AccelerationSettings: S.optional(AccelerationSettings),
+    Category: S.optional(S.String),
+    Description: S.optional(S.String),
+    HopDestinations: S.optional(__listOfHopDestination),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-    Queue: S.optional(S.String).pipe(T.JsonName("queue")),
-    Settings: S.optional(JobTemplateSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "JobTemplateSettings" }),
-    StatusUpdateInterval: S.optional(StatusUpdateInterval).pipe(
-      T.JsonName("statusUpdateInterval"),
+    Priority: S.optional(S.Number),
+    Queue: S.optional(S.String),
+    Settings: S.optional(JobTemplateSettings),
+    StatusUpdateInterval: S.optional(StatusUpdateInterval),
+  })
+    .pipe(
+      S.encodeKeys({
+        AccelerationSettings: "accelerationSettings",
+        Category: "category",
+        Description: "description",
+        HopDestinations: "hopDestinations",
+        Priority: "priority",
+        Queue: "queue",
+        Settings: "settings",
+        StatusUpdateInterval: "statusUpdateInterval",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/2017-08-29/jobTemplates/{Name}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/jobTemplates/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateJobTemplateRequest",
 }) as any as S.Schema<UpdateJobTemplateRequest>;
@@ -9664,11 +9990,9 @@ export interface UpdateJobTemplateResponse {
   };
 }
 export const UpdateJobTemplateResponse = S.suspend(() =>
-  S.Struct({
-    JobTemplate: S.optional(JobTemplate)
-      .pipe(T.JsonName("jobTemplate"))
-      .annotate({ identifier: "JobTemplate" }),
-  }),
+  S.Struct({ JobTemplate: S.optional(JobTemplate) }).pipe(
+    S.encodeKeys({ JobTemplate: "jobTemplate" }),
+  ),
 ).annotate({
   identifier: "UpdateJobTemplateResponse",
 }) as any as S.Schema<UpdateJobTemplateResponse>;
@@ -9680,22 +10004,28 @@ export interface UpdatePresetRequest {
 }
 export const UpdatePresetRequest = S.suspend(() =>
   S.Struct({
-    Category: S.optional(S.String).pipe(T.JsonName("category")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Category: S.optional(S.String),
+    Description: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Settings: S.optional(PresetSettings)
-      .pipe(T.JsonName("settings"))
-      .annotate({ identifier: "PresetSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/presets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Settings: S.optional(PresetSettings),
+  })
+    .pipe(
+      S.encodeKeys({
+        Category: "category",
+        Description: "description",
+        Settings: "settings",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/2017-08-29/presets/{Name}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePresetRequest",
 }) as any as S.Schema<UpdatePresetRequest>;
@@ -9703,11 +10033,9 @@ export interface UpdatePresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const UpdatePresetResponse = S.suspend(() =>
-  S.Struct({
-    Preset: S.optional(Preset)
-      .pipe(T.JsonName("preset"))
-      .annotate({ identifier: "Preset" }),
-  }),
+  S.Struct({ Preset: S.optional(Preset) }).pipe(
+    S.encodeKeys({ Preset: "preset" }),
+  ),
 ).annotate({
   identifier: "UpdatePresetResponse",
 }) as any as S.Schema<UpdatePresetResponse>;
@@ -9720,23 +10048,30 @@ export interface UpdateQueueRequest {
 }
 export const UpdateQueueRequest = S.suspend(() =>
   S.Struct({
-    ConcurrentJobs: S.optional(S.Number).pipe(T.JsonName("concurrentJobs")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    ConcurrentJobs: S.optional(S.Number),
+    Description: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    ReservationPlanSettings: S.optional(ReservationPlanSettings)
-      .pipe(T.JsonName("reservationPlanSettings"))
-      .annotate({ identifier: "ReservationPlanSettings" }),
-    Status: S.optional(QueueStatus).pipe(T.JsonName("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2017-08-29/queues/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    ReservationPlanSettings: S.optional(ReservationPlanSettings),
+    Status: S.optional(QueueStatus),
+  })
+    .pipe(
+      S.encodeKeys({
+        ConcurrentJobs: "concurrentJobs",
+        Description: "description",
+        ReservationPlanSettings: "reservationPlanSettings",
+        Status: "status",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/2017-08-29/queues/{Name}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateQueueRequest",
 }) as any as S.Schema<UpdateQueueRequest>;
@@ -9744,11 +10079,7 @@ export interface UpdateQueueResponse {
   Queue?: Queue & { Name: string };
 }
 export const UpdateQueueResponse = S.suspend(() =>
-  S.Struct({
-    Queue: S.optional(Queue)
-      .pipe(T.JsonName("queue"))
-      .annotate({ identifier: "Queue" }),
-  }),
+  S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
 ).annotate({
   identifier: "UpdateQueueResponse",
 }) as any as S.Schema<UpdateQueueResponse>;
@@ -9756,31 +10087,31 @@ export const UpdateQueueResponse = S.suspend(() =>
 //# Errors
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
   "InternalServerErrorException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withQuotaError) {}
 export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 
 //# Operations

@@ -746,7 +746,9 @@ export interface PhoneNumberInformation {
 }
 export const PhoneNumberInformation = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PhoneNumber: S.optional(SensitiveString),
     Status: S.optional(S.String),
     Iso2CountryCode: S.optional(S.String),

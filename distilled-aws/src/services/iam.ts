@@ -637,7 +637,9 @@ export const AccessKey = S.suspend(() =>
     AccessKeyId: S.String,
     Status: StatusType,
     SecretAccessKey: SensitiveString,
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "AccessKey" }) as any as S.Schema<AccessKey>;
 export interface CreateAccessKeyResponse {
@@ -784,7 +786,7 @@ export const Group = S.suspend(() =>
     GroupName: S.String,
     GroupId: S.String,
     Arn: S.String,
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 export interface CreateGroupResponse {
@@ -850,7 +852,9 @@ export interface RoleLastUsed {
 }
 export const RoleLastUsed = S.suspend(() =>
   S.Struct({
-    LastUsedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUsedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Region: S.optional(S.String),
   }),
 ).annotate({ identifier: "RoleLastUsed" }) as any as S.Schema<RoleLastUsed>;
@@ -873,7 +877,7 @@ export const Role = S.suspend(() =>
     RoleName: S.String,
     RoleId: S.String,
     Arn: S.String,
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     AssumeRolePolicyDocument: S.optional(S.String),
     Description: S.optional(S.String),
     MaxSessionDuration: S.optional(S.Number),
@@ -899,7 +903,7 @@ export const InstanceProfile = S.suspend(() =>
     InstanceProfileName: S.String,
     InstanceProfileId: S.String,
     Arn: S.String,
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Roles: RoleListType,
     Tags: S.optional(TagListType),
   }),
@@ -946,7 +950,7 @@ export interface LoginProfile {
 export const LoginProfile = S.suspend(() =>
   S.Struct({
     UserName: S.String,
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     PasswordResetRequired: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "LoginProfile" }) as any as S.Schema<LoginProfile>;
@@ -1053,8 +1057,12 @@ export const Policy = S.suspend(() =>
     PermissionsBoundaryUsageCount: S.optional(S.Number),
     IsAttachable: S.optional(S.Boolean),
     Description: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(TagListType),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
@@ -1101,7 +1109,9 @@ export const PolicyVersion = S.suspend(() =>
     Document: S.optional(S.String),
     VersionId: S.optional(S.String),
     IsDefaultVersion: S.optional(S.Boolean),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "PolicyVersion" }) as any as S.Schema<PolicyVersion>;
 export interface CreatePolicyVersionResponse {
@@ -1267,8 +1277,10 @@ export interface ServiceSpecificCredential {
 }
 export const ServiceSpecificCredential = S.suspend(() =>
   S.Struct({
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ServiceName: S.String,
     ServiceUserName: S.optional(S.String),
     ServicePassword: S.optional(SensitiveString),
@@ -1333,8 +1345,10 @@ export const User = S.suspend(() =>
     UserName: S.String,
     UserId: S.String,
     Arn: S.String,
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    PasswordLastUsed: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    PasswordLastUsed: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PermissionsBoundary: S.optional(AttachedPermissionsBoundary),
     Tags: S.optional(TagListType),
   }),
@@ -1385,7 +1399,9 @@ export const VirtualMFADevice = S.suspend(() =>
     Base32StringSeed: S.optional(SensitiveBlob),
     QRCodePNG: S.optional(SensitiveBlob),
     User: S.optional(User),
-    EnableDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EnableDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(TagListType),
   }),
 ).annotate({
@@ -2387,7 +2403,9 @@ export interface AccessKeyLastUsed {
 }
 export const AccessKeyLastUsed = S.suspend(() =>
   S.Struct({
-    LastUsedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUsedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ServiceName: S.String,
     Region: S.String,
   }),
@@ -2484,7 +2502,9 @@ export const UserDetail = S.suspend(() =>
     UserName: S.optional(S.String),
     UserId: S.optional(S.String),
     Arn: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UserPolicyList: S.optional(PolicyDetailListType),
     GroupList: S.optional(GroupNameListType),
     AttachedManagedPolicies: S.optional(AttachedPoliciesListType),
@@ -2509,7 +2529,9 @@ export const GroupDetail = S.suspend(() =>
     GroupName: S.optional(S.String),
     GroupId: S.optional(S.String),
     Arn: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     GroupPolicyList: S.optional(PolicyDetailListType),
     AttachedManagedPolicies: S.optional(AttachedPoliciesListType),
   }),
@@ -2538,7 +2560,9 @@ export const RoleDetail = S.suspend(() =>
     RoleName: S.optional(S.String),
     RoleId: S.optional(S.String),
     Arn: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AssumeRolePolicyDocument: S.optional(S.String),
     InstanceProfileList: S.optional(InstanceProfileListType),
     RolePolicyList: S.optional(PolicyDetailListType),
@@ -2577,8 +2601,12 @@ export const ManagedPolicyDetail = S.suspend(() =>
     PermissionsBoundaryUsageCount: S.optional(S.Number),
     IsAttachable: S.optional(S.Boolean),
     Description: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PolicyVersionList: S.optional(PolicyDocumentVersionListType),
   }),
 ).annotate({
@@ -2803,7 +2831,9 @@ export const GetCredentialReportResponse = S.suspend(() =>
   S.Struct({
     Content: S.optional(T.Blob),
     ReportFormat: S.optional(ReportFormatType),
-    GeneratedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    GeneratedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "GetCredentialReportResponse",
@@ -2878,16 +2908,22 @@ export const DelegationRequest = S.suspend(() =>
     OwnerId: S.optional(S.String),
     ApproverId: S.optional(S.String),
     State: S.optional(StateType),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RequestorId: S.optional(S.String),
     RequestorName: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SessionDuration: S.optional(S.Number),
     RedirectUrl: S.optional(S.String),
     Notes: S.optional(S.String),
     RejectionReason: S.optional(S.String),
     OnlySendByOwner: S.optional(S.Boolean),
-    UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DelegationRequest",
@@ -3119,7 +3155,9 @@ export const GetMFADeviceResponse = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
     SerialNumber: S.String,
-    EnableDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EnableDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Certifications: S.optional(CertificationMapType),
   }).pipe(ns),
 ).annotate({
@@ -3155,7 +3193,9 @@ export const GetOpenIDConnectProviderResponse = S.suspend(() =>
     Url: S.optional(S.String),
     ClientIDList: S.optional(ClientIDListType),
     ThumbprintList: S.optional(ThumbprintListType),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(TagListType),
   }).pipe(ns),
 ).annotate({
@@ -3215,7 +3255,7 @@ export const AccessDetail = S.suspend(() =>
     Region: S.optional(S.String),
     EntityPath: S.optional(S.String),
     LastAuthenticatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     TotalAuthenticatedEntities: S.optional(S.Number),
   }),
@@ -3243,8 +3283,10 @@ export interface GetOrganizationsAccessReportResponse {
 export const GetOrganizationsAccessReportResponse = S.suspend(() =>
   S.Struct({
     JobStatus: JobStatusType,
-    JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    JobCompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    JobCompletionDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     NumberOfServicesAccessible: S.optional(S.Number),
     NumberOfServicesNotAccessed: S.optional(S.Number),
     AccessDetails: S.optional(AccessDetails),
@@ -3418,7 +3460,9 @@ export interface SAMLPrivateKey {
 export const SAMLPrivateKey = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "SAMLPrivateKey" }) as any as S.Schema<SAMLPrivateKey>;
 export type PrivateKeyList = SAMLPrivateKey[];
@@ -3436,8 +3480,12 @@ export const GetSAMLProviderResponse = S.suspend(() =>
   S.Struct({
     SAMLProviderUUID: S.optional(S.String),
     SAMLMetadataDocument: S.optional(S.String),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(TagListType),
     AssertionEncryptionMode: S.optional(AssertionEncryptionModeType),
     PrivateKeyList: S.optional(PrivateKeyList),
@@ -3477,8 +3525,12 @@ export const ServerCertificateMetadata = S.suspend(() =>
     ServerCertificateName: S.String,
     ServerCertificateId: S.String,
     Arn: S.String,
-    UploadDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UploadDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ServerCertificateMetadata",
@@ -3541,7 +3593,9 @@ export const TrackedActionLastAccessed = S.suspend(() =>
   S.Struct({
     ActionName: S.optional(S.String),
     LastAccessedEntity: S.optional(S.String),
-    LastAccessedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastAccessedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     LastAccessedRegion: S.optional(S.String),
   }),
 ).annotate({
@@ -3561,7 +3615,9 @@ export interface ServiceLastAccessed {
 export const ServiceLastAccessed = S.suspend(() =>
   S.Struct({
     ServiceName: S.String,
-    LastAuthenticated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastAuthenticated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ServiceNamespace: S.String,
     LastAuthenticatedEntity: S.optional(S.String),
     LastAuthenticatedRegion: S.optional(S.String),
@@ -3587,9 +3643,9 @@ export const GetServiceLastAccessedDetailsResponse = S.suspend(() =>
   S.Struct({
     JobStatus: JobStatusType,
     JobType: S.optional(AccessAdvisorUsageGranularityType),
-    JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ServicesLastAccessed: ServicesLastAccessed,
-    JobCompletionDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     IsTruncated: S.optional(S.Boolean),
     Marker: S.optional(S.String),
     Error: S.optional(ErrorDetails),
@@ -3648,7 +3704,9 @@ export interface EntityDetails {
 export const EntityDetails = S.suspend(() =>
   S.Struct({
     EntityInfo: EntityInfo,
-    LastAuthenticated: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastAuthenticated: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "EntityDetails" }) as any as S.Schema<EntityDetails>;
 export type EntityDetailsListType = EntityDetails[];
@@ -3665,8 +3723,8 @@ export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
 export const GetServiceLastAccessedDetailsWithEntitiesResponse = S.suspend(() =>
   S.Struct({
     JobStatus: JobStatusType,
-    JobCreationDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    JobCompletionDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     EntityDetailsList: EntityDetailsListType,
     IsTruncated: S.optional(S.Boolean),
     Marker: S.optional(S.String),
@@ -3779,7 +3837,9 @@ export const SSHPublicKey = S.suspend(() =>
     Fingerprint: S.String,
     SSHPublicKeyBody: S.String,
     Status: StatusType,
-    UploadDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UploadDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "SSHPublicKey" }) as any as S.Schema<SSHPublicKey>;
 export interface GetSSHPublicKeyResponse {
@@ -3882,7 +3942,9 @@ export const AccessKeyMetadata = S.suspend(() =>
     UserName: S.optional(S.String),
     AccessKeyId: S.optional(S.String),
     Status: S.optional(StatusType),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "AccessKeyMetadata",
@@ -4446,7 +4508,7 @@ export const MFADevice = S.suspend(() =>
   S.Struct({
     UserName: S.String,
     SerialNumber: S.String,
-    EnableDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    EnableDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "MFADevice" }) as any as S.Schema<MFADevice>;
 export type MfaDeviceListType = MFADevice[];
@@ -4951,8 +5013,12 @@ export interface SAMLProviderListEntry {
 export const SAMLProviderListEntry = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    ValidUntil: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ValidUntil: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CreateDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SAMLProviderListEntry",
@@ -5129,8 +5195,10 @@ export const ServiceSpecificCredentialMetadata = S.suspend(() =>
     Status: StatusType,
     ServiceUserName: S.optional(S.String),
     ServiceCredentialAlias: S.optional(S.String),
-    CreateDate: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ServiceSpecificCredentialId: S.String,
     ServiceName: S.String,
   }),
@@ -5193,7 +5261,9 @@ export const SigningCertificate = S.suspend(() =>
     CertificateId: S.String,
     CertificateBody: S.String,
     Status: StatusType,
-    UploadDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UploadDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SigningCertificate",
@@ -5249,7 +5319,7 @@ export const SSHPublicKeyMetadata = S.suspend(() =>
     UserName: S.String,
     SSHPublicKeyId: S.String,
     Status: StatusType,
-    UploadDate: S.Date.pipe(T.TimestampFormat("date-time")),
+    UploadDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "SSHPublicKeyMetadata",

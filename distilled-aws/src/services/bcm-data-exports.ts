@@ -306,9 +306,15 @@ export const ExecutionStatus = S.suspend(() =>
   S.Struct({
     StatusCode: S.optional(ExecutionStatusCode),
     StatusReason: S.optional(ExecutionStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CompletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    CompletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ExecutionStatus",
@@ -350,9 +356,15 @@ export const ExportStatus = S.suspend(() =>
   S.Struct({
     StatusCode: S.optional(ExportStatusCode),
     StatusReason: S.optional(ExecutionStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastRefreshedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastRefreshedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "ExportStatus" }) as any as S.Schema<ExportStatus>;
 export interface GetExportResponse {

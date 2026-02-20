@@ -173,14 +173,16 @@ export const AcceptDataGrantResponse = S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "AcceptDataGrantResponse",
@@ -223,7 +225,7 @@ export const CreateDataGrantRequest = S.suspend(() =>
     GrantDistributionScope: S.String,
     ReceiverPrincipal: S.String,
     SourceDataSetId: S.String,
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     Tags: S.optional(MapOf__string),
   }).pipe(
@@ -263,15 +265,17 @@ export const CreateDataGrantResponse = S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
     SourceDataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Tags: S.optional(MapOf__string),
   }),
 ).annotate({
@@ -329,7 +333,9 @@ export const CreateDataSetResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
@@ -337,7 +343,9 @@ export const CreateDataSetResponse = S.suspend(() =>
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateDataSetResponse",
@@ -430,11 +438,15 @@ export const CreateEventActionResponse = S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Event: S.optional(Event),
     Id: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateEventActionResponse",
@@ -766,7 +778,9 @@ export const ExportAssetToSignedUrlResponseDetails = S.suspend(() =>
     DataSetId: S.String,
     RevisionId: S.String,
     SignedUrl: S.optional(S.String),
-    SignedUrlExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SignedUrlExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ExportAssetToSignedUrlResponseDetails",
@@ -818,7 +832,9 @@ export const ImportAssetFromSignedUrlResponseDetails = S.suspend(() =>
     Md5Hash: S.optional(S.String),
     RevisionId: S.String,
     SignedUrl: S.optional(S.String),
-    SignedUrlExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SignedUrlExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportAssetFromSignedUrlResponseDetails",
@@ -872,7 +888,7 @@ export const ImportAssetFromApiGatewayApiResponseDetails = S.suspend(() =>
     ApiName: S.String,
     ApiSpecificationMd5Hash: S.String,
     ApiSpecificationUploadUrl: S.String,
-    ApiSpecificationUploadUrlExpiresAt: S.Date.pipe(
+    ApiSpecificationUploadUrlExpiresAt: T.DateFromString.pipe(
       T.TimestampFormat("date-time"),
     ),
     DataSetId: S.String,
@@ -1009,13 +1025,17 @@ export interface CreateJobResponse {
 export const CreateJobResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Details: S.optional(ResponseDetails),
     Errors: S.optional(ListOfJobError),
     Id: S.optional(S.String),
     State: S.optional(S.String),
     Type: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateJobResponse",
@@ -1061,16 +1081,22 @@ export const CreateRevisionResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CreateRevisionResponse",
@@ -1258,7 +1284,7 @@ export const ApiGatewayApiAsset = S.suspend(() =>
     ApiName: S.optional(S.String),
     ApiSpecificationDownloadUrl: S.optional(S.String),
     ApiSpecificationDownloadUrlExpiresAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ProtocolType: S.optional(S.String),
     Stage: S.optional(S.String),
@@ -1389,13 +1415,17 @@ export const GetAssetResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     AssetDetails: S.optional(AssetDetails),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     RevisionId: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetAssetResponse",
@@ -1441,15 +1471,17 @@ export const GetDataGrantResponse = S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
     SourceDataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Tags: S.optional(MapOf__string),
   }),
 ).annotate({
@@ -1489,7 +1521,9 @@ export const GetDataSetResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
@@ -1497,7 +1531,9 @@ export const GetDataSetResponse = S.suspend(() =>
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetDataSetResponse",
@@ -1532,11 +1568,15 @@ export const GetEventActionResponse = S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Event: S.optional(Event),
     Id: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetEventActionResponse",
@@ -1569,13 +1609,17 @@ export interface GetJobResponse {
 export const GetJobResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Details: S.optional(ResponseDetails),
     Errors: S.optional(ListOfJobError),
     Id: S.optional(S.String),
     State: S.optional(S.String),
     Type: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 export interface GetReceivedDataGrantRequest {
@@ -1617,14 +1661,16 @@ export const GetReceivedDataGrantResponse = S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetReceivedDataGrantResponse",
@@ -1671,16 +1717,22 @@ export const GetRevisionResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetRevisionResponse",
@@ -1726,14 +1778,16 @@ export const DataGrantSummaryEntry = S.suspend(() =>
     SenderPrincipal: S.String,
     ReceiverPrincipal: S.String,
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.String,
     SourceDataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "DataGrantSummaryEntry",
@@ -1792,15 +1846,17 @@ export const RevisionEntry = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Comment: S.optional(S.String),
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DataSetId: S.String,
     Finalized: S.optional(S.Boolean),
     Id: S.String,
     SourceId: S.optional(S.String),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "RevisionEntry" }) as any as S.Schema<RevisionEntry>;
 export type ListOfRevisionEntry = RevisionEntry[];
@@ -1856,14 +1912,14 @@ export const DataSetEntry = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     AssetType: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Description: S.String,
     Id: S.String,
     Name: S.String,
     Origin: S.String,
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "DataSetEntry" }) as any as S.Schema<DataSetEntry>;
 export type ListOfDataSetEntry = DataSetEntry[];
@@ -1915,10 +1971,10 @@ export const EventActionEntry = S.suspend(() =>
   S.Struct({
     Action: Action,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Event: Event,
     Id: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "EventActionEntry",
@@ -1975,13 +2031,13 @@ export interface JobEntry {
 export const JobEntry = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Details: ResponseDetails,
     Errors: S.optional(ListOfJobError),
     Id: S.String,
     State: S.String,
     Type: S.String,
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "JobEntry" }) as any as S.Schema<JobEntry>;
 export type ListOfJobEntry = JobEntry[];
@@ -2044,13 +2100,15 @@ export const ReceivedDataGrantSummariesEntry = S.suspend(() =>
     SenderPrincipal: S.String,
     ReceiverPrincipal: S.String,
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AcceptedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.String,
     Id: S.String,
     Arn: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ReceivedDataGrantSummariesEntry",
@@ -2117,13 +2175,13 @@ export const AssetEntry = S.suspend(() =>
     Arn: S.String,
     AssetDetails: AssetDetails,
     AssetType: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     DataSetId: S.String,
     Id: S.String,
     Name: S.String,
     RevisionId: S.String,
     SourceId: S.optional(S.String),
-    UpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "AssetEntry" }) as any as S.Schema<AssetEntry>;
 export type ListOfAssetEntry = AssetEntry[];
@@ -2161,7 +2219,9 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(MapOf__string) }).pipe(
+    S.encodeKeys({ Tags: "tags" }),
+  ),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -2208,15 +2268,21 @@ export const RevokeRevisionResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "RevokeRevisionResponse",
@@ -2329,7 +2395,9 @@ export interface DataUpdateRequestDetails {
 }
 export const DataUpdateRequestDetails = S.suspend(() =>
   S.Struct({
-    DataUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    DataUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DataUpdateRequestDetails",
@@ -2338,7 +2406,9 @@ export interface DeprecationRequestDetails {
   DeprecationAt: Date;
 }
 export const DeprecationRequestDetails = S.suspend(() =>
-  S.Struct({ DeprecationAt: S.Date.pipe(T.TimestampFormat("date-time")) }),
+  S.Struct({
+    DeprecationAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
 ).annotate({
   identifier: "DeprecationRequestDetails",
 }) as any as S.Schema<DeprecationRequestDetails>;
@@ -2365,7 +2435,7 @@ export interface SchemaChangeRequestDetails {
 export const SchemaChangeRequestDetails = S.suspend(() =>
   S.Struct({
     Changes: S.optional(ListOfSchemaChangeDetails),
-    SchemaChangeAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    SchemaChangeAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "SchemaChangeRequestDetails",
@@ -2447,17 +2517,19 @@ export interface TagResourceRequest {
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: MapOf__string.pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: MapOf__string,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -2535,13 +2607,17 @@ export const UpdateAssetResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     AssetDetails: S.optional(AssetDetails),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     RevisionId: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateAssetResponse",
@@ -2585,14 +2661,18 @@ export const UpdateDataSetResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Origin: S.optional(S.String),
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateDataSetResponse",
@@ -2630,10 +2710,14 @@ export const UpdateEventActionResponse = S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Event: S.optional(Event),
     Id: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateEventActionResponse",
@@ -2683,15 +2767,21 @@ export const UpdateRevisionResponse = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RevokedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateRevisionResponse",

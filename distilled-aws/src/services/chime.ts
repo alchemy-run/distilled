@@ -558,7 +558,9 @@ export const Account = S.suspend(() =>
     AccountId: S.String,
     Name: S.String,
     AccountType: S.optional(AccountType),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DefaultLicense: S.optional(License),
     SupportedLicenses: S.optional(LicenseList),
     AccountStatus: S.optional(AccountStatus),
@@ -616,8 +618,12 @@ export const Bot = S.suspend(() =>
     DisplayName: S.optional(SensitiveString),
     BotType: S.optional(BotType),
     Disabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     BotEmail: S.optional(SensitiveString),
     SecurityToken: S.optional(SensitiveString),
   }),
@@ -727,8 +733,12 @@ export const PhoneNumberOrder = S.suspend(() =>
     ProductType: S.optional(PhoneNumberProductType),
     Status: S.optional(PhoneNumberOrderStatus),
     OrderedPhoneNumbers: S.optional(OrderedPhoneNumberList),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "PhoneNumberOrder",
@@ -778,8 +788,12 @@ export const Room = S.suspend(() =>
     Name: S.optional(SensitiveString),
     AccountId: S.optional(S.String),
     CreatedBy: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "Room" }) as any as S.Schema<Room>;
 export interface CreateRoomResponse {
@@ -849,7 +863,9 @@ export const RoomMembership = S.suspend(() =>
     Member: S.optional(Member),
     Role: S.optional(RoomMembershipRole),
     InvitedBy: S.optional(S.String),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "RoomMembership" }) as any as S.Schema<RoomMembership>;
 export interface CreateRoomMembershipResponse {
@@ -922,8 +938,12 @@ export const User = S.suspend(() =>
     UserType: S.optional(UserType),
     UserRegistrationStatus: S.optional(RegistrationStatus),
     UserInvitationStatus: S.optional(InviteStatus),
-    RegisteredOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    InvitedOn: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RegisteredOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    InvitedOn: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AlexaForBusinessMetadata: S.optional(AlexaForBusinessMetadata),
     PersonalPIN: S.optional(S.String),
   }),
@@ -1363,7 +1383,7 @@ export const PhoneNumberAssociation = S.suspend(() =>
     Value: S.optional(S.String),
     Name: S.optional(PhoneNumberAssociationName),
     AssociatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1405,9 +1425,15 @@ export const PhoneNumber = S.suspend(() =>
     Associations: S.optional(PhoneNumberAssociationList),
     CallingName: S.optional(SensitiveString),
     CallingNameStatus: S.optional(CallingNameStatus),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    DeletionTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "PhoneNumber" }) as any as S.Schema<PhoneNumber>;
 export interface GetPhoneNumberResponse {
@@ -1464,7 +1490,7 @@ export const GetPhoneNumberSettingsResponse = S.suspend(() =>
   S.Struct({
     CallingName: S.optional(SensitiveString),
     CallingNameUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1526,7 +1552,7 @@ export const GetRetentionSettingsResponse = S.suspend(() =>
   S.Struct({
     RetentionSettings: S.optional(RetentionSettings),
     InitiateDeletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -2102,7 +2128,7 @@ export const PutRetentionSettingsResponse = S.suspend(() =>
   S.Struct({
     RetentionSettings: S.optional(RetentionSettings),
     InitiateDeletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({

@@ -550,7 +550,7 @@ export const IssuanceDetail = S.suspend(() =>
   S.Struct({
     IssuanceId: S.optional(S.String),
     IssuanceAmount: S.optional(MonetaryValue),
-    IssuedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    IssuedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "IssuanceDetail" }) as any as S.Schema<IssuanceDetail>;
 export interface DisbursementDetails {
@@ -595,8 +595,8 @@ export const CreditCode = S.suspend(() =>
     Value: MonetaryValue,
     AwsCreditCode: S.String,
     Status: BenefitAllocationStatus,
-    IssuedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    IssuedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ExpiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "CreditCode" }) as any as S.Schema<CreditCode>;
 export type CreditCodes = CreditCode[];
@@ -682,10 +682,16 @@ export const GetBenefitAllocationOutput = S.suspend(() =>
     FulfillmentType: S.optional(FulfillmentType),
     ApplicableBenefitIds: S.optional(BenefitIdentifiers),
     FulfillmentDetail: S.optional(FulfillmentDetails),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartsAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StartsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetBenefitAllocationOutput",
@@ -750,7 +756,9 @@ export const FileDetail = S.suspend(() =>
     FileStatusReason: S.optional(S.String),
     FileType: S.optional(FileType),
     CreatedBy: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "FileDetail" }) as any as S.Schema<FileDetail>;
 export type FileDetails = FileDetail[];
@@ -793,8 +801,12 @@ export const GetBenefitApplicationOutput = S.suspend(() =>
     StatusReason: S.optional(S.String),
     StatusReasonCode: S.optional(S.String),
     StatusReasonCodes: S.optional(StatusReasonCodes),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Revision: S.optional(S.String),
     AssociatedResources: S.optional(Arns),
     PartnerContacts: S.optional(Contacts),
@@ -865,8 +877,12 @@ export const BenefitAllocationSummary = S.suspend(() =>
     BenefitId: S.optional(S.String),
     BenefitApplicationId: S.optional(S.String),
     FulfillmentTypes: S.optional(FulfillmentTypes),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ApplicableBenefitIds: S.optional(BenefitIds),
   }),
 ).annotate({
@@ -973,8 +989,12 @@ export const BenefitApplicationSummary = S.suspend(() =>
     FulfillmentTypes: S.optional(FulfillmentTypes),
     Status: S.optional(BenefitApplicationStatus),
     Stage: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     BenefitApplicationDetails: S.optional(Attributes),
     AssociatedResources: S.optional(Arns),
   }),

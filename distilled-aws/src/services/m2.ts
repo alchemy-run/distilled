@@ -1943,10 +1943,9 @@ export interface EfsStorageConfiguration {
   mountPoint: string;
 }
 export const EfsStorageConfiguration = S.suspend(() =>
-  S.Struct({
-    fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
-    mountPoint: S.String.pipe(T.JsonName("mount-point")),
-  }),
+  S.Struct({ fileSystemId: S.String, mountPoint: S.String }).pipe(
+    S.encodeKeys({ fileSystemId: "file-system-id", mountPoint: "mount-point" }),
+  ),
 ).annotate({
   identifier: "EfsStorageConfiguration",
 }) as any as S.Schema<EfsStorageConfiguration>;
@@ -1955,10 +1954,9 @@ export interface FsxStorageConfiguration {
   mountPoint: string;
 }
 export const FsxStorageConfiguration = S.suspend(() =>
-  S.Struct({
-    fileSystemId: S.String.pipe(T.JsonName("file-system-id")),
-    mountPoint: S.String.pipe(T.JsonName("mount-point")),
-  }),
+  S.Struct({ fileSystemId: S.String, mountPoint: S.String }).pipe(
+    S.encodeKeys({ fileSystemId: "file-system-id", mountPoint: "mount-point" }),
+  ),
 ).annotate({
   identifier: "FsxStorageConfiguration",
 }) as any as S.Schema<FsxStorageConfiguration>;

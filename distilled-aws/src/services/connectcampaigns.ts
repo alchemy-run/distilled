@@ -681,7 +681,7 @@ export const DialRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.String,
     phoneNumber: SensitiveString,
-    expirationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    expirationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     attributes: Attributes,
   }),
 ).annotate({ identifier: "DialRequest" }) as any as S.Schema<DialRequest>;

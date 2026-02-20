@@ -190,7 +190,9 @@ export const GetAccountInformationResponse = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     AccountName: S.optional(SensitiveString),
-    AccountCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AccountCreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetAccountInformationResponse",

@@ -14268,7 +14268,9 @@ export type RealTimeContactAnalysisStatus =
 export const RealTimeContactAnalysisStatus = S.String;
 export type RealTimeContactAnalysisTimeData = { AbsoluteTime: Date };
 export const RealTimeContactAnalysisTimeData = S.Union([
-  S.Struct({ AbsoluteTime: S.Date.pipe(T.TimestampFormat("date-time")) }),
+  S.Struct({
+    AbsoluteTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
 ]);
 export interface RealTimeContactAnalysisCharacterInterval {
   BeginOffsetChar: number;

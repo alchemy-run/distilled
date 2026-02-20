@@ -213,23 +213,25 @@ export const ExecuteQueryInput = S.suspend(() =>
       T.HttpHeader("graphIdentifier"),
       T.HostLabel(),
     ),
-    queryString: S.String.pipe(T.JsonName("query")),
+    queryString: S.String,
     language: QueryLanguage,
     parameters: S.optional(DocumentValuedMap),
     planCache: S.optional(PlanCacheType),
-    explainMode: S.optional(ExplainMode).pipe(T.JsonName("explain")),
+    explainMode: S.optional(ExplainMode),
     queryTimeoutMilliseconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/queries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-      T.StaticContextParams({ ApiType: { value: "DataPlane" } }),
+  })
+    .pipe(S.encodeKeys({ queryString: "query", explainMode: "explain" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/queries" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+        T.StaticContextParams({ ApiType: { value: "DataPlane" } }),
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ExecuteQueryInput",
 }) as any as S.Schema<ExecuteQueryInput>;
@@ -363,7 +365,7 @@ export const GetGraphSummaryOutput = S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     lastStatisticsComputationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     graphSummary: S.optional(GraphDataSummary),
   }),

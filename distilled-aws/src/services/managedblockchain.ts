@@ -613,7 +613,9 @@ export const Accessor = S.suspend(() =>
     Type: S.optional(AccessorType),
     BillingToken: S.optional(S.String),
     Status: S.optional(AccessorStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Arn: S.optional(S.String),
     Tags: S.optional(OutputTagMap),
     NetworkType: S.optional(AccessorNetworkType),
@@ -701,7 +703,9 @@ export const Member = S.suspend(() =>
     FrameworkAttributes: S.optional(MemberFrameworkAttributes),
     LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
     Status: S.optional(MemberStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
@@ -797,7 +801,9 @@ export const Network = S.suspend(() =>
     VpcEndpointServiceName: S.optional(S.String),
     VotingPolicy: S.optional(VotingPolicy),
     Status: S.optional(NetworkStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
   }),
@@ -905,7 +911,9 @@ export const Node = S.suspend(() =>
     LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
     StateDB: S.optional(StateDBType),
     Status: S.optional(NodeStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Tags: S.optional(OutputTagMap),
     Arn: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
@@ -974,8 +982,12 @@ export const Proposal = S.suspend(() =>
     ProposedByMemberId: S.optional(S.String),
     ProposedByMemberName: S.optional(S.String),
     Status: S.optional(ProposalStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     YesVoteCount: S.optional(S.Number),
     NoVoteCount: S.optional(S.Number),
     OutstandingVoteCount: S.optional(S.Number),
@@ -1029,7 +1041,9 @@ export const AccessorSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Type: S.optional(AccessorType),
     Status: S.optional(AccessorStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Arn: S.optional(S.String),
     NetworkType: S.optional(AccessorNetworkType),
   }),
@@ -1097,7 +1111,9 @@ export const NetworkSummary = S.suspend(() =>
     Framework: S.optional(Framework),
     FrameworkVersion: S.optional(S.String),
     Status: S.optional(NetworkStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Arn: S.optional(S.String),
   }),
 ).annotate({ identifier: "NetworkSummary" }) as any as S.Schema<NetworkSummary>;
@@ -1112,8 +1128,12 @@ export interface Invitation {
 export const Invitation = S.suspend(() =>
   S.Struct({
     InvitationId: S.optional(S.String),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(InvitationStatus),
     NetworkSummary: S.optional(NetworkSummary),
     Arn: S.optional(S.String),
@@ -1177,7 +1197,9 @@ export const MemberSummary = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Status: S.optional(MemberStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     IsOwned: S.optional(S.Boolean),
     Arn: S.optional(S.String),
   }),
@@ -1274,7 +1296,9 @@ export const NodeSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Status: S.optional(NodeStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AvailabilityZone: S.optional(S.String),
     InstanceType: S.optional(S.String),
     Arn: S.optional(S.String),
@@ -1334,8 +1358,12 @@ export const ProposalSummary = S.suspend(() =>
     ProposedByMemberId: S.optional(S.String),
     ProposedByMemberName: S.optional(S.String),
     Status: S.optional(ProposalStatus),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    ExpirationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Arn: S.optional(S.String),
   }),
 ).annotate({

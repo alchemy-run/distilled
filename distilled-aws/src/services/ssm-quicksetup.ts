@@ -223,7 +223,7 @@ export const StatusSummary = S.suspend(() =>
     StatusType: StatusType,
     Status: S.optional(Status),
     StatusMessage: S.optional(S.String),
-    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    LastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     StatusDetails: S.optional(StatusDetails),
   }),
 ).annotate({ identifier: "StatusSummary" }) as any as S.Schema<StatusSummary>;
@@ -251,8 +251,12 @@ export const GetConfigurationOutput = S.suspend(() =>
     TypeVersion: S.optional(S.String),
     Account: S.optional(S.String),
     Region: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StatusSummaries: S.optional(StatusSummariesList),
     Parameters: S.optional(ConfigurationParametersMap),
   }),
@@ -313,8 +317,12 @@ export const GetConfigurationManagerOutput = S.suspend(() =>
     ManagerArn: S.String,
     Description: S.optional(S.String),
     Name: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    LastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    LastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     StatusSummaries: S.optional(StatusSummariesList),
     ConfigurationDefinitions: S.optional(ConfigurationDefinitionsList),
     Tags: S.optional(TagsMap),
@@ -483,7 +491,9 @@ export const ConfigurationSummary = S.suspend(() =>
     TypeVersion: S.optional(S.String),
     Region: S.optional(S.String),
     Account: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     FirstClassParameters: S.optional(ConfigurationParametersMap),
     StatusSummaries: S.optional(StatusSummariesList),
   }),

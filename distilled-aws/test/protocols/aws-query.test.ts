@@ -679,11 +679,11 @@ describe("awsQuery protocol", () => {
         };
 
         // Schemas with required fields should fail to parse when fields are missing
-        const result = yield* Effect.either(
+        const result = yield* Effect.result(
           parseResponse(GetUserResponse, response),
         );
 
-        expect(result._tag).toBe("Left"); // Should be a parse error
+        expect(result._tag).toBe("Failure"); // Should be a parse error
       }),
     );
 
@@ -707,11 +707,11 @@ describe("awsQuery protocol", () => {
           };
 
           // Schemas with required fields should fail to parse when fields are missing
-          const result = yield* Effect.either(
+          const result = yield* Effect.result(
             parseResponse(ListUsersResponse, response),
           );
 
-          expect(result._tag).toBe("Left"); // Should be a parse error
+          expect(result._tag).toBe("Failure"); // Should be a parse error
         }),
     );
 

@@ -204,9 +204,11 @@ export const GetAsyncInvokeResponse = S.suspend(() =>
     clientRequestToken: S.optional(S.String),
     status: AsyncInvokeStatus,
     failureMessage: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     outputDataConfig: AsyncInvokeOutputDataConfig,
   }),
 ).annotate({
@@ -228,10 +230,10 @@ export interface ListAsyncInvokesRequest {
 export const ListAsyncInvokesRequest = S.suspend(() =>
   S.Struct({
     submitTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeAfter")),
     submitTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ).pipe(T.HttpQuery("submitTimeBefore")),
     statusEquals: S.optional(AsyncInvokeStatus).pipe(
       T.HttpQuery("statusEquals"),
@@ -271,9 +273,11 @@ export const AsyncInvokeSummary = S.suspend(() =>
     clientRequestToken: S.optional(S.String),
     status: S.optional(AsyncInvokeStatus),
     failureMessage: S.optional(SensitiveString),
-    submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    submitTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModifiedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     outputDataConfig: AsyncInvokeOutputDataConfig,
   }),
 ).annotate({

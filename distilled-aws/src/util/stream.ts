@@ -40,7 +40,7 @@ export function isEffectStream(
   return (
     u !== null &&
     typeof u === "object" &&
-    Symbol.for("effect/Stream") in (u as object)
+    "~effect/Stream" in Object.getPrototypeOf(u as object)
   );
 }
 

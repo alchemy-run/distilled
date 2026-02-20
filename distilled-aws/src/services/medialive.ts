@@ -230,9 +230,11 @@ export interface ValidationError {
 }
 export const ValidationError = S.suspend(() =>
   S.Struct({
-    ElementPath: S.optional(S.String).pipe(T.JsonName("elementPath")),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
-  }),
+    ElementPath: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ ElementPath: "elementPath", ErrorMessage: "errorMessage" }),
+  ),
 ).annotate({
   identifier: "ValidationError",
 }) as any as S.Schema<ValidationError>;
@@ -248,22 +250,29 @@ export interface BatchDeleteRequest {
 }
 export const BatchDeleteRequest = S.suspend(() =>
   S.Struct({
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    InputIds: S.optional(__listOf__string).pipe(T.JsonName("inputIds")),
-    InputSecurityGroupIds: S.optional(__listOf__string).pipe(
-      T.JsonName("inputSecurityGroupIds"),
+    ChannelIds: S.optional(__listOf__string),
+    InputIds: S.optional(__listOf__string),
+    InputSecurityGroupIds: S.optional(__listOf__string),
+    MultiplexIds: S.optional(__listOf__string),
+  })
+    .pipe(
+      S.encodeKeys({
+        ChannelIds: "channelIds",
+        InputIds: "inputIds",
+        InputSecurityGroupIds: "inputSecurityGroupIds",
+        MultiplexIds: "multiplexIds",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/batch/delete" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MultiplexIds: S.optional(__listOf__string).pipe(T.JsonName("multiplexIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/batch/delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "BatchDeleteRequest",
 }) as any as S.Schema<BatchDeleteRequest>;
@@ -275,11 +284,13 @@ export interface BatchFailedResultModel {
 }
 export const BatchFailedResultModel = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Code: S.optional(S.String).pipe(T.JsonName("code")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-  }),
+    Arn: S.optional(S.String),
+    Code: S.optional(S.String),
+    Id: S.optional(S.String),
+    Message: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ Arn: "arn", Code: "code", Id: "id", Message: "message" }),
+  ),
 ).annotate({
   identifier: "BatchFailedResultModel",
 }) as any as S.Schema<BatchFailedResultModel>;
@@ -292,10 +303,10 @@ export interface BatchSuccessfulResultModel {
 }
 export const BatchSuccessfulResultModel = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    State: S.optional(S.String).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    State: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Arn: "arn", Id: "id", State: "state" })),
 ).annotate({
   identifier: "BatchSuccessfulResultModel",
 }) as any as S.Schema<BatchSuccessfulResultModel>;
@@ -309,13 +320,9 @@ export interface BatchDeleteResponse {
 }
 export const BatchDeleteResponse = S.suspend(() =>
   S.Struct({
-    Failed: S.optional(__listOfBatchFailedResultModel).pipe(
-      T.JsonName("failed"),
-    ),
-    Successful: S.optional(__listOfBatchSuccessfulResultModel).pipe(
-      T.JsonName("successful"),
-    ),
-  }),
+    Failed: S.optional(__listOfBatchFailedResultModel),
+    Successful: S.optional(__listOfBatchSuccessfulResultModel),
+  }).pipe(S.encodeKeys({ Failed: "failed", Successful: "successful" })),
 ).annotate({
   identifier: "BatchDeleteResponse",
 }) as any as S.Schema<BatchDeleteResponse>;
@@ -325,18 +332,22 @@ export interface BatchStartRequest {
 }
 export const BatchStartRequest = S.suspend(() =>
   S.Struct({
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    MultiplexIds: S.optional(__listOf__string).pipe(T.JsonName("multiplexIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/batch/start" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    ChannelIds: S.optional(__listOf__string),
+    MultiplexIds: S.optional(__listOf__string),
+  })
+    .pipe(
+      S.encodeKeys({ ChannelIds: "channelIds", MultiplexIds: "multiplexIds" }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/batch/start" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "BatchStartRequest",
 }) as any as S.Schema<BatchStartRequest>;
@@ -346,13 +357,9 @@ export interface BatchStartResponse {
 }
 export const BatchStartResponse = S.suspend(() =>
   S.Struct({
-    Failed: S.optional(__listOfBatchFailedResultModel).pipe(
-      T.JsonName("failed"),
-    ),
-    Successful: S.optional(__listOfBatchSuccessfulResultModel).pipe(
-      T.JsonName("successful"),
-    ),
-  }),
+    Failed: S.optional(__listOfBatchFailedResultModel),
+    Successful: S.optional(__listOfBatchSuccessfulResultModel),
+  }).pipe(S.encodeKeys({ Failed: "failed", Successful: "successful" })),
 ).annotate({
   identifier: "BatchStartResponse",
 }) as any as S.Schema<BatchStartResponse>;
@@ -362,18 +369,22 @@ export interface BatchStopRequest {
 }
 export const BatchStopRequest = S.suspend(() =>
   S.Struct({
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    MultiplexIds: S.optional(__listOf__string).pipe(T.JsonName("multiplexIds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/batch/stop" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    ChannelIds: S.optional(__listOf__string),
+    MultiplexIds: S.optional(__listOf__string),
+  })
+    .pipe(
+      S.encodeKeys({ ChannelIds: "channelIds", MultiplexIds: "multiplexIds" }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/batch/stop" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "BatchStopRequest",
 }) as any as S.Schema<BatchStopRequest>;
@@ -383,13 +394,9 @@ export interface BatchStopResponse {
 }
 export const BatchStopResponse = S.suspend(() =>
   S.Struct({
-    Failed: S.optional(__listOfBatchFailedResultModel).pipe(
-      T.JsonName("failed"),
-    ),
-    Successful: S.optional(__listOfBatchSuccessfulResultModel).pipe(
-      T.JsonName("successful"),
-    ),
-  }),
+    Failed: S.optional(__listOfBatchFailedResultModel),
+    Successful: S.optional(__listOfBatchSuccessfulResultModel),
+  }).pipe(S.encodeKeys({ Failed: "failed", Successful: "successful" })),
 ).annotate({
   identifier: "BatchStopResponse",
 }) as any as S.Schema<BatchStopResponse>;
@@ -398,10 +405,9 @@ export interface HlsId3SegmentTaggingScheduleActionSettings {
   Id3?: string;
 }
 export const HlsId3SegmentTaggingScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    Tag: S.optional(S.String).pipe(T.JsonName("tag")),
-    Id3: S.optional(S.String).pipe(T.JsonName("id3")),
-  }),
+  S.Struct({ Tag: S.optional(S.String), Id3: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Tag: "tag", Id3: "id3" }),
+  ),
 ).annotate({
   identifier: "HlsId3SegmentTaggingScheduleActionSettings",
 }) as any as S.Schema<HlsId3SegmentTaggingScheduleActionSettings>;
@@ -409,7 +415,7 @@ export interface HlsTimedMetadataScheduleActionSettings {
   Id3?: string;
 }
 export const HlsTimedMetadataScheduleActionSettings = S.suspend(() =>
-  S.Struct({ Id3: S.optional(S.String).pipe(T.JsonName("id3")) }),
+  S.Struct({ Id3: S.optional(S.String) }).pipe(S.encodeKeys({ Id3: "id3" })),
 ).annotate({
   identifier: "HlsTimedMetadataScheduleActionSettings",
 }) as any as S.Schema<HlsTimedMetadataScheduleActionSettings>;
@@ -419,7 +425,9 @@ export interface StartTimecode {
   Timecode?: string;
 }
 export const StartTimecode = S.suspend(() =>
-  S.Struct({ Timecode: S.optional(S.String).pipe(T.JsonName("timecode")) }),
+  S.Struct({ Timecode: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Timecode: "timecode" }),
+  ),
 ).annotate({ identifier: "StartTimecode" }) as any as S.Schema<StartTimecode>;
 export type LastFrameClippingBehavior =
   | "EXCLUDE_LAST_FRAME"
@@ -432,11 +440,14 @@ export interface StopTimecode {
 }
 export const StopTimecode = S.suspend(() =>
   S.Struct({
-    LastFrameClippingBehavior: S.optional(LastFrameClippingBehavior).pipe(
-      T.JsonName("lastFrameClippingBehavior"),
-    ),
-    Timecode: S.optional(S.String).pipe(T.JsonName("timecode")),
-  }),
+    LastFrameClippingBehavior: S.optional(LastFrameClippingBehavior),
+    Timecode: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LastFrameClippingBehavior: "lastFrameClippingBehavior",
+      Timecode: "timecode",
+    }),
+  ),
 ).annotate({ identifier: "StopTimecode" }) as any as S.Schema<StopTimecode>;
 export interface InputClippingSettings {
   InputTimecodeSource?: InputTimecodeSource;
@@ -445,16 +456,16 @@ export interface InputClippingSettings {
 }
 export const InputClippingSettings = S.suspend(() =>
   S.Struct({
-    InputTimecodeSource: S.optional(InputTimecodeSource).pipe(
-      T.JsonName("inputTimecodeSource"),
-    ),
-    StartTimecode: S.optional(StartTimecode)
-      .pipe(T.JsonName("startTimecode"))
-      .annotate({ identifier: "StartTimecode" }),
-    StopTimecode: S.optional(StopTimecode)
-      .pipe(T.JsonName("stopTimecode"))
-      .annotate({ identifier: "StopTimecode" }),
-  }),
+    InputTimecodeSource: S.optional(InputTimecodeSource),
+    StartTimecode: S.optional(StartTimecode),
+    StopTimecode: S.optional(StopTimecode),
+  }).pipe(
+    S.encodeKeys({
+      InputTimecodeSource: "inputTimecodeSource",
+      StartTimecode: "startTimecode",
+      StopTimecode: "stopTimecode",
+    }),
+  ),
 ).annotate({
   identifier: "InputClippingSettings",
 }) as any as S.Schema<InputClippingSettings>;
@@ -465,14 +476,16 @@ export interface InputPrepareScheduleActionSettings {
 }
 export const InputPrepareScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    InputAttachmentNameReference: S.optional(S.String).pipe(
-      T.JsonName("inputAttachmentNameReference"),
-    ),
-    InputClippingSettings: S.optional(InputClippingSettings)
-      .pipe(T.JsonName("inputClippingSettings"))
-      .annotate({ identifier: "InputClippingSettings" }),
-    UrlPath: S.optional(__listOf__string).pipe(T.JsonName("urlPath")),
-  }),
+    InputAttachmentNameReference: S.optional(S.String),
+    InputClippingSettings: S.optional(InputClippingSettings),
+    UrlPath: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      InputAttachmentNameReference: "inputAttachmentNameReference",
+      InputClippingSettings: "inputClippingSettings",
+      UrlPath: "urlPath",
+    }),
+  ),
 ).annotate({
   identifier: "InputPrepareScheduleActionSettings",
 }) as any as S.Schema<InputPrepareScheduleActionSettings>;
@@ -483,14 +496,16 @@ export interface InputSwitchScheduleActionSettings {
 }
 export const InputSwitchScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    InputAttachmentNameReference: S.optional(S.String).pipe(
-      T.JsonName("inputAttachmentNameReference"),
-    ),
-    InputClippingSettings: S.optional(InputClippingSettings)
-      .pipe(T.JsonName("inputClippingSettings"))
-      .annotate({ identifier: "InputClippingSettings" }),
-    UrlPath: S.optional(__listOf__string).pipe(T.JsonName("urlPath")),
-  }),
+    InputAttachmentNameReference: S.optional(S.String),
+    InputClippingSettings: S.optional(InputClippingSettings),
+    UrlPath: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      InputAttachmentNameReference: "inputAttachmentNameReference",
+      InputClippingSettings: "inputClippingSettings",
+      UrlPath: "urlPath",
+    }),
+  ),
 ).annotate({
   identifier: "InputSwitchScheduleActionSettings",
 }) as any as S.Schema<InputSwitchScheduleActionSettings>;
@@ -502,11 +517,18 @@ export interface MotionGraphicsActivateScheduleActionSettings {
 }
 export const MotionGraphicsActivateScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-  }),
+    Duration: S.optional(S.Number),
+    PasswordParam: S.optional(S.String),
+    Url: S.optional(S.String),
+    Username: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Duration: "duration",
+      PasswordParam: "passwordParam",
+      Url: "url",
+      Username: "username",
+    }),
+  ),
 ).annotate({
   identifier: "MotionGraphicsActivateScheduleActionSettings",
 }) as any as S.Schema<MotionGraphicsActivateScheduleActionSettings>;
@@ -522,9 +544,9 @@ export interface PipelinePauseStateSettings {
   PipelineId?: PipelineId;
 }
 export const PipelinePauseStateSettings = S.suspend(() =>
-  S.Struct({
-    PipelineId: S.optional(PipelineId).pipe(T.JsonName("pipelineId")),
-  }),
+  S.Struct({ PipelineId: S.optional(PipelineId) }).pipe(
+    S.encodeKeys({ PipelineId: "pipelineId" }),
+  ),
 ).annotate({
   identifier: "PipelinePauseStateSettings",
 }) as any as S.Schema<PipelinePauseStateSettings>;
@@ -536,11 +558,9 @@ export interface PauseStateScheduleActionSettings {
   Pipelines?: PipelinePauseStateSettings[];
 }
 export const PauseStateScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    Pipelines: S.optional(__listOfPipelinePauseStateSettings).pipe(
-      T.JsonName("pipelines"),
-    ),
-  }),
+  S.Struct({ Pipelines: S.optional(__listOfPipelinePauseStateSettings) }).pipe(
+    S.encodeKeys({ Pipelines: "pipelines" }),
+  ),
 ).annotate({
   identifier: "PauseStateScheduleActionSettings",
 }) as any as S.Schema<PauseStateScheduleActionSettings>;
@@ -552,11 +572,14 @@ export interface Scte35InputScheduleActionSettings {
 }
 export const Scte35InputScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    InputAttachmentNameReference: S.optional(S.String).pipe(
-      T.JsonName("inputAttachmentNameReference"),
-    ),
-    Mode: S.optional(Scte35InputMode).pipe(T.JsonName("mode")),
-  }),
+    InputAttachmentNameReference: S.optional(S.String),
+    Mode: S.optional(Scte35InputMode),
+  }).pipe(
+    S.encodeKeys({
+      InputAttachmentNameReference: "inputAttachmentNameReference",
+      Mode: "mode",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35InputScheduleActionSettings",
 }) as any as S.Schema<Scte35InputScheduleActionSettings>;
@@ -564,9 +587,9 @@ export interface Scte35ReturnToNetworkScheduleActionSettings {
   SpliceEventId?: number;
 }
 export const Scte35ReturnToNetworkScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    SpliceEventId: S.optional(S.Number).pipe(T.JsonName("spliceEventId")),
-  }),
+  S.Struct({ SpliceEventId: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ SpliceEventId: "spliceEventId" }),
+  ),
 ).annotate({
   identifier: "Scte35ReturnToNetworkScheduleActionSettings",
 }) as any as S.Schema<Scte35ReturnToNetworkScheduleActionSettings>;
@@ -576,9 +599,11 @@ export interface Scte35SpliceInsertScheduleActionSettings {
 }
 export const Scte35SpliceInsertScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    SpliceEventId: S.optional(S.Number).pipe(T.JsonName("spliceEventId")),
-  }),
+    Duration: S.optional(S.Number),
+    SpliceEventId: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({ Duration: "duration", SpliceEventId: "spliceEventId" }),
+  ),
 ).annotate({
   identifier: "Scte35SpliceInsertScheduleActionSettings",
 }) as any as S.Schema<Scte35SpliceInsertScheduleActionSettings>;
@@ -612,19 +637,18 @@ export interface Scte35DeliveryRestrictions {
 }
 export const Scte35DeliveryRestrictions = S.suspend(() =>
   S.Struct({
-    ArchiveAllowedFlag: S.optional(Scte35ArchiveAllowedFlag).pipe(
-      T.JsonName("archiveAllowedFlag"),
-    ),
-    DeviceRestrictions: S.optional(Scte35DeviceRestrictions).pipe(
-      T.JsonName("deviceRestrictions"),
-    ),
-    NoRegionalBlackoutFlag: S.optional(Scte35NoRegionalBlackoutFlag).pipe(
-      T.JsonName("noRegionalBlackoutFlag"),
-    ),
-    WebDeliveryAllowedFlag: S.optional(Scte35WebDeliveryAllowedFlag).pipe(
-      T.JsonName("webDeliveryAllowedFlag"),
-    ),
-  }),
+    ArchiveAllowedFlag: S.optional(Scte35ArchiveAllowedFlag),
+    DeviceRestrictions: S.optional(Scte35DeviceRestrictions),
+    NoRegionalBlackoutFlag: S.optional(Scte35NoRegionalBlackoutFlag),
+    WebDeliveryAllowedFlag: S.optional(Scte35WebDeliveryAllowedFlag),
+  }).pipe(
+    S.encodeKeys({
+      ArchiveAllowedFlag: "archiveAllowedFlag",
+      DeviceRestrictions: "deviceRestrictions",
+      NoRegionalBlackoutFlag: "noRegionalBlackoutFlag",
+      WebDeliveryAllowedFlag: "webDeliveryAllowedFlag",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35DeliveryRestrictions",
 }) as any as S.Schema<Scte35DeliveryRestrictions>;
@@ -648,32 +672,32 @@ export interface Scte35SegmentationDescriptor {
 }
 export const Scte35SegmentationDescriptor = S.suspend(() =>
   S.Struct({
-    DeliveryRestrictions: S.optional(Scte35DeliveryRestrictions)
-      .pipe(T.JsonName("deliveryRestrictions"))
-      .annotate({ identifier: "Scte35DeliveryRestrictions" }),
-    SegmentNum: S.optional(S.Number).pipe(T.JsonName("segmentNum")),
-    SegmentationCancelIndicator: S.optional(
-      Scte35SegmentationCancelIndicator,
-    ).pipe(T.JsonName("segmentationCancelIndicator")),
-    SegmentationDuration: S.optional(S.Number).pipe(
-      T.JsonName("segmentationDuration"),
-    ),
-    SegmentationEventId: S.optional(S.Number).pipe(
-      T.JsonName("segmentationEventId"),
-    ),
-    SegmentationTypeId: S.optional(S.Number).pipe(
-      T.JsonName("segmentationTypeId"),
-    ),
-    SegmentationUpid: S.optional(S.String).pipe(T.JsonName("segmentationUpid")),
-    SegmentationUpidType: S.optional(S.Number).pipe(
-      T.JsonName("segmentationUpidType"),
-    ),
-    SegmentsExpected: S.optional(S.Number).pipe(T.JsonName("segmentsExpected")),
-    SubSegmentNum: S.optional(S.Number).pipe(T.JsonName("subSegmentNum")),
-    SubSegmentsExpected: S.optional(S.Number).pipe(
-      T.JsonName("subSegmentsExpected"),
-    ),
-  }),
+    DeliveryRestrictions: S.optional(Scte35DeliveryRestrictions),
+    SegmentNum: S.optional(S.Number),
+    SegmentationCancelIndicator: S.optional(Scte35SegmentationCancelIndicator),
+    SegmentationDuration: S.optional(S.Number),
+    SegmentationEventId: S.optional(S.Number),
+    SegmentationTypeId: S.optional(S.Number),
+    SegmentationUpid: S.optional(S.String),
+    SegmentationUpidType: S.optional(S.Number),
+    SegmentsExpected: S.optional(S.Number),
+    SubSegmentNum: S.optional(S.Number),
+    SubSegmentsExpected: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      DeliveryRestrictions: "deliveryRestrictions",
+      SegmentNum: "segmentNum",
+      SegmentationCancelIndicator: "segmentationCancelIndicator",
+      SegmentationDuration: "segmentationDuration",
+      SegmentationEventId: "segmentationEventId",
+      SegmentationTypeId: "segmentationTypeId",
+      SegmentationUpid: "segmentationUpid",
+      SegmentationUpidType: "segmentationUpidType",
+      SegmentsExpected: "segmentsExpected",
+      SubSegmentNum: "subSegmentNum",
+      SubSegmentsExpected: "subSegmentsExpected",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35SegmentationDescriptor",
 }) as any as S.Schema<Scte35SegmentationDescriptor>;
@@ -684,10 +708,13 @@ export const Scte35DescriptorSettings = S.suspend(() =>
   S.Struct({
     SegmentationDescriptorScte35DescriptorSettings: S.optional(
       Scte35SegmentationDescriptor,
-    )
-      .pipe(T.JsonName("segmentationDescriptorScte35DescriptorSettings"))
-      .annotate({ identifier: "Scte35SegmentationDescriptor" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      SegmentationDescriptorScte35DescriptorSettings:
+        "segmentationDescriptorScte35DescriptorSettings",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35DescriptorSettings",
 }) as any as S.Schema<Scte35DescriptorSettings>;
@@ -696,10 +723,10 @@ export interface Scte35Descriptor {
 }
 export const Scte35Descriptor = S.suspend(() =>
   S.Struct({
-    Scte35DescriptorSettings: S.optional(Scte35DescriptorSettings)
-      .pipe(T.JsonName("scte35DescriptorSettings"))
-      .annotate({ identifier: "Scte35DescriptorSettings" }),
-  }),
+    Scte35DescriptorSettings: S.optional(Scte35DescriptorSettings),
+  }).pipe(
+    S.encodeKeys({ Scte35DescriptorSettings: "scte35DescriptorSettings" }),
+  ),
 ).annotate({
   identifier: "Scte35Descriptor",
 }) as any as S.Schema<Scte35Descriptor>;
@@ -709,11 +736,9 @@ export interface Scte35TimeSignalScheduleActionSettings {
   Scte35Descriptors?: Scte35Descriptor[];
 }
 export const Scte35TimeSignalScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    Scte35Descriptors: S.optional(__listOfScte35Descriptor).pipe(
-      T.JsonName("scte35Descriptors"),
-    ),
-  }),
+  S.Struct({ Scte35Descriptors: S.optional(__listOfScte35Descriptor) }).pipe(
+    S.encodeKeys({ Scte35Descriptors: "scte35Descriptors" }),
+  ),
 ).annotate({
   identifier: "Scte35TimeSignalScheduleActionSettings",
 }) as any as S.Schema<Scte35TimeSignalScheduleActionSettings>;
@@ -724,10 +749,16 @@ export interface InputLocation {
 }
 export const InputLocation = S.suspend(() =>
   S.Struct({
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    Uri: S.optional(S.String).pipe(T.JsonName("uri")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-  }),
+    PasswordParam: S.optional(S.String),
+    Uri: S.optional(S.String),
+    Username: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PasswordParam: "passwordParam",
+      Uri: "uri",
+      Username: "username",
+    }),
+  ),
 ).annotate({ identifier: "InputLocation" }) as any as S.Schema<InputLocation>;
 export interface StaticImageActivateScheduleActionSettings {
   Duration?: number;
@@ -743,19 +774,30 @@ export interface StaticImageActivateScheduleActionSettings {
 }
 export const StaticImageActivateScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    FadeIn: S.optional(S.Number).pipe(T.JsonName("fadeIn")),
-    FadeOut: S.optional(S.Number).pipe(T.JsonName("fadeOut")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Image: S.optional(InputLocation)
-      .pipe(T.JsonName("image"))
-      .annotate({ identifier: "InputLocation" }),
-    ImageX: S.optional(S.Number).pipe(T.JsonName("imageX")),
-    ImageY: S.optional(S.Number).pipe(T.JsonName("imageY")),
-    Layer: S.optional(S.Number).pipe(T.JsonName("layer")),
-    Opacity: S.optional(S.Number).pipe(T.JsonName("opacity")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Duration: S.optional(S.Number),
+    FadeIn: S.optional(S.Number),
+    FadeOut: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Image: S.optional(InputLocation),
+    ImageX: S.optional(S.Number),
+    ImageY: S.optional(S.Number),
+    Layer: S.optional(S.Number),
+    Opacity: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Duration: "duration",
+      FadeIn: "fadeIn",
+      FadeOut: "fadeOut",
+      Height: "height",
+      Image: "image",
+      ImageX: "imageX",
+      ImageY: "imageY",
+      Layer: "layer",
+      Opacity: "opacity",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "StaticImageActivateScheduleActionSettings",
 }) as any as S.Schema<StaticImageActivateScheduleActionSettings>;
@@ -764,10 +806,9 @@ export interface StaticImageDeactivateScheduleActionSettings {
   Layer?: number;
 }
 export const StaticImageDeactivateScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    FadeOut: S.optional(S.Number).pipe(T.JsonName("fadeOut")),
-    Layer: S.optional(S.Number).pipe(T.JsonName("layer")),
-  }),
+  S.Struct({ FadeOut: S.optional(S.Number), Layer: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ FadeOut: "fadeOut", Layer: "layer" }),
+  ),
 ).annotate({
   identifier: "StaticImageDeactivateScheduleActionSettings",
 }) as any as S.Schema<StaticImageDeactivateScheduleActionSettings>;
@@ -786,20 +827,32 @@ export interface StaticImageOutputActivateScheduleActionSettings {
 }
 export const StaticImageOutputActivateScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    FadeIn: S.optional(S.Number).pipe(T.JsonName("fadeIn")),
-    FadeOut: S.optional(S.Number).pipe(T.JsonName("fadeOut")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Image: S.optional(InputLocation)
-      .pipe(T.JsonName("image"))
-      .annotate({ identifier: "InputLocation" }),
-    ImageX: S.optional(S.Number).pipe(T.JsonName("imageX")),
-    ImageY: S.optional(S.Number).pipe(T.JsonName("imageY")),
-    Layer: S.optional(S.Number).pipe(T.JsonName("layer")),
-    Opacity: S.optional(S.Number).pipe(T.JsonName("opacity")),
-    OutputNames: S.optional(__listOf__string).pipe(T.JsonName("outputNames")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Duration: S.optional(S.Number),
+    FadeIn: S.optional(S.Number),
+    FadeOut: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    Image: S.optional(InputLocation),
+    ImageX: S.optional(S.Number),
+    ImageY: S.optional(S.Number),
+    Layer: S.optional(S.Number),
+    Opacity: S.optional(S.Number),
+    OutputNames: S.optional(__listOf__string),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Duration: "duration",
+      FadeIn: "fadeIn",
+      FadeOut: "fadeOut",
+      Height: "height",
+      Image: "image",
+      ImageX: "imageX",
+      ImageY: "imageY",
+      Layer: "layer",
+      Opacity: "opacity",
+      OutputNames: "outputNames",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "StaticImageOutputActivateScheduleActionSettings",
 }) as any as S.Schema<StaticImageOutputActivateScheduleActionSettings>;
@@ -810,10 +863,16 @@ export interface StaticImageOutputDeactivateScheduleActionSettings {
 }
 export const StaticImageOutputDeactivateScheduleActionSettings = S.suspend(() =>
   S.Struct({
-    FadeOut: S.optional(S.Number).pipe(T.JsonName("fadeOut")),
-    Layer: S.optional(S.Number).pipe(T.JsonName("layer")),
-    OutputNames: S.optional(__listOf__string).pipe(T.JsonName("outputNames")),
-  }),
+    FadeOut: S.optional(S.Number),
+    Layer: S.optional(S.Number),
+    OutputNames: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      FadeOut: "fadeOut",
+      Layer: "layer",
+      OutputNames: "outputNames",
+    }),
+  ),
 ).annotate({
   identifier: "StaticImageOutputDeactivateScheduleActionSettings",
 }) as any as S.Schema<StaticImageOutputDeactivateScheduleActionSettings>;
@@ -822,10 +881,9 @@ export interface Id3SegmentTaggingScheduleActionSettings {
   Tag?: string;
 }
 export const Id3SegmentTaggingScheduleActionSettings = S.suspend(() =>
-  S.Struct({
-    Id3: S.optional(S.String).pipe(T.JsonName("id3")),
-    Tag: S.optional(S.String).pipe(T.JsonName("tag")),
-  }),
+  S.Struct({ Id3: S.optional(S.String), Tag: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Id3: "id3", Tag: "tag" }),
+  ),
 ).annotate({
   identifier: "Id3SegmentTaggingScheduleActionSettings",
 }) as any as S.Schema<Id3SegmentTaggingScheduleActionSettings>;
@@ -833,7 +891,7 @@ export interface TimedMetadataScheduleActionSettings {
   Id3?: string;
 }
 export const TimedMetadataScheduleActionSettings = S.suspend(() =>
-  S.Struct({ Id3: S.optional(S.String).pipe(T.JsonName("id3")) }),
+  S.Struct({ Id3: S.optional(S.String) }).pipe(S.encodeKeys({ Id3: "id3" })),
 ).annotate({
   identifier: "TimedMetadataScheduleActionSettings",
 }) as any as S.Schema<TimedMetadataScheduleActionSettings>;
@@ -860,82 +918,69 @@ export const ScheduleActionSettings = S.suspend(() =>
   S.Struct({
     HlsId3SegmentTaggingSettings: S.optional(
       HlsId3SegmentTaggingScheduleActionSettings,
-    )
-      .pipe(T.JsonName("hlsId3SegmentTaggingSettings"))
-      .annotate({ identifier: "HlsId3SegmentTaggingScheduleActionSettings" }),
-    HlsTimedMetadataSettings: S.optional(HlsTimedMetadataScheduleActionSettings)
-      .pipe(T.JsonName("hlsTimedMetadataSettings"))
-      .annotate({ identifier: "HlsTimedMetadataScheduleActionSettings" }),
-    InputPrepareSettings: S.optional(InputPrepareScheduleActionSettings)
-      .pipe(T.JsonName("inputPrepareSettings"))
-      .annotate({ identifier: "InputPrepareScheduleActionSettings" }),
-    InputSwitchSettings: S.optional(InputSwitchScheduleActionSettings)
-      .pipe(T.JsonName("inputSwitchSettings"))
-      .annotate({ identifier: "InputSwitchScheduleActionSettings" }),
+    ),
+    HlsTimedMetadataSettings: S.optional(
+      HlsTimedMetadataScheduleActionSettings,
+    ),
+    InputPrepareSettings: S.optional(InputPrepareScheduleActionSettings),
+    InputSwitchSettings: S.optional(InputSwitchScheduleActionSettings),
     MotionGraphicsImageActivateSettings: S.optional(
       MotionGraphicsActivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("motionGraphicsImageActivateSettings"))
-      .annotate({ identifier: "MotionGraphicsActivateScheduleActionSettings" }),
+    ),
     MotionGraphicsImageDeactivateSettings: S.optional(
       MotionGraphicsDeactivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("motionGraphicsImageDeactivateSettings"))
-      .annotate({
-        identifier: "MotionGraphicsDeactivateScheduleActionSettings",
-      }),
-    PauseStateSettings: S.optional(PauseStateScheduleActionSettings)
-      .pipe(T.JsonName("pauseStateSettings"))
-      .annotate({ identifier: "PauseStateScheduleActionSettings" }),
-    Scte35InputSettings: S.optional(Scte35InputScheduleActionSettings)
-      .pipe(T.JsonName("scte35InputSettings"))
-      .annotate({ identifier: "Scte35InputScheduleActionSettings" }),
+    ),
+    PauseStateSettings: S.optional(PauseStateScheduleActionSettings),
+    Scte35InputSettings: S.optional(Scte35InputScheduleActionSettings),
     Scte35ReturnToNetworkSettings: S.optional(
       Scte35ReturnToNetworkScheduleActionSettings,
-    )
-      .pipe(T.JsonName("scte35ReturnToNetworkSettings"))
-      .annotate({ identifier: "Scte35ReturnToNetworkScheduleActionSettings" }),
+    ),
     Scte35SpliceInsertSettings: S.optional(
       Scte35SpliceInsertScheduleActionSettings,
-    )
-      .pipe(T.JsonName("scte35SpliceInsertSettings"))
-      .annotate({ identifier: "Scte35SpliceInsertScheduleActionSettings" }),
-    Scte35TimeSignalSettings: S.optional(Scte35TimeSignalScheduleActionSettings)
-      .pipe(T.JsonName("scte35TimeSignalSettings"))
-      .annotate({ identifier: "Scte35TimeSignalScheduleActionSettings" }),
+    ),
+    Scte35TimeSignalSettings: S.optional(
+      Scte35TimeSignalScheduleActionSettings,
+    ),
     StaticImageActivateSettings: S.optional(
       StaticImageActivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("staticImageActivateSettings"))
-      .annotate({ identifier: "StaticImageActivateScheduleActionSettings" }),
+    ),
     StaticImageDeactivateSettings: S.optional(
       StaticImageDeactivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("staticImageDeactivateSettings"))
-      .annotate({ identifier: "StaticImageDeactivateScheduleActionSettings" }),
+    ),
     StaticImageOutputActivateSettings: S.optional(
       StaticImageOutputActivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("staticImageOutputActivateSettings"))
-      .annotate({
-        identifier: "StaticImageOutputActivateScheduleActionSettings",
-      }),
+    ),
     StaticImageOutputDeactivateSettings: S.optional(
       StaticImageOutputDeactivateScheduleActionSettings,
-    )
-      .pipe(T.JsonName("staticImageOutputDeactivateSettings"))
-      .annotate({
-        identifier: "StaticImageOutputDeactivateScheduleActionSettings",
-      }),
+    ),
     Id3SegmentTaggingSettings: S.optional(
       Id3SegmentTaggingScheduleActionSettings,
-    )
-      .pipe(T.JsonName("id3SegmentTaggingSettings"))
-      .annotate({ identifier: "Id3SegmentTaggingScheduleActionSettings" }),
-    TimedMetadataSettings: S.optional(TimedMetadataScheduleActionSettings)
-      .pipe(T.JsonName("timedMetadataSettings"))
-      .annotate({ identifier: "TimedMetadataScheduleActionSettings" }),
-  }),
+    ),
+    TimedMetadataSettings: S.optional(TimedMetadataScheduleActionSettings),
+  }).pipe(
+    S.encodeKeys({
+      HlsId3SegmentTaggingSettings: "hlsId3SegmentTaggingSettings",
+      HlsTimedMetadataSettings: "hlsTimedMetadataSettings",
+      InputPrepareSettings: "inputPrepareSettings",
+      InputSwitchSettings: "inputSwitchSettings",
+      MotionGraphicsImageActivateSettings:
+        "motionGraphicsImageActivateSettings",
+      MotionGraphicsImageDeactivateSettings:
+        "motionGraphicsImageDeactivateSettings",
+      PauseStateSettings: "pauseStateSettings",
+      Scte35InputSettings: "scte35InputSettings",
+      Scte35ReturnToNetworkSettings: "scte35ReturnToNetworkSettings",
+      Scte35SpliceInsertSettings: "scte35SpliceInsertSettings",
+      Scte35TimeSignalSettings: "scte35TimeSignalSettings",
+      StaticImageActivateSettings: "staticImageActivateSettings",
+      StaticImageDeactivateSettings: "staticImageDeactivateSettings",
+      StaticImageOutputActivateSettings: "staticImageOutputActivateSettings",
+      StaticImageOutputDeactivateSettings:
+        "staticImageOutputDeactivateSettings",
+      Id3SegmentTaggingSettings: "id3SegmentTaggingSettings",
+      TimedMetadataSettings: "timedMetadataSettings",
+    }),
+  ),
 ).annotate({
   identifier: "ScheduleActionSettings",
 }) as any as S.Schema<ScheduleActionSettings>;
@@ -943,7 +988,7 @@ export interface FixedModeScheduleActionStartSettings {
   Time?: string;
 }
 export const FixedModeScheduleActionStartSettings = S.suspend(() =>
-  S.Struct({ Time: S.optional(S.String).pipe(T.JsonName("time")) }),
+  S.Struct({ Time: S.optional(S.String) }).pipe(S.encodeKeys({ Time: "time" })),
 ).annotate({
   identifier: "FixedModeScheduleActionStartSettings",
 }) as any as S.Schema<FixedModeScheduleActionStartSettings>;
@@ -955,11 +1000,14 @@ export interface FollowModeScheduleActionStartSettings {
 }
 export const FollowModeScheduleActionStartSettings = S.suspend(() =>
   S.Struct({
-    FollowPoint: S.optional(FollowPoint).pipe(T.JsonName("followPoint")),
-    ReferenceActionName: S.optional(S.String).pipe(
-      T.JsonName("referenceActionName"),
-    ),
-  }),
+    FollowPoint: S.optional(FollowPoint),
+    ReferenceActionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FollowPoint: "followPoint",
+      ReferenceActionName: "referenceActionName",
+    }),
+  ),
 ).annotate({
   identifier: "FollowModeScheduleActionStartSettings",
 }) as any as S.Schema<FollowModeScheduleActionStartSettings>;
@@ -978,20 +1026,23 @@ export const ScheduleActionStartSettings = S.suspend(() =>
   S.Struct({
     FixedModeScheduleActionStartSettings: S.optional(
       FixedModeScheduleActionStartSettings,
-    )
-      .pipe(T.JsonName("fixedModeScheduleActionStartSettings"))
-      .annotate({ identifier: "FixedModeScheduleActionStartSettings" }),
+    ),
     FollowModeScheduleActionStartSettings: S.optional(
       FollowModeScheduleActionStartSettings,
-    )
-      .pipe(T.JsonName("followModeScheduleActionStartSettings"))
-      .annotate({ identifier: "FollowModeScheduleActionStartSettings" }),
+    ),
     ImmediateModeScheduleActionStartSettings: S.optional(
       ImmediateModeScheduleActionStartSettings,
-    )
-      .pipe(T.JsonName("immediateModeScheduleActionStartSettings"))
-      .annotate({ identifier: "ImmediateModeScheduleActionStartSettings" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      FixedModeScheduleActionStartSettings:
+        "fixedModeScheduleActionStartSettings",
+      FollowModeScheduleActionStartSettings:
+        "followModeScheduleActionStartSettings",
+      ImmediateModeScheduleActionStartSettings:
+        "immediateModeScheduleActionStartSettings",
+    }),
+  ),
 ).annotate({
   identifier: "ScheduleActionStartSettings",
 }) as any as S.Schema<ScheduleActionStartSettings>;
@@ -1002,14 +1053,16 @@ export interface ScheduleAction {
 }
 export const ScheduleAction = S.suspend(() =>
   S.Struct({
-    ActionName: S.optional(S.String).pipe(T.JsonName("actionName")),
-    ScheduleActionSettings: S.optional(ScheduleActionSettings)
-      .pipe(T.JsonName("scheduleActionSettings"))
-      .annotate({ identifier: "ScheduleActionSettings" }),
-    ScheduleActionStartSettings: S.optional(ScheduleActionStartSettings)
-      .pipe(T.JsonName("scheduleActionStartSettings"))
-      .annotate({ identifier: "ScheduleActionStartSettings" }),
-  }),
+    ActionName: S.optional(S.String),
+    ScheduleActionSettings: S.optional(ScheduleActionSettings),
+    ScheduleActionStartSettings: S.optional(ScheduleActionStartSettings),
+  }).pipe(
+    S.encodeKeys({
+      ActionName: "actionName",
+      ScheduleActionSettings: "scheduleActionSettings",
+      ScheduleActionStartSettings: "scheduleActionStartSettings",
+    }),
+  ),
 ).annotate({ identifier: "ScheduleAction" }) as any as S.Schema<ScheduleAction>;
 export type __listOfScheduleAction = ScheduleAction[];
 export const __listOfScheduleAction = S.Array(ScheduleAction);
@@ -1017,11 +1070,9 @@ export interface BatchScheduleActionCreateRequest {
   ScheduleActions?: ScheduleAction[];
 }
 export const BatchScheduleActionCreateRequest = S.suspend(() =>
-  S.Struct({
-    ScheduleActions: S.optional(__listOfScheduleAction).pipe(
-      T.JsonName("scheduleActions"),
-    ),
-  }),
+  S.Struct({ ScheduleActions: S.optional(__listOfScheduleAction) }).pipe(
+    S.encodeKeys({ ScheduleActions: "scheduleActions" }),
+  ),
 ).annotate({
   identifier: "BatchScheduleActionCreateRequest",
 }) as any as S.Schema<BatchScheduleActionCreateRequest>;
@@ -1029,9 +1080,9 @@ export interface BatchScheduleActionDeleteRequest {
   ActionNames?: string[];
 }
 export const BatchScheduleActionDeleteRequest = S.suspend(() =>
-  S.Struct({
-    ActionNames: S.optional(__listOf__string).pipe(T.JsonName("actionNames")),
-  }),
+  S.Struct({ ActionNames: S.optional(__listOf__string) }).pipe(
+    S.encodeKeys({ ActionNames: "actionNames" }),
+  ),
 ).annotate({
   identifier: "BatchScheduleActionDeleteRequest",
 }) as any as S.Schema<BatchScheduleActionDeleteRequest>;
@@ -1043,22 +1094,20 @@ export interface BatchUpdateScheduleRequest {
 export const BatchUpdateScheduleRequest = S.suspend(() =>
   S.Struct({
     ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
-    Creates: S.optional(BatchScheduleActionCreateRequest)
-      .pipe(T.JsonName("creates"))
-      .annotate({ identifier: "BatchScheduleActionCreateRequest" }),
-    Deletes: S.optional(BatchScheduleActionDeleteRequest)
-      .pipe(T.JsonName("deletes"))
-      .annotate({ identifier: "BatchScheduleActionDeleteRequest" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/channels/{ChannelId}/schedule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Creates: S.optional(BatchScheduleActionCreateRequest),
+    Deletes: S.optional(BatchScheduleActionDeleteRequest),
+  })
+    .pipe(S.encodeKeys({ Creates: "creates", Deletes: "deletes" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/channels/{ChannelId}/schedule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "BatchUpdateScheduleRequest",
 }) as any as S.Schema<BatchUpdateScheduleRequest>;
@@ -1066,11 +1115,9 @@ export interface BatchScheduleActionCreateResult {
   ScheduleActions?: ScheduleAction[];
 }
 export const BatchScheduleActionCreateResult = S.suspend(() =>
-  S.Struct({
-    ScheduleActions: S.optional(__listOfScheduleAction).pipe(
-      T.JsonName("scheduleActions"),
-    ),
-  }),
+  S.Struct({ ScheduleActions: S.optional(__listOfScheduleAction) }).pipe(
+    S.encodeKeys({ ScheduleActions: "scheduleActions" }),
+  ),
 ).annotate({
   identifier: "BatchScheduleActionCreateResult",
 }) as any as S.Schema<BatchScheduleActionCreateResult>;
@@ -1078,11 +1125,9 @@ export interface BatchScheduleActionDeleteResult {
   ScheduleActions?: ScheduleAction[];
 }
 export const BatchScheduleActionDeleteResult = S.suspend(() =>
-  S.Struct({
-    ScheduleActions: S.optional(__listOfScheduleAction).pipe(
-      T.JsonName("scheduleActions"),
-    ),
-  }),
+  S.Struct({ ScheduleActions: S.optional(__listOfScheduleAction) }).pipe(
+    S.encodeKeys({ ScheduleActions: "scheduleActions" }),
+  ),
 ).annotate({
   identifier: "BatchScheduleActionDeleteResult",
 }) as any as S.Schema<BatchScheduleActionDeleteResult>;
@@ -1236,13 +1281,9 @@ export interface BatchUpdateScheduleResponse {
 }
 export const BatchUpdateScheduleResponse = S.suspend(() =>
   S.Struct({
-    Creates: S.optional(BatchScheduleActionCreateResult)
-      .pipe(T.JsonName("creates"))
-      .annotate({ identifier: "BatchScheduleActionCreateResult" }),
-    Deletes: S.optional(BatchScheduleActionDeleteResult)
-      .pipe(T.JsonName("deletes"))
-      .annotate({ identifier: "BatchScheduleActionDeleteResult" }),
-  }),
+    Creates: S.optional(BatchScheduleActionCreateResult),
+    Deletes: S.optional(BatchScheduleActionDeleteResult),
+  }).pipe(S.encodeKeys({ Creates: "creates", Deletes: "deletes" })),
 ).annotate({
   identifier: "BatchUpdateScheduleResponse",
 }) as any as S.Schema<BatchUpdateScheduleResponse>;
@@ -1276,16 +1317,18 @@ export interface ClaimDeviceRequest {
   Id?: string;
 }
 export const ClaimDeviceRequest = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/claimDevice" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ Id: S.optional(S.String) })
+    .pipe(S.encodeKeys({ Id: "id" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/claimDevice" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ClaimDeviceRequest",
 }) as any as S.Schema<ClaimDeviceRequest>;
@@ -1299,9 +1342,9 @@ export interface CdiInputSpecification {
   Resolution?: CdiInputResolution;
 }
 export const CdiInputSpecification = S.suspend(() =>
-  S.Struct({
-    Resolution: S.optional(CdiInputResolution).pipe(T.JsonName("resolution")),
-  }),
+  S.Struct({ Resolution: S.optional(CdiInputResolution) }).pipe(
+    S.encodeKeys({ Resolution: "resolution" }),
+  ),
 ).annotate({
   identifier: "CdiInputSpecification",
 }) as any as S.Schema<CdiInputSpecification>;
@@ -1316,16 +1359,20 @@ export interface MediaPackageOutputDestinationSettings {
 }
 export const MediaPackageOutputDestinationSettings = S.suspend(() =>
   S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
-    ChannelGroup: S.optional(S.String).pipe(T.JsonName("channelGroup")),
-    ChannelName: S.optional(S.String).pipe(T.JsonName("channelName")),
-    ChannelEndpointId: S.optional(S.String).pipe(
-      T.JsonName("channelEndpointId"),
-    ),
-    MediaPackageRegionName: S.optional(S.String).pipe(
-      T.JsonName("mediaPackageRegionName"),
-    ),
-  }),
+    ChannelId: S.optional(S.String),
+    ChannelGroup: S.optional(S.String),
+    ChannelName: S.optional(S.String),
+    ChannelEndpointId: S.optional(S.String),
+    MediaPackageRegionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelId: "channelId",
+      ChannelGroup: "channelGroup",
+      ChannelName: "channelName",
+      ChannelEndpointId: "channelEndpointId",
+      MediaPackageRegionName: "mediaPackageRegionName",
+    }),
+  ),
 ).annotate({
   identifier: "MediaPackageOutputDestinationSettings",
 }) as any as S.Schema<MediaPackageOutputDestinationSettings>;
@@ -1340,9 +1387,11 @@ export interface MultiplexProgramChannelDestinationSettings {
 }
 export const MultiplexProgramChannelDestinationSettings = S.suspend(() =>
   S.Struct({
-    MultiplexId: S.optional(S.String).pipe(T.JsonName("multiplexId")),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-  }),
+    MultiplexId: S.optional(S.String),
+    ProgramName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ MultiplexId: "multiplexId", ProgramName: "programName" }),
+  ),
 ).annotate({
   identifier: "MultiplexProgramChannelDestinationSettings",
 }) as any as S.Schema<MultiplexProgramChannelDestinationSettings>;
@@ -1354,11 +1403,18 @@ export interface OutputDestinationSettings {
 }
 export const OutputDestinationSettings = S.suspend(() =>
   S.Struct({
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    StreamName: S.optional(S.String).pipe(T.JsonName("streamName")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-  }),
+    PasswordParam: S.optional(S.String),
+    StreamName: S.optional(S.String),
+    Url: S.optional(S.String),
+    Username: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PasswordParam: "passwordParam",
+      StreamName: "streamName",
+      Url: "url",
+      Username: "username",
+    }),
+  ),
 ).annotate({
   identifier: "OutputDestinationSettings",
 }) as any as S.Schema<OutputDestinationSettings>;
@@ -1373,12 +1429,16 @@ export interface SrtOutputDestinationSettings {
 }
 export const SrtOutputDestinationSettings = S.suspend(() =>
   S.Struct({
-    EncryptionPassphraseSecretArn: S.optional(S.String).pipe(
-      T.JsonName("encryptionPassphraseSecretArn"),
-    ),
-    StreamId: S.optional(S.String).pipe(T.JsonName("streamId")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+    EncryptionPassphraseSecretArn: S.optional(S.String),
+    StreamId: S.optional(S.String),
+    Url: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EncryptionPassphraseSecretArn: "encryptionPassphraseSecretArn",
+      StreamId: "streamId",
+      Url: "url",
+    }),
+  ),
 ).annotate({
   identifier: "SrtOutputDestinationSettings",
 }) as any as S.Schema<SrtOutputDestinationSettings>;
@@ -1397,23 +1457,24 @@ export interface OutputDestination {
 }
 export const OutputDestination = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    Id: S.optional(S.String),
     MediaPackageSettings: S.optional(
       __listOfMediaPackageOutputDestinationSettings,
-    ).pipe(T.JsonName("mediaPackageSettings")),
-    MultiplexSettings: S.optional(MultiplexProgramChannelDestinationSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexProgramChannelDestinationSettings" }),
-    Settings: S.optional(__listOfOutputDestinationSettings).pipe(
-      T.JsonName("settings"),
     ),
-    SrtSettings: S.optional(__listOfSrtOutputDestinationSettings).pipe(
-      T.JsonName("srtSettings"),
-    ),
-    LogicalInterfaceNames: S.optional(__listOf__string).pipe(
-      T.JsonName("logicalInterfaceNames"),
-    ),
-  }),
+    MultiplexSettings: S.optional(MultiplexProgramChannelDestinationSettings),
+    Settings: S.optional(__listOfOutputDestinationSettings),
+    SrtSettings: S.optional(__listOfSrtOutputDestinationSettings),
+    LogicalInterfaceNames: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      Id: "id",
+      MediaPackageSettings: "mediaPackageSettings",
+      MultiplexSettings: "multiplexSettings",
+      Settings: "settings",
+      SrtSettings: "srtSettings",
+      LogicalInterfaceNames: "logicalInterfaceNames",
+    }),
+  ),
 ).annotate({
   identifier: "OutputDestination",
 }) as any as S.Schema<OutputDestination>;
@@ -1435,14 +1496,16 @@ export interface AudioNormalizationSettings {
 }
 export const AudioNormalizationSettings = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(AudioNormalizationAlgorithm).pipe(
-      T.JsonName("algorithm"),
-    ),
-    AlgorithmControl: S.optional(AudioNormalizationAlgorithmControl).pipe(
-      T.JsonName("algorithmControl"),
-    ),
-    TargetLkfs: S.optional(S.Number).pipe(T.JsonName("targetLkfs")),
-  }),
+    Algorithm: S.optional(AudioNormalizationAlgorithm),
+    AlgorithmControl: S.optional(AudioNormalizationAlgorithmControl),
+    TargetLkfs: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      AlgorithmControl: "algorithmControl",
+      TargetLkfs: "targetLkfs",
+    }),
+  ),
 ).annotate({
   identifier: "AudioNormalizationSettings",
 }) as any as S.Schema<AudioNormalizationSettings>;
@@ -1470,14 +1533,16 @@ export interface NielsenCBET {
 }
 export const NielsenCBET = S.suspend(() =>
   S.Struct({
-    CbetCheckDigitString: S.optional(S.String).pipe(
-      T.JsonName("cbetCheckDigitString"),
-    ),
-    CbetStepaside: S.optional(NielsenWatermarksCbetStepaside).pipe(
-      T.JsonName("cbetStepaside"),
-    ),
-    Csid: S.optional(S.String).pipe(T.JsonName("csid")),
-  }),
+    CbetCheckDigitString: S.optional(S.String),
+    CbetStepaside: S.optional(NielsenWatermarksCbetStepaside),
+    Csid: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CbetCheckDigitString: "cbetCheckDigitString",
+      CbetStepaside: "cbetStepaside",
+      Csid: "csid",
+    }),
+  ),
 ).annotate({ identifier: "NielsenCBET" }) as any as S.Schema<NielsenCBET>;
 export type NielsenWatermarksDistributionTypes =
   | "FINAL_DISTRIBUTOR"
@@ -1504,12 +1569,16 @@ export interface NielsenNaesIiNw {
 }
 export const NielsenNaesIiNw = S.suspend(() =>
   S.Struct({
-    CheckDigitString: S.optional(S.String).pipe(T.JsonName("checkDigitString")),
-    Sid: S.optional(S.Number).pipe(T.JsonName("sid")),
-    Timezone: S.optional(NielsenWatermarkTimezones).pipe(
-      T.JsonName("timezone"),
-    ),
-  }),
+    CheckDigitString: S.optional(S.String),
+    Sid: S.optional(S.Number),
+    Timezone: S.optional(NielsenWatermarkTimezones),
+  }).pipe(
+    S.encodeKeys({
+      CheckDigitString: "checkDigitString",
+      Sid: "sid",
+      Timezone: "timezone",
+    }),
+  ),
 ).annotate({
   identifier: "NielsenNaesIiNw",
 }) as any as S.Schema<NielsenNaesIiNw>;
@@ -1520,16 +1589,16 @@ export interface NielsenWatermarksSettings {
 }
 export const NielsenWatermarksSettings = S.suspend(() =>
   S.Struct({
-    NielsenCbetSettings: S.optional(NielsenCBET)
-      .pipe(T.JsonName("nielsenCbetSettings"))
-      .annotate({ identifier: "NielsenCBET" }),
-    NielsenDistributionType: S.optional(
-      NielsenWatermarksDistributionTypes,
-    ).pipe(T.JsonName("nielsenDistributionType")),
-    NielsenNaesIiNwSettings: S.optional(NielsenNaesIiNw)
-      .pipe(T.JsonName("nielsenNaesIiNwSettings"))
-      .annotate({ identifier: "NielsenNaesIiNw" }),
-  }),
+    NielsenCbetSettings: S.optional(NielsenCBET),
+    NielsenDistributionType: S.optional(NielsenWatermarksDistributionTypes),
+    NielsenNaesIiNwSettings: S.optional(NielsenNaesIiNw),
+  }).pipe(
+    S.encodeKeys({
+      NielsenCbetSettings: "nielsenCbetSettings",
+      NielsenDistributionType: "nielsenDistributionType",
+      NielsenNaesIiNwSettings: "nielsenNaesIiNwSettings",
+    }),
+  ),
 ).annotate({
   identifier: "NielsenWatermarksSettings",
 }) as any as S.Schema<NielsenWatermarksSettings>;
@@ -1538,10 +1607,10 @@ export interface AudioWatermarkSettings {
 }
 export const AudioWatermarkSettings = S.suspend(() =>
   S.Struct({
-    NielsenWatermarksSettings: S.optional(NielsenWatermarksSettings)
-      .pipe(T.JsonName("nielsenWatermarksSettings"))
-      .annotate({ identifier: "NielsenWatermarksSettings" }),
-  }),
+    NielsenWatermarksSettings: S.optional(NielsenWatermarksSettings),
+  }).pipe(
+    S.encodeKeys({ NielsenWatermarksSettings: "nielsenWatermarksSettings" }),
+  ),
 ).annotate({
   identifier: "AudioWatermarkSettings",
 }) as any as S.Schema<AudioWatermarkSettings>;
@@ -1583,18 +1652,28 @@ export interface AacSettings {
 }
 export const AacSettings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodingMode: S.optional(AacCodingMode).pipe(T.JsonName("codingMode")),
-    InputType: S.optional(AacInputType).pipe(T.JsonName("inputType")),
-    Profile: S.optional(AacProfile).pipe(T.JsonName("profile")),
-    RateControlMode: S.optional(AacRateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    RawFormat: S.optional(AacRawFormat).pipe(T.JsonName("rawFormat")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-    Spec: S.optional(AacSpec).pipe(T.JsonName("spec")),
-    VbrQuality: S.optional(AacVbrQuality).pipe(T.JsonName("vbrQuality")),
-  }),
+    Bitrate: S.optional(S.Number),
+    CodingMode: S.optional(AacCodingMode),
+    InputType: S.optional(AacInputType),
+    Profile: S.optional(AacProfile),
+    RateControlMode: S.optional(AacRateControlMode),
+    RawFormat: S.optional(AacRawFormat),
+    SampleRate: S.optional(S.Number),
+    Spec: S.optional(AacSpec),
+    VbrQuality: S.optional(AacVbrQuality),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      CodingMode: "codingMode",
+      InputType: "inputType",
+      Profile: "profile",
+      RateControlMode: "rateControlMode",
+      RawFormat: "rawFormat",
+      SampleRate: "sampleRate",
+      Spec: "spec",
+      VbrQuality: "vbrQuality",
+    }),
+  ),
 ).annotate({ identifier: "AacSettings" }) as any as S.Schema<AacSettings>;
 export type Ac3BitstreamMode =
   | "COMMENTARY"
@@ -1637,21 +1716,26 @@ export interface Ac3Settings {
 }
 export const Ac3Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BitstreamMode: S.optional(Ac3BitstreamMode).pipe(
-      T.JsonName("bitstreamMode"),
-    ),
-    CodingMode: S.optional(Ac3CodingMode).pipe(T.JsonName("codingMode")),
-    Dialnorm: S.optional(S.Number).pipe(T.JsonName("dialnorm")),
-    DrcProfile: S.optional(Ac3DrcProfile).pipe(T.JsonName("drcProfile")),
-    LfeFilter: S.optional(Ac3LfeFilter).pipe(T.JsonName("lfeFilter")),
-    MetadataControl: S.optional(Ac3MetadataControl).pipe(
-      T.JsonName("metadataControl"),
-    ),
-    AttenuationControl: S.optional(Ac3AttenuationControl).pipe(
-      T.JsonName("attenuationControl"),
-    ),
-  }),
+    Bitrate: S.optional(S.Number),
+    BitstreamMode: S.optional(Ac3BitstreamMode),
+    CodingMode: S.optional(Ac3CodingMode),
+    Dialnorm: S.optional(S.Number),
+    DrcProfile: S.optional(Ac3DrcProfile),
+    LfeFilter: S.optional(Ac3LfeFilter),
+    MetadataControl: S.optional(Ac3MetadataControl),
+    AttenuationControl: S.optional(Ac3AttenuationControl),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      BitstreamMode: "bitstreamMode",
+      CodingMode: "codingMode",
+      Dialnorm: "dialnorm",
+      DrcProfile: "drcProfile",
+      LfeFilter: "lfeFilter",
+      MetadataControl: "metadataControl",
+      AttenuationControl: "attenuationControl",
+    }),
+  ),
 ).annotate({ identifier: "Ac3Settings" }) as any as S.Schema<Ac3Settings>;
 export type Eac3AtmosCodingMode =
   | "CODING_MODE_5_1_4"
@@ -1688,14 +1772,24 @@ export interface Eac3AtmosSettings {
 }
 export const Eac3AtmosSettings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodingMode: S.optional(Eac3AtmosCodingMode).pipe(T.JsonName("codingMode")),
-    Dialnorm: S.optional(S.Number).pipe(T.JsonName("dialnorm")),
-    DrcLine: S.optional(Eac3AtmosDrcLine).pipe(T.JsonName("drcLine")),
-    DrcRf: S.optional(Eac3AtmosDrcRf).pipe(T.JsonName("drcRf")),
-    HeightTrim: S.optional(S.Number).pipe(T.JsonName("heightTrim")),
-    SurroundTrim: S.optional(S.Number).pipe(T.JsonName("surroundTrim")),
-  }),
+    Bitrate: S.optional(S.Number),
+    CodingMode: S.optional(Eac3AtmosCodingMode),
+    Dialnorm: S.optional(S.Number),
+    DrcLine: S.optional(Eac3AtmosDrcLine),
+    DrcRf: S.optional(Eac3AtmosDrcRf),
+    HeightTrim: S.optional(S.Number),
+    SurroundTrim: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      CodingMode: "codingMode",
+      Dialnorm: "dialnorm",
+      DrcLine: "drcLine",
+      DrcRf: "drcRf",
+      HeightTrim: "heightTrim",
+      SurroundTrim: "surroundTrim",
+    }),
+  ),
 ).annotate({
   identifier: "Eac3AtmosSettings",
 }) as any as S.Schema<Eac3AtmosSettings>;
@@ -1794,47 +1888,50 @@ export interface Eac3Settings {
 }
 export const Eac3Settings = S.suspend(() =>
   S.Struct({
-    AttenuationControl: S.optional(Eac3AttenuationControl).pipe(
-      T.JsonName("attenuationControl"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BitstreamMode: S.optional(Eac3BitstreamMode).pipe(
-      T.JsonName("bitstreamMode"),
-    ),
-    CodingMode: S.optional(Eac3CodingMode).pipe(T.JsonName("codingMode")),
-    DcFilter: S.optional(Eac3DcFilter).pipe(T.JsonName("dcFilter")),
-    Dialnorm: S.optional(S.Number).pipe(T.JsonName("dialnorm")),
-    DrcLine: S.optional(Eac3DrcLine).pipe(T.JsonName("drcLine")),
-    DrcRf: S.optional(Eac3DrcRf).pipe(T.JsonName("drcRf")),
-    LfeControl: S.optional(Eac3LfeControl).pipe(T.JsonName("lfeControl")),
-    LfeFilter: S.optional(Eac3LfeFilter).pipe(T.JsonName("lfeFilter")),
-    LoRoCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoCenterMixLevel"),
-    ),
-    LoRoSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("loRoSurroundMixLevel"),
-    ),
-    LtRtCenterMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtCenterMixLevel"),
-    ),
-    LtRtSurroundMixLevel: S.optional(S.Number).pipe(
-      T.JsonName("ltRtSurroundMixLevel"),
-    ),
-    MetadataControl: S.optional(Eac3MetadataControl).pipe(
-      T.JsonName("metadataControl"),
-    ),
-    PassthroughControl: S.optional(Eac3PassthroughControl).pipe(
-      T.JsonName("passthroughControl"),
-    ),
-    PhaseControl: S.optional(Eac3PhaseControl).pipe(T.JsonName("phaseControl")),
-    StereoDownmix: S.optional(Eac3StereoDownmix).pipe(
-      T.JsonName("stereoDownmix"),
-    ),
-    SurroundExMode: S.optional(Eac3SurroundExMode).pipe(
-      T.JsonName("surroundExMode"),
-    ),
-    SurroundMode: S.optional(Eac3SurroundMode).pipe(T.JsonName("surroundMode")),
-  }),
+    AttenuationControl: S.optional(Eac3AttenuationControl),
+    Bitrate: S.optional(S.Number),
+    BitstreamMode: S.optional(Eac3BitstreamMode),
+    CodingMode: S.optional(Eac3CodingMode),
+    DcFilter: S.optional(Eac3DcFilter),
+    Dialnorm: S.optional(S.Number),
+    DrcLine: S.optional(Eac3DrcLine),
+    DrcRf: S.optional(Eac3DrcRf),
+    LfeControl: S.optional(Eac3LfeControl),
+    LfeFilter: S.optional(Eac3LfeFilter),
+    LoRoCenterMixLevel: S.optional(S.Number),
+    LoRoSurroundMixLevel: S.optional(S.Number),
+    LtRtCenterMixLevel: S.optional(S.Number),
+    LtRtSurroundMixLevel: S.optional(S.Number),
+    MetadataControl: S.optional(Eac3MetadataControl),
+    PassthroughControl: S.optional(Eac3PassthroughControl),
+    PhaseControl: S.optional(Eac3PhaseControl),
+    StereoDownmix: S.optional(Eac3StereoDownmix),
+    SurroundExMode: S.optional(Eac3SurroundExMode),
+    SurroundMode: S.optional(Eac3SurroundMode),
+  }).pipe(
+    S.encodeKeys({
+      AttenuationControl: "attenuationControl",
+      Bitrate: "bitrate",
+      BitstreamMode: "bitstreamMode",
+      CodingMode: "codingMode",
+      DcFilter: "dcFilter",
+      Dialnorm: "dialnorm",
+      DrcLine: "drcLine",
+      DrcRf: "drcRf",
+      LfeControl: "lfeControl",
+      LfeFilter: "lfeFilter",
+      LoRoCenterMixLevel: "loRoCenterMixLevel",
+      LoRoSurroundMixLevel: "loRoSurroundMixLevel",
+      LtRtCenterMixLevel: "ltRtCenterMixLevel",
+      LtRtSurroundMixLevel: "ltRtSurroundMixLevel",
+      MetadataControl: "metadataControl",
+      PassthroughControl: "passthroughControl",
+      PhaseControl: "phaseControl",
+      StereoDownmix: "stereoDownmix",
+      SurroundExMode: "surroundExMode",
+      SurroundMode: "surroundMode",
+    }),
+  ),
 ).annotate({ identifier: "Eac3Settings" }) as any as S.Schema<Eac3Settings>;
 export type Mp2CodingMode =
   | "CODING_MODE_1_0"
@@ -1848,10 +1945,16 @@ export interface Mp2Settings {
 }
 export const Mp2Settings = S.suspend(() =>
   S.Struct({
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    CodingMode: S.optional(Mp2CodingMode).pipe(T.JsonName("codingMode")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    Bitrate: S.optional(S.Number),
+    CodingMode: S.optional(Mp2CodingMode),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Bitrate: "bitrate",
+      CodingMode: "codingMode",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "Mp2Settings" }) as any as S.Schema<Mp2Settings>;
 export interface PassThroughSettings {}
 export const PassThroughSettings = S.suspend(() => S.Struct({})).annotate({
@@ -1871,10 +1974,16 @@ export interface WavSettings {
 }
 export const WavSettings = S.suspend(() =>
   S.Struct({
-    BitDepth: S.optional(S.Number).pipe(T.JsonName("bitDepth")),
-    CodingMode: S.optional(WavCodingMode).pipe(T.JsonName("codingMode")),
-    SampleRate: S.optional(S.Number).pipe(T.JsonName("sampleRate")),
-  }),
+    BitDepth: S.optional(S.Number),
+    CodingMode: S.optional(WavCodingMode),
+    SampleRate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BitDepth: "bitDepth",
+      CodingMode: "codingMode",
+      SampleRate: "sampleRate",
+    }),
+  ),
 ).annotate({ identifier: "WavSettings" }) as any as S.Schema<WavSettings>;
 export interface AudioCodecSettings {
   AacSettings?: AacSettings;
@@ -1887,28 +1996,24 @@ export interface AudioCodecSettings {
 }
 export const AudioCodecSettings = S.suspend(() =>
   S.Struct({
-    AacSettings: S.optional(AacSettings)
-      .pipe(T.JsonName("aacSettings"))
-      .annotate({ identifier: "AacSettings" }),
-    Ac3Settings: S.optional(Ac3Settings)
-      .pipe(T.JsonName("ac3Settings"))
-      .annotate({ identifier: "Ac3Settings" }),
-    Eac3AtmosSettings: S.optional(Eac3AtmosSettings)
-      .pipe(T.JsonName("eac3AtmosSettings"))
-      .annotate({ identifier: "Eac3AtmosSettings" }),
-    Eac3Settings: S.optional(Eac3Settings)
-      .pipe(T.JsonName("eac3Settings"))
-      .annotate({ identifier: "Eac3Settings" }),
-    Mp2Settings: S.optional(Mp2Settings)
-      .pipe(T.JsonName("mp2Settings"))
-      .annotate({ identifier: "Mp2Settings" }),
-    PassThroughSettings: S.optional(PassThroughSettings)
-      .pipe(T.JsonName("passThroughSettings"))
-      .annotate({ identifier: "PassThroughSettings" }),
-    WavSettings: S.optional(WavSettings)
-      .pipe(T.JsonName("wavSettings"))
-      .annotate({ identifier: "WavSettings" }),
-  }),
+    AacSettings: S.optional(AacSettings),
+    Ac3Settings: S.optional(Ac3Settings),
+    Eac3AtmosSettings: S.optional(Eac3AtmosSettings),
+    Eac3Settings: S.optional(Eac3Settings),
+    Mp2Settings: S.optional(Mp2Settings),
+    PassThroughSettings: S.optional(PassThroughSettings),
+    WavSettings: S.optional(WavSettings),
+  }).pipe(
+    S.encodeKeys({
+      AacSettings: "aacSettings",
+      Ac3Settings: "ac3Settings",
+      Eac3AtmosSettings: "eac3AtmosSettings",
+      Eac3Settings: "eac3Settings",
+      Mp2Settings: "mp2Settings",
+      PassThroughSettings: "passThroughSettings",
+      WavSettings: "wavSettings",
+    }),
+  ),
 ).annotate({
   identifier: "AudioCodecSettings",
 }) as any as S.Schema<AudioCodecSettings>;
@@ -1923,9 +2028,9 @@ export interface InputChannelLevel {
 }
 export const InputChannelLevel = S.suspend(() =>
   S.Struct({
-    Gain: S.optional(S.Number).pipe(T.JsonName("gain")),
-    InputChannel: S.optional(S.Number).pipe(T.JsonName("inputChannel")),
-  }),
+    Gain: S.optional(S.Number),
+    InputChannel: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ Gain: "gain", InputChannel: "inputChannel" })),
 ).annotate({
   identifier: "InputChannelLevel",
 }) as any as S.Schema<InputChannelLevel>;
@@ -1937,11 +2042,14 @@ export interface AudioChannelMapping {
 }
 export const AudioChannelMapping = S.suspend(() =>
   S.Struct({
-    InputChannelLevels: S.optional(__listOfInputChannelLevel).pipe(
-      T.JsonName("inputChannelLevels"),
-    ),
-    OutputChannel: S.optional(S.Number).pipe(T.JsonName("outputChannel")),
-  }),
+    InputChannelLevels: S.optional(__listOfInputChannelLevel),
+    OutputChannel: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      InputChannelLevels: "inputChannelLevels",
+      OutputChannel: "outputChannel",
+    }),
+  ),
 ).annotate({
   identifier: "AudioChannelMapping",
 }) as any as S.Schema<AudioChannelMapping>;
@@ -1954,12 +2062,16 @@ export interface RemixSettings {
 }
 export const RemixSettings = S.suspend(() =>
   S.Struct({
-    ChannelMappings: S.optional(__listOfAudioChannelMapping).pipe(
-      T.JsonName("channelMappings"),
-    ),
-    ChannelsIn: S.optional(S.Number).pipe(T.JsonName("channelsIn")),
-    ChannelsOut: S.optional(S.Number).pipe(T.JsonName("channelsOut")),
-  }),
+    ChannelMappings: S.optional(__listOfAudioChannelMapping),
+    ChannelsIn: S.optional(S.Number),
+    ChannelsOut: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ChannelMappings: "channelMappings",
+      ChannelsIn: "channelsIn",
+      ChannelsOut: "channelsOut",
+    }),
+  ),
 ).annotate({ identifier: "RemixSettings" }) as any as S.Schema<RemixSettings>;
 export type DashRoleAudio =
   | "ALTERNATE"
@@ -2002,38 +2114,36 @@ export interface AudioDescription {
 }
 export const AudioDescription = S.suspend(() =>
   S.Struct({
-    AudioNormalizationSettings: S.optional(AudioNormalizationSettings)
-      .pipe(T.JsonName("audioNormalizationSettings"))
-      .annotate({ identifier: "AudioNormalizationSettings" }),
-    AudioSelectorName: S.optional(S.String).pipe(
-      T.JsonName("audioSelectorName"),
-    ),
-    AudioType: S.optional(AudioType).pipe(T.JsonName("audioType")),
-    AudioTypeControl: S.optional(AudioDescriptionAudioTypeControl).pipe(
-      T.JsonName("audioTypeControl"),
-    ),
-    AudioWatermarkingSettings: S.optional(AudioWatermarkSettings)
-      .pipe(T.JsonName("audioWatermarkingSettings"))
-      .annotate({ identifier: "AudioWatermarkSettings" }),
-    CodecSettings: S.optional(AudioCodecSettings)
-      .pipe(T.JsonName("codecSettings"))
-      .annotate({ identifier: "AudioCodecSettings" }),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    LanguageCodeControl: S.optional(AudioDescriptionLanguageCodeControl).pipe(
-      T.JsonName("languageCodeControl"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RemixSettings: S.optional(RemixSettings)
-      .pipe(T.JsonName("remixSettings"))
-      .annotate({ identifier: "RemixSettings" }),
-    StreamName: S.optional(S.String).pipe(T.JsonName("streamName")),
-    AudioDashRoles: S.optional(__listOfDashRoleAudio).pipe(
-      T.JsonName("audioDashRoles"),
-    ),
-    DvbDashAccessibility: S.optional(DvbDashAccessibility).pipe(
-      T.JsonName("dvbDashAccessibility"),
-    ),
-  }),
+    AudioNormalizationSettings: S.optional(AudioNormalizationSettings),
+    AudioSelectorName: S.optional(S.String),
+    AudioType: S.optional(AudioType),
+    AudioTypeControl: S.optional(AudioDescriptionAudioTypeControl),
+    AudioWatermarkingSettings: S.optional(AudioWatermarkSettings),
+    CodecSettings: S.optional(AudioCodecSettings),
+    LanguageCode: S.optional(S.String),
+    LanguageCodeControl: S.optional(AudioDescriptionLanguageCodeControl),
+    Name: S.optional(S.String),
+    RemixSettings: S.optional(RemixSettings),
+    StreamName: S.optional(S.String),
+    AudioDashRoles: S.optional(__listOfDashRoleAudio),
+    DvbDashAccessibility: S.optional(DvbDashAccessibility),
+  }).pipe(
+    S.encodeKeys({
+      AudioNormalizationSettings: "audioNormalizationSettings",
+      AudioSelectorName: "audioSelectorName",
+      AudioType: "audioType",
+      AudioTypeControl: "audioTypeControl",
+      AudioWatermarkingSettings: "audioWatermarkingSettings",
+      CodecSettings: "codecSettings",
+      LanguageCode: "languageCode",
+      LanguageCodeControl: "languageCodeControl",
+      Name: "name",
+      RemixSettings: "remixSettings",
+      StreamName: "streamName",
+      AudioDashRoles: "audioDashRoles",
+      DvbDashAccessibility: "dvbDashAccessibility",
+    }),
+  ),
 ).annotate({
   identifier: "AudioDescription",
 }) as any as S.Schema<AudioDescription>;
@@ -2047,11 +2157,11 @@ export interface AvailBlanking {
 }
 export const AvailBlanking = S.suspend(() =>
   S.Struct({
-    AvailBlankingImage: S.optional(InputLocation)
-      .pipe(T.JsonName("availBlankingImage"))
-      .annotate({ identifier: "InputLocation" }),
-    State: S.optional(AvailBlankingState).pipe(T.JsonName("state")),
-  }),
+    AvailBlankingImage: S.optional(InputLocation),
+    State: S.optional(AvailBlankingState),
+  }).pipe(
+    S.encodeKeys({ AvailBlankingImage: "availBlankingImage", State: "state" }),
+  ),
 ).annotate({ identifier: "AvailBlanking" }) as any as S.Schema<AvailBlanking>;
 export interface Esam {
   AcquisitionPointId?: string;
@@ -2063,15 +2173,22 @@ export interface Esam {
 }
 export const Esam = S.suspend(() =>
   S.Struct({
-    AcquisitionPointId: S.optional(S.String).pipe(
-      T.JsonName("acquisitionPointId"),
-    ),
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    PoisEndpoint: S.optional(S.String).pipe(T.JsonName("poisEndpoint")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-    ZoneIdentity: S.optional(S.String).pipe(T.JsonName("zoneIdentity")),
-  }),
+    AcquisitionPointId: S.optional(S.String),
+    AdAvailOffset: S.optional(S.Number),
+    PasswordParam: S.optional(S.String),
+    PoisEndpoint: S.optional(S.String),
+    Username: S.optional(S.String),
+    ZoneIdentity: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AcquisitionPointId: "acquisitionPointId",
+      AdAvailOffset: "adAvailOffset",
+      PasswordParam: "passwordParam",
+      PoisEndpoint: "poisEndpoint",
+      Username: "username",
+      ZoneIdentity: "zoneIdentity",
+    }),
+  ),
 ).annotate({ identifier: "Esam" }) as any as S.Schema<Esam>;
 export type Scte35SpliceInsertNoRegionalBlackoutBehavior =
   | "FOLLOW"
@@ -2090,14 +2207,20 @@ export interface Scte35SpliceInsert {
 }
 export const Scte35SpliceInsert = S.suspend(() =>
   S.Struct({
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
+    AdAvailOffset: S.optional(S.Number),
     NoRegionalBlackoutFlag: S.optional(
       Scte35SpliceInsertNoRegionalBlackoutBehavior,
-    ).pipe(T.JsonName("noRegionalBlackoutFlag")),
+    ),
     WebDeliveryAllowedFlag: S.optional(
       Scte35SpliceInsertWebDeliveryAllowedBehavior,
-    ).pipe(T.JsonName("webDeliveryAllowedFlag")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      AdAvailOffset: "adAvailOffset",
+      NoRegionalBlackoutFlag: "noRegionalBlackoutFlag",
+      WebDeliveryAllowedFlag: "webDeliveryAllowedFlag",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35SpliceInsert",
 }) as any as S.Schema<Scte35SpliceInsert>;
@@ -2118,14 +2241,16 @@ export interface Scte35TimeSignalApos {
 }
 export const Scte35TimeSignalApos = S.suspend(() =>
   S.Struct({
-    AdAvailOffset: S.optional(S.Number).pipe(T.JsonName("adAvailOffset")),
-    NoRegionalBlackoutFlag: S.optional(
-      Scte35AposNoRegionalBlackoutBehavior,
-    ).pipe(T.JsonName("noRegionalBlackoutFlag")),
-    WebDeliveryAllowedFlag: S.optional(
-      Scte35AposWebDeliveryAllowedBehavior,
-    ).pipe(T.JsonName("webDeliveryAllowedFlag")),
-  }),
+    AdAvailOffset: S.optional(S.Number),
+    NoRegionalBlackoutFlag: S.optional(Scte35AposNoRegionalBlackoutBehavior),
+    WebDeliveryAllowedFlag: S.optional(Scte35AposWebDeliveryAllowedBehavior),
+  }).pipe(
+    S.encodeKeys({
+      AdAvailOffset: "adAvailOffset",
+      NoRegionalBlackoutFlag: "noRegionalBlackoutFlag",
+      WebDeliveryAllowedFlag: "webDeliveryAllowedFlag",
+    }),
+  ),
 ).annotate({
   identifier: "Scte35TimeSignalApos",
 }) as any as S.Schema<Scte35TimeSignalApos>;
@@ -2136,16 +2261,16 @@ export interface AvailSettings {
 }
 export const AvailSettings = S.suspend(() =>
   S.Struct({
-    Esam: S.optional(Esam)
-      .pipe(T.JsonName("esam"))
-      .annotate({ identifier: "Esam" }),
-    Scte35SpliceInsert: S.optional(Scte35SpliceInsert)
-      .pipe(T.JsonName("scte35SpliceInsert"))
-      .annotate({ identifier: "Scte35SpliceInsert" }),
-    Scte35TimeSignalApos: S.optional(Scte35TimeSignalApos)
-      .pipe(T.JsonName("scte35TimeSignalApos"))
-      .annotate({ identifier: "Scte35TimeSignalApos" }),
-  }),
+    Esam: S.optional(Esam),
+    Scte35SpliceInsert: S.optional(Scte35SpliceInsert),
+    Scte35TimeSignalApos: S.optional(Scte35TimeSignalApos),
+  }).pipe(
+    S.encodeKeys({
+      Esam: "esam",
+      Scte35SpliceInsert: "scte35SpliceInsert",
+      Scte35TimeSignalApos: "scte35TimeSignalApos",
+    }),
+  ),
 ).annotate({ identifier: "AvailSettings" }) as any as S.Schema<AvailSettings>;
 export type Scte35SegmentationScope =
   | "ALL_OUTPUT_GROUPS"
@@ -2158,13 +2283,14 @@ export interface AvailConfiguration {
 }
 export const AvailConfiguration = S.suspend(() =>
   S.Struct({
-    AvailSettings: S.optional(AvailSettings)
-      .pipe(T.JsonName("availSettings"))
-      .annotate({ identifier: "AvailSettings" }),
-    Scte35SegmentationScope: S.optional(Scte35SegmentationScope).pipe(
-      T.JsonName("scte35SegmentationScope"),
-    ),
-  }),
+    AvailSettings: S.optional(AvailSettings),
+    Scte35SegmentationScope: S.optional(Scte35SegmentationScope),
+  }).pipe(
+    S.encodeKeys({
+      AvailSettings: "availSettings",
+      Scte35SegmentationScope: "scte35SegmentationScope",
+    }),
+  ),
 ).annotate({
   identifier: "AvailConfiguration",
 }) as any as S.Schema<AvailConfiguration>;
@@ -2184,18 +2310,20 @@ export interface BlackoutSlate {
 }
 export const BlackoutSlate = S.suspend(() =>
   S.Struct({
-    BlackoutSlateImage: S.optional(InputLocation)
-      .pipe(T.JsonName("blackoutSlateImage"))
-      .annotate({ identifier: "InputLocation" }),
-    NetworkEndBlackout: S.optional(BlackoutSlateNetworkEndBlackout).pipe(
-      T.JsonName("networkEndBlackout"),
-    ),
-    NetworkEndBlackoutImage: S.optional(InputLocation)
-      .pipe(T.JsonName("networkEndBlackoutImage"))
-      .annotate({ identifier: "InputLocation" }),
-    NetworkId: S.optional(S.String).pipe(T.JsonName("networkId")),
-    State: S.optional(BlackoutSlateState).pipe(T.JsonName("state")),
-  }),
+    BlackoutSlateImage: S.optional(InputLocation),
+    NetworkEndBlackout: S.optional(BlackoutSlateNetworkEndBlackout),
+    NetworkEndBlackoutImage: S.optional(InputLocation),
+    NetworkId: S.optional(S.String),
+    State: S.optional(BlackoutSlateState),
+  }).pipe(
+    S.encodeKeys({
+      BlackoutSlateImage: "blackoutSlateImage",
+      NetworkEndBlackout: "networkEndBlackout",
+      NetworkEndBlackoutImage: "networkEndBlackoutImage",
+      NetworkId: "networkId",
+      State: "state",
+    }),
+  ),
 ).annotate({ identifier: "BlackoutSlate" }) as any as S.Schema<BlackoutSlate>;
 export type AccessibilityType =
   | "DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES"
@@ -2260,37 +2388,46 @@ export interface BurnInDestinationSettings {
 }
 export const BurnInDestinationSettings = S.suspend(() =>
   S.Struct({
-    Alignment: S.optional(BurnInAlignment).pipe(T.JsonName("alignment")),
-    BackgroundColor: S.optional(BurnInBackgroundColor).pipe(
-      T.JsonName("backgroundColor"),
-    ),
-    BackgroundOpacity: S.optional(S.Number).pipe(
-      T.JsonName("backgroundOpacity"),
-    ),
-    Font: S.optional(InputLocation)
-      .pipe(T.JsonName("font"))
-      .annotate({ identifier: "InputLocation" }),
-    FontColor: S.optional(BurnInFontColor).pipe(T.JsonName("fontColor")),
-    FontOpacity: S.optional(S.Number).pipe(T.JsonName("fontOpacity")),
-    FontResolution: S.optional(S.Number).pipe(T.JsonName("fontResolution")),
-    FontSize: S.optional(S.String).pipe(T.JsonName("fontSize")),
-    OutlineColor: S.optional(BurnInOutlineColor).pipe(
-      T.JsonName("outlineColor"),
-    ),
-    OutlineSize: S.optional(S.Number).pipe(T.JsonName("outlineSize")),
-    ShadowColor: S.optional(BurnInShadowColor).pipe(T.JsonName("shadowColor")),
-    ShadowOpacity: S.optional(S.Number).pipe(T.JsonName("shadowOpacity")),
-    ShadowXOffset: S.optional(S.Number).pipe(T.JsonName("shadowXOffset")),
-    ShadowYOffset: S.optional(S.Number).pipe(T.JsonName("shadowYOffset")),
-    TeletextGridControl: S.optional(BurnInTeletextGridControl).pipe(
-      T.JsonName("teletextGridControl"),
-    ),
-    XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
-    YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
-    SubtitleRows: S.optional(BurnInDestinationSubtitleRows).pipe(
-      T.JsonName("subtitleRows"),
-    ),
-  }),
+    Alignment: S.optional(BurnInAlignment),
+    BackgroundColor: S.optional(BurnInBackgroundColor),
+    BackgroundOpacity: S.optional(S.Number),
+    Font: S.optional(InputLocation),
+    FontColor: S.optional(BurnInFontColor),
+    FontOpacity: S.optional(S.Number),
+    FontResolution: S.optional(S.Number),
+    FontSize: S.optional(S.String),
+    OutlineColor: S.optional(BurnInOutlineColor),
+    OutlineSize: S.optional(S.Number),
+    ShadowColor: S.optional(BurnInShadowColor),
+    ShadowOpacity: S.optional(S.Number),
+    ShadowXOffset: S.optional(S.Number),
+    ShadowYOffset: S.optional(S.Number),
+    TeletextGridControl: S.optional(BurnInTeletextGridControl),
+    XPosition: S.optional(S.Number),
+    YPosition: S.optional(S.Number),
+    SubtitleRows: S.optional(BurnInDestinationSubtitleRows),
+  }).pipe(
+    S.encodeKeys({
+      Alignment: "alignment",
+      BackgroundColor: "backgroundColor",
+      BackgroundOpacity: "backgroundOpacity",
+      Font: "font",
+      FontColor: "fontColor",
+      FontOpacity: "fontOpacity",
+      FontResolution: "fontResolution",
+      FontSize: "fontSize",
+      OutlineColor: "outlineColor",
+      OutlineSize: "outlineSize",
+      ShadowColor: "shadowColor",
+      ShadowOpacity: "shadowOpacity",
+      ShadowXOffset: "shadowXOffset",
+      ShadowYOffset: "shadowYOffset",
+      TeletextGridControl: "teletextGridControl",
+      XPosition: "xPosition",
+      YPosition: "yPosition",
+      SubtitleRows: "subtitleRows",
+    }),
+  ),
 ).annotate({
   identifier: "BurnInDestinationSettings",
 }) as any as S.Schema<BurnInDestinationSettings>;
@@ -2363,43 +2500,46 @@ export interface DvbSubDestinationSettings {
 }
 export const DvbSubDestinationSettings = S.suspend(() =>
   S.Struct({
-    Alignment: S.optional(DvbSubDestinationAlignment).pipe(
-      T.JsonName("alignment"),
-    ),
-    BackgroundColor: S.optional(DvbSubDestinationBackgroundColor).pipe(
-      T.JsonName("backgroundColor"),
-    ),
-    BackgroundOpacity: S.optional(S.Number).pipe(
-      T.JsonName("backgroundOpacity"),
-    ),
-    Font: S.optional(InputLocation)
-      .pipe(T.JsonName("font"))
-      .annotate({ identifier: "InputLocation" }),
-    FontColor: S.optional(DvbSubDestinationFontColor).pipe(
-      T.JsonName("fontColor"),
-    ),
-    FontOpacity: S.optional(S.Number).pipe(T.JsonName("fontOpacity")),
-    FontResolution: S.optional(S.Number).pipe(T.JsonName("fontResolution")),
-    FontSize: S.optional(S.String).pipe(T.JsonName("fontSize")),
-    OutlineColor: S.optional(DvbSubDestinationOutlineColor).pipe(
-      T.JsonName("outlineColor"),
-    ),
-    OutlineSize: S.optional(S.Number).pipe(T.JsonName("outlineSize")),
-    ShadowColor: S.optional(DvbSubDestinationShadowColor).pipe(
-      T.JsonName("shadowColor"),
-    ),
-    ShadowOpacity: S.optional(S.Number).pipe(T.JsonName("shadowOpacity")),
-    ShadowXOffset: S.optional(S.Number).pipe(T.JsonName("shadowXOffset")),
-    ShadowYOffset: S.optional(S.Number).pipe(T.JsonName("shadowYOffset")),
-    TeletextGridControl: S.optional(DvbSubDestinationTeletextGridControl).pipe(
-      T.JsonName("teletextGridControl"),
-    ),
-    XPosition: S.optional(S.Number).pipe(T.JsonName("xPosition")),
-    YPosition: S.optional(S.Number).pipe(T.JsonName("yPosition")),
-    SubtitleRows: S.optional(DvbSubDestinationSubtitleRows).pipe(
-      T.JsonName("subtitleRows"),
-    ),
-  }),
+    Alignment: S.optional(DvbSubDestinationAlignment),
+    BackgroundColor: S.optional(DvbSubDestinationBackgroundColor),
+    BackgroundOpacity: S.optional(S.Number),
+    Font: S.optional(InputLocation),
+    FontColor: S.optional(DvbSubDestinationFontColor),
+    FontOpacity: S.optional(S.Number),
+    FontResolution: S.optional(S.Number),
+    FontSize: S.optional(S.String),
+    OutlineColor: S.optional(DvbSubDestinationOutlineColor),
+    OutlineSize: S.optional(S.Number),
+    ShadowColor: S.optional(DvbSubDestinationShadowColor),
+    ShadowOpacity: S.optional(S.Number),
+    ShadowXOffset: S.optional(S.Number),
+    ShadowYOffset: S.optional(S.Number),
+    TeletextGridControl: S.optional(DvbSubDestinationTeletextGridControl),
+    XPosition: S.optional(S.Number),
+    YPosition: S.optional(S.Number),
+    SubtitleRows: S.optional(DvbSubDestinationSubtitleRows),
+  }).pipe(
+    S.encodeKeys({
+      Alignment: "alignment",
+      BackgroundColor: "backgroundColor",
+      BackgroundOpacity: "backgroundOpacity",
+      Font: "font",
+      FontColor: "fontColor",
+      FontOpacity: "fontOpacity",
+      FontResolution: "fontResolution",
+      FontSize: "fontSize",
+      OutlineColor: "outlineColor",
+      OutlineSize: "outlineSize",
+      ShadowColor: "shadowColor",
+      ShadowOpacity: "shadowOpacity",
+      ShadowXOffset: "shadowXOffset",
+      ShadowYOffset: "shadowYOffset",
+      TeletextGridControl: "teletextGridControl",
+      XPosition: "xPosition",
+      YPosition: "yPosition",
+      SubtitleRows: "subtitleRows",
+    }),
+  ),
 ).annotate({
   identifier: "DvbSubDestinationSettings",
 }) as any as S.Schema<DvbSubDestinationSettings>;
@@ -2420,19 +2560,22 @@ export interface EbuTtDDestinationSettings {
 }
 export const EbuTtDDestinationSettings = S.suspend(() =>
   S.Struct({
-    CopyrightHolder: S.optional(S.String).pipe(T.JsonName("copyrightHolder")),
-    FillLineGap: S.optional(EbuTtDFillLineGapControl).pipe(
-      T.JsonName("fillLineGap"),
-    ),
-    FontFamily: S.optional(S.String).pipe(T.JsonName("fontFamily")),
-    StyleControl: S.optional(EbuTtDDestinationStyleControl).pipe(
-      T.JsonName("styleControl"),
-    ),
-    DefaultFontSize: S.optional(S.Number).pipe(T.JsonName("defaultFontSize")),
-    DefaultLineHeight: S.optional(S.Number).pipe(
-      T.JsonName("defaultLineHeight"),
-    ),
-  }),
+    CopyrightHolder: S.optional(S.String),
+    FillLineGap: S.optional(EbuTtDFillLineGapControl),
+    FontFamily: S.optional(S.String),
+    StyleControl: S.optional(EbuTtDDestinationStyleControl),
+    DefaultFontSize: S.optional(S.Number),
+    DefaultLineHeight: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      CopyrightHolder: "copyrightHolder",
+      FillLineGap: "fillLineGap",
+      FontFamily: "fontFamily",
+      StyleControl: "styleControl",
+      DefaultFontSize: "defaultFontSize",
+      DefaultLineHeight: "defaultLineHeight",
+    }),
+  ),
 ).annotate({
   identifier: "EbuTtDDestinationSettings",
 }) as any as S.Schema<EbuTtDDestinationSettings>;
@@ -2485,11 +2628,9 @@ export interface TtmlDestinationSettings {
   StyleControl?: TtmlDestinationStyleControl;
 }
 export const TtmlDestinationSettings = S.suspend(() =>
-  S.Struct({
-    StyleControl: S.optional(TtmlDestinationStyleControl).pipe(
-      T.JsonName("styleControl"),
-    ),
-  }),
+  S.Struct({ StyleControl: S.optional(TtmlDestinationStyleControl) }).pipe(
+    S.encodeKeys({ StyleControl: "styleControl" }),
+  ),
 ).annotate({
   identifier: "TtmlDestinationSettings",
 }) as any as S.Schema<TtmlDestinationSettings>;
@@ -2502,11 +2643,9 @@ export interface WebvttDestinationSettings {
   StyleControl?: WebvttDestinationStyleControl;
 }
 export const WebvttDestinationSettings = S.suspend(() =>
-  S.Struct({
-    StyleControl: S.optional(WebvttDestinationStyleControl).pipe(
-      T.JsonName("styleControl"),
-    ),
-  }),
+  S.Struct({ StyleControl: S.optional(WebvttDestinationStyleControl) }).pipe(
+    S.encodeKeys({ StyleControl: "styleControl" }),
+  ),
 ).annotate({
   identifier: "WebvttDestinationSettings",
 }) as any as S.Schema<WebvttDestinationSettings>;
@@ -2527,52 +2666,44 @@ export interface CaptionDestinationSettings {
 }
 export const CaptionDestinationSettings = S.suspend(() =>
   S.Struct({
-    AribDestinationSettings: S.optional(AribDestinationSettings)
-      .pipe(T.JsonName("aribDestinationSettings"))
-      .annotate({ identifier: "AribDestinationSettings" }),
-    BurnInDestinationSettings: S.optional(BurnInDestinationSettings)
-      .pipe(T.JsonName("burnInDestinationSettings"))
-      .annotate({ identifier: "BurnInDestinationSettings" }),
-    DvbSubDestinationSettings: S.optional(DvbSubDestinationSettings)
-      .pipe(T.JsonName("dvbSubDestinationSettings"))
-      .annotate({ identifier: "DvbSubDestinationSettings" }),
-    EbuTtDDestinationSettings: S.optional(EbuTtDDestinationSettings)
-      .pipe(T.JsonName("ebuTtDDestinationSettings"))
-      .annotate({ identifier: "EbuTtDDestinationSettings" }),
-    EmbeddedDestinationSettings: S.optional(EmbeddedDestinationSettings)
-      .pipe(T.JsonName("embeddedDestinationSettings"))
-      .annotate({ identifier: "EmbeddedDestinationSettings" }),
+    AribDestinationSettings: S.optional(AribDestinationSettings),
+    BurnInDestinationSettings: S.optional(BurnInDestinationSettings),
+    DvbSubDestinationSettings: S.optional(DvbSubDestinationSettings),
+    EbuTtDDestinationSettings: S.optional(EbuTtDDestinationSettings),
+    EmbeddedDestinationSettings: S.optional(EmbeddedDestinationSettings),
     EmbeddedPlusScte20DestinationSettings: S.optional(
       EmbeddedPlusScte20DestinationSettings,
-    )
-      .pipe(T.JsonName("embeddedPlusScte20DestinationSettings"))
-      .annotate({ identifier: "EmbeddedPlusScte20DestinationSettings" }),
+    ),
     RtmpCaptionInfoDestinationSettings: S.optional(
       RtmpCaptionInfoDestinationSettings,
-    )
-      .pipe(T.JsonName("rtmpCaptionInfoDestinationSettings"))
-      .annotate({ identifier: "RtmpCaptionInfoDestinationSettings" }),
+    ),
     Scte20PlusEmbeddedDestinationSettings: S.optional(
       Scte20PlusEmbeddedDestinationSettings,
-    )
-      .pipe(T.JsonName("scte20PlusEmbeddedDestinationSettings"))
-      .annotate({ identifier: "Scte20PlusEmbeddedDestinationSettings" }),
-    Scte27DestinationSettings: S.optional(Scte27DestinationSettings)
-      .pipe(T.JsonName("scte27DestinationSettings"))
-      .annotate({ identifier: "Scte27DestinationSettings" }),
-    SmpteTtDestinationSettings: S.optional(SmpteTtDestinationSettings)
-      .pipe(T.JsonName("smpteTtDestinationSettings"))
-      .annotate({ identifier: "SmpteTtDestinationSettings" }),
-    TeletextDestinationSettings: S.optional(TeletextDestinationSettings)
-      .pipe(T.JsonName("teletextDestinationSettings"))
-      .annotate({ identifier: "TeletextDestinationSettings" }),
-    TtmlDestinationSettings: S.optional(TtmlDestinationSettings)
-      .pipe(T.JsonName("ttmlDestinationSettings"))
-      .annotate({ identifier: "TtmlDestinationSettings" }),
-    WebvttDestinationSettings: S.optional(WebvttDestinationSettings)
-      .pipe(T.JsonName("webvttDestinationSettings"))
-      .annotate({ identifier: "WebvttDestinationSettings" }),
-  }),
+    ),
+    Scte27DestinationSettings: S.optional(Scte27DestinationSettings),
+    SmpteTtDestinationSettings: S.optional(SmpteTtDestinationSettings),
+    TeletextDestinationSettings: S.optional(TeletextDestinationSettings),
+    TtmlDestinationSettings: S.optional(TtmlDestinationSettings),
+    WebvttDestinationSettings: S.optional(WebvttDestinationSettings),
+  }).pipe(
+    S.encodeKeys({
+      AribDestinationSettings: "aribDestinationSettings",
+      BurnInDestinationSettings: "burnInDestinationSettings",
+      DvbSubDestinationSettings: "dvbSubDestinationSettings",
+      EbuTtDDestinationSettings: "ebuTtDDestinationSettings",
+      EmbeddedDestinationSettings: "embeddedDestinationSettings",
+      EmbeddedPlusScte20DestinationSettings:
+        "embeddedPlusScte20DestinationSettings",
+      RtmpCaptionInfoDestinationSettings: "rtmpCaptionInfoDestinationSettings",
+      Scte20PlusEmbeddedDestinationSettings:
+        "scte20PlusEmbeddedDestinationSettings",
+      Scte27DestinationSettings: "scte27DestinationSettings",
+      SmpteTtDestinationSettings: "smpteTtDestinationSettings",
+      TeletextDestinationSettings: "teletextDestinationSettings",
+      TtmlDestinationSettings: "ttmlDestinationSettings",
+      WebvttDestinationSettings: "webvttDestinationSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionDestinationSettings",
 }) as any as S.Schema<CaptionDestinationSettings>;
@@ -2606,27 +2737,26 @@ export interface CaptionDescription {
 }
 export const CaptionDescription = S.suspend(() =>
   S.Struct({
-    Accessibility: S.optional(AccessibilityType).pipe(
-      T.JsonName("accessibility"),
-    ),
-    CaptionSelectorName: S.optional(S.String).pipe(
-      T.JsonName("captionSelectorName"),
-    ),
-    DestinationSettings: S.optional(CaptionDestinationSettings)
-      .pipe(T.JsonName("destinationSettings"))
-      .annotate({ identifier: "CaptionDestinationSettings" }),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    CaptionDashRoles: S.optional(__listOfDashRoleCaption).pipe(
-      T.JsonName("captionDashRoles"),
-    ),
-    DvbDashAccessibility: S.optional(DvbDashAccessibility).pipe(
-      T.JsonName("dvbDashAccessibility"),
-    ),
-  }),
+    Accessibility: S.optional(AccessibilityType),
+    CaptionSelectorName: S.optional(S.String),
+    DestinationSettings: S.optional(CaptionDestinationSettings),
+    LanguageCode: S.optional(S.String),
+    LanguageDescription: S.optional(S.String),
+    Name: S.optional(S.String),
+    CaptionDashRoles: S.optional(__listOfDashRoleCaption),
+    DvbDashAccessibility: S.optional(DvbDashAccessibility),
+  }).pipe(
+    S.encodeKeys({
+      Accessibility: "accessibility",
+      CaptionSelectorName: "captionSelectorName",
+      DestinationSettings: "destinationSettings",
+      LanguageCode: "languageCode",
+      LanguageDescription: "languageDescription",
+      Name: "name",
+      CaptionDashRoles: "captionDashRoles",
+      DvbDashAccessibility: "dvbDashAccessibility",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionDescription",
 }) as any as S.Schema<CaptionDescription>;
@@ -2651,11 +2781,17 @@ export const FeatureActivations = S.suspend(() =>
   S.Struct({
     InputPrepareScheduleActions: S.optional(
       FeatureActivationsInputPrepareScheduleActions,
-    ).pipe(T.JsonName("inputPrepareScheduleActions")),
+    ),
     OutputStaticImageOverlayScheduleActions: S.optional(
       FeatureActivationsOutputStaticImageOverlayScheduleActions,
-    ).pipe(T.JsonName("outputStaticImageOverlayScheduleActions")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      InputPrepareScheduleActions: "inputPrepareScheduleActions",
+      OutputStaticImageOverlayScheduleActions:
+        "outputStaticImageOverlayScheduleActions",
+    }),
+  ),
 ).annotate({
   identifier: "FeatureActivations",
 }) as any as S.Schema<FeatureActivations>;
@@ -2675,18 +2811,20 @@ export interface InputLossBehavior {
 }
 export const InputLossBehavior = S.suspend(() =>
   S.Struct({
-    BlackFrameMsec: S.optional(S.Number).pipe(T.JsonName("blackFrameMsec")),
-    InputLossImageColor: S.optional(S.String).pipe(
-      T.JsonName("inputLossImageColor"),
-    ),
-    InputLossImageSlate: S.optional(InputLocation)
-      .pipe(T.JsonName("inputLossImageSlate"))
-      .annotate({ identifier: "InputLocation" }),
-    InputLossImageType: S.optional(InputLossImageType).pipe(
-      T.JsonName("inputLossImageType"),
-    ),
-    RepeatFrameMsec: S.optional(S.Number).pipe(T.JsonName("repeatFrameMsec")),
-  }),
+    BlackFrameMsec: S.optional(S.Number),
+    InputLossImageColor: S.optional(S.String),
+    InputLossImageSlate: S.optional(InputLocation),
+    InputLossImageType: S.optional(InputLossImageType),
+    RepeatFrameMsec: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BlackFrameMsec: "blackFrameMsec",
+      InputLossImageColor: "inputLossImageColor",
+      InputLossImageSlate: "inputLossImageSlate",
+      InputLossImageType: "inputLossImageType",
+      RepeatFrameMsec: "repeatFrameMsec",
+    }),
+  ),
 ).annotate({
   identifier: "InputLossBehavior",
 }) as any as S.Schema<InputLossBehavior>;
@@ -2712,9 +2850,11 @@ export interface EpochLockingSettings {
 }
 export const EpochLockingSettings = S.suspend(() =>
   S.Struct({
-    CustomEpoch: S.optional(S.String).pipe(T.JsonName("customEpoch")),
-    JamSyncTime: S.optional(S.String).pipe(T.JsonName("jamSyncTime")),
-  }),
+    CustomEpoch: S.optional(S.String),
+    JamSyncTime: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ CustomEpoch: "customEpoch", JamSyncTime: "jamSyncTime" }),
+  ),
 ).annotate({
   identifier: "EpochLockingSettings",
 }) as any as S.Schema<EpochLockingSettings>;
@@ -2727,11 +2867,9 @@ export interface PipelineLockingSettings {
   PipelineLockingMethod?: PipelineLockingMethod;
 }
 export const PipelineLockingSettings = S.suspend(() =>
-  S.Struct({
-    PipelineLockingMethod: S.optional(PipelineLockingMethod).pipe(
-      T.JsonName("pipelineLockingMethod"),
-    ),
-  }),
+  S.Struct({ PipelineLockingMethod: S.optional(PipelineLockingMethod) }).pipe(
+    S.encodeKeys({ PipelineLockingMethod: "pipelineLockingMethod" }),
+  ),
 ).annotate({
   identifier: "PipelineLockingSettings",
 }) as any as S.Schema<PipelineLockingSettings>;
@@ -2741,13 +2879,14 @@ export interface OutputLockingSettings {
 }
 export const OutputLockingSettings = S.suspend(() =>
   S.Struct({
-    EpochLockingSettings: S.optional(EpochLockingSettings)
-      .pipe(T.JsonName("epochLockingSettings"))
-      .annotate({ identifier: "EpochLockingSettings" }),
-    PipelineLockingSettings: S.optional(PipelineLockingSettings)
-      .pipe(T.JsonName("pipelineLockingSettings"))
-      .annotate({ identifier: "PipelineLockingSettings" }),
-  }),
+    EpochLockingSettings: S.optional(EpochLockingSettings),
+    PipelineLockingSettings: S.optional(PipelineLockingSettings),
+  }).pipe(
+    S.encodeKeys({
+      EpochLockingSettings: "epochLockingSettings",
+      PipelineLockingSettings: "pipelineLockingSettings",
+    }),
+  ),
 ).annotate({
   identifier: "OutputLockingSettings",
 }) as any as S.Schema<OutputLockingSettings>;
@@ -2762,26 +2901,26 @@ export interface GlobalConfiguration {
 }
 export const GlobalConfiguration = S.suspend(() =>
   S.Struct({
-    InitialAudioGain: S.optional(S.Number).pipe(T.JsonName("initialAudioGain")),
-    InputEndAction: S.optional(GlobalConfigurationInputEndAction).pipe(
-      T.JsonName("inputEndAction"),
-    ),
-    InputLossBehavior: S.optional(InputLossBehavior)
-      .pipe(T.JsonName("inputLossBehavior"))
-      .annotate({ identifier: "InputLossBehavior" }),
-    OutputLockingMode: S.optional(GlobalConfigurationOutputLockingMode).pipe(
-      T.JsonName("outputLockingMode"),
-    ),
-    OutputTimingSource: S.optional(GlobalConfigurationOutputTimingSource).pipe(
-      T.JsonName("outputTimingSource"),
-    ),
+    InitialAudioGain: S.optional(S.Number),
+    InputEndAction: S.optional(GlobalConfigurationInputEndAction),
+    InputLossBehavior: S.optional(InputLossBehavior),
+    OutputLockingMode: S.optional(GlobalConfigurationOutputLockingMode),
+    OutputTimingSource: S.optional(GlobalConfigurationOutputTimingSource),
     SupportLowFramerateInputs: S.optional(
       GlobalConfigurationLowFramerateInputs,
-    ).pipe(T.JsonName("supportLowFramerateInputs")),
-    OutputLockingSettings: S.optional(OutputLockingSettings)
-      .pipe(T.JsonName("outputLockingSettings"))
-      .annotate({ identifier: "OutputLockingSettings" }),
-  }),
+    ),
+    OutputLockingSettings: S.optional(OutputLockingSettings),
+  }).pipe(
+    S.encodeKeys({
+      InitialAudioGain: "initialAudioGain",
+      InputEndAction: "inputEndAction",
+      InputLossBehavior: "inputLossBehavior",
+      OutputLockingMode: "outputLockingMode",
+      OutputTimingSource: "outputTimingSource",
+      SupportLowFramerateInputs: "supportLowFramerateInputs",
+      OutputLockingSettings: "outputLockingSettings",
+    }),
+  ),
 ).annotate({
   identifier: "GlobalConfiguration",
 }) as any as S.Schema<GlobalConfiguration>;
@@ -2798,10 +2937,10 @@ export interface MotionGraphicsSettings {
 }
 export const MotionGraphicsSettings = S.suspend(() =>
   S.Struct({
-    HtmlMotionGraphicsSettings: S.optional(HtmlMotionGraphicsSettings)
-      .pipe(T.JsonName("htmlMotionGraphicsSettings"))
-      .annotate({ identifier: "HtmlMotionGraphicsSettings" }),
-  }),
+    HtmlMotionGraphicsSettings: S.optional(HtmlMotionGraphicsSettings),
+  }).pipe(
+    S.encodeKeys({ HtmlMotionGraphicsSettings: "htmlMotionGraphicsSettings" }),
+  ),
 ).annotate({
   identifier: "MotionGraphicsSettings",
 }) as any as S.Schema<MotionGraphicsSettings>;
@@ -2811,13 +2950,14 @@ export interface MotionGraphicsConfiguration {
 }
 export const MotionGraphicsConfiguration = S.suspend(() =>
   S.Struct({
-    MotionGraphicsInsertion: S.optional(MotionGraphicsInsertion).pipe(
-      T.JsonName("motionGraphicsInsertion"),
-    ),
-    MotionGraphicsSettings: S.optional(MotionGraphicsSettings)
-      .pipe(T.JsonName("motionGraphicsSettings"))
-      .annotate({ identifier: "MotionGraphicsSettings" }),
-  }),
+    MotionGraphicsInsertion: S.optional(MotionGraphicsInsertion),
+    MotionGraphicsSettings: S.optional(MotionGraphicsSettings),
+  }).pipe(
+    S.encodeKeys({
+      MotionGraphicsInsertion: "motionGraphicsInsertion",
+      MotionGraphicsSettings: "motionGraphicsSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MotionGraphicsConfiguration",
 }) as any as S.Schema<MotionGraphicsConfiguration>;
@@ -2832,11 +2972,14 @@ export interface NielsenConfiguration {
 }
 export const NielsenConfiguration = S.suspend(() =>
   S.Struct({
-    DistributorId: S.optional(S.String).pipe(T.JsonName("distributorId")),
-    NielsenPcmToId3Tagging: S.optional(NielsenPcmToId3TaggingState).pipe(
-      T.JsonName("nielsenPcmToId3Tagging"),
-    ),
-  }),
+    DistributorId: S.optional(S.String),
+    NielsenPcmToId3Tagging: S.optional(NielsenPcmToId3TaggingState),
+  }).pipe(
+    S.encodeKeys({
+      DistributorId: "distributorId",
+      NielsenPcmToId3Tagging: "nielsenPcmToId3Tagging",
+    }),
+  ),
 ).annotate({
   identifier: "NielsenConfiguration",
 }) as any as S.Schema<NielsenConfiguration>;
@@ -2851,9 +2994,9 @@ export interface ArchiveS3Settings {
   CannedAcl?: S3CannedAcl;
 }
 export const ArchiveS3Settings = S.suspend(() =>
-  S.Struct({
-    CannedAcl: S.optional(S3CannedAcl).pipe(T.JsonName("cannedAcl")),
-  }),
+  S.Struct({ CannedAcl: S.optional(S3CannedAcl) }).pipe(
+    S.encodeKeys({ CannedAcl: "cannedAcl" }),
+  ),
 ).annotate({
   identifier: "ArchiveS3Settings",
 }) as any as S.Schema<ArchiveS3Settings>;
@@ -2861,11 +3004,9 @@ export interface ArchiveCdnSettings {
   ArchiveS3Settings?: ArchiveS3Settings;
 }
 export const ArchiveCdnSettings = S.suspend(() =>
-  S.Struct({
-    ArchiveS3Settings: S.optional(ArchiveS3Settings)
-      .pipe(T.JsonName("archiveS3Settings"))
-      .annotate({ identifier: "ArchiveS3Settings" }),
-  }),
+  S.Struct({ ArchiveS3Settings: S.optional(ArchiveS3Settings) }).pipe(
+    S.encodeKeys({ ArchiveS3Settings: "archiveS3Settings" }),
+  ),
 ).annotate({
   identifier: "ArchiveCdnSettings",
 }) as any as S.Schema<ArchiveCdnSettings>;
@@ -2873,9 +3014,9 @@ export interface OutputLocationRef {
   DestinationRefId?: string;
 }
 export const OutputLocationRef = S.suspend(() =>
-  S.Struct({
-    DestinationRefId: S.optional(S.String).pipe(T.JsonName("destinationRefId")),
-  }),
+  S.Struct({ DestinationRefId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ DestinationRefId: "destinationRefId" }),
+  ),
 ).annotate({
   identifier: "OutputLocationRef",
 }) as any as S.Schema<OutputLocationRef>;
@@ -2886,14 +3027,16 @@ export interface ArchiveGroupSettings {
 }
 export const ArchiveGroupSettings = S.suspend(() =>
   S.Struct({
-    ArchiveCdnSettings: S.optional(ArchiveCdnSettings)
-      .pipe(T.JsonName("archiveCdnSettings"))
-      .annotate({ identifier: "ArchiveCdnSettings" }),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    RolloverInterval: S.optional(S.Number).pipe(T.JsonName("rolloverInterval")),
-  }),
+    ArchiveCdnSettings: S.optional(ArchiveCdnSettings),
+    Destination: S.optional(OutputLocationRef),
+    RolloverInterval: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ArchiveCdnSettings: "archiveCdnSettings",
+      Destination: "destination",
+      RolloverInterval: "rolloverInterval",
+    }),
+  ),
 ).annotate({
   identifier: "ArchiveGroupSettings",
 }) as any as S.Schema<ArchiveGroupSettings>;
@@ -2901,9 +3044,9 @@ export interface FrameCaptureS3Settings {
   CannedAcl?: S3CannedAcl;
 }
 export const FrameCaptureS3Settings = S.suspend(() =>
-  S.Struct({
-    CannedAcl: S.optional(S3CannedAcl).pipe(T.JsonName("cannedAcl")),
-  }),
+  S.Struct({ CannedAcl: S.optional(S3CannedAcl) }).pipe(
+    S.encodeKeys({ CannedAcl: "cannedAcl" }),
+  ),
 ).annotate({
   identifier: "FrameCaptureS3Settings",
 }) as any as S.Schema<FrameCaptureS3Settings>;
@@ -2911,11 +3054,9 @@ export interface FrameCaptureCdnSettings {
   FrameCaptureS3Settings?: FrameCaptureS3Settings;
 }
 export const FrameCaptureCdnSettings = S.suspend(() =>
-  S.Struct({
-    FrameCaptureS3Settings: S.optional(FrameCaptureS3Settings)
-      .pipe(T.JsonName("frameCaptureS3Settings"))
-      .annotate({ identifier: "FrameCaptureS3Settings" }),
-  }),
+  S.Struct({ FrameCaptureS3Settings: S.optional(FrameCaptureS3Settings) }).pipe(
+    S.encodeKeys({ FrameCaptureS3Settings: "frameCaptureS3Settings" }),
+  ),
 ).annotate({
   identifier: "FrameCaptureCdnSettings",
 }) as any as S.Schema<FrameCaptureCdnSettings>;
@@ -2925,13 +3066,14 @@ export interface FrameCaptureGroupSettings {
 }
 export const FrameCaptureGroupSettings = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    FrameCaptureCdnSettings: S.optional(FrameCaptureCdnSettings)
-      .pipe(T.JsonName("frameCaptureCdnSettings"))
-      .annotate({ identifier: "FrameCaptureCdnSettings" }),
-  }),
+    Destination: S.optional(OutputLocationRef),
+    FrameCaptureCdnSettings: S.optional(FrameCaptureCdnSettings),
+  }).pipe(
+    S.encodeKeys({
+      Destination: "destination",
+      FrameCaptureCdnSettings: "frameCaptureCdnSettings",
+    }),
+  ),
 ).annotate({
   identifier: "FrameCaptureGroupSettings",
 }) as any as S.Schema<FrameCaptureGroupSettings>;
@@ -2950,12 +3092,16 @@ export interface CaptionLanguageMapping {
 }
 export const CaptionLanguageMapping = S.suspend(() =>
   S.Struct({
-    CaptionChannel: S.optional(S.Number).pipe(T.JsonName("captionChannel")),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    LanguageDescription: S.optional(S.String).pipe(
-      T.JsonName("languageDescription"),
-    ),
-  }),
+    CaptionChannel: S.optional(S.Number),
+    LanguageCode: S.optional(S.String),
+    LanguageDescription: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CaptionChannel: "captionChannel",
+      LanguageCode: "languageCode",
+      LanguageDescription: "languageDescription",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionLanguageMapping",
 }) as any as S.Schema<CaptionLanguageMapping>;
@@ -2996,20 +3142,24 @@ export interface HlsAkamaiSettings {
 }
 export const HlsAkamaiSettings = S.suspend(() =>
   S.Struct({
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    FilecacheDuration: S.optional(S.Number).pipe(
-      T.JsonName("filecacheDuration"),
-    ),
-    HttpTransferMode: S.optional(HlsAkamaiHttpTransferMode).pipe(
-      T.JsonName("httpTransferMode"),
-    ),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-    Salt: S.optional(S.String).pipe(T.JsonName("salt")),
-    Token: S.optional(S.String).pipe(T.JsonName("token")),
-  }),
+    ConnectionRetryInterval: S.optional(S.Number),
+    FilecacheDuration: S.optional(S.Number),
+    HttpTransferMode: S.optional(HlsAkamaiHttpTransferMode),
+    NumRetries: S.optional(S.Number),
+    RestartDelay: S.optional(S.Number),
+    Salt: S.optional(S.String),
+    Token: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ConnectionRetryInterval: "connectionRetryInterval",
+      FilecacheDuration: "filecacheDuration",
+      HttpTransferMode: "httpTransferMode",
+      NumRetries: "numRetries",
+      RestartDelay: "restartDelay",
+      Salt: "salt",
+      Token: "token",
+    }),
+  ),
 ).annotate({
   identifier: "HlsAkamaiSettings",
 }) as any as S.Schema<HlsAkamaiSettings>;
@@ -3021,15 +3171,18 @@ export interface HlsBasicPutSettings {
 }
 export const HlsBasicPutSettings = S.suspend(() =>
   S.Struct({
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    FilecacheDuration: S.optional(S.Number).pipe(
-      T.JsonName("filecacheDuration"),
-    ),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-  }),
+    ConnectionRetryInterval: S.optional(S.Number),
+    FilecacheDuration: S.optional(S.Number),
+    NumRetries: S.optional(S.Number),
+    RestartDelay: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ConnectionRetryInterval: "connectionRetryInterval",
+      FilecacheDuration: "filecacheDuration",
+      NumRetries: "numRetries",
+      RestartDelay: "restartDelay",
+    }),
+  ),
 ).annotate({
   identifier: "HlsBasicPutSettings",
 }) as any as S.Schema<HlsBasicPutSettings>;
@@ -3044,18 +3197,20 @@ export interface HlsMediaStoreSettings {
 }
 export const HlsMediaStoreSettings = S.suspend(() =>
   S.Struct({
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    FilecacheDuration: S.optional(S.Number).pipe(
-      T.JsonName("filecacheDuration"),
-    ),
-    MediaStoreStorageClass: S.optional(HlsMediaStoreStorageClass).pipe(
-      T.JsonName("mediaStoreStorageClass"),
-    ),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-  }),
+    ConnectionRetryInterval: S.optional(S.Number),
+    FilecacheDuration: S.optional(S.Number),
+    MediaStoreStorageClass: S.optional(HlsMediaStoreStorageClass),
+    NumRetries: S.optional(S.Number),
+    RestartDelay: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ConnectionRetryInterval: "connectionRetryInterval",
+      FilecacheDuration: "filecacheDuration",
+      MediaStoreStorageClass: "mediaStoreStorageClass",
+      NumRetries: "numRetries",
+      RestartDelay: "restartDelay",
+    }),
+  ),
 ).annotate({
   identifier: "HlsMediaStoreSettings",
 }) as any as S.Schema<HlsMediaStoreSettings>;
@@ -3063,9 +3218,9 @@ export interface HlsS3Settings {
   CannedAcl?: S3CannedAcl;
 }
 export const HlsS3Settings = S.suspend(() =>
-  S.Struct({
-    CannedAcl: S.optional(S3CannedAcl).pipe(T.JsonName("cannedAcl")),
-  }),
+  S.Struct({ CannedAcl: S.optional(S3CannedAcl) }).pipe(
+    S.encodeKeys({ CannedAcl: "cannedAcl" }),
+  ),
 ).annotate({ identifier: "HlsS3Settings" }) as any as S.Schema<HlsS3Settings>;
 export type HlsWebdavHttpTransferMode =
   | "CHUNKED"
@@ -3081,18 +3236,20 @@ export interface HlsWebdavSettings {
 }
 export const HlsWebdavSettings = S.suspend(() =>
   S.Struct({
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    FilecacheDuration: S.optional(S.Number).pipe(
-      T.JsonName("filecacheDuration"),
-    ),
-    HttpTransferMode: S.optional(HlsWebdavHttpTransferMode).pipe(
-      T.JsonName("httpTransferMode"),
-    ),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-  }),
+    ConnectionRetryInterval: S.optional(S.Number),
+    FilecacheDuration: S.optional(S.Number),
+    HttpTransferMode: S.optional(HlsWebdavHttpTransferMode),
+    NumRetries: S.optional(S.Number),
+    RestartDelay: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ConnectionRetryInterval: "connectionRetryInterval",
+      FilecacheDuration: "filecacheDuration",
+      HttpTransferMode: "httpTransferMode",
+      NumRetries: "numRetries",
+      RestartDelay: "restartDelay",
+    }),
+  ),
 ).annotate({
   identifier: "HlsWebdavSettings",
 }) as any as S.Schema<HlsWebdavSettings>;
@@ -3105,22 +3262,20 @@ export interface HlsCdnSettings {
 }
 export const HlsCdnSettings = S.suspend(() =>
   S.Struct({
-    HlsAkamaiSettings: S.optional(HlsAkamaiSettings)
-      .pipe(T.JsonName("hlsAkamaiSettings"))
-      .annotate({ identifier: "HlsAkamaiSettings" }),
-    HlsBasicPutSettings: S.optional(HlsBasicPutSettings)
-      .pipe(T.JsonName("hlsBasicPutSettings"))
-      .annotate({ identifier: "HlsBasicPutSettings" }),
-    HlsMediaStoreSettings: S.optional(HlsMediaStoreSettings)
-      .pipe(T.JsonName("hlsMediaStoreSettings"))
-      .annotate({ identifier: "HlsMediaStoreSettings" }),
-    HlsS3Settings: S.optional(HlsS3Settings)
-      .pipe(T.JsonName("hlsS3Settings"))
-      .annotate({ identifier: "HlsS3Settings" }),
-    HlsWebdavSettings: S.optional(HlsWebdavSettings)
-      .pipe(T.JsonName("hlsWebdavSettings"))
-      .annotate({ identifier: "HlsWebdavSettings" }),
-  }),
+    HlsAkamaiSettings: S.optional(HlsAkamaiSettings),
+    HlsBasicPutSettings: S.optional(HlsBasicPutSettings),
+    HlsMediaStoreSettings: S.optional(HlsMediaStoreSettings),
+    HlsS3Settings: S.optional(HlsS3Settings),
+    HlsWebdavSettings: S.optional(HlsWebdavSettings),
+  }).pipe(
+    S.encodeKeys({
+      HlsAkamaiSettings: "hlsAkamaiSettings",
+      HlsBasicPutSettings: "hlsBasicPutSettings",
+      HlsMediaStoreSettings: "hlsMediaStoreSettings",
+      HlsS3Settings: "hlsS3Settings",
+      HlsWebdavSettings: "hlsWebdavSettings",
+    }),
+  ),
 ).annotate({ identifier: "HlsCdnSettings" }) as any as S.Schema<HlsCdnSettings>;
 export type HlsId3SegmentTaggingState = "DISABLED" | "ENABLED" | (string & {});
 export const HlsId3SegmentTaggingState = S.String;
@@ -3143,11 +3298,14 @@ export interface StaticKeySettings {
 }
 export const StaticKeySettings = S.suspend(() =>
   S.Struct({
-    KeyProviderServer: S.optional(InputLocation)
-      .pipe(T.JsonName("keyProviderServer"))
-      .annotate({ identifier: "InputLocation" }),
-    StaticKeyValue: S.optional(S.String).pipe(T.JsonName("staticKeyValue")),
-  }),
+    KeyProviderServer: S.optional(InputLocation),
+    StaticKeyValue: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      KeyProviderServer: "keyProviderServer",
+      StaticKeyValue: "staticKeyValue",
+    }),
+  ),
 ).annotate({
   identifier: "StaticKeySettings",
 }) as any as S.Schema<StaticKeySettings>;
@@ -3155,11 +3313,9 @@ export interface KeyProviderSettings {
   StaticKeySettings?: StaticKeySettings;
 }
 export const KeyProviderSettings = S.suspend(() =>
-  S.Struct({
-    StaticKeySettings: S.optional(StaticKeySettings)
-      .pipe(T.JsonName("staticKeySettings"))
-      .annotate({ identifier: "StaticKeySettings" }),
-  }),
+  S.Struct({ StaticKeySettings: S.optional(StaticKeySettings) }).pipe(
+    S.encodeKeys({ StaticKeySettings: "staticKeySettings" }),
+  ),
 ).annotate({
   identifier: "KeyProviderSettings",
 }) as any as S.Schema<KeyProviderSettings>;
@@ -3245,104 +3401,96 @@ export interface HlsGroupSettings {
 }
 export const HlsGroupSettings = S.suspend(() =>
   S.Struct({
-    AdMarkers: S.optional(__listOfHlsAdMarkers).pipe(T.JsonName("adMarkers")),
-    BaseUrlContent: S.optional(S.String).pipe(T.JsonName("baseUrlContent")),
-    BaseUrlContent1: S.optional(S.String).pipe(T.JsonName("baseUrlContent1")),
-    BaseUrlManifest: S.optional(S.String).pipe(T.JsonName("baseUrlManifest")),
-    BaseUrlManifest1: S.optional(S.String).pipe(T.JsonName("baseUrlManifest1")),
-    CaptionLanguageMappings: S.optional(__listOfCaptionLanguageMapping).pipe(
-      T.JsonName("captionLanguageMappings"),
-    ),
-    CaptionLanguageSetting: S.optional(HlsCaptionLanguageSetting).pipe(
-      T.JsonName("captionLanguageSetting"),
-    ),
-    ClientCache: S.optional(HlsClientCache).pipe(T.JsonName("clientCache")),
-    CodecSpecification: S.optional(HlsCodecSpecification).pipe(
-      T.JsonName("codecSpecification"),
-    ),
-    ConstantIv: S.optional(S.String).pipe(T.JsonName("constantIv")),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    DirectoryStructure: S.optional(HlsDirectoryStructure).pipe(
-      T.JsonName("directoryStructure"),
-    ),
-    DiscontinuityTags: S.optional(HlsDiscontinuityTags).pipe(
-      T.JsonName("discontinuityTags"),
-    ),
-    EncryptionType: S.optional(HlsEncryptionType).pipe(
-      T.JsonName("encryptionType"),
-    ),
-    HlsCdnSettings: S.optional(HlsCdnSettings)
-      .pipe(T.JsonName("hlsCdnSettings"))
-      .annotate({ identifier: "HlsCdnSettings" }),
-    HlsId3SegmentTagging: S.optional(HlsId3SegmentTaggingState).pipe(
-      T.JsonName("hlsId3SegmentTagging"),
-    ),
-    IFrameOnlyPlaylists: S.optional(IFrameOnlyPlaylistType).pipe(
-      T.JsonName("iFrameOnlyPlaylists"),
-    ),
-    IncompleteSegmentBehavior: S.optional(HlsIncompleteSegmentBehavior).pipe(
-      T.JsonName("incompleteSegmentBehavior"),
-    ),
-    IndexNSegments: S.optional(S.Number).pipe(T.JsonName("indexNSegments")),
-    InputLossAction: S.optional(InputLossActionForHlsOut).pipe(
-      T.JsonName("inputLossAction"),
-    ),
-    IvInManifest: S.optional(HlsIvInManifest).pipe(T.JsonName("ivInManifest")),
-    IvSource: S.optional(HlsIvSource).pipe(T.JsonName("ivSource")),
-    KeepSegments: S.optional(S.Number).pipe(T.JsonName("keepSegments")),
-    KeyFormat: S.optional(S.String).pipe(T.JsonName("keyFormat")),
-    KeyFormatVersions: S.optional(S.String).pipe(
-      T.JsonName("keyFormatVersions"),
-    ),
-    KeyProviderSettings: S.optional(KeyProviderSettings)
-      .pipe(T.JsonName("keyProviderSettings"))
-      .annotate({ identifier: "KeyProviderSettings" }),
-    ManifestCompression: S.optional(HlsManifestCompression).pipe(
-      T.JsonName("manifestCompression"),
-    ),
-    ManifestDurationFormat: S.optional(HlsManifestDurationFormat).pipe(
-      T.JsonName("manifestDurationFormat"),
-    ),
-    MinSegmentLength: S.optional(S.Number).pipe(T.JsonName("minSegmentLength")),
-    Mode: S.optional(HlsMode).pipe(T.JsonName("mode")),
-    OutputSelection: S.optional(HlsOutputSelection).pipe(
-      T.JsonName("outputSelection"),
-    ),
-    ProgramDateTime: S.optional(HlsProgramDateTime).pipe(
-      T.JsonName("programDateTime"),
-    ),
-    ProgramDateTimeClock: S.optional(HlsProgramDateTimeClock).pipe(
-      T.JsonName("programDateTimeClock"),
-    ),
-    ProgramDateTimePeriod: S.optional(S.Number).pipe(
-      T.JsonName("programDateTimePeriod"),
-    ),
-    RedundantManifest: S.optional(HlsRedundantManifest).pipe(
-      T.JsonName("redundantManifest"),
-    ),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentationMode: S.optional(HlsSegmentationMode).pipe(
-      T.JsonName("segmentationMode"),
-    ),
-    SegmentsPerSubdirectory: S.optional(S.Number).pipe(
-      T.JsonName("segmentsPerSubdirectory"),
-    ),
-    StreamInfResolution: S.optional(HlsStreamInfResolution).pipe(
-      T.JsonName("streamInfResolution"),
-    ),
-    TimedMetadataId3Frame: S.optional(HlsTimedMetadataId3Frame).pipe(
-      T.JsonName("timedMetadataId3Frame"),
-    ),
-    TimedMetadataId3Period: S.optional(S.Number).pipe(
-      T.JsonName("timedMetadataId3Period"),
-    ),
-    TimestampDeltaMilliseconds: S.optional(S.Number).pipe(
-      T.JsonName("timestampDeltaMilliseconds"),
-    ),
-    TsFileMode: S.optional(HlsTsFileMode).pipe(T.JsonName("tsFileMode")),
-  }),
+    AdMarkers: S.optional(__listOfHlsAdMarkers),
+    BaseUrlContent: S.optional(S.String),
+    BaseUrlContent1: S.optional(S.String),
+    BaseUrlManifest: S.optional(S.String),
+    BaseUrlManifest1: S.optional(S.String),
+    CaptionLanguageMappings: S.optional(__listOfCaptionLanguageMapping),
+    CaptionLanguageSetting: S.optional(HlsCaptionLanguageSetting),
+    ClientCache: S.optional(HlsClientCache),
+    CodecSpecification: S.optional(HlsCodecSpecification),
+    ConstantIv: S.optional(S.String),
+    Destination: S.optional(OutputLocationRef),
+    DirectoryStructure: S.optional(HlsDirectoryStructure),
+    DiscontinuityTags: S.optional(HlsDiscontinuityTags),
+    EncryptionType: S.optional(HlsEncryptionType),
+    HlsCdnSettings: S.optional(HlsCdnSettings),
+    HlsId3SegmentTagging: S.optional(HlsId3SegmentTaggingState),
+    IFrameOnlyPlaylists: S.optional(IFrameOnlyPlaylistType),
+    IncompleteSegmentBehavior: S.optional(HlsIncompleteSegmentBehavior),
+    IndexNSegments: S.optional(S.Number),
+    InputLossAction: S.optional(InputLossActionForHlsOut),
+    IvInManifest: S.optional(HlsIvInManifest),
+    IvSource: S.optional(HlsIvSource),
+    KeepSegments: S.optional(S.Number),
+    KeyFormat: S.optional(S.String),
+    KeyFormatVersions: S.optional(S.String),
+    KeyProviderSettings: S.optional(KeyProviderSettings),
+    ManifestCompression: S.optional(HlsManifestCompression),
+    ManifestDurationFormat: S.optional(HlsManifestDurationFormat),
+    MinSegmentLength: S.optional(S.Number),
+    Mode: S.optional(HlsMode),
+    OutputSelection: S.optional(HlsOutputSelection),
+    ProgramDateTime: S.optional(HlsProgramDateTime),
+    ProgramDateTimeClock: S.optional(HlsProgramDateTimeClock),
+    ProgramDateTimePeriod: S.optional(S.Number),
+    RedundantManifest: S.optional(HlsRedundantManifest),
+    SegmentLength: S.optional(S.Number),
+    SegmentationMode: S.optional(HlsSegmentationMode),
+    SegmentsPerSubdirectory: S.optional(S.Number),
+    StreamInfResolution: S.optional(HlsStreamInfResolution),
+    TimedMetadataId3Frame: S.optional(HlsTimedMetadataId3Frame),
+    TimedMetadataId3Period: S.optional(S.Number),
+    TimestampDeltaMilliseconds: S.optional(S.Number),
+    TsFileMode: S.optional(HlsTsFileMode),
+  }).pipe(
+    S.encodeKeys({
+      AdMarkers: "adMarkers",
+      BaseUrlContent: "baseUrlContent",
+      BaseUrlContent1: "baseUrlContent1",
+      BaseUrlManifest: "baseUrlManifest",
+      BaseUrlManifest1: "baseUrlManifest1",
+      CaptionLanguageMappings: "captionLanguageMappings",
+      CaptionLanguageSetting: "captionLanguageSetting",
+      ClientCache: "clientCache",
+      CodecSpecification: "codecSpecification",
+      ConstantIv: "constantIv",
+      Destination: "destination",
+      DirectoryStructure: "directoryStructure",
+      DiscontinuityTags: "discontinuityTags",
+      EncryptionType: "encryptionType",
+      HlsCdnSettings: "hlsCdnSettings",
+      HlsId3SegmentTagging: "hlsId3SegmentTagging",
+      IFrameOnlyPlaylists: "iFrameOnlyPlaylists",
+      IncompleteSegmentBehavior: "incompleteSegmentBehavior",
+      IndexNSegments: "indexNSegments",
+      InputLossAction: "inputLossAction",
+      IvInManifest: "ivInManifest",
+      IvSource: "ivSource",
+      KeepSegments: "keepSegments",
+      KeyFormat: "keyFormat",
+      KeyFormatVersions: "keyFormatVersions",
+      KeyProviderSettings: "keyProviderSettings",
+      ManifestCompression: "manifestCompression",
+      ManifestDurationFormat: "manifestDurationFormat",
+      MinSegmentLength: "minSegmentLength",
+      Mode: "mode",
+      OutputSelection: "outputSelection",
+      ProgramDateTime: "programDateTime",
+      ProgramDateTimeClock: "programDateTimeClock",
+      ProgramDateTimePeriod: "programDateTimePeriod",
+      RedundantManifest: "redundantManifest",
+      SegmentLength: "segmentLength",
+      SegmentationMode: "segmentationMode",
+      SegmentsPerSubdirectory: "segmentsPerSubdirectory",
+      StreamInfResolution: "streamInfResolution",
+      TimedMetadataId3Frame: "timedMetadataId3Frame",
+      TimedMetadataId3Period: "timedMetadataId3Period",
+      TimestampDeltaMilliseconds: "timestampDeltaMilliseconds",
+      TsFileMode: "tsFileMode",
+    }),
+  ),
 ).annotate({
   identifier: "HlsGroupSettings",
 }) as any as S.Schema<HlsGroupSettings>;
@@ -3380,11 +3528,9 @@ export interface MediaPackageAdditionalDestinations {
   Destination?: OutputLocationRef;
 }
 export const MediaPackageAdditionalDestinations = S.suspend(() =>
-  S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-  }),
+  S.Struct({ Destination: S.optional(OutputLocationRef) }).pipe(
+    S.encodeKeys({ Destination: "destination" }),
+  ),
 ).annotate({
   identifier: "MediaPackageAdditionalDestinations",
 }) as any as S.Schema<MediaPackageAdditionalDestinations>;
@@ -3408,32 +3554,34 @@ export interface MediaPackageV2GroupSettings {
 }
 export const MediaPackageV2GroupSettings = S.suspend(() =>
   S.Struct({
-    CaptionLanguageMappings: S.optional(__listOfCaptionLanguageMapping).pipe(
-      T.JsonName("captionLanguageMappings"),
-    ),
-    Id3Behavior: S.optional(CmafId3Behavior).pipe(T.JsonName("id3Behavior")),
-    KlvBehavior: S.optional(CmafKLVBehavior).pipe(T.JsonName("klvBehavior")),
-    NielsenId3Behavior: S.optional(CmafNielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    Scte35Type: S.optional(Scte35Type).pipe(T.JsonName("scte35Type")),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentLengthUnits: S.optional(CmafIngestSegmentLengthUnits).pipe(
-      T.JsonName("segmentLengthUnits"),
-    ),
-    TimedMetadataId3Frame: S.optional(CmafTimedMetadataId3Frame).pipe(
-      T.JsonName("timedMetadataId3Frame"),
-    ),
-    TimedMetadataId3Period: S.optional(S.Number).pipe(
-      T.JsonName("timedMetadataId3Period"),
-    ),
-    TimedMetadataPassthrough: S.optional(CmafTimedMetadataPassthrough).pipe(
-      T.JsonName("timedMetadataPassthrough"),
-    ),
+    CaptionLanguageMappings: S.optional(__listOfCaptionLanguageMapping),
+    Id3Behavior: S.optional(CmafId3Behavior),
+    KlvBehavior: S.optional(CmafKLVBehavior),
+    NielsenId3Behavior: S.optional(CmafNielsenId3Behavior),
+    Scte35Type: S.optional(Scte35Type),
+    SegmentLength: S.optional(S.Number),
+    SegmentLengthUnits: S.optional(CmafIngestSegmentLengthUnits),
+    TimedMetadataId3Frame: S.optional(CmafTimedMetadataId3Frame),
+    TimedMetadataId3Period: S.optional(S.Number),
+    TimedMetadataPassthrough: S.optional(CmafTimedMetadataPassthrough),
     AdditionalDestinations: S.optional(
       __listOfMediaPackageAdditionalDestinations,
-    ).pipe(T.JsonName("additionalDestinations")),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      CaptionLanguageMappings: "captionLanguageMappings",
+      Id3Behavior: "id3Behavior",
+      KlvBehavior: "klvBehavior",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      Scte35Type: "scte35Type",
+      SegmentLength: "segmentLength",
+      SegmentLengthUnits: "segmentLengthUnits",
+      TimedMetadataId3Frame: "timedMetadataId3Frame",
+      TimedMetadataId3Period: "timedMetadataId3Period",
+      TimedMetadataPassthrough: "timedMetadataPassthrough",
+      AdditionalDestinations: "additionalDestinations",
+    }),
+  ),
 ).annotate({
   identifier: "MediaPackageV2GroupSettings",
 }) as any as S.Schema<MediaPackageV2GroupSettings>;
@@ -3443,13 +3591,14 @@ export interface MediaPackageGroupSettings {
 }
 export const MediaPackageGroupSettings = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    MediapackageV2GroupSettings: S.optional(MediaPackageV2GroupSettings)
-      .pipe(T.JsonName("mediapackageV2GroupSettings"))
-      .annotate({ identifier: "MediaPackageV2GroupSettings" }),
-  }),
+    Destination: S.optional(OutputLocationRef),
+    MediapackageV2GroupSettings: S.optional(MediaPackageV2GroupSettings),
+  }).pipe(
+    S.encodeKeys({
+      Destination: "destination",
+      MediapackageV2GroupSettings: "mediapackageV2GroupSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MediaPackageGroupSettings",
 }) as any as S.Schema<MediaPackageGroupSettings>;
@@ -3520,52 +3669,48 @@ export interface MsSmoothGroupSettings {
 }
 export const MsSmoothGroupSettings = S.suspend(() =>
   S.Struct({
-    AcquisitionPointId: S.optional(S.String).pipe(
-      T.JsonName("acquisitionPointId"),
-    ),
-    AudioOnlyTimecodeControl: S.optional(
-      SmoothGroupAudioOnlyTimecodeControl,
-    ).pipe(T.JsonName("audioOnlyTimecodeControl")),
-    CertificateMode: S.optional(SmoothGroupCertificateMode).pipe(
-      T.JsonName("certificateMode"),
-    ),
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    EventId: S.optional(S.String).pipe(T.JsonName("eventId")),
-    EventIdMode: S.optional(SmoothGroupEventIdMode).pipe(
-      T.JsonName("eventIdMode"),
-    ),
-    EventStopBehavior: S.optional(SmoothGroupEventStopBehavior).pipe(
-      T.JsonName("eventStopBehavior"),
-    ),
-    FilecacheDuration: S.optional(S.Number).pipe(
-      T.JsonName("filecacheDuration"),
-    ),
-    FragmentLength: S.optional(S.Number).pipe(T.JsonName("fragmentLength")),
-    InputLossAction: S.optional(InputLossActionForMsSmoothOut).pipe(
-      T.JsonName("inputLossAction"),
-    ),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-    SegmentationMode: S.optional(SmoothGroupSegmentationMode).pipe(
-      T.JsonName("segmentationMode"),
-    ),
-    SendDelayMs: S.optional(S.Number).pipe(T.JsonName("sendDelayMs")),
-    SparseTrackType: S.optional(SmoothGroupSparseTrackType).pipe(
-      T.JsonName("sparseTrackType"),
-    ),
-    StreamManifestBehavior: S.optional(SmoothGroupStreamManifestBehavior).pipe(
-      T.JsonName("streamManifestBehavior"),
-    ),
-    TimestampOffset: S.optional(S.String).pipe(T.JsonName("timestampOffset")),
-    TimestampOffsetMode: S.optional(SmoothGroupTimestampOffsetMode).pipe(
-      T.JsonName("timestampOffsetMode"),
-    ),
-  }),
+    AcquisitionPointId: S.optional(S.String),
+    AudioOnlyTimecodeControl: S.optional(SmoothGroupAudioOnlyTimecodeControl),
+    CertificateMode: S.optional(SmoothGroupCertificateMode),
+    ConnectionRetryInterval: S.optional(S.Number),
+    Destination: S.optional(OutputLocationRef),
+    EventId: S.optional(S.String),
+    EventIdMode: S.optional(SmoothGroupEventIdMode),
+    EventStopBehavior: S.optional(SmoothGroupEventStopBehavior),
+    FilecacheDuration: S.optional(S.Number),
+    FragmentLength: S.optional(S.Number),
+    InputLossAction: S.optional(InputLossActionForMsSmoothOut),
+    NumRetries: S.optional(S.Number),
+    RestartDelay: S.optional(S.Number),
+    SegmentationMode: S.optional(SmoothGroupSegmentationMode),
+    SendDelayMs: S.optional(S.Number),
+    SparseTrackType: S.optional(SmoothGroupSparseTrackType),
+    StreamManifestBehavior: S.optional(SmoothGroupStreamManifestBehavior),
+    TimestampOffset: S.optional(S.String),
+    TimestampOffsetMode: S.optional(SmoothGroupTimestampOffsetMode),
+  }).pipe(
+    S.encodeKeys({
+      AcquisitionPointId: "acquisitionPointId",
+      AudioOnlyTimecodeControl: "audioOnlyTimecodeControl",
+      CertificateMode: "certificateMode",
+      ConnectionRetryInterval: "connectionRetryInterval",
+      Destination: "destination",
+      EventId: "eventId",
+      EventIdMode: "eventIdMode",
+      EventStopBehavior: "eventStopBehavior",
+      FilecacheDuration: "filecacheDuration",
+      FragmentLength: "fragmentLength",
+      InputLossAction: "inputLossAction",
+      NumRetries: "numRetries",
+      RestartDelay: "restartDelay",
+      SegmentationMode: "segmentationMode",
+      SendDelayMs: "sendDelayMs",
+      SparseTrackType: "sparseTrackType",
+      StreamManifestBehavior: "streamManifestBehavior",
+      TimestampOffset: "timestampOffset",
+      TimestampOffsetMode: "timestampOffsetMode",
+    }),
+  ),
 ).annotate({
   identifier: "MsSmoothGroupSettings",
 }) as any as S.Schema<MsSmoothGroupSettings>;
@@ -3609,23 +3754,26 @@ export interface RtmpGroupSettings {
 }
 export const RtmpGroupSettings = S.suspend(() =>
   S.Struct({
-    AdMarkers: S.optional(__listOfRtmpAdMarkers).pipe(T.JsonName("adMarkers")),
-    AuthenticationScheme: S.optional(AuthenticationScheme).pipe(
-      T.JsonName("authenticationScheme"),
-    ),
-    CacheFullBehavior: S.optional(RtmpCacheFullBehavior).pipe(
-      T.JsonName("cacheFullBehavior"),
-    ),
-    CacheLength: S.optional(S.Number).pipe(T.JsonName("cacheLength")),
-    CaptionData: S.optional(RtmpCaptionData).pipe(T.JsonName("captionData")),
-    InputLossAction: S.optional(InputLossActionForRtmpOut).pipe(
-      T.JsonName("inputLossAction"),
-    ),
-    RestartDelay: S.optional(S.Number).pipe(T.JsonName("restartDelay")),
-    IncludeFillerNalUnits: S.optional(IncludeFillerNalUnits).pipe(
-      T.JsonName("includeFillerNalUnits"),
-    ),
-  }),
+    AdMarkers: S.optional(__listOfRtmpAdMarkers),
+    AuthenticationScheme: S.optional(AuthenticationScheme),
+    CacheFullBehavior: S.optional(RtmpCacheFullBehavior),
+    CacheLength: S.optional(S.Number),
+    CaptionData: S.optional(RtmpCaptionData),
+    InputLossAction: S.optional(InputLossActionForRtmpOut),
+    RestartDelay: S.optional(S.Number),
+    IncludeFillerNalUnits: S.optional(IncludeFillerNalUnits),
+  }).pipe(
+    S.encodeKeys({
+      AdMarkers: "adMarkers",
+      AuthenticationScheme: "authenticationScheme",
+      CacheFullBehavior: "cacheFullBehavior",
+      CacheLength: "cacheLength",
+      CaptionData: "captionData",
+      InputLossAction: "inputLossAction",
+      RestartDelay: "restartDelay",
+      IncludeFillerNalUnits: "includeFillerNalUnits",
+    }),
+  ),
 ).annotate({
   identifier: "RtmpGroupSettings",
 }) as any as S.Schema<RtmpGroupSettings>;
@@ -3644,16 +3792,16 @@ export interface UdpGroupSettings {
 }
 export const UdpGroupSettings = S.suspend(() =>
   S.Struct({
-    InputLossAction: S.optional(InputLossActionForUdpOut).pipe(
-      T.JsonName("inputLossAction"),
-    ),
-    TimedMetadataId3Frame: S.optional(UdpTimedMetadataId3Frame).pipe(
-      T.JsonName("timedMetadataId3Frame"),
-    ),
-    TimedMetadataId3Period: S.optional(S.Number).pipe(
-      T.JsonName("timedMetadataId3Period"),
-    ),
-  }),
+    InputLossAction: S.optional(InputLossActionForUdpOut),
+    TimedMetadataId3Frame: S.optional(UdpTimedMetadataId3Frame),
+    TimedMetadataId3Period: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      InputLossAction: "inputLossAction",
+      TimedMetadataId3Frame: "timedMetadataId3Frame",
+      TimedMetadataId3Period: "timedMetadataId3Period",
+    }),
+  ),
 ).annotate({
   identifier: "UdpGroupSettings",
 }) as any as S.Schema<UdpGroupSettings>;
@@ -3663,9 +3811,14 @@ export interface CmafIngestCaptionLanguageMapping {
 }
 export const CmafIngestCaptionLanguageMapping = S.suspend(() =>
   S.Struct({
-    CaptionChannel: S.optional(S.Number).pipe(T.JsonName("captionChannel")),
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-  }),
+    CaptionChannel: S.optional(S.Number),
+    LanguageCode: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CaptionChannel: "captionChannel",
+      LanguageCode: "languageCode",
+    }),
+  ),
 ).annotate({
   identifier: "CmafIngestCaptionLanguageMapping",
 }) as any as S.Schema<CmafIngestCaptionLanguageMapping>;
@@ -3678,11 +3831,9 @@ export interface AdditionalDestinations {
   Destination?: OutputLocationRef;
 }
 export const AdditionalDestinations = S.suspend(() =>
-  S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-  }),
+  S.Struct({ Destination: S.optional(OutputLocationRef) }).pipe(
+    S.encodeKeys({ Destination: "destination" }),
+  ),
 ).annotate({
   identifier: "AdditionalDestinations",
 }) as any as S.Schema<AdditionalDestinations>;
@@ -3709,44 +3860,46 @@ export interface CmafIngestGroupSettings {
 }
 export const CmafIngestGroupSettings = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    NielsenId3Behavior: S.optional(CmafNielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    Scte35Type: S.optional(Scte35Type).pipe(T.JsonName("scte35Type")),
-    SegmentLength: S.optional(S.Number).pipe(T.JsonName("segmentLength")),
-    SegmentLengthUnits: S.optional(CmafIngestSegmentLengthUnits).pipe(
-      T.JsonName("segmentLengthUnits"),
-    ),
-    SendDelayMs: S.optional(S.Number).pipe(T.JsonName("sendDelayMs")),
-    KlvBehavior: S.optional(CmafKLVBehavior).pipe(T.JsonName("klvBehavior")),
-    KlvNameModifier: S.optional(S.String).pipe(T.JsonName("klvNameModifier")),
-    NielsenId3NameModifier: S.optional(S.String).pipe(
-      T.JsonName("nielsenId3NameModifier"),
-    ),
-    Scte35NameModifier: S.optional(S.String).pipe(
-      T.JsonName("scte35NameModifier"),
-    ),
-    Id3Behavior: S.optional(CmafId3Behavior).pipe(T.JsonName("id3Behavior")),
-    Id3NameModifier: S.optional(S.String).pipe(T.JsonName("id3NameModifier")),
+    Destination: S.optional(OutputLocationRef),
+    NielsenId3Behavior: S.optional(CmafNielsenId3Behavior),
+    Scte35Type: S.optional(Scte35Type),
+    SegmentLength: S.optional(S.Number),
+    SegmentLengthUnits: S.optional(CmafIngestSegmentLengthUnits),
+    SendDelayMs: S.optional(S.Number),
+    KlvBehavior: S.optional(CmafKLVBehavior),
+    KlvNameModifier: S.optional(S.String),
+    NielsenId3NameModifier: S.optional(S.String),
+    Scte35NameModifier: S.optional(S.String),
+    Id3Behavior: S.optional(CmafId3Behavior),
+    Id3NameModifier: S.optional(S.String),
     CaptionLanguageMappings: S.optional(
       __listOfCmafIngestCaptionLanguageMapping,
-    ).pipe(T.JsonName("captionLanguageMappings")),
-    TimedMetadataId3Frame: S.optional(CmafTimedMetadataId3Frame).pipe(
-      T.JsonName("timedMetadataId3Frame"),
     ),
-    TimedMetadataId3Period: S.optional(S.Number).pipe(
-      T.JsonName("timedMetadataId3Period"),
-    ),
-    TimedMetadataPassthrough: S.optional(CmafTimedMetadataPassthrough).pipe(
-      T.JsonName("timedMetadataPassthrough"),
-    ),
-    AdditionalDestinations: S.optional(__listOfAdditionalDestinations).pipe(
-      T.JsonName("additionalDestinations"),
-    ),
-  }),
+    TimedMetadataId3Frame: S.optional(CmafTimedMetadataId3Frame),
+    TimedMetadataId3Period: S.optional(S.Number),
+    TimedMetadataPassthrough: S.optional(CmafTimedMetadataPassthrough),
+    AdditionalDestinations: S.optional(__listOfAdditionalDestinations),
+  }).pipe(
+    S.encodeKeys({
+      Destination: "destination",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      Scte35Type: "scte35Type",
+      SegmentLength: "segmentLength",
+      SegmentLengthUnits: "segmentLengthUnits",
+      SendDelayMs: "sendDelayMs",
+      KlvBehavior: "klvBehavior",
+      KlvNameModifier: "klvNameModifier",
+      NielsenId3NameModifier: "nielsenId3NameModifier",
+      Scte35NameModifier: "scte35NameModifier",
+      Id3Behavior: "id3Behavior",
+      Id3NameModifier: "id3NameModifier",
+      CaptionLanguageMappings: "captionLanguageMappings",
+      TimedMetadataId3Frame: "timedMetadataId3Frame",
+      TimedMetadataId3Period: "timedMetadataId3Period",
+      TimedMetadataPassthrough: "timedMetadataPassthrough",
+      AdditionalDestinations: "additionalDestinations",
+    }),
+  ),
 ).annotate({
   identifier: "CmafIngestGroupSettings",
 }) as any as S.Schema<CmafIngestGroupSettings>;
@@ -3754,11 +3907,9 @@ export interface SrtGroupSettings {
   InputLossAction?: InputLossActionForUdpOut;
 }
 export const SrtGroupSettings = S.suspend(() =>
-  S.Struct({
-    InputLossAction: S.optional(InputLossActionForUdpOut).pipe(
-      T.JsonName("inputLossAction"),
-    ),
-  }),
+  S.Struct({ InputLossAction: S.optional(InputLossActionForUdpOut) }).pipe(
+    S.encodeKeys({ InputLossAction: "inputLossAction" }),
+  ),
 ).annotate({
   identifier: "SrtGroupSettings",
 }) as any as S.Schema<SrtGroupSettings>;
@@ -3776,37 +3927,30 @@ export interface OutputGroupSettings {
 }
 export const OutputGroupSettings = S.suspend(() =>
   S.Struct({
-    ArchiveGroupSettings: S.optional(ArchiveGroupSettings)
-      .pipe(T.JsonName("archiveGroupSettings"))
-      .annotate({ identifier: "ArchiveGroupSettings" }),
-    FrameCaptureGroupSettings: S.optional(FrameCaptureGroupSettings)
-      .pipe(T.JsonName("frameCaptureGroupSettings"))
-      .annotate({ identifier: "FrameCaptureGroupSettings" }),
-    HlsGroupSettings: S.optional(HlsGroupSettings)
-      .pipe(T.JsonName("hlsGroupSettings"))
-      .annotate({ identifier: "HlsGroupSettings" }),
-    MediaPackageGroupSettings: S.optional(MediaPackageGroupSettings)
-      .pipe(T.JsonName("mediaPackageGroupSettings"))
-      .annotate({ identifier: "MediaPackageGroupSettings" }),
-    MsSmoothGroupSettings: S.optional(MsSmoothGroupSettings)
-      .pipe(T.JsonName("msSmoothGroupSettings"))
-      .annotate({ identifier: "MsSmoothGroupSettings" }),
-    MultiplexGroupSettings: S.optional(MultiplexGroupSettings)
-      .pipe(T.JsonName("multiplexGroupSettings"))
-      .annotate({ identifier: "MultiplexGroupSettings" }),
-    RtmpGroupSettings: S.optional(RtmpGroupSettings)
-      .pipe(T.JsonName("rtmpGroupSettings"))
-      .annotate({ identifier: "RtmpGroupSettings" }),
-    UdpGroupSettings: S.optional(UdpGroupSettings)
-      .pipe(T.JsonName("udpGroupSettings"))
-      .annotate({ identifier: "UdpGroupSettings" }),
-    CmafIngestGroupSettings: S.optional(CmafIngestGroupSettings)
-      .pipe(T.JsonName("cmafIngestGroupSettings"))
-      .annotate({ identifier: "CmafIngestGroupSettings" }),
-    SrtGroupSettings: S.optional(SrtGroupSettings)
-      .pipe(T.JsonName("srtGroupSettings"))
-      .annotate({ identifier: "SrtGroupSettings" }),
-  }),
+    ArchiveGroupSettings: S.optional(ArchiveGroupSettings),
+    FrameCaptureGroupSettings: S.optional(FrameCaptureGroupSettings),
+    HlsGroupSettings: S.optional(HlsGroupSettings),
+    MediaPackageGroupSettings: S.optional(MediaPackageGroupSettings),
+    MsSmoothGroupSettings: S.optional(MsSmoothGroupSettings),
+    MultiplexGroupSettings: S.optional(MultiplexGroupSettings),
+    RtmpGroupSettings: S.optional(RtmpGroupSettings),
+    UdpGroupSettings: S.optional(UdpGroupSettings),
+    CmafIngestGroupSettings: S.optional(CmafIngestGroupSettings),
+    SrtGroupSettings: S.optional(SrtGroupSettings),
+  }).pipe(
+    S.encodeKeys({
+      ArchiveGroupSettings: "archiveGroupSettings",
+      FrameCaptureGroupSettings: "frameCaptureGroupSettings",
+      HlsGroupSettings: "hlsGroupSettings",
+      MediaPackageGroupSettings: "mediaPackageGroupSettings",
+      MsSmoothGroupSettings: "msSmoothGroupSettings",
+      MultiplexGroupSettings: "multiplexGroupSettings",
+      RtmpGroupSettings: "rtmpGroupSettings",
+      UdpGroupSettings: "udpGroupSettings",
+      CmafIngestGroupSettings: "cmafIngestGroupSettings",
+      SrtGroupSettings: "srtGroupSettings",
+    }),
+  ),
 ).annotate({
   identifier: "OutputGroupSettings",
 }) as any as S.Schema<OutputGroupSettings>;
@@ -3837,10 +3981,16 @@ export interface DvbNitSettings {
 }
 export const DvbNitSettings = S.suspend(() =>
   S.Struct({
-    NetworkId: S.optional(S.Number).pipe(T.JsonName("networkId")),
-    NetworkName: S.optional(S.String).pipe(T.JsonName("networkName")),
-    RepInterval: S.optional(S.Number).pipe(T.JsonName("repInterval")),
-  }),
+    NetworkId: S.optional(S.Number),
+    NetworkName: S.optional(S.String),
+    RepInterval: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      NetworkId: "networkId",
+      NetworkName: "networkName",
+      RepInterval: "repInterval",
+    }),
+  ),
 ).annotate({ identifier: "DvbNitSettings" }) as any as S.Schema<DvbNitSettings>;
 export type DvbSdtOutputSdt =
   | "SDT_FOLLOW"
@@ -3857,21 +4007,26 @@ export interface DvbSdtSettings {
 }
 export const DvbSdtSettings = S.suspend(() =>
   S.Struct({
-    OutputSdt: S.optional(DvbSdtOutputSdt).pipe(T.JsonName("outputSdt")),
-    RepInterval: S.optional(S.Number).pipe(T.JsonName("repInterval")),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-    ServiceProviderName: S.optional(S.String).pipe(
-      T.JsonName("serviceProviderName"),
-    ),
-  }),
+    OutputSdt: S.optional(DvbSdtOutputSdt),
+    RepInterval: S.optional(S.Number),
+    ServiceName: S.optional(S.String),
+    ServiceProviderName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      OutputSdt: "outputSdt",
+      RepInterval: "repInterval",
+      ServiceName: "serviceName",
+      ServiceProviderName: "serviceProviderName",
+    }),
+  ),
 ).annotate({ identifier: "DvbSdtSettings" }) as any as S.Schema<DvbSdtSettings>;
 export interface DvbTdtSettings {
   RepInterval?: number;
 }
 export const DvbTdtSettings = S.suspend(() =>
-  S.Struct({
-    RepInterval: S.optional(S.Number).pipe(T.JsonName("repInterval")),
-  }),
+  S.Struct({ RepInterval: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ RepInterval: "repInterval" }),
+  ),
 ).annotate({ identifier: "DvbTdtSettings" }) as any as S.Schema<DvbTdtSettings>;
 export type M2tsEbifControl = "NONE" | "PASSTHROUGH" | (string & {});
 export const M2tsEbifControl = S.String;
@@ -3974,89 +4129,106 @@ export interface M2tsSettings {
 }
 export const M2tsSettings = S.suspend(() =>
   S.Struct({
-    AbsentInputAudioBehavior: S.optional(M2tsAbsentInputAudioBehavior).pipe(
-      T.JsonName("absentInputAudioBehavior"),
-    ),
-    Arib: S.optional(M2tsArib).pipe(T.JsonName("arib")),
-    AribCaptionsPid: S.optional(S.String).pipe(T.JsonName("aribCaptionsPid")),
-    AribCaptionsPidControl: S.optional(M2tsAribCaptionsPidControl).pipe(
-      T.JsonName("aribCaptionsPidControl"),
-    ),
-    AudioBufferModel: S.optional(M2tsAudioBufferModel).pipe(
-      T.JsonName("audioBufferModel"),
-    ),
-    AudioFramesPerPes: S.optional(S.Number).pipe(
-      T.JsonName("audioFramesPerPes"),
-    ),
-    AudioPids: S.optional(S.String).pipe(T.JsonName("audioPids")),
-    AudioStreamType: S.optional(M2tsAudioStreamType).pipe(
-      T.JsonName("audioStreamType"),
-    ),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BufferModel: S.optional(M2tsBufferModel).pipe(T.JsonName("bufferModel")),
-    CcDescriptor: S.optional(M2tsCcDescriptor).pipe(T.JsonName("ccDescriptor")),
-    DvbNitSettings: S.optional(DvbNitSettings)
-      .pipe(T.JsonName("dvbNitSettings"))
-      .annotate({ identifier: "DvbNitSettings" }),
-    DvbSdtSettings: S.optional(DvbSdtSettings)
-      .pipe(T.JsonName("dvbSdtSettings"))
-      .annotate({ identifier: "DvbSdtSettings" }),
-    DvbSubPids: S.optional(S.String).pipe(T.JsonName("dvbSubPids")),
-    DvbTdtSettings: S.optional(DvbTdtSettings)
-      .pipe(T.JsonName("dvbTdtSettings"))
-      .annotate({ identifier: "DvbTdtSettings" }),
-    DvbTeletextPid: S.optional(S.String).pipe(T.JsonName("dvbTeletextPid")),
-    Ebif: S.optional(M2tsEbifControl).pipe(T.JsonName("ebif")),
-    EbpAudioInterval: S.optional(M2tsAudioInterval).pipe(
-      T.JsonName("ebpAudioInterval"),
-    ),
-    EbpLookaheadMs: S.optional(S.Number).pipe(T.JsonName("ebpLookaheadMs")),
-    EbpPlacement: S.optional(M2tsEbpPlacement).pipe(T.JsonName("ebpPlacement")),
-    EcmPid: S.optional(S.String).pipe(T.JsonName("ecmPid")),
-    EsRateInPes: S.optional(M2tsEsRateInPes).pipe(T.JsonName("esRateInPes")),
-    EtvPlatformPid: S.optional(S.String).pipe(T.JsonName("etvPlatformPid")),
-    EtvSignalPid: S.optional(S.String).pipe(T.JsonName("etvSignalPid")),
-    FragmentTime: S.optional(S.Number).pipe(T.JsonName("fragmentTime")),
-    Klv: S.optional(M2tsKlv).pipe(T.JsonName("klv")),
-    KlvDataPids: S.optional(S.String).pipe(T.JsonName("klvDataPids")),
-    NielsenId3Behavior: S.optional(M2tsNielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    NullPacketBitrate: S.optional(S.Number).pipe(
-      T.JsonName("nullPacketBitrate"),
-    ),
-    PatInterval: S.optional(S.Number).pipe(T.JsonName("patInterval")),
-    PcrControl: S.optional(M2tsPcrControl).pipe(T.JsonName("pcrControl")),
-    PcrPeriod: S.optional(S.Number).pipe(T.JsonName("pcrPeriod")),
-    PcrPid: S.optional(S.String).pipe(T.JsonName("pcrPid")),
-    PmtInterval: S.optional(S.Number).pipe(T.JsonName("pmtInterval")),
-    PmtPid: S.optional(S.String).pipe(T.JsonName("pmtPid")),
-    ProgramNum: S.optional(S.Number).pipe(T.JsonName("programNum")),
-    RateMode: S.optional(M2tsRateMode).pipe(T.JsonName("rateMode")),
-    Scte27Pids: S.optional(S.String).pipe(T.JsonName("scte27Pids")),
-    Scte35Control: S.optional(M2tsScte35Control).pipe(
-      T.JsonName("scte35Control"),
-    ),
-    Scte35Pid: S.optional(S.String).pipe(T.JsonName("scte35Pid")),
-    SegmentationMarkers: S.optional(M2tsSegmentationMarkers).pipe(
-      T.JsonName("segmentationMarkers"),
-    ),
-    SegmentationStyle: S.optional(M2tsSegmentationStyle).pipe(
-      T.JsonName("segmentationStyle"),
-    ),
-    SegmentationTime: S.optional(S.Number).pipe(T.JsonName("segmentationTime")),
-    TimedMetadataBehavior: S.optional(M2tsTimedMetadataBehavior).pipe(
-      T.JsonName("timedMetadataBehavior"),
-    ),
-    TimedMetadataPid: S.optional(S.String).pipe(T.JsonName("timedMetadataPid")),
-    TransportStreamId: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamId"),
-    ),
-    VideoPid: S.optional(S.String).pipe(T.JsonName("videoPid")),
-    Scte35PrerollPullupMilliseconds: S.optional(S.Number).pipe(
-      T.JsonName("scte35PrerollPullupMilliseconds"),
-    ),
-  }),
+    AbsentInputAudioBehavior: S.optional(M2tsAbsentInputAudioBehavior),
+    Arib: S.optional(M2tsArib),
+    AribCaptionsPid: S.optional(S.String),
+    AribCaptionsPidControl: S.optional(M2tsAribCaptionsPidControl),
+    AudioBufferModel: S.optional(M2tsAudioBufferModel),
+    AudioFramesPerPes: S.optional(S.Number),
+    AudioPids: S.optional(S.String),
+    AudioStreamType: S.optional(M2tsAudioStreamType),
+    Bitrate: S.optional(S.Number),
+    BufferModel: S.optional(M2tsBufferModel),
+    CcDescriptor: S.optional(M2tsCcDescriptor),
+    DvbNitSettings: S.optional(DvbNitSettings),
+    DvbSdtSettings: S.optional(DvbSdtSettings),
+    DvbSubPids: S.optional(S.String),
+    DvbTdtSettings: S.optional(DvbTdtSettings),
+    DvbTeletextPid: S.optional(S.String),
+    Ebif: S.optional(M2tsEbifControl),
+    EbpAudioInterval: S.optional(M2tsAudioInterval),
+    EbpLookaheadMs: S.optional(S.Number),
+    EbpPlacement: S.optional(M2tsEbpPlacement),
+    EcmPid: S.optional(S.String),
+    EsRateInPes: S.optional(M2tsEsRateInPes),
+    EtvPlatformPid: S.optional(S.String),
+    EtvSignalPid: S.optional(S.String),
+    FragmentTime: S.optional(S.Number),
+    Klv: S.optional(M2tsKlv),
+    KlvDataPids: S.optional(S.String),
+    NielsenId3Behavior: S.optional(M2tsNielsenId3Behavior),
+    NullPacketBitrate: S.optional(S.Number),
+    PatInterval: S.optional(S.Number),
+    PcrControl: S.optional(M2tsPcrControl),
+    PcrPeriod: S.optional(S.Number),
+    PcrPid: S.optional(S.String),
+    PmtInterval: S.optional(S.Number),
+    PmtPid: S.optional(S.String),
+    ProgramNum: S.optional(S.Number),
+    RateMode: S.optional(M2tsRateMode),
+    Scte27Pids: S.optional(S.String),
+    Scte35Control: S.optional(M2tsScte35Control),
+    Scte35Pid: S.optional(S.String),
+    SegmentationMarkers: S.optional(M2tsSegmentationMarkers),
+    SegmentationStyle: S.optional(M2tsSegmentationStyle),
+    SegmentationTime: S.optional(S.Number),
+    TimedMetadataBehavior: S.optional(M2tsTimedMetadataBehavior),
+    TimedMetadataPid: S.optional(S.String),
+    TransportStreamId: S.optional(S.Number),
+    VideoPid: S.optional(S.String),
+    Scte35PrerollPullupMilliseconds: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AbsentInputAudioBehavior: "absentInputAudioBehavior",
+      Arib: "arib",
+      AribCaptionsPid: "aribCaptionsPid",
+      AribCaptionsPidControl: "aribCaptionsPidControl",
+      AudioBufferModel: "audioBufferModel",
+      AudioFramesPerPes: "audioFramesPerPes",
+      AudioPids: "audioPids",
+      AudioStreamType: "audioStreamType",
+      Bitrate: "bitrate",
+      BufferModel: "bufferModel",
+      CcDescriptor: "ccDescriptor",
+      DvbNitSettings: "dvbNitSettings",
+      DvbSdtSettings: "dvbSdtSettings",
+      DvbSubPids: "dvbSubPids",
+      DvbTdtSettings: "dvbTdtSettings",
+      DvbTeletextPid: "dvbTeletextPid",
+      Ebif: "ebif",
+      EbpAudioInterval: "ebpAudioInterval",
+      EbpLookaheadMs: "ebpLookaheadMs",
+      EbpPlacement: "ebpPlacement",
+      EcmPid: "ecmPid",
+      EsRateInPes: "esRateInPes",
+      EtvPlatformPid: "etvPlatformPid",
+      EtvSignalPid: "etvSignalPid",
+      FragmentTime: "fragmentTime",
+      Klv: "klv",
+      KlvDataPids: "klvDataPids",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      NullPacketBitrate: "nullPacketBitrate",
+      PatInterval: "patInterval",
+      PcrControl: "pcrControl",
+      PcrPeriod: "pcrPeriod",
+      PcrPid: "pcrPid",
+      PmtInterval: "pmtInterval",
+      PmtPid: "pmtPid",
+      ProgramNum: "programNum",
+      RateMode: "rateMode",
+      Scte27Pids: "scte27Pids",
+      Scte35Control: "scte35Control",
+      Scte35Pid: "scte35Pid",
+      SegmentationMarkers: "segmentationMarkers",
+      SegmentationStyle: "segmentationStyle",
+      SegmentationTime: "segmentationTime",
+      TimedMetadataBehavior: "timedMetadataBehavior",
+      TimedMetadataPid: "timedMetadataPid",
+      TransportStreamId: "transportStreamId",
+      VideoPid: "videoPid",
+      Scte35PrerollPullupMilliseconds: "scte35PrerollPullupMilliseconds",
+    }),
+  ),
 ).annotate({ identifier: "M2tsSettings" }) as any as S.Schema<M2tsSettings>;
 export interface RawSettings {}
 export const RawSettings = S.suspend(() => S.Struct({})).annotate({
@@ -4068,13 +4240,11 @@ export interface ArchiveContainerSettings {
 }
 export const ArchiveContainerSettings = S.suspend(() =>
   S.Struct({
-    M2tsSettings: S.optional(M2tsSettings)
-      .pipe(T.JsonName("m2tsSettings"))
-      .annotate({ identifier: "M2tsSettings" }),
-    RawSettings: S.optional(RawSettings)
-      .pipe(T.JsonName("rawSettings"))
-      .annotate({ identifier: "RawSettings" }),
-  }),
+    M2tsSettings: S.optional(M2tsSettings),
+    RawSettings: S.optional(RawSettings),
+  }).pipe(
+    S.encodeKeys({ M2tsSettings: "m2tsSettings", RawSettings: "rawSettings" }),
+  ),
 ).annotate({
   identifier: "ArchiveContainerSettings",
 }) as any as S.Schema<ArchiveContainerSettings>;
@@ -4085,12 +4255,16 @@ export interface ArchiveOutputSettings {
 }
 export const ArchiveOutputSettings = S.suspend(() =>
   S.Struct({
-    ContainerSettings: S.optional(ArchiveContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "ArchiveContainerSettings" }),
-    Extension: S.optional(S.String).pipe(T.JsonName("extension")),
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-  }),
+    ContainerSettings: S.optional(ArchiveContainerSettings),
+    Extension: S.optional(S.String),
+    NameModifier: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ContainerSettings: "containerSettings",
+      Extension: "extension",
+      NameModifier: "nameModifier",
+    }),
+  ),
 ).annotate({
   identifier: "ArchiveOutputSettings",
 }) as any as S.Schema<ArchiveOutputSettings>;
@@ -4098,9 +4272,9 @@ export interface FrameCaptureOutputSettings {
   NameModifier?: string;
 }
 export const FrameCaptureOutputSettings = S.suspend(() =>
-  S.Struct({
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-  }),
+  S.Struct({ NameModifier: S.optional(S.String) }).pipe(
+    S.encodeKeys({ NameModifier: "nameModifier" }),
+  ),
 ).annotate({
   identifier: "FrameCaptureOutputSettings",
 }) as any as S.Schema<FrameCaptureOutputSettings>;
@@ -4123,17 +4297,18 @@ export interface AudioOnlyHlsSettings {
 }
 export const AudioOnlyHlsSettings = S.suspend(() =>
   S.Struct({
-    AudioGroupId: S.optional(S.String).pipe(T.JsonName("audioGroupId")),
-    AudioOnlyImage: S.optional(InputLocation)
-      .pipe(T.JsonName("audioOnlyImage"))
-      .annotate({ identifier: "InputLocation" }),
-    AudioTrackType: S.optional(AudioOnlyHlsTrackType).pipe(
-      T.JsonName("audioTrackType"),
-    ),
-    SegmentType: S.optional(AudioOnlyHlsSegmentType).pipe(
-      T.JsonName("segmentType"),
-    ),
-  }),
+    AudioGroupId: S.optional(S.String),
+    AudioOnlyImage: S.optional(InputLocation),
+    AudioTrackType: S.optional(AudioOnlyHlsTrackType),
+    SegmentType: S.optional(AudioOnlyHlsSegmentType),
+  }).pipe(
+    S.encodeKeys({
+      AudioGroupId: "audioGroupId",
+      AudioOnlyImage: "audioOnlyImage",
+      AudioTrackType: "audioTrackType",
+      SegmentType: "segmentType",
+    }),
+  ),
 ).annotate({
   identifier: "AudioOnlyHlsSettings",
 }) as any as S.Schema<AudioOnlyHlsSettings>;
@@ -4154,16 +4329,16 @@ export interface Fmp4HlsSettings {
 }
 export const Fmp4HlsSettings = S.suspend(() =>
   S.Struct({
-    AudioRenditionSets: S.optional(S.String).pipe(
-      T.JsonName("audioRenditionSets"),
-    ),
-    NielsenId3Behavior: S.optional(Fmp4NielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    TimedMetadataBehavior: S.optional(Fmp4TimedMetadataBehavior).pipe(
-      T.JsonName("timedMetadataBehavior"),
-    ),
-  }),
+    AudioRenditionSets: S.optional(S.String),
+    NielsenId3Behavior: S.optional(Fmp4NielsenId3Behavior),
+    TimedMetadataBehavior: S.optional(Fmp4TimedMetadataBehavior),
+  }).pipe(
+    S.encodeKeys({
+      AudioRenditionSets: "audioRenditionSets",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      TimedMetadataBehavior: "timedMetadataBehavior",
+    }),
+  ),
 ).annotate({
   identifier: "Fmp4HlsSettings",
 }) as any as S.Schema<Fmp4HlsSettings>;
@@ -4216,36 +4391,48 @@ export interface M3u8Settings {
 }
 export const M3u8Settings = S.suspend(() =>
   S.Struct({
-    AudioFramesPerPes: S.optional(S.Number).pipe(
-      T.JsonName("audioFramesPerPes"),
-    ),
-    AudioPids: S.optional(S.String).pipe(T.JsonName("audioPids")),
-    EcmPid: S.optional(S.String).pipe(T.JsonName("ecmPid")),
-    NielsenId3Behavior: S.optional(M3u8NielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    PatInterval: S.optional(S.Number).pipe(T.JsonName("patInterval")),
-    PcrControl: S.optional(M3u8PcrControl).pipe(T.JsonName("pcrControl")),
-    PcrPeriod: S.optional(S.Number).pipe(T.JsonName("pcrPeriod")),
-    PcrPid: S.optional(S.String).pipe(T.JsonName("pcrPid")),
-    PmtInterval: S.optional(S.Number).pipe(T.JsonName("pmtInterval")),
-    PmtPid: S.optional(S.String).pipe(T.JsonName("pmtPid")),
-    ProgramNum: S.optional(S.Number).pipe(T.JsonName("programNum")),
-    Scte35Behavior: S.optional(M3u8Scte35Behavior).pipe(
-      T.JsonName("scte35Behavior"),
-    ),
-    Scte35Pid: S.optional(S.String).pipe(T.JsonName("scte35Pid")),
-    TimedMetadataBehavior: S.optional(M3u8TimedMetadataBehavior).pipe(
-      T.JsonName("timedMetadataBehavior"),
-    ),
-    TimedMetadataPid: S.optional(S.String).pipe(T.JsonName("timedMetadataPid")),
-    TransportStreamId: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamId"),
-    ),
-    VideoPid: S.optional(S.String).pipe(T.JsonName("videoPid")),
-    KlvBehavior: S.optional(M3u8KlvBehavior).pipe(T.JsonName("klvBehavior")),
-    KlvDataPids: S.optional(S.String).pipe(T.JsonName("klvDataPids")),
-  }),
+    AudioFramesPerPes: S.optional(S.Number),
+    AudioPids: S.optional(S.String),
+    EcmPid: S.optional(S.String),
+    NielsenId3Behavior: S.optional(M3u8NielsenId3Behavior),
+    PatInterval: S.optional(S.Number),
+    PcrControl: S.optional(M3u8PcrControl),
+    PcrPeriod: S.optional(S.Number),
+    PcrPid: S.optional(S.String),
+    PmtInterval: S.optional(S.Number),
+    PmtPid: S.optional(S.String),
+    ProgramNum: S.optional(S.Number),
+    Scte35Behavior: S.optional(M3u8Scte35Behavior),
+    Scte35Pid: S.optional(S.String),
+    TimedMetadataBehavior: S.optional(M3u8TimedMetadataBehavior),
+    TimedMetadataPid: S.optional(S.String),
+    TransportStreamId: S.optional(S.Number),
+    VideoPid: S.optional(S.String),
+    KlvBehavior: S.optional(M3u8KlvBehavior),
+    KlvDataPids: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioFramesPerPes: "audioFramesPerPes",
+      AudioPids: "audioPids",
+      EcmPid: "ecmPid",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      PatInterval: "patInterval",
+      PcrControl: "pcrControl",
+      PcrPeriod: "pcrPeriod",
+      PcrPid: "pcrPid",
+      PmtInterval: "pmtInterval",
+      PmtPid: "pmtPid",
+      ProgramNum: "programNum",
+      Scte35Behavior: "scte35Behavior",
+      Scte35Pid: "scte35Pid",
+      TimedMetadataBehavior: "timedMetadataBehavior",
+      TimedMetadataPid: "timedMetadataPid",
+      TransportStreamId: "transportStreamId",
+      VideoPid: "videoPid",
+      KlvBehavior: "klvBehavior",
+      KlvDataPids: "klvDataPids",
+    }),
+  ),
 ).annotate({ identifier: "M3u8Settings" }) as any as S.Schema<M3u8Settings>;
 export interface StandardHlsSettings {
   AudioRenditionSets?: string;
@@ -4253,13 +4440,14 @@ export interface StandardHlsSettings {
 }
 export const StandardHlsSettings = S.suspend(() =>
   S.Struct({
-    AudioRenditionSets: S.optional(S.String).pipe(
-      T.JsonName("audioRenditionSets"),
-    ),
-    M3u8Settings: S.optional(M3u8Settings)
-      .pipe(T.JsonName("m3u8Settings"))
-      .annotate({ identifier: "M3u8Settings" }),
-  }),
+    AudioRenditionSets: S.optional(S.String),
+    M3u8Settings: S.optional(M3u8Settings),
+  }).pipe(
+    S.encodeKeys({
+      AudioRenditionSets: "audioRenditionSets",
+      M3u8Settings: "m3u8Settings",
+    }),
+  ),
 ).annotate({
   identifier: "StandardHlsSettings",
 }) as any as S.Schema<StandardHlsSettings>;
@@ -4271,19 +4459,18 @@ export interface HlsSettings {
 }
 export const HlsSettings = S.suspend(() =>
   S.Struct({
-    AudioOnlyHlsSettings: S.optional(AudioOnlyHlsSettings)
-      .pipe(T.JsonName("audioOnlyHlsSettings"))
-      .annotate({ identifier: "AudioOnlyHlsSettings" }),
-    Fmp4HlsSettings: S.optional(Fmp4HlsSettings)
-      .pipe(T.JsonName("fmp4HlsSettings"))
-      .annotate({ identifier: "Fmp4HlsSettings" }),
-    FrameCaptureHlsSettings: S.optional(FrameCaptureHlsSettings)
-      .pipe(T.JsonName("frameCaptureHlsSettings"))
-      .annotate({ identifier: "FrameCaptureHlsSettings" }),
-    StandardHlsSettings: S.optional(StandardHlsSettings)
-      .pipe(T.JsonName("standardHlsSettings"))
-      .annotate({ identifier: "StandardHlsSettings" }),
-  }),
+    AudioOnlyHlsSettings: S.optional(AudioOnlyHlsSettings),
+    Fmp4HlsSettings: S.optional(Fmp4HlsSettings),
+    FrameCaptureHlsSettings: S.optional(FrameCaptureHlsSettings),
+    StandardHlsSettings: S.optional(StandardHlsSettings),
+  }).pipe(
+    S.encodeKeys({
+      AudioOnlyHlsSettings: "audioOnlyHlsSettings",
+      Fmp4HlsSettings: "fmp4HlsSettings",
+      FrameCaptureHlsSettings: "frameCaptureHlsSettings",
+      StandardHlsSettings: "standardHlsSettings",
+    }),
+  ),
 ).annotate({ identifier: "HlsSettings" }) as any as S.Schema<HlsSettings>;
 export interface HlsOutputSettings {
   H265PackagingType?: HlsH265PackagingType;
@@ -4293,15 +4480,18 @@ export interface HlsOutputSettings {
 }
 export const HlsOutputSettings = S.suspend(() =>
   S.Struct({
-    H265PackagingType: S.optional(HlsH265PackagingType).pipe(
-      T.JsonName("h265PackagingType"),
-    ),
-    HlsSettings: S.optional(HlsSettings)
-      .pipe(T.JsonName("hlsSettings"))
-      .annotate({ identifier: "HlsSettings" }),
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-    SegmentModifier: S.optional(S.String).pipe(T.JsonName("segmentModifier")),
-  }),
+    H265PackagingType: S.optional(HlsH265PackagingType),
+    HlsSettings: S.optional(HlsSettings),
+    NameModifier: S.optional(S.String),
+    SegmentModifier: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      H265PackagingType: "h265PackagingType",
+      HlsSettings: "hlsSettings",
+      NameModifier: "nameModifier",
+      SegmentModifier: "segmentModifier",
+    }),
+  ),
 ).annotate({
   identifier: "HlsOutputSettings",
 }) as any as S.Schema<HlsOutputSettings>;
@@ -4317,13 +4507,18 @@ export interface MediaPackageV2DestinationSettings {
 }
 export const MediaPackageV2DestinationSettings = S.suspend(() =>
   S.Struct({
-    AudioGroupId: S.optional(S.String).pipe(T.JsonName("audioGroupId")),
-    AudioRenditionSets: S.optional(S.String).pipe(
-      T.JsonName("audioRenditionSets"),
-    ),
-    HlsAutoSelect: S.optional(HlsAutoSelect).pipe(T.JsonName("hlsAutoSelect")),
-    HlsDefault: S.optional(HlsDefault).pipe(T.JsonName("hlsDefault")),
-  }),
+    AudioGroupId: S.optional(S.String),
+    AudioRenditionSets: S.optional(S.String),
+    HlsAutoSelect: S.optional(HlsAutoSelect),
+    HlsDefault: S.optional(HlsDefault),
+  }).pipe(
+    S.encodeKeys({
+      AudioGroupId: "audioGroupId",
+      AudioRenditionSets: "audioRenditionSets",
+      HlsAutoSelect: "hlsAutoSelect",
+      HlsDefault: "hlsDefault",
+    }),
+  ),
 ).annotate({
   identifier: "MediaPackageV2DestinationSettings",
 }) as any as S.Schema<MediaPackageV2DestinationSettings>;
@@ -4334,10 +4529,12 @@ export const MediaPackageOutputSettings = S.suspend(() =>
   S.Struct({
     MediaPackageV2DestinationSettings: S.optional(
       MediaPackageV2DestinationSettings,
-    )
-      .pipe(T.JsonName("mediaPackageV2DestinationSettings"))
-      .annotate({ identifier: "MediaPackageV2DestinationSettings" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      MediaPackageV2DestinationSettings: "mediaPackageV2DestinationSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MediaPackageOutputSettings",
 }) as any as S.Schema<MediaPackageOutputSettings>;
@@ -4349,11 +4546,14 @@ export interface MsSmoothOutputSettings {
 }
 export const MsSmoothOutputSettings = S.suspend(() =>
   S.Struct({
-    H265PackagingType: S.optional(MsSmoothH265PackagingType).pipe(
-      T.JsonName("h265PackagingType"),
-    ),
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-  }),
+    H265PackagingType: S.optional(MsSmoothH265PackagingType),
+    NameModifier: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      H265PackagingType: "h265PackagingType",
+      NameModifier: "nameModifier",
+    }),
+  ),
 ).annotate({
   identifier: "MsSmoothOutputSettings",
 }) as any as S.Schema<MsSmoothOutputSettings>;
@@ -4375,35 +4575,38 @@ export interface MultiplexM2tsSettings {
 }
 export const MultiplexM2tsSettings = S.suspend(() =>
   S.Struct({
-    AbsentInputAudioBehavior: S.optional(M2tsAbsentInputAudioBehavior).pipe(
-      T.JsonName("absentInputAudioBehavior"),
-    ),
-    Arib: S.optional(M2tsArib).pipe(T.JsonName("arib")),
-    AudioBufferModel: S.optional(M2tsAudioBufferModel).pipe(
-      T.JsonName("audioBufferModel"),
-    ),
-    AudioFramesPerPes: S.optional(S.Number).pipe(
-      T.JsonName("audioFramesPerPes"),
-    ),
-    AudioStreamType: S.optional(M2tsAudioStreamType).pipe(
-      T.JsonName("audioStreamType"),
-    ),
-    CcDescriptor: S.optional(M2tsCcDescriptor).pipe(T.JsonName("ccDescriptor")),
-    Ebif: S.optional(M2tsEbifControl).pipe(T.JsonName("ebif")),
-    EsRateInPes: S.optional(M2tsEsRateInPes).pipe(T.JsonName("esRateInPes")),
-    Klv: S.optional(M2tsKlv).pipe(T.JsonName("klv")),
-    NielsenId3Behavior: S.optional(M2tsNielsenId3Behavior).pipe(
-      T.JsonName("nielsenId3Behavior"),
-    ),
-    PcrControl: S.optional(M2tsPcrControl).pipe(T.JsonName("pcrControl")),
-    PcrPeriod: S.optional(S.Number).pipe(T.JsonName("pcrPeriod")),
-    Scte35Control: S.optional(M2tsScte35Control).pipe(
-      T.JsonName("scte35Control"),
-    ),
-    Scte35PrerollPullupMilliseconds: S.optional(S.Number).pipe(
-      T.JsonName("scte35PrerollPullupMilliseconds"),
-    ),
-  }),
+    AbsentInputAudioBehavior: S.optional(M2tsAbsentInputAudioBehavior),
+    Arib: S.optional(M2tsArib),
+    AudioBufferModel: S.optional(M2tsAudioBufferModel),
+    AudioFramesPerPes: S.optional(S.Number),
+    AudioStreamType: S.optional(M2tsAudioStreamType),
+    CcDescriptor: S.optional(M2tsCcDescriptor),
+    Ebif: S.optional(M2tsEbifControl),
+    EsRateInPes: S.optional(M2tsEsRateInPes),
+    Klv: S.optional(M2tsKlv),
+    NielsenId3Behavior: S.optional(M2tsNielsenId3Behavior),
+    PcrControl: S.optional(M2tsPcrControl),
+    PcrPeriod: S.optional(S.Number),
+    Scte35Control: S.optional(M2tsScte35Control),
+    Scte35PrerollPullupMilliseconds: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AbsentInputAudioBehavior: "absentInputAudioBehavior",
+      Arib: "arib",
+      AudioBufferModel: "audioBufferModel",
+      AudioFramesPerPes: "audioFramesPerPes",
+      AudioStreamType: "audioStreamType",
+      CcDescriptor: "ccDescriptor",
+      Ebif: "ebif",
+      EsRateInPes: "esRateInPes",
+      Klv: "klv",
+      NielsenId3Behavior: "nielsenId3Behavior",
+      PcrControl: "pcrControl",
+      PcrPeriod: "pcrPeriod",
+      Scte35Control: "scte35Control",
+      Scte35PrerollPullupMilliseconds: "scte35PrerollPullupMilliseconds",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexM2tsSettings",
 }) as any as S.Schema<MultiplexM2tsSettings>;
@@ -4411,11 +4614,9 @@ export interface MultiplexContainerSettings {
   MultiplexM2tsSettings?: MultiplexM2tsSettings;
 }
 export const MultiplexContainerSettings = S.suspend(() =>
-  S.Struct({
-    MultiplexM2tsSettings: S.optional(MultiplexM2tsSettings)
-      .pipe(T.JsonName("multiplexM2tsSettings"))
-      .annotate({ identifier: "MultiplexM2tsSettings" }),
-  }),
+  S.Struct({ MultiplexM2tsSettings: S.optional(MultiplexM2tsSettings) }).pipe(
+    S.encodeKeys({ MultiplexM2tsSettings: "multiplexM2tsSettings" }),
+  ),
 ).annotate({
   identifier: "MultiplexContainerSettings",
 }) as any as S.Schema<MultiplexContainerSettings>;
@@ -4425,13 +4626,14 @@ export interface MultiplexOutputSettings {
 }
 export const MultiplexOutputSettings = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    ContainerSettings: S.optional(MultiplexContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "MultiplexContainerSettings" }),
-  }),
+    Destination: S.optional(OutputLocationRef),
+    ContainerSettings: S.optional(MultiplexContainerSettings),
+  }).pipe(
+    S.encodeKeys({
+      Destination: "destination",
+      ContainerSettings: "containerSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexOutputSettings",
 }) as any as S.Schema<MultiplexOutputSettings>;
@@ -4448,17 +4650,18 @@ export interface RtmpOutputSettings {
 }
 export const RtmpOutputSettings = S.suspend(() =>
   S.Struct({
-    CertificateMode: S.optional(RtmpOutputCertificateMode).pipe(
-      T.JsonName("certificateMode"),
-    ),
-    ConnectionRetryInterval: S.optional(S.Number).pipe(
-      T.JsonName("connectionRetryInterval"),
-    ),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    NumRetries: S.optional(S.Number).pipe(T.JsonName("numRetries")),
-  }),
+    CertificateMode: S.optional(RtmpOutputCertificateMode),
+    ConnectionRetryInterval: S.optional(S.Number),
+    Destination: S.optional(OutputLocationRef),
+    NumRetries: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      CertificateMode: "certificateMode",
+      ConnectionRetryInterval: "connectionRetryInterval",
+      Destination: "destination",
+      NumRetries: "numRetries",
+    }),
+  ),
 ).annotate({
   identifier: "RtmpOutputSettings",
 }) as any as S.Schema<RtmpOutputSettings>;
@@ -4466,11 +4669,9 @@ export interface UdpContainerSettings {
   M2tsSettings?: M2tsSettings;
 }
 export const UdpContainerSettings = S.suspend(() =>
-  S.Struct({
-    M2tsSettings: S.optional(M2tsSettings)
-      .pipe(T.JsonName("m2tsSettings"))
-      .annotate({ identifier: "M2tsSettings" }),
-  }),
+  S.Struct({ M2tsSettings: S.optional(M2tsSettings) }).pipe(
+    S.encodeKeys({ M2tsSettings: "m2tsSettings" }),
+  ),
 ).annotate({
   identifier: "UdpContainerSettings",
 }) as any as S.Schema<UdpContainerSettings>;
@@ -4483,10 +4684,16 @@ export interface FecOutputSettings {
 }
 export const FecOutputSettings = S.suspend(() =>
   S.Struct({
-    ColumnDepth: S.optional(S.Number).pipe(T.JsonName("columnDepth")),
-    IncludeFec: S.optional(FecOutputIncludeFec).pipe(T.JsonName("includeFec")),
-    RowLength: S.optional(S.Number).pipe(T.JsonName("rowLength")),
-  }),
+    ColumnDepth: S.optional(S.Number),
+    IncludeFec: S.optional(FecOutputIncludeFec),
+    RowLength: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ColumnDepth: "columnDepth",
+      IncludeFec: "includeFec",
+      RowLength: "rowLength",
+    }),
+  ),
 ).annotate({
   identifier: "FecOutputSettings",
 }) as any as S.Schema<FecOutputSettings>;
@@ -4498,17 +4705,18 @@ export interface UdpOutputSettings {
 }
 export const UdpOutputSettings = S.suspend(() =>
   S.Struct({
-    BufferMsec: S.optional(S.Number).pipe(T.JsonName("bufferMsec")),
-    ContainerSettings: S.optional(UdpContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "UdpContainerSettings" }),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    FecOutputSettings: S.optional(FecOutputSettings)
-      .pipe(T.JsonName("fecOutputSettings"))
-      .annotate({ identifier: "FecOutputSettings" }),
-  }),
+    BufferMsec: S.optional(S.Number),
+    ContainerSettings: S.optional(UdpContainerSettings),
+    Destination: S.optional(OutputLocationRef),
+    FecOutputSettings: S.optional(FecOutputSettings),
+  }).pipe(
+    S.encodeKeys({
+      BufferMsec: "bufferMsec",
+      ContainerSettings: "containerSettings",
+      Destination: "destination",
+      FecOutputSettings: "fecOutputSettings",
+    }),
+  ),
 ).annotate({
   identifier: "UdpOutputSettings",
 }) as any as S.Schema<UdpOutputSettings>;
@@ -4516,9 +4724,9 @@ export interface CmafIngestOutputSettings {
   NameModifier?: string;
 }
 export const CmafIngestOutputSettings = S.suspend(() =>
-  S.Struct({
-    NameModifier: S.optional(S.String).pipe(T.JsonName("nameModifier")),
-  }),
+  S.Struct({ NameModifier: S.optional(S.String) }).pipe(
+    S.encodeKeys({ NameModifier: "nameModifier" }),
+  ),
 ).annotate({
   identifier: "CmafIngestOutputSettings",
 }) as any as S.Schema<CmafIngestOutputSettings>;
@@ -4533,18 +4741,20 @@ export interface SrtOutputSettings {
 }
 export const SrtOutputSettings = S.suspend(() =>
   S.Struct({
-    BufferMsec: S.optional(S.Number).pipe(T.JsonName("bufferMsec")),
-    ContainerSettings: S.optional(UdpContainerSettings)
-      .pipe(T.JsonName("containerSettings"))
-      .annotate({ identifier: "UdpContainerSettings" }),
-    Destination: S.optional(OutputLocationRef)
-      .pipe(T.JsonName("destination"))
-      .annotate({ identifier: "OutputLocationRef" }),
-    EncryptionType: S.optional(SrtEncryptionType).pipe(
-      T.JsonName("encryptionType"),
-    ),
-    Latency: S.optional(S.Number).pipe(T.JsonName("latency")),
-  }),
+    BufferMsec: S.optional(S.Number),
+    ContainerSettings: S.optional(UdpContainerSettings),
+    Destination: S.optional(OutputLocationRef),
+    EncryptionType: S.optional(SrtEncryptionType),
+    Latency: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BufferMsec: "bufferMsec",
+      ContainerSettings: "containerSettings",
+      Destination: "destination",
+      EncryptionType: "encryptionType",
+      Latency: "latency",
+    }),
+  ),
 ).annotate({
   identifier: "SrtOutputSettings",
 }) as any as S.Schema<SrtOutputSettings>;
@@ -4562,37 +4772,30 @@ export interface OutputSettings {
 }
 export const OutputSettings = S.suspend(() =>
   S.Struct({
-    ArchiveOutputSettings: S.optional(ArchiveOutputSettings)
-      .pipe(T.JsonName("archiveOutputSettings"))
-      .annotate({ identifier: "ArchiveOutputSettings" }),
-    FrameCaptureOutputSettings: S.optional(FrameCaptureOutputSettings)
-      .pipe(T.JsonName("frameCaptureOutputSettings"))
-      .annotate({ identifier: "FrameCaptureOutputSettings" }),
-    HlsOutputSettings: S.optional(HlsOutputSettings)
-      .pipe(T.JsonName("hlsOutputSettings"))
-      .annotate({ identifier: "HlsOutputSettings" }),
-    MediaPackageOutputSettings: S.optional(MediaPackageOutputSettings)
-      .pipe(T.JsonName("mediaPackageOutputSettings"))
-      .annotate({ identifier: "MediaPackageOutputSettings" }),
-    MsSmoothOutputSettings: S.optional(MsSmoothOutputSettings)
-      .pipe(T.JsonName("msSmoothOutputSettings"))
-      .annotate({ identifier: "MsSmoothOutputSettings" }),
-    MultiplexOutputSettings: S.optional(MultiplexOutputSettings)
-      .pipe(T.JsonName("multiplexOutputSettings"))
-      .annotate({ identifier: "MultiplexOutputSettings" }),
-    RtmpOutputSettings: S.optional(RtmpOutputSettings)
-      .pipe(T.JsonName("rtmpOutputSettings"))
-      .annotate({ identifier: "RtmpOutputSettings" }),
-    UdpOutputSettings: S.optional(UdpOutputSettings)
-      .pipe(T.JsonName("udpOutputSettings"))
-      .annotate({ identifier: "UdpOutputSettings" }),
-    CmafIngestOutputSettings: S.optional(CmafIngestOutputSettings)
-      .pipe(T.JsonName("cmafIngestOutputSettings"))
-      .annotate({ identifier: "CmafIngestOutputSettings" }),
-    SrtOutputSettings: S.optional(SrtOutputSettings)
-      .pipe(T.JsonName("srtOutputSettings"))
-      .annotate({ identifier: "SrtOutputSettings" }),
-  }),
+    ArchiveOutputSettings: S.optional(ArchiveOutputSettings),
+    FrameCaptureOutputSettings: S.optional(FrameCaptureOutputSettings),
+    HlsOutputSettings: S.optional(HlsOutputSettings),
+    MediaPackageOutputSettings: S.optional(MediaPackageOutputSettings),
+    MsSmoothOutputSettings: S.optional(MsSmoothOutputSettings),
+    MultiplexOutputSettings: S.optional(MultiplexOutputSettings),
+    RtmpOutputSettings: S.optional(RtmpOutputSettings),
+    UdpOutputSettings: S.optional(UdpOutputSettings),
+    CmafIngestOutputSettings: S.optional(CmafIngestOutputSettings),
+    SrtOutputSettings: S.optional(SrtOutputSettings),
+  }).pipe(
+    S.encodeKeys({
+      ArchiveOutputSettings: "archiveOutputSettings",
+      FrameCaptureOutputSettings: "frameCaptureOutputSettings",
+      HlsOutputSettings: "hlsOutputSettings",
+      MediaPackageOutputSettings: "mediaPackageOutputSettings",
+      MsSmoothOutputSettings: "msSmoothOutputSettings",
+      MultiplexOutputSettings: "multiplexOutputSettings",
+      RtmpOutputSettings: "rtmpOutputSettings",
+      UdpOutputSettings: "udpOutputSettings",
+      CmafIngestOutputSettings: "cmafIngestOutputSettings",
+      SrtOutputSettings: "srtOutputSettings",
+    }),
+  ),
 ).annotate({ identifier: "OutputSettings" }) as any as S.Schema<OutputSettings>;
 export interface Output {
   AudioDescriptionNames?: string[];
@@ -4603,20 +4806,20 @@ export interface Output {
 }
 export const Output = S.suspend(() =>
   S.Struct({
-    AudioDescriptionNames: S.optional(__listOf__string).pipe(
-      T.JsonName("audioDescriptionNames"),
-    ),
-    CaptionDescriptionNames: S.optional(__listOf__string).pipe(
-      T.JsonName("captionDescriptionNames"),
-    ),
-    OutputName: S.optional(S.String).pipe(T.JsonName("outputName")),
-    OutputSettings: S.optional(OutputSettings)
-      .pipe(T.JsonName("outputSettings"))
-      .annotate({ identifier: "OutputSettings" }),
-    VideoDescriptionName: S.optional(S.String).pipe(
-      T.JsonName("videoDescriptionName"),
-    ),
-  }),
+    AudioDescriptionNames: S.optional(__listOf__string),
+    CaptionDescriptionNames: S.optional(__listOf__string),
+    OutputName: S.optional(S.String),
+    OutputSettings: S.optional(OutputSettings),
+    VideoDescriptionName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptionNames: "audioDescriptionNames",
+      CaptionDescriptionNames: "captionDescriptionNames",
+      OutputName: "outputName",
+      OutputSettings: "outputSettings",
+      VideoDescriptionName: "videoDescriptionName",
+    }),
+  ),
 ).annotate({ identifier: "Output" }) as any as S.Schema<Output>;
 export type __listOfOutput = Output[];
 export const __listOfOutput = S.Array(Output);
@@ -4627,12 +4830,16 @@ export interface OutputGroup {
 }
 export const OutputGroup = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OutputGroupSettings: S.optional(OutputGroupSettings)
-      .pipe(T.JsonName("outputGroupSettings"))
-      .annotate({ identifier: "OutputGroupSettings" }),
-    Outputs: S.optional(__listOfOutput).pipe(T.JsonName("outputs")),
-  }),
+    Name: S.optional(S.String),
+    OutputGroupSettings: S.optional(OutputGroupSettings),
+    Outputs: S.optional(__listOfOutput),
+  }).pipe(
+    S.encodeKeys({
+      Name: "name",
+      OutputGroupSettings: "outputGroupSettings",
+      Outputs: "outputs",
+    }),
+  ),
 ).annotate({ identifier: "OutputGroup" }) as any as S.Schema<OutputGroup>;
 export type __listOfOutputGroup = OutputGroup[];
 export const __listOfOutputGroup = S.Array(OutputGroup);
@@ -4648,9 +4855,9 @@ export interface TimecodeConfig {
 }
 export const TimecodeConfig = S.suspend(() =>
   S.Struct({
-    Source: S.optional(TimecodeConfigSource).pipe(T.JsonName("source")),
-    SyncThreshold: S.optional(S.Number).pipe(T.JsonName("syncThreshold")),
-  }),
+    Source: S.optional(TimecodeConfigSource),
+    SyncThreshold: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ Source: "source", SyncThreshold: "syncThreshold" })),
 ).annotate({ identifier: "TimecodeConfig" }) as any as S.Schema<TimecodeConfig>;
 export type FrameCaptureIntervalUnit =
   | "MILLISECONDS"
@@ -4683,10 +4890,16 @@ export interface TimecodeBurninSettings {
 }
 export const TimecodeBurninSettings = S.suspend(() =>
   S.Struct({
-    FontSize: S.optional(TimecodeBurninFontSize).pipe(T.JsonName("fontSize")),
-    Position: S.optional(TimecodeBurninPosition).pipe(T.JsonName("position")),
-    Prefix: S.optional(S.String).pipe(T.JsonName("prefix")),
-  }),
+    FontSize: S.optional(TimecodeBurninFontSize),
+    Position: S.optional(TimecodeBurninPosition),
+    Prefix: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FontSize: "fontSize",
+      Position: "position",
+      Prefix: "prefix",
+    }),
+  ),
 ).annotate({
   identifier: "TimecodeBurninSettings",
 }) as any as S.Schema<TimecodeBurninSettings>;
@@ -4697,14 +4910,16 @@ export interface FrameCaptureSettings {
 }
 export const FrameCaptureSettings = S.suspend(() =>
   S.Struct({
-    CaptureInterval: S.optional(S.Number).pipe(T.JsonName("captureInterval")),
-    CaptureIntervalUnits: S.optional(FrameCaptureIntervalUnit).pipe(
-      T.JsonName("captureIntervalUnits"),
-    ),
-    TimecodeBurninSettings: S.optional(TimecodeBurninSettings)
-      .pipe(T.JsonName("timecodeBurninSettings"))
-      .annotate({ identifier: "TimecodeBurninSettings" }),
-  }),
+    CaptureInterval: S.optional(S.Number),
+    CaptureIntervalUnits: S.optional(FrameCaptureIntervalUnit),
+    TimecodeBurninSettings: S.optional(TimecodeBurninSettings),
+  }).pipe(
+    S.encodeKeys({
+      CaptureInterval: "captureInterval",
+      CaptureIntervalUnits: "captureIntervalUnits",
+      TimecodeBurninSettings: "timecodeBurninSettings",
+    }),
+  ),
 ).annotate({
   identifier: "FrameCaptureSettings",
 }) as any as S.Schema<FrameCaptureSettings>;
@@ -4743,16 +4958,16 @@ export interface H264ColorSpaceSettings {
 }
 export const H264ColorSpaceSettings = S.suspend(() =>
   S.Struct({
-    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings)
-      .pipe(T.JsonName("colorSpacePassthroughSettings"))
-      .annotate({ identifier: "ColorSpacePassthroughSettings" }),
-    Rec601Settings: S.optional(Rec601Settings)
-      .pipe(T.JsonName("rec601Settings"))
-      .annotate({ identifier: "Rec601Settings" }),
-    Rec709Settings: S.optional(Rec709Settings)
-      .pipe(T.JsonName("rec709Settings"))
-      .annotate({ identifier: "Rec709Settings" }),
-  }),
+    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings),
+    Rec601Settings: S.optional(Rec601Settings),
+    Rec709Settings: S.optional(Rec709Settings),
+  }).pipe(
+    S.encodeKeys({
+      ColorSpacePassthroughSettings: "colorSpacePassthroughSettings",
+      Rec601Settings: "rec601Settings",
+      Rec709Settings: "rec709Settings",
+    }),
+  ),
 ).annotate({
   identifier: "H264ColorSpaceSettings",
 }) as any as S.Schema<H264ColorSpaceSettings>;
@@ -4790,11 +5005,14 @@ export interface TemporalFilterSettings {
 }
 export const TemporalFilterSettings = S.suspend(() =>
   S.Struct({
-    PostFilterSharpening: S.optional(TemporalFilterPostFilterSharpening).pipe(
-      T.JsonName("postFilterSharpening"),
-    ),
-    Strength: S.optional(TemporalFilterStrength).pipe(T.JsonName("strength")),
-  }),
+    PostFilterSharpening: S.optional(TemporalFilterPostFilterSharpening),
+    Strength: S.optional(TemporalFilterStrength),
+  }).pipe(
+    S.encodeKeys({
+      PostFilterSharpening: "postFilterSharpening",
+      Strength: "strength",
+    }),
+  ),
 ).annotate({
   identifier: "TemporalFilterSettings",
 }) as any as S.Schema<TemporalFilterSettings>;
@@ -4819,13 +5037,14 @@ export interface BandwidthReductionFilterSettings {
 }
 export const BandwidthReductionFilterSettings = S.suspend(() =>
   S.Struct({
-    PostFilterSharpening: S.optional(
-      BandwidthReductionPostFilterSharpening,
-    ).pipe(T.JsonName("postFilterSharpening")),
-    Strength: S.optional(BandwidthReductionFilterStrength).pipe(
-      T.JsonName("strength"),
-    ),
-  }),
+    PostFilterSharpening: S.optional(BandwidthReductionPostFilterSharpening),
+    Strength: S.optional(BandwidthReductionFilterStrength),
+  }).pipe(
+    S.encodeKeys({
+      PostFilterSharpening: "postFilterSharpening",
+      Strength: "strength",
+    }),
+  ),
 ).annotate({
   identifier: "BandwidthReductionFilterSettings",
 }) as any as S.Schema<BandwidthReductionFilterSettings>;
@@ -4835,15 +5054,16 @@ export interface H264FilterSettings {
 }
 export const H264FilterSettings = S.suspend(() =>
   S.Struct({
-    TemporalFilterSettings: S.optional(TemporalFilterSettings)
-      .pipe(T.JsonName("temporalFilterSettings"))
-      .annotate({ identifier: "TemporalFilterSettings" }),
+    TemporalFilterSettings: S.optional(TemporalFilterSettings),
     BandwidthReductionFilterSettings: S.optional(
       BandwidthReductionFilterSettings,
-    )
-      .pipe(T.JsonName("bandwidthReductionFilterSettings"))
-      .annotate({ identifier: "BandwidthReductionFilterSettings" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      TemporalFilterSettings: "temporalFilterSettings",
+      BandwidthReductionFilterSettings: "bandwidthReductionFilterSettings",
+    }),
+  ),
 ).annotate({
   identifier: "H264FilterSettings",
 }) as any as S.Schema<H264FilterSettings>;
@@ -4991,81 +5211,98 @@ export interface H264Settings {
 }
 export const H264Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(H264AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    AfdSignaling: S.optional(AfdSignaling).pipe(T.JsonName("afdSignaling")),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BufFillPct: S.optional(S.Number).pipe(T.JsonName("bufFillPct")),
-    BufSize: S.optional(S.Number).pipe(T.JsonName("bufSize")),
-    ColorMetadata: S.optional(H264ColorMetadata).pipe(
-      T.JsonName("colorMetadata"),
-    ),
-    ColorSpaceSettings: S.optional(H264ColorSpaceSettings)
-      .pipe(T.JsonName("colorSpaceSettings"))
-      .annotate({ identifier: "H264ColorSpaceSettings" }),
-    EntropyEncoding: S.optional(H264EntropyEncoding).pipe(
-      T.JsonName("entropyEncoding"),
-    ),
-    FilterSettings: S.optional(H264FilterSettings)
-      .pipe(T.JsonName("filterSettings"))
-      .annotate({ identifier: "H264FilterSettings" }),
-    FixedAfd: S.optional(FixedAfd).pipe(T.JsonName("fixedAfd")),
-    FlickerAq: S.optional(H264FlickerAq).pipe(T.JsonName("flickerAq")),
-    ForceFieldPictures: S.optional(H264ForceFieldPictures).pipe(
-      T.JsonName("forceFieldPictures"),
-    ),
-    FramerateControl: S.optional(H264FramerateControl).pipe(
-      T.JsonName("framerateControl"),
-    ),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopBReference: S.optional(H264GopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopNumBFrames: S.optional(S.Number).pipe(T.JsonName("gopNumBFrames")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(H264GopSizeUnits).pipe(T.JsonName("gopSizeUnits")),
-    Level: S.optional(H264Level).pipe(T.JsonName("level")),
-    LookAheadRateControl: S.optional(H264LookAheadRateControl).pipe(
-      T.JsonName("lookAheadRateControl"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    NumRefFrames: S.optional(S.Number).pipe(T.JsonName("numRefFrames")),
-    ParControl: S.optional(H264ParControl).pipe(T.JsonName("parControl")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    Profile: S.optional(H264Profile).pipe(T.JsonName("profile")),
-    QualityLevel: S.optional(H264QualityLevel).pipe(T.JsonName("qualityLevel")),
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    RateControlMode: S.optional(H264RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    ScanType: S.optional(H264ScanType).pipe(T.JsonName("scanType")),
-    SceneChangeDetect: S.optional(H264SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    Softness: S.optional(S.Number).pipe(T.JsonName("softness")),
-    SpatialAq: S.optional(H264SpatialAq).pipe(T.JsonName("spatialAq")),
-    SubgopLength: S.optional(H264SubGopLength).pipe(T.JsonName("subgopLength")),
-    Syntax: S.optional(H264Syntax).pipe(T.JsonName("syntax")),
-    TemporalAq: S.optional(H264TemporalAq).pipe(T.JsonName("temporalAq")),
-    TimecodeInsertion: S.optional(H264TimecodeInsertionBehavior).pipe(
-      T.JsonName("timecodeInsertion"),
-    ),
-    TimecodeBurninSettings: S.optional(TimecodeBurninSettings)
-      .pipe(T.JsonName("timecodeBurninSettings"))
-      .annotate({ identifier: "TimecodeBurninSettings" }),
-    MinQp: S.optional(S.Number).pipe(T.JsonName("minQp")),
-    MinBitrate: S.optional(S.Number).pipe(T.JsonName("minBitrate")),
-  }),
+    AdaptiveQuantization: S.optional(H264AdaptiveQuantization),
+    AfdSignaling: S.optional(AfdSignaling),
+    Bitrate: S.optional(S.Number),
+    BufFillPct: S.optional(S.Number),
+    BufSize: S.optional(S.Number),
+    ColorMetadata: S.optional(H264ColorMetadata),
+    ColorSpaceSettings: S.optional(H264ColorSpaceSettings),
+    EntropyEncoding: S.optional(H264EntropyEncoding),
+    FilterSettings: S.optional(H264FilterSettings),
+    FixedAfd: S.optional(FixedAfd),
+    FlickerAq: S.optional(H264FlickerAq),
+    ForceFieldPictures: S.optional(H264ForceFieldPictures),
+    FramerateControl: S.optional(H264FramerateControl),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopBReference: S.optional(H264GopBReference),
+    GopClosedCadence: S.optional(S.Number),
+    GopNumBFrames: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(H264GopSizeUnits),
+    Level: S.optional(H264Level),
+    LookAheadRateControl: S.optional(H264LookAheadRateControl),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    NumRefFrames: S.optional(S.Number),
+    ParControl: S.optional(H264ParControl),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    Profile: S.optional(H264Profile),
+    QualityLevel: S.optional(H264QualityLevel),
+    QvbrQualityLevel: S.optional(S.Number),
+    RateControlMode: S.optional(H264RateControlMode),
+    ScanType: S.optional(H264ScanType),
+    SceneChangeDetect: S.optional(H264SceneChangeDetect),
+    Slices: S.optional(S.Number),
+    Softness: S.optional(S.Number),
+    SpatialAq: S.optional(H264SpatialAq),
+    SubgopLength: S.optional(H264SubGopLength),
+    Syntax: S.optional(H264Syntax),
+    TemporalAq: S.optional(H264TemporalAq),
+    TimecodeInsertion: S.optional(H264TimecodeInsertionBehavior),
+    TimecodeBurninSettings: S.optional(TimecodeBurninSettings),
+    MinQp: S.optional(S.Number),
+    MinBitrate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      AfdSignaling: "afdSignaling",
+      Bitrate: "bitrate",
+      BufFillPct: "bufFillPct",
+      BufSize: "bufSize",
+      ColorMetadata: "colorMetadata",
+      ColorSpaceSettings: "colorSpaceSettings",
+      EntropyEncoding: "entropyEncoding",
+      FilterSettings: "filterSettings",
+      FixedAfd: "fixedAfd",
+      FlickerAq: "flickerAq",
+      ForceFieldPictures: "forceFieldPictures",
+      FramerateControl: "framerateControl",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopBReference: "gopBReference",
+      GopClosedCadence: "gopClosedCadence",
+      GopNumBFrames: "gopNumBFrames",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      Level: "level",
+      LookAheadRateControl: "lookAheadRateControl",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      NumRefFrames: "numRefFrames",
+      ParControl: "parControl",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      Profile: "profile",
+      QualityLevel: "qualityLevel",
+      QvbrQualityLevel: "qvbrQualityLevel",
+      RateControlMode: "rateControlMode",
+      ScanType: "scanType",
+      SceneChangeDetect: "sceneChangeDetect",
+      Slices: "slices",
+      Softness: "softness",
+      SpatialAq: "spatialAq",
+      SubgopLength: "subgopLength",
+      Syntax: "syntax",
+      TemporalAq: "temporalAq",
+      TimecodeInsertion: "timecodeInsertion",
+      TimecodeBurninSettings: "timecodeBurninSettings",
+      MinQp: "minQp",
+      MinBitrate: "minBitrate",
+    }),
+  ),
 ).annotate({ identifier: "H264Settings" }) as any as S.Schema<H264Settings>;
 export type H265AdaptiveQuantization =
   | "AUTO"
@@ -5091,9 +5328,9 @@ export interface Hdr10Settings {
 }
 export const Hdr10Settings = S.suspend(() =>
   S.Struct({
-    MaxCll: S.optional(S.Number).pipe(T.JsonName("maxCll")),
-    MaxFall: S.optional(S.Number).pipe(T.JsonName("maxFall")),
-  }),
+    MaxCll: S.optional(S.Number),
+    MaxFall: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ MaxCll: "maxCll", MaxFall: "maxFall" })),
 ).annotate({ identifier: "Hdr10Settings" }) as any as S.Schema<Hdr10Settings>;
 export interface Hlg2020Settings {}
 export const Hlg2020Settings = S.suspend(() => S.Struct({})).annotate({
@@ -5109,25 +5346,22 @@ export interface H265ColorSpaceSettings {
 }
 export const H265ColorSpaceSettings = S.suspend(() =>
   S.Struct({
-    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings)
-      .pipe(T.JsonName("colorSpacePassthroughSettings"))
-      .annotate({ identifier: "ColorSpacePassthroughSettings" }),
-    DolbyVision81Settings: S.optional(DolbyVision81Settings)
-      .pipe(T.JsonName("dolbyVision81Settings"))
-      .annotate({ identifier: "DolbyVision81Settings" }),
-    Hdr10Settings: S.optional(Hdr10Settings)
-      .pipe(T.JsonName("hdr10Settings"))
-      .annotate({ identifier: "Hdr10Settings" }),
-    Rec601Settings: S.optional(Rec601Settings)
-      .pipe(T.JsonName("rec601Settings"))
-      .annotate({ identifier: "Rec601Settings" }),
-    Rec709Settings: S.optional(Rec709Settings)
-      .pipe(T.JsonName("rec709Settings"))
-      .annotate({ identifier: "Rec709Settings" }),
-    Hlg2020Settings: S.optional(Hlg2020Settings)
-      .pipe(T.JsonName("hlg2020Settings"))
-      .annotate({ identifier: "Hlg2020Settings" }),
-  }),
+    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings),
+    DolbyVision81Settings: S.optional(DolbyVision81Settings),
+    Hdr10Settings: S.optional(Hdr10Settings),
+    Rec601Settings: S.optional(Rec601Settings),
+    Rec709Settings: S.optional(Rec709Settings),
+    Hlg2020Settings: S.optional(Hlg2020Settings),
+  }).pipe(
+    S.encodeKeys({
+      ColorSpacePassthroughSettings: "colorSpacePassthroughSettings",
+      DolbyVision81Settings: "dolbyVision81Settings",
+      Hdr10Settings: "hdr10Settings",
+      Rec601Settings: "rec601Settings",
+      Rec709Settings: "rec709Settings",
+      Hlg2020Settings: "hlg2020Settings",
+    }),
+  ),
 ).annotate({
   identifier: "H265ColorSpaceSettings",
 }) as any as S.Schema<H265ColorSpaceSettings>;
@@ -5137,15 +5371,16 @@ export interface H265FilterSettings {
 }
 export const H265FilterSettings = S.suspend(() =>
   S.Struct({
-    TemporalFilterSettings: S.optional(TemporalFilterSettings)
-      .pipe(T.JsonName("temporalFilterSettings"))
-      .annotate({ identifier: "TemporalFilterSettings" }),
+    TemporalFilterSettings: S.optional(TemporalFilterSettings),
     BandwidthReductionFilterSettings: S.optional(
       BandwidthReductionFilterSettings,
-    )
-      .pipe(T.JsonName("bandwidthReductionFilterSettings"))
-      .annotate({ identifier: "BandwidthReductionFilterSettings" }),
-  }),
+    ),
+  }).pipe(
+    S.encodeKeys({
+      TemporalFilterSettings: "temporalFilterSettings",
+      BandwidthReductionFilterSettings: "bandwidthReductionFilterSettings",
+    }),
+  ),
 ).annotate({
   identifier: "H265FilterSettings",
 }) as any as S.Schema<H265FilterSettings>;
@@ -5254,81 +5489,94 @@ export interface H265Settings {
 }
 export const H265Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(H265AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    AfdSignaling: S.optional(AfdSignaling).pipe(T.JsonName("afdSignaling")),
-    AlternativeTransferFunction: S.optional(
-      H265AlternativeTransferFunction,
-    ).pipe(T.JsonName("alternativeTransferFunction")),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    BufSize: S.optional(S.Number).pipe(T.JsonName("bufSize")),
-    ColorMetadata: S.optional(H265ColorMetadata).pipe(
-      T.JsonName("colorMetadata"),
-    ),
-    ColorSpaceSettings: S.optional(H265ColorSpaceSettings)
-      .pipe(T.JsonName("colorSpaceSettings"))
-      .annotate({ identifier: "H265ColorSpaceSettings" }),
-    FilterSettings: S.optional(H265FilterSettings)
-      .pipe(T.JsonName("filterSettings"))
-      .annotate({ identifier: "H265FilterSettings" }),
-    FixedAfd: S.optional(FixedAfd).pipe(T.JsonName("fixedAfd")),
-    FlickerAq: S.optional(H265FlickerAq).pipe(T.JsonName("flickerAq")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(H265GopSizeUnits).pipe(T.JsonName("gopSizeUnits")),
-    Level: S.optional(H265Level).pipe(T.JsonName("level")),
-    LookAheadRateControl: S.optional(H265LookAheadRateControl).pipe(
-      T.JsonName("lookAheadRateControl"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    Profile: S.optional(H265Profile).pipe(T.JsonName("profile")),
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    RateControlMode: S.optional(H265RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    ScanType: S.optional(H265ScanType).pipe(T.JsonName("scanType")),
-    SceneChangeDetect: S.optional(H265SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    Slices: S.optional(S.Number).pipe(T.JsonName("slices")),
-    Tier: S.optional(H265Tier).pipe(T.JsonName("tier")),
-    TimecodeInsertion: S.optional(H265TimecodeInsertionBehavior).pipe(
-      T.JsonName("timecodeInsertion"),
-    ),
-    TimecodeBurninSettings: S.optional(TimecodeBurninSettings)
-      .pipe(T.JsonName("timecodeBurninSettings"))
-      .annotate({ identifier: "TimecodeBurninSettings" }),
-    MvOverPictureBoundaries: S.optional(H265MvOverPictureBoundaries).pipe(
-      T.JsonName("mvOverPictureBoundaries"),
-    ),
-    MvTemporalPredictor: S.optional(H265MvTemporalPredictor).pipe(
-      T.JsonName("mvTemporalPredictor"),
-    ),
-    TileHeight: S.optional(S.Number).pipe(T.JsonName("tileHeight")),
-    TilePadding: S.optional(H265TilePadding).pipe(T.JsonName("tilePadding")),
-    TileWidth: S.optional(S.Number).pipe(T.JsonName("tileWidth")),
-    TreeblockSize: S.optional(H265TreeblockSize).pipe(
-      T.JsonName("treeblockSize"),
-    ),
-    MinQp: S.optional(S.Number).pipe(T.JsonName("minQp")),
-    Deblocking: S.optional(H265Deblocking).pipe(T.JsonName("deblocking")),
-    GopBReference: S.optional(H265GopBReference).pipe(
-      T.JsonName("gopBReference"),
-    ),
-    GopNumBFrames: S.optional(S.Number).pipe(T.JsonName("gopNumBFrames")),
-    MinBitrate: S.optional(S.Number).pipe(T.JsonName("minBitrate")),
-    SubgopLength: S.optional(H265SubGopLength).pipe(T.JsonName("subgopLength")),
-  }),
+    AdaptiveQuantization: S.optional(H265AdaptiveQuantization),
+    AfdSignaling: S.optional(AfdSignaling),
+    AlternativeTransferFunction: S.optional(H265AlternativeTransferFunction),
+    Bitrate: S.optional(S.Number),
+    BufSize: S.optional(S.Number),
+    ColorMetadata: S.optional(H265ColorMetadata),
+    ColorSpaceSettings: S.optional(H265ColorSpaceSettings),
+    FilterSettings: S.optional(H265FilterSettings),
+    FixedAfd: S.optional(FixedAfd),
+    FlickerAq: S.optional(H265FlickerAq),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopClosedCadence: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(H265GopSizeUnits),
+    Level: S.optional(H265Level),
+    LookAheadRateControl: S.optional(H265LookAheadRateControl),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    Profile: S.optional(H265Profile),
+    QvbrQualityLevel: S.optional(S.Number),
+    RateControlMode: S.optional(H265RateControlMode),
+    ScanType: S.optional(H265ScanType),
+    SceneChangeDetect: S.optional(H265SceneChangeDetect),
+    Slices: S.optional(S.Number),
+    Tier: S.optional(H265Tier),
+    TimecodeInsertion: S.optional(H265TimecodeInsertionBehavior),
+    TimecodeBurninSettings: S.optional(TimecodeBurninSettings),
+    MvOverPictureBoundaries: S.optional(H265MvOverPictureBoundaries),
+    MvTemporalPredictor: S.optional(H265MvTemporalPredictor),
+    TileHeight: S.optional(S.Number),
+    TilePadding: S.optional(H265TilePadding),
+    TileWidth: S.optional(S.Number),
+    TreeblockSize: S.optional(H265TreeblockSize),
+    MinQp: S.optional(S.Number),
+    Deblocking: S.optional(H265Deblocking),
+    GopBReference: S.optional(H265GopBReference),
+    GopNumBFrames: S.optional(S.Number),
+    MinBitrate: S.optional(S.Number),
+    SubgopLength: S.optional(H265SubGopLength),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      AfdSignaling: "afdSignaling",
+      AlternativeTransferFunction: "alternativeTransferFunction",
+      Bitrate: "bitrate",
+      BufSize: "bufSize",
+      ColorMetadata: "colorMetadata",
+      ColorSpaceSettings: "colorSpaceSettings",
+      FilterSettings: "filterSettings",
+      FixedAfd: "fixedAfd",
+      FlickerAq: "flickerAq",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopClosedCadence: "gopClosedCadence",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      Level: "level",
+      LookAheadRateControl: "lookAheadRateControl",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      Profile: "profile",
+      QvbrQualityLevel: "qvbrQualityLevel",
+      RateControlMode: "rateControlMode",
+      ScanType: "scanType",
+      SceneChangeDetect: "sceneChangeDetect",
+      Slices: "slices",
+      Tier: "tier",
+      TimecodeInsertion: "timecodeInsertion",
+      TimecodeBurninSettings: "timecodeBurninSettings",
+      MvOverPictureBoundaries: "mvOverPictureBoundaries",
+      MvTemporalPredictor: "mvTemporalPredictor",
+      TileHeight: "tileHeight",
+      TilePadding: "tilePadding",
+      TileWidth: "tileWidth",
+      TreeblockSize: "treeblockSize",
+      MinQp: "minQp",
+      Deblocking: "deblocking",
+      GopBReference: "gopBReference",
+      GopNumBFrames: "gopNumBFrames",
+      MinBitrate: "minBitrate",
+      SubgopLength: "subgopLength",
+    }),
+  ),
 ).annotate({ identifier: "H265Settings" }) as any as S.Schema<H265Settings>;
 export type Mpeg2AdaptiveQuantization =
   | "AUTO"
@@ -5351,11 +5599,9 @@ export interface Mpeg2FilterSettings {
   TemporalFilterSettings?: TemporalFilterSettings;
 }
 export const Mpeg2FilterSettings = S.suspend(() =>
-  S.Struct({
-    TemporalFilterSettings: S.optional(TemporalFilterSettings)
-      .pipe(T.JsonName("temporalFilterSettings"))
-      .annotate({ identifier: "TemporalFilterSettings" }),
-  }),
+  S.Struct({ TemporalFilterSettings: S.optional(TemporalFilterSettings) }).pipe(
+    S.encodeKeys({ TemporalFilterSettings: "temporalFilterSettings" }),
+  ),
 ).annotate({
   identifier: "Mpeg2FilterSettings",
 }) as any as S.Schema<Mpeg2FilterSettings>;
@@ -5391,44 +5637,44 @@ export interface Mpeg2Settings {
 }
 export const Mpeg2Settings = S.suspend(() =>
   S.Struct({
-    AdaptiveQuantization: S.optional(Mpeg2AdaptiveQuantization).pipe(
-      T.JsonName("adaptiveQuantization"),
-    ),
-    AfdSignaling: S.optional(AfdSignaling).pipe(T.JsonName("afdSignaling")),
-    ColorMetadata: S.optional(Mpeg2ColorMetadata).pipe(
-      T.JsonName("colorMetadata"),
-    ),
-    ColorSpace: S.optional(Mpeg2ColorSpace).pipe(T.JsonName("colorSpace")),
-    DisplayAspectRatio: S.optional(Mpeg2DisplayRatio).pipe(
-      T.JsonName("displayAspectRatio"),
-    ),
-    FilterSettings: S.optional(Mpeg2FilterSettings)
-      .pipe(T.JsonName("filterSettings"))
-      .annotate({ identifier: "Mpeg2FilterSettings" }),
-    FixedAfd: S.optional(FixedAfd).pipe(T.JsonName("fixedAfd")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopClosedCadence: S.optional(S.Number).pipe(T.JsonName("gopClosedCadence")),
-    GopNumBFrames: S.optional(S.Number).pipe(T.JsonName("gopNumBFrames")),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(Mpeg2GopSizeUnits).pipe(
-      T.JsonName("gopSizeUnits"),
-    ),
-    ScanType: S.optional(Mpeg2ScanType).pipe(T.JsonName("scanType")),
-    SubgopLength: S.optional(Mpeg2SubGopLength).pipe(
-      T.JsonName("subgopLength"),
-    ),
-    TimecodeInsertion: S.optional(Mpeg2TimecodeInsertionBehavior).pipe(
-      T.JsonName("timecodeInsertion"),
-    ),
-    TimecodeBurninSettings: S.optional(TimecodeBurninSettings)
-      .pipe(T.JsonName("timecodeBurninSettings"))
-      .annotate({ identifier: "TimecodeBurninSettings" }),
-  }),
+    AdaptiveQuantization: S.optional(Mpeg2AdaptiveQuantization),
+    AfdSignaling: S.optional(AfdSignaling),
+    ColorMetadata: S.optional(Mpeg2ColorMetadata),
+    ColorSpace: S.optional(Mpeg2ColorSpace),
+    DisplayAspectRatio: S.optional(Mpeg2DisplayRatio),
+    FilterSettings: S.optional(Mpeg2FilterSettings),
+    FixedAfd: S.optional(FixedAfd),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopClosedCadence: S.optional(S.Number),
+    GopNumBFrames: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(Mpeg2GopSizeUnits),
+    ScanType: S.optional(Mpeg2ScanType),
+    SubgopLength: S.optional(Mpeg2SubGopLength),
+    TimecodeInsertion: S.optional(Mpeg2TimecodeInsertionBehavior),
+    TimecodeBurninSettings: S.optional(TimecodeBurninSettings),
+  }).pipe(
+    S.encodeKeys({
+      AdaptiveQuantization: "adaptiveQuantization",
+      AfdSignaling: "afdSignaling",
+      ColorMetadata: "colorMetadata",
+      ColorSpace: "colorSpace",
+      DisplayAspectRatio: "displayAspectRatio",
+      FilterSettings: "filterSettings",
+      FixedAfd: "fixedAfd",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopClosedCadence: "gopClosedCadence",
+      GopNumBFrames: "gopNumBFrames",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      ScanType: "scanType",
+      SubgopLength: "subgopLength",
+      TimecodeInsertion: "timecodeInsertion",
+      TimecodeBurninSettings: "timecodeBurninSettings",
+    }),
+  ),
 ).annotate({ identifier: "Mpeg2Settings" }) as any as S.Schema<Mpeg2Settings>;
 export interface Av1ColorSpaceSettings {
   ColorSpacePassthroughSettings?: ColorSpacePassthroughSettings;
@@ -5438,19 +5684,18 @@ export interface Av1ColorSpaceSettings {
 }
 export const Av1ColorSpaceSettings = S.suspend(() =>
   S.Struct({
-    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings)
-      .pipe(T.JsonName("colorSpacePassthroughSettings"))
-      .annotate({ identifier: "ColorSpacePassthroughSettings" }),
-    Hdr10Settings: S.optional(Hdr10Settings)
-      .pipe(T.JsonName("hdr10Settings"))
-      .annotate({ identifier: "Hdr10Settings" }),
-    Rec601Settings: S.optional(Rec601Settings)
-      .pipe(T.JsonName("rec601Settings"))
-      .annotate({ identifier: "Rec601Settings" }),
-    Rec709Settings: S.optional(Rec709Settings)
-      .pipe(T.JsonName("rec709Settings"))
-      .annotate({ identifier: "Rec709Settings" }),
-  }),
+    ColorSpacePassthroughSettings: S.optional(ColorSpacePassthroughSettings),
+    Hdr10Settings: S.optional(Hdr10Settings),
+    Rec601Settings: S.optional(Rec601Settings),
+    Rec709Settings: S.optional(Rec709Settings),
+  }).pipe(
+    S.encodeKeys({
+      ColorSpacePassthroughSettings: "colorSpacePassthroughSettings",
+      Hdr10Settings: "hdr10Settings",
+      Rec601Settings: "rec601Settings",
+      Rec709Settings: "rec709Settings",
+    }),
+  ),
 ).annotate({
   identifier: "Av1ColorSpaceSettings",
 }) as any as S.Schema<Av1ColorSpaceSettings>;
@@ -5510,43 +5755,54 @@ export interface Av1Settings {
 }
 export const Av1Settings = S.suspend(() =>
   S.Struct({
-    AfdSignaling: S.optional(AfdSignaling).pipe(T.JsonName("afdSignaling")),
-    BufSize: S.optional(S.Number).pipe(T.JsonName("bufSize")),
-    ColorSpaceSettings: S.optional(Av1ColorSpaceSettings)
-      .pipe(T.JsonName("colorSpaceSettings"))
-      .annotate({ identifier: "Av1ColorSpaceSettings" }),
-    FixedAfd: S.optional(FixedAfd).pipe(T.JsonName("fixedAfd")),
-    FramerateDenominator: S.optional(S.Number).pipe(
-      T.JsonName("framerateDenominator"),
-    ),
-    FramerateNumerator: S.optional(S.Number).pipe(
-      T.JsonName("framerateNumerator"),
-    ),
-    GopSize: S.optional(S.Number).pipe(T.JsonName("gopSize")),
-    GopSizeUnits: S.optional(Av1GopSizeUnits).pipe(T.JsonName("gopSizeUnits")),
-    Level: S.optional(Av1Level).pipe(T.JsonName("level")),
-    LookAheadRateControl: S.optional(Av1LookAheadRateControl).pipe(
-      T.JsonName("lookAheadRateControl"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    MinIInterval: S.optional(S.Number).pipe(T.JsonName("minIInterval")),
-    ParDenominator: S.optional(S.Number).pipe(T.JsonName("parDenominator")),
-    ParNumerator: S.optional(S.Number).pipe(T.JsonName("parNumerator")),
-    QvbrQualityLevel: S.optional(S.Number).pipe(T.JsonName("qvbrQualityLevel")),
-    SceneChangeDetect: S.optional(Av1SceneChangeDetect).pipe(
-      T.JsonName("sceneChangeDetect"),
-    ),
-    TimecodeBurninSettings: S.optional(TimecodeBurninSettings)
-      .pipe(T.JsonName("timecodeBurninSettings"))
-      .annotate({ identifier: "TimecodeBurninSettings" }),
-    Bitrate: S.optional(S.Number).pipe(T.JsonName("bitrate")),
-    RateControlMode: S.optional(Av1RateControlMode).pipe(
-      T.JsonName("rateControlMode"),
-    ),
-    MinBitrate: S.optional(S.Number).pipe(T.JsonName("minBitrate")),
-    SpatialAq: S.optional(Av1SpatialAq).pipe(T.JsonName("spatialAq")),
-    TemporalAq: S.optional(Av1TemporalAq).pipe(T.JsonName("temporalAq")),
-  }),
+    AfdSignaling: S.optional(AfdSignaling),
+    BufSize: S.optional(S.Number),
+    ColorSpaceSettings: S.optional(Av1ColorSpaceSettings),
+    FixedAfd: S.optional(FixedAfd),
+    FramerateDenominator: S.optional(S.Number),
+    FramerateNumerator: S.optional(S.Number),
+    GopSize: S.optional(S.Number),
+    GopSizeUnits: S.optional(Av1GopSizeUnits),
+    Level: S.optional(Av1Level),
+    LookAheadRateControl: S.optional(Av1LookAheadRateControl),
+    MaxBitrate: S.optional(S.Number),
+    MinIInterval: S.optional(S.Number),
+    ParDenominator: S.optional(S.Number),
+    ParNumerator: S.optional(S.Number),
+    QvbrQualityLevel: S.optional(S.Number),
+    SceneChangeDetect: S.optional(Av1SceneChangeDetect),
+    TimecodeBurninSettings: S.optional(TimecodeBurninSettings),
+    Bitrate: S.optional(S.Number),
+    RateControlMode: S.optional(Av1RateControlMode),
+    MinBitrate: S.optional(S.Number),
+    SpatialAq: S.optional(Av1SpatialAq),
+    TemporalAq: S.optional(Av1TemporalAq),
+  }).pipe(
+    S.encodeKeys({
+      AfdSignaling: "afdSignaling",
+      BufSize: "bufSize",
+      ColorSpaceSettings: "colorSpaceSettings",
+      FixedAfd: "fixedAfd",
+      FramerateDenominator: "framerateDenominator",
+      FramerateNumerator: "framerateNumerator",
+      GopSize: "gopSize",
+      GopSizeUnits: "gopSizeUnits",
+      Level: "level",
+      LookAheadRateControl: "lookAheadRateControl",
+      MaxBitrate: "maxBitrate",
+      MinIInterval: "minIInterval",
+      ParDenominator: "parDenominator",
+      ParNumerator: "parNumerator",
+      QvbrQualityLevel: "qvbrQualityLevel",
+      SceneChangeDetect: "sceneChangeDetect",
+      TimecodeBurninSettings: "timecodeBurninSettings",
+      Bitrate: "bitrate",
+      RateControlMode: "rateControlMode",
+      MinBitrate: "minBitrate",
+      SpatialAq: "spatialAq",
+      TemporalAq: "temporalAq",
+    }),
+  ),
 ).annotate({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
 export interface VideoCodecSettings {
   FrameCaptureSettings?: FrameCaptureSettings;
@@ -5557,22 +5813,20 @@ export interface VideoCodecSettings {
 }
 export const VideoCodecSettings = S.suspend(() =>
   S.Struct({
-    FrameCaptureSettings: S.optional(FrameCaptureSettings)
-      .pipe(T.JsonName("frameCaptureSettings"))
-      .annotate({ identifier: "FrameCaptureSettings" }),
-    H264Settings: S.optional(H264Settings)
-      .pipe(T.JsonName("h264Settings"))
-      .annotate({ identifier: "H264Settings" }),
-    H265Settings: S.optional(H265Settings)
-      .pipe(T.JsonName("h265Settings"))
-      .annotate({ identifier: "H265Settings" }),
-    Mpeg2Settings: S.optional(Mpeg2Settings)
-      .pipe(T.JsonName("mpeg2Settings"))
-      .annotate({ identifier: "Mpeg2Settings" }),
-    Av1Settings: S.optional(Av1Settings)
-      .pipe(T.JsonName("av1Settings"))
-      .annotate({ identifier: "Av1Settings" }),
-  }),
+    FrameCaptureSettings: S.optional(FrameCaptureSettings),
+    H264Settings: S.optional(H264Settings),
+    H265Settings: S.optional(H265Settings),
+    Mpeg2Settings: S.optional(Mpeg2Settings),
+    Av1Settings: S.optional(Av1Settings),
+  }).pipe(
+    S.encodeKeys({
+      FrameCaptureSettings: "frameCaptureSettings",
+      H264Settings: "h264Settings",
+      H265Settings: "h265Settings",
+      Mpeg2Settings: "mpeg2Settings",
+      Av1Settings: "av1Settings",
+    }),
+  ),
 ).annotate({
   identifier: "VideoCodecSettings",
 }) as any as S.Schema<VideoCodecSettings>;
@@ -5598,20 +5852,24 @@ export interface VideoDescription {
 }
 export const VideoDescription = S.suspend(() =>
   S.Struct({
-    CodecSettings: S.optional(VideoCodecSettings)
-      .pipe(T.JsonName("codecSettings"))
-      .annotate({ identifier: "VideoCodecSettings" }),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RespondToAfd: S.optional(VideoDescriptionRespondToAfd).pipe(
-      T.JsonName("respondToAfd"),
-    ),
-    ScalingBehavior: S.optional(VideoDescriptionScalingBehavior).pipe(
-      T.JsonName("scalingBehavior"),
-    ),
-    Sharpness: S.optional(S.Number).pipe(T.JsonName("sharpness")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    CodecSettings: S.optional(VideoCodecSettings),
+    Height: S.optional(S.Number),
+    Name: S.optional(S.String),
+    RespondToAfd: S.optional(VideoDescriptionRespondToAfd),
+    ScalingBehavior: S.optional(VideoDescriptionScalingBehavior),
+    Sharpness: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      CodecSettings: "codecSettings",
+      Height: "height",
+      Name: "name",
+      RespondToAfd: "respondToAfd",
+      ScalingBehavior: "scalingBehavior",
+      Sharpness: "sharpness",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "VideoDescription",
 }) as any as S.Schema<VideoDescription>;
@@ -5623,7 +5881,9 @@ export interface ThumbnailConfiguration {
   State?: ThumbnailState;
 }
 export const ThumbnailConfiguration = S.suspend(() =>
-  S.Struct({ State: S.optional(ThumbnailState).pipe(T.JsonName("state")) }),
+  S.Struct({ State: S.optional(ThumbnailState) }).pipe(
+    S.encodeKeys({ State: "state" }),
+  ),
 ).annotate({
   identifier: "ThumbnailConfiguration",
 }) as any as S.Schema<ThumbnailConfiguration>;
@@ -5641,12 +5901,16 @@ export interface ColorCorrection {
 }
 export const ColorCorrection = S.suspend(() =>
   S.Struct({
-    InputColorSpace: S.optional(ColorSpace).pipe(T.JsonName("inputColorSpace")),
-    OutputColorSpace: S.optional(ColorSpace).pipe(
-      T.JsonName("outputColorSpace"),
-    ),
-    Uri: S.optional(S.String).pipe(T.JsonName("uri")),
-  }),
+    InputColorSpace: S.optional(ColorSpace),
+    OutputColorSpace: S.optional(ColorSpace),
+    Uri: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      InputColorSpace: "inputColorSpace",
+      OutputColorSpace: "outputColorSpace",
+      Uri: "uri",
+    }),
+  ),
 ).annotate({
   identifier: "ColorCorrection",
 }) as any as S.Schema<ColorCorrection>;
@@ -5657,10 +5921,8 @@ export interface ColorCorrectionSettings {
 }
 export const ColorCorrectionSettings = S.suspend(() =>
   S.Struct({
-    GlobalColorCorrections: S.optional(__listOfColorCorrection).pipe(
-      T.JsonName("globalColorCorrections"),
-    ),
-  }),
+    GlobalColorCorrections: S.optional(__listOfColorCorrection),
+  }).pipe(S.encodeKeys({ GlobalColorCorrections: "globalColorCorrections" })),
 ).annotate({
   identifier: "ColorCorrectionSettings",
 }) as any as S.Schema<ColorCorrectionSettings>;
@@ -5682,49 +5944,38 @@ export interface EncoderSettings {
 }
 export const EncoderSettings = S.suspend(() =>
   S.Struct({
-    AudioDescriptions: S.optional(__listOfAudioDescription).pipe(
-      T.JsonName("audioDescriptions"),
-    ),
-    AvailBlanking: S.optional(AvailBlanking)
-      .pipe(T.JsonName("availBlanking"))
-      .annotate({ identifier: "AvailBlanking" }),
-    AvailConfiguration: S.optional(AvailConfiguration)
-      .pipe(T.JsonName("availConfiguration"))
-      .annotate({ identifier: "AvailConfiguration" }),
-    BlackoutSlate: S.optional(BlackoutSlate)
-      .pipe(T.JsonName("blackoutSlate"))
-      .annotate({ identifier: "BlackoutSlate" }),
-    CaptionDescriptions: S.optional(__listOfCaptionDescription).pipe(
-      T.JsonName("captionDescriptions"),
-    ),
-    FeatureActivations: S.optional(FeatureActivations)
-      .pipe(T.JsonName("featureActivations"))
-      .annotate({ identifier: "FeatureActivations" }),
-    GlobalConfiguration: S.optional(GlobalConfiguration)
-      .pipe(T.JsonName("globalConfiguration"))
-      .annotate({ identifier: "GlobalConfiguration" }),
-    MotionGraphicsConfiguration: S.optional(MotionGraphicsConfiguration)
-      .pipe(T.JsonName("motionGraphicsConfiguration"))
-      .annotate({ identifier: "MotionGraphicsConfiguration" }),
-    NielsenConfiguration: S.optional(NielsenConfiguration)
-      .pipe(T.JsonName("nielsenConfiguration"))
-      .annotate({ identifier: "NielsenConfiguration" }),
-    OutputGroups: S.optional(__listOfOutputGroup).pipe(
-      T.JsonName("outputGroups"),
-    ),
-    TimecodeConfig: S.optional(TimecodeConfig)
-      .pipe(T.JsonName("timecodeConfig"))
-      .annotate({ identifier: "TimecodeConfig" }),
-    VideoDescriptions: S.optional(__listOfVideoDescription).pipe(
-      T.JsonName("videoDescriptions"),
-    ),
-    ThumbnailConfiguration: S.optional(ThumbnailConfiguration)
-      .pipe(T.JsonName("thumbnailConfiguration"))
-      .annotate({ identifier: "ThumbnailConfiguration" }),
-    ColorCorrectionSettings: S.optional(ColorCorrectionSettings)
-      .pipe(T.JsonName("colorCorrectionSettings"))
-      .annotate({ identifier: "ColorCorrectionSettings" }),
-  }),
+    AudioDescriptions: S.optional(__listOfAudioDescription),
+    AvailBlanking: S.optional(AvailBlanking),
+    AvailConfiguration: S.optional(AvailConfiguration),
+    BlackoutSlate: S.optional(BlackoutSlate),
+    CaptionDescriptions: S.optional(__listOfCaptionDescription),
+    FeatureActivations: S.optional(FeatureActivations),
+    GlobalConfiguration: S.optional(GlobalConfiguration),
+    MotionGraphicsConfiguration: S.optional(MotionGraphicsConfiguration),
+    NielsenConfiguration: S.optional(NielsenConfiguration),
+    OutputGroups: S.optional(__listOfOutputGroup),
+    TimecodeConfig: S.optional(TimecodeConfig),
+    VideoDescriptions: S.optional(__listOfVideoDescription),
+    ThumbnailConfiguration: S.optional(ThumbnailConfiguration),
+    ColorCorrectionSettings: S.optional(ColorCorrectionSettings),
+  }).pipe(
+    S.encodeKeys({
+      AudioDescriptions: "audioDescriptions",
+      AvailBlanking: "availBlanking",
+      AvailConfiguration: "availConfiguration",
+      BlackoutSlate: "blackoutSlate",
+      CaptionDescriptions: "captionDescriptions",
+      FeatureActivations: "featureActivations",
+      GlobalConfiguration: "globalConfiguration",
+      MotionGraphicsConfiguration: "motionGraphicsConfiguration",
+      NielsenConfiguration: "nielsenConfiguration",
+      OutputGroups: "outputGroups",
+      TimecodeConfig: "timecodeConfig",
+      VideoDescriptions: "videoDescriptions",
+      ThumbnailConfiguration: "thumbnailConfiguration",
+      ColorCorrectionSettings: "colorCorrectionSettings",
+    }),
+  ),
 ).annotate({
   identifier: "EncoderSettings",
 }) as any as S.Schema<EncoderSettings>;
@@ -5734,13 +5985,14 @@ export interface AudioSilenceFailoverSettings {
 }
 export const AudioSilenceFailoverSettings = S.suspend(() =>
   S.Struct({
-    AudioSelectorName: S.optional(S.String).pipe(
-      T.JsonName("audioSelectorName"),
-    ),
-    AudioSilenceThresholdMsec: S.optional(S.Number).pipe(
-      T.JsonName("audioSilenceThresholdMsec"),
-    ),
-  }),
+    AudioSelectorName: S.optional(S.String),
+    AudioSilenceThresholdMsec: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioSelectorName: "audioSelectorName",
+      AudioSilenceThresholdMsec: "audioSilenceThresholdMsec",
+    }),
+  ),
 ).annotate({
   identifier: "AudioSilenceFailoverSettings",
 }) as any as S.Schema<AudioSilenceFailoverSettings>;
@@ -5748,11 +6000,9 @@ export interface InputLossFailoverSettings {
   InputLossThresholdMsec?: number;
 }
 export const InputLossFailoverSettings = S.suspend(() =>
-  S.Struct({
-    InputLossThresholdMsec: S.optional(S.Number).pipe(
-      T.JsonName("inputLossThresholdMsec"),
-    ),
-  }),
+  S.Struct({ InputLossThresholdMsec: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ InputLossThresholdMsec: "inputLossThresholdMsec" }),
+  ),
 ).annotate({
   identifier: "InputLossFailoverSettings",
 }) as any as S.Schema<InputLossFailoverSettings>;
@@ -5762,13 +6012,14 @@ export interface VideoBlackFailoverSettings {
 }
 export const VideoBlackFailoverSettings = S.suspend(() =>
   S.Struct({
-    BlackDetectThreshold: S.optional(S.Number).pipe(
-      T.JsonName("blackDetectThreshold"),
-    ),
-    VideoBlackThresholdMsec: S.optional(S.Number).pipe(
-      T.JsonName("videoBlackThresholdMsec"),
-    ),
-  }),
+    BlackDetectThreshold: S.optional(S.Number),
+    VideoBlackThresholdMsec: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      BlackDetectThreshold: "blackDetectThreshold",
+      VideoBlackThresholdMsec: "videoBlackThresholdMsec",
+    }),
+  ),
 ).annotate({
   identifier: "VideoBlackFailoverSettings",
 }) as any as S.Schema<VideoBlackFailoverSettings>;
@@ -5779,16 +6030,16 @@ export interface FailoverConditionSettings {
 }
 export const FailoverConditionSettings = S.suspend(() =>
   S.Struct({
-    AudioSilenceSettings: S.optional(AudioSilenceFailoverSettings)
-      .pipe(T.JsonName("audioSilenceSettings"))
-      .annotate({ identifier: "AudioSilenceFailoverSettings" }),
-    InputLossSettings: S.optional(InputLossFailoverSettings)
-      .pipe(T.JsonName("inputLossSettings"))
-      .annotate({ identifier: "InputLossFailoverSettings" }),
-    VideoBlackSettings: S.optional(VideoBlackFailoverSettings)
-      .pipe(T.JsonName("videoBlackSettings"))
-      .annotate({ identifier: "VideoBlackFailoverSettings" }),
-  }),
+    AudioSilenceSettings: S.optional(AudioSilenceFailoverSettings),
+    InputLossSettings: S.optional(InputLossFailoverSettings),
+    VideoBlackSettings: S.optional(VideoBlackFailoverSettings),
+  }).pipe(
+    S.encodeKeys({
+      AudioSilenceSettings: "audioSilenceSettings",
+      InputLossSettings: "inputLossSettings",
+      VideoBlackSettings: "videoBlackSettings",
+    }),
+  ),
 ).annotate({
   identifier: "FailoverConditionSettings",
 }) as any as S.Schema<FailoverConditionSettings>;
@@ -5797,10 +6048,10 @@ export interface FailoverCondition {
 }
 export const FailoverCondition = S.suspend(() =>
   S.Struct({
-    FailoverConditionSettings: S.optional(FailoverConditionSettings)
-      .pipe(T.JsonName("failoverConditionSettings"))
-      .annotate({ identifier: "FailoverConditionSettings" }),
-  }),
+    FailoverConditionSettings: S.optional(FailoverConditionSettings),
+  }).pipe(
+    S.encodeKeys({ FailoverConditionSettings: "failoverConditionSettings" }),
+  ),
 ).annotate({
   identifier: "FailoverCondition",
 }) as any as S.Schema<FailoverCondition>;
@@ -5819,17 +6070,18 @@ export interface AutomaticInputFailoverSettings {
 }
 export const AutomaticInputFailoverSettings = S.suspend(() =>
   S.Struct({
-    ErrorClearTimeMsec: S.optional(S.Number).pipe(
-      T.JsonName("errorClearTimeMsec"),
-    ),
-    FailoverConditions: S.optional(__listOfFailoverCondition).pipe(
-      T.JsonName("failoverConditions"),
-    ),
-    InputPreference: S.optional(InputPreference).pipe(
-      T.JsonName("inputPreference"),
-    ),
-    SecondaryInputId: S.optional(S.String).pipe(T.JsonName("secondaryInputId")),
-  }),
+    ErrorClearTimeMsec: S.optional(S.Number),
+    FailoverConditions: S.optional(__listOfFailoverCondition),
+    InputPreference: S.optional(InputPreference),
+    SecondaryInputId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ErrorClearTimeMsec: "errorClearTimeMsec",
+      FailoverConditions: "failoverConditions",
+      InputPreference: "inputPreference",
+      SecondaryInputId: "secondaryInputId",
+    }),
+  ),
 ).annotate({
   identifier: "AutomaticInputFailoverSettings",
 }) as any as S.Schema<AutomaticInputFailoverSettings>;
@@ -5838,10 +6090,9 @@ export interface AudioHlsRenditionSelection {
   Name?: string;
 }
 export const AudioHlsRenditionSelection = S.suspend(() =>
-  S.Struct({
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+  S.Struct({ GroupId: S.optional(S.String), Name: S.optional(S.String) }).pipe(
+    S.encodeKeys({ GroupId: "groupId", Name: "name" }),
+  ),
 ).annotate({
   identifier: "AudioHlsRenditionSelection",
 }) as any as S.Schema<AudioHlsRenditionSelection>;
@@ -5853,11 +6104,14 @@ export interface AudioLanguageSelection {
 }
 export const AudioLanguageSelection = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    LanguageSelectionPolicy: S.optional(AudioLanguageSelectionPolicy).pipe(
-      T.JsonName("languageSelectionPolicy"),
-    ),
-  }),
+    LanguageCode: S.optional(S.String),
+    LanguageSelectionPolicy: S.optional(AudioLanguageSelectionPolicy),
+  }).pipe(
+    S.encodeKeys({
+      LanguageCode: "languageCode",
+      LanguageSelectionPolicy: "languageSelectionPolicy",
+    }),
+  ),
 ).annotate({
   identifier: "AudioLanguageSelection",
 }) as any as S.Schema<AudioLanguageSelection>;
@@ -5865,7 +6119,7 @@ export interface AudioPidSelection {
   Pid?: number;
 }
 export const AudioPidSelection = S.suspend(() =>
-  S.Struct({ Pid: S.optional(S.Number).pipe(T.JsonName("pid")) }),
+  S.Struct({ Pid: S.optional(S.Number) }).pipe(S.encodeKeys({ Pid: "pid" })),
 ).annotate({
   identifier: "AudioPidSelection",
 }) as any as S.Schema<AudioPidSelection>;
@@ -5873,7 +6127,9 @@ export interface AudioTrack {
   Track?: number;
 }
 export const AudioTrack = S.suspend(() =>
-  S.Struct({ Track: S.optional(S.Number).pipe(T.JsonName("track")) }),
+  S.Struct({ Track: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Track: "track" }),
+  ),
 ).annotate({ identifier: "AudioTrack" }) as any as S.Schema<AudioTrack>;
 export type __listOfAudioTrack = AudioTrack[];
 export const __listOfAudioTrack = S.Array(AudioTrack);
@@ -5893,11 +6149,9 @@ export interface AudioDolbyEDecode {
   ProgramSelection?: DolbyEProgramSelection;
 }
 export const AudioDolbyEDecode = S.suspend(() =>
-  S.Struct({
-    ProgramSelection: S.optional(DolbyEProgramSelection).pipe(
-      T.JsonName("programSelection"),
-    ),
-  }),
+  S.Struct({ ProgramSelection: S.optional(DolbyEProgramSelection) }).pipe(
+    S.encodeKeys({ ProgramSelection: "programSelection" }),
+  ),
 ).annotate({
   identifier: "AudioDolbyEDecode",
 }) as any as S.Schema<AudioDolbyEDecode>;
@@ -5907,11 +6161,9 @@ export interface AudioTrackSelection {
 }
 export const AudioTrackSelection = S.suspend(() =>
   S.Struct({
-    Tracks: S.optional(__listOfAudioTrack).pipe(T.JsonName("tracks")),
-    DolbyEDecode: S.optional(AudioDolbyEDecode)
-      .pipe(T.JsonName("dolbyEDecode"))
-      .annotate({ identifier: "AudioDolbyEDecode" }),
-  }),
+    Tracks: S.optional(__listOfAudioTrack),
+    DolbyEDecode: S.optional(AudioDolbyEDecode),
+  }).pipe(S.encodeKeys({ Tracks: "tracks", DolbyEDecode: "dolbyEDecode" })),
 ).annotate({
   identifier: "AudioTrackSelection",
 }) as any as S.Schema<AudioTrackSelection>;
@@ -5923,19 +6175,18 @@ export interface AudioSelectorSettings {
 }
 export const AudioSelectorSettings = S.suspend(() =>
   S.Struct({
-    AudioHlsRenditionSelection: S.optional(AudioHlsRenditionSelection)
-      .pipe(T.JsonName("audioHlsRenditionSelection"))
-      .annotate({ identifier: "AudioHlsRenditionSelection" }),
-    AudioLanguageSelection: S.optional(AudioLanguageSelection)
-      .pipe(T.JsonName("audioLanguageSelection"))
-      .annotate({ identifier: "AudioLanguageSelection" }),
-    AudioPidSelection: S.optional(AudioPidSelection)
-      .pipe(T.JsonName("audioPidSelection"))
-      .annotate({ identifier: "AudioPidSelection" }),
-    AudioTrackSelection: S.optional(AudioTrackSelection)
-      .pipe(T.JsonName("audioTrackSelection"))
-      .annotate({ identifier: "AudioTrackSelection" }),
-  }),
+    AudioHlsRenditionSelection: S.optional(AudioHlsRenditionSelection),
+    AudioLanguageSelection: S.optional(AudioLanguageSelection),
+    AudioPidSelection: S.optional(AudioPidSelection),
+    AudioTrackSelection: S.optional(AudioTrackSelection),
+  }).pipe(
+    S.encodeKeys({
+      AudioHlsRenditionSelection: "audioHlsRenditionSelection",
+      AudioLanguageSelection: "audioLanguageSelection",
+      AudioPidSelection: "audioPidSelection",
+      AudioTrackSelection: "audioTrackSelection",
+    }),
+  ),
 ).annotate({
   identifier: "AudioSelectorSettings",
 }) as any as S.Schema<AudioSelectorSettings>;
@@ -5945,11 +6196,9 @@ export interface AudioSelector {
 }
 export const AudioSelector = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SelectorSettings: S.optional(AudioSelectorSettings)
-      .pipe(T.JsonName("selectorSettings"))
-      .annotate({ identifier: "AudioSelectorSettings" }),
-  }),
+    Name: S.optional(S.String),
+    SelectorSettings: S.optional(AudioSelectorSettings),
+  }).pipe(S.encodeKeys({ Name: "name", SelectorSettings: "selectorSettings" })),
 ).annotate({ identifier: "AudioSelector" }) as any as S.Schema<AudioSelector>;
 export type __listOfAudioSelector = AudioSelector[];
 export const __listOfAudioSelector = S.Array(AudioSelector);
@@ -5957,11 +6206,11 @@ export interface AncillarySourceSettings {
   SourceAncillaryChannelNumber?: number;
 }
 export const AncillarySourceSettings = S.suspend(() =>
-  S.Struct({
-    SourceAncillaryChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("sourceAncillaryChannelNumber"),
-    ),
-  }),
+  S.Struct({ SourceAncillaryChannelNumber: S.optional(S.Number) }).pipe(
+    S.encodeKeys({
+      SourceAncillaryChannelNumber: "sourceAncillaryChannelNumber",
+    }),
+  ),
 ).annotate({
   identifier: "AncillarySourceSettings",
 }) as any as S.Schema<AncillarySourceSettings>;
@@ -5984,9 +6233,9 @@ export interface DvbSubSourceSettings {
 }
 export const DvbSubSourceSettings = S.suspend(() =>
   S.Struct({
-    OcrLanguage: S.optional(DvbSubOcrLanguage).pipe(T.JsonName("ocrLanguage")),
-    Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
-  }),
+    OcrLanguage: S.optional(DvbSubOcrLanguage),
+    Pid: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ OcrLanguage: "ocrLanguage", Pid: "pid" })),
 ).annotate({
   identifier: "DvbSubSourceSettings",
 }) as any as S.Schema<DvbSubSourceSettings>;
@@ -6002,19 +6251,18 @@ export interface EmbeddedSourceSettings {
 }
 export const EmbeddedSourceSettings = S.suspend(() =>
   S.Struct({
-    Convert608To708: S.optional(EmbeddedConvert608To708).pipe(
-      T.JsonName("convert608To708"),
-    ),
-    Scte20Detection: S.optional(EmbeddedScte20Detection).pipe(
-      T.JsonName("scte20Detection"),
-    ),
-    Source608ChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("source608ChannelNumber"),
-    ),
-    Source608TrackNumber: S.optional(S.Number).pipe(
-      T.JsonName("source608TrackNumber"),
-    ),
-  }),
+    Convert608To708: S.optional(EmbeddedConvert608To708),
+    Scte20Detection: S.optional(EmbeddedScte20Detection),
+    Source608ChannelNumber: S.optional(S.Number),
+    Source608TrackNumber: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Convert608To708: "convert608To708",
+      Scte20Detection: "scte20Detection",
+      Source608ChannelNumber: "source608ChannelNumber",
+      Source608TrackNumber: "source608TrackNumber",
+    }),
+  ),
 ).annotate({
   identifier: "EmbeddedSourceSettings",
 }) as any as S.Schema<EmbeddedSourceSettings>;
@@ -6026,13 +6274,14 @@ export interface Scte20SourceSettings {
 }
 export const Scte20SourceSettings = S.suspend(() =>
   S.Struct({
-    Convert608To708: S.optional(Scte20Convert608To708).pipe(
-      T.JsonName("convert608To708"),
-    ),
-    Source608ChannelNumber: S.optional(S.Number).pipe(
-      T.JsonName("source608ChannelNumber"),
-    ),
-  }),
+    Convert608To708: S.optional(Scte20Convert608To708),
+    Source608ChannelNumber: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Convert608To708: "convert608To708",
+      Source608ChannelNumber: "source608ChannelNumber",
+    }),
+  ),
 ).annotate({
   identifier: "Scte20SourceSettings",
 }) as any as S.Schema<Scte20SourceSettings>;
@@ -6051,9 +6300,9 @@ export interface Scte27SourceSettings {
 }
 export const Scte27SourceSettings = S.suspend(() =>
   S.Struct({
-    OcrLanguage: S.optional(Scte27OcrLanguage).pipe(T.JsonName("ocrLanguage")),
-    Pid: S.optional(S.Number).pipe(T.JsonName("pid")),
-  }),
+    OcrLanguage: S.optional(Scte27OcrLanguage),
+    Pid: S.optional(S.Number),
+  }).pipe(S.encodeKeys({ OcrLanguage: "ocrLanguage", Pid: "pid" })),
 ).annotate({
   identifier: "Scte27SourceSettings",
 }) as any as S.Schema<Scte27SourceSettings>;
@@ -6065,11 +6314,18 @@ export interface CaptionRectangle {
 }
 export const CaptionRectangle = S.suspend(() =>
   S.Struct({
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    LeftOffset: S.optional(S.Number).pipe(T.JsonName("leftOffset")),
-    TopOffset: S.optional(S.Number).pipe(T.JsonName("topOffset")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-  }),
+    Height: S.optional(S.Number),
+    LeftOffset: S.optional(S.Number),
+    TopOffset: S.optional(S.Number),
+    Width: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Height: "height",
+      LeftOffset: "leftOffset",
+      TopOffset: "topOffset",
+      Width: "width",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionRectangle",
 }) as any as S.Schema<CaptionRectangle>;
@@ -6079,11 +6335,14 @@ export interface TeletextSourceSettings {
 }
 export const TeletextSourceSettings = S.suspend(() =>
   S.Struct({
-    OutputRectangle: S.optional(CaptionRectangle)
-      .pipe(T.JsonName("outputRectangle"))
-      .annotate({ identifier: "CaptionRectangle" }),
-    PageNumber: S.optional(S.String).pipe(T.JsonName("pageNumber")),
-  }),
+    OutputRectangle: S.optional(CaptionRectangle),
+    PageNumber: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      OutputRectangle: "outputRectangle",
+      PageNumber: "pageNumber",
+    }),
+  ),
 ).annotate({
   identifier: "TeletextSourceSettings",
 }) as any as S.Schema<TeletextSourceSettings>;
@@ -6098,28 +6357,24 @@ export interface CaptionSelectorSettings {
 }
 export const CaptionSelectorSettings = S.suspend(() =>
   S.Struct({
-    AncillarySourceSettings: S.optional(AncillarySourceSettings)
-      .pipe(T.JsonName("ancillarySourceSettings"))
-      .annotate({ identifier: "AncillarySourceSettings" }),
-    AribSourceSettings: S.optional(AribSourceSettings)
-      .pipe(T.JsonName("aribSourceSettings"))
-      .annotate({ identifier: "AribSourceSettings" }),
-    DvbSubSourceSettings: S.optional(DvbSubSourceSettings)
-      .pipe(T.JsonName("dvbSubSourceSettings"))
-      .annotate({ identifier: "DvbSubSourceSettings" }),
-    EmbeddedSourceSettings: S.optional(EmbeddedSourceSettings)
-      .pipe(T.JsonName("embeddedSourceSettings"))
-      .annotate({ identifier: "EmbeddedSourceSettings" }),
-    Scte20SourceSettings: S.optional(Scte20SourceSettings)
-      .pipe(T.JsonName("scte20SourceSettings"))
-      .annotate({ identifier: "Scte20SourceSettings" }),
-    Scte27SourceSettings: S.optional(Scte27SourceSettings)
-      .pipe(T.JsonName("scte27SourceSettings"))
-      .annotate({ identifier: "Scte27SourceSettings" }),
-    TeletextSourceSettings: S.optional(TeletextSourceSettings)
-      .pipe(T.JsonName("teletextSourceSettings"))
-      .annotate({ identifier: "TeletextSourceSettings" }),
-  }),
+    AncillarySourceSettings: S.optional(AncillarySourceSettings),
+    AribSourceSettings: S.optional(AribSourceSettings),
+    DvbSubSourceSettings: S.optional(DvbSubSourceSettings),
+    EmbeddedSourceSettings: S.optional(EmbeddedSourceSettings),
+    Scte20SourceSettings: S.optional(Scte20SourceSettings),
+    Scte27SourceSettings: S.optional(Scte27SourceSettings),
+    TeletextSourceSettings: S.optional(TeletextSourceSettings),
+  }).pipe(
+    S.encodeKeys({
+      AncillarySourceSettings: "ancillarySourceSettings",
+      AribSourceSettings: "aribSourceSettings",
+      DvbSubSourceSettings: "dvbSubSourceSettings",
+      EmbeddedSourceSettings: "embeddedSourceSettings",
+      Scte20SourceSettings: "scte20SourceSettings",
+      Scte27SourceSettings: "scte27SourceSettings",
+      TeletextSourceSettings: "teletextSourceSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionSelectorSettings",
 }) as any as S.Schema<CaptionSelectorSettings>;
@@ -6130,12 +6385,16 @@ export interface CaptionSelector {
 }
 export const CaptionSelector = S.suspend(() =>
   S.Struct({
-    LanguageCode: S.optional(S.String).pipe(T.JsonName("languageCode")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    SelectorSettings: S.optional(CaptionSelectorSettings)
-      .pipe(T.JsonName("selectorSettings"))
-      .annotate({ identifier: "CaptionSelectorSettings" }),
-  }),
+    LanguageCode: S.optional(S.String),
+    Name: S.optional(S.String),
+    SelectorSettings: S.optional(CaptionSelectorSettings),
+  }).pipe(
+    S.encodeKeys({
+      LanguageCode: "languageCode",
+      Name: "name",
+      SelectorSettings: "selectorSettings",
+    }),
+  ),
 ).annotate({
   identifier: "CaptionSelector",
 }) as any as S.Schema<CaptionSelector>;
@@ -6158,14 +6417,20 @@ export interface HlsInputSettings {
 }
 export const HlsInputSettings = S.suspend(() =>
   S.Struct({
-    Bandwidth: S.optional(S.Number).pipe(T.JsonName("bandwidth")),
-    BufferSegments: S.optional(S.Number).pipe(T.JsonName("bufferSegments")),
-    Retries: S.optional(S.Number).pipe(T.JsonName("retries")),
-    RetryInterval: S.optional(S.Number).pipe(T.JsonName("retryInterval")),
-    Scte35Source: S.optional(HlsScte35SourceType).pipe(
-      T.JsonName("scte35Source"),
-    ),
-  }),
+    Bandwidth: S.optional(S.Number),
+    BufferSegments: S.optional(S.Number),
+    Retries: S.optional(S.Number),
+    RetryInterval: S.optional(S.Number),
+    Scte35Source: S.optional(HlsScte35SourceType),
+  }).pipe(
+    S.encodeKeys({
+      Bandwidth: "bandwidth",
+      BufferSegments: "bufferSegments",
+      Retries: "retries",
+      RetryInterval: "retryInterval",
+      Scte35Source: "scte35Source",
+    }),
+  ),
 ).annotate({
   identifier: "HlsInputSettings",
 }) as any as S.Schema<HlsInputSettings>;
@@ -6178,9 +6443,9 @@ export interface MulticastInputSettings {
   SourceIpAddress?: string;
 }
 export const MulticastInputSettings = S.suspend(() =>
-  S.Struct({
-    SourceIpAddress: S.optional(S.String).pipe(T.JsonName("sourceIpAddress")),
-  }),
+  S.Struct({ SourceIpAddress: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIpAddress: "sourceIpAddress" }),
+  ),
 ).annotate({
   identifier: "MulticastInputSettings",
 }) as any as S.Schema<MulticastInputSettings>;
@@ -6191,16 +6456,16 @@ export interface NetworkInputSettings {
 }
 export const NetworkInputSettings = S.suspend(() =>
   S.Struct({
-    HlsInputSettings: S.optional(HlsInputSettings)
-      .pipe(T.JsonName("hlsInputSettings"))
-      .annotate({ identifier: "HlsInputSettings" }),
-    ServerValidation: S.optional(NetworkInputServerValidation).pipe(
-      T.JsonName("serverValidation"),
-    ),
-    MulticastInputSettings: S.optional(MulticastInputSettings)
-      .pipe(T.JsonName("multicastInputSettings"))
-      .annotate({ identifier: "MulticastInputSettings" }),
-  }),
+    HlsInputSettings: S.optional(HlsInputSettings),
+    ServerValidation: S.optional(NetworkInputServerValidation),
+    MulticastInputSettings: S.optional(MulticastInputSettings),
+  }).pipe(
+    S.encodeKeys({
+      HlsInputSettings: "hlsInputSettings",
+      ServerValidation: "serverValidation",
+      MulticastInputSettings: "multicastInputSettings",
+    }),
+  ),
 ).annotate({
   identifier: "NetworkInputSettings",
 }) as any as S.Schema<NetworkInputSettings>;
@@ -6220,11 +6485,9 @@ export interface VideoSelectorColorSpaceSettings {
   Hdr10Settings?: Hdr10Settings;
 }
 export const VideoSelectorColorSpaceSettings = S.suspend(() =>
-  S.Struct({
-    Hdr10Settings: S.optional(Hdr10Settings)
-      .pipe(T.JsonName("hdr10Settings"))
-      .annotate({ identifier: "Hdr10Settings" }),
-  }),
+  S.Struct({ Hdr10Settings: S.optional(Hdr10Settings) }).pipe(
+    S.encodeKeys({ Hdr10Settings: "hdr10Settings" }),
+  ),
 ).annotate({
   identifier: "VideoSelectorColorSpaceSettings",
 }) as any as S.Schema<VideoSelectorColorSpaceSettings>;
@@ -6234,7 +6497,7 @@ export interface VideoSelectorPid {
   Pid?: number;
 }
 export const VideoSelectorPid = S.suspend(() =>
-  S.Struct({ Pid: S.optional(S.Number).pipe(T.JsonName("pid")) }),
+  S.Struct({ Pid: S.optional(S.Number) }).pipe(S.encodeKeys({ Pid: "pid" })),
 ).annotate({
   identifier: "VideoSelectorPid",
 }) as any as S.Schema<VideoSelectorPid>;
@@ -6242,7 +6505,9 @@ export interface VideoSelectorProgramId {
   ProgramId?: number;
 }
 export const VideoSelectorProgramId = S.suspend(() =>
-  S.Struct({ ProgramId: S.optional(S.Number).pipe(T.JsonName("programId")) }),
+  S.Struct({ ProgramId: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ ProgramId: "programId" }),
+  ),
 ).annotate({
   identifier: "VideoSelectorProgramId",
 }) as any as S.Schema<VideoSelectorProgramId>;
@@ -6252,13 +6517,14 @@ export interface VideoSelectorSettings {
 }
 export const VideoSelectorSettings = S.suspend(() =>
   S.Struct({
-    VideoSelectorPid: S.optional(VideoSelectorPid)
-      .pipe(T.JsonName("videoSelectorPid"))
-      .annotate({ identifier: "VideoSelectorPid" }),
-    VideoSelectorProgramId: S.optional(VideoSelectorProgramId)
-      .pipe(T.JsonName("videoSelectorProgramId"))
-      .annotate({ identifier: "VideoSelectorProgramId" }),
-  }),
+    VideoSelectorPid: S.optional(VideoSelectorPid),
+    VideoSelectorProgramId: S.optional(VideoSelectorProgramId),
+  }).pipe(
+    S.encodeKeys({
+      VideoSelectorPid: "videoSelectorPid",
+      VideoSelectorProgramId: "videoSelectorProgramId",
+    }),
+  ),
 ).annotate({
   identifier: "VideoSelectorSettings",
 }) as any as S.Schema<VideoSelectorSettings>;
@@ -6270,19 +6536,18 @@ export interface VideoSelector {
 }
 export const VideoSelector = S.suspend(() =>
   S.Struct({
-    ColorSpace: S.optional(VideoSelectorColorSpace).pipe(
-      T.JsonName("colorSpace"),
-    ),
-    ColorSpaceSettings: S.optional(VideoSelectorColorSpaceSettings)
-      .pipe(T.JsonName("colorSpaceSettings"))
-      .annotate({ identifier: "VideoSelectorColorSpaceSettings" }),
-    ColorSpaceUsage: S.optional(VideoSelectorColorSpaceUsage).pipe(
-      T.JsonName("colorSpaceUsage"),
-    ),
-    SelectorSettings: S.optional(VideoSelectorSettings)
-      .pipe(T.JsonName("selectorSettings"))
-      .annotate({ identifier: "VideoSelectorSettings" }),
-  }),
+    ColorSpace: S.optional(VideoSelectorColorSpace),
+    ColorSpaceSettings: S.optional(VideoSelectorColorSpaceSettings),
+    ColorSpaceUsage: S.optional(VideoSelectorColorSpaceUsage),
+    SelectorSettings: S.optional(VideoSelectorSettings),
+  }).pipe(
+    S.encodeKeys({
+      ColorSpace: "colorSpace",
+      ColorSpaceSettings: "colorSpaceSettings",
+      ColorSpaceUsage: "colorSpaceUsage",
+      SelectorSettings: "selectorSettings",
+    }),
+  ),
 ).annotate({ identifier: "VideoSelector" }) as any as S.Schema<VideoSelector>;
 export interface InputSettings {
   AudioSelectors?: AudioSelector[];
@@ -6299,34 +6564,32 @@ export interface InputSettings {
 }
 export const InputSettings = S.suspend(() =>
   S.Struct({
-    AudioSelectors: S.optional(__listOfAudioSelector).pipe(
-      T.JsonName("audioSelectors"),
-    ),
-    CaptionSelectors: S.optional(__listOfCaptionSelector).pipe(
-      T.JsonName("captionSelectors"),
-    ),
-    DeblockFilter: S.optional(InputDeblockFilter).pipe(
-      T.JsonName("deblockFilter"),
-    ),
-    DenoiseFilter: S.optional(InputDenoiseFilter).pipe(
-      T.JsonName("denoiseFilter"),
-    ),
-    FilterStrength: S.optional(S.Number).pipe(T.JsonName("filterStrength")),
-    InputFilter: S.optional(InputFilter).pipe(T.JsonName("inputFilter")),
-    NetworkInputSettings: S.optional(NetworkInputSettings)
-      .pipe(T.JsonName("networkInputSettings"))
-      .annotate({ identifier: "NetworkInputSettings" }),
-    Scte35Pid: S.optional(S.Number).pipe(T.JsonName("scte35Pid")),
-    Smpte2038DataPreference: S.optional(Smpte2038DataPreference).pipe(
-      T.JsonName("smpte2038DataPreference"),
-    ),
-    SourceEndBehavior: S.optional(InputSourceEndBehavior).pipe(
-      T.JsonName("sourceEndBehavior"),
-    ),
-    VideoSelector: S.optional(VideoSelector)
-      .pipe(T.JsonName("videoSelector"))
-      .annotate({ identifier: "VideoSelector" }),
-  }),
+    AudioSelectors: S.optional(__listOfAudioSelector),
+    CaptionSelectors: S.optional(__listOfCaptionSelector),
+    DeblockFilter: S.optional(InputDeblockFilter),
+    DenoiseFilter: S.optional(InputDenoiseFilter),
+    FilterStrength: S.optional(S.Number),
+    InputFilter: S.optional(InputFilter),
+    NetworkInputSettings: S.optional(NetworkInputSettings),
+    Scte35Pid: S.optional(S.Number),
+    Smpte2038DataPreference: S.optional(Smpte2038DataPreference),
+    SourceEndBehavior: S.optional(InputSourceEndBehavior),
+    VideoSelector: S.optional(VideoSelector),
+  }).pipe(
+    S.encodeKeys({
+      AudioSelectors: "audioSelectors",
+      CaptionSelectors: "captionSelectors",
+      DeblockFilter: "deblockFilter",
+      DenoiseFilter: "denoiseFilter",
+      FilterStrength: "filterStrength",
+      InputFilter: "inputFilter",
+      NetworkInputSettings: "networkInputSettings",
+      Scte35Pid: "scte35Pid",
+      Smpte2038DataPreference: "smpte2038DataPreference",
+      SourceEndBehavior: "sourceEndBehavior",
+      VideoSelector: "videoSelector",
+    }),
+  ),
 ).annotate({ identifier: "InputSettings" }) as any as S.Schema<InputSettings>;
 export interface InputAttachment {
   AutomaticInputFailoverSettings?: AutomaticInputFailoverSettings;
@@ -6337,20 +6600,20 @@ export interface InputAttachment {
 }
 export const InputAttachment = S.suspend(() =>
   S.Struct({
-    AutomaticInputFailoverSettings: S.optional(AutomaticInputFailoverSettings)
-      .pipe(T.JsonName("automaticInputFailoverSettings"))
-      .annotate({ identifier: "AutomaticInputFailoverSettings" }),
-    InputAttachmentName: S.optional(S.String).pipe(
-      T.JsonName("inputAttachmentName"),
-    ),
-    InputId: S.optional(S.String).pipe(T.JsonName("inputId")),
-    InputSettings: S.optional(InputSettings)
-      .pipe(T.JsonName("inputSettings"))
-      .annotate({ identifier: "InputSettings" }),
-    LogicalInterfaceNames: S.optional(__listOf__string).pipe(
-      T.JsonName("logicalInterfaceNames"),
-    ),
-  }),
+    AutomaticInputFailoverSettings: S.optional(AutomaticInputFailoverSettings),
+    InputAttachmentName: S.optional(S.String),
+    InputId: S.optional(S.String),
+    InputSettings: S.optional(InputSettings),
+    LogicalInterfaceNames: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      AutomaticInputFailoverSettings: "automaticInputFailoverSettings",
+      InputAttachmentName: "inputAttachmentName",
+      InputId: "inputId",
+      InputSettings: "inputSettings",
+      LogicalInterfaceNames: "logicalInterfaceNames",
+    }),
+  ),
 ).annotate({
   identifier: "InputAttachment",
 }) as any as S.Schema<InputAttachment>;
@@ -6373,12 +6636,16 @@ export interface InputSpecification {
 }
 export const InputSpecification = S.suspend(() =>
   S.Struct({
-    Codec: S.optional(InputCodec).pipe(T.JsonName("codec")),
-    MaximumBitrate: S.optional(InputMaximumBitrate).pipe(
-      T.JsonName("maximumBitrate"),
-    ),
-    Resolution: S.optional(InputResolution).pipe(T.JsonName("resolution")),
-  }),
+    Codec: S.optional(InputCodec),
+    MaximumBitrate: S.optional(InputMaximumBitrate),
+    Resolution: S.optional(InputResolution),
+  }).pipe(
+    S.encodeKeys({
+      Codec: "codec",
+      MaximumBitrate: "maximumBitrate",
+      Resolution: "resolution",
+    }),
+  ),
 ).annotate({
   identifier: "InputSpecification",
 }) as any as S.Schema<InputSpecification>;
@@ -6406,13 +6673,14 @@ export interface MaintenanceCreateSettings {
 }
 export const MaintenanceCreateSettings = S.suspend(() =>
   S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay).pipe(
-      T.JsonName("maintenanceDay"),
-    ),
-    MaintenanceStartTime: S.optional(S.String).pipe(
-      T.JsonName("maintenanceStartTime"),
-    ),
-  }),
+    MaintenanceDay: S.optional(MaintenanceDay),
+    MaintenanceStartTime: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      MaintenanceDay: "maintenanceDay",
+      MaintenanceStartTime: "maintenanceStartTime",
+    }),
+  ),
 ).annotate({
   identifier: "MaintenanceCreateSettings",
 }) as any as S.Schema<MaintenanceCreateSettings>;
@@ -6425,14 +6693,16 @@ export interface VpcOutputSettings {
 }
 export const VpcOutputSettings = S.suspend(() =>
   S.Struct({
-    PublicAddressAllocationIds: S.optional(__listOf__string).pipe(
-      T.JsonName("publicAddressAllocationIds"),
-    ),
-    SecurityGroupIds: S.optional(__listOf__string).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
-  }),
+    PublicAddressAllocationIds: S.optional(__listOf__string),
+    SecurityGroupIds: S.optional(__listOf__string),
+    SubnetIds: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      PublicAddressAllocationIds: "publicAddressAllocationIds",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+    }),
+  ),
 ).annotate({
   identifier: "VpcOutputSettings",
 }) as any as S.Schema<VpcOutputSettings>;
@@ -6442,11 +6712,14 @@ export interface AnywhereSettings {
 }
 export const AnywhereSettings = S.suspend(() =>
   S.Struct({
-    ChannelPlacementGroupId: S.optional(S.String).pipe(
-      T.JsonName("channelPlacementGroupId"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-  }),
+    ChannelPlacementGroupId: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelPlacementGroupId: "channelPlacementGroupId",
+      ClusterId: "clusterId",
+    }),
+  ),
 ).annotate({
   identifier: "AnywhereSettings",
 }) as any as S.Schema<AnywhereSettings>;
@@ -6454,7 +6727,9 @@ export interface ChannelEngineVersionRequest {
   Version?: string;
 }
 export const ChannelEngineVersionRequest = S.suspend(() =>
-  S.Struct({ Version: S.optional(S.String).pipe(T.JsonName("version")) }),
+  S.Struct({ Version: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Version: "version" }),
+  ),
 ).annotate({
   identifier: "ChannelEngineVersionRequest",
 }) as any as S.Schema<ChannelEngineVersionRequest>;
@@ -6469,13 +6744,14 @@ export interface FollowerChannelSettings {
 }
 export const FollowerChannelSettings = S.suspend(() =>
   S.Struct({
-    LinkedChannelType: S.optional(LinkedChannelType).pipe(
-      T.JsonName("linkedChannelType"),
-    ),
-    PrimaryChannelArn: S.optional(S.String).pipe(
-      T.JsonName("primaryChannelArn"),
-    ),
-  }),
+    LinkedChannelType: S.optional(LinkedChannelType),
+    PrimaryChannelArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LinkedChannelType: "linkedChannelType",
+      PrimaryChannelArn: "primaryChannelArn",
+    }),
+  ),
 ).annotate({
   identifier: "FollowerChannelSettings",
 }) as any as S.Schema<FollowerChannelSettings>;
@@ -6483,11 +6759,9 @@ export interface PrimaryChannelSettings {
   LinkedChannelType?: LinkedChannelType;
 }
 export const PrimaryChannelSettings = S.suspend(() =>
-  S.Struct({
-    LinkedChannelType: S.optional(LinkedChannelType).pipe(
-      T.JsonName("linkedChannelType"),
-    ),
-  }),
+  S.Struct({ LinkedChannelType: S.optional(LinkedChannelType) }).pipe(
+    S.encodeKeys({ LinkedChannelType: "linkedChannelType" }),
+  ),
 ).annotate({
   identifier: "PrimaryChannelSettings",
 }) as any as S.Schema<PrimaryChannelSettings>;
@@ -6497,13 +6771,14 @@ export interface LinkedChannelSettings {
 }
 export const LinkedChannelSettings = S.suspend(() =>
   S.Struct({
-    FollowerChannelSettings: S.optional(FollowerChannelSettings)
-      .pipe(T.JsonName("followerChannelSettings"))
-      .annotate({ identifier: "FollowerChannelSettings" }),
-    PrimaryChannelSettings: S.optional(PrimaryChannelSettings)
-      .pipe(T.JsonName("primaryChannelSettings"))
-      .annotate({ identifier: "PrimaryChannelSettings" }),
-  }),
+    FollowerChannelSettings: S.optional(FollowerChannelSettings),
+    PrimaryChannelSettings: S.optional(PrimaryChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      FollowerChannelSettings: "followerChannelSettings",
+      PrimaryChannelSettings: "primaryChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "LinkedChannelSettings",
 }) as any as S.Schema<LinkedChannelSettings>;
@@ -6529,57 +6804,57 @@ export interface CreateChannelRequest {
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EncoderSettings: S.optional(EncoderSettings),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceCreateSettings),
+    Name: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Reserved: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettings),
+    AnywhereSettings: S.optional(AnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionRequest),
+    DryRun: S.optional(S.Boolean),
+    LinkedChannelSettings: S.optional(LinkedChannelSettings),
+  })
+    .pipe(
+      S.encodeKeys({
+        CdiInputSpecification: "cdiInputSpecification",
+        ChannelClass: "channelClass",
+        Destinations: "destinations",
+        EncoderSettings: "encoderSettings",
+        InputAttachments: "inputAttachments",
+        InputSpecification: "inputSpecification",
+        LogLevel: "logLevel",
+        Maintenance: "maintenance",
+        Name: "name",
+        RequestId: "requestId",
+        Reserved: "reserved",
+        RoleArn: "roleArn",
+        Tags: "tags",
+        Vpc: "vpc",
+        AnywhereSettings: "anywhereSettings",
+        ChannelEngineVersion: "channelEngineVersion",
+        DryRun: "dryRun",
+        LinkedChannelSettings: "linkedChannelSettings",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/channels" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceCreateSettings)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceCreateSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    Reserved: S.optional(S.String).pipe(T.JsonName("reserved")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettings)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettings" }),
-    AnywhereSettings: S.optional(AnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "AnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionRequest)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionRequest" }),
-    DryRun: S.optional(S.Boolean).pipe(T.JsonName("dryRun")),
-    LinkedChannelSettings: S.optional(LinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "LinkedChannelSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/channels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateChannelRequest",
 }) as any as S.Schema<CreateChannelRequest>;
@@ -6587,7 +6862,9 @@ export interface ChannelEgressEndpoint {
   SourceIp?: string;
 }
 export const ChannelEgressEndpoint = S.suspend(() =>
-  S.Struct({ SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")) }),
+  S.Struct({ SourceIp: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIp: "sourceIp" }),
+  ),
 ).annotate({
   identifier: "ChannelEgressEndpoint",
 }) as any as S.Schema<ChannelEgressEndpoint>;
@@ -6601,19 +6878,18 @@ export interface MaintenanceStatus {
 }
 export const MaintenanceStatus = S.suspend(() =>
   S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay).pipe(
-      T.JsonName("maintenanceDay"),
-    ),
-    MaintenanceDeadline: S.optional(S.String).pipe(
-      T.JsonName("maintenanceDeadline"),
-    ),
-    MaintenanceScheduledDate: S.optional(S.String).pipe(
-      T.JsonName("maintenanceScheduledDate"),
-    ),
-    MaintenanceStartTime: S.optional(S.String).pipe(
-      T.JsonName("maintenanceStartTime"),
-    ),
-  }),
+    MaintenanceDay: S.optional(MaintenanceDay),
+    MaintenanceDeadline: S.optional(S.String),
+    MaintenanceScheduledDate: S.optional(S.String),
+    MaintenanceStartTime: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      MaintenanceDay: "maintenanceDay",
+      MaintenanceDeadline: "maintenanceDeadline",
+      MaintenanceScheduledDate: "maintenanceScheduledDate",
+      MaintenanceStartTime: "maintenanceStartTime",
+    }),
+  ),
 ).annotate({
   identifier: "MaintenanceStatus",
 }) as any as S.Schema<MaintenanceStatus>;
@@ -6624,10 +6900,12 @@ export interface ChannelEngineVersionResponse {
 export const ChannelEngineVersionResponse = S.suspend(() =>
   S.Struct({
     ExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("expirationDate")),
-    Version: S.optional(S.String).pipe(T.JsonName("version")),
-  }),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    Version: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ ExpirationDate: "expirationDate", Version: "version" }),
+  ),
 ).annotate({
   identifier: "ChannelEngineVersionResponse",
 }) as any as S.Schema<ChannelEngineVersionResponse>;
@@ -6641,23 +6919,22 @@ export interface PipelineDetail {
 }
 export const PipelineDetail = S.suspend(() =>
   S.Struct({
-    ActiveInputAttachmentName: S.optional(S.String).pipe(
-      T.JsonName("activeInputAttachmentName"),
-    ),
-    ActiveInputSwitchActionName: S.optional(S.String).pipe(
-      T.JsonName("activeInputSwitchActionName"),
-    ),
-    ActiveMotionGraphicsActionName: S.optional(S.String).pipe(
-      T.JsonName("activeMotionGraphicsActionName"),
-    ),
-    ActiveMotionGraphicsUri: S.optional(S.String).pipe(
-      T.JsonName("activeMotionGraphicsUri"),
-    ),
-    PipelineId: S.optional(S.String).pipe(T.JsonName("pipelineId")),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-  }),
+    ActiveInputAttachmentName: S.optional(S.String),
+    ActiveInputSwitchActionName: S.optional(S.String),
+    ActiveMotionGraphicsActionName: S.optional(S.String),
+    ActiveMotionGraphicsUri: S.optional(S.String),
+    PipelineId: S.optional(S.String),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+  }).pipe(
+    S.encodeKeys({
+      ActiveInputAttachmentName: "activeInputAttachmentName",
+      ActiveInputSwitchActionName: "activeInputSwitchActionName",
+      ActiveMotionGraphicsActionName: "activeMotionGraphicsActionName",
+      ActiveMotionGraphicsUri: "activeMotionGraphicsUri",
+      PipelineId: "pipelineId",
+      ChannelEngineVersion: "channelEngineVersion",
+    }),
+  ),
 ).annotate({ identifier: "PipelineDetail" }) as any as S.Schema<PipelineDetail>;
 export type __listOfPipelineDetail = PipelineDetail[];
 export const __listOfPipelineDetail = S.Array(PipelineDetail);
@@ -6683,17 +6960,18 @@ export interface VpcOutputSettingsDescription {
 }
 export const VpcOutputSettingsDescription = S.suspend(() =>
   S.Struct({
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    NetworkInterfaceIds: S.optional(__listOf__string).pipe(
-      T.JsonName("networkInterfaceIds"),
-    ),
-    SecurityGroupIds: S.optional(__listOf__string).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
-  }),
+    AvailabilityZones: S.optional(__listOf__string),
+    NetworkInterfaceIds: S.optional(__listOf__string),
+    SecurityGroupIds: S.optional(__listOf__string),
+    SubnetIds: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      AvailabilityZones: "availabilityZones",
+      NetworkInterfaceIds: "networkInterfaceIds",
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+    }),
+  ),
 ).annotate({
   identifier: "VpcOutputSettingsDescription",
 }) as any as S.Schema<VpcOutputSettingsDescription>;
@@ -6703,11 +6981,14 @@ export interface DescribeAnywhereSettings {
 }
 export const DescribeAnywhereSettings = S.suspend(() =>
   S.Struct({
-    ChannelPlacementGroupId: S.optional(S.String).pipe(
-      T.JsonName("channelPlacementGroupId"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-  }),
+    ChannelPlacementGroupId: S.optional(S.String),
+    ClusterId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelPlacementGroupId: "channelPlacementGroupId",
+      ClusterId: "clusterId",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeAnywhereSettings",
 }) as any as S.Schema<DescribeAnywhereSettings>;
@@ -6717,13 +6998,14 @@ export interface DescribeFollowerChannelSettings {
 }
 export const DescribeFollowerChannelSettings = S.suspend(() =>
   S.Struct({
-    LinkedChannelType: S.optional(LinkedChannelType).pipe(
-      T.JsonName("linkedChannelType"),
-    ),
-    PrimaryChannelArn: S.optional(S.String).pipe(
-      T.JsonName("primaryChannelArn"),
-    ),
-  }),
+    LinkedChannelType: S.optional(LinkedChannelType),
+    PrimaryChannelArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LinkedChannelType: "linkedChannelType",
+      PrimaryChannelArn: "primaryChannelArn",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeFollowerChannelSettings",
 }) as any as S.Schema<DescribeFollowerChannelSettings>;
@@ -6733,13 +7015,14 @@ export interface DescribePrimaryChannelSettings {
 }
 export const DescribePrimaryChannelSettings = S.suspend(() =>
   S.Struct({
-    FollowingChannelArns: S.optional(__listOf__string).pipe(
-      T.JsonName("followingChannelArns"),
-    ),
-    LinkedChannelType: S.optional(LinkedChannelType).pipe(
-      T.JsonName("linkedChannelType"),
-    ),
-  }),
+    FollowingChannelArns: S.optional(__listOf__string),
+    LinkedChannelType: S.optional(LinkedChannelType),
+  }).pipe(
+    S.encodeKeys({
+      FollowingChannelArns: "followingChannelArns",
+      LinkedChannelType: "linkedChannelType",
+    }),
+  ),
 ).annotate({
   identifier: "DescribePrimaryChannelSettings",
 }) as any as S.Schema<DescribePrimaryChannelSettings>;
@@ -6749,13 +7032,14 @@ export interface DescribeLinkedChannelSettings {
 }
 export const DescribeLinkedChannelSettings = S.suspend(() =>
   S.Struct({
-    FollowerChannelSettings: S.optional(DescribeFollowerChannelSettings)
-      .pipe(T.JsonName("followerChannelSettings"))
-      .annotate({ identifier: "DescribeFollowerChannelSettings" }),
-    PrimaryChannelSettings: S.optional(DescribePrimaryChannelSettings)
-      .pipe(T.JsonName("primaryChannelSettings"))
-      .annotate({ identifier: "DescribePrimaryChannelSettings" }),
-  }),
+    FollowerChannelSettings: S.optional(DescribeFollowerChannelSettings),
+    PrimaryChannelSettings: S.optional(DescribePrimaryChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      FollowerChannelSettings: "followerChannelSettings",
+      PrimaryChannelSettings: "primaryChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeLinkedChannelSettings",
 }) as any as S.Schema<DescribeLinkedChannelSettings>;
@@ -6784,54 +7068,52 @@ export interface Channel {
 }
 export const Channel = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export interface CreateChannelResponse {
   Channel?: Channel & {
@@ -7103,11 +7385,9 @@ export interface CreateChannelResponse {
   };
 }
 export const CreateChannelResponse = S.suspend(() =>
-  S.Struct({
-    Channel: S.optional(Channel)
-      .pipe(T.JsonName("channel"))
-      .annotate({ identifier: "Channel" }),
-  }),
+  S.Struct({ Channel: S.optional(Channel) }).pipe(
+    S.encodeKeys({ Channel: "channel" }),
+  ),
 ).annotate({
   identifier: "CreateChannelResponse",
 }) as any as S.Schema<CreateChannelResponse>;
@@ -7121,26 +7401,32 @@ export interface CreateChannelPlacementGroupRequest {
 export const CreateChannelPlacementGroupRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/clusters/{ClusterId}/channelplacementgroups",
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Name: "name",
+        Nodes: "nodes",
+        RequestId: "requestId",
+        Tags: "tags",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/clusters/{ClusterId}/channelplacementgroups",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChannelPlacementGroupRequest",
 }) as any as S.Schema<CreateChannelPlacementGroupRequest>;
@@ -7165,14 +7451,24 @@ export interface CreateChannelPlacementGroupResponse {
 }
 export const CreateChannelPlacementGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Channels: S.optional(__listOf__string).pipe(T.JsonName("channels")),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    State: S.optional(ChannelPlacementGroupState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Channels: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    State: S.optional(ChannelPlacementGroupState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Channels: "channels",
+      ClusterId: "clusterId",
+      Id: "id",
+      Name: "name",
+      Nodes: "nodes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "CreateChannelPlacementGroupResponse",
 }) as any as S.Schema<CreateChannelPlacementGroupResponse>;
@@ -7230,45 +7526,49 @@ export interface CreateCloudWatchAlarmTemplateRequest {
 }
 export const CreateCloudWatchAlarmTemplateRequest = S.suspend(() =>
   S.Struct({
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupIdentifier: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    Tags: S.optional(TagMap),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        ComparisonOperator: "comparisonOperator",
+        DatapointsToAlarm: "datapointsToAlarm",
+        Description: "description",
+        EvaluationPeriods: "evaluationPeriods",
+        GroupIdentifier: "groupIdentifier",
+        MetricName: "metricName",
+        Name: "name",
+        Period: "period",
+        Statistic: "statistic",
+        Tags: "tags",
+        TargetResourceType: "targetResourceType",
+        Threshold: "threshold",
+        TreatMissingData: "treatMissingData",
+        RequestId: "requestId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/cloudwatch-alarm-templates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupIdentifier: S.optional(S.String).pipe(T.JsonName("groupIdentifier")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/cloudwatch-alarm-templates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateCloudWatchAlarmTemplateRequest",
 }) as any as S.Schema<CreateCloudWatchAlarmTemplateRequest>;
@@ -7293,40 +7593,48 @@ export interface CreateCloudWatchAlarmTemplateResponse {
 }
 export const CreateCloudWatchAlarmTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    Tags: S.optional(TagMap),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ComparisonOperator: "comparisonOperator",
+      CreatedAt: "createdAt",
+      DatapointsToAlarm: "datapointsToAlarm",
+      Description: "description",
+      EvaluationPeriods: "evaluationPeriods",
+      GroupId: "groupId",
+      Id: "id",
+      MetricName: "metricName",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Period: "period",
+      Statistic: "statistic",
+      Tags: "tags",
+      TargetResourceType: "targetResourceType",
+      Threshold: "threshold",
+      TreatMissingData: "treatMissingData",
+    }),
+  ),
 ).annotate({
   identifier: "CreateCloudWatchAlarmTemplateResponse",
 }) as any as S.Schema<CreateCloudWatchAlarmTemplateResponse>;
@@ -7338,23 +7646,32 @@ export interface CreateCloudWatchAlarmTemplateGroupRequest {
 }
 export const CreateCloudWatchAlarmTemplateGroupRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        Name: "name",
+        Tags: "tags",
+        RequestId: "requestId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/cloudwatch-alarm-template-groups",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/cloudwatch-alarm-template-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateCloudWatchAlarmTemplateGroupRequest",
 }) as any as S.Schema<CreateCloudWatchAlarmTemplateGroupRequest>;
@@ -7369,18 +7686,28 @@ export interface CreateCloudWatchAlarmTemplateGroupResponse {
 }
 export const CreateCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateCloudWatchAlarmTemplateGroupResponse",
 }) as any as S.Schema<CreateCloudWatchAlarmTemplateGroupResponse>;
@@ -7392,11 +7719,14 @@ export interface InterfaceMappingCreateRequest {
 }
 export const InterfaceMappingCreateRequest = S.suspend(() =>
   S.Struct({
-    LogicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("logicalInterfaceName"),
-    ),
-    NetworkId: S.optional(S.String).pipe(T.JsonName("networkId")),
-  }),
+    LogicalInterfaceName: S.optional(S.String),
+    NetworkId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LogicalInterfaceName: "logicalInterfaceName",
+      NetworkId: "networkId",
+    }),
+  ),
 ).annotate({
   identifier: "InterfaceMappingCreateRequest",
 }) as any as S.Schema<InterfaceMappingCreateRequest>;
@@ -7411,11 +7741,14 @@ export interface ClusterNetworkSettingsCreateRequest {
 }
 export const ClusterNetworkSettingsCreateRequest = S.suspend(() =>
   S.Struct({
-    DefaultRoute: S.optional(S.String).pipe(T.JsonName("defaultRoute")),
-    InterfaceMappings: S.optional(__listOfInterfaceMappingCreateRequest).pipe(
-      T.JsonName("interfaceMappings"),
-    ),
-  }),
+    DefaultRoute: S.optional(S.String),
+    InterfaceMappings: S.optional(__listOfInterfaceMappingCreateRequest),
+  }).pipe(
+    S.encodeKeys({
+      DefaultRoute: "defaultRoute",
+      InterfaceMappings: "interfaceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "ClusterNetworkSettingsCreateRequest",
 }) as any as S.Schema<ClusterNetworkSettingsCreateRequest>;
@@ -7429,27 +7762,33 @@ export interface CreateClusterRequest {
 }
 export const CreateClusterRequest = S.suspend(() =>
   S.Struct({
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    InstanceRoleArn: S.optional(S.String).pipe(T.JsonName("instanceRoleArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettingsCreateRequest)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettingsCreateRequest" }),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    ClusterType: S.optional(ClusterType),
+    InstanceRoleArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettingsCreateRequest),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        ClusterType: "clusterType",
+        InstanceRoleArn: "instanceRoleArn",
+        Name: "name",
+        NetworkSettings: "networkSettings",
+        RequestId: "requestId",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/clusters" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/clusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateClusterRequest",
 }) as any as S.Schema<CreateClusterRequest>;
@@ -7459,11 +7798,14 @@ export interface InterfaceMapping {
 }
 export const InterfaceMapping = S.suspend(() =>
   S.Struct({
-    LogicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("logicalInterfaceName"),
-    ),
-    NetworkId: S.optional(S.String).pipe(T.JsonName("networkId")),
-  }),
+    LogicalInterfaceName: S.optional(S.String),
+    NetworkId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LogicalInterfaceName: "logicalInterfaceName",
+      NetworkId: "networkId",
+    }),
+  ),
 ).annotate({
   identifier: "InterfaceMapping",
 }) as any as S.Schema<InterfaceMapping>;
@@ -7475,11 +7817,14 @@ export interface ClusterNetworkSettings {
 }
 export const ClusterNetworkSettings = S.suspend(() =>
   S.Struct({
-    DefaultRoute: S.optional(S.String).pipe(T.JsonName("defaultRoute")),
-    InterfaceMappings: S.optional(__listOfInterfaceMapping).pipe(
-      T.JsonName("interfaceMappings"),
-    ),
-  }),
+    DefaultRoute: S.optional(S.String),
+    InterfaceMappings: S.optional(__listOfInterfaceMapping),
+  }).pipe(
+    S.encodeKeys({
+      DefaultRoute: "defaultRoute",
+      InterfaceMappings: "interfaceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "ClusterNetworkSettings",
 }) as any as S.Schema<ClusterNetworkSettings>;
@@ -7504,17 +7849,26 @@ export interface CreateClusterResponse {
 }
 export const CreateClusterResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceRoleArn: S.optional(S.String).pipe(T.JsonName("instanceRoleArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettings" }),
-    State: S.optional(ClusterState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    ChannelIds: S.optional(__listOf__string),
+    ClusterType: S.optional(ClusterType),
+    Id: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettings),
+    State: S.optional(ClusterState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelIds: "channelIds",
+      ClusterType: "clusterType",
+      Id: "id",
+      InstanceRoleArn: "instanceRoleArn",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "CreateClusterResponse",
 }) as any as S.Schema<CreateClusterResponse>;
@@ -7522,7 +7876,7 @@ export interface EventBridgeRuleTemplateTarget {
   Arn?: string;
 }
 export const EventBridgeRuleTemplateTarget = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String).pipe(T.JsonName("arn")) }),
+  S.Struct({ Arn: S.optional(S.String) }).pipe(S.encodeKeys({ Arn: "arn" })),
 ).annotate({
   identifier: "EventBridgeRuleTemplateTarget",
 }) as any as S.Schema<EventBridgeRuleTemplateTarget>;
@@ -7558,30 +7912,35 @@ export interface CreateEventBridgeRuleTemplateRequest {
 }
 export const CreateEventBridgeRuleTemplateRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget).pipe(
-      T.JsonName("eventTargets"),
+    Description: S.optional(S.String),
+    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupIdentifier: S.optional(S.String),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        EventTargets: "eventTargets",
+        EventType: "eventType",
+        GroupIdentifier: "groupIdentifier",
+        Name: "name",
+        Tags: "tags",
+        RequestId: "requestId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/eventbridge-rule-templates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
-    ),
-    GroupIdentifier: S.optional(S.String).pipe(T.JsonName("groupIdentifier")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/eventbridge-rule-templates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateEventBridgeRuleTemplateRequest",
 }) as any as S.Schema<CreateEventBridgeRuleTemplateRequest>;
@@ -7601,25 +7960,34 @@ export interface CreateEventBridgeRuleTemplateResponse {
 }
 export const CreateEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget).pipe(
-      T.JsonName("eventTargets"),
+    Description: S.optional(S.String),
+    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      EventTargets: "eventTargets",
+      EventType: "eventType",
+      GroupId: "groupId",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateEventBridgeRuleTemplateResponse",
 }) as any as S.Schema<CreateEventBridgeRuleTemplateResponse>;
@@ -7631,23 +7999,32 @@ export interface CreateEventBridgeRuleTemplateGroupRequest {
 }
 export const CreateEventBridgeRuleTemplateGroupRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    Description: S.optional(S.String),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        Name: "name",
+        Tags: "tags",
+        RequestId: "requestId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/eventbridge-rule-template-groups",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/eventbridge-rule-template-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateEventBridgeRuleTemplateGroupRequest",
 }) as any as S.Schema<CreateEventBridgeRuleTemplateGroupRequest>;
@@ -7662,18 +8039,28 @@ export interface CreateEventBridgeRuleTemplateGroupResponse {
 }
 export const CreateEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateEventBridgeRuleTemplateGroupResponse",
 }) as any as S.Schema<CreateEventBridgeRuleTemplateGroupResponse>;
@@ -7682,10 +8069,9 @@ export interface InputRequestDestinationRoute {
   Gateway?: string;
 }
 export const InputRequestDestinationRoute = S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.JsonName("cidr")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String), Gateway: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cidr: "cidr", Gateway: "gateway" }),
+  ),
 ).annotate({
   identifier: "InputRequestDestinationRoute",
 }) as any as S.Schema<InputRequestDestinationRoute>;
@@ -7702,13 +8088,18 @@ export interface InputDestinationRequest {
 }
 export const InputDestinationRequest = S.suspend(() =>
   S.Struct({
-    StreamName: S.optional(S.String).pipe(T.JsonName("streamName")),
-    Network: S.optional(S.String).pipe(T.JsonName("network")),
-    NetworkRoutes: S.optional(__listOfInputRequestDestinationRoute).pipe(
-      T.JsonName("networkRoutes"),
-    ),
-    StaticIpAddress: S.optional(S.String).pipe(T.JsonName("staticIpAddress")),
-  }),
+    StreamName: S.optional(S.String),
+    Network: S.optional(S.String),
+    NetworkRoutes: S.optional(__listOfInputRequestDestinationRoute),
+    StaticIpAddress: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      StreamName: "streamName",
+      Network: "network",
+      NetworkRoutes: "networkRoutes",
+      StaticIpAddress: "staticIpAddress",
+    }),
+  ),
 ).annotate({
   identifier: "InputDestinationRequest",
 }) as any as S.Schema<InputDestinationRequest>;
@@ -7718,7 +8109,7 @@ export interface InputDeviceSettings {
   Id?: string;
 }
 export const InputDeviceSettings = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
+  S.Struct({ Id: S.optional(S.String) }).pipe(S.encodeKeys({ Id: "id" })),
 ).annotate({
   identifier: "InputDeviceSettings",
 }) as any as S.Schema<InputDeviceSettings>;
@@ -7728,7 +8119,9 @@ export interface MediaConnectFlowRequest {
   FlowArn?: string;
 }
 export const MediaConnectFlowRequest = S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String).pipe(T.JsonName("flowArn")) }),
+  S.Struct({ FlowArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ FlowArn: "flowArn" }),
+  ),
 ).annotate({
   identifier: "MediaConnectFlowRequest",
 }) as any as S.Schema<MediaConnectFlowRequest>;
@@ -7741,10 +8134,16 @@ export interface InputSourceRequest {
 }
 export const InputSourceRequest = S.suspend(() =>
   S.Struct({
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-  }),
+    PasswordParam: S.optional(S.String),
+    Url: S.optional(S.String),
+    Username: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PasswordParam: "passwordParam",
+      Url: "url",
+      Username: "username",
+    }),
+  ),
 ).annotate({
   identifier: "InputSourceRequest",
 }) as any as S.Schema<InputSourceRequest>;
@@ -7774,11 +8173,14 @@ export interface InputVpcRequest {
 }
 export const InputVpcRequest = S.suspend(() =>
   S.Struct({
-    SecurityGroupIds: S.optional(__listOf__string).pipe(
-      T.JsonName("securityGroupIds"),
-    ),
-    SubnetIds: S.optional(__listOf__string).pipe(T.JsonName("subnetIds")),
-  }),
+    SecurityGroupIds: S.optional(__listOf__string),
+    SubnetIds: S.optional(__listOf__string),
+  }).pipe(
+    S.encodeKeys({
+      SecurityGroupIds: "securityGroupIds",
+      SubnetIds: "subnetIds",
+    }),
+  ),
 ).annotate({
   identifier: "InputVpcRequest",
 }) as any as S.Schema<InputVpcRequest>;
@@ -7790,11 +8192,14 @@ export interface SrtCallerDecryptionRequest {
 }
 export const SrtCallerDecryptionRequest = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(Algorithm).pipe(T.JsonName("algorithm")),
-    PassphraseSecretArn: S.optional(S.String).pipe(
-      T.JsonName("passphraseSecretArn"),
-    ),
-  }),
+    Algorithm: S.optional(Algorithm),
+    PassphraseSecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      PassphraseSecretArn: "passphraseSecretArn",
+    }),
+  ),
 ).annotate({
   identifier: "SrtCallerDecryptionRequest",
 }) as any as S.Schema<SrtCallerDecryptionRequest>;
@@ -7807,16 +8212,20 @@ export interface SrtCallerSourceRequest {
 }
 export const SrtCallerSourceRequest = S.suspend(() =>
   S.Struct({
-    Decryption: S.optional(SrtCallerDecryptionRequest)
-      .pipe(T.JsonName("decryption"))
-      .annotate({ identifier: "SrtCallerDecryptionRequest" }),
-    MinimumLatency: S.optional(S.Number).pipe(T.JsonName("minimumLatency")),
-    SrtListenerAddress: S.optional(S.String).pipe(
-      T.JsonName("srtListenerAddress"),
-    ),
-    SrtListenerPort: S.optional(S.String).pipe(T.JsonName("srtListenerPort")),
-    StreamId: S.optional(S.String).pipe(T.JsonName("streamId")),
-  }),
+    Decryption: S.optional(SrtCallerDecryptionRequest),
+    MinimumLatency: S.optional(S.Number),
+    SrtListenerAddress: S.optional(S.String),
+    SrtListenerPort: S.optional(S.String),
+    StreamId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Decryption: "decryption",
+      MinimumLatency: "minimumLatency",
+      SrtListenerAddress: "srtListenerAddress",
+      SrtListenerPort: "srtListenerPort",
+      StreamId: "streamId",
+    }),
+  ),
 ).annotate({
   identifier: "SrtCallerSourceRequest",
 }) as any as S.Schema<SrtCallerSourceRequest>;
@@ -7827,10 +8236,8 @@ export interface SrtSettingsRequest {
 }
 export const SrtSettingsRequest = S.suspend(() =>
   S.Struct({
-    SrtCallerSources: S.optional(__listOfSrtCallerSourceRequest).pipe(
-      T.JsonName("srtCallerSources"),
-    ),
-  }),
+    SrtCallerSources: S.optional(__listOfSrtCallerSourceRequest),
+  }).pipe(S.encodeKeys({ SrtCallerSources: "srtCallerSources" })),
 ).annotate({
   identifier: "SrtSettingsRequest",
 }) as any as S.Schema<SrtSettingsRequest>;
@@ -7841,10 +8248,9 @@ export interface MulticastSourceCreateRequest {
   Url?: string;
 }
 export const MulticastSourceCreateRequest = S.suspend(() =>
-  S.Struct({
-    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+  S.Struct({ SourceIp: S.optional(S.String), Url: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIp: "sourceIp", Url: "url" }),
+  ),
 ).annotate({
   identifier: "MulticastSourceCreateRequest",
 }) as any as S.Schema<MulticastSourceCreateRequest>;
@@ -7857,11 +8263,9 @@ export interface MulticastSettingsCreateRequest {
   Sources?: MulticastSourceCreateRequest[];
 }
 export const MulticastSettingsCreateRequest = S.suspend(() =>
-  S.Struct({
-    Sources: S.optional(__listOfMulticastSourceCreateRequest).pipe(
-      T.JsonName("sources"),
-    ),
-  }),
+  S.Struct({ Sources: S.optional(__listOfMulticastSourceCreateRequest) }).pipe(
+    S.encodeKeys({ Sources: "sources" }),
+  ),
 ).annotate({
   identifier: "MulticastSettingsCreateRequest",
 }) as any as S.Schema<MulticastSettingsCreateRequest>;
@@ -7871,9 +8275,9 @@ export interface InputSdpLocation {
 }
 export const InputSdpLocation = S.suspend(() =>
   S.Struct({
-    MediaIndex: S.optional(S.Number).pipe(T.JsonName("mediaIndex")),
-    SdpUrl: S.optional(S.String).pipe(T.JsonName("sdpUrl")),
-  }),
+    MediaIndex: S.optional(S.Number),
+    SdpUrl: S.optional(S.String),
+  }).pipe(S.encodeKeys({ MediaIndex: "mediaIndex", SdpUrl: "sdpUrl" })),
 ).annotate({
   identifier: "InputSdpLocation",
 }) as any as S.Schema<InputSdpLocation>;
@@ -7886,16 +8290,16 @@ export interface Smpte2110ReceiverGroupSdpSettings {
 }
 export const Smpte2110ReceiverGroupSdpSettings = S.suspend(() =>
   S.Struct({
-    AncillarySdps: S.optional(__listOfInputSdpLocation).pipe(
-      T.JsonName("ancillarySdps"),
-    ),
-    AudioSdps: S.optional(__listOfInputSdpLocation).pipe(
-      T.JsonName("audioSdps"),
-    ),
-    VideoSdp: S.optional(InputSdpLocation)
-      .pipe(T.JsonName("videoSdp"))
-      .annotate({ identifier: "InputSdpLocation" }),
-  }),
+    AncillarySdps: S.optional(__listOfInputSdpLocation),
+    AudioSdps: S.optional(__listOfInputSdpLocation),
+    VideoSdp: S.optional(InputSdpLocation),
+  }).pipe(
+    S.encodeKeys({
+      AncillarySdps: "ancillarySdps",
+      AudioSdps: "audioSdps",
+      VideoSdp: "videoSdp",
+    }),
+  ),
 ).annotate({
   identifier: "Smpte2110ReceiverGroupSdpSettings",
 }) as any as S.Schema<Smpte2110ReceiverGroupSdpSettings>;
@@ -7903,11 +8307,9 @@ export interface Smpte2110ReceiverGroup {
   SdpSettings?: Smpte2110ReceiverGroupSdpSettings;
 }
 export const Smpte2110ReceiverGroup = S.suspend(() =>
-  S.Struct({
-    SdpSettings: S.optional(Smpte2110ReceiverGroupSdpSettings)
-      .pipe(T.JsonName("sdpSettings"))
-      .annotate({ identifier: "Smpte2110ReceiverGroupSdpSettings" }),
-  }),
+  S.Struct({ SdpSettings: S.optional(Smpte2110ReceiverGroupSdpSettings) }).pipe(
+    S.encodeKeys({ SdpSettings: "sdpSettings" }),
+  ),
 ).annotate({
   identifier: "Smpte2110ReceiverGroup",
 }) as any as S.Schema<Smpte2110ReceiverGroup>;
@@ -7918,10 +8320,8 @@ export interface Smpte2110ReceiverGroupSettings {
 }
 export const Smpte2110ReceiverGroupSettings = S.suspend(() =>
   S.Struct({
-    Smpte2110ReceiverGroups: S.optional(__listOfSmpte2110ReceiverGroup).pipe(
-      T.JsonName("smpte2110ReceiverGroups"),
-    ),
-  }),
+    Smpte2110ReceiverGroups: S.optional(__listOfSmpte2110ReceiverGroup),
+  }).pipe(S.encodeKeys({ Smpte2110ReceiverGroups: "smpte2110ReceiverGroups" })),
 ).annotate({
   identifier: "Smpte2110ReceiverGroupSettings",
 }) as any as S.Schema<Smpte2110ReceiverGroupSettings>;
@@ -7931,11 +8331,9 @@ export interface RouterDestinationSettings {
   AvailabilityZoneName?: string;
 }
 export const RouterDestinationSettings = S.suspend(() =>
-  S.Struct({
-    AvailabilityZoneName: S.optional(S.String).pipe(
-      T.JsonName("availabilityZoneName"),
-    ),
-  }),
+  S.Struct({ AvailabilityZoneName: S.optional(S.String) }).pipe(
+    S.encodeKeys({ AvailabilityZoneName: "availabilityZoneName" }),
+  ),
 ).annotate({
   identifier: "RouterDestinationSettings",
 }) as any as S.Schema<RouterDestinationSettings>;
@@ -7955,14 +8353,16 @@ export interface RouterSettings {
 }
 export const RouterSettings = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(__listOfRouterDestinationSettings).pipe(
-      T.JsonName("destinations"),
-    ),
-    EncryptionType: S.optional(RouterEncryptionType).pipe(
-      T.JsonName("encryptionType"),
-    ),
-    SecretArn: S.optional(S.String).pipe(T.JsonName("secretArn")),
-  }),
+    Destinations: S.optional(__listOfRouterDestinationSettings),
+    EncryptionType: S.optional(RouterEncryptionType),
+    SecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Destinations: "destinations",
+      EncryptionType: "encryptionType",
+      SecretArn: "secretArn",
+    }),
+  ),
 ).annotate({ identifier: "RouterSettings" }) as any as S.Schema<RouterSettings>;
 export interface CreateInputRequest {
   Destinations?: InputDestinationRequest[];
@@ -7985,56 +8385,55 @@ export interface CreateInputRequest {
 }
 export const CreateInputRequest = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(__listOfInputDestinationRequest).pipe(
-      T.JsonName("destinations"),
+    Destinations: S.optional(__listOfInputDestinationRequest),
+    InputDevices: S.optional(__listOfInputDeviceSettings),
+    InputSecurityGroups: S.optional(__listOf__string),
+    MediaConnectFlows: S.optional(__listOfMediaConnectFlowRequest),
+    Name: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    RoleArn: S.optional(S.String),
+    Sources: S.optional(__listOfInputSourceRequest),
+    Tags: S.optional(Tags),
+    Type: S.optional(InputType),
+    Vpc: S.optional(InputVpcRequest),
+    SrtSettings: S.optional(SrtSettingsRequest),
+    InputNetworkLocation: S.optional(InputNetworkLocation),
+    MulticastSettings: S.optional(MulticastSettingsCreateRequest),
+    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings),
+    SdiSources: S.optional(InputSdiSources),
+    RouterSettings: S.optional(RouterSettings),
+  })
+    .pipe(
+      S.encodeKeys({
+        Destinations: "destinations",
+        InputDevices: "inputDevices",
+        InputSecurityGroups: "inputSecurityGroups",
+        MediaConnectFlows: "mediaConnectFlows",
+        Name: "name",
+        RequestId: "requestId",
+        RoleArn: "roleArn",
+        Sources: "sources",
+        Tags: "tags",
+        Type: "type",
+        Vpc: "vpc",
+        SrtSettings: "srtSettings",
+        InputNetworkLocation: "inputNetworkLocation",
+        MulticastSettings: "multicastSettings",
+        Smpte2110ReceiverGroupSettings: "smpte2110ReceiverGroupSettings",
+        SdiSources: "sdiSources",
+        RouterSettings: "routerSettings",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/inputs" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    InputDevices: S.optional(__listOfInputDeviceSettings).pipe(
-      T.JsonName("inputDevices"),
-    ),
-    InputSecurityGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("inputSecurityGroups"),
-    ),
-    MediaConnectFlows: S.optional(__listOfMediaConnectFlowRequest).pipe(
-      T.JsonName("mediaConnectFlows"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    Sources: S.optional(__listOfInputSourceRequest).pipe(T.JsonName("sources")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Type: S.optional(InputType).pipe(T.JsonName("type")),
-    Vpc: S.optional(InputVpcRequest)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "InputVpcRequest" }),
-    SrtSettings: S.optional(SrtSettingsRequest)
-      .pipe(T.JsonName("srtSettings"))
-      .annotate({ identifier: "SrtSettingsRequest" }),
-    InputNetworkLocation: S.optional(InputNetworkLocation).pipe(
-      T.JsonName("inputNetworkLocation"),
-    ),
-    MulticastSettings: S.optional(MulticastSettingsCreateRequest)
-      .pipe(T.JsonName("multicastSettings"))
-      .annotate({ identifier: "MulticastSettingsCreateRequest" }),
-    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings)
-      .pipe(T.JsonName("smpte2110ReceiverGroupSettings"))
-      .annotate({ identifier: "Smpte2110ReceiverGroupSettings" }),
-    SdiSources: S.optional(InputSdiSources).pipe(T.JsonName("sdiSources")),
-    RouterSettings: S.optional(RouterSettings)
-      .pipe(T.JsonName("routerSettings"))
-      .annotate({ identifier: "RouterSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/inputs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateInputRequest",
 }) as any as S.Schema<CreateInputRequest>;
@@ -8044,11 +8443,14 @@ export interface InputDestinationVpc {
 }
 export const InputDestinationVpc = S.suspend(() =>
   S.Struct({
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    NetworkInterfaceId: S.optional(S.String).pipe(
-      T.JsonName("networkInterfaceId"),
-    ),
-  }),
+    AvailabilityZone: S.optional(S.String),
+    NetworkInterfaceId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AvailabilityZone: "availabilityZone",
+      NetworkInterfaceId: "networkInterfaceId",
+    }),
+  ),
 ).annotate({
   identifier: "InputDestinationVpc",
 }) as any as S.Schema<InputDestinationVpc>;
@@ -8057,10 +8459,9 @@ export interface InputDestinationRoute {
   Gateway?: string;
 }
 export const InputDestinationRoute = S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.JsonName("cidr")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String), Gateway: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cidr: "cidr", Gateway: "gateway" }),
+  ),
 ).annotate({
   identifier: "InputDestinationRoute",
 }) as any as S.Schema<InputDestinationRoute>;
@@ -8076,17 +8477,22 @@ export interface InputDestination {
 }
 export const InputDestination = S.suspend(() =>
   S.Struct({
-    Ip: S.optional(S.String).pipe(T.JsonName("ip")),
-    Port: S.optional(S.String).pipe(T.JsonName("port")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Vpc: S.optional(InputDestinationVpc)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "InputDestinationVpc" }),
-    Network: S.optional(S.String).pipe(T.JsonName("network")),
-    NetworkRoutes: S.optional(__listOfInputDestinationRoute).pipe(
-      T.JsonName("networkRoutes"),
-    ),
-  }),
+    Ip: S.optional(S.String),
+    Port: S.optional(S.String),
+    Url: S.optional(S.String),
+    Vpc: S.optional(InputDestinationVpc),
+    Network: S.optional(S.String),
+    NetworkRoutes: S.optional(__listOfInputDestinationRoute),
+  }).pipe(
+    S.encodeKeys({
+      Ip: "ip",
+      Port: "port",
+      Url: "url",
+      Vpc: "vpc",
+      Network: "network",
+      NetworkRoutes: "networkRoutes",
+    }),
+  ),
 ).annotate({
   identifier: "InputDestination",
 }) as any as S.Schema<InputDestination>;
@@ -8100,7 +8506,9 @@ export interface MediaConnectFlow {
   FlowArn?: string;
 }
 export const MediaConnectFlow = S.suspend(() =>
-  S.Struct({ FlowArn: S.optional(S.String).pipe(T.JsonName("flowArn")) }),
+  S.Struct({ FlowArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ FlowArn: "flowArn" }),
+  ),
 ).annotate({
   identifier: "MediaConnectFlow",
 }) as any as S.Schema<MediaConnectFlow>;
@@ -8113,10 +8521,16 @@ export interface InputSource {
 }
 export const InputSource = S.suspend(() =>
   S.Struct({
-    PasswordParam: S.optional(S.String).pipe(T.JsonName("passwordParam")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
-  }),
+    PasswordParam: S.optional(S.String),
+    Url: S.optional(S.String),
+    Username: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PasswordParam: "passwordParam",
+      Url: "url",
+      Username: "username",
+    }),
+  ),
 ).annotate({ identifier: "InputSource" }) as any as S.Schema<InputSource>;
 export type __listOfInputSource = InputSource[];
 export const __listOfInputSource = S.Array(InputSource);
@@ -8134,11 +8548,14 @@ export interface SrtCallerDecryption {
 }
 export const SrtCallerDecryption = S.suspend(() =>
   S.Struct({
-    Algorithm: S.optional(Algorithm).pipe(T.JsonName("algorithm")),
-    PassphraseSecretArn: S.optional(S.String).pipe(
-      T.JsonName("passphraseSecretArn"),
-    ),
-  }),
+    Algorithm: S.optional(Algorithm),
+    PassphraseSecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Algorithm: "algorithm",
+      PassphraseSecretArn: "passphraseSecretArn",
+    }),
+  ),
 ).annotate({
   identifier: "SrtCallerDecryption",
 }) as any as S.Schema<SrtCallerDecryption>;
@@ -8151,16 +8568,20 @@ export interface SrtCallerSource {
 }
 export const SrtCallerSource = S.suspend(() =>
   S.Struct({
-    Decryption: S.optional(SrtCallerDecryption)
-      .pipe(T.JsonName("decryption"))
-      .annotate({ identifier: "SrtCallerDecryption" }),
-    MinimumLatency: S.optional(S.Number).pipe(T.JsonName("minimumLatency")),
-    SrtListenerAddress: S.optional(S.String).pipe(
-      T.JsonName("srtListenerAddress"),
-    ),
-    SrtListenerPort: S.optional(S.String).pipe(T.JsonName("srtListenerPort")),
-    StreamId: S.optional(S.String).pipe(T.JsonName("streamId")),
-  }),
+    Decryption: S.optional(SrtCallerDecryption),
+    MinimumLatency: S.optional(S.Number),
+    SrtListenerAddress: S.optional(S.String),
+    SrtListenerPort: S.optional(S.String),
+    StreamId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Decryption: "decryption",
+      MinimumLatency: "minimumLatency",
+      SrtListenerAddress: "srtListenerAddress",
+      SrtListenerPort: "srtListenerPort",
+      StreamId: "streamId",
+    }),
+  ),
 ).annotate({
   identifier: "SrtCallerSource",
 }) as any as S.Schema<SrtCallerSource>;
@@ -8170,21 +8591,18 @@ export interface SrtSettings {
   SrtCallerSources?: SrtCallerSource[];
 }
 export const SrtSettings = S.suspend(() =>
-  S.Struct({
-    SrtCallerSources: S.optional(__listOfSrtCallerSource).pipe(
-      T.JsonName("srtCallerSources"),
-    ),
-  }),
+  S.Struct({ SrtCallerSources: S.optional(__listOfSrtCallerSource) }).pipe(
+    S.encodeKeys({ SrtCallerSources: "srtCallerSources" }),
+  ),
 ).annotate({ identifier: "SrtSettings" }) as any as S.Schema<SrtSettings>;
 export interface MulticastSource {
   SourceIp?: string;
   Url?: string;
 }
 export const MulticastSource = S.suspend(() =>
-  S.Struct({
-    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+  S.Struct({ SourceIp: S.optional(S.String), Url: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIp: "sourceIp", Url: "url" }),
+  ),
 ).annotate({
   identifier: "MulticastSource",
 }) as any as S.Schema<MulticastSource>;
@@ -8194,9 +8612,9 @@ export interface MulticastSettings {
   Sources?: MulticastSource[];
 }
 export const MulticastSettings = S.suspend(() =>
-  S.Struct({
-    Sources: S.optional(__listOfMulticastSource).pipe(T.JsonName("sources")),
-  }),
+  S.Struct({ Sources: S.optional(__listOfMulticastSource) }).pipe(
+    S.encodeKeys({ Sources: "sources" }),
+  ),
 ).annotate({
   identifier: "MulticastSettings",
 }) as any as S.Schema<MulticastSettings>;
@@ -8206,11 +8624,14 @@ export interface RouterDestination {
 }
 export const RouterDestination = S.suspend(() =>
   S.Struct({
-    AvailabilityZoneName: S.optional(S.String).pipe(
-      T.JsonName("availabilityZoneName"),
-    ),
-    RouterOutputArn: S.optional(S.String).pipe(T.JsonName("routerOutputArn")),
-  }),
+    AvailabilityZoneName: S.optional(S.String),
+    RouterOutputArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      AvailabilityZoneName: "availabilityZoneName",
+      RouterOutputArn: "routerOutputArn",
+    }),
+  ),
 ).annotate({
   identifier: "RouterDestination",
 }) as any as S.Schema<RouterDestination>;
@@ -8223,14 +8644,16 @@ export interface RouterInputSettings {
 }
 export const RouterInputSettings = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(__listOfRouterDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EncryptionType: S.optional(RouterEncryptionType).pipe(
-      T.JsonName("encryptionType"),
-    ),
-    SecretArn: S.optional(S.String).pipe(T.JsonName("secretArn")),
-  }),
+    Destinations: S.optional(__listOfRouterDestination),
+    EncryptionType: S.optional(RouterEncryptionType),
+    SecretArn: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      Destinations: "destinations",
+      EncryptionType: "encryptionType",
+      SecretArn: "secretArn",
+    }),
+  ),
 ).annotate({
   identifier: "RouterInputSettings",
 }) as any as S.Schema<RouterInputSettings>;
@@ -8260,53 +8683,54 @@ export interface Input {
 }
 export const Input = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AttachedChannels: S.optional(__listOf__string).pipe(
-      T.JsonName("attachedChannels"),
-    ),
-    Destinations: S.optional(__listOfInputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputClass: S.optional(InputClass).pipe(T.JsonName("inputClass")),
-    InputDevices: S.optional(__listOfInputDeviceSettings).pipe(
-      T.JsonName("inputDevices"),
-    ),
-    InputPartnerIds: S.optional(__listOf__string).pipe(
-      T.JsonName("inputPartnerIds"),
-    ),
-    InputSourceType: S.optional(InputSourceType).pipe(
-      T.JsonName("inputSourceType"),
-    ),
-    MediaConnectFlows: S.optional(__listOfMediaConnectFlow).pipe(
-      T.JsonName("mediaConnectFlows"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    SecurityGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("securityGroups"),
-    ),
-    Sources: S.optional(__listOfInputSource).pipe(T.JsonName("sources")),
-    State: S.optional(InputState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Type: S.optional(InputType).pipe(T.JsonName("type")),
-    SrtSettings: S.optional(SrtSettings)
-      .pipe(T.JsonName("srtSettings"))
-      .annotate({ identifier: "SrtSettings" }),
-    InputNetworkLocation: S.optional(InputNetworkLocation).pipe(
-      T.JsonName("inputNetworkLocation"),
-    ),
-    MulticastSettings: S.optional(MulticastSettings)
-      .pipe(T.JsonName("multicastSettings"))
-      .annotate({ identifier: "MulticastSettings" }),
-    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings)
-      .pipe(T.JsonName("smpte2110ReceiverGroupSettings"))
-      .annotate({ identifier: "Smpte2110ReceiverGroupSettings" }),
-    SdiSources: S.optional(InputSdiSources).pipe(T.JsonName("sdiSources")),
-    RouterSettings: S.optional(RouterInputSettings)
-      .pipe(T.JsonName("routerSettings"))
-      .annotate({ identifier: "RouterInputSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    AttachedChannels: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfInputDestination),
+    Id: S.optional(S.String),
+    InputClass: S.optional(InputClass),
+    InputDevices: S.optional(__listOfInputDeviceSettings),
+    InputPartnerIds: S.optional(__listOf__string),
+    InputSourceType: S.optional(InputSourceType),
+    MediaConnectFlows: S.optional(__listOfMediaConnectFlow),
+    Name: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    SecurityGroups: S.optional(__listOf__string),
+    Sources: S.optional(__listOfInputSource),
+    State: S.optional(InputState),
+    Tags: S.optional(Tags),
+    Type: S.optional(InputType),
+    SrtSettings: S.optional(SrtSettings),
+    InputNetworkLocation: S.optional(InputNetworkLocation),
+    MulticastSettings: S.optional(MulticastSettings),
+    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings),
+    SdiSources: S.optional(InputSdiSources),
+    RouterSettings: S.optional(RouterInputSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AttachedChannels: "attachedChannels",
+      Destinations: "destinations",
+      Id: "id",
+      InputClass: "inputClass",
+      InputDevices: "inputDevices",
+      InputPartnerIds: "inputPartnerIds",
+      InputSourceType: "inputSourceType",
+      MediaConnectFlows: "mediaConnectFlows",
+      Name: "name",
+      RoleArn: "roleArn",
+      SecurityGroups: "securityGroups",
+      Sources: "sources",
+      State: "state",
+      Tags: "tags",
+      Type: "type",
+      SrtSettings: "srtSettings",
+      InputNetworkLocation: "inputNetworkLocation",
+      MulticastSettings: "multicastSettings",
+      Smpte2110ReceiverGroupSettings: "smpte2110ReceiverGroupSettings",
+      SdiSources: "sdiSources",
+      RouterSettings: "routerSettings",
+    }),
+  ),
 ).annotate({ identifier: "Input" }) as any as S.Schema<Input>;
 export interface CreateInputResponse {
   Input?: Input & {
@@ -8316,11 +8740,7 @@ export interface CreateInputResponse {
   };
 }
 export const CreateInputResponse = S.suspend(() =>
-  S.Struct({
-    Input: S.optional(Input)
-      .pipe(T.JsonName("input"))
-      .annotate({ identifier: "Input" }),
-  }),
+  S.Struct({ Input: S.optional(Input) }).pipe(S.encodeKeys({ Input: "input" })),
 ).annotate({
   identifier: "CreateInputResponse",
 }) as any as S.Schema<CreateInputResponse>;
@@ -8328,7 +8748,7 @@ export interface InputWhitelistRuleCidr {
   Cidr?: string;
 }
 export const InputWhitelistRuleCidr = S.suspend(() =>
-  S.Struct({ Cidr: S.optional(S.String).pipe(T.JsonName("cidr")) }),
+  S.Struct({ Cidr: S.optional(S.String) }).pipe(S.encodeKeys({ Cidr: "cidr" })),
 ).annotate({
   identifier: "InputWhitelistRuleCidr",
 }) as any as S.Schema<InputWhitelistRuleCidr>;
@@ -8340,20 +8760,20 @@ export interface CreateInputSecurityGroupRequest {
 }
 export const CreateInputSecurityGroupRequest = S.suspend(() =>
   S.Struct({
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    WhitelistRules: S.optional(__listOfInputWhitelistRuleCidr).pipe(
-      T.JsonName("whitelistRules"),
+    Tags: S.optional(Tags),
+    WhitelistRules: S.optional(__listOfInputWhitelistRuleCidr),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags", WhitelistRules: "whitelistRules" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/inputSecurityGroups" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/inputSecurityGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateInputSecurityGroupRequest",
 }) as any as S.Schema<CreateInputSecurityGroupRequest>;
@@ -8368,7 +8788,7 @@ export interface InputWhitelistRule {
   Cidr?: string;
 }
 export const InputWhitelistRule = S.suspend(() =>
-  S.Struct({ Cidr: S.optional(S.String).pipe(T.JsonName("cidr")) }),
+  S.Struct({ Cidr: S.optional(S.String) }).pipe(S.encodeKeys({ Cidr: "cidr" })),
 ).annotate({
   identifier: "InputWhitelistRule",
 }) as any as S.Schema<InputWhitelistRule>;
@@ -8384,15 +8804,22 @@ export interface InputSecurityGroup {
 }
 export const InputSecurityGroup = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Inputs: S.optional(__listOf__string).pipe(T.JsonName("inputs")),
-    State: S.optional(InputSecurityGroupState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    WhitelistRules: S.optional(__listOfInputWhitelistRule).pipe(
-      T.JsonName("whitelistRules"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Inputs: S.optional(__listOf__string),
+    State: S.optional(InputSecurityGroupState),
+    Tags: S.optional(Tags),
+    WhitelistRules: S.optional(__listOfInputWhitelistRule),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Id: "id",
+      Inputs: "inputs",
+      State: "state",
+      Tags: "tags",
+      WhitelistRules: "whitelistRules",
+    }),
+  ),
 ).annotate({
   identifier: "InputSecurityGroup",
 }) as any as S.Schema<InputSecurityGroup>;
@@ -8400,11 +8827,9 @@ export interface CreateInputSecurityGroupResponse {
   SecurityGroup?: InputSecurityGroup;
 }
 export const CreateInputSecurityGroupResponse = S.suspend(() =>
-  S.Struct({
-    SecurityGroup: S.optional(InputSecurityGroup)
-      .pipe(T.JsonName("securityGroup"))
-      .annotate({ identifier: "InputSecurityGroup" }),
-  }),
+  S.Struct({ SecurityGroup: S.optional(InputSecurityGroup) }).pipe(
+    S.encodeKeys({ SecurityGroup: "securityGroup" }),
+  ),
 ).annotate({
   identifier: "CreateInputSecurityGroupResponse",
 }) as any as S.Schema<CreateInputSecurityGroupResponse>;
@@ -8416,19 +8841,19 @@ export interface MultiplexSettings {
 }
 export const MultiplexSettings = S.suspend(() =>
   S.Struct({
-    MaximumVideoBufferDelayMilliseconds: S.optional(S.Number).pipe(
-      T.JsonName("maximumVideoBufferDelayMilliseconds"),
-    ),
-    TransportStreamBitrate: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamBitrate"),
-    ),
-    TransportStreamId: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamId"),
-    ),
-    TransportStreamReservedBitrate: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamReservedBitrate"),
-    ),
-  }),
+    MaximumVideoBufferDelayMilliseconds: S.optional(S.Number),
+    TransportStreamBitrate: S.optional(S.Number),
+    TransportStreamId: S.optional(S.Number),
+    TransportStreamReservedBitrate: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MaximumVideoBufferDelayMilliseconds:
+        "maximumVideoBufferDelayMilliseconds",
+      TransportStreamBitrate: "transportStreamBitrate",
+      TransportStreamId: "transportStreamId",
+      TransportStreamReservedBitrate: "transportStreamReservedBitrate",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexSettings",
 }) as any as S.Schema<MultiplexSettings>;
@@ -8441,28 +8866,31 @@ export interface CreateMultiplexRequest {
 }
 export const CreateMultiplexRequest = S.suspend(() =>
   S.Struct({
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
+    AvailabilityZones: S.optional(__listOf__string),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        AvailabilityZones: "availabilityZones",
+        MultiplexSettings: "multiplexSettings",
+        Name: "name",
+        RequestId: "requestId",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/multiplexes" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/multiplexes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateMultiplexRequest",
 }) as any as S.Schema<CreateMultiplexRequest>;
@@ -8470,9 +8898,9 @@ export interface MultiplexMediaConnectOutputDestinationSettings {
   EntitlementArn?: string;
 }
 export const MultiplexMediaConnectOutputDestinationSettings = S.suspend(() =>
-  S.Struct({
-    EntitlementArn: S.optional(S.String).pipe(T.JsonName("entitlementArn")),
-  }),
+  S.Struct({ EntitlementArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ EntitlementArn: "entitlementArn" }),
+  ),
 ).annotate({
   identifier: "MultiplexMediaConnectOutputDestinationSettings",
 }) as any as S.Schema<MultiplexMediaConnectOutputDestinationSettings>;
@@ -8483,12 +8911,8 @@ export const MultiplexOutputDestination = S.suspend(() =>
   S.Struct({
     MediaConnectSettings: S.optional(
       MultiplexMediaConnectOutputDestinationSettings,
-    )
-      .pipe(T.JsonName("mediaConnectSettings"))
-      .annotate({
-        identifier: "MultiplexMediaConnectOutputDestinationSettings",
-      }),
-  }),
+    ),
+  }).pipe(S.encodeKeys({ MediaConnectSettings: "mediaConnectSettings" })),
 ).annotate({
   identifier: "MultiplexOutputDestination",
 }) as any as S.Schema<MultiplexOutputDestination>;
@@ -8522,25 +8946,30 @@ export interface Multiplex {
 }
 export const Multiplex = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Destinations: S.optional(__listOfMultiplexOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfMultiplexOutputDestination),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Destinations: "destinations",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({ identifier: "Multiplex" }) as any as S.Schema<Multiplex>;
 export interface CreateMultiplexResponse {
   Multiplex?: Multiplex & {
@@ -8551,11 +8980,9 @@ export interface CreateMultiplexResponse {
   };
 }
 export const CreateMultiplexResponse = S.suspend(() =>
-  S.Struct({
-    Multiplex: S.optional(Multiplex)
-      .pipe(T.JsonName("multiplex"))
-      .annotate({ identifier: "Multiplex" }),
-  }),
+  S.Struct({ Multiplex: S.optional(Multiplex) }).pipe(
+    S.encodeKeys({ Multiplex: "multiplex" }),
+  ),
 ).annotate({
   identifier: "CreateMultiplexResponse",
 }) as any as S.Schema<CreateMultiplexResponse>;
@@ -8571,9 +8998,11 @@ export interface MultiplexProgramServiceDescriptor {
 }
 export const MultiplexProgramServiceDescriptor = S.suspend(() =>
   S.Struct({
-    ProviderName: S.optional(S.String).pipe(T.JsonName("providerName")),
-    ServiceName: S.optional(S.String).pipe(T.JsonName("serviceName")),
-  }),
+    ProviderName: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ ProviderName: "providerName", ServiceName: "serviceName" }),
+  ),
 ).annotate({
   identifier: "MultiplexProgramServiceDescriptor",
 }) as any as S.Schema<MultiplexProgramServiceDescriptor>;
@@ -8584,10 +9013,16 @@ export interface MultiplexStatmuxVideoSettings {
 }
 export const MultiplexStatmuxVideoSettings = S.suspend(() =>
   S.Struct({
-    MaximumBitrate: S.optional(S.Number).pipe(T.JsonName("maximumBitrate")),
-    MinimumBitrate: S.optional(S.Number).pipe(T.JsonName("minimumBitrate")),
-    Priority: S.optional(S.Number).pipe(T.JsonName("priority")),
-  }),
+    MaximumBitrate: S.optional(S.Number),
+    MinimumBitrate: S.optional(S.Number),
+    Priority: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      MaximumBitrate: "maximumBitrate",
+      MinimumBitrate: "minimumBitrate",
+      Priority: "priority",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexStatmuxVideoSettings",
 }) as any as S.Schema<MultiplexStatmuxVideoSettings>;
@@ -8597,11 +9032,14 @@ export interface MultiplexVideoSettings {
 }
 export const MultiplexVideoSettings = S.suspend(() =>
   S.Struct({
-    ConstantBitrate: S.optional(S.Number).pipe(T.JsonName("constantBitrate")),
-    StatmuxSettings: S.optional(MultiplexStatmuxVideoSettings)
-      .pipe(T.JsonName("statmuxSettings"))
-      .annotate({ identifier: "MultiplexStatmuxVideoSettings" }),
-  }),
+    ConstantBitrate: S.optional(S.Number),
+    StatmuxSettings: S.optional(MultiplexStatmuxVideoSettings),
+  }).pipe(
+    S.encodeKeys({
+      ConstantBitrate: "constantBitrate",
+      StatmuxSettings: "statmuxSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexVideoSettings",
 }) as any as S.Schema<MultiplexVideoSettings>;
@@ -8613,17 +9051,18 @@ export interface MultiplexProgramSettings {
 }
 export const MultiplexProgramSettings = S.suspend(() =>
   S.Struct({
-    PreferredChannelPipeline: S.optional(PreferredChannelPipeline).pipe(
-      T.JsonName("preferredChannelPipeline"),
-    ),
-    ProgramNumber: S.optional(S.Number).pipe(T.JsonName("programNumber")),
-    ServiceDescriptor: S.optional(MultiplexProgramServiceDescriptor)
-      .pipe(T.JsonName("serviceDescriptor"))
-      .annotate({ identifier: "MultiplexProgramServiceDescriptor" }),
-    VideoSettings: S.optional(MultiplexVideoSettings)
-      .pipe(T.JsonName("videoSettings"))
-      .annotate({ identifier: "MultiplexVideoSettings" }),
-  }),
+    PreferredChannelPipeline: S.optional(PreferredChannelPipeline),
+    ProgramNumber: S.optional(S.Number),
+    ServiceDescriptor: S.optional(MultiplexProgramServiceDescriptor),
+    VideoSettings: S.optional(MultiplexVideoSettings),
+  }).pipe(
+    S.encodeKeys({
+      PreferredChannelPipeline: "preferredChannelPipeline",
+      ProgramNumber: "programNumber",
+      ServiceDescriptor: "serviceDescriptor",
+      VideoSettings: "videoSettings",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexProgramSettings",
 }) as any as S.Schema<MultiplexProgramSettings>;
@@ -8636,27 +9075,30 @@ export interface CreateMultiplexProgramRequest {
 export const CreateMultiplexProgramRequest = S.suspend(() =>
   S.Struct({
     MultiplexId: S.String.pipe(T.HttpLabel("MultiplexId")),
-    MultiplexProgramSettings: S.optional(MultiplexProgramSettings)
-      .pipe(T.JsonName("multiplexProgramSettings"))
-      .annotate({ identifier: "MultiplexProgramSettings" }),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/multiplexes/{MultiplexId}/programs",
+    MultiplexProgramSettings: S.optional(MultiplexProgramSettings),
+    ProgramName: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        MultiplexProgramSettings: "multiplexProgramSettings",
+        ProgramName: "programName",
+        RequestId: "requestId",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/multiplexes/{MultiplexId}/programs",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateMultiplexProgramRequest",
 }) as any as S.Schema<CreateMultiplexProgramRequest>;
@@ -8683,28 +9125,44 @@ export interface MultiplexProgramPacketIdentifiersMap {
 }
 export const MultiplexProgramPacketIdentifiersMap = S.suspend(() =>
   S.Struct({
-    AudioPids: S.optional(__listOf__integer).pipe(T.JsonName("audioPids")),
-    DvbSubPids: S.optional(__listOf__integer).pipe(T.JsonName("dvbSubPids")),
-    DvbTeletextPid: S.optional(S.Number).pipe(T.JsonName("dvbTeletextPid")),
-    EtvPlatformPid: S.optional(S.Number).pipe(T.JsonName("etvPlatformPid")),
-    EtvSignalPid: S.optional(S.Number).pipe(T.JsonName("etvSignalPid")),
-    KlvDataPids: S.optional(__listOf__integer).pipe(T.JsonName("klvDataPids")),
-    PcrPid: S.optional(S.Number).pipe(T.JsonName("pcrPid")),
-    PmtPid: S.optional(S.Number).pipe(T.JsonName("pmtPid")),
-    PrivateMetadataPid: S.optional(S.Number).pipe(
-      T.JsonName("privateMetadataPid"),
-    ),
-    Scte27Pids: S.optional(__listOf__integer).pipe(T.JsonName("scte27Pids")),
-    Scte35Pid: S.optional(S.Number).pipe(T.JsonName("scte35Pid")),
-    TimedMetadataPid: S.optional(S.Number).pipe(T.JsonName("timedMetadataPid")),
-    VideoPid: S.optional(S.Number).pipe(T.JsonName("videoPid")),
-    AribCaptionsPid: S.optional(S.Number).pipe(T.JsonName("aribCaptionsPid")),
-    DvbTeletextPids: S.optional(__listOf__integer).pipe(
-      T.JsonName("dvbTeletextPids"),
-    ),
-    EcmPid: S.optional(S.Number).pipe(T.JsonName("ecmPid")),
-    Smpte2038Pid: S.optional(S.Number).pipe(T.JsonName("smpte2038Pid")),
-  }),
+    AudioPids: S.optional(__listOf__integer),
+    DvbSubPids: S.optional(__listOf__integer),
+    DvbTeletextPid: S.optional(S.Number),
+    EtvPlatformPid: S.optional(S.Number),
+    EtvSignalPid: S.optional(S.Number),
+    KlvDataPids: S.optional(__listOf__integer),
+    PcrPid: S.optional(S.Number),
+    PmtPid: S.optional(S.Number),
+    PrivateMetadataPid: S.optional(S.Number),
+    Scte27Pids: S.optional(__listOf__integer),
+    Scte35Pid: S.optional(S.Number),
+    TimedMetadataPid: S.optional(S.Number),
+    VideoPid: S.optional(S.Number),
+    AribCaptionsPid: S.optional(S.Number),
+    DvbTeletextPids: S.optional(__listOf__integer),
+    EcmPid: S.optional(S.Number),
+    Smpte2038Pid: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AudioPids: "audioPids",
+      DvbSubPids: "dvbSubPids",
+      DvbTeletextPid: "dvbTeletextPid",
+      EtvPlatformPid: "etvPlatformPid",
+      EtvSignalPid: "etvSignalPid",
+      KlvDataPids: "klvDataPids",
+      PcrPid: "pcrPid",
+      PmtPid: "pmtPid",
+      PrivateMetadataPid: "privateMetadataPid",
+      Scte27Pids: "scte27Pids",
+      Scte35Pid: "scte35Pid",
+      TimedMetadataPid: "timedMetadataPid",
+      VideoPid: "videoPid",
+      AribCaptionsPid: "aribCaptionsPid",
+      DvbTeletextPids: "dvbTeletextPids",
+      EcmPid: "ecmPid",
+      Smpte2038Pid: "smpte2038Pid",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexProgramPacketIdentifiersMap",
 }) as any as S.Schema<MultiplexProgramPacketIdentifiersMap>;
@@ -8714,11 +9172,14 @@ export interface MultiplexProgramPipelineDetail {
 }
 export const MultiplexProgramPipelineDetail = S.suspend(() =>
   S.Struct({
-    ActiveChannelPipeline: S.optional(S.String).pipe(
-      T.JsonName("activeChannelPipeline"),
-    ),
-    PipelineId: S.optional(S.String).pipe(T.JsonName("pipelineId")),
-  }),
+    ActiveChannelPipeline: S.optional(S.String),
+    PipelineId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ActiveChannelPipeline: "activeChannelPipeline",
+      PipelineId: "pipelineId",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexProgramPipelineDetail",
 }) as any as S.Schema<MultiplexProgramPipelineDetail>;
@@ -8736,18 +9197,20 @@ export interface MultiplexProgram {
 }
 export const MultiplexProgram = S.suspend(() =>
   S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
-    MultiplexProgramSettings: S.optional(MultiplexProgramSettings)
-      .pipe(T.JsonName("multiplexProgramSettings"))
-      .annotate({ identifier: "MultiplexProgramSettings" }),
-    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap)
-      .pipe(T.JsonName("packetIdentifiersMap"))
-      .annotate({ identifier: "MultiplexProgramPacketIdentifiersMap" }),
-    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-  }),
+    ChannelId: S.optional(S.String),
+    MultiplexProgramSettings: S.optional(MultiplexProgramSettings),
+    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap),
+    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail),
+    ProgramName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelId: "channelId",
+      MultiplexProgramSettings: "multiplexProgramSettings",
+      PacketIdentifiersMap: "packetIdentifiersMap",
+      PipelineDetails: "pipelineDetails",
+      ProgramName: "programName",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexProgram",
 }) as any as S.Schema<MultiplexProgram>;
@@ -8763,11 +9226,9 @@ export interface CreateMultiplexProgramResponse {
   };
 }
 export const CreateMultiplexProgramResponse = S.suspend(() =>
-  S.Struct({
-    MultiplexProgram: S.optional(MultiplexProgram)
-      .pipe(T.JsonName("multiplexProgram"))
-      .annotate({ identifier: "MultiplexProgram" }),
-  }),
+  S.Struct({ MultiplexProgram: S.optional(MultiplexProgram) }).pipe(
+    S.encodeKeys({ MultiplexProgram: "multiplexProgram" }),
+  ),
 ).annotate({
   identifier: "CreateMultiplexProgramResponse",
 }) as any as S.Schema<CreateMultiplexProgramResponse>;
@@ -8775,7 +9236,7 @@ export interface IpPoolCreateRequest {
   Cidr?: string;
 }
 export const IpPoolCreateRequest = S.suspend(() =>
-  S.Struct({ Cidr: S.optional(S.String).pipe(T.JsonName("cidr")) }),
+  S.Struct({ Cidr: S.optional(S.String) }).pipe(S.encodeKeys({ Cidr: "cidr" })),
 ).annotate({
   identifier: "IpPoolCreateRequest",
 }) as any as S.Schema<IpPoolCreateRequest>;
@@ -8786,10 +9247,9 @@ export interface RouteCreateRequest {
   Gateway?: string;
 }
 export const RouteCreateRequest = S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.JsonName("cidr")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String), Gateway: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cidr: "cidr", Gateway: "gateway" }),
+  ),
 ).annotate({
   identifier: "RouteCreateRequest",
 }) as any as S.Schema<RouteCreateRequest>;
@@ -8804,26 +9264,31 @@ export interface CreateNetworkRequest {
 }
 export const CreateNetworkRequest = S.suspend(() =>
   S.Struct({
-    IpPools: S.optional(__listOfIpPoolCreateRequest).pipe(
-      T.JsonName("ipPools"),
+    IpPools: S.optional(__listOfIpPoolCreateRequest),
+    Name: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Routes: S.optional(__listOfRouteCreateRequest),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        IpPools: "ipPools",
+        Name: "name",
+        RequestId: "requestId",
+        Routes: "routes",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/networks" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    Routes: S.optional(__listOfRouteCreateRequest).pipe(T.JsonName("routes")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/networks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateNetworkRequest",
 }) as any as S.Schema<CreateNetworkRequest>;
@@ -8831,7 +9296,7 @@ export interface IpPool {
   Cidr?: string;
 }
 export const IpPool = S.suspend(() =>
-  S.Struct({ Cidr: S.optional(S.String).pipe(T.JsonName("cidr")) }),
+  S.Struct({ Cidr: S.optional(S.String) }).pipe(S.encodeKeys({ Cidr: "cidr" })),
 ).annotate({ identifier: "IpPool" }) as any as S.Schema<IpPool>;
 export type __listOfIpPool = IpPool[];
 export const __listOfIpPool = S.Array(IpPool);
@@ -8840,10 +9305,9 @@ export interface Route {
   Gateway?: string;
 }
 export const Route = S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.JsonName("cidr")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String), Gateway: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cidr: "cidr", Gateway: "gateway" }),
+  ),
 ).annotate({ identifier: "Route" }) as any as S.Schema<Route>;
 export type __listOfRoute = Route[];
 export const __listOfRoute = S.Array(Route);
@@ -8870,16 +9334,24 @@ export interface CreateNetworkResponse {
 }
 export const CreateNetworkResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AssociatedClusterIds: S.optional(__listOf__string).pipe(
-      T.JsonName("associatedClusterIds"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    IpPools: S.optional(__listOfIpPool).pipe(T.JsonName("ipPools")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Routes: S.optional(__listOfRoute).pipe(T.JsonName("routes")),
-    State: S.optional(NetworkState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    AssociatedClusterIds: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    IpPools: S.optional(__listOfIpPool),
+    Name: S.optional(S.String),
+    Routes: S.optional(__listOfRoute),
+    State: S.optional(NetworkState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AssociatedClusterIds: "associatedClusterIds",
+      Id: "id",
+      IpPools: "ipPools",
+      Name: "name",
+      Routes: "routes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "CreateNetworkResponse",
 }) as any as S.Schema<CreateNetworkResponse>;
@@ -8892,16 +9364,16 @@ export interface NodeInterfaceMappingCreateRequest {
 }
 export const NodeInterfaceMappingCreateRequest = S.suspend(() =>
   S.Struct({
-    LogicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("logicalInterfaceName"),
-    ),
-    NetworkInterfaceMode: S.optional(NetworkInterfaceMode).pipe(
-      T.JsonName("networkInterfaceMode"),
-    ),
-    PhysicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("physicalInterfaceName"),
-    ),
-  }),
+    LogicalInterfaceName: S.optional(S.String),
+    NetworkInterfaceMode: S.optional(NetworkInterfaceMode),
+    PhysicalInterfaceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LogicalInterfaceName: "logicalInterfaceName",
+      NetworkInterfaceMode: "networkInterfaceMode",
+      PhysicalInterfaceName: "physicalInterfaceName",
+    }),
+  ),
 ).annotate({
   identifier: "NodeInterfaceMappingCreateRequest",
 }) as any as S.Schema<NodeInterfaceMappingCreateRequest>;
@@ -8923,26 +9395,33 @@ export interface CreateNodeRequest {
 export const CreateNodeRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Name: S.optional(S.String),
     NodeInterfaceMappings: S.optional(
       __listOfNodeInterfaceMappingCreateRequest,
-    ).pipe(T.JsonName("nodeInterfaceMappings")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
     ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/clusters/{ClusterId}/nodes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Role: S.optional(NodeRole),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Name: "name",
+        NodeInterfaceMappings: "nodeInterfaceMappings",
+        RequestId: "requestId",
+        Role: "role",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/clusters/{ClusterId}/nodes" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateNodeRequest",
 }) as any as S.Schema<CreateNodeRequest>;
@@ -8955,16 +9434,16 @@ export interface NodeInterfaceMapping {
 }
 export const NodeInterfaceMapping = S.suspend(() =>
   S.Struct({
-    LogicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("logicalInterfaceName"),
-    ),
-    NetworkInterfaceMode: S.optional(NetworkInterfaceMode).pipe(
-      T.JsonName("networkInterfaceMode"),
-    ),
-    PhysicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("physicalInterfaceName"),
-    ),
-  }),
+    LogicalInterfaceName: S.optional(S.String),
+    NetworkInterfaceMode: S.optional(NetworkInterfaceMode),
+    PhysicalInterfaceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LogicalInterfaceName: "logicalInterfaceName",
+      NetworkInterfaceMode: "networkInterfaceMode",
+      PhysicalInterfaceName: "physicalInterfaceName",
+    }),
+  ),
 ).annotate({
   identifier: "NodeInterfaceMapping",
 }) as any as S.Schema<NodeInterfaceMapping>;
@@ -8992,10 +9471,16 @@ export interface SdiSourceMapping {
 }
 export const SdiSourceMapping = S.suspend(() =>
   S.Struct({
-    CardNumber: S.optional(S.Number).pipe(T.JsonName("cardNumber")),
-    ChannelNumber: S.optional(S.Number).pipe(T.JsonName("channelNumber")),
-    SdiSource: S.optional(S.String).pipe(T.JsonName("sdiSource")),
-  }),
+    CardNumber: S.optional(S.Number),
+    ChannelNumber: S.optional(S.Number),
+    SdiSource: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CardNumber: "cardNumber",
+      ChannelNumber: "channelNumber",
+      SdiSource: "sdiSource",
+    }),
+  ),
 ).annotate({
   identifier: "SdiSourceMapping",
 }) as any as S.Schema<SdiSourceMapping>;
@@ -9016,26 +9501,32 @@ export interface CreateNodeResponse {
 }
 export const CreateNodeResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "CreateNodeResponse",
 }) as any as S.Schema<CreateNodeResponse>;
@@ -9050,29 +9541,34 @@ export interface CreateNodeRegistrationScriptRequest {
 export const CreateNodeRegistrationScriptRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/clusters/{ClusterId}/nodeRegistrationScript",
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Role: S.optional(NodeRole),
+  })
+    .pipe(
+      S.encodeKeys({
+        Id: "id",
+        Name: "name",
+        NodeInterfaceMappings: "nodeInterfaceMappings",
+        RequestId: "requestId",
+        Role: "role",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/clusters/{ClusterId}/nodeRegistrationScript",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateNodeRegistrationScriptRequest",
 }) as any as S.Schema<CreateNodeRegistrationScriptRequest>;
@@ -9080,11 +9576,9 @@ export interface CreateNodeRegistrationScriptResponse {
   NodeRegistrationScript?: string;
 }
 export const CreateNodeRegistrationScriptResponse = S.suspend(() =>
-  S.Struct({
-    NodeRegistrationScript: S.optional(S.String).pipe(
-      T.JsonName("nodeRegistrationScript"),
-    ),
-  }),
+  S.Struct({ NodeRegistrationScript: S.optional(S.String) }).pipe(
+    S.encodeKeys({ NodeRegistrationScript: "nodeRegistrationScript" }),
+  ),
 ).annotate({
   identifier: "CreateNodeRegistrationScriptResponse",
 }) as any as S.Schema<CreateNodeRegistrationScriptResponse>;
@@ -9096,21 +9590,20 @@ export interface CreatePartnerInputRequest {
 export const CreatePartnerInputRequest = S.suspend(() =>
   S.Struct({
     InputId: S.String.pipe(T.HttpLabel("InputId")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(Tags),
+  })
+    .pipe(S.encodeKeys({ RequestId: "requestId", Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/inputs/{InputId}/partners" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/inputs/{InputId}/partners" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreatePartnerInputRequest",
 }) as any as S.Schema<CreatePartnerInputRequest>;
@@ -9122,11 +9615,7 @@ export interface CreatePartnerInputResponse {
   };
 }
 export const CreatePartnerInputResponse = S.suspend(() =>
-  S.Struct({
-    Input: S.optional(Input)
-      .pipe(T.JsonName("input"))
-      .annotate({ identifier: "Input" }),
-  }),
+  S.Struct({ Input: S.optional(Input) }).pipe(S.encodeKeys({ Input: "input" })),
 ).annotate({
   identifier: "CreatePartnerInputResponse",
 }) as any as S.Schema<CreatePartnerInputResponse>;
@@ -9143,24 +9632,31 @@ export interface CreateSdiSourceRequest {
 }
 export const CreateSdiSourceRequest = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(SdiSourceMode).pipe(T.JsonName("mode")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    Mode: S.optional(SdiSourceMode),
+    Name: S.optional(S.String),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(Tags),
+    Type: S.optional(SdiSourceType),
+  })
+    .pipe(
+      S.encodeKeys({
+        Mode: "mode",
+        Name: "name",
+        RequestId: "requestId",
+        Tags: "tags",
+        Type: "type",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/sdiSources" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Type: S.optional(SdiSourceType).pipe(T.JsonName("type")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/sdiSources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateSdiSourceRequest",
 }) as any as S.Schema<CreateSdiSourceRequest>;
@@ -9177,24 +9673,32 @@ export interface SdiSource {
 }
 export const SdiSource = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Inputs: S.optional(__listOf__string).pipe(T.JsonName("inputs")),
-    Mode: S.optional(SdiSourceMode).pipe(T.JsonName("mode")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    State: S.optional(SdiSourceState).pipe(T.JsonName("state")),
-    Type: S.optional(SdiSourceType).pipe(T.JsonName("type")),
-  }),
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Inputs: S.optional(__listOf__string),
+    Mode: S.optional(SdiSourceMode),
+    Name: S.optional(S.String),
+    State: S.optional(SdiSourceState),
+    Type: S.optional(SdiSourceType),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Id: "id",
+      Inputs: "inputs",
+      Mode: "mode",
+      Name: "name",
+      State: "state",
+      Type: "type",
+    }),
+  ),
 ).annotate({ identifier: "SdiSource" }) as any as S.Schema<SdiSource>;
 export interface CreateSdiSourceResponse {
   SdiSource?: SdiSource;
 }
 export const CreateSdiSourceResponse = S.suspend(() =>
-  S.Struct({
-    SdiSource: S.optional(SdiSource)
-      .pipe(T.JsonName("sdiSource"))
-      .annotate({ identifier: "SdiSource" }),
-  }),
+  S.Struct({ SdiSource: S.optional(SdiSource) }).pipe(
+    S.encodeKeys({ SdiSource: "sdiSource" }),
+  ),
 ).annotate({
   identifier: "CreateSdiSourceResponse",
 }) as any as S.Schema<CreateSdiSourceResponse>;
@@ -9213,30 +9717,39 @@ export const CreateSignalMapRequest = S.suspend(() =>
   S.Struct({
     CloudWatchAlarmTemplateGroupIdentifiers: S.optional(
       __listOf__stringPatternS,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIdentifiers")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
     ),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
     EventBridgeRuleTemplateGroupIdentifiers: S.optional(
       __listOf__stringPatternS,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIdentifiers")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/signal-maps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+  })
+    .pipe(
+      S.encodeKeys({
+        CloudWatchAlarmTemplateGroupIdentifiers:
+          "cloudWatchAlarmTemplateGroupIdentifiers",
+        Description: "description",
+        DiscoveryEntryPointArn: "discoveryEntryPointArn",
+        EventBridgeRuleTemplateGroupIdentifiers:
+          "eventBridgeRuleTemplateGroupIdentifiers",
+        Name: "name",
+        Tags: "tags",
+        RequestId: "requestId",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/signal-maps" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSignalMapRequest",
 }) as any as S.Schema<CreateSignalMapRequest>;
@@ -9247,10 +9760,9 @@ export interface MediaResourceNeighbor {
   Name?: string;
 }
 export const MediaResourceNeighbor = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }),
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Arn: "arn", Name: "name" }),
+  ),
 ).annotate({
   identifier: "MediaResourceNeighbor",
 }) as any as S.Schema<MediaResourceNeighbor>;
@@ -9263,14 +9775,16 @@ export interface MediaResource {
 }
 export const MediaResource = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(__listOfMediaResourceNeighbor).pipe(
-      T.JsonName("destinations"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Sources: S.optional(__listOfMediaResourceNeighbor).pipe(
-      T.JsonName("sources"),
-    ),
-  }),
+    Destinations: S.optional(__listOfMediaResourceNeighbor),
+    Name: S.optional(S.String),
+    Sources: S.optional(__listOfMediaResourceNeighbor),
+  }).pipe(
+    S.encodeKeys({
+      Destinations: "destinations",
+      Name: "name",
+      Sources: "sources",
+    }),
+  ),
 ).annotate({ identifier: "MediaResource" }) as any as S.Schema<MediaResource>;
 export type FailedMediaResourceMap = {
   [key: string]: MediaResource | undefined;
@@ -9298,11 +9812,9 @@ export interface SuccessfulMonitorDeployment {
 }
 export const SuccessfulMonitorDeployment = S.suspend(() =>
   S.Struct({
-    DetailsUri: S.optional(S.String).pipe(T.JsonName("detailsUri")),
-    Status: S.optional(SignalMapMonitorDeploymentStatus).pipe(
-      T.JsonName("status"),
-    ),
-  }),
+    DetailsUri: S.optional(S.String),
+    Status: S.optional(SignalMapMonitorDeploymentStatus),
+  }).pipe(S.encodeKeys({ DetailsUri: "detailsUri", Status: "status" })),
 ).annotate({
   identifier: "SuccessfulMonitorDeployment",
 }) as any as S.Schema<SuccessfulMonitorDeployment>;
@@ -9318,12 +9830,16 @@ export interface MonitorDeployment {
 }
 export const MonitorDeployment = S.suspend(() =>
   S.Struct({
-    DetailsUri: S.optional(S.String).pipe(T.JsonName("detailsUri")),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
-    Status: S.optional(SignalMapMonitorDeploymentStatus).pipe(
-      T.JsonName("status"),
-    ),
-  }),
+    DetailsUri: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    Status: S.optional(SignalMapMonitorDeploymentStatus),
+  }).pipe(
+    S.encodeKeys({
+      DetailsUri: "detailsUri",
+      ErrorMessage: "errorMessage",
+      Status: "status",
+    }),
+  ),
 ).annotate({
   identifier: "MonitorDeployment",
 }) as any as S.Schema<MonitorDeployment>;
@@ -9388,47 +9904,56 @@ export interface CreateSignalMapResponse {
 }
 export const CreateSignalMapResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Arn: S.optional(S.String),
     CloudWatchAlarmTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIds")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
     EventBridgeRuleTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIds")),
-    FailedMediaResourceMap: S.optional(FailedMediaResourceMap).pipe(
-      T.JsonName("failedMediaResourceMap"),
     ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    FailedMediaResourceMap: S.optional(FailedMediaResourceMap),
+    Id: S.optional(S.String),
     LastDiscoveredAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastDiscoveredAt")),
-    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment)
-      .pipe(T.JsonName("lastSuccessfulMonitorDeployment"))
-      .annotate({ identifier: "SuccessfulMonitorDeployment" }),
-    MediaResourceMap: S.optional(MediaResourceMap).pipe(
-      T.JsonName("mediaResourceMap"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment),
+    MediaResourceMap: S.optional(MediaResourceMap),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorChangesPendingDeployment: S.optional(S.Boolean).pipe(
-      T.JsonName("monitorChangesPendingDeployment"),
-    ),
-    MonitorDeployment: S.optional(MonitorDeployment)
-      .pipe(T.JsonName("monitorDeployment"))
-      .annotate({ identifier: "MonitorDeployment" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorChangesPendingDeployment: S.optional(S.Boolean),
+    MonitorDeployment: S.optional(MonitorDeployment),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CloudWatchAlarmTemplateGroupIds: "cloudWatchAlarmTemplateGroupIds",
+      CreatedAt: "createdAt",
+      Description: "description",
+      DiscoveryEntryPointArn: "discoveryEntryPointArn",
+      ErrorMessage: "errorMessage",
+      EventBridgeRuleTemplateGroupIds: "eventBridgeRuleTemplateGroupIds",
+      FailedMediaResourceMap: "failedMediaResourceMap",
+      Id: "id",
+      LastDiscoveredAt: "lastDiscoveredAt",
+      LastSuccessfulMonitorDeployment: "lastSuccessfulMonitorDeployment",
+      MediaResourceMap: "mediaResourceMap",
+      ModifiedAt: "modifiedAt",
+      MonitorChangesPendingDeployment: "monitorChangesPendingDeployment",
+      MonitorDeployment: "monitorDeployment",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "CreateSignalMapResponse",
 }) as any as S.Schema<CreateSignalMapResponse>;
@@ -9439,17 +9964,19 @@ export interface CreateTagsRequest {
 export const CreateTagsRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(Tags),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/prod/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateTagsRequest",
 }) as any as S.Schema<CreateTagsRequest>;
@@ -9758,54 +10285,52 @@ export interface DeleteChannelResponse {
 }
 export const DeleteChannelResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteChannelResponse",
 }) as any as S.Schema<DeleteChannelResponse>;
@@ -9846,14 +10371,24 @@ export interface DeleteChannelPlacementGroupResponse {
 }
 export const DeleteChannelPlacementGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Channels: S.optional(__listOf__string).pipe(T.JsonName("channels")),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    State: S.optional(ChannelPlacementGroupState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Channels: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    State: S.optional(ChannelPlacementGroupState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Channels: "channels",
+      ClusterId: "clusterId",
+      Id: "id",
+      Name: "name",
+      Nodes: "nodes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteChannelPlacementGroupResponse",
 }) as any as S.Schema<DeleteChannelPlacementGroupResponse>;
@@ -9938,17 +10473,26 @@ export interface DeleteClusterResponse {
 }
 export const DeleteClusterResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceRoleArn: S.optional(S.String).pipe(T.JsonName("instanceRoleArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettings" }),
-    State: S.optional(ClusterState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    ChannelIds: S.optional(__listOf__string),
+    ClusterType: S.optional(ClusterType),
+    Id: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettings),
+    State: S.optional(ClusterState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelIds: "channelIds",
+      ClusterType: "clusterType",
+      Id: "id",
+      InstanceRoleArn: "instanceRoleArn",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
@@ -10087,25 +10631,30 @@ export interface DeleteMultiplexResponse {
 }
 export const DeleteMultiplexResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Destinations: S.optional(__listOfMultiplexOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfMultiplexOutputDestination),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Destinations: "destinations",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteMultiplexResponse",
 }) as any as S.Schema<DeleteMultiplexResponse>;
@@ -10148,18 +10697,20 @@ export interface DeleteMultiplexProgramResponse {
 }
 export const DeleteMultiplexProgramResponse = S.suspend(() =>
   S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
-    MultiplexProgramSettings: S.optional(MultiplexProgramSettings)
-      .pipe(T.JsonName("multiplexProgramSettings"))
-      .annotate({ identifier: "MultiplexProgramSettings" }),
-    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap)
-      .pipe(T.JsonName("packetIdentifiersMap"))
-      .annotate({ identifier: "MultiplexProgramPacketIdentifiersMap" }),
-    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-  }),
+    ChannelId: S.optional(S.String),
+    MultiplexProgramSettings: S.optional(MultiplexProgramSettings),
+    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap),
+    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail),
+    ProgramName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelId: "channelId",
+      MultiplexProgramSettings: "multiplexProgramSettings",
+      PacketIdentifiersMap: "packetIdentifiersMap",
+      PipelineDetails: "pipelineDetails",
+      ProgramName: "programName",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteMultiplexProgramResponse",
 }) as any as S.Schema<DeleteMultiplexProgramResponse>;
@@ -10191,16 +10742,24 @@ export interface DeleteNetworkResponse {
 }
 export const DeleteNetworkResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AssociatedClusterIds: S.optional(__listOf__string).pipe(
-      T.JsonName("associatedClusterIds"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    IpPools: S.optional(__listOfIpPool).pipe(T.JsonName("ipPools")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Routes: S.optional(__listOfRoute).pipe(T.JsonName("routes")),
-    State: S.optional(NetworkState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    AssociatedClusterIds: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    IpPools: S.optional(__listOfIpPool),
+    Name: S.optional(S.String),
+    Routes: S.optional(__listOfRoute),
+    State: S.optional(NetworkState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AssociatedClusterIds: "associatedClusterIds",
+      Id: "id",
+      IpPools: "ipPools",
+      Name: "name",
+      Routes: "routes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteNetworkResponse",
 }) as any as S.Schema<DeleteNetworkResponse>;
@@ -10243,26 +10802,32 @@ export interface DeleteNodeResponse {
 }
 export const DeleteNodeResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteNodeResponse",
 }) as any as S.Schema<DeleteNodeResponse>;
@@ -10299,11 +10864,14 @@ export interface RenewalSettings {
 }
 export const RenewalSettings = S.suspend(() =>
   S.Struct({
-    AutomaticRenewal: S.optional(ReservationAutomaticRenewal).pipe(
-      T.JsonName("automaticRenewal"),
-    ),
-    RenewalCount: S.optional(S.Number).pipe(T.JsonName("renewalCount")),
-  }),
+    AutomaticRenewal: S.optional(ReservationAutomaticRenewal),
+    RenewalCount: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      AutomaticRenewal: "automaticRenewal",
+      RenewalCount: "renewalCount",
+    }),
+  ),
 ).annotate({
   identifier: "RenewalSettings",
 }) as any as S.Schema<RenewalSettings>;
@@ -10361,27 +10929,26 @@ export interface ReservationResourceSpecification {
 }
 export const ReservationResourceSpecification = S.suspend(() =>
   S.Struct({
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Codec: S.optional(ReservationCodec).pipe(T.JsonName("codec")),
-    MaximumBitrate: S.optional(ReservationMaximumBitrate).pipe(
-      T.JsonName("maximumBitrate"),
-    ),
-    MaximumFramerate: S.optional(ReservationMaximumFramerate).pipe(
-      T.JsonName("maximumFramerate"),
-    ),
-    Resolution: S.optional(ReservationResolution).pipe(
-      T.JsonName("resolution"),
-    ),
-    ResourceType: S.optional(ReservationResourceType).pipe(
-      T.JsonName("resourceType"),
-    ),
-    SpecialFeature: S.optional(ReservationSpecialFeature).pipe(
-      T.JsonName("specialFeature"),
-    ),
-    VideoQuality: S.optional(ReservationVideoQuality).pipe(
-      T.JsonName("videoQuality"),
-    ),
-  }),
+    ChannelClass: S.optional(ChannelClass),
+    Codec: S.optional(ReservationCodec),
+    MaximumBitrate: S.optional(ReservationMaximumBitrate),
+    MaximumFramerate: S.optional(ReservationMaximumFramerate),
+    Resolution: S.optional(ReservationResolution),
+    ResourceType: S.optional(ReservationResourceType),
+    SpecialFeature: S.optional(ReservationSpecialFeature),
+    VideoQuality: S.optional(ReservationVideoQuality),
+  }).pipe(
+    S.encodeKeys({
+      ChannelClass: "channelClass",
+      Codec: "codec",
+      MaximumBitrate: "maximumBitrate",
+      MaximumFramerate: "maximumFramerate",
+      Resolution: "resolution",
+      ResourceType: "resourceType",
+      SpecialFeature: "specialFeature",
+      VideoQuality: "videoQuality",
+    }),
+  ),
 ).annotate({
   identifier: "ReservationResourceSpecification",
 }) as any as S.Schema<ReservationResourceSpecification>;
@@ -10415,34 +10982,48 @@ export interface DeleteReservationResponse {
 }
 export const DeleteReservationResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    CurrencyCode: S.optional(S.String).pipe(T.JsonName("currencyCode")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    DurationUnits: S.optional(OfferingDurationUnits).pipe(
-      T.JsonName("durationUnits"),
-    ),
-    End: S.optional(S.String).pipe(T.JsonName("end")),
-    FixedPrice: S.optional(S.Number).pipe(T.JsonName("fixedPrice")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OfferingDescription: S.optional(S.String).pipe(
-      T.JsonName("offeringDescription"),
-    ),
-    OfferingId: S.optional(S.String).pipe(T.JsonName("offeringId")),
-    OfferingType: S.optional(OfferingType).pipe(T.JsonName("offeringType")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    RenewalSettings: S.optional(RenewalSettings)
-      .pipe(T.JsonName("renewalSettings"))
-      .annotate({ identifier: "RenewalSettings" }),
-    ReservationId: S.optional(S.String).pipe(T.JsonName("reservationId")),
-    ResourceSpecification: S.optional(ReservationResourceSpecification)
-      .pipe(T.JsonName("resourceSpecification"))
-      .annotate({ identifier: "ReservationResourceSpecification" }),
-    Start: S.optional(S.String).pipe(T.JsonName("start")),
-    State: S.optional(ReservationState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    UsagePrice: S.optional(S.Number).pipe(T.JsonName("usagePrice")),
-  }),
+    Arn: S.optional(S.String),
+    Count: S.optional(S.Number),
+    CurrencyCode: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    DurationUnits: S.optional(OfferingDurationUnits),
+    End: S.optional(S.String),
+    FixedPrice: S.optional(S.Number),
+    Name: S.optional(S.String),
+    OfferingDescription: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    OfferingType: S.optional(OfferingType),
+    Region: S.optional(S.String),
+    RenewalSettings: S.optional(RenewalSettings),
+    ReservationId: S.optional(S.String),
+    ResourceSpecification: S.optional(ReservationResourceSpecification),
+    Start: S.optional(S.String),
+    State: S.optional(ReservationState),
+    Tags: S.optional(Tags),
+    UsagePrice: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Count: "count",
+      CurrencyCode: "currencyCode",
+      Duration: "duration",
+      DurationUnits: "durationUnits",
+      End: "end",
+      FixedPrice: "fixedPrice",
+      Name: "name",
+      OfferingDescription: "offeringDescription",
+      OfferingId: "offeringId",
+      OfferingType: "offeringType",
+      Region: "region",
+      RenewalSettings: "renewalSettings",
+      ReservationId: "reservationId",
+      ResourceSpecification: "resourceSpecification",
+      Start: "start",
+      State: "state",
+      Tags: "tags",
+      UsagePrice: "usagePrice",
+    }),
+  ),
 ).annotate({
   identifier: "DeleteReservationResponse",
 }) as any as S.Schema<DeleteReservationResponse>;
@@ -10488,11 +11069,9 @@ export interface DeleteSdiSourceResponse {
   SdiSource?: SdiSource;
 }
 export const DeleteSdiSourceResponse = S.suspend(() =>
-  S.Struct({
-    SdiSource: S.optional(SdiSource)
-      .pipe(T.JsonName("sdiSource"))
-      .annotate({ identifier: "SdiSource" }),
-  }),
+  S.Struct({ SdiSource: S.optional(SdiSource) }).pipe(
+    S.encodeKeys({ SdiSource: "sdiSource" }),
+  ),
 ).annotate({
   identifier: "DeleteSdiSourceResponse",
 }) as any as S.Schema<DeleteSdiSourceResponse>;
@@ -10561,7 +11140,9 @@ export interface AccountConfiguration {
   KmsKeyId?: string;
 }
 export const AccountConfiguration = S.suspend(() =>
-  S.Struct({ KmsKeyId: S.optional(S.String).pipe(T.JsonName("kmsKeyId")) }),
+  S.Struct({ KmsKeyId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ KmsKeyId: "kmsKeyId" }),
+  ),
 ).annotate({
   identifier: "AccountConfiguration",
 }) as any as S.Schema<AccountConfiguration>;
@@ -10569,11 +11150,9 @@ export interface DescribeAccountConfigurationResponse {
   AccountConfiguration?: AccountConfiguration;
 }
 export const DescribeAccountConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    AccountConfiguration: S.optional(AccountConfiguration)
-      .pipe(T.JsonName("accountConfiguration"))
-      .annotate({ identifier: "AccountConfiguration" }),
-  }),
+  S.Struct({ AccountConfiguration: S.optional(AccountConfiguration) }).pipe(
+    S.encodeKeys({ AccountConfiguration: "accountConfiguration" }),
+  ),
 ).annotate({
   identifier: "DescribeAccountConfigurationResponse",
 }) as any as S.Schema<DescribeAccountConfigurationResponse>;
@@ -10878,54 +11457,52 @@ export interface DescribeChannelResponse {
 }
 export const DescribeChannelResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeChannelResponse",
 }) as any as S.Schema<DescribeChannelResponse>;
@@ -10966,14 +11543,24 @@ export interface DescribeChannelPlacementGroupResponse {
 }
 export const DescribeChannelPlacementGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Channels: S.optional(__listOf__string).pipe(T.JsonName("channels")),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    State: S.optional(ChannelPlacementGroupState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Channels: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    State: S.optional(ChannelPlacementGroupState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Channels: "channels",
+      ClusterId: "clusterId",
+      Id: "id",
+      Name: "name",
+      Nodes: "nodes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeChannelPlacementGroupResponse",
 }) as any as S.Schema<DescribeChannelPlacementGroupResponse>;
@@ -11006,17 +11593,26 @@ export interface DescribeClusterResponse {
 }
 export const DescribeClusterResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceRoleArn: S.optional(S.String).pipe(T.JsonName("instanceRoleArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettings" }),
-    State: S.optional(ClusterState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    ChannelIds: S.optional(__listOf__string),
+    ClusterType: S.optional(ClusterType),
+    Id: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettings),
+    State: S.optional(ClusterState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelIds: "channelIds",
+      ClusterType: "clusterType",
+      Id: "id",
+      InstanceRoleArn: "instanceRoleArn",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeClusterResponse",
 }) as any as S.Schema<DescribeClusterResponse>;
@@ -11065,53 +11661,54 @@ export interface DescribeInputResponse {
 }
 export const DescribeInputResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AttachedChannels: S.optional(__listOf__string).pipe(
-      T.JsonName("attachedChannels"),
-    ),
-    Destinations: S.optional(__listOfInputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputClass: S.optional(InputClass).pipe(T.JsonName("inputClass")),
-    InputDevices: S.optional(__listOfInputDeviceSettings).pipe(
-      T.JsonName("inputDevices"),
-    ),
-    InputPartnerIds: S.optional(__listOf__string).pipe(
-      T.JsonName("inputPartnerIds"),
-    ),
-    InputSourceType: S.optional(InputSourceType).pipe(
-      T.JsonName("inputSourceType"),
-    ),
-    MediaConnectFlows: S.optional(__listOfMediaConnectFlow).pipe(
-      T.JsonName("mediaConnectFlows"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    SecurityGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("securityGroups"),
-    ),
-    Sources: S.optional(__listOfInputSource).pipe(T.JsonName("sources")),
-    State: S.optional(InputState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Type: S.optional(InputType).pipe(T.JsonName("type")),
-    SrtSettings: S.optional(SrtSettings)
-      .pipe(T.JsonName("srtSettings"))
-      .annotate({ identifier: "SrtSettings" }),
-    InputNetworkLocation: S.optional(InputNetworkLocation).pipe(
-      T.JsonName("inputNetworkLocation"),
-    ),
-    MulticastSettings: S.optional(MulticastSettings)
-      .pipe(T.JsonName("multicastSettings"))
-      .annotate({ identifier: "MulticastSettings" }),
-    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings)
-      .pipe(T.JsonName("smpte2110ReceiverGroupSettings"))
-      .annotate({ identifier: "Smpte2110ReceiverGroupSettings" }),
-    SdiSources: S.optional(InputSdiSources).pipe(T.JsonName("sdiSources")),
-    RouterSettings: S.optional(RouterInputSettings)
-      .pipe(T.JsonName("routerSettings"))
-      .annotate({ identifier: "RouterInputSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    AttachedChannels: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfInputDestination),
+    Id: S.optional(S.String),
+    InputClass: S.optional(InputClass),
+    InputDevices: S.optional(__listOfInputDeviceSettings),
+    InputPartnerIds: S.optional(__listOf__string),
+    InputSourceType: S.optional(InputSourceType),
+    MediaConnectFlows: S.optional(__listOfMediaConnectFlow),
+    Name: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    SecurityGroups: S.optional(__listOf__string),
+    Sources: S.optional(__listOfInputSource),
+    State: S.optional(InputState),
+    Tags: S.optional(Tags),
+    Type: S.optional(InputType),
+    SrtSettings: S.optional(SrtSettings),
+    InputNetworkLocation: S.optional(InputNetworkLocation),
+    MulticastSettings: S.optional(MulticastSettings),
+    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings),
+    SdiSources: S.optional(InputSdiSources),
+    RouterSettings: S.optional(RouterInputSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AttachedChannels: "attachedChannels",
+      Destinations: "destinations",
+      Id: "id",
+      InputClass: "inputClass",
+      InputDevices: "inputDevices",
+      InputPartnerIds: "inputPartnerIds",
+      InputSourceType: "inputSourceType",
+      MediaConnectFlows: "mediaConnectFlows",
+      Name: "name",
+      RoleArn: "roleArn",
+      SecurityGroups: "securityGroups",
+      Sources: "sources",
+      State: "state",
+      Tags: "tags",
+      Type: "type",
+      SrtSettings: "srtSettings",
+      InputNetworkLocation: "inputNetworkLocation",
+      MulticastSettings: "multicastSettings",
+      Smpte2110ReceiverGroupSettings: "smpte2110ReceiverGroupSettings",
+      SdiSources: "sdiSources",
+      RouterSettings: "routerSettings",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeInputResponse",
 }) as any as S.Schema<DescribeInputResponse>;
@@ -11170,20 +11767,28 @@ export interface InputDeviceHdSettings {
 }
 export const InputDeviceHdSettings = S.suspend(() =>
   S.Struct({
-    ActiveInput: S.optional(InputDeviceActiveInput).pipe(
-      T.JsonName("activeInput"),
-    ),
-    ConfiguredInput: S.optional(InputDeviceConfiguredInput).pipe(
-      T.JsonName("configuredInput"),
-    ),
-    DeviceState: S.optional(InputDeviceState).pipe(T.JsonName("deviceState")),
-    Framerate: S.optional(S.Number).pipe(T.JsonName("framerate")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    ScanType: S.optional(InputDeviceScanType).pipe(T.JsonName("scanType")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    LatencyMs: S.optional(S.Number).pipe(T.JsonName("latencyMs")),
-  }),
+    ActiveInput: S.optional(InputDeviceActiveInput),
+    ConfiguredInput: S.optional(InputDeviceConfiguredInput),
+    DeviceState: S.optional(InputDeviceState),
+    Framerate: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    MaxBitrate: S.optional(S.Number),
+    ScanType: S.optional(InputDeviceScanType),
+    Width: S.optional(S.Number),
+    LatencyMs: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      ActiveInput: "activeInput",
+      ConfiguredInput: "configuredInput",
+      DeviceState: "deviceState",
+      Framerate: "framerate",
+      Height: "height",
+      MaxBitrate: "maxBitrate",
+      ScanType: "scanType",
+      Width: "width",
+      LatencyMs: "latencyMs",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceHdSettings",
 }) as any as S.Schema<InputDeviceHdSettings>;
@@ -11198,12 +11803,20 @@ export interface InputDeviceNetworkSettings {
 }
 export const InputDeviceNetworkSettings = S.suspend(() =>
   S.Struct({
-    DnsAddresses: S.optional(__listOf__string).pipe(T.JsonName("dnsAddresses")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-    IpAddress: S.optional(S.String).pipe(T.JsonName("ipAddress")),
-    IpScheme: S.optional(InputDeviceIpScheme).pipe(T.JsonName("ipScheme")),
-    SubnetMask: S.optional(S.String).pipe(T.JsonName("subnetMask")),
-  }),
+    DnsAddresses: S.optional(__listOf__string),
+    Gateway: S.optional(S.String),
+    IpAddress: S.optional(S.String),
+    IpScheme: S.optional(InputDeviceIpScheme),
+    SubnetMask: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      DnsAddresses: "dnsAddresses",
+      Gateway: "gateway",
+      IpAddress: "ipAddress",
+      IpScheme: "ipScheme",
+      SubnetMask: "subnetMask",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceNetworkSettings",
 }) as any as S.Schema<InputDeviceNetworkSettings>;
@@ -11219,11 +11832,18 @@ export interface InputDeviceMediaConnectSettings {
 }
 export const InputDeviceMediaConnectSettings = S.suspend(() =>
   S.Struct({
-    FlowArn: S.optional(S.String).pipe(T.JsonName("flowArn")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    SecretArn: S.optional(S.String).pipe(T.JsonName("secretArn")),
-    SourceName: S.optional(S.String).pipe(T.JsonName("sourceName")),
-  }),
+    FlowArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    SourceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FlowArn: "flowArn",
+      RoleArn: "roleArn",
+      SecretArn: "secretArn",
+      SourceName: "sourceName",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceMediaConnectSettings",
 }) as any as S.Schema<InputDeviceMediaConnectSettings>;
@@ -11244,11 +11864,9 @@ export interface InputDeviceUhdAudioChannelPairConfig {
 }
 export const InputDeviceUhdAudioChannelPairConfig = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.Number).pipe(T.JsonName("id")),
-    Profile: S.optional(InputDeviceUhdAudioChannelPairProfile).pipe(
-      T.JsonName("profile"),
-    ),
-  }),
+    Id: S.optional(S.Number),
+    Profile: S.optional(InputDeviceUhdAudioChannelPairProfile),
+  }).pipe(S.encodeKeys({ Id: "id", Profile: "profile" })),
 ).annotate({
   identifier: "InputDeviceUhdAudioChannelPairConfig",
 }) as any as S.Schema<InputDeviceUhdAudioChannelPairConfig>;
@@ -11274,28 +11892,36 @@ export interface InputDeviceUhdSettings {
 }
 export const InputDeviceUhdSettings = S.suspend(() =>
   S.Struct({
-    ActiveInput: S.optional(InputDeviceActiveInput).pipe(
-      T.JsonName("activeInput"),
-    ),
-    ConfiguredInput: S.optional(InputDeviceConfiguredInput).pipe(
-      T.JsonName("configuredInput"),
-    ),
-    DeviceState: S.optional(InputDeviceState).pipe(T.JsonName("deviceState")),
-    Framerate: S.optional(S.Number).pipe(T.JsonName("framerate")),
-    Height: S.optional(S.Number).pipe(T.JsonName("height")),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    ScanType: S.optional(InputDeviceScanType).pipe(T.JsonName("scanType")),
-    Width: S.optional(S.Number).pipe(T.JsonName("width")),
-    LatencyMs: S.optional(S.Number).pipe(T.JsonName("latencyMs")),
-    Codec: S.optional(InputDeviceCodec).pipe(T.JsonName("codec")),
-    MediaconnectSettings: S.optional(InputDeviceMediaConnectSettings)
-      .pipe(T.JsonName("mediaconnectSettings"))
-      .annotate({ identifier: "InputDeviceMediaConnectSettings" }),
-    AudioChannelPairs: S.optional(
-      __listOfInputDeviceUhdAudioChannelPairConfig,
-    ).pipe(T.JsonName("audioChannelPairs")),
-    InputResolution: S.optional(S.String).pipe(T.JsonName("inputResolution")),
-  }),
+    ActiveInput: S.optional(InputDeviceActiveInput),
+    ConfiguredInput: S.optional(InputDeviceConfiguredInput),
+    DeviceState: S.optional(InputDeviceState),
+    Framerate: S.optional(S.Number),
+    Height: S.optional(S.Number),
+    MaxBitrate: S.optional(S.Number),
+    ScanType: S.optional(InputDeviceScanType),
+    Width: S.optional(S.Number),
+    LatencyMs: S.optional(S.Number),
+    Codec: S.optional(InputDeviceCodec),
+    MediaconnectSettings: S.optional(InputDeviceMediaConnectSettings),
+    AudioChannelPairs: S.optional(__listOfInputDeviceUhdAudioChannelPairConfig),
+    InputResolution: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ActiveInput: "activeInput",
+      ConfiguredInput: "configuredInput",
+      DeviceState: "deviceState",
+      Framerate: "framerate",
+      Height: "height",
+      MaxBitrate: "maxBitrate",
+      ScanType: "scanType",
+      Width: "width",
+      LatencyMs: "latencyMs",
+      Codec: "codec",
+      MediaconnectSettings: "mediaconnectSettings",
+      AudioChannelPairs: "audioChannelPairs",
+      InputResolution: "inputResolution",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceUhdSettings",
 }) as any as S.Schema<InputDeviceUhdSettings>;
@@ -11325,39 +11951,42 @@ export interface DescribeInputDeviceResponse {
 }
 export const DescribeInputDeviceResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ConnectionState: S.optional(InputDeviceConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState).pipe(
-      T.JsonName("deviceSettingsSyncState"),
-    ),
-    DeviceUpdateStatus: S.optional(DeviceUpdateStatus).pipe(
-      T.JsonName("deviceUpdateStatus"),
-    ),
-    HdDeviceSettings: S.optional(InputDeviceHdSettings)
-      .pipe(T.JsonName("hdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceHdSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MacAddress: S.optional(S.String).pipe(T.JsonName("macAddress")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(InputDeviceNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "InputDeviceNetworkSettings" }),
-    SerialNumber: S.optional(S.String).pipe(T.JsonName("serialNumber")),
-    Type: S.optional(InputDeviceType).pipe(T.JsonName("type")),
-    UhdDeviceSettings: S.optional(InputDeviceUhdSettings)
-      .pipe(T.JsonName("uhdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceUhdSettings" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    MedialiveInputArns: S.optional(__listOf__string).pipe(
-      T.JsonName("medialiveInputArns"),
-    ),
-    OutputType: S.optional(InputDeviceOutputType).pipe(
-      T.JsonName("outputType"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ConnectionState: S.optional(InputDeviceConnectionState),
+    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState),
+    DeviceUpdateStatus: S.optional(DeviceUpdateStatus),
+    HdDeviceSettings: S.optional(InputDeviceHdSettings),
+    Id: S.optional(S.String),
+    MacAddress: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(InputDeviceNetworkSettings),
+    SerialNumber: S.optional(S.String),
+    Type: S.optional(InputDeviceType),
+    UhdDeviceSettings: S.optional(InputDeviceUhdSettings),
+    Tags: S.optional(Tags),
+    AvailabilityZone: S.optional(S.String),
+    MedialiveInputArns: S.optional(__listOf__string),
+    OutputType: S.optional(InputDeviceOutputType),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ConnectionState: "connectionState",
+      DeviceSettingsSyncState: "deviceSettingsSyncState",
+      DeviceUpdateStatus: "deviceUpdateStatus",
+      HdDeviceSettings: "hdDeviceSettings",
+      Id: "id",
+      MacAddress: "macAddress",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      SerialNumber: "serialNumber",
+      Type: "type",
+      UhdDeviceSettings: "uhdDeviceSettings",
+      Tags: "tags",
+      AvailabilityZone: "availabilityZone",
+      MedialiveInputArns: "medialiveInputArns",
+      OutputType: "outputType",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeInputDeviceResponse",
 }) as any as S.Schema<DescribeInputDeviceResponse>;
@@ -11398,17 +12027,14 @@ export interface DescribeInputDeviceThumbnailResponse {
 }
 export const DescribeInputDeviceThumbnailResponse = S.suspend(() =>
   S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(
-      T.HttpPayload(),
-      T.JsonName("body"),
-    ),
+    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     ContentType: S.optional(ContentType).pipe(T.HttpHeader("Content-Type")),
     ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
       T.HttpHeader("Last-Modified"),
     ),
-  }),
+  }).pipe(S.encodeKeys({ Body: "body" })),
 ).annotate({
   identifier: "DescribeInputDeviceThumbnailResponse",
 }) as any as S.Schema<DescribeInputDeviceThumbnailResponse>;
@@ -11444,15 +12070,22 @@ export interface DescribeInputSecurityGroupResponse {
 }
 export const DescribeInputSecurityGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Inputs: S.optional(__listOf__string).pipe(T.JsonName("inputs")),
-    State: S.optional(InputSecurityGroupState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    WhitelistRules: S.optional(__listOfInputWhitelistRule).pipe(
-      T.JsonName("whitelistRules"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Inputs: S.optional(__listOf__string),
+    State: S.optional(InputSecurityGroupState),
+    Tags: S.optional(Tags),
+    WhitelistRules: S.optional(__listOfInputWhitelistRule),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Id: "id",
+      Inputs: "inputs",
+      State: "state",
+      Tags: "tags",
+      WhitelistRules: "whitelistRules",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeInputSecurityGroupResponse",
 }) as any as S.Schema<DescribeInputSecurityGroupResponse>;
@@ -11490,25 +12123,30 @@ export interface DescribeMultiplexResponse {
 }
 export const DescribeMultiplexResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Destinations: S.optional(__listOfMultiplexOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfMultiplexOutputDestination),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Destinations: "destinations",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeMultiplexResponse",
 }) as any as S.Schema<DescribeMultiplexResponse>;
@@ -11551,18 +12189,20 @@ export interface DescribeMultiplexProgramResponse {
 }
 export const DescribeMultiplexProgramResponse = S.suspend(() =>
   S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
-    MultiplexProgramSettings: S.optional(MultiplexProgramSettings)
-      .pipe(T.JsonName("multiplexProgramSettings"))
-      .annotate({ identifier: "MultiplexProgramSettings" }),
-    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap)
-      .pipe(T.JsonName("packetIdentifiersMap"))
-      .annotate({ identifier: "MultiplexProgramPacketIdentifiersMap" }),
-    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-  }),
+    ChannelId: S.optional(S.String),
+    MultiplexProgramSettings: S.optional(MultiplexProgramSettings),
+    PacketIdentifiersMap: S.optional(MultiplexProgramPacketIdentifiersMap),
+    PipelineDetails: S.optional(__listOfMultiplexProgramPipelineDetail),
+    ProgramName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelId: "channelId",
+      MultiplexProgramSettings: "multiplexProgramSettings",
+      PacketIdentifiersMap: "packetIdentifiersMap",
+      PipelineDetails: "pipelineDetails",
+      ProgramName: "programName",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeMultiplexProgramResponse",
 }) as any as S.Schema<DescribeMultiplexProgramResponse>;
@@ -11594,16 +12234,24 @@ export interface DescribeNetworkResponse {
 }
 export const DescribeNetworkResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AssociatedClusterIds: S.optional(__listOf__string).pipe(
-      T.JsonName("associatedClusterIds"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    IpPools: S.optional(__listOfIpPool).pipe(T.JsonName("ipPools")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Routes: S.optional(__listOfRoute).pipe(T.JsonName("routes")),
-    State: S.optional(NetworkState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    AssociatedClusterIds: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    IpPools: S.optional(__listOfIpPool),
+    Name: S.optional(S.String),
+    Routes: S.optional(__listOfRoute),
+    State: S.optional(NetworkState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AssociatedClusterIds: "associatedClusterIds",
+      Id: "id",
+      IpPools: "ipPools",
+      Name: "name",
+      Routes: "routes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeNetworkResponse",
 }) as any as S.Schema<DescribeNetworkResponse>;
@@ -11646,26 +12294,32 @@ export interface DescribeNodeResponse {
 }
 export const DescribeNodeResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeNodeResponse",
 }) as any as S.Schema<DescribeNodeResponse>;
@@ -11701,24 +12355,32 @@ export interface DescribeOfferingResponse {
 }
 export const DescribeOfferingResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CurrencyCode: S.optional(S.String).pipe(T.JsonName("currencyCode")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    DurationUnits: S.optional(OfferingDurationUnits).pipe(
-      T.JsonName("durationUnits"),
-    ),
-    FixedPrice: S.optional(S.Number).pipe(T.JsonName("fixedPrice")),
-    OfferingDescription: S.optional(S.String).pipe(
-      T.JsonName("offeringDescription"),
-    ),
-    OfferingId: S.optional(S.String).pipe(T.JsonName("offeringId")),
-    OfferingType: S.optional(OfferingType).pipe(T.JsonName("offeringType")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    ResourceSpecification: S.optional(ReservationResourceSpecification)
-      .pipe(T.JsonName("resourceSpecification"))
-      .annotate({ identifier: "ReservationResourceSpecification" }),
-    UsagePrice: S.optional(S.Number).pipe(T.JsonName("usagePrice")),
-  }),
+    Arn: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    DurationUnits: S.optional(OfferingDurationUnits),
+    FixedPrice: S.optional(S.Number),
+    OfferingDescription: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    OfferingType: S.optional(OfferingType),
+    Region: S.optional(S.String),
+    ResourceSpecification: S.optional(ReservationResourceSpecification),
+    UsagePrice: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CurrencyCode: "currencyCode",
+      Duration: "duration",
+      DurationUnits: "durationUnits",
+      FixedPrice: "fixedPrice",
+      OfferingDescription: "offeringDescription",
+      OfferingId: "offeringId",
+      OfferingType: "offeringType",
+      Region: "region",
+      ResourceSpecification: "resourceSpecification",
+      UsagePrice: "usagePrice",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeOfferingResponse",
 }) as any as S.Schema<DescribeOfferingResponse>;
@@ -11762,34 +12424,48 @@ export interface DescribeReservationResponse {
 }
 export const DescribeReservationResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    CurrencyCode: S.optional(S.String).pipe(T.JsonName("currencyCode")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    DurationUnits: S.optional(OfferingDurationUnits).pipe(
-      T.JsonName("durationUnits"),
-    ),
-    End: S.optional(S.String).pipe(T.JsonName("end")),
-    FixedPrice: S.optional(S.Number).pipe(T.JsonName("fixedPrice")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OfferingDescription: S.optional(S.String).pipe(
-      T.JsonName("offeringDescription"),
-    ),
-    OfferingId: S.optional(S.String).pipe(T.JsonName("offeringId")),
-    OfferingType: S.optional(OfferingType).pipe(T.JsonName("offeringType")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    RenewalSettings: S.optional(RenewalSettings)
-      .pipe(T.JsonName("renewalSettings"))
-      .annotate({ identifier: "RenewalSettings" }),
-    ReservationId: S.optional(S.String).pipe(T.JsonName("reservationId")),
-    ResourceSpecification: S.optional(ReservationResourceSpecification)
-      .pipe(T.JsonName("resourceSpecification"))
-      .annotate({ identifier: "ReservationResourceSpecification" }),
-    Start: S.optional(S.String).pipe(T.JsonName("start")),
-    State: S.optional(ReservationState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    UsagePrice: S.optional(S.Number).pipe(T.JsonName("usagePrice")),
-  }),
+    Arn: S.optional(S.String),
+    Count: S.optional(S.Number),
+    CurrencyCode: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    DurationUnits: S.optional(OfferingDurationUnits),
+    End: S.optional(S.String),
+    FixedPrice: S.optional(S.Number),
+    Name: S.optional(S.String),
+    OfferingDescription: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    OfferingType: S.optional(OfferingType),
+    Region: S.optional(S.String),
+    RenewalSettings: S.optional(RenewalSettings),
+    ReservationId: S.optional(S.String),
+    ResourceSpecification: S.optional(ReservationResourceSpecification),
+    Start: S.optional(S.String),
+    State: S.optional(ReservationState),
+    Tags: S.optional(Tags),
+    UsagePrice: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Count: "count",
+      CurrencyCode: "currencyCode",
+      Duration: "duration",
+      DurationUnits: "durationUnits",
+      End: "end",
+      FixedPrice: "fixedPrice",
+      Name: "name",
+      OfferingDescription: "offeringDescription",
+      OfferingId: "offeringId",
+      OfferingType: "offeringType",
+      Region: "region",
+      RenewalSettings: "renewalSettings",
+      ReservationId: "reservationId",
+      ResourceSpecification: "resourceSpecification",
+      Start: "start",
+      State: "state",
+      Tags: "tags",
+      UsagePrice: "usagePrice",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeReservationResponse",
 }) as any as S.Schema<DescribeReservationResponse>;
@@ -11890,11 +12566,14 @@ export interface DescribeScheduleResponse {
 }
 export const DescribeScheduleResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    ScheduleActions: S.optional(__listOfScheduleAction).pipe(
-      T.JsonName("scheduleActions"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    ScheduleActions: S.optional(__listOfScheduleAction),
+  }).pipe(
+    S.encodeKeys({
+      NextToken: "nextToken",
+      ScheduleActions: "scheduleActions",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeScheduleResponse",
 }) as any as S.Schema<DescribeScheduleResponse>;
@@ -11919,11 +12598,9 @@ export interface DescribeSdiSourceResponse {
   SdiSource?: SdiSource;
 }
 export const DescribeSdiSourceResponse = S.suspend(() =>
-  S.Struct({
-    SdiSource: S.optional(SdiSource)
-      .pipe(T.JsonName("sdiSource"))
-      .annotate({ identifier: "SdiSource" }),
-  }),
+  S.Struct({ SdiSource: S.optional(SdiSource) }).pipe(
+    S.encodeKeys({ SdiSource: "sdiSource" }),
+  ),
 ).annotate({
   identifier: "DescribeSdiSourceResponse",
 }) as any as S.Schema<DescribeSdiSourceResponse>;
@@ -11960,13 +12637,20 @@ export interface Thumbnail {
 }
 export const Thumbnail = S.suspend(() =>
   S.Struct({
-    Body: S.optional(S.String).pipe(T.JsonName("body")),
-    ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
-    ThumbnailType: S.optional(ThumbnailType).pipe(T.JsonName("thumbnailType")),
-    TimeStamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("timeStamp"),
+    Body: S.optional(S.String),
+    ContentType: S.optional(S.String),
+    ThumbnailType: S.optional(ThumbnailType),
+    TimeStamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-  }),
+  }).pipe(
+    S.encodeKeys({
+      Body: "body",
+      ContentType: "contentType",
+      ThumbnailType: "thumbnailType",
+      TimeStamp: "timeStamp",
+    }),
+  ),
 ).annotate({ identifier: "Thumbnail" }) as any as S.Schema<Thumbnail>;
 export type __listOfThumbnail = Thumbnail[];
 export const __listOfThumbnail = S.Array(Thumbnail);
@@ -11976,9 +12660,9 @@ export interface ThumbnailDetail {
 }
 export const ThumbnailDetail = S.suspend(() =>
   S.Struct({
-    PipelineId: S.optional(S.String).pipe(T.JsonName("pipelineId")),
-    Thumbnails: S.optional(__listOfThumbnail).pipe(T.JsonName("thumbnails")),
-  }),
+    PipelineId: S.optional(S.String),
+    Thumbnails: S.optional(__listOfThumbnail),
+  }).pipe(S.encodeKeys({ PipelineId: "pipelineId", Thumbnails: "thumbnails" })),
 ).annotate({
   identifier: "ThumbnailDetail",
 }) as any as S.Schema<ThumbnailDetail>;
@@ -11988,11 +12672,9 @@ export interface DescribeThumbnailsResponse {
   ThumbnailDetails?: ThumbnailDetail[];
 }
 export const DescribeThumbnailsResponse = S.suspend(() =>
-  S.Struct({
-    ThumbnailDetails: S.optional(__listOfThumbnailDetail).pipe(
-      T.JsonName("thumbnailDetails"),
-    ),
-  }),
+  S.Struct({ ThumbnailDetails: S.optional(__listOfThumbnailDetail) }).pipe(
+    S.encodeKeys({ ThumbnailDetails: "thumbnailDetails" }),
+  ),
 ).annotate({
   identifier: "DescribeThumbnailsResponse",
 }) as any as S.Schema<DescribeThumbnailsResponse>;
@@ -12037,40 +12719,48 @@ export interface GetCloudWatchAlarmTemplateResponse {
 }
 export const GetCloudWatchAlarmTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    Tags: S.optional(TagMap),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ComparisonOperator: "comparisonOperator",
+      CreatedAt: "createdAt",
+      DatapointsToAlarm: "datapointsToAlarm",
+      Description: "description",
+      EvaluationPeriods: "evaluationPeriods",
+      GroupId: "groupId",
+      Id: "id",
+      MetricName: "metricName",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Period: "period",
+      Statistic: "statistic",
+      Tags: "tags",
+      TargetResourceType: "targetResourceType",
+      Threshold: "threshold",
+      TreatMissingData: "treatMissingData",
+    }),
+  ),
 ).annotate({
   identifier: "GetCloudWatchAlarmTemplateResponse",
 }) as any as S.Schema<GetCloudWatchAlarmTemplateResponse>;
@@ -12105,18 +12795,28 @@ export interface GetCloudWatchAlarmTemplateGroupResponse {
 }
 export const GetCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetCloudWatchAlarmTemplateGroupResponse",
 }) as any as S.Schema<GetCloudWatchAlarmTemplateGroupResponse>;
@@ -12156,25 +12856,34 @@ export interface GetEventBridgeRuleTemplateResponse {
 }
 export const GetEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget).pipe(
-      T.JsonName("eventTargets"),
+    Description: S.optional(S.String),
+    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      EventTargets: "eventTargets",
+      EventType: "eventType",
+      GroupId: "groupId",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetEventBridgeRuleTemplateResponse",
 }) as any as S.Schema<GetEventBridgeRuleTemplateResponse>;
@@ -12209,18 +12918,28 @@ export interface GetEventBridgeRuleTemplateGroupResponse {
 }
 export const GetEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetEventBridgeRuleTemplateGroupResponse",
 }) as any as S.Schema<GetEventBridgeRuleTemplateGroupResponse>;
@@ -12290,47 +13009,56 @@ export interface GetSignalMapResponse {
 }
 export const GetSignalMapResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Arn: S.optional(S.String),
     CloudWatchAlarmTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIds")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
     EventBridgeRuleTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIds")),
-    FailedMediaResourceMap: S.optional(FailedMediaResourceMap).pipe(
-      T.JsonName("failedMediaResourceMap"),
     ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    FailedMediaResourceMap: S.optional(FailedMediaResourceMap),
+    Id: S.optional(S.String),
     LastDiscoveredAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastDiscoveredAt")),
-    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment)
-      .pipe(T.JsonName("lastSuccessfulMonitorDeployment"))
-      .annotate({ identifier: "SuccessfulMonitorDeployment" }),
-    MediaResourceMap: S.optional(MediaResourceMap).pipe(
-      T.JsonName("mediaResourceMap"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment),
+    MediaResourceMap: S.optional(MediaResourceMap),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorChangesPendingDeployment: S.optional(S.Boolean).pipe(
-      T.JsonName("monitorChangesPendingDeployment"),
-    ),
-    MonitorDeployment: S.optional(MonitorDeployment)
-      .pipe(T.JsonName("monitorDeployment"))
-      .annotate({ identifier: "MonitorDeployment" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorChangesPendingDeployment: S.optional(S.Boolean),
+    MonitorDeployment: S.optional(MonitorDeployment),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CloudWatchAlarmTemplateGroupIds: "cloudWatchAlarmTemplateGroupIds",
+      CreatedAt: "createdAt",
+      Description: "description",
+      DiscoveryEntryPointArn: "discoveryEntryPointArn",
+      ErrorMessage: "errorMessage",
+      EventBridgeRuleTemplateGroupIds: "eventBridgeRuleTemplateGroupIds",
+      FailedMediaResourceMap: "failedMediaResourceMap",
+      Id: "id",
+      LastDiscoveredAt: "lastDiscoveredAt",
+      LastSuccessfulMonitorDeployment: "lastSuccessfulMonitorDeployment",
+      MediaResourceMap: "mediaResourceMap",
+      ModifiedAt: "modifiedAt",
+      MonitorChangesPendingDeployment: "monitorChangesPendingDeployment",
+      MonitorDeployment: "monitorDeployment",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "GetSignalMapResponse",
 }) as any as S.Schema<GetSignalMapResponse>;
@@ -12372,18 +13100,28 @@ export interface ChannelAlert {
 }
 export const ChannelAlert = S.suspend(() =>
   S.Struct({
-    AlertType: S.optional(S.String).pipe(T.JsonName("alertType")),
+    AlertType: S.optional(S.String),
     ClearedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("clearedTimestamp")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    PipelineId: S.optional(S.String).pipe(T.JsonName("pipelineId")),
-    SetTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("setTimestamp"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    State: S.optional(ChannelAlertState).pipe(T.JsonName("state")),
-  }),
+    Id: S.optional(S.String),
+    Message: S.optional(S.String),
+    PipelineId: S.optional(S.String),
+    SetTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    State: S.optional(ChannelAlertState),
+  }).pipe(
+    S.encodeKeys({
+      AlertType: "alertType",
+      ClearedTimestamp: "clearedTimestamp",
+      Id: "id",
+      Message: "message",
+      PipelineId: "pipelineId",
+      SetTimestamp: "setTimestamp",
+      State: "state",
+    }),
+  ),
 ).annotate({ identifier: "ChannelAlert" }) as any as S.Schema<ChannelAlert>;
 export type __listOfChannelAlert = ChannelAlert[];
 export const __listOfChannelAlert = S.Array(ChannelAlert);
@@ -12393,9 +13131,9 @@ export interface ListAlertsResponse {
 }
 export const ListAlertsResponse = S.suspend(() =>
   S.Struct({
-    Alerts: S.optional(__listOfChannelAlert).pipe(T.JsonName("alerts")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Alerts: S.optional(__listOfChannelAlert),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Alerts: "alerts", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListAlertsResponse",
 }) as any as S.Schema<ListAlertsResponse>;
@@ -12436,14 +13174,24 @@ export interface DescribeChannelPlacementGroupSummary {
 }
 export const DescribeChannelPlacementGroupSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Channels: S.optional(__listOf__string).pipe(T.JsonName("channels")),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    State: S.optional(ChannelPlacementGroupState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Channels: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    State: S.optional(ChannelPlacementGroupState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Channels: "channels",
+      ClusterId: "clusterId",
+      Id: "id",
+      Name: "name",
+      Nodes: "nodes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeChannelPlacementGroupSummary",
 }) as any as S.Schema<DescribeChannelPlacementGroupSummary>;
@@ -12460,9 +13208,14 @@ export const ListChannelPlacementGroupsResponse = S.suspend(() =>
   S.Struct({
     ChannelPlacementGroups: S.optional(
       __listOfDescribeChannelPlacementGroupSummary,
-    ).pipe(T.JsonName("channelPlacementGroups")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ChannelPlacementGroups: "channelPlacementGroups",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListChannelPlacementGroupsResponse",
 }) as any as S.Schema<ListChannelPlacementGroupsResponse>;
@@ -12516,51 +13269,50 @@ export interface ChannelSummary {
 }
 export const ChannelSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    UsedChannelEngineVersions: S.optional(
-      __listOfChannelEngineVersionResponse,
-    ).pipe(T.JsonName("usedChannelEngineVersions")),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    UsedChannelEngineVersions: S.optional(__listOfChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      UsedChannelEngineVersions: "usedChannelEngineVersions",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({ identifier: "ChannelSummary" }) as any as S.Schema<ChannelSummary>;
 export type __listOfChannelSummary = ChannelSummary[];
 export const __listOfChannelSummary = S.Array(ChannelSummary);
@@ -12619,9 +13371,9 @@ export interface ListChannelsResponse {
 }
 export const ListChannelsResponse = S.suspend(() =>
   S.Struct({
-    Channels: S.optional(__listOfChannelSummary).pipe(T.JsonName("channels")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Channels: S.optional(__listOfChannelSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Channels: "channels", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListChannelsResponse",
 }) as any as S.Schema<ListChannelsResponse>;
@@ -12664,19 +13416,30 @@ export interface CloudWatchAlarmTemplateGroupSummary {
 }
 export const CloudWatchAlarmTemplateGroupSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TemplateCount: S.optional(S.Number).pipe(T.JsonName("templateCount")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    TemplateCount: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+      TemplateCount: "templateCount",
+    }),
+  ),
 ).annotate({
   identifier: "CloudWatchAlarmTemplateGroupSummary",
 }) as any as S.Schema<CloudWatchAlarmTemplateGroupSummary>;
@@ -12699,9 +13462,14 @@ export const ListCloudWatchAlarmTemplateGroupsResponse = S.suspend(() =>
   S.Struct({
     CloudWatchAlarmTemplateGroups: S.optional(
       __listOfCloudWatchAlarmTemplateGroupSummary,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroups")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CloudWatchAlarmTemplateGroups: "cloudWatchAlarmTemplateGroups",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListCloudWatchAlarmTemplateGroupsResponse",
 }) as any as S.Schema<ListCloudWatchAlarmTemplateGroupsResponse>;
@@ -12755,40 +13523,48 @@ export interface CloudWatchAlarmTemplateSummary {
 }
 export const CloudWatchAlarmTemplateSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    Tags: S.optional(TagMap),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ComparisonOperator: "comparisonOperator",
+      CreatedAt: "createdAt",
+      DatapointsToAlarm: "datapointsToAlarm",
+      Description: "description",
+      EvaluationPeriods: "evaluationPeriods",
+      GroupId: "groupId",
+      Id: "id",
+      MetricName: "metricName",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Period: "period",
+      Statistic: "statistic",
+      Tags: "tags",
+      TargetResourceType: "targetResourceType",
+      Threshold: "threshold",
+      TreatMissingData: "treatMissingData",
+    }),
+  ),
 ).annotate({
   identifier: "CloudWatchAlarmTemplateSummary",
 }) as any as S.Schema<CloudWatchAlarmTemplateSummary>;
@@ -12819,9 +13595,14 @@ export const ListCloudWatchAlarmTemplatesResponse = S.suspend(() =>
   S.Struct({
     CloudWatchAlarmTemplates: S.optional(
       __listOfCloudWatchAlarmTemplateSummary,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplates")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CloudWatchAlarmTemplates: "cloudWatchAlarmTemplates",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListCloudWatchAlarmTemplatesResponse",
 }) as any as S.Schema<ListCloudWatchAlarmTemplatesResponse>;
@@ -12864,19 +13645,30 @@ export interface ClusterAlert {
 }
 export const ClusterAlert = S.suspend(() =>
   S.Struct({
-    AlertType: S.optional(S.String).pipe(T.JsonName("alertType")),
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
+    AlertType: S.optional(S.String),
+    ChannelId: S.optional(S.String),
     ClearedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("clearedTimestamp")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    NodeId: S.optional(S.String).pipe(T.JsonName("nodeId")),
-    SetTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("setTimestamp"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    State: S.optional(ClusterAlertState).pipe(T.JsonName("state")),
-  }),
+    Id: S.optional(S.String),
+    Message: S.optional(S.String),
+    NodeId: S.optional(S.String),
+    SetTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    State: S.optional(ClusterAlertState),
+  }).pipe(
+    S.encodeKeys({
+      AlertType: "alertType",
+      ChannelId: "channelId",
+      ClearedTimestamp: "clearedTimestamp",
+      Id: "id",
+      Message: "message",
+      NodeId: "nodeId",
+      SetTimestamp: "setTimestamp",
+      State: "state",
+    }),
+  ),
 ).annotate({ identifier: "ClusterAlert" }) as any as S.Schema<ClusterAlert>;
 export type __listOfClusterAlert = ClusterAlert[];
 export const __listOfClusterAlert = S.Array(ClusterAlert);
@@ -12886,9 +13678,9 @@ export interface ListClusterAlertsResponse {
 }
 export const ListClusterAlertsResponse = S.suspend(() =>
   S.Struct({
-    Alerts: S.optional(__listOfClusterAlert).pipe(T.JsonName("alerts")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Alerts: S.optional(__listOfClusterAlert),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Alerts: "alerts", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListClusterAlertsResponse",
 }) as any as S.Schema<ListClusterAlertsResponse>;
@@ -12925,17 +13717,26 @@ export interface DescribeClusterSummary {
 }
 export const DescribeClusterSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceRoleArn: S.optional(S.String).pipe(T.JsonName("instanceRoleArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettings" }),
-    State: S.optional(ClusterState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    ChannelIds: S.optional(__listOf__string),
+    ClusterType: S.optional(ClusterType),
+    Id: S.optional(S.String),
+    InstanceRoleArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettings),
+    State: S.optional(ClusterState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelIds: "channelIds",
+      ClusterType: "clusterType",
+      Id: "id",
+      InstanceRoleArn: "instanceRoleArn",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeClusterSummary",
 }) as any as S.Schema<DescribeClusterSummary>;
@@ -12947,11 +13748,9 @@ export interface ListClustersResponse {
 }
 export const ListClustersResponse = S.suspend(() =>
   S.Struct({
-    Clusters: S.optional(__listOfDescribeClusterSummary).pipe(
-      T.JsonName("clusters"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Clusters: S.optional(__listOfDescribeClusterSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Clusters: "clusters", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListClustersResponse",
 }) as any as S.Schema<ListClustersResponse>;
@@ -12992,19 +13791,30 @@ export interface EventBridgeRuleTemplateGroupSummary {
 }
 export const EventBridgeRuleTemplateGroupSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TemplateCount: S.optional(S.Number).pipe(T.JsonName("templateCount")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+    TemplateCount: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+      TemplateCount: "templateCount",
+    }),
+  ),
 ).annotate({
   identifier: "EventBridgeRuleTemplateGroupSummary",
 }) as any as S.Schema<EventBridgeRuleTemplateGroupSummary>;
@@ -13027,9 +13837,14 @@ export const ListEventBridgeRuleTemplateGroupsResponse = S.suspend(() =>
   S.Struct({
     EventBridgeRuleTemplateGroups: S.optional(
       __listOfEventBridgeRuleTemplateGroupSummary,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroups")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EventBridgeRuleTemplateGroups: "eventBridgeRuleTemplateGroups",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListEventBridgeRuleTemplateGroupsResponse",
 }) as any as S.Schema<ListEventBridgeRuleTemplateGroupsResponse>;
@@ -13074,23 +13889,34 @@ export interface EventBridgeRuleTemplateSummary {
 }
 export const EventBridgeRuleTemplateSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargetCount: S.optional(S.Number).pipe(T.JsonName("eventTargetCount")),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
+    Description: S.optional(S.String),
+    EventTargetCount: S.optional(S.Number),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      EventTargetCount: "eventTargetCount",
+      EventType: "eventType",
+      GroupId: "groupId",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "EventBridgeRuleTemplateSummary",
 }) as any as S.Schema<EventBridgeRuleTemplateSummary>;
@@ -13115,9 +13941,14 @@ export const ListEventBridgeRuleTemplatesResponse = S.suspend(() =>
   S.Struct({
     EventBridgeRuleTemplates: S.optional(
       __listOfEventBridgeRuleTemplateSummary,
-    ).pipe(T.JsonName("eventBridgeRuleTemplates")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      EventBridgeRuleTemplates: "eventBridgeRuleTemplates",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListEventBridgeRuleTemplatesResponse",
 }) as any as S.Schema<ListEventBridgeRuleTemplatesResponse>;
@@ -13162,39 +13993,42 @@ export interface InputDeviceSummary {
 }
 export const InputDeviceSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ConnectionState: S.optional(InputDeviceConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState).pipe(
-      T.JsonName("deviceSettingsSyncState"),
-    ),
-    DeviceUpdateStatus: S.optional(DeviceUpdateStatus).pipe(
-      T.JsonName("deviceUpdateStatus"),
-    ),
-    HdDeviceSettings: S.optional(InputDeviceHdSettings)
-      .pipe(T.JsonName("hdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceHdSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MacAddress: S.optional(S.String).pipe(T.JsonName("macAddress")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(InputDeviceNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "InputDeviceNetworkSettings" }),
-    SerialNumber: S.optional(S.String).pipe(T.JsonName("serialNumber")),
-    Type: S.optional(InputDeviceType).pipe(T.JsonName("type")),
-    UhdDeviceSettings: S.optional(InputDeviceUhdSettings)
-      .pipe(T.JsonName("uhdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceUhdSettings" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    MedialiveInputArns: S.optional(__listOf__string).pipe(
-      T.JsonName("medialiveInputArns"),
-    ),
-    OutputType: S.optional(InputDeviceOutputType).pipe(
-      T.JsonName("outputType"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ConnectionState: S.optional(InputDeviceConnectionState),
+    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState),
+    DeviceUpdateStatus: S.optional(DeviceUpdateStatus),
+    HdDeviceSettings: S.optional(InputDeviceHdSettings),
+    Id: S.optional(S.String),
+    MacAddress: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(InputDeviceNetworkSettings),
+    SerialNumber: S.optional(S.String),
+    Type: S.optional(InputDeviceType),
+    UhdDeviceSettings: S.optional(InputDeviceUhdSettings),
+    Tags: S.optional(Tags),
+    AvailabilityZone: S.optional(S.String),
+    MedialiveInputArns: S.optional(__listOf__string),
+    OutputType: S.optional(InputDeviceOutputType),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ConnectionState: "connectionState",
+      DeviceSettingsSyncState: "deviceSettingsSyncState",
+      DeviceUpdateStatus: "deviceUpdateStatus",
+      HdDeviceSettings: "hdDeviceSettings",
+      Id: "id",
+      MacAddress: "macAddress",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      SerialNumber: "serialNumber",
+      Type: "type",
+      UhdDeviceSettings: "uhdDeviceSettings",
+      Tags: "tags",
+      AvailabilityZone: "availabilityZone",
+      MedialiveInputArns: "medialiveInputArns",
+      OutputType: "outputType",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceSummary",
 }) as any as S.Schema<InputDeviceSummary>;
@@ -13206,11 +14040,11 @@ export interface ListInputDevicesResponse {
 }
 export const ListInputDevicesResponse = S.suspend(() =>
   S.Struct({
-    InputDevices: S.optional(__listOfInputDeviceSummary).pipe(
-      T.JsonName("inputDevices"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    InputDevices: S.optional(__listOfInputDeviceSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({ InputDevices: "inputDevices", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "ListInputDevicesResponse",
 }) as any as S.Schema<ListInputDevicesResponse>;
@@ -13247,13 +14081,18 @@ export interface TransferringInputDeviceSummary {
 }
 export const TransferringInputDeviceSummary = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    TargetCustomerId: S.optional(S.String).pipe(T.JsonName("targetCustomerId")),
-    TransferType: S.optional(InputDeviceTransferType).pipe(
-      T.JsonName("transferType"),
-    ),
-  }),
+    Id: S.optional(S.String),
+    Message: S.optional(S.String),
+    TargetCustomerId: S.optional(S.String),
+    TransferType: S.optional(InputDeviceTransferType),
+  }).pipe(
+    S.encodeKeys({
+      Id: "id",
+      Message: "message",
+      TargetCustomerId: "targetCustomerId",
+      TransferType: "transferType",
+    }),
+  ),
 ).annotate({
   identifier: "TransferringInputDeviceSummary",
 }) as any as S.Schema<TransferringInputDeviceSummary>;
@@ -13268,11 +14107,14 @@ export interface ListInputDeviceTransfersResponse {
 }
 export const ListInputDeviceTransfersResponse = S.suspend(() =>
   S.Struct({
-    InputDeviceTransfers: S.optional(
-      __listOfTransferringInputDeviceSummary,
-    ).pipe(T.JsonName("inputDeviceTransfers")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    InputDeviceTransfers: S.optional(__listOfTransferringInputDeviceSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      InputDeviceTransfers: "inputDeviceTransfers",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListInputDeviceTransfersResponse",
 }) as any as S.Schema<ListInputDeviceTransfersResponse>;
@@ -13309,9 +14151,9 @@ export interface ListInputsResponse {
 }
 export const ListInputsResponse = S.suspend(() =>
   S.Struct({
-    Inputs: S.optional(__listOfInput).pipe(T.JsonName("inputs")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Inputs: S.optional(__listOfInput),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Inputs: "inputs", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListInputsResponse",
 }) as any as S.Schema<ListInputsResponse>;
@@ -13344,11 +14186,14 @@ export interface ListInputSecurityGroupsResponse {
 }
 export const ListInputSecurityGroupsResponse = S.suspend(() =>
   S.Struct({
-    InputSecurityGroups: S.optional(__listOfInputSecurityGroup).pipe(
-      T.JsonName("inputSecurityGroups"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    InputSecurityGroups: S.optional(__listOfInputSecurityGroup),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      InputSecurityGroups: "inputSecurityGroups",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListInputSecurityGroupsResponse",
 }) as any as S.Schema<ListInputSecurityGroupsResponse>;
@@ -13390,18 +14235,28 @@ export interface MultiplexAlert {
 }
 export const MultiplexAlert = S.suspend(() =>
   S.Struct({
-    AlertType: S.optional(S.String).pipe(T.JsonName("alertType")),
+    AlertType: S.optional(S.String),
     ClearedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("clearedTimestamp")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    PipelineId: S.optional(S.String).pipe(T.JsonName("pipelineId")),
-    SetTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("setTimestamp"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    State: S.optional(MultiplexAlertState).pipe(T.JsonName("state")),
-  }),
+    Id: S.optional(S.String),
+    Message: S.optional(S.String),
+    PipelineId: S.optional(S.String),
+    SetTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    State: S.optional(MultiplexAlertState),
+  }).pipe(
+    S.encodeKeys({
+      AlertType: "alertType",
+      ClearedTimestamp: "clearedTimestamp",
+      Id: "id",
+      Message: "message",
+      PipelineId: "pipelineId",
+      SetTimestamp: "setTimestamp",
+      State: "state",
+    }),
+  ),
 ).annotate({ identifier: "MultiplexAlert" }) as any as S.Schema<MultiplexAlert>;
 export type __listOfMultiplexAlert = MultiplexAlert[];
 export const __listOfMultiplexAlert = S.Array(MultiplexAlert);
@@ -13411,9 +14266,9 @@ export interface ListMultiplexAlertsResponse {
 }
 export const ListMultiplexAlertsResponse = S.suspend(() =>
   S.Struct({
-    Alerts: S.optional(__listOfMultiplexAlert).pipe(T.JsonName("alerts")),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Alerts: S.optional(__listOfMultiplexAlert),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Alerts: "alerts", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListMultiplexAlertsResponse",
 }) as any as S.Schema<ListMultiplexAlertsResponse>;
@@ -13442,11 +14297,9 @@ export interface MultiplexSettingsSummary {
   TransportStreamBitrate?: number;
 }
 export const MultiplexSettingsSummary = S.suspend(() =>
-  S.Struct({
-    TransportStreamBitrate: S.optional(S.Number).pipe(
-      T.JsonName("transportStreamBitrate"),
-    ),
-  }),
+  S.Struct({ TransportStreamBitrate: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ TransportStreamBitrate: "transportStreamBitrate" }),
+  ),
 ).annotate({
   identifier: "MultiplexSettingsSummary",
 }) as any as S.Schema<MultiplexSettingsSummary>;
@@ -13463,22 +14316,28 @@ export interface MultiplexSummary {
 }
 export const MultiplexSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettingsSummary)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettingsSummary" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettingsSummary),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "MultiplexSummary",
 }) as any as S.Schema<MultiplexSummary>;
@@ -13490,11 +14349,9 @@ export interface ListMultiplexesResponse {
 }
 export const ListMultiplexesResponse = S.suspend(() =>
   S.Struct({
-    Multiplexes: S.optional(__listOfMultiplexSummary).pipe(
-      T.JsonName("multiplexes"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Multiplexes: S.optional(__listOfMultiplexSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Multiplexes: "multiplexes", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListMultiplexesResponse",
 }) as any as S.Schema<ListMultiplexesResponse>;
@@ -13530,9 +14387,9 @@ export interface MultiplexProgramSummary {
 }
 export const MultiplexProgramSummary = S.suspend(() =>
   S.Struct({
-    ChannelId: S.optional(S.String).pipe(T.JsonName("channelId")),
-    ProgramName: S.optional(S.String).pipe(T.JsonName("programName")),
-  }),
+    ChannelId: S.optional(S.String),
+    ProgramName: S.optional(S.String),
+  }).pipe(S.encodeKeys({ ChannelId: "channelId", ProgramName: "programName" })),
 ).annotate({
   identifier: "MultiplexProgramSummary",
 }) as any as S.Schema<MultiplexProgramSummary>;
@@ -13544,11 +14401,14 @@ export interface ListMultiplexProgramsResponse {
 }
 export const ListMultiplexProgramsResponse = S.suspend(() =>
   S.Struct({
-    MultiplexPrograms: S.optional(__listOfMultiplexProgramSummary).pipe(
-      T.JsonName("multiplexPrograms"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    MultiplexPrograms: S.optional(__listOfMultiplexProgramSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      MultiplexPrograms: "multiplexPrograms",
+      NextToken: "nextToken",
+    }),
+  ),
 ).annotate({
   identifier: "ListMultiplexProgramsResponse",
 }) as any as S.Schema<ListMultiplexProgramsResponse>;
@@ -13584,16 +14444,24 @@ export interface DescribeNetworkSummary {
 }
 export const DescribeNetworkSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AssociatedClusterIds: S.optional(__listOf__string).pipe(
-      T.JsonName("associatedClusterIds"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    IpPools: S.optional(__listOfIpPool).pipe(T.JsonName("ipPools")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Routes: S.optional(__listOfRoute).pipe(T.JsonName("routes")),
-    State: S.optional(NetworkState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    AssociatedClusterIds: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    IpPools: S.optional(__listOfIpPool),
+    Name: S.optional(S.String),
+    Routes: S.optional(__listOfRoute),
+    State: S.optional(NetworkState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AssociatedClusterIds: "associatedClusterIds",
+      Id: "id",
+      IpPools: "ipPools",
+      Name: "name",
+      Routes: "routes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeNetworkSummary",
 }) as any as S.Schema<DescribeNetworkSummary>;
@@ -13605,11 +14473,9 @@ export interface ListNetworksResponse {
 }
 export const ListNetworksResponse = S.suspend(() =>
   S.Struct({
-    Networks: S.optional(__listOfDescribeNetworkSummary).pipe(
-      T.JsonName("networks"),
-    ),
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-  }),
+    Networks: S.optional(__listOfDescribeNetworkSummary),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Networks: "networks", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListNetworksResponse",
 }) as any as S.Schema<ListNetworksResponse>;
@@ -13652,29 +14518,34 @@ export interface DescribeNodeSummary {
 }
 export const DescribeNodeSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    ManagedInstanceId: S.optional(S.String).pipe(
-      T.JsonName("managedInstanceId"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    ManagedInstanceId: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      ManagedInstanceId: "managedInstanceId",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "DescribeNodeSummary",
 }) as any as S.Schema<DescribeNodeSummary>;
@@ -13686,9 +14557,9 @@ export interface ListNodesResponse {
 }
 export const ListNodesResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Nodes: S.optional(__listOfDescribeNodeSummary).pipe(T.JsonName("nodes")),
-  }),
+    NextToken: S.optional(S.String),
+    Nodes: S.optional(__listOfDescribeNodeSummary),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", Nodes: "nodes" })),
 ).annotate({
   identifier: "ListNodesResponse",
 }) as any as S.Schema<ListNodesResponse>;
@@ -13752,24 +14623,32 @@ export interface Offering {
 }
 export const Offering = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CurrencyCode: S.optional(S.String).pipe(T.JsonName("currencyCode")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    DurationUnits: S.optional(OfferingDurationUnits).pipe(
-      T.JsonName("durationUnits"),
-    ),
-    FixedPrice: S.optional(S.Number).pipe(T.JsonName("fixedPrice")),
-    OfferingDescription: S.optional(S.String).pipe(
-      T.JsonName("offeringDescription"),
-    ),
-    OfferingId: S.optional(S.String).pipe(T.JsonName("offeringId")),
-    OfferingType: S.optional(OfferingType).pipe(T.JsonName("offeringType")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    ResourceSpecification: S.optional(ReservationResourceSpecification)
-      .pipe(T.JsonName("resourceSpecification"))
-      .annotate({ identifier: "ReservationResourceSpecification" }),
-    UsagePrice: S.optional(S.Number).pipe(T.JsonName("usagePrice")),
-  }),
+    Arn: S.optional(S.String),
+    CurrencyCode: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    DurationUnits: S.optional(OfferingDurationUnits),
+    FixedPrice: S.optional(S.Number),
+    OfferingDescription: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    OfferingType: S.optional(OfferingType),
+    Region: S.optional(S.String),
+    ResourceSpecification: S.optional(ReservationResourceSpecification),
+    UsagePrice: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CurrencyCode: "currencyCode",
+      Duration: "duration",
+      DurationUnits: "durationUnits",
+      FixedPrice: "fixedPrice",
+      OfferingDescription: "offeringDescription",
+      OfferingId: "offeringId",
+      OfferingType: "offeringType",
+      Region: "region",
+      ResourceSpecification: "resourceSpecification",
+      UsagePrice: "usagePrice",
+    }),
+  ),
 ).annotate({ identifier: "Offering" }) as any as S.Schema<Offering>;
 export type __listOfOffering = Offering[];
 export const __listOfOffering = S.Array(Offering);
@@ -13779,9 +14658,9 @@ export interface ListOfferingsResponse {
 }
 export const ListOfferingsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Offerings: S.optional(__listOfOffering).pipe(T.JsonName("offerings")),
-  }),
+    NextToken: S.optional(S.String),
+    Offerings: S.optional(__listOfOffering),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", Offerings: "offerings" })),
 ).annotate({
   identifier: "ListOfferingsResponse",
 }) as any as S.Schema<ListOfferingsResponse>;
@@ -13847,34 +14726,48 @@ export interface Reservation {
 }
 export const Reservation = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    CurrencyCode: S.optional(S.String).pipe(T.JsonName("currencyCode")),
-    Duration: S.optional(S.Number).pipe(T.JsonName("duration")),
-    DurationUnits: S.optional(OfferingDurationUnits).pipe(
-      T.JsonName("durationUnits"),
-    ),
-    End: S.optional(S.String).pipe(T.JsonName("end")),
-    FixedPrice: S.optional(S.Number).pipe(T.JsonName("fixedPrice")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    OfferingDescription: S.optional(S.String).pipe(
-      T.JsonName("offeringDescription"),
-    ),
-    OfferingId: S.optional(S.String).pipe(T.JsonName("offeringId")),
-    OfferingType: S.optional(OfferingType).pipe(T.JsonName("offeringType")),
-    Region: S.optional(S.String).pipe(T.JsonName("region")),
-    RenewalSettings: S.optional(RenewalSettings)
-      .pipe(T.JsonName("renewalSettings"))
-      .annotate({ identifier: "RenewalSettings" }),
-    ReservationId: S.optional(S.String).pipe(T.JsonName("reservationId")),
-    ResourceSpecification: S.optional(ReservationResourceSpecification)
-      .pipe(T.JsonName("resourceSpecification"))
-      .annotate({ identifier: "ReservationResourceSpecification" }),
-    Start: S.optional(S.String).pipe(T.JsonName("start")),
-    State: S.optional(ReservationState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    UsagePrice: S.optional(S.Number).pipe(T.JsonName("usagePrice")),
-  }),
+    Arn: S.optional(S.String),
+    Count: S.optional(S.Number),
+    CurrencyCode: S.optional(S.String),
+    Duration: S.optional(S.Number),
+    DurationUnits: S.optional(OfferingDurationUnits),
+    End: S.optional(S.String),
+    FixedPrice: S.optional(S.Number),
+    Name: S.optional(S.String),
+    OfferingDescription: S.optional(S.String),
+    OfferingId: S.optional(S.String),
+    OfferingType: S.optional(OfferingType),
+    Region: S.optional(S.String),
+    RenewalSettings: S.optional(RenewalSettings),
+    ReservationId: S.optional(S.String),
+    ResourceSpecification: S.optional(ReservationResourceSpecification),
+    Start: S.optional(S.String),
+    State: S.optional(ReservationState),
+    Tags: S.optional(Tags),
+    UsagePrice: S.optional(S.Number),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Count: "count",
+      CurrencyCode: "currencyCode",
+      Duration: "duration",
+      DurationUnits: "durationUnits",
+      End: "end",
+      FixedPrice: "fixedPrice",
+      Name: "name",
+      OfferingDescription: "offeringDescription",
+      OfferingId: "offeringId",
+      OfferingType: "offeringType",
+      Region: "region",
+      RenewalSettings: "renewalSettings",
+      ReservationId: "reservationId",
+      ResourceSpecification: "resourceSpecification",
+      Start: "start",
+      State: "state",
+      Tags: "tags",
+      UsagePrice: "usagePrice",
+    }),
+  ),
 ).annotate({ identifier: "Reservation" }) as any as S.Schema<Reservation>;
 export type __listOfReservation = Reservation[];
 export const __listOfReservation = S.Array(Reservation);
@@ -13884,11 +14777,11 @@ export interface ListReservationsResponse {
 }
 export const ListReservationsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    Reservations: S.optional(__listOfReservation).pipe(
-      T.JsonName("reservations"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    Reservations: S.optional(__listOfReservation),
+  }).pipe(
+    S.encodeKeys({ NextToken: "nextToken", Reservations: "reservations" }),
+  ),
 ).annotate({
   identifier: "ListReservationsResponse",
 }) as any as S.Schema<ListReservationsResponse>;
@@ -13924,14 +14817,24 @@ export interface SdiSourceSummary {
 }
 export const SdiSourceSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Inputs: S.optional(__listOf__string).pipe(T.JsonName("inputs")),
-    Mode: S.optional(SdiSourceMode).pipe(T.JsonName("mode")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    State: S.optional(SdiSourceState).pipe(T.JsonName("state")),
-    Type: S.optional(SdiSourceType).pipe(T.JsonName("type")),
-  }),
+    Arn: S.optional(S.String),
+    Id: S.optional(S.String),
+    Inputs: S.optional(__listOf__string),
+    Mode: S.optional(SdiSourceMode),
+    Name: S.optional(S.String),
+    State: S.optional(SdiSourceState),
+    Type: S.optional(SdiSourceType),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Id: "id",
+      Inputs: "inputs",
+      Mode: "mode",
+      Name: "name",
+      State: "state",
+      Type: "type",
+    }),
+  ),
 ).annotate({
   identifier: "SdiSourceSummary",
 }) as any as S.Schema<SdiSourceSummary>;
@@ -13943,11 +14846,9 @@ export interface ListSdiSourcesResponse {
 }
 export const ListSdiSourcesResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    SdiSources: S.optional(__listOfSdiSourceSummary).pipe(
-      T.JsonName("sdiSources"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    SdiSources: S.optional(__listOfSdiSourceSummary),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", SdiSources: "sdiSources" })),
 ).annotate({
   identifier: "ListSdiSourcesResponse",
 }) as any as S.Schema<ListSdiSourcesResponse>;
@@ -13993,22 +14894,32 @@ export interface SignalMapSummary {
 }
 export const SignalMapSummary = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorDeploymentStatus: S.optional(SignalMapMonitorDeploymentStatus).pipe(
-      T.JsonName("monitorDeploymentStatus"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorDeploymentStatus: S.optional(SignalMapMonitorDeploymentStatus),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      MonitorDeploymentStatus: "monitorDeploymentStatus",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "SignalMapSummary",
 }) as any as S.Schema<SignalMapSummary>;
@@ -14027,11 +14938,9 @@ export interface ListSignalMapsResponse {
 }
 export const ListSignalMapsResponse = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
-    SignalMaps: S.optional(__listOfSignalMapSummary).pipe(
-      T.JsonName("signalMaps"),
-    ),
-  }),
+    NextToken: S.optional(S.String),
+    SignalMaps: S.optional(__listOfSignalMapSummary),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", SignalMaps: "signalMaps" })),
 ).annotate({
   identifier: "ListSignalMapsResponse",
 }) as any as S.Schema<ListSignalMapsResponse>;
@@ -14056,7 +14965,7 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(Tags) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -14079,11 +14988,9 @@ export interface ListVersionsResponse {
   Versions?: ChannelEngineVersionResponse[];
 }
 export const ListVersionsResponse = S.suspend(() =>
-  S.Struct({
-    Versions: S.optional(__listOfChannelEngineVersionResponse).pipe(
-      T.JsonName("versions"),
-    ),
-  }),
+  S.Struct({ Versions: S.optional(__listOfChannelEngineVersionResponse) }).pipe(
+    S.encodeKeys({ Versions: "versions" }),
+  ),
 ).annotate({
   identifier: "ListVersionsResponse",
 }) as any as S.Schema<ListVersionsResponse>;
@@ -14098,28 +15005,37 @@ export interface PurchaseOfferingRequest {
 }
 export const PurchaseOfferingRequest = S.suspend(() =>
   S.Struct({
-    Count: S.optional(S.Number).pipe(T.JsonName("count")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Count: S.optional(S.Number),
+    Name: S.optional(S.String),
     OfferingId: S.String.pipe(T.HttpLabel("OfferingId")),
-    RenewalSettings: S.optional(RenewalSettings)
-      .pipe(T.JsonName("renewalSettings"))
-      .annotate({ identifier: "RenewalSettings" }),
-    RequestId: S.optional(S.String).pipe(
-      T.JsonName("requestId"),
-      T.IdempotencyToken(),
+    RenewalSettings: S.optional(RenewalSettings),
+    RequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Start: S.optional(S.String),
+    Tags: S.optional(Tags),
+  })
+    .pipe(
+      S.encodeKeys({
+        Count: "count",
+        Name: "name",
+        RenewalSettings: "renewalSettings",
+        RequestId: "requestId",
+        Start: "start",
+        Tags: "tags",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/offerings/{OfferingId}/purchase",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Start: S.optional(S.String).pipe(T.JsonName("start")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/prod/offerings/{OfferingId}/purchase" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "PurchaseOfferingRequest",
 }) as any as S.Schema<PurchaseOfferingRequest>;
@@ -14127,11 +15043,9 @@ export interface PurchaseOfferingResponse {
   Reservation?: Reservation;
 }
 export const PurchaseOfferingResponse = S.suspend(() =>
-  S.Struct({
-    Reservation: S.optional(Reservation)
-      .pipe(T.JsonName("reservation"))
-      .annotate({ identifier: "Reservation" }),
-  }),
+  S.Struct({ Reservation: S.optional(Reservation) }).pipe(
+    S.encodeKeys({ Reservation: "reservation" }),
+  ),
 ).annotate({
   identifier: "PurchaseOfferingResponse",
 }) as any as S.Schema<PurchaseOfferingResponse>;
@@ -14143,21 +15057,23 @@ export interface RebootInputDeviceRequest {
 }
 export const RebootInputDeviceRequest = S.suspend(() =>
   S.Struct({
-    Force: S.optional(RebootInputDeviceForce).pipe(T.JsonName("force")),
+    Force: S.optional(RebootInputDeviceForce),
     InputDeviceId: S.String.pipe(T.HttpLabel("InputDeviceId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/inputDevices/{InputDeviceId}/reboot",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Force: "force" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/inputDevices/{InputDeviceId}/reboot",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "RebootInputDeviceRequest",
 }) as any as S.Schema<RebootInputDeviceRequest>;
@@ -14207,22 +15123,22 @@ export interface RestartChannelPipelinesRequest {
 export const RestartChannelPipelinesRequest = S.suspend(() =>
   S.Struct({
     ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
-    PipelineIds: S.optional(__listOfChannelPipelineIdToRestart).pipe(
-      T.JsonName("pipelineIds"),
+    PipelineIds: S.optional(__listOfChannelPipelineIdToRestart),
+  })
+    .pipe(S.encodeKeys({ PipelineIds: "pipelineIds" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/channels/{ChannelId}/restartChannelPipelines",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/channels/{ChannelId}/restartChannelPipelines",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "RestartChannelPipelinesRequest",
 }) as any as S.Schema<RestartChannelPipelinesRequest>;
@@ -14511,57 +15427,54 @@ export interface RestartChannelPipelinesResponse {
 }
 export const RestartChannelPipelinesResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    MaintenanceStatus: S.optional(S.String).pipe(
-      T.JsonName("maintenanceStatus"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    MaintenanceStatus: S.optional(S.String),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      MaintenanceStatus: "maintenanceStatus",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "RestartChannelPipelinesResponse",
 }) as any as S.Schema<RestartChannelPipelinesResponse>;
@@ -14866,54 +15779,52 @@ export interface StartChannelResponse {
 }
 export const StartChannelResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "StartChannelResponse",
 }) as any as S.Schema<StartChannelResponse>;
@@ -14986,47 +15897,56 @@ export interface StartDeleteMonitorDeploymentResponse {
 }
 export const StartDeleteMonitorDeploymentResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Arn: S.optional(S.String),
     CloudWatchAlarmTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIds")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
     EventBridgeRuleTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIds")),
-    FailedMediaResourceMap: S.optional(FailedMediaResourceMap).pipe(
-      T.JsonName("failedMediaResourceMap"),
     ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    FailedMediaResourceMap: S.optional(FailedMediaResourceMap),
+    Id: S.optional(S.String),
     LastDiscoveredAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastDiscoveredAt")),
-    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment)
-      .pipe(T.JsonName("lastSuccessfulMonitorDeployment"))
-      .annotate({ identifier: "SuccessfulMonitorDeployment" }),
-    MediaResourceMap: S.optional(MediaResourceMap).pipe(
-      T.JsonName("mediaResourceMap"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment),
+    MediaResourceMap: S.optional(MediaResourceMap),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorChangesPendingDeployment: S.optional(S.Boolean).pipe(
-      T.JsonName("monitorChangesPendingDeployment"),
-    ),
-    MonitorDeployment: S.optional(MonitorDeployment)
-      .pipe(T.JsonName("monitorDeployment"))
-      .annotate({ identifier: "MonitorDeployment" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorChangesPendingDeployment: S.optional(S.Boolean),
+    MonitorDeployment: S.optional(MonitorDeployment),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CloudWatchAlarmTemplateGroupIds: "cloudWatchAlarmTemplateGroupIds",
+      CreatedAt: "createdAt",
+      Description: "description",
+      DiscoveryEntryPointArn: "discoveryEntryPointArn",
+      ErrorMessage: "errorMessage",
+      EventBridgeRuleTemplateGroupIds: "eventBridgeRuleTemplateGroupIds",
+      FailedMediaResourceMap: "failedMediaResourceMap",
+      Id: "id",
+      LastDiscoveredAt: "lastDiscoveredAt",
+      LastSuccessfulMonitorDeployment: "lastSuccessfulMonitorDeployment",
+      MediaResourceMap: "mediaResourceMap",
+      ModifiedAt: "modifiedAt",
+      MonitorChangesPendingDeployment: "monitorChangesPendingDeployment",
+      MonitorDeployment: "monitorDeployment",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "StartDeleteMonitorDeploymentResponse",
 }) as any as S.Schema<StartDeleteMonitorDeploymentResponse>;
@@ -15086,21 +16006,23 @@ export interface StartMonitorDeploymentRequest {
 }
 export const StartMonitorDeploymentRequest = S.suspend(() =>
   S.Struct({
-    DryRun: S.optional(S.Boolean).pipe(T.JsonName("dryRun")),
+    DryRun: S.optional(S.Boolean),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/signal-maps/{Identifier}/monitor-deployment",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ DryRun: "dryRun" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/signal-maps/{Identifier}/monitor-deployment",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartMonitorDeploymentRequest",
 }) as any as S.Schema<StartMonitorDeploymentRequest>;
@@ -15153,47 +16075,56 @@ export interface StartMonitorDeploymentResponse {
 }
 export const StartMonitorDeploymentResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Arn: S.optional(S.String),
     CloudWatchAlarmTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIds")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
     EventBridgeRuleTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIds")),
-    FailedMediaResourceMap: S.optional(FailedMediaResourceMap).pipe(
-      T.JsonName("failedMediaResourceMap"),
     ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    FailedMediaResourceMap: S.optional(FailedMediaResourceMap),
+    Id: S.optional(S.String),
     LastDiscoveredAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastDiscoveredAt")),
-    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment)
-      .pipe(T.JsonName("lastSuccessfulMonitorDeployment"))
-      .annotate({ identifier: "SuccessfulMonitorDeployment" }),
-    MediaResourceMap: S.optional(MediaResourceMap).pipe(
-      T.JsonName("mediaResourceMap"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment),
+    MediaResourceMap: S.optional(MediaResourceMap),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorChangesPendingDeployment: S.optional(S.Boolean).pipe(
-      T.JsonName("monitorChangesPendingDeployment"),
-    ),
-    MonitorDeployment: S.optional(MonitorDeployment)
-      .pipe(T.JsonName("monitorDeployment"))
-      .annotate({ identifier: "MonitorDeployment" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorChangesPendingDeployment: S.optional(S.Boolean),
+    MonitorDeployment: S.optional(MonitorDeployment),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CloudWatchAlarmTemplateGroupIds: "cloudWatchAlarmTemplateGroupIds",
+      CreatedAt: "createdAt",
+      Description: "description",
+      DiscoveryEntryPointArn: "discoveryEntryPointArn",
+      ErrorMessage: "errorMessage",
+      EventBridgeRuleTemplateGroupIds: "eventBridgeRuleTemplateGroupIds",
+      FailedMediaResourceMap: "failedMediaResourceMap",
+      Id: "id",
+      LastDiscoveredAt: "lastDiscoveredAt",
+      LastSuccessfulMonitorDeployment: "lastSuccessfulMonitorDeployment",
+      MediaResourceMap: "mediaResourceMap",
+      ModifiedAt: "modifiedAt",
+      MonitorChangesPendingDeployment: "monitorChangesPendingDeployment",
+      MonitorDeployment: "monitorDeployment",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "StartMonitorDeploymentResponse",
 }) as any as S.Schema<StartMonitorDeploymentResponse>;
@@ -15231,25 +16162,30 @@ export interface StartMultiplexResponse {
 }
 export const StartMultiplexResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Destinations: S.optional(__listOfMultiplexOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfMultiplexOutputDestination),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Destinations: "destinations",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "StartMultiplexResponse",
 }) as any as S.Schema<StartMultiplexResponse>;
@@ -15266,29 +16202,38 @@ export const StartUpdateSignalMapRequest = S.suspend(() =>
   S.Struct({
     CloudWatchAlarmTemplateGroupIdentifiers: S.optional(
       __listOf__stringPatternS,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIdentifiers")),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
     ),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
     EventBridgeRuleTemplateGroupIdentifiers: S.optional(
       __listOf__stringPatternS,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIdentifiers")),
-    ForceRediscovery: S.optional(S.Boolean).pipe(
-      T.JsonName("forceRediscovery"),
     ),
+    ForceRediscovery: S.optional(S.Boolean),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/prod/signal-maps/{Identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        CloudWatchAlarmTemplateGroupIdentifiers:
+          "cloudWatchAlarmTemplateGroupIdentifiers",
+        Description: "description",
+        DiscoveryEntryPointArn: "discoveryEntryPointArn",
+        EventBridgeRuleTemplateGroupIdentifiers:
+          "eventBridgeRuleTemplateGroupIdentifiers",
+        ForceRediscovery: "forceRediscovery",
+        Name: "name",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/prod/signal-maps/{Identifier}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartUpdateSignalMapRequest",
 }) as any as S.Schema<StartUpdateSignalMapRequest>;
@@ -15341,47 +16286,56 @@ export interface StartUpdateSignalMapResponse {
 }
 export const StartUpdateSignalMapResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
+    Arn: S.optional(S.String),
     CloudWatchAlarmTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("cloudWatchAlarmTemplateGroupIds")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    DiscoveryEntryPointArn: S.optional(S.String).pipe(
-      T.JsonName("discoveryEntryPointArn"),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ErrorMessage: S.optional(S.String).pipe(T.JsonName("errorMessage")),
+    Description: S.optional(S.String),
+    DiscoveryEntryPointArn: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
     EventBridgeRuleTemplateGroupIds: S.optional(
       __listOf__stringMin7Max11PatternAws097,
-    ).pipe(T.JsonName("eventBridgeRuleTemplateGroupIds")),
-    FailedMediaResourceMap: S.optional(FailedMediaResourceMap).pipe(
-      T.JsonName("failedMediaResourceMap"),
     ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
+    FailedMediaResourceMap: S.optional(FailedMediaResourceMap),
+    Id: S.optional(S.String),
     LastDiscoveredAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("lastDiscoveredAt")),
-    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment)
-      .pipe(T.JsonName("lastSuccessfulMonitorDeployment"))
-      .annotate({ identifier: "SuccessfulMonitorDeployment" }),
-    MediaResourceMap: S.optional(MediaResourceMap).pipe(
-      T.JsonName("mediaResourceMap"),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    LastSuccessfulMonitorDeployment: S.optional(SuccessfulMonitorDeployment),
+    MediaResourceMap: S.optional(MediaResourceMap),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    MonitorChangesPendingDeployment: S.optional(S.Boolean).pipe(
-      T.JsonName("monitorChangesPendingDeployment"),
-    ),
-    MonitorDeployment: S.optional(MonitorDeployment)
-      .pipe(T.JsonName("monitorDeployment"))
-      .annotate({ identifier: "MonitorDeployment" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Status: S.optional(SignalMapStatus).pipe(T.JsonName("status")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    MonitorChangesPendingDeployment: S.optional(S.Boolean),
+    MonitorDeployment: S.optional(MonitorDeployment),
+    Name: S.optional(S.String),
+    Status: S.optional(SignalMapStatus),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CloudWatchAlarmTemplateGroupIds: "cloudWatchAlarmTemplateGroupIds",
+      CreatedAt: "createdAt",
+      Description: "description",
+      DiscoveryEntryPointArn: "discoveryEntryPointArn",
+      ErrorMessage: "errorMessage",
+      EventBridgeRuleTemplateGroupIds: "eventBridgeRuleTemplateGroupIds",
+      FailedMediaResourceMap: "failedMediaResourceMap",
+      Id: "id",
+      LastDiscoveredAt: "lastDiscoveredAt",
+      LastSuccessfulMonitorDeployment: "lastSuccessfulMonitorDeployment",
+      MediaResourceMap: "mediaResourceMap",
+      ModifiedAt: "modifiedAt",
+      MonitorChangesPendingDeployment: "monitorChangesPendingDeployment",
+      MonitorDeployment: "monitorDeployment",
+      Name: "name",
+      Status: "status",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "StartUpdateSignalMapResponse",
 }) as any as S.Schema<StartUpdateSignalMapResponse>;
@@ -15686,54 +16640,52 @@ export interface StopChannelResponse {
 }
 export const StopChannelResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint).pipe(
-      T.JsonName("egressEndpoints"),
-    ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceStatus)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceStatus" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelineDetails: S.optional(__listOfPipelineDetail).pipe(
-      T.JsonName("pipelineDetails"),
-    ),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    State: S.optional(ChannelState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    Vpc: S.optional(VpcOutputSettingsDescription)
-      .pipe(T.JsonName("vpc"))
-      .annotate({ identifier: "VpcOutputSettingsDescription" }),
-    AnywhereSettings: S.optional(DescribeAnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "DescribeAnywhereSettings" }),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionResponse" }),
-    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "DescribeLinkedChannelSettings" }),
-  }),
+    Arn: S.optional(S.String),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
+    ChannelClass: S.optional(ChannelClass),
+    Destinations: S.optional(__listOfOutputDestination),
+    EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
+    EncoderSettings: S.optional(EncoderSettings),
+    Id: S.optional(S.String),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceStatus),
+    Name: S.optional(S.String),
+    PipelineDetails: S.optional(__listOfPipelineDetail),
+    PipelinesRunningCount: S.optional(S.Number),
+    RoleArn: S.optional(S.String),
+    State: S.optional(ChannelState),
+    Tags: S.optional(Tags),
+    Vpc: S.optional(VpcOutputSettingsDescription),
+    AnywhereSettings: S.optional(DescribeAnywhereSettings),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
+    LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CdiInputSpecification: "cdiInputSpecification",
+      ChannelClass: "channelClass",
+      Destinations: "destinations",
+      EgressEndpoints: "egressEndpoints",
+      EncoderSettings: "encoderSettings",
+      Id: "id",
+      InputAttachments: "inputAttachments",
+      InputSpecification: "inputSpecification",
+      LogLevel: "logLevel",
+      Maintenance: "maintenance",
+      Name: "name",
+      PipelineDetails: "pipelineDetails",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      RoleArn: "roleArn",
+      State: "state",
+      Tags: "tags",
+      Vpc: "vpc",
+      AnywhereSettings: "anywhereSettings",
+      ChannelEngineVersion: "channelEngineVersion",
+      LinkedChannelSettings: "linkedChannelSettings",
+    }),
+  ),
 ).annotate({
   identifier: "StopChannelResponse",
 }) as any as S.Schema<StopChannelResponse>;
@@ -15795,25 +16747,30 @@ export interface StopMultiplexResponse {
 }
 export const StopMultiplexResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AvailabilityZones: S.optional(__listOf__string).pipe(
-      T.JsonName("availabilityZones"),
-    ),
-    Destinations: S.optional(__listOfMultiplexOutputDestination).pipe(
-      T.JsonName("destinations"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PipelinesRunningCount: S.optional(S.Number).pipe(
-      T.JsonName("pipelinesRunningCount"),
-    ),
-    ProgramCount: S.optional(S.Number).pipe(T.JsonName("programCount")),
-    State: S.optional(MultiplexState).pipe(T.JsonName("state")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-  }),
+    Arn: S.optional(S.String),
+    AvailabilityZones: S.optional(__listOf__string),
+    Destinations: S.optional(__listOfMultiplexOutputDestination),
+    Id: S.optional(S.String),
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PipelinesRunningCount: S.optional(S.Number),
+    ProgramCount: S.optional(S.Number),
+    State: S.optional(MultiplexState),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AvailabilityZones: "availabilityZones",
+      Destinations: "destinations",
+      Id: "id",
+      MultiplexSettings: "multiplexSettings",
+      Name: "name",
+      PipelinesRunningCount: "pipelinesRunningCount",
+      ProgramCount: "programCount",
+      State: "state",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "StopMultiplexResponse",
 }) as any as S.Schema<StopMultiplexResponse>;
@@ -15826,22 +16783,30 @@ export interface TransferInputDeviceRequest {
 export const TransferInputDeviceRequest = S.suspend(() =>
   S.Struct({
     InputDeviceId: S.String.pipe(T.HttpLabel("InputDeviceId")),
-    TargetCustomerId: S.optional(S.String).pipe(T.JsonName("targetCustomerId")),
-    TargetRegion: S.optional(S.String).pipe(T.JsonName("targetRegion")),
-    TransferMessage: S.optional(S.String).pipe(T.JsonName("transferMessage")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prod/inputDevices/{InputDeviceId}/transfer",
+    TargetCustomerId: S.optional(S.String),
+    TargetRegion: S.optional(S.String),
+    TransferMessage: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        TargetCustomerId: "targetCustomerId",
+        TargetRegion: "targetRegion",
+        TransferMessage: "transferMessage",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/prod/inputDevices/{InputDeviceId}/transfer",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TransferInputDeviceRequest",
 }) as any as S.Schema<TransferInputDeviceRequest>;
@@ -15855,20 +16820,18 @@ export interface UpdateAccountConfigurationRequest {
   AccountConfiguration?: AccountConfiguration;
 }
 export const UpdateAccountConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    AccountConfiguration: S.optional(AccountConfiguration)
-      .pipe(T.JsonName("accountConfiguration"))
-      .annotate({ identifier: "AccountConfiguration" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/accountConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  S.Struct({ AccountConfiguration: S.optional(AccountConfiguration) })
+    .pipe(S.encodeKeys({ AccountConfiguration: "accountConfiguration" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/accountConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateAccountConfigurationRequest",
 }) as any as S.Schema<UpdateAccountConfigurationRequest>;
@@ -15876,11 +16839,9 @@ export interface UpdateAccountConfigurationResponse {
   AccountConfiguration?: AccountConfiguration;
 }
 export const UpdateAccountConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    AccountConfiguration: S.optional(AccountConfiguration)
-      .pipe(T.JsonName("accountConfiguration"))
-      .annotate({ identifier: "AccountConfiguration" }),
-  }),
+  S.Struct({ AccountConfiguration: S.optional(AccountConfiguration) }).pipe(
+    S.encodeKeys({ AccountConfiguration: "accountConfiguration" }),
+  ),
 ).annotate({
   identifier: "UpdateAccountConfigurationResponse",
 }) as any as S.Schema<UpdateAccountConfigurationResponse>;
@@ -15891,16 +16852,16 @@ export interface MaintenanceUpdateSettings {
 }
 export const MaintenanceUpdateSettings = S.suspend(() =>
   S.Struct({
-    MaintenanceDay: S.optional(MaintenanceDay).pipe(
-      T.JsonName("maintenanceDay"),
-    ),
-    MaintenanceScheduledDate: S.optional(S.String).pipe(
-      T.JsonName("maintenanceScheduledDate"),
-    ),
-    MaintenanceStartTime: S.optional(S.String).pipe(
-      T.JsonName("maintenanceStartTime"),
-    ),
-  }),
+    MaintenanceDay: S.optional(MaintenanceDay),
+    MaintenanceScheduledDate: S.optional(S.String),
+    MaintenanceStartTime: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      MaintenanceDay: "maintenanceDay",
+      MaintenanceScheduledDate: "maintenanceScheduledDate",
+      MaintenanceStartTime: "maintenanceStartTime",
+    }),
+  ),
 ).annotate({
   identifier: "MaintenanceUpdateSettings",
 }) as any as S.Schema<MaintenanceUpdateSettings>;
@@ -15922,48 +16883,48 @@ export interface UpdateChannelRequest {
 }
 export const UpdateChannelRequest = S.suspend(() =>
   S.Struct({
-    CdiInputSpecification: S.optional(CdiInputSpecification)
-      .pipe(T.JsonName("cdiInputSpecification"))
-      .annotate({ identifier: "CdiInputSpecification" }),
+    CdiInputSpecification: S.optional(CdiInputSpecification),
     ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
+    Destinations: S.optional(__listOfOutputDestination),
+    EncoderSettings: S.optional(EncoderSettings),
+    InputAttachments: S.optional(__listOfInputAttachment),
+    InputSpecification: S.optional(InputSpecification),
+    LogLevel: S.optional(LogLevel),
+    Maintenance: S.optional(MaintenanceUpdateSettings),
+    Name: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    ChannelEngineVersion: S.optional(ChannelEngineVersionRequest),
+    DryRun: S.optional(S.Boolean),
+    AnywhereSettings: S.optional(AnywhereSettings),
+    LinkedChannelSettings: S.optional(LinkedChannelSettings),
+  })
+    .pipe(
+      S.encodeKeys({
+        CdiInputSpecification: "cdiInputSpecification",
+        Destinations: "destinations",
+        EncoderSettings: "encoderSettings",
+        InputAttachments: "inputAttachments",
+        InputSpecification: "inputSpecification",
+        LogLevel: "logLevel",
+        Maintenance: "maintenance",
+        Name: "name",
+        RoleArn: "roleArn",
+        ChannelEngineVersion: "channelEngineVersion",
+        DryRun: "dryRun",
+        AnywhereSettings: "anywhereSettings",
+        LinkedChannelSettings: "linkedChannelSettings",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/channels/{ChannelId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    EncoderSettings: S.optional(EncoderSettings)
-      .pipe(T.JsonName("encoderSettings"))
-      .annotate({ identifier: "EncoderSettings" }),
-    InputAttachments: S.optional(__listOfInputAttachment).pipe(
-      T.JsonName("inputAttachments"),
-    ),
-    InputSpecification: S.optional(InputSpecification)
-      .pipe(T.JsonName("inputSpecification"))
-      .annotate({ identifier: "InputSpecification" }),
-    LogLevel: S.optional(LogLevel).pipe(T.JsonName("logLevel")),
-    Maintenance: S.optional(MaintenanceUpdateSettings)
-      .pipe(T.JsonName("maintenance"))
-      .annotate({ identifier: "MaintenanceUpdateSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    ChannelEngineVersion: S.optional(ChannelEngineVersionRequest)
-      .pipe(T.JsonName("channelEngineVersion"))
-      .annotate({ identifier: "ChannelEngineVersionRequest" }),
-    DryRun: S.optional(S.Boolean).pipe(T.JsonName("dryRun")),
-    AnywhereSettings: S.optional(AnywhereSettings)
-      .pipe(T.JsonName("anywhereSettings"))
-      .annotate({ identifier: "AnywhereSettings" }),
-    LinkedChannelSettings: S.optional(LinkedChannelSettings)
-      .pipe(T.JsonName("linkedChannelSettings"))
-      .annotate({ identifier: "LinkedChannelSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/channels/{ChannelId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateChannelRequest",
 }) as any as S.Schema<UpdateChannelRequest>;
@@ -16237,11 +17198,9 @@ export interface UpdateChannelResponse {
   };
 }
 export const UpdateChannelResponse = S.suspend(() =>
-  S.Struct({
-    Channel: S.optional(Channel)
-      .pipe(T.JsonName("channel"))
-      .annotate({ identifier: "Channel" }),
-  }),
+  S.Struct({ Channel: S.optional(Channel) }).pipe(
+    S.encodeKeys({ Channel: "channel" }),
+  ),
 ).annotate({
   identifier: "UpdateChannelResponse",
 }) as any as S.Schema<UpdateChannelResponse>;
@@ -16252,21 +17211,29 @@ export interface UpdateChannelClassRequest {
 }
 export const UpdateChannelClassRequest = S.suspend(() =>
   S.Struct({
-    ChannelClass: S.optional(ChannelClass).pipe(T.JsonName("channelClass")),
+    ChannelClass: S.optional(ChannelClass),
     ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
-    Destinations: S.optional(__listOfOutputDestination).pipe(
-      T.JsonName("destinations"),
+    Destinations: S.optional(__listOfOutputDestination),
+  })
+    .pipe(
+      S.encodeKeys({
+        ChannelClass: "channelClass",
+        Destinations: "destinations",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/channels/{ChannelId}/channelClass",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/channels/{ChannelId}/channelClass" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateChannelClassRequest",
 }) as any as S.Schema<UpdateChannelClassRequest>;
@@ -16540,11 +17507,9 @@ export interface UpdateChannelClassResponse {
   };
 }
 export const UpdateChannelClassResponse = S.suspend(() =>
-  S.Struct({
-    Channel: S.optional(Channel)
-      .pipe(T.JsonName("channel"))
-      .annotate({ identifier: "Channel" }),
-  }),
+  S.Struct({ Channel: S.optional(Channel) }).pipe(
+    S.encodeKeys({ Channel: "channel" }),
+  ),
 ).annotate({
   identifier: "UpdateChannelClassResponse",
 }) as any as S.Schema<UpdateChannelClassResponse>;
@@ -16560,21 +17525,23 @@ export const UpdateChannelPlacementGroupRequest = S.suspend(() =>
       T.HttpLabel("ChannelPlacementGroupId"),
     ),
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/prod/clusters/{ClusterId}/channelplacementgroups/{ChannelPlacementGroupId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+  })
+    .pipe(S.encodeKeys({ Name: "name", Nodes: "nodes" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/clusters/{ClusterId}/channelplacementgroups/{ChannelPlacementGroupId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateChannelPlacementGroupRequest",
 }) as any as S.Schema<UpdateChannelPlacementGroupRequest>;
@@ -16589,14 +17556,24 @@ export interface UpdateChannelPlacementGroupResponse {
 }
 export const UpdateChannelPlacementGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    Channels: S.optional(__listOf__string).pipe(T.JsonName("channels")),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Nodes: S.optional(__listOf__string).pipe(T.JsonName("nodes")),
-    State: S.optional(ChannelPlacementGroupState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    Channels: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    Nodes: S.optional(__listOf__string),
+    State: S.optional(ChannelPlacementGroupState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      Channels: "channels",
+      ClusterId: "clusterId",
+      Id: "id",
+      Name: "name",
+      Nodes: "nodes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateChannelPlacementGroupResponse",
 }) as any as S.Schema<UpdateChannelPlacementGroupResponse>;
@@ -16617,44 +17594,49 @@ export interface UpdateCloudWatchAlarmTemplateRequest {
 }
 export const UpdateCloudWatchAlarmTemplateRequest = S.suspend(() =>
   S.Struct({
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
-    ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupIdentifier: S.optional(S.String).pipe(T.JsonName("groupIdentifier")),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupIdentifier: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/prod/cloudwatch-alarm-templates/{Identifier}",
+    MetricName: S.optional(S.String),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+  })
+    .pipe(
+      S.encodeKeys({
+        ComparisonOperator: "comparisonOperator",
+        DatapointsToAlarm: "datapointsToAlarm",
+        Description: "description",
+        EvaluationPeriods: "evaluationPeriods",
+        GroupIdentifier: "groupIdentifier",
+        MetricName: "metricName",
+        Name: "name",
+        Period: "period",
+        Statistic: "statistic",
+        TargetResourceType: "targetResourceType",
+        Threshold: "threshold",
+        TreatMissingData: "treatMissingData",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/prod/cloudwatch-alarm-templates/{Identifier}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateCloudWatchAlarmTemplateRequest",
 }) as any as S.Schema<UpdateCloudWatchAlarmTemplateRequest>;
@@ -16679,40 +17661,48 @@ export interface UpdateCloudWatchAlarmTemplateResponse {
 }
 export const UpdateCloudWatchAlarmTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ComparisonOperator: S.optional(
-      CloudWatchAlarmTemplateComparisonOperator,
-    ).pipe(T.JsonName("comparisonOperator")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    ComparisonOperator: S.optional(CloudWatchAlarmTemplateComparisonOperator),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    DatapointsToAlarm: S.optional(S.Number).pipe(
-      T.JsonName("datapointsToAlarm"),
+    DatapointsToAlarm: S.optional(S.Number),
+    Description: S.optional(S.String),
+    EvaluationPeriods: S.optional(S.Number),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    MetricName: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EvaluationPeriods: S.optional(S.Number).pipe(
-      T.JsonName("evaluationPeriods"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MetricName: S.optional(S.String).pipe(T.JsonName("metricName")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Period: S.optional(S.Number).pipe(T.JsonName("period")),
-    Statistic: S.optional(CloudWatchAlarmTemplateStatistic).pipe(
-      T.JsonName("statistic"),
-    ),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-    TargetResourceType: S.optional(
-      CloudWatchAlarmTemplateTargetResourceType,
-    ).pipe(T.JsonName("targetResourceType")),
-    Threshold: S.optional(S.Number).pipe(T.JsonName("threshold")),
-    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData).pipe(
-      T.JsonName("treatMissingData"),
-    ),
-  }),
+    Name: S.optional(S.String),
+    Period: S.optional(S.Number),
+    Statistic: S.optional(CloudWatchAlarmTemplateStatistic),
+    Tags: S.optional(TagMap),
+    TargetResourceType: S.optional(CloudWatchAlarmTemplateTargetResourceType),
+    Threshold: S.optional(S.Number),
+    TreatMissingData: S.optional(CloudWatchAlarmTemplateTreatMissingData),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ComparisonOperator: "comparisonOperator",
+      CreatedAt: "createdAt",
+      DatapointsToAlarm: "datapointsToAlarm",
+      Description: "description",
+      EvaluationPeriods: "evaluationPeriods",
+      GroupId: "groupId",
+      Id: "id",
+      MetricName: "metricName",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Period: "period",
+      Statistic: "statistic",
+      Tags: "tags",
+      TargetResourceType: "targetResourceType",
+      Threshold: "threshold",
+      TreatMissingData: "treatMissingData",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateCloudWatchAlarmTemplateResponse",
 }) as any as S.Schema<UpdateCloudWatchAlarmTemplateResponse>;
@@ -16722,21 +17712,23 @@ export interface UpdateCloudWatchAlarmTemplateGroupRequest {
 }
 export const UpdateCloudWatchAlarmTemplateGroupRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Description: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/prod/cloudwatch-alarm-template-groups/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Description: "description" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/prod/cloudwatch-alarm-template-groups/{Identifier}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateCloudWatchAlarmTemplateGroupRequest",
 }) as any as S.Schema<UpdateCloudWatchAlarmTemplateGroupRequest>;
@@ -16751,18 +17743,28 @@ export interface UpdateCloudWatchAlarmTemplateGroupResponse {
 }
 export const UpdateCloudWatchAlarmTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateCloudWatchAlarmTemplateGroupResponse",
 }) as any as S.Schema<UpdateCloudWatchAlarmTemplateGroupResponse>;
@@ -16772,11 +17774,14 @@ export interface InterfaceMappingUpdateRequest {
 }
 export const InterfaceMappingUpdateRequest = S.suspend(() =>
   S.Struct({
-    LogicalInterfaceName: S.optional(S.String).pipe(
-      T.JsonName("logicalInterfaceName"),
-    ),
-    NetworkId: S.optional(S.String).pipe(T.JsonName("networkId")),
-  }),
+    LogicalInterfaceName: S.optional(S.String),
+    NetworkId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      LogicalInterfaceName: "logicalInterfaceName",
+      NetworkId: "networkId",
+    }),
+  ),
 ).annotate({
   identifier: "InterfaceMappingUpdateRequest",
 }) as any as S.Schema<InterfaceMappingUpdateRequest>;
@@ -16791,11 +17796,14 @@ export interface ClusterNetworkSettingsUpdateRequest {
 }
 export const ClusterNetworkSettingsUpdateRequest = S.suspend(() =>
   S.Struct({
-    DefaultRoute: S.optional(S.String).pipe(T.JsonName("defaultRoute")),
-    InterfaceMappings: S.optional(__listOfInterfaceMappingUpdateRequest).pipe(
-      T.JsonName("interfaceMappings"),
-    ),
-  }),
+    DefaultRoute: S.optional(S.String),
+    InterfaceMappings: S.optional(__listOfInterfaceMappingUpdateRequest),
+  }).pipe(
+    S.encodeKeys({
+      DefaultRoute: "defaultRoute",
+      InterfaceMappings: "interfaceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "ClusterNetworkSettingsUpdateRequest",
 }) as any as S.Schema<ClusterNetworkSettingsUpdateRequest>;
@@ -16807,20 +17815,20 @@ export interface UpdateClusterRequest {
 export const UpdateClusterRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettingsUpdateRequest)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettingsUpdateRequest" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/clusters/{ClusterId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettingsUpdateRequest),
+  })
+    .pipe(S.encodeKeys({ Name: "name", NetworkSettings: "networkSettings" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/clusters/{ClusterId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateClusterRequest",
 }) as any as S.Schema<UpdateClusterRequest>;
@@ -16835,16 +17843,24 @@ export interface UpdateClusterResponse {
 }
 export const UpdateClusterResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelIds: S.optional(__listOf__string).pipe(T.JsonName("channelIds")),
-    ClusterType: S.optional(ClusterType).pipe(T.JsonName("clusterType")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(ClusterNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "ClusterNetworkSettings" }),
-    State: S.optional(ClusterState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    ChannelIds: S.optional(__listOf__string),
+    ClusterType: S.optional(ClusterType),
+    Id: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(ClusterNetworkSettings),
+    State: S.optional(ClusterState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelIds: "channelIds",
+      ClusterType: "clusterType",
+      Id: "id",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateClusterResponse",
 }) as any as S.Schema<UpdateClusterResponse>;
@@ -16858,29 +17874,35 @@ export interface UpdateEventBridgeRuleTemplateRequest {
 }
 export const UpdateEventBridgeRuleTemplateRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget).pipe(
-      T.JsonName("eventTargets"),
-    ),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
-    ),
-    GroupIdentifier: S.optional(S.String).pipe(T.JsonName("groupIdentifier")),
+    Description: S.optional(S.String),
+    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupIdentifier: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/prod/eventbridge-rule-templates/{Identifier}",
+    Name: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        Description: "description",
+        EventTargets: "eventTargets",
+        EventType: "eventType",
+        GroupIdentifier: "groupIdentifier",
+        Name: "name",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/prod/eventbridge-rule-templates/{Identifier}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateEventBridgeRuleTemplateRequest",
 }) as any as S.Schema<UpdateEventBridgeRuleTemplateRequest>;
@@ -16900,25 +17922,34 @@ export interface UpdateEventBridgeRuleTemplateResponse {
 }
 export const UpdateEventBridgeRuleTemplateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget).pipe(
-      T.JsonName("eventTargets"),
+    Description: S.optional(S.String),
+    EventTargets: S.optional(__listOfEventBridgeRuleTemplateTarget),
+    EventType: S.optional(EventBridgeRuleTemplateEventType),
+    GroupId: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    EventType: S.optional(EventBridgeRuleTemplateEventType).pipe(
-      T.JsonName("eventType"),
-    ),
-    GroupId: S.optional(S.String).pipe(T.JsonName("groupId")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      EventTargets: "eventTargets",
+      EventType: "eventType",
+      GroupId: "groupId",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateEventBridgeRuleTemplateResponse",
 }) as any as S.Schema<UpdateEventBridgeRuleTemplateResponse>;
@@ -16928,21 +17959,23 @@ export interface UpdateEventBridgeRuleTemplateGroupRequest {
 }
 export const UpdateEventBridgeRuleTemplateGroupRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
+    Description: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/prod/eventbridge-rule-template-groups/{Identifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Description: "description" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/prod/eventbridge-rule-template-groups/{Identifier}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateEventBridgeRuleTemplateGroupRequest",
 }) as any as S.Schema<UpdateEventBridgeRuleTemplateGroupRequest>;
@@ -16957,18 +17990,28 @@ export interface UpdateEventBridgeRuleTemplateGroupResponse {
 }
 export const UpdateEventBridgeRuleTemplateGroupResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("createdAt"),
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Description: S.optional(S.String).pipe(T.JsonName("description")),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.JsonName("modifiedAt"),
+    Description: S.optional(S.String),
+    Id: S.optional(S.String),
+    ModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Tags: S.optional(TagMap).pipe(T.JsonName("tags")),
-  }),
+    Name: S.optional(S.String),
+    Tags: S.optional(TagMap),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      Id: "id",
+      ModifiedAt: "modifiedAt",
+      Name: "name",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateEventBridgeRuleTemplateGroupResponse",
 }) as any as S.Schema<UpdateEventBridgeRuleTemplateGroupResponse>;
@@ -16976,7 +18019,7 @@ export interface InputDeviceRequest {
   Id?: string;
 }
 export const InputDeviceRequest = S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String).pipe(T.JsonName("id")) }),
+  S.Struct({ Id: S.optional(S.String) }).pipe(S.encodeKeys({ Id: "id" })),
 ).annotate({
   identifier: "InputDeviceRequest",
 }) as any as S.Schema<InputDeviceRequest>;
@@ -16987,10 +18030,9 @@ export interface MulticastSourceUpdateRequest {
   Url?: string;
 }
 export const MulticastSourceUpdateRequest = S.suspend(() =>
-  S.Struct({
-    SourceIp: S.optional(S.String).pipe(T.JsonName("sourceIp")),
-    Url: S.optional(S.String).pipe(T.JsonName("url")),
-  }),
+  S.Struct({ SourceIp: S.optional(S.String), Url: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIp: "sourceIp", Url: "url" }),
+  ),
 ).annotate({
   identifier: "MulticastSourceUpdateRequest",
 }) as any as S.Schema<MulticastSourceUpdateRequest>;
@@ -17003,11 +18045,9 @@ export interface MulticastSettingsUpdateRequest {
   Sources?: MulticastSourceUpdateRequest[];
 }
 export const MulticastSettingsUpdateRequest = S.suspend(() =>
-  S.Struct({
-    Sources: S.optional(__listOfMulticastSourceUpdateRequest).pipe(
-      T.JsonName("sources"),
-    ),
-  }),
+  S.Struct({ Sources: S.optional(__listOfMulticastSourceUpdateRequest) }).pipe(
+    S.encodeKeys({ Sources: "sources" }),
+  ),
 ).annotate({
   identifier: "MulticastSettingsUpdateRequest",
 }) as any as S.Schema<MulticastSettingsUpdateRequest>;
@@ -17015,7 +18055,9 @@ export interface SpecialRouterSettings {
   RouterArn?: string;
 }
 export const SpecialRouterSettings = S.suspend(() =>
-  S.Struct({ RouterArn: S.optional(S.String).pipe(T.JsonName("routerArn")) }),
+  S.Struct({ RouterArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ RouterArn: "routerArn" }),
+  ),
 ).annotate({
   identifier: "SpecialRouterSettings",
 }) as any as S.Schema<SpecialRouterSettings>;
@@ -17036,45 +18078,46 @@ export interface UpdateInputRequest {
 }
 export const UpdateInputRequest = S.suspend(() =>
   S.Struct({
-    Destinations: S.optional(__listOfInputDestinationRequest).pipe(
-      T.JsonName("destinations"),
-    ),
-    InputDevices: S.optional(__listOfInputDeviceRequest).pipe(
-      T.JsonName("inputDevices"),
-    ),
+    Destinations: S.optional(__listOfInputDestinationRequest),
+    InputDevices: S.optional(__listOfInputDeviceRequest),
     InputId: S.String.pipe(T.HttpLabel("InputId")),
-    InputSecurityGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("inputSecurityGroups"),
+    InputSecurityGroups: S.optional(__listOf__string),
+    MediaConnectFlows: S.optional(__listOfMediaConnectFlowRequest),
+    Name: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    Sources: S.optional(__listOfInputSourceRequest),
+    SrtSettings: S.optional(SrtSettingsRequest),
+    MulticastSettings: S.optional(MulticastSettingsUpdateRequest),
+    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings),
+    SdiSources: S.optional(InputSdiSources),
+    SpecialRouterSettings: S.optional(SpecialRouterSettings),
+  })
+    .pipe(
+      S.encodeKeys({
+        Destinations: "destinations",
+        InputDevices: "inputDevices",
+        InputSecurityGroups: "inputSecurityGroups",
+        MediaConnectFlows: "mediaConnectFlows",
+        Name: "name",
+        RoleArn: "roleArn",
+        Sources: "sources",
+        SrtSettings: "srtSettings",
+        MulticastSettings: "multicastSettings",
+        Smpte2110ReceiverGroupSettings: "smpte2110ReceiverGroupSettings",
+        SdiSources: "sdiSources",
+        SpecialRouterSettings: "specialRouterSettings",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/inputs/{InputId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    MediaConnectFlows: S.optional(__listOfMediaConnectFlowRequest).pipe(
-      T.JsonName("mediaConnectFlows"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    Sources: S.optional(__listOfInputSourceRequest).pipe(T.JsonName("sources")),
-    SrtSettings: S.optional(SrtSettingsRequest)
-      .pipe(T.JsonName("srtSettings"))
-      .annotate({ identifier: "SrtSettingsRequest" }),
-    MulticastSettings: S.optional(MulticastSettingsUpdateRequest)
-      .pipe(T.JsonName("multicastSettings"))
-      .annotate({ identifier: "MulticastSettingsUpdateRequest" }),
-    Smpte2110ReceiverGroupSettings: S.optional(Smpte2110ReceiverGroupSettings)
-      .pipe(T.JsonName("smpte2110ReceiverGroupSettings"))
-      .annotate({ identifier: "Smpte2110ReceiverGroupSettings" }),
-    SdiSources: S.optional(InputSdiSources).pipe(T.JsonName("sdiSources")),
-    SpecialRouterSettings: S.optional(SpecialRouterSettings)
-      .pipe(T.JsonName("specialRouterSettings"))
-      .annotate({ identifier: "SpecialRouterSettings" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/inputs/{InputId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateInputRequest",
 }) as any as S.Schema<UpdateInputRequest>;
@@ -17086,11 +18129,7 @@ export interface UpdateInputResponse {
   };
 }
 export const UpdateInputResponse = S.suspend(() =>
-  S.Struct({
-    Input: S.optional(Input)
-      .pipe(T.JsonName("input"))
-      .annotate({ identifier: "Input" }),
-  }),
+  S.Struct({ Input: S.optional(Input) }).pipe(S.encodeKeys({ Input: "input" })),
 ).annotate({
   identifier: "UpdateInputResponse",
 }) as any as S.Schema<UpdateInputResponse>;
@@ -17102,11 +18141,18 @@ export interface InputDeviceMediaConnectConfigurableSettings {
 }
 export const InputDeviceMediaConnectConfigurableSettings = S.suspend(() =>
   S.Struct({
-    FlowArn: S.optional(S.String).pipe(T.JsonName("flowArn")),
-    RoleArn: S.optional(S.String).pipe(T.JsonName("roleArn")),
-    SecretArn: S.optional(S.String).pipe(T.JsonName("secretArn")),
-    SourceName: S.optional(S.String).pipe(T.JsonName("sourceName")),
-  }),
+    FlowArn: S.optional(S.String),
+    RoleArn: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    SourceName: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      FlowArn: "flowArn",
+      RoleArn: "roleArn",
+      SecretArn: "secretArn",
+      SourceName: "sourceName",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceMediaConnectConfigurableSettings",
 }) as any as S.Schema<InputDeviceMediaConnectConfigurableSettings>;
@@ -17127,11 +18173,9 @@ export interface InputDeviceConfigurableAudioChannelPairConfig {
 }
 export const InputDeviceConfigurableAudioChannelPairConfig = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.Number).pipe(T.JsonName("id")),
-    Profile: S.optional(InputDeviceConfigurableAudioChannelPairProfile).pipe(
-      T.JsonName("profile"),
-    ),
-  }),
+    Id: S.optional(S.Number),
+    Profile: S.optional(InputDeviceConfigurableAudioChannelPairProfile),
+  }).pipe(S.encodeKeys({ Id: "id", Profile: "profile" })),
 ).annotate({
   identifier: "InputDeviceConfigurableAudioChannelPairConfig",
 }) as any as S.Schema<InputDeviceConfigurableAudioChannelPairConfig>;
@@ -17151,22 +18195,28 @@ export interface InputDeviceConfigurableSettings {
 }
 export const InputDeviceConfigurableSettings = S.suspend(() =>
   S.Struct({
-    ConfiguredInput: S.optional(InputDeviceConfiguredInput).pipe(
-      T.JsonName("configuredInput"),
-    ),
-    MaxBitrate: S.optional(S.Number).pipe(T.JsonName("maxBitrate")),
-    LatencyMs: S.optional(S.Number).pipe(T.JsonName("latencyMs")),
-    Codec: S.optional(InputDeviceCodec).pipe(T.JsonName("codec")),
+    ConfiguredInput: S.optional(InputDeviceConfiguredInput),
+    MaxBitrate: S.optional(S.Number),
+    LatencyMs: S.optional(S.Number),
+    Codec: S.optional(InputDeviceCodec),
     MediaconnectSettings: S.optional(
       InputDeviceMediaConnectConfigurableSettings,
-    )
-      .pipe(T.JsonName("mediaconnectSettings"))
-      .annotate({ identifier: "InputDeviceMediaConnectConfigurableSettings" }),
+    ),
     AudioChannelPairs: S.optional(
       __listOfInputDeviceConfigurableAudioChannelPairConfig,
-    ).pipe(T.JsonName("audioChannelPairs")),
-    InputResolution: S.optional(S.String).pipe(T.JsonName("inputResolution")),
-  }),
+    ),
+    InputResolution: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      ConfiguredInput: "configuredInput",
+      MaxBitrate: "maxBitrate",
+      LatencyMs: "latencyMs",
+      Codec: "codec",
+      MediaconnectSettings: "mediaconnectSettings",
+      AudioChannelPairs: "audioChannelPairs",
+      InputResolution: "inputResolution",
+    }),
+  ),
 ).annotate({
   identifier: "InputDeviceConfigurableSettings",
 }) as any as S.Schema<InputDeviceConfigurableSettings>;
@@ -17179,25 +18229,30 @@ export interface UpdateInputDeviceRequest {
 }
 export const UpdateInputDeviceRequest = S.suspend(() =>
   S.Struct({
-    HdDeviceSettings: S.optional(InputDeviceConfigurableSettings)
-      .pipe(T.JsonName("hdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceConfigurableSettings" }),
+    HdDeviceSettings: S.optional(InputDeviceConfigurableSettings),
     InputDeviceId: S.String.pipe(T.HttpLabel("InputDeviceId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    UhdDeviceSettings: S.optional(InputDeviceConfigurableSettings)
-      .pipe(T.JsonName("uhdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceConfigurableSettings" }),
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/inputDevices/{InputDeviceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Name: S.optional(S.String),
+    UhdDeviceSettings: S.optional(InputDeviceConfigurableSettings),
+    AvailabilityZone: S.optional(S.String),
+  })
+    .pipe(
+      S.encodeKeys({
+        HdDeviceSettings: "hdDeviceSettings",
+        Name: "name",
+        UhdDeviceSettings: "uhdDeviceSettings",
+        AvailabilityZone: "availabilityZone",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/inputDevices/{InputDeviceId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateInputDeviceRequest",
 }) as any as S.Schema<UpdateInputDeviceRequest>;
@@ -17221,39 +18276,42 @@ export interface UpdateInputDeviceResponse {
 }
 export const UpdateInputDeviceResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ConnectionState: S.optional(InputDeviceConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState).pipe(
-      T.JsonName("deviceSettingsSyncState"),
-    ),
-    DeviceUpdateStatus: S.optional(DeviceUpdateStatus).pipe(
-      T.JsonName("deviceUpdateStatus"),
-    ),
-    HdDeviceSettings: S.optional(InputDeviceHdSettings)
-      .pipe(T.JsonName("hdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceHdSettings" }),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    MacAddress: S.optional(S.String).pipe(T.JsonName("macAddress")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NetworkSettings: S.optional(InputDeviceNetworkSettings)
-      .pipe(T.JsonName("networkSettings"))
-      .annotate({ identifier: "InputDeviceNetworkSettings" }),
-    SerialNumber: S.optional(S.String).pipe(T.JsonName("serialNumber")),
-    Type: S.optional(InputDeviceType).pipe(T.JsonName("type")),
-    UhdDeviceSettings: S.optional(InputDeviceUhdSettings)
-      .pipe(T.JsonName("uhdDeviceSettings"))
-      .annotate({ identifier: "InputDeviceUhdSettings" }),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    AvailabilityZone: S.optional(S.String).pipe(T.JsonName("availabilityZone")),
-    MedialiveInputArns: S.optional(__listOf__string).pipe(
-      T.JsonName("medialiveInputArns"),
-    ),
-    OutputType: S.optional(InputDeviceOutputType).pipe(
-      T.JsonName("outputType"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ConnectionState: S.optional(InputDeviceConnectionState),
+    DeviceSettingsSyncState: S.optional(DeviceSettingsSyncState),
+    DeviceUpdateStatus: S.optional(DeviceUpdateStatus),
+    HdDeviceSettings: S.optional(InputDeviceHdSettings),
+    Id: S.optional(S.String),
+    MacAddress: S.optional(S.String),
+    Name: S.optional(S.String),
+    NetworkSettings: S.optional(InputDeviceNetworkSettings),
+    SerialNumber: S.optional(S.String),
+    Type: S.optional(InputDeviceType),
+    UhdDeviceSettings: S.optional(InputDeviceUhdSettings),
+    Tags: S.optional(Tags),
+    AvailabilityZone: S.optional(S.String),
+    MedialiveInputArns: S.optional(__listOf__string),
+    OutputType: S.optional(InputDeviceOutputType),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ConnectionState: "connectionState",
+      DeviceSettingsSyncState: "deviceSettingsSyncState",
+      DeviceUpdateStatus: "deviceUpdateStatus",
+      HdDeviceSettings: "hdDeviceSettings",
+      Id: "id",
+      MacAddress: "macAddress",
+      Name: "name",
+      NetworkSettings: "networkSettings",
+      SerialNumber: "serialNumber",
+      Type: "type",
+      UhdDeviceSettings: "uhdDeviceSettings",
+      Tags: "tags",
+      AvailabilityZone: "availabilityZone",
+      MedialiveInputArns: "medialiveInputArns",
+      OutputType: "outputType",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateInputDeviceResponse",
 }) as any as S.Schema<UpdateInputDeviceResponse>;
@@ -17265,23 +18323,23 @@ export interface UpdateInputSecurityGroupRequest {
 export const UpdateInputSecurityGroupRequest = S.suspend(() =>
   S.Struct({
     InputSecurityGroupId: S.String.pipe(T.HttpLabel("InputSecurityGroupId")),
-    Tags: S.optional(Tags).pipe(T.JsonName("tags")),
-    WhitelistRules: S.optional(__listOfInputWhitelistRuleCidr).pipe(
-      T.JsonName("whitelistRules"),
+    Tags: S.optional(Tags),
+    WhitelistRules: S.optional(__listOfInputWhitelistRuleCidr),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags", WhitelistRules: "whitelistRules" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/inputSecurityGroups/{InputSecurityGroupId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/prod/inputSecurityGroups/{InputSecurityGroupId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "UpdateInputSecurityGroupRequest",
 }) as any as S.Schema<UpdateInputSecurityGroupRequest>;
@@ -17289,11 +18347,9 @@ export interface UpdateInputSecurityGroupResponse {
   SecurityGroup?: InputSecurityGroup;
 }
 export const UpdateInputSecurityGroupResponse = S.suspend(() =>
-  S.Struct({
-    SecurityGroup: S.optional(InputSecurityGroup)
-      .pipe(T.JsonName("securityGroup"))
-      .annotate({ identifier: "InputSecurityGroup" }),
-  }),
+  S.Struct({ SecurityGroup: S.optional(InputSecurityGroup) }).pipe(
+    S.encodeKeys({ SecurityGroup: "securityGroup" }),
+  ),
 ).annotate({
   identifier: "UpdateInputSecurityGroupResponse",
 }) as any as S.Schema<UpdateInputSecurityGroupResponse>;
@@ -17315,23 +18371,27 @@ export interface UpdateMultiplexRequest {
 export const UpdateMultiplexRequest = S.suspend(() =>
   S.Struct({
     MultiplexId: S.String.pipe(T.HttpLabel("MultiplexId")),
-    MultiplexSettings: S.optional(MultiplexSettings)
-      .pipe(T.JsonName("multiplexSettings"))
-      .annotate({ identifier: "MultiplexSettings" }),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    PacketIdentifiersMapping: S.optional(
-      MultiplexPacketIdentifiersMapping,
-    ).pipe(T.JsonName("packetIdentifiersMapping")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/multiplexes/{MultiplexId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    MultiplexSettings: S.optional(MultiplexSettings),
+    Name: S.optional(S.String),
+    PacketIdentifiersMapping: S.optional(MultiplexPacketIdentifiersMapping),
+  })
+    .pipe(
+      S.encodeKeys({
+        MultiplexSettings: "multiplexSettings",
+        Name: "name",
+        PacketIdentifiersMapping: "packetIdentifiersMapping",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/multiplexes/{MultiplexId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateMultiplexRequest",
 }) as any as S.Schema<UpdateMultiplexRequest>;
@@ -17344,11 +18404,9 @@ export interface UpdateMultiplexResponse {
   };
 }
 export const UpdateMultiplexResponse = S.suspend(() =>
-  S.Struct({
-    Multiplex: S.optional(Multiplex)
-      .pipe(T.JsonName("multiplex"))
-      .annotate({ identifier: "Multiplex" }),
-  }),
+  S.Struct({ Multiplex: S.optional(Multiplex) }).pipe(
+    S.encodeKeys({ Multiplex: "multiplex" }),
+  ),
 ).annotate({
   identifier: "UpdateMultiplexResponse",
 }) as any as S.Schema<UpdateMultiplexResponse>;
@@ -17360,23 +18418,25 @@ export interface UpdateMultiplexProgramRequest {
 export const UpdateMultiplexProgramRequest = S.suspend(() =>
   S.Struct({
     MultiplexId: S.String.pipe(T.HttpLabel("MultiplexId")),
-    MultiplexProgramSettings: S.optional(MultiplexProgramSettings)
-      .pipe(T.JsonName("multiplexProgramSettings"))
-      .annotate({ identifier: "MultiplexProgramSettings" }),
+    MultiplexProgramSettings: S.optional(MultiplexProgramSettings),
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(
+      S.encodeKeys({ MultiplexProgramSettings: "multiplexProgramSettings" }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateMultiplexProgramRequest",
 }) as any as S.Schema<UpdateMultiplexProgramRequest>;
@@ -17392,11 +18452,9 @@ export interface UpdateMultiplexProgramResponse {
   };
 }
 export const UpdateMultiplexProgramResponse = S.suspend(() =>
-  S.Struct({
-    MultiplexProgram: S.optional(MultiplexProgram)
-      .pipe(T.JsonName("multiplexProgram"))
-      .annotate({ identifier: "MultiplexProgram" }),
-  }),
+  S.Struct({ MultiplexProgram: S.optional(MultiplexProgram) }).pipe(
+    S.encodeKeys({ MultiplexProgram: "multiplexProgram" }),
+  ),
 ).annotate({
   identifier: "UpdateMultiplexProgramResponse",
 }) as any as S.Schema<UpdateMultiplexProgramResponse>;
@@ -17404,7 +18462,7 @@ export interface IpPoolUpdateRequest {
   Cidr?: string;
 }
 export const IpPoolUpdateRequest = S.suspend(() =>
-  S.Struct({ Cidr: S.optional(S.String).pipe(T.JsonName("cidr")) }),
+  S.Struct({ Cidr: S.optional(S.String) }).pipe(S.encodeKeys({ Cidr: "cidr" })),
 ).annotate({
   identifier: "IpPoolUpdateRequest",
 }) as any as S.Schema<IpPoolUpdateRequest>;
@@ -17415,10 +18473,9 @@ export interface RouteUpdateRequest {
   Gateway?: string;
 }
 export const RouteUpdateRequest = S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.JsonName("cidr")),
-    Gateway: S.optional(S.String).pipe(T.JsonName("gateway")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String), Gateway: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Cidr: "cidr", Gateway: "gateway" }),
+  ),
 ).annotate({
   identifier: "RouteUpdateRequest",
 }) as any as S.Schema<RouteUpdateRequest>;
@@ -17432,22 +18489,22 @@ export interface UpdateNetworkRequest {
 }
 export const UpdateNetworkRequest = S.suspend(() =>
   S.Struct({
-    IpPools: S.optional(__listOfIpPoolUpdateRequest).pipe(
-      T.JsonName("ipPools"),
-    ),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    IpPools: S.optional(__listOfIpPoolUpdateRequest),
+    Name: S.optional(S.String),
     NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
-    Routes: S.optional(__listOfRouteUpdateRequest).pipe(T.JsonName("routes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/networks/{NetworkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Routes: S.optional(__listOfRouteUpdateRequest),
+  })
+    .pipe(S.encodeKeys({ IpPools: "ipPools", Name: "name", Routes: "routes" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/networks/{NetworkId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateNetworkRequest",
 }) as any as S.Schema<UpdateNetworkRequest>;
@@ -17462,16 +18519,24 @@ export interface UpdateNetworkResponse {
 }
 export const UpdateNetworkResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    AssociatedClusterIds: S.optional(__listOf__string).pipe(
-      T.JsonName("associatedClusterIds"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    IpPools: S.optional(__listOfIpPool).pipe(T.JsonName("ipPools")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    Routes: S.optional(__listOfRoute).pipe(T.JsonName("routes")),
-    State: S.optional(NetworkState).pipe(T.JsonName("state")),
-  }),
+    Arn: S.optional(S.String),
+    AssociatedClusterIds: S.optional(__listOf__string),
+    Id: S.optional(S.String),
+    IpPools: S.optional(__listOfIpPool),
+    Name: S.optional(S.String),
+    Routes: S.optional(__listOfRoute),
+    State: S.optional(NetworkState),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      AssociatedClusterIds: "associatedClusterIds",
+      Id: "id",
+      IpPools: "ipPools",
+      Name: "name",
+      Routes: "routes",
+      State: "state",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateNetworkResponse",
 }) as any as S.Schema<UpdateNetworkResponse>;
@@ -17482,10 +18547,16 @@ export interface SdiSourceMappingUpdateRequest {
 }
 export const SdiSourceMappingUpdateRequest = S.suspend(() =>
   S.Struct({
-    CardNumber: S.optional(S.Number).pipe(T.JsonName("cardNumber")),
-    ChannelNumber: S.optional(S.Number).pipe(T.JsonName("channelNumber")),
-    SdiSource: S.optional(S.String).pipe(T.JsonName("sdiSource")),
-  }),
+    CardNumber: S.optional(S.Number),
+    ChannelNumber: S.optional(S.Number),
+    SdiSource: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      CardNumber: "cardNumber",
+      ChannelNumber: "channelNumber",
+      SdiSource: "sdiSource",
+    }),
+  ),
 ).annotate({
   identifier: "SdiSourceMappingUpdateRequest",
 }) as any as S.Schema<SdiSourceMappingUpdateRequest>;
@@ -17503,25 +18574,31 @@ export interface UpdateNodeRequest {
 export const UpdateNodeRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Name: S.optional(S.String),
     NodeId: S.String.pipe(T.HttpLabel("NodeId")),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    SdiSourceMappings: S.optional(SdiSourceMappingsUpdateRequest).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/prod/clusters/{ClusterId}/nodes/{NodeId}",
+    Role: S.optional(NodeRole),
+    SdiSourceMappings: S.optional(SdiSourceMappingsUpdateRequest),
+  })
+    .pipe(
+      S.encodeKeys({
+        Name: "name",
+        Role: "role",
+        SdiSourceMappings: "sdiSourceMappings",
       }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/clusters/{ClusterId}/nodes/{NodeId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateNodeRequest",
 }) as any as S.Schema<UpdateNodeRequest>;
@@ -17540,26 +18617,32 @@ export interface UpdateNodeResponse {
 }
 export const UpdateNodeResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateNodeResponse",
 }) as any as S.Schema<UpdateNodeResponse>;
@@ -17574,20 +18657,22 @@ export const UpdateNodeStateRequest = S.suspend(() =>
   S.Struct({
     ClusterId: S.String.pipe(T.HttpLabel("ClusterId")),
     NodeId: S.String.pipe(T.HttpLabel("NodeId")),
-    State: S.optional(UpdateNodeStateShape).pipe(T.JsonName("state")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/prod/clusters/{ClusterId}/nodes/{NodeId}/state",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    State: S.optional(UpdateNodeStateShape),
+  })
+    .pipe(S.encodeKeys({ State: "state" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/prod/clusters/{ClusterId}/nodes/{NodeId}/state",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateNodeStateRequest",
 }) as any as S.Schema<UpdateNodeStateRequest>;
@@ -17606,26 +18691,32 @@ export interface UpdateNodeStateResponse {
 }
 export const UpdateNodeStateResponse = S.suspend(() =>
   S.Struct({
-    Arn: S.optional(S.String).pipe(T.JsonName("arn")),
-    ChannelPlacementGroups: S.optional(__listOf__string).pipe(
-      T.JsonName("channelPlacementGroups"),
-    ),
-    ClusterId: S.optional(S.String).pipe(T.JsonName("clusterId")),
-    ConnectionState: S.optional(NodeConnectionState).pipe(
-      T.JsonName("connectionState"),
-    ),
-    Id: S.optional(S.String).pipe(T.JsonName("id")),
-    InstanceArn: S.optional(S.String).pipe(T.JsonName("instanceArn")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping).pipe(
-      T.JsonName("nodeInterfaceMappings"),
-    ),
-    Role: S.optional(NodeRole).pipe(T.JsonName("role")),
-    State: S.optional(NodeState).pipe(T.JsonName("state")),
-    SdiSourceMappings: S.optional(SdiSourceMappings).pipe(
-      T.JsonName("sdiSourceMappings"),
-    ),
-  }),
+    Arn: S.optional(S.String),
+    ChannelPlacementGroups: S.optional(__listOf__string),
+    ClusterId: S.optional(S.String),
+    ConnectionState: S.optional(NodeConnectionState),
+    Id: S.optional(S.String),
+    InstanceArn: S.optional(S.String),
+    Name: S.optional(S.String),
+    NodeInterfaceMappings: S.optional(__listOfNodeInterfaceMapping),
+    Role: S.optional(NodeRole),
+    State: S.optional(NodeState),
+    SdiSourceMappings: S.optional(SdiSourceMappings),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      ChannelPlacementGroups: "channelPlacementGroups",
+      ClusterId: "clusterId",
+      ConnectionState: "connectionState",
+      Id: "id",
+      InstanceArn: "instanceArn",
+      Name: "name",
+      NodeInterfaceMappings: "nodeInterfaceMappings",
+      Role: "role",
+      State: "state",
+      SdiSourceMappings: "sdiSourceMappings",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateNodeStateResponse",
 }) as any as S.Schema<UpdateNodeStateResponse>;
@@ -17636,21 +18727,21 @@ export interface UpdateReservationRequest {
 }
 export const UpdateReservationRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
-    RenewalSettings: S.optional(RenewalSettings)
-      .pipe(T.JsonName("renewalSettings"))
-      .annotate({ identifier: "RenewalSettings" }),
+    Name: S.optional(S.String),
+    RenewalSettings: S.optional(RenewalSettings),
     ReservationId: S.String.pipe(T.HttpLabel("ReservationId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/reservations/{ReservationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Name: "name", RenewalSettings: "renewalSettings" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/reservations/{ReservationId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateReservationRequest",
 }) as any as S.Schema<UpdateReservationRequest>;
@@ -17658,11 +18749,9 @@ export interface UpdateReservationResponse {
   Reservation?: Reservation;
 }
 export const UpdateReservationResponse = S.suspend(() =>
-  S.Struct({
-    Reservation: S.optional(Reservation)
-      .pipe(T.JsonName("reservation"))
-      .annotate({ identifier: "Reservation" }),
-  }),
+  S.Struct({ Reservation: S.optional(Reservation) }).pipe(
+    S.encodeKeys({ Reservation: "reservation" }),
+  ),
 ).annotate({
   identifier: "UpdateReservationResponse",
 }) as any as S.Schema<UpdateReservationResponse>;
@@ -17674,20 +18763,22 @@ export interface UpdateSdiSourceRequest {
 }
 export const UpdateSdiSourceRequest = S.suspend(() =>
   S.Struct({
-    Mode: S.optional(SdiSourceMode).pipe(T.JsonName("mode")),
-    Name: S.optional(S.String).pipe(T.JsonName("name")),
+    Mode: S.optional(SdiSourceMode),
+    Name: S.optional(S.String),
     SdiSourceId: S.String.pipe(T.HttpLabel("SdiSourceId")),
-    Type: S.optional(SdiSourceType).pipe(T.JsonName("type")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/prod/sdiSources/{SdiSourceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Type: S.optional(SdiSourceType),
+  })
+    .pipe(S.encodeKeys({ Mode: "mode", Name: "name", Type: "type" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/prod/sdiSources/{SdiSourceId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateSdiSourceRequest",
 }) as any as S.Schema<UpdateSdiSourceRequest>;
@@ -17695,11 +18786,9 @@ export interface UpdateSdiSourceResponse {
   SdiSource?: SdiSource;
 }
 export const UpdateSdiSourceResponse = S.suspend(() =>
-  S.Struct({
-    SdiSource: S.optional(SdiSource)
-      .pipe(T.JsonName("sdiSource"))
-      .annotate({ identifier: "SdiSource" }),
-  }),
+  S.Struct({ SdiSource: S.optional(SdiSource) }).pipe(
+    S.encodeKeys({ SdiSource: "sdiSource" }),
+  ),
 ).annotate({
   identifier: "UpdateSdiSourceResponse",
 }) as any as S.Schema<UpdateSdiSourceResponse>;
@@ -17707,43 +18796,41 @@ export const UpdateSdiSourceResponse = S.suspend(() =>
 //# Errors
 export class BadGatewayException extends S.TaggedErrorClass<BadGatewayException>()(
   "BadGatewayException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(
   "BadRequestException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
   "ConflictException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withConflictError) {}
 export class ForbiddenException extends S.TaggedErrorClass<ForbiddenException>()(
   "ForbiddenException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withAuthError) {}
 export class GatewayTimeoutException extends S.TaggedErrorClass<GatewayTimeoutException>()(
   "GatewayTimeoutException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withTimeoutError) {}
 export class InternalServerErrorException extends S.TaggedErrorClass<InternalServerErrorException>()(
   "InternalServerErrorException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withServerError) {}
 export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
   "NotFoundException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequestsException>()(
   "TooManyRequestsException",
-  { Message: S.optional(S.String).pipe(T.JsonName("message")) },
+  { Message: S.optional(S.String) },
 ).pipe(C.withThrottlingError) {}
 export class UnprocessableEntityException extends S.TaggedErrorClass<UnprocessableEntityException>()(
   "UnprocessableEntityException",
   {
-    Message: S.optional(S.String).pipe(T.JsonName("message")),
-    ValidationErrors: S.optional(__listOfValidationError).pipe(
-      T.JsonName("validationErrors"),
-    ),
+    Message: S.optional(S.String),
+    ValidationErrors: S.optional(__listOfValidationError),
   },
 ).pipe(C.withBadRequestError) {}
 

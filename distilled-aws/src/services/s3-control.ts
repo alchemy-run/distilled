@@ -1306,7 +1306,7 @@ export interface CreateAccessGrantResult {
 }
 export const CreateAccessGrantResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantId: S.optional(S.String),
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
@@ -1360,7 +1360,7 @@ export interface CreateAccessGrantsInstanceResult {
 }
 export const CreateAccessGrantsInstanceResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantsInstanceId: S.optional(S.String),
     AccessGrantsInstanceArn: S.optional(S.String),
     IdentityCenterArn: S.optional(S.String),
@@ -1413,7 +1413,7 @@ export interface CreateAccessGrantsLocationResult {
 }
 export const CreateAccessGrantsLocationResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationArn: S.optional(S.String),
     LocationScope: S.optional(S.String),
@@ -1847,7 +1847,7 @@ export const S3ObjectMetadata = S.suspend(() =>
     ContentLength: S.optional(S.Number),
     ContentMD5: S.optional(S.String),
     ContentType: S.optional(S.String),
-    HttpExpiresDate: S.optional(S.Date),
+    HttpExpiresDate: S.optional(T.DateFromString),
     RequesterCharged: S.optional(S.Boolean),
     SSEAlgorithm: S.optional(S3SSEAlgorithm),
   }),
@@ -1911,18 +1911,18 @@ export const S3CopyObjectOperation = S.suspend(() =>
     CannedAccessControlList: S.optional(S3CannedAccessControlList),
     AccessControlGrants: S.optional(S3GrantList),
     MetadataDirective: S.optional(S3MetadataDirective),
-    ModifiedSinceConstraint: S.optional(S.Date),
+    ModifiedSinceConstraint: S.optional(T.DateFromString),
     NewObjectMetadata: S.optional(S3ObjectMetadata),
     NewObjectTagging: S.optional(S3TagSet),
     RedirectLocation: S.optional(S.String),
     RequesterPays: S.optional(S.Boolean),
     StorageClass: S.optional(S3StorageClass),
-    UnModifiedSinceConstraint: S.optional(S.Date),
+    UnModifiedSinceConstraint: S.optional(T.DateFromString),
     SSEAwsKmsKeyId: S.optional(S.String),
     TargetKeyPrefix: S.optional(S.String),
     ObjectLockLegalHoldStatus: S.optional(S3ObjectLockLegalHoldStatus),
     ObjectLockMode: S.optional(S3ObjectLockMode),
-    ObjectLockRetainUntilDate: S.optional(S.Date),
+    ObjectLockRetainUntilDate: S.optional(T.DateFromString),
     BucketKeyEnabled: S.optional(S.Boolean),
     ChecksumAlgorithm: S.optional(S3ChecksumAlgorithm),
   }),
@@ -2020,7 +2020,7 @@ export interface S3Retention {
 }
 export const S3Retention = S.suspend(() =>
   S.Struct({
-    RetainUntilDate: S.optional(S.Date),
+    RetainUntilDate: S.optional(T.DateFromString),
     Mode: S.optional(S3ObjectLockRetentionMode),
   }),
 ).annotate({ identifier: "S3Retention" }) as any as S.Schema<S3Retention>;
@@ -2351,8 +2351,8 @@ export interface JobManifestGeneratorFilter {
 export const JobManifestGeneratorFilter = S.suspend(() =>
   S.Struct({
     EligibleForReplication: S.optional(S.Boolean),
-    CreatedAfter: S.optional(S.Date),
-    CreatedBefore: S.optional(S.Date),
+    CreatedAfter: S.optional(T.DateFromString),
+    CreatedBefore: S.optional(T.DateFromString),
     ObjectReplicationStatuses: S.optional(ReplicationStatusFilterList),
     KeyNameConstraint: S.optional(KeyNameConstraint),
     ObjectSizeGreaterThanBytes: S.optional(S.Number),
@@ -3461,10 +3461,10 @@ export const JobDescriptor = S.suspend(() =>
     StatusUpdateReason: S.optional(S.String),
     FailureReasons: S.optional(JobFailureList),
     Report: S.optional(JobReport),
-    CreationTime: S.optional(S.Date),
-    TerminationDate: S.optional(S.Date),
+    CreationTime: S.optional(T.DateFromString),
+    TerminationDate: S.optional(T.DateFromString),
     RoleArn: S.optional(S.String),
-    SuspendedDate: S.optional(S.Date),
+    SuspendedDate: S.optional(T.DateFromString),
     SuspendedCause: S.optional(S.String),
     ManifestGenerator: S.optional(JobManifestGenerator),
     GeneratedManifestDescriptor: S.optional(S3GeneratedManifestDescriptor),
@@ -3607,7 +3607,7 @@ export interface AsyncOperation {
 }
 export const AsyncOperation = S.suspend(() =>
   S.Struct({
-    CreationTime: S.optional(S.Date),
+    CreationTime: S.optional(T.DateFromString),
     Operation: S.optional(AsyncOperationName),
     RequestTokenARN: S.optional(S.String),
     RequestParameters: S.optional(AsyncRequestParameters),
@@ -3700,7 +3700,7 @@ export interface GetAccessGrantResult {
 }
 export const GetAccessGrantResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantId: S.optional(S.String),
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
@@ -3755,7 +3755,7 @@ export const GetAccessGrantsInstanceResult = S.suspend(() =>
     IdentityCenterArn: S.optional(S.String),
     IdentityCenterInstanceArn: S.optional(S.String),
     IdentityCenterApplicationArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
   }).pipe(ns),
 ).annotate({
   identifier: "GetAccessGrantsInstanceResult",
@@ -3836,7 +3836,7 @@ export const GetAccessGrantsInstanceResourcePolicyResult = S.suspend(() =>
   S.Struct({
     Policy: S.optional(S.String),
     Organization: S.optional(S.String),
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
   }).pipe(ns),
 ).annotate({
   identifier: "GetAccessGrantsInstanceResourcePolicyResult",
@@ -3882,7 +3882,7 @@ export interface GetAccessGrantsLocationResult {
 }
 export const GetAccessGrantsLocationResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationArn: S.optional(S.String),
     LocationScope: S.optional(S.String),
@@ -3943,7 +3943,7 @@ export const GetAccessPointResult = S.suspend(() =>
     NetworkOrigin: S.optional(NetworkOrigin),
     VpcConfiguration: S.optional(VpcConfiguration),
     PublicAccessBlockConfiguration: S.optional(PublicAccessBlockConfiguration),
-    CreationDate: S.optional(S.Date),
+    CreationDate: S.optional(T.DateFromString),
     Alias: S.optional(S.String),
     AccessPointArn: S.optional(S.String),
     Endpoints: S.optional(Endpoints),
@@ -4032,7 +4032,7 @@ export const GetAccessPointForObjectLambdaResult = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     PublicAccessBlockConfiguration: S.optional(PublicAccessBlockConfiguration),
-    CreationDate: S.optional(S.Date),
+    CreationDate: S.optional(T.DateFromString),
     Alias: S.optional(ObjectLambdaAccessPointAlias),
   }).pipe(ns),
 ).annotate({
@@ -4267,7 +4267,7 @@ export const GetBucketResult = S.suspend(() =>
   S.Struct({
     Bucket: S.optional(S.String),
     PublicAccessBlockEnabled: S.optional(S.Boolean),
-    CreationDate: S.optional(S.Date),
+    CreationDate: S.optional(T.DateFromString),
   }).pipe(ns),
 ).annotate({
   identifier: "GetBucketResult",
@@ -4309,7 +4309,7 @@ export interface LifecycleExpiration {
 }
 export const LifecycleExpiration = S.suspend(() =>
   S.Struct({
-    Date: S.optional(S.Date),
+    Date: S.optional(T.DateFromString),
     Days: S.optional(S.Number),
     ExpiredObjectDeleteMarker: S.optional(S.Boolean),
   }),
@@ -4367,7 +4367,7 @@ export interface Transition {
 }
 export const Transition = S.suspend(() =>
   S.Struct({
-    Date: S.optional(S.Date),
+    Date: S.optional(T.DateFromString),
     Days: S.optional(S.Number),
     StorageClass: S.optional(TransitionStorageClass),
   }),
@@ -4863,7 +4863,7 @@ export const Credentials = S.suspend(() =>
     AccessKeyId: S.optional(SensitiveString),
     SecretAccessKey: S.optional(SensitiveString),
     SessionToken: S.optional(SensitiveString),
-    Expiration: S.optional(S.Date),
+    Expiration: S.optional(T.DateFromString),
   }),
 ).annotate({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
 export interface GetDataAccessResult {
@@ -4981,7 +4981,7 @@ export const MultiRegionAccessPointReport = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Alias: S.optional(S.String),
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     PublicAccessBlock: S.optional(PublicAccessBlockConfiguration),
     Status: S.optional(MultiRegionAccessPointStatus),
     Regions: S.optional(RegionReportList),
@@ -5683,7 +5683,7 @@ export interface ListAccessGrantEntry {
 }
 export const ListAccessGrantEntry = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantId: S.optional(S.String),
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
@@ -5757,7 +5757,7 @@ export const ListAccessGrantsInstanceEntry = S.suspend(() =>
   S.Struct({
     AccessGrantsInstanceId: S.optional(S.String),
     AccessGrantsInstanceArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     IdentityCenterArn: S.optional(S.String),
     IdentityCenterInstanceArn: S.optional(S.String),
     IdentityCenterApplicationArn: S.optional(S.String),
@@ -5826,7 +5826,7 @@ export interface ListAccessGrantsLocationsEntry {
 }
 export const ListAccessGrantsLocationsEntry = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationArn: S.optional(S.String),
     LocationScope: S.optional(S.String),
@@ -6173,8 +6173,8 @@ export const JobListDescriptor = S.suspend(() =>
     Operation: S.optional(OperationName),
     Priority: S.optional(S.Number),
     Status: S.optional(JobStatus),
-    CreationTime: S.optional(S.Date),
-    TerminationDate: S.optional(S.Date),
+    CreationTime: S.optional(T.DateFromString),
+    TerminationDate: S.optional(T.DateFromString),
     ProgressSummary: S.optional(JobProgressSummary),
   }),
 ).annotate({
@@ -6285,7 +6285,7 @@ export const RegionalBucket = S.suspend(() =>
     Bucket: S.String,
     BucketArn: S.optional(S.String),
     PublicAccessBlockEnabled: S.Boolean,
-    CreationDate: S.Date,
+    CreationDate: T.DateFromString,
     OutpostId: S.optional(S.String),
   }),
 ).annotate({ identifier: "RegionalBucket" }) as any as S.Schema<RegionalBucket>;
@@ -6512,7 +6512,7 @@ export const PutAccessGrantsInstanceResourcePolicyResult = S.suspend(() =>
   S.Struct({
     Policy: S.optional(S.String),
     Organization: S.optional(S.String),
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
   }).pipe(ns),
 ).annotate({
   identifier: "PutAccessGrantsInstanceResourcePolicyResult",
@@ -7236,7 +7236,7 @@ export interface UpdateAccessGrantsLocationResult {
 }
 export const UpdateAccessGrantsLocationResult = S.suspend(() =>
   S.Struct({
-    CreatedAt: S.optional(S.Date),
+    CreatedAt: S.optional(T.DateFromString),
     AccessGrantsLocationId: S.optional(S.String),
     AccessGrantsLocationArn: S.optional(S.String),
     LocationScope: S.optional(S.String),

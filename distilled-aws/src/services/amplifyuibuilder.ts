@@ -722,8 +722,12 @@ export const CodegenJob = S.suspend(() =>
     statusMessage: S.optional(S.String),
     asset: S.optional(CodegenJobAsset),
     tags: S.optional(Tags),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     dependencies: S.optional(CodegenDependencies),
   }),
 ).annotate({ identifier: "CodegenJob" }) as any as S.Schema<CodegenJob>;
@@ -817,8 +821,12 @@ export const CodegenJobSummary = S.suspend(() =>
     appId: S.String,
     environmentName: S.String,
     id: S.String,
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CodegenJobSummary",
@@ -1289,8 +1297,10 @@ export const Component = S.suspend(() =>
     overrides: ComponentOverrides,
     bindingProperties: ComponentBindingProperties,
     collectionProperties: S.optional(ComponentCollectionProperties),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(Tags),
     events: S.optional(ComponentEvents),
     schemaVersion: S.optional(S.String),
@@ -2279,8 +2289,10 @@ export const Theme = S.suspend(() =>
     environmentName: S.String,
     id: S.String,
     name: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    modifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     values: ThemeValuesList,
     overrides: S.optional(ThemeValuesList),
     tags: S.optional(Tags),

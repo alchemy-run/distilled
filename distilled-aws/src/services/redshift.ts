@@ -177,7 +177,9 @@ export const ReservedNode = S.suspend(() =>
     ReservedNodeId: S.optional(S.String),
     ReservedNodeOfferingId: S.optional(S.String),
     NodeType: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Duration: S.optional(S.Number),
     FixedPrice: S.optional(S.Number),
     UsagePrice: S.optional(S.Number),
@@ -286,8 +288,12 @@ export const DataShareAssociation = S.suspend(() =>
     ConsumerIdentifier: S.optional(S.String),
     Status: S.optional(DataShareStatus),
     ConsumerRegion: S.optional(S.String),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StatusChangeDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    StatusChangeDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ProducerAllowedWrites: S.optional(S.Boolean),
     ConsumerAcceptedWrites: S.optional(S.Boolean),
   }),
@@ -487,7 +493,9 @@ export const EndpointAuthorization = S.suspend(() =>
     Grantor: S.optional(S.String),
     Grantee: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    AuthorizeTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    AuthorizeTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ClusterStatus: S.optional(S.String),
     Status: S.optional(AuthorizationStatus),
     AllowedAllVPCs: S.optional(S.Boolean),
@@ -588,11 +596,15 @@ export const Snapshot = S.suspend(() =>
   S.Struct({
     SnapshotIdentifier: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MasterUsername: S.optional(S.String),
     ClusterVersion: S.optional(S.String),
     EngineFullVersion: S.optional(S.String),
@@ -620,7 +632,7 @@ export const Snapshot = S.suspend(() =>
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     ManualSnapshotRemainingDays: S.optional(S.Number),
     SnapshotRetentionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MasterPasswordSecretArn: S.optional(S.String),
     MasterPasswordSecretKmsKeyId: S.optional(S.String),
@@ -1280,10 +1292,10 @@ export const DeferredMaintenanceWindow = S.suspend(() =>
   S.Struct({
     DeferMaintenanceIdentifier: S.optional(S.String),
     DeferMaintenanceStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DeferMaintenanceEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -1345,7 +1357,9 @@ export const ReservedNodeExchangeStatus = S.suspend(() =>
   S.Struct({
     ReservedNodeExchangeRequestId: S.optional(S.String),
     Status: S.optional(ReservedNodeExchangeStatusType),
-    RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RequestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SourceReservedNodeId: S.optional(S.String),
     SourceReservedNodeType: S.optional(S.String),
     SourceReservedNodeCount: S.optional(S.Number),
@@ -1442,7 +1456,9 @@ export const Cluster = S.suspend(() =>
     MasterUsername: S.optional(S.String),
     DBName: S.optional(S.String),
     Endpoint: S.optional(Endpoint),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     AutomatedSnapshotRetentionPeriod: S.optional(S.Number),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     ClusterSecurityGroups: S.optional(ClusterSecurityGroupMembershipList),
@@ -1477,11 +1493,11 @@ export const Cluster = S.suspend(() =>
     SnapshotScheduleIdentifier: S.optional(S.String),
     SnapshotScheduleState: S.optional(ScheduleState),
     ExpectedNextSnapshotScheduleTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ExpectedNextSnapshotScheduleTimeStatus: S.optional(S.String),
     NextMaintenanceWindowStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ResizeInfo: S.optional(ResizeInfo),
     AvailabilityZoneRelocationStatus: S.optional(S.String),
@@ -1493,7 +1509,7 @@ export const Cluster = S.suspend(() =>
     CustomDomainName: S.optional(S.String),
     CustomDomainCertificateArn: S.optional(S.String),
     CustomDomainCertificateExpiryDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MasterPasswordSecretArn: S.optional(S.String),
     MasterPasswordSecretKmsKeyId: S.optional(S.String),
@@ -1821,7 +1837,9 @@ export const EndpointAccess = S.suspend(() =>
     SubnetGroupName: S.optional(S.String),
     EndpointStatus: S.optional(S.String),
     EndpointName: S.optional(S.String),
-    EndpointCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndpointCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Port: S.optional(S.Number),
     Address: S.optional(S.String),
     VpcSecurityGroups: S.optional(VpcSecurityGroupMembershipList),
@@ -1888,7 +1906,7 @@ export const EventSubscription = S.suspend(() =>
     SnsTopicArn: S.optional(S.String),
     Status: S.optional(S.String),
     SubscriptionCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     SourceType: S.optional(S.String),
     SourceIdsList: S.optional(SourceIdsList),
@@ -2096,7 +2114,9 @@ export const Integration = S.suspend(() =>
     TargetArn: S.optional(S.String),
     Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -2373,8 +2393,10 @@ export const CreateScheduledActionMessage = S.suspend(() =>
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Enable: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -2394,7 +2416,7 @@ export type ScheduledActionState = "ACTIVE" | "DISABLED" | (string & {});
 export const ScheduledActionState = S.String;
 export type ScheduledActionTimeList = Date[];
 export const ScheduledActionTimeList = S.Array(
-  S.Date.pipe(T.TimestampFormat("date-time")).pipe(
+  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
     T.XmlName("ScheduledActionTime"),
   ),
 );
@@ -2422,8 +2444,10 @@ export const ScheduledAction = S.suspend(() =>
     ScheduledActionDescription: S.optional(S.String),
     State: S.optional(ScheduledActionState),
     NextInvocations: S.optional(ScheduledActionTimeList),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotate({
   identifier: "ScheduledAction",
@@ -2510,7 +2534,9 @@ export const CreateSnapshotScheduleMessage = S.suspend(() =>
 }) as any as S.Schema<CreateSnapshotScheduleMessage>;
 export type ScheduledSnapshotTimeList = Date[];
 export const ScheduledSnapshotTimeList = S.Array(
-  S.Date.pipe(T.TimestampFormat("date-time")).pipe(T.XmlName("SnapshotTime")),
+  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+    T.XmlName("SnapshotTime"),
+  ),
 );
 export interface ClusterAssociatedToSchedule {
   ClusterIdentifier?: string;
@@ -3328,7 +3354,7 @@ export const RevisionTarget = S.suspend(() =>
     DatabaseRevision: S.optional(S.String),
     Description: S.optional(S.String),
     DatabaseRevisionReleaseDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({ identifier: "RevisionTarget" }) as any as S.Schema<RevisionTarget>;
@@ -3349,7 +3375,7 @@ export const ClusterDbRevision = S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     CurrentDatabaseRevision: S.optional(S.String),
     DatabaseRevisionReleaseDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     RevisionTargets: S.optional(RevisionTargetsList),
   }),
@@ -3627,8 +3653,10 @@ export const DescribeClusterSnapshotsMessage = S.suspend(() =>
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
     SnapshotType: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
     OwnerAccount: S.optional(S.String),
@@ -3909,7 +3937,7 @@ export const Association = S.suspend(() =>
   S.Struct({
     CustomDomainCertificateArn: S.optional(S.String),
     CustomDomainCertificateExpiryDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     CertificateAssociations: S.optional(CertificateAssociationList),
   }),
@@ -4277,8 +4305,10 @@ export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -4312,7 +4342,7 @@ export const Event = S.suspend(() =>
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     Severity: S.optional(S.String),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EventId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
@@ -4509,7 +4539,9 @@ export const InboundIntegration = S.suspend(() =>
     TargetArn: S.optional(S.String),
     Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "InboundIntegration",
@@ -4647,9 +4679,11 @@ export const LoggingStatus = S.suspend(() =>
     BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
     LastSuccessfulDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    LastFailureTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastFailureTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     LastFailureMessage: S.optional(S.String),
     LogDestinationType: S.optional(LogDestinationType),
     LogExports: S.optional(LogTypeList),
@@ -4884,8 +4918,12 @@ export const PartnerIntegrationInfo = S.suspend(() =>
     PartnerName: S.optional(S.String),
     Status: S.optional(PartnerIntegrationStatus),
     StatusMessage: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    UpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "PartnerIntegrationInfo",
@@ -5161,8 +5199,10 @@ export const DescribeScheduledActionsMessage = S.suspend(() =>
   S.Struct({
     ScheduledActionName: S.optional(S.String),
     TargetActionType: S.optional(ScheduledActionTypeValues),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Active: S.optional(S.Boolean),
     Filters: S.optional(ScheduledActionFilterList),
     Marker: S.optional(S.String),
@@ -5382,7 +5422,9 @@ export const TableRestoreStatus = S.suspend(() =>
     TableRestoreRequestId: S.optional(S.String),
     Status: S.optional(TableRestoreStatusType),
     Message: S.optional(S.String),
-    RequestTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RequestTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ProgressInMegaBytes: S.optional(S.Number),
     TotalDataInMegaBytes: S.optional(S.Number),
     ClusterIdentifier: S.optional(S.String),
@@ -5722,7 +5764,9 @@ export const ClusterCredentials = S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
     DbPassword: S.optional(SensitiveString),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "ClusterCredentials",
@@ -5763,8 +5807,12 @@ export const ClusterExtendedCredentials = S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
     DbPassword: S.optional(SensitiveString),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    NextRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Expiration: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    NextRefreshTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "ClusterExtendedCredentials",
@@ -5798,7 +5846,9 @@ export interface GetIdentityCenterAuthTokenResponse {
 export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
   S.Struct({
     Token: S.optional(SensitiveString),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ExpirationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }).pipe(ns),
 ).annotate({
   identifier: "GetIdentityCenterAuthTokenResponse",
@@ -6026,7 +6076,9 @@ export const Recommendation = S.suspend(() =>
     Id: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
     NamespaceArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     RecommendationType: S.optional(S.String),
     Title: S.optional(S.String),
     Description: S.optional(S.String),
@@ -6281,10 +6333,10 @@ export const ModifyClusterMaintenanceMessage = S.suspend(() =>
     DeferMaintenance: S.optional(S.Boolean),
     DeferMaintenanceIdentifier: S.optional(S.String),
     DeferMaintenanceStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DeferMaintenanceEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     DeferMaintenanceDuration: S.optional(S.Number),
   }).pipe(
@@ -6673,8 +6725,10 @@ export const ModifyScheduledActionMessage = S.suspend(() =>
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Enable: S.optional(S.Boolean),
   }).pipe(
     T.all(

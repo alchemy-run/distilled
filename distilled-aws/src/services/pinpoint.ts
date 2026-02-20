@@ -113,10 +113,7 @@ export interface CreateApplicationRequest {
   tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
-  }),
+  S.Struct({ Name: S.optional(S.String), tags: S.optional(MapOf__string) }),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -153,7 +150,7 @@ export const ApplicationResponse = S.suspend(() =>
     Arn: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     CreationDate: S.optional(S.String),
   }),
 ).annotate({
@@ -686,7 +683,7 @@ export const WriteCampaignRequest = S.suspend(() =>
     Schedule: S.optional(Schedule),
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TreatmentDescription: S.optional(S.String),
     TreatmentName: S.optional(S.String),
@@ -810,7 +807,7 @@ export const CampaignResponse = S.suspend(() =>
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
     State: S.optional(CampaignState),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateConfiguration: S.optional(TemplateConfiguration),
     TreatmentDescription: S.optional(S.String),
     TreatmentName: S.optional(S.String),
@@ -987,7 +984,7 @@ export const EmailTemplateRequest = S.suspend(() =>
     RecommenderId: S.optional(S.String),
     Subject: S.optional(S.String),
     Headers: S.optional(ListOfMessageHeader),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TextPart: S.optional(S.String),
   }),
@@ -1305,7 +1302,7 @@ export const InAppTemplateRequest = S.suspend(() =>
     Content: S.optional(ListOfInAppMessageContent),
     CustomConfig: S.optional(MapOf__string),
     Layout: S.optional(Layout),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
   }),
 ).annotate({
@@ -1510,10 +1507,8 @@ export const SimpleCondition = S.suspend(() =>
   S.Struct({
     EventCondition: S.optional(EventCondition),
     SegmentCondition: S.optional(SegmentCondition),
-    SegmentDimensions: S.optional(SegmentDimensions)
-      .pipe(T.JsonName("segmentDimensions"))
-      .annotate({ identifier: "SegmentDimensions" }),
-  }),
+    SegmentDimensions: S.optional(SegmentDimensions),
+  }).pipe(S.encodeKeys({ SegmentDimensions: "segmentDimensions" })),
 ).annotate({
   identifier: "SimpleCondition",
 }) as any as S.Schema<SimpleCondition>;
@@ -1780,8 +1775,10 @@ export interface JourneySchedule {
 }
 export const JourneySchedule = S.suspend(() =>
   S.Struct({
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Timezone: S.optional(S.String),
   }),
 ).annotate({
@@ -2035,7 +2032,7 @@ export const JourneyResponse = S.suspend(() =>
     StartActivity: S.optional(S.String),
     StartCondition: S.optional(StartCondition),
     State: S.optional(State),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     WaitForQuietTime: S.optional(S.Boolean),
     RefreshOnSegmentUpdate: S.optional(S.Boolean),
     JourneyChannelSettings: S.optional(JourneyChannelSettings),
@@ -2318,7 +2315,7 @@ export const PushNotificationTemplateRequest = S.suspend(() =>
     DefaultSubstitutions: S.optional(S.String),
     GCM: S.optional(AndroidPushNotificationTemplate),
     RecommenderId: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
   }),
 ).annotate({
@@ -2518,7 +2515,7 @@ export const WriteSegmentRequest = S.suspend(() =>
     Dimensions: S.optional(SegmentDimensions),
     Name: S.optional(S.String),
     SegmentGroups: S.optional(SegmentGroupList),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
   }),
 ).annotate({
   identifier: "WriteSegmentRequest",
@@ -2596,7 +2593,7 @@ export const SegmentResponse = S.suspend(() =>
     Name: S.optional(S.String),
     SegmentGroups: S.optional(SegmentGroupList),
     SegmentType: S.optional(SegmentType),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     Version: S.optional(S.Number),
   }),
 ).annotate({
@@ -2724,7 +2721,7 @@ export const SMSTemplateRequest = S.suspend(() =>
     Body: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
     RecommenderId: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
   }),
 ).annotate({
@@ -2778,7 +2775,7 @@ export const VoiceTemplateRequest = S.suspend(() =>
     Body: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
     LanguageCode: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
@@ -4670,15 +4667,15 @@ export interface GetApplicationDateRangeKpiRequest {
 export const GetApplicationDateRangeKpiRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("end-time"),
-    ),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("end-time")),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("start-time"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("start-time")),
   }).pipe(
     T.all(
       T.Http({
@@ -4738,11 +4735,13 @@ export interface ApplicationDateRangeKpiResponse {
 export const ApplicationDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ApplicationDateRangeKpiResponse",
@@ -5205,15 +5204,15 @@ export const GetCampaignDateRangeKpiRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     CampaignId: S.String.pipe(T.HttpLabel("CampaignId")),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("end-time"),
-    ),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("end-time")),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("start-time"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("start-time")),
   }).pipe(
     T.all(
       T.Http({
@@ -5243,11 +5242,13 @@ export const CampaignDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     CampaignId: S.optional(S.String),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CampaignDateRangeKpiResponse",
@@ -5999,7 +6000,7 @@ export const EmailTemplateResponse = S.suspend(() =>
     RecommenderId: S.optional(S.String),
     Subject: S.optional(S.String),
     Headers: S.optional(ListOfMessageHeader),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),
@@ -6532,7 +6533,7 @@ export const InAppTemplateResponse = S.suspend(() =>
     CustomConfig: S.optional(MapOf__string),
     LastModifiedDate: S.optional(S.String),
     Layout: S.optional(Layout),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),
@@ -6807,16 +6808,16 @@ export interface GetJourneyDateRangeKpiRequest {
 export const GetJourneyDateRangeKpiRequest = S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("end-time"),
-    ),
+    EndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("end-time")),
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("start-time"),
-    ),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("start-time")),
   }).pipe(
     T.all(
       T.Http({
@@ -6845,12 +6846,14 @@ export interface JourneyDateRangeKpiResponse {
 export const JourneyDateRangeKpiResponse = S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     JourneyId: S.optional(S.String),
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "JourneyDateRangeKpiResponse",
@@ -7297,7 +7300,7 @@ export const PushNotificationTemplateResponse = S.suspend(() =>
     GCM: S.optional(AndroidPushNotificationTemplate),
     LastModifiedDate: S.optional(S.String),
     RecommenderId: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),
@@ -8160,7 +8163,7 @@ export const SMSTemplateResponse = S.suspend(() =>
     DefaultSubstitutions: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
     RecommenderId: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),
@@ -8291,7 +8294,7 @@ export const VoiceTemplateResponse = S.suspend(() =>
     DefaultSubstitutions: S.optional(S.String),
     LanguageCode: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),
@@ -8561,7 +8564,7 @@ export interface TagsModel {
   tags?: { [key: string]: string | undefined };
 }
 export const TagsModel = S.suspend(() =>
-  S.Struct({ tags: S.optional(MapOf__string).pipe(T.JsonName("tags")) }),
+  S.Struct({ tags: S.optional(MapOf__string) }),
 ).annotate({ identifier: "TagsModel" }) as any as S.Schema<TagsModel>;
 export interface ListTagsForResourceResponse {
   TagsModel: TagsModel & { tags: MapOf__string };
@@ -8617,7 +8620,7 @@ export const TemplateResponse = S.suspend(() =>
     CreationDate: S.optional(S.String),
     DefaultSubstitutions: S.optional(S.String),
     LastModifiedDate: S.optional(S.String),
-    tags: S.optional(MapOf__string).pipe(T.JsonName("tags")),
+    tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
     TemplateName: S.optional(S.String),
     TemplateType: S.optional(TemplateType),

@@ -329,7 +329,9 @@ export const GetS3AccessPolicyResponse = S.suspend(() =>
     s3AccessPointArn: S.optional(S.String),
     storeId: S.optional(S.String),
     storeType: S.optional(StoreType),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     s3AccessPolicy: S.String,
   }),
 ).annotate({
@@ -519,9 +521,9 @@ export const GetAnnotationImportResponse = S.suspend(() =>
     roleArn: S.String,
     status: S.String,
     statusMessage: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     items: AnnotationImportItemDetails,
     runLeftNormalization: S.Boolean,
     formatOptions: FormatOptions,
@@ -608,9 +610,11 @@ export const AnnotationImportJobItem = S.suspend(() =>
     versionName: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     runLeftNormalization: S.optional(S.Boolean),
     annotationFields: S.optional(AnnotationFieldMap),
   }),
@@ -718,7 +722,7 @@ export const CreateAnnotationStoreResponse = S.suspend(() =>
     status: S.String,
     name: S.String,
     versionName: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateAnnotationStoreResponse",
@@ -766,8 +770,8 @@ export const GetAnnotationStoreResponse = S.suspend(() =>
     name: S.String,
     description: S.String,
     sseConfig: SseConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tags: TagMap,
     storeOptions: S.optional(StoreOptions),
     storeFormat: S.optional(S.String),
@@ -817,8 +821,8 @@ export const UpdateAnnotationStoreResponse = S.suspend(() =>
     status: S.String,
     name: S.String,
     description: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     storeOptions: S.optional(StoreOptions),
     storeFormat: S.optional(S.String),
   }),
@@ -911,8 +915,8 @@ export const AnnotationStoreItem = S.suspend(() =>
     storeFormat: S.String,
     description: S.String,
     sseConfig: SseConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusMessage: S.String,
     storeSizeBytes: S.Number,
   }),
@@ -995,7 +999,7 @@ export const CreateAnnotationStoreVersionResponse = S.suspend(() =>
     versionOptions: S.optional(VersionOptions),
     name: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateAnnotationStoreVersionResponse",
@@ -1048,8 +1052,8 @@ export const GetAnnotationStoreVersionResponse = S.suspend(() =>
     name: S.String,
     versionName: S.String,
     description: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tags: TagMap,
     versionOptions: S.optional(VersionOptions),
     statusMessage: S.String,
@@ -1102,8 +1106,8 @@ export const UpdateAnnotationStoreVersionResponse = S.suspend(() =>
     name: S.String,
     versionName: S.String,
     description: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateAnnotationStoreVersionResponse",
@@ -1163,8 +1167,8 @@ export const AnnotationStoreVersionItem = S.suspend(() =>
     name: S.String,
     versionName: S.String,
     description: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusMessage: S.String,
     versionSizeBytes: S.Number,
   }),
@@ -1274,7 +1278,7 @@ export const CreateReferenceStoreResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateReferenceStoreResponse",
@@ -1311,7 +1315,7 @@ export const GetReferenceStoreResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetReferenceStoreResponse",
@@ -1347,8 +1351,12 @@ export interface ReferenceStoreFilter {
 export const ReferenceStoreFilter = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReferenceStoreFilter",
@@ -1391,7 +1399,7 @@ export const ReferenceStoreDetail = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ReferenceStoreDetail",
@@ -1475,8 +1483,10 @@ export const GetReferenceImportJobResponse = S.suspend(() =>
     roleArn: S.String,
     status: S.String,
     statusMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     sources: ImportReferenceSourceList,
   }),
 ).annotate({
@@ -1490,8 +1500,12 @@ export interface ImportReferenceFilter {
 export const ImportReferenceFilter = S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportReferenceFilter",
@@ -1538,8 +1552,10 @@ export const ImportReferenceJobItem = S.suspend(() =>
     referenceStoreId: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportReferenceJobItem",
@@ -1620,7 +1636,7 @@ export const StartReferenceImportJobResponse = S.suspend(() =>
     referenceStoreId: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StartReferenceImportJobResponse",
@@ -1706,8 +1722,8 @@ export const GetReferenceMetadataResponse = S.suspend(() =>
     status: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     files: S.optional(ReferenceFiles),
     creationType: S.optional(S.String),
     creationJobId: S.optional(S.String),
@@ -1753,8 +1769,12 @@ export const ReferenceFilter = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     md5: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReferenceFilter",
@@ -1807,8 +1827,8 @@ export const ReferenceListItem = S.suspend(() =>
     status: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ReferenceListItem",
@@ -1944,7 +1964,9 @@ export const GetRunCacheResponse = S.suspend(() =>
     cacheBehavior: S.optional(S.String),
     cacheBucketOwnerId: S.optional(S.String),
     cacheS3Uri: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -2039,7 +2061,9 @@ export const RunCacheListItem = S.suspend(() =>
     arn: S.optional(S.String),
     cacheBehavior: S.optional(S.String),
     cacheS3Uri: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     id: S.optional(S.String),
     name: S.optional(S.String),
     status: S.optional(S.String),
@@ -2142,7 +2166,9 @@ export const GetRunGroupResponse = S.suspend(() =>
     maxCpus: S.optional(S.Number),
     maxRuns: S.optional(S.Number),
     maxDuration: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     tags: S.optional(TagMap),
     maxGpus: S.optional(S.Number),
   }),
@@ -2244,7 +2270,9 @@ export const RunGroupListItem = S.suspend(() =>
     maxCpus: S.optional(S.Number),
     maxRuns: S.optional(S.Number),
     maxDuration: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     maxGpus: S.optional(S.Number),
   }),
 ).annotate({
@@ -2433,9 +2461,13 @@ export const GetRunResponse = S.suspend(() =>
     logLevel: S.optional(S.String),
     resourceDigests: S.optional(RunResourceDigests),
     startedBy: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
     tags: S.optional(TagMap),
     accelerators: S.optional(S.String),
@@ -2514,9 +2546,13 @@ export const RunListItem = S.suspend(() =>
     name: S.optional(S.String),
     priority: S.optional(S.Number),
     storageCapacity: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     storageType: S.optional(S.String),
     workflowVersionName: S.optional(S.String),
   }),
@@ -2613,9 +2649,13 @@ export const GetRunTaskResponse = S.suspend(() =>
     cacheHit: S.optional(S.Boolean),
     cacheS3Uri: S.optional(S.String),
     memory: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
     logStream: S.optional(S.String),
     gpus: S.optional(S.Number),
@@ -2674,9 +2714,13 @@ export const TaskListItem = S.suspend(() =>
     cacheHit: S.optional(S.Boolean),
     cacheS3Uri: S.optional(S.String),
     memory: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    stopTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    stopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     gpus: S.optional(S.Number),
     instanceType: S.optional(S.String),
   }),
@@ -2770,7 +2814,7 @@ export const CreateSequenceStoreResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fallbackLocation: S.optional(S.String),
     eTagAlgorithmFamily: S.optional(S.String),
     status: S.optional(S.String),
@@ -2820,14 +2864,16 @@ export const GetSequenceStoreResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fallbackLocation: S.optional(S.String),
     s3Access: S.optional(SequenceStoreS3Access),
     eTagAlgorithmFamily: S.optional(S.String),
     status: S.optional(S.String),
     statusMessage: S.optional(S.String),
     propagatedSetLevelTags: S.optional(PropagatedSetLevelTags),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetSequenceStoreResponse",
@@ -2885,8 +2931,10 @@ export const UpdateSequenceStoreResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     propagatedSetLevelTags: S.optional(PropagatedSetLevelTags),
     status: S.optional(S.String),
     statusMessage: S.optional(S.String),
@@ -2931,11 +2979,19 @@ export interface SequenceStoreFilter {
 export const SequenceStoreFilter = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     status: S.optional(S.String),
-    updatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updatedAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SequenceStoreFilter",
@@ -2983,12 +3039,14 @@ export const SequenceStoreDetail = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     sseConfig: S.optional(SseConfig),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     fallbackLocation: S.optional(S.String),
     eTagAlgorithmFamily: S.optional(S.String),
     status: S.optional(S.String),
     statusMessage: S.optional(S.String),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SequenceStoreDetail",
@@ -3150,7 +3208,7 @@ export const CreateMultipartReadSetUploadResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     tags: S.optional(TagMap),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateMultipartReadSetUploadResponse",
@@ -3210,8 +3268,10 @@ export const GetReadSetActivationJobResponse = S.suspend(() =>
     sequenceStoreId: S.String,
     status: S.String,
     statusMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     sources: S.optional(ActivateReadSetSourceList),
   }),
 ).annotate({
@@ -3274,8 +3334,10 @@ export const GetReadSetExportJobResponse = S.suspend(() =>
     destination: S.String,
     status: S.String,
     statusMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     readSets: S.optional(ExportReadSetDetailList),
   }),
 ).annotate({
@@ -3363,8 +3425,10 @@ export const GetReadSetImportJobResponse = S.suspend(() =>
     roleArn: S.String,
     status: S.String,
     statusMessage: S.optional(S.String),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     sources: ImportReadSetSourceList,
   }),
 ).annotate({
@@ -3421,7 +3485,7 @@ export const MultipartReadSetUploadListItem = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     tags: S.optional(TagMap),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "MultipartReadSetUploadListItem",
@@ -3450,8 +3514,12 @@ export interface ActivateReadSetFilter {
 export const ActivateReadSetFilter = S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ActivateReadSetFilter",
@@ -3496,8 +3564,10 @@ export const ActivateReadSetJobItem = S.suspend(() =>
     id: S.String,
     sequenceStoreId: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ActivateReadSetJobItem",
@@ -3524,8 +3594,12 @@ export interface ExportReadSetFilter {
 export const ExportReadSetFilter = S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ExportReadSetFilter",
@@ -3572,8 +3646,10 @@ export const ExportReadSetJobDetail = S.suspend(() =>
     sequenceStoreId: S.String,
     destination: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ExportReadSetJobDetail",
@@ -3600,8 +3676,12 @@ export interface ImportReadSetFilter {
 export const ImportReadSetFilter = S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportReadSetFilter",
@@ -3648,8 +3728,10 @@ export const ImportReadSetJobItem = S.suspend(() =>
     sequenceStoreId: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportReadSetJobItem",
@@ -3674,8 +3756,12 @@ export interface ReadSetUploadPartListFilter {
 }
 export const ReadSetUploadPartListFilter = S.suspend(() =>
   S.Struct({
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReadSetUploadPartListFilter",
@@ -3726,8 +3812,12 @@ export const ReadSetUploadPartListItem = S.suspend(() =>
     partSize: S.Number,
     partSource: S.String,
     checksum: S.String,
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastUpdatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReadSetUploadPartListItem",
@@ -3796,7 +3886,7 @@ export const StartReadSetActivationJobResponse = S.suspend(() =>
     id: S.String,
     sequenceStoreId: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StartReadSetActivationJobResponse",
@@ -3852,7 +3942,7 @@ export const StartReadSetExportJobResponse = S.suspend(() =>
     sequenceStoreId: S.String,
     destination: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StartReadSetExportJobResponse",
@@ -3928,7 +4018,7 @@ export const StartReadSetImportJobResponse = S.suspend(() =>
     sequenceStoreId: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StartReadSetImportJobResponse",
@@ -4065,7 +4155,7 @@ export const GetReadSetMetadataResponse = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     fileType: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     sequenceInformation: S.optional(SequenceInformation),
     referenceArn: S.optional(S.String),
     files: S.optional(ReadSetFiles),
@@ -4093,8 +4183,12 @@ export const ReadSetFilter = S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
     referenceArn: S.optional(S.String),
-    createdAfter: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAfter: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdBefore: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     sampleId: S.optional(S.String),
     subjectId: S.optional(S.String),
     generatedFrom: S.optional(S.String),
@@ -4159,7 +4253,7 @@ export const ReadSetListItem = S.suspend(() =>
     referenceArn: S.optional(S.String),
     fileType: S.String,
     sequenceInformation: S.optional(SequenceInformation),
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusMessage: S.optional(S.String),
     creationType: S.optional(S.String),
     etag: S.optional(ETag),
@@ -4336,8 +4430,12 @@ export const ShareDetails = S.suspend(() =>
     status: S.optional(S.String),
     statusMessage: S.optional(S.String),
     shareName: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "ShareDetails" }) as any as S.Schema<ShareDetails>;
 export interface GetShareResponse {
@@ -4627,9 +4725,11 @@ export const GetVariantImportResponse = S.suspend(() =>
     roleArn: S.String,
     status: S.String,
     statusMessage: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     items: VariantImportItemDetails,
     runLeftNormalization: S.Boolean,
     annotationFields: S.optional(AnnotationFieldMap),
@@ -4711,9 +4811,11 @@ export const VariantImportJobItem = S.suspend(() =>
     destinationName: S.String,
     roleArn: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    completionTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     runLeftNormalization: S.optional(S.Boolean),
     annotationFields: S.optional(AnnotationFieldMap),
   }),
@@ -4774,7 +4876,7 @@ export const CreateVariantStoreResponse = S.suspend(() =>
     reference: S.optional(ReferenceItem),
     status: S.String,
     name: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "CreateVariantStoreResponse",
@@ -4819,8 +4921,8 @@ export const GetVariantStoreResponse = S.suspend(() =>
     name: S.String,
     description: S.String,
     sseConfig: SseConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     tags: TagMap,
     statusMessage: S.String,
     storeSizeBytes: S.Number,
@@ -4865,8 +4967,8 @@ export const UpdateVariantStoreResponse = S.suspend(() =>
     status: S.String,
     name: S.String,
     description: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateVariantStoreResponse",
@@ -4955,8 +5057,8 @@ export const VariantStoreItem = S.suspend(() =>
     name: S.String,
     description: S.String,
     sseConfig: SseConfig,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    updateTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusMessage: S.String,
     storeSizeBytes: S.Number,
   }),
@@ -5226,7 +5328,9 @@ export const GetWorkflowResponse = S.suspend(() =>
     digest: S.optional(S.String),
     parameterTemplate: S.optional(WorkflowParameterTemplate),
     storageCapacity: S.optional(S.Number),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     statusMessage: S.optional(S.String),
     tags: S.optional(TagMap),
     metadata: S.optional(WorkflowMetadata),
@@ -5338,7 +5442,9 @@ export const WorkflowListItem = S.suspend(() =>
     status: S.optional(S.String),
     type: S.optional(S.String),
     digest: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     metadata: S.optional(WorkflowMetadata),
   }),
 ).annotate({
@@ -5499,7 +5605,9 @@ export const GetWorkflowVersionResponse = S.suspend(() =>
     workflowId: S.optional(S.String),
     versionName: S.optional(S.String),
     accelerators: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     definition: S.optional(S.String),
     digest: S.optional(S.String),
@@ -5638,7 +5746,9 @@ export const WorkflowVersionListItem = S.suspend(() =>
     status: S.optional(S.String),
     type: S.optional(S.String),
     digest: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     metadata: S.optional(WorkflowMetadata),
   }),
 ).annotate({

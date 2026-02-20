@@ -228,8 +228,12 @@ export const TrustAnchorDetail = S.suspend(() =>
     name: S.optional(S.String),
     source: S.optional(Source),
     enabled: S.optional(S.Boolean),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     notificationSettings: S.optional(NotificationSettingDetails),
   }),
 ).annotate({
@@ -374,8 +378,12 @@ export const CrlDetail = S.suspend(() =>
     enabled: S.optional(S.Boolean),
     crlData: S.optional(T.Blob),
     trustAnchorArn: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "CrlDetail" }) as any as S.Schema<CrlDetail>;
 export interface CrlDetailResponse {
@@ -544,8 +552,12 @@ export const ProfileDetail = S.suspend(() =>
     sessionPolicy: S.optional(S.String),
     roleArns: S.optional(RoleArnList),
     managedPolicyArns: S.optional(ManagedPolicyList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     durationSeconds: S.optional(S.Number),
     acceptRoleSessionName: S.optional(S.Boolean),
     attributeMappings: S.optional(AttributeMappings),
@@ -712,7 +724,7 @@ export interface CredentialSummary {
 }
 export const CredentialSummary = S.suspend(() =>
   S.Struct({
-    seenAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    seenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     serialNumber: S.optional(S.String),
     issuer: S.optional(S.String),
     enabled: S.optional(S.Boolean),
@@ -736,7 +748,7 @@ export interface InstanceProperty {
 }
 export const InstanceProperty = S.suspend(() =>
   S.Struct({
-    seenAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    seenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     properties: S.optional(InstancePropertyMap),
     failed: S.optional(S.Boolean),
   }),
@@ -762,9 +774,15 @@ export const SubjectDetail = S.suspend(() =>
     subjectId: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     x509Subject: S.optional(S.String),
-    lastSeenAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastSeenAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     credentials: S.optional(CredentialSummaries),
     instanceProperties: S.optional(InstanceProperties),
   }),
@@ -792,9 +810,15 @@ export const SubjectSummary = S.suspend(() =>
     subjectId: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     x509Subject: S.optional(S.String),
-    lastSeenAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastSeenAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "SubjectSummary" }) as any as S.Schema<SubjectSummary>;
 export type SubjectSummaries = SubjectSummary[];

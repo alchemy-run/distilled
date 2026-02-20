@@ -1216,7 +1216,7 @@ export const Distribution = S.suspend(() =>
     Id: S.String,
     ARN: S.String,
     Status: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     InProgressInvalidationBatches: S.Number,
     DomainName: S.String,
     ActiveTrustedSigners: S.optional(ActiveTrustedSigners),
@@ -1351,7 +1351,7 @@ export const AnycastIpList = S.suspend(() =>
     IpamConfig: S.optional(IpamConfig),
     AnycastIps: AnycastIps,
     IpCount: S.Number,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
   }),
 ).annotate({ identifier: "AnycastIpList" }) as any as S.Schema<AnycastIpList>;
 export interface CreateAnycastIpListResult {
@@ -1502,7 +1502,7 @@ export interface CachePolicy {
 export const CachePolicy = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     CachePolicyConfig: CachePolicyConfig,
   }),
 ).annotate({ identifier: "CachePolicy" }) as any as S.Schema<CachePolicy>;
@@ -1679,8 +1679,8 @@ export const ConnectionFunctionSummary = S.suspend(() =>
     ConnectionFunctionArn: S.String,
     Status: S.String,
     Stage: FunctionStage,
-    CreatedTime: S.Date,
-    LastModifiedTime: S.Date,
+    CreatedTime: T.DateFromString,
+    LastModifiedTime: T.DateFromString,
   }),
 ).annotate({
   identifier: "ConnectionFunctionSummary",
@@ -1748,8 +1748,8 @@ export const ConnectionGroup = S.suspend(() =>
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
-    CreatedTime: S.optional(S.Date),
-    LastModifiedTime: S.optional(S.Date),
+    CreatedTime: S.optional(T.DateFromString),
+    LastModifiedTime: S.optional(T.DateFromString),
     Tags: S.optional(Tags),
     Ipv6Enabled: S.optional(S.Boolean),
     RoutingEndpoint: S.optional(S.String),
@@ -1886,7 +1886,7 @@ export interface ContinuousDeploymentPolicy {
 export const ContinuousDeploymentPolicy = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     ContinuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig,
   }),
 ).annotate({
@@ -2101,8 +2101,8 @@ export const DistributionTenant = S.suspend(() =>
     Customizations: S.optional(Customizations),
     Parameters: S.optional(Parameters),
     ConnectionGroupId: S.optional(S.String),
-    CreatedTime: S.optional(S.Date),
-    LastModifiedTime: S.optional(S.Date),
+    CreatedTime: S.optional(T.DateFromString),
+    LastModifiedTime: S.optional(T.DateFromString),
     Enabled: S.optional(S.Boolean),
     Status: S.optional(S.String),
   }),
@@ -2297,7 +2297,7 @@ export interface FieldLevelEncryption {
 export const FieldLevelEncryption = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     FieldLevelEncryptionConfig: FieldLevelEncryptionConfig,
   }),
 ).annotate({
@@ -2409,7 +2409,7 @@ export interface FieldLevelEncryptionProfile {
 export const FieldLevelEncryptionProfile = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     FieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig,
   }),
 ).annotate({
@@ -2465,8 +2465,8 @@ export const FunctionMetadata = S.suspend(() =>
   S.Struct({
     FunctionARN: S.String,
     Stage: S.optional(FunctionStage),
-    CreatedTime: S.optional(S.Date),
-    LastModifiedTime: S.Date,
+    CreatedTime: S.optional(T.DateFromString),
+    LastModifiedTime: T.DateFromString,
   }),
 ).annotate({
   identifier: "FunctionMetadata",
@@ -2559,7 +2559,7 @@ export const Invalidation = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Status: S.String,
-    CreateTime: S.Date,
+    CreateTime: T.DateFromString,
     InvalidationBatch: InvalidationBatch,
   }),
 ).annotate({ identifier: "Invalidation" }) as any as S.Schema<Invalidation>;
@@ -2664,7 +2664,7 @@ export interface KeyGroup {
 export const KeyGroup = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     KeyGroupConfig: KeyGroupConfig,
   }),
 ).annotate({ identifier: "KeyGroup" }) as any as S.Schema<KeyGroup>;
@@ -2732,7 +2732,7 @@ export const KeyValueStore = S.suspend(() =>
     Comment: S.String,
     ARN: S.String,
     Status: S.optional(S.String),
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
   }),
 ).annotate({ identifier: "KeyValueStore" }) as any as S.Schema<KeyValueStore>;
 export interface CreateKeyValueStoreResult {
@@ -3009,7 +3009,7 @@ export interface OriginRequestPolicy {
 export const OriginRequestPolicy = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     OriginRequestPolicyConfig: OriginRequestPolicyConfig,
   }),
 ).annotate({
@@ -3078,7 +3078,7 @@ export interface PublicKey {
 export const PublicKey = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    CreatedTime: S.Date,
+    CreatedTime: T.DateFromString,
     PublicKeyConfig: PublicKeyConfig,
   }),
 ).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
@@ -3492,7 +3492,7 @@ export interface ResponseHeadersPolicy {
 export const ResponseHeadersPolicy = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig,
   }),
 ).annotate({
@@ -3592,7 +3592,7 @@ export const StreamingDistribution = S.suspend(() =>
     Id: S.String,
     ARN: S.String,
     Status: S.String,
-    LastModifiedTime: S.optional(S.Date),
+    LastModifiedTime: S.optional(T.DateFromString),
     DomainName: S.String,
     ActiveTrustedSigners: ActiveTrustedSigners,
     StreamingDistributionConfig: StreamingDistributionConfig,
@@ -3735,7 +3735,7 @@ export const TrustStore = S.suspend(() =>
     Name: S.optional(S.String),
     Status: S.optional(TrustStoreStatus),
     NumberOfCaCertificates: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Date),
+    LastModifiedTime: S.optional(T.DateFromString),
     Reason: S.optional(S.String),
   }),
 ).annotate({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
@@ -3810,8 +3810,8 @@ export const VpcOrigin = S.suspend(() =>
     Arn: S.String,
     AccountId: S.optional(S.String),
     Status: S.String,
-    CreatedTime: S.Date,
-    LastModifiedTime: S.Date,
+    CreatedTime: T.DateFromString,
+    LastModifiedTime: T.DateFromString,
     VpcOriginEndpointConfig: VpcOriginEndpointConfig,
   }),
 ).annotate({ identifier: "VpcOrigin" }) as any as S.Schema<VpcOrigin>;
@@ -6080,7 +6080,7 @@ export const AnycastIpListSummary = S.suspend(() =>
     Status: S.String,
     Arn: S.String,
     IpCount: S.Number,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     IpAddressType: S.optional(IpAddressType),
     ETag: S.optional(S.String),
     IpamConfig: S.optional(IpamConfig),
@@ -6438,8 +6438,8 @@ export const ConnectionGroupSummary = S.suspend(() =>
     Name: S.String,
     Arn: S.String,
     RoutingEndpoint: S.String,
-    CreatedTime: S.Date,
-    LastModifiedTime: S.Date,
+    CreatedTime: T.DateFromString,
+    LastModifiedTime: T.DateFromString,
     ETag: S.String,
     AnycastIpListId: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
@@ -6591,7 +6591,7 @@ export const DistributionSummary = S.suspend(() =>
     ARN: S.String,
     ETag: S.optional(S.String),
     Status: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     DomainName: S.String,
     Aliases: Aliases,
     Origins: Origins,
@@ -7244,8 +7244,8 @@ export const DistributionTenantSummary = S.suspend(() =>
     Domains: DomainResultList,
     ConnectionGroupId: S.optional(S.String),
     Customizations: S.optional(Customizations),
-    CreatedTime: S.Date,
-    LastModifiedTime: S.Date,
+    CreatedTime: T.DateFromString,
+    LastModifiedTime: T.DateFromString,
     ETag: S.String,
     Enabled: S.optional(S.Boolean),
     Status: S.optional(S.String),
@@ -7419,7 +7419,7 @@ export interface FieldLevelEncryptionSummary {
 export const FieldLevelEncryptionSummary = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     Comment: S.optional(S.String),
     QueryArgProfileConfig: S.optional(QueryArgProfileConfig),
     ContentTypeProfileConfig: S.optional(ContentTypeProfileConfig),
@@ -7496,7 +7496,7 @@ export interface FieldLevelEncryptionProfileSummary {
 export const FieldLevelEncryptionProfileSummary = S.suspend(() =>
   S.Struct({
     Id: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     Name: S.String,
     EncryptionEntities: EncryptionEntities,
     Comment: S.optional(S.String),
@@ -7628,7 +7628,7 @@ export interface InvalidationSummary {
   Status: string;
 }
 export const InvalidationSummary = S.suspend(() =>
-  S.Struct({ Id: S.String, CreateTime: S.Date, Status: S.String }),
+  S.Struct({ Id: S.String, CreateTime: T.DateFromString, Status: S.String }),
 ).annotate({
   identifier: "InvalidationSummary",
 }) as any as S.Schema<InvalidationSummary>;
@@ -8014,7 +8014,7 @@ export const PublicKeySummary = S.suspend(() =>
   S.Struct({
     Id: S.String,
     Name: S.String,
-    CreatedTime: S.Date,
+    CreatedTime: T.DateFromString,
     EncodedKey: S.String,
     Comment: S.optional(S.String),
   }),
@@ -8219,7 +8219,7 @@ export const StreamingDistributionSummary = S.suspend(() =>
     Id: S.String,
     ARN: S.String,
     Status: S.String,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     DomainName: S.String,
     S3Origin: S3Origin,
     Aliases: Aliases,
@@ -8336,7 +8336,7 @@ export const TrustStoreSummary = S.suspend(() =>
     Name: S.String,
     Status: TrustStoreStatus,
     NumberOfCaCertificates: S.Number,
-    LastModifiedTime: S.Date,
+    LastModifiedTime: T.DateFromString,
     Reason: S.optional(S.String),
     ETag: S.String,
   }),
@@ -8398,8 +8398,8 @@ export const VpcOriginSummary = S.suspend(() =>
     Id: S.String,
     Name: S.String,
     Status: S.String,
-    CreatedTime: S.Date,
-    LastModifiedTime: S.Date,
+    CreatedTime: T.DateFromString,
+    LastModifiedTime: T.DateFromString,
     Arn: S.String,
     AccountId: S.optional(S.String),
     OriginEndpointArn: S.String,

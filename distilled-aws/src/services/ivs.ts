@@ -903,7 +903,9 @@ export const Stream = S.suspend(() =>
     channelArn: S.optional(S.String),
     streamId: S.optional(S.String),
     playbackUrl: S.optional(S.String),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     state: S.optional(S.String),
     health: S.optional(S.String),
     viewerCount: S.optional(S.Number),
@@ -1046,7 +1048,9 @@ export const StreamEvent = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     type: S.optional(S.String),
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    eventTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     code: S.optional(S.String),
   }),
 ).annotate({ identifier: "StreamEvent" }) as any as S.Schema<StreamEvent>;
@@ -1065,8 +1069,10 @@ export interface StreamSession {
 export const StreamSession = S.suspend(() =>
   S.Struct({
     streamId: S.optional(S.String),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     channel: S.optional(Channel),
     ingestConfiguration: S.optional(IngestConfiguration),
     ingestConfigurations: S.optional(IngestConfigurations),
@@ -1427,7 +1433,9 @@ export const StreamSummary = S.suspend(() =>
     state: S.optional(S.String),
     health: S.optional(S.String),
     viewerCount: S.optional(S.Number),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamList = StreamSummary[];
@@ -1473,8 +1481,10 @@ export interface StreamSessionSummary {
 export const StreamSessionSummary = S.suspend(() =>
   S.Struct({
     streamId: S.optional(S.String),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     hasErrorEvent: S.optional(S.Boolean),
   }),
 ).annotate({

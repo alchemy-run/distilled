@@ -265,11 +265,15 @@ export const PendingMaintenanceAction = S.suspend(() =>
   S.Struct({
     Action: S.optional(S.String),
     AutoAppliedAfterDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
-    ForcedApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ForcedApplyDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     OptInStatus: S.optional(S.String),
-    CurrentApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CurrentApplyDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Description: S.optional(S.String),
   }),
 ).annotate({
@@ -421,13 +425,17 @@ export const DBClusterSnapshot = S.suspend(() =>
     AvailabilityZones: S.optional(AvailabilityZones),
     DBClusterSnapshotIdentifier: S.optional(S.String),
     DBClusterIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SnapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Engine: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     VpcId: S.optional(S.String),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     MasterUsername: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -783,7 +791,7 @@ export const DBCluster = S.suspend(() =>
     Status: S.optional(S.String),
     PercentProgress: S.optional(S.String),
     EarliestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Endpoint: S.optional(S.String),
     ReaderEndpoint: S.optional(S.String),
@@ -791,7 +799,7 @@ export const DBCluster = S.suspend(() =>
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LatestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     Port: S.optional(S.Number),
     MasterUsername: S.optional(S.String),
@@ -812,21 +820,23 @@ export const DBCluster = S.suspend(() =>
     AssociatedRoles: S.optional(DBClusterRoles),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
     CloneGroupId: S.optional(S.String),
-    ClusterCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ClusterCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     CopyTagsToSnapshot: S.optional(S.Boolean),
     EnabledCloudwatchLogsExports: S.optional(LogTypeList),
     PendingModifiedValues: S.optional(ClusterPendingModifiedValues),
     DeletionProtection: S.optional(S.Boolean),
     CrossAccountClone: S.optional(S.Boolean),
     AutomaticRestartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     ServerlessV2ScalingConfiguration: S.optional(
       ServerlessV2ScalingConfigurationInfo,
     ),
     GlobalClusterIdentifier: S.optional(S.String),
     IOOptimizedNextAllowedModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     StorageType: S.optional(S.String),
   }),
@@ -1336,7 +1346,9 @@ export const DBInstance = S.suspend(() =>
     DBName: S.optional(S.String),
     Endpoint: S.optional(Endpoint),
     AllocatedStorage: S.optional(S.Number),
-    InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    InstanceCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     PreferredBackupWindow: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     DBSecurityGroups: S.optional(DBSecurityGroupMembershipList),
@@ -1347,7 +1359,7 @@ export const DBInstance = S.suspend(() =>
     PreferredMaintenanceWindow: S.optional(S.String),
     PendingModifiedValues: S.optional(PendingModifiedValues),
     LatestRestorableTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     MultiAZ: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
@@ -2700,8 +2712,10 @@ export const DescribeEventsMessage = S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     EventCategories: S.optional(EventCategoriesList),
     Filters: S.optional(FilterList),
@@ -2735,7 +2749,7 @@ export const Event = S.suspend(() =>
     SourceType: S.optional(SourceType),
     Message: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SourceArn: S.optional(S.String),
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
@@ -3926,7 +3940,9 @@ export const RestoreDBClusterToPointInTimeMessage = S.suspend(() =>
     DBClusterIdentifier: S.optional(S.String),
     RestoreType: S.optional(S.String),
     SourceDBClusterIdentifier: S.optional(S.String),
-    RestoreToTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RestoreToTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     UseLatestRestorableTime: S.optional(S.Boolean),
     Port: S.optional(S.Number),
     DBSubnetGroupName: S.optional(S.String),

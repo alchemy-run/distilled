@@ -246,8 +246,12 @@ export const CustomerAgreementSummary = S.suspend(() =>
     agreementArn: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     organizationArn: S.optional(S.String),
-    effectiveStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    effectiveEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    effectiveStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    effectiveEnd: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     state: S.optional(CustomerAgreementState),
     description: S.optional(S.String),
     acceptanceTerms: S.optional(AgreementTerms),
@@ -330,11 +334,21 @@ export const ReportDetail = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    deletedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    periodStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    periodEnd: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    lastModifiedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    deletedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     state: S.optional(PublishedState),
     arn: S.optional(S.String),
     series: S.optional(S.String),
@@ -404,8 +418,12 @@ export const ReportSummary = S.suspend(() =>
     version: S.optional(S.Number),
     uploadState: S.optional(UploadState),
     description: S.optional(S.String),
-    periodStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    periodEnd: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    periodStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    periodEnd: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     series: S.optional(S.String),
     category: S.optional(S.String),
     companyName: S.optional(S.String),

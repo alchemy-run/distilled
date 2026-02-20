@@ -184,8 +184,10 @@ export const BaselineOperation = S.suspend(() =>
     operationIdentifier: S.optional(S.String),
     operationType: S.optional(BaselineOperationType),
     status: S.optional(BaselineOperationStatus),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
   }),
 ).annotate({
@@ -320,8 +322,10 @@ export interface ControlOperation {
 export const ControlOperation = S.suspend(() =>
   S.Struct({
     operationType: S.optional(ControlOperationType),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.optional(ControlOperationStatus),
     statusMessage: S.optional(S.String),
     operationIdentifier: S.optional(S.String),
@@ -405,8 +409,10 @@ export interface ControlOperationSummary {
 export const ControlOperationSummary = S.suspend(() =>
   S.Struct({
     operationType: S.optional(ControlOperationType),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.optional(ControlOperationStatus),
     statusMessage: S.optional(S.String),
     operationIdentifier: S.optional(S.String),
@@ -1103,8 +1109,10 @@ export const LandingZoneOperationDetail = S.suspend(() =>
     operationType: S.optional(LandingZoneOperationType),
     operationIdentifier: S.optional(S.String),
     status: S.optional(LandingZoneOperationStatus),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     statusMessage: S.optional(S.String),
   }),
 ).annotate({

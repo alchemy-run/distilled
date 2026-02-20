@@ -353,7 +353,9 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")) }),
+  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
+    S.encodeKeys({ Tags: "tags" }),
+  ),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -364,17 +366,19 @@ export interface TagResourceRequest {
 export const TagResourceRequest = S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: __mapOf__string.pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: __mapOf__string,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
@@ -497,20 +501,22 @@ export const CreateChannelRequest = S.suspend(() =>
     FillerSlate: S.optional(SlateSource),
     Outputs: RequestOutputs,
     PlaybackMode: PlaybackMode,
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     Tier: S.optional(Tier),
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/channel/{ChannelName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/channel/{ChannelName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChannelRequest",
 }) as any as S.Schema<CreateChannelRequest>;
@@ -562,11 +568,11 @@ export const CreateChannelResponse = S.suspend(() =>
     ),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     Tier: S.optional(S.String),
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "CreateChannelResponse",
 }) as any as S.Schema<CreateChannelResponse>;
@@ -626,12 +632,12 @@ export const DescribeChannelResponse = S.suspend(() =>
     ),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     Tier: S.optional(S.String),
     LogConfiguration: LogConfigurationForChannel,
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "DescribeChannelResponse",
 }) as any as S.Schema<DescribeChannelResponse>;
@@ -688,11 +694,11 @@ export const UpdateChannelResponse = S.suspend(() =>
     ),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     Tier: S.optional(S.String),
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateChannelResponse",
 }) as any as S.Schema<UpdateChannelResponse>;
@@ -764,11 +770,11 @@ export const Channel = S.suspend(() =>
     ),
     Outputs: ResponseOutputs,
     PlaybackMode: S.String,
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     Tier: S.String,
     LogConfiguration: LogConfigurationForChannel,
     Audiences: S.optional(Audiences),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 export type __listOfChannel = Channel[];
 export const __listOfChannel = S.Array(Channel);
@@ -1450,20 +1456,22 @@ export const CreateLiveSourceRequest = S.suspend(() =>
     HttpPackageConfigurations: HttpPackageConfigurations,
     LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateLiveSourceRequest",
 }) as any as S.Schema<CreateLiveSourceRequest>;
@@ -1486,8 +1494,8 @@ export const CreateLiveSourceResponse = S.suspend(() =>
     ),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "CreateLiveSourceResponse",
 }) as any as S.Schema<CreateLiveSourceResponse>;
@@ -1534,8 +1542,8 @@ export const DescribeLiveSourceResponse = S.suspend(() =>
     ),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "DescribeLiveSourceResponse",
 }) as any as S.Schema<DescribeLiveSourceResponse>;
@@ -1584,8 +1592,8 @@ export const UpdateLiveSourceResponse = S.suspend(() =>
     ),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateLiveSourceResponse",
 }) as any as S.Schema<UpdateLiveSourceResponse>;
@@ -1662,8 +1670,8 @@ export const LiveSource = S.suspend(() =>
     ),
     LiveSourceName: S.String,
     SourceLocationName: S.String,
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({ identifier: "LiveSource" }) as any as S.Schema<LiveSource>;
 export type __listOfLiveSource = LiveSource[];
 export const __listOfLiveSource = S.Array(LiveSource);
@@ -1850,21 +1858,23 @@ export const PutPlaybackConfigurationRequest = S.suspend(() =>
     Name: S.String,
     PersonalizationThresholdSeconds: S.optional(S.Number),
     SlateAdUrl: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     TranscodeProfileName: S.optional(S.String),
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/playbackConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/playbackConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutPlaybackConfigurationRequest",
 }) as any as S.Schema<PutPlaybackConfigurationRequest>;
@@ -1960,12 +1970,12 @@ export const PutPlaybackConfigurationResponse = S.suspend(() =>
     PlaybackEndpointPrefix: S.optional(S.String),
     SessionInitializationEndpointPrefix: S.optional(S.String),
     SlateAdUrl: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     TranscodeProfileName: S.optional(S.String),
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "PutPlaybackConfigurationResponse",
 }) as any as S.Schema<PutPlaybackConfigurationResponse>;
@@ -2033,12 +2043,12 @@ export const GetPlaybackConfigurationResponse = S.suspend(() =>
     PlaybackEndpointPrefix: S.optional(S.String),
     SessionInitializationEndpointPrefix: S.optional(S.String),
     SlateAdUrl: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     TranscodeProfileName: S.optional(S.String),
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "GetPlaybackConfigurationResponse",
 }) as any as S.Schema<GetPlaybackConfigurationResponse>;
@@ -2131,12 +2141,12 @@ export const PlaybackConfiguration = S.suspend(() =>
     PlaybackEndpointPrefix: S.optional(S.String),
     SessionInitializationEndpointPrefix: S.optional(S.String),
     SlateAdUrl: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     TranscodeProfileName: S.optional(S.String),
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "PlaybackConfiguration",
 }) as any as S.Schema<PlaybackConfiguration>;
@@ -2576,17 +2586,19 @@ export const CreateSourceLocationRequest = S.suspend(() =>
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sourceLocation/{SourceLocationName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    Tags: S.optional(__mapOf__string),
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/sourceLocation/{SourceLocationName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSourceLocationRequest",
 }) as any as S.Schema<CreateSourceLocationRequest>;
@@ -2617,8 +2629,8 @@ export const CreateSourceLocationResponse = S.suspend(() =>
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "CreateSourceLocationResponse",
 }) as any as S.Schema<CreateSourceLocationResponse>;
@@ -2668,8 +2680,8 @@ export const DescribeSourceLocationResponse = S.suspend(() =>
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "DescribeSourceLocationResponse",
 }) as any as S.Schema<DescribeSourceLocationResponse>;
@@ -2731,8 +2743,8 @@ export const UpdateSourceLocationResponse = S.suspend(() =>
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateSourceLocationResponse",
 }) as any as S.Schema<UpdateSourceLocationResponse>;
@@ -2809,8 +2821,8 @@ export const SourceLocation = S.suspend(() =>
       __listOfSegmentDeliveryConfiguration,
     ),
     SourceLocationName: S.String,
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-  }),
+    Tags: S.optional(__mapOf__string),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({ identifier: "SourceLocation" }) as any as S.Schema<SourceLocation>;
 export type __listOfSourceLocation = SourceLocation[];
 export const __listOfSourceLocation = S.Array(SourceLocation);
@@ -2836,21 +2848,23 @@ export const CreateVodSourceRequest = S.suspend(() =>
   S.Struct({
     HttpPackageConfigurations: HttpPackageConfigurations,
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+  })
+    .pipe(S.encodeKeys({ Tags: "tags" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateVodSourceRequest",
 }) as any as S.Schema<CreateVodSourceRequest>;
@@ -2872,9 +2886,9 @@ export const CreateVodSourceResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "CreateVodSourceResponse",
 }) as any as S.Schema<CreateVodSourceResponse>;
@@ -2932,9 +2946,9 @@ export const DescribeVodSourceResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "DescribeVodSourceResponse",
 }) as any as S.Schema<DescribeVodSourceResponse>;
@@ -2982,9 +2996,9 @@ export const UpdateVodSourceResponse = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     SourceLocationName: S.optional(S.String),
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "UpdateVodSourceResponse",
 }) as any as S.Schema<UpdateVodSourceResponse>;
@@ -3060,9 +3074,9 @@ export const VodSource = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     SourceLocationName: S.String,
-    Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
+    Tags: S.optional(__mapOf__string),
     VodSourceName: S.String,
-  }),
+  }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({ identifier: "VodSource" }) as any as S.Schema<VodSource>;
 export type __listOfVodSource = VodSource[];
 export const __listOfVodSource = S.Array(VodSource);

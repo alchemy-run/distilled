@@ -248,7 +248,9 @@ export const DataLakeException = S.suspend(() =>
     region: S.optional(S.String),
     exception: S.optional(S.String),
     remediation: S.optional(S.String),
-    timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "DataLakeException",
@@ -1171,8 +1173,12 @@ export const SubscriberResource = S.suspend(() =>
     subscriberStatus: S.optional(SubscriberStatus),
     resourceShareArn: S.optional(S.String),
     resourceShareName: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    updatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "SubscriberResource",

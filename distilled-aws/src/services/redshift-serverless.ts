@@ -164,7 +164,7 @@ export const CreateCustomDomainAssociationResponse = S.suspend(() =>
     workgroupName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
     customDomainCertificateExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -262,7 +262,7 @@ export const GetCustomDomainAssociationResponse = S.suspend(() =>
     workgroupName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
     customDomainCertificateExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -286,11 +286,11 @@ export interface GetIdentityCenterAuthTokenResponse {
 }
 export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String).pipe(T.JsonName("Token")),
+    token: S.optional(S.String),
     expirationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.JsonName("ExpirationTime")),
-  }),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }).pipe(S.encodeKeys({ token: "Token", expirationTime: "ExpirationTime" })),
 ).annotate({
   identifier: "GetIdentityCenterAuthTokenResponse",
 }) as any as S.Schema<GetIdentityCenterAuthTokenResponse>;
@@ -391,7 +391,7 @@ export const Association = S.suspend(() =>
   S.Struct({
     customDomainCertificateArn: S.optional(S.String),
     customDomainCertificateExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     customDomainName: S.optional(S.String),
     workgroupName: S.optional(S.String),
@@ -542,7 +542,7 @@ export const UpdateCustomDomainAssociationResponse = S.suspend(() =>
     workgroupName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
     customDomainCertificateExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
@@ -637,7 +637,9 @@ export const EndpointAccess = S.suspend(() =>
     endpointName: S.optional(S.String),
     endpointStatus: S.optional(S.String),
     workgroupName: S.optional(S.String),
-    endpointCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    endpointCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     port: S.optional(S.Number),
     address: S.optional(S.String),
     subnetIds: S.optional(SubnetIdList),
@@ -780,7 +782,9 @@ export const ManagedWorkgroupListItem = S.suspend(() =>
     managedWorkgroupId: S.optional(S.String),
     sourceArn: S.optional(S.String),
     status: S.optional(ManagedWorkgroupStatus),
-    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ManagedWorkgroupListItem",
@@ -866,7 +870,9 @@ export const Namespace = S.suspend(() =>
     iamRoles: S.optional(IamRoleArnList),
     logExports: S.optional(LogExportList),
     status: S.optional(S.String),
-    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     adminPasswordSecretArn: S.optional(S.String),
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     lakehouseRegistrationStatus: S.optional(S.String),
@@ -1071,7 +1077,9 @@ export const Snapshot = S.suspend(() =>
     namespaceName: S.optional(S.String),
     namespaceArn: S.optional(S.String),
     snapshotName: S.optional(S.String),
-    snapshotCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    snapshotCreateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     adminUsername: S.optional(S.String),
     status: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
@@ -1085,7 +1093,7 @@ export const Snapshot = S.suspend(() =>
     snapshotRetentionPeriod: S.optional(S.Number),
     snapshotRemainingDays: S.optional(S.Number),
     snapshotRetentionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     snapshotArn: S.optional(S.String),
     accountsWithRestoreAccess: S.optional(AccountIdList),
@@ -1124,7 +1132,7 @@ export const RecoveryPoint = S.suspend(() =>
   S.Struct({
     recoveryPointId: S.optional(S.String),
     recoveryPointCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     totalSizeInMegaBytes: S.optional(S.Number),
     namespaceName: S.optional(S.String),
@@ -1331,8 +1339,10 @@ export const Reservation = S.suspend(() =>
   S.Struct({
     reservationId: S.optional(S.String),
     reservationArn: S.optional(S.String),
-    startDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     capacity: S.optional(S.Number),
     offering: S.optional(ReservationOffering),
     status: S.optional(S.String),
@@ -2279,12 +2289,14 @@ export const Workgroup = S.suspend(() =>
     status: S.optional(S.String),
     endpoint: S.optional(Endpoint),
     publiclyAccessible: S.optional(S.Boolean),
-    creationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     port: S.optional(S.Number),
     customDomainName: S.optional(S.String),
     customDomainCertificateArn: S.optional(S.String),
     customDomainCertificateExpiryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
     workgroupVersion: S.optional(S.String),
     patchVersion: S.optional(S.String),

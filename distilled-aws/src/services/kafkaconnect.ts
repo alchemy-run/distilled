@@ -453,7 +453,9 @@ export interface WorkerConfigurationRevisionSummary {
 }
 export const WorkerConfigurationRevisionSummary = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     revision: S.optional(S.Number),
   }),
@@ -469,7 +471,9 @@ export interface CreateWorkerConfigurationResponse {
 }
 export const CreateWorkerConfigurationResponse = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     latestRevision: S.optional(WorkerConfigurationRevisionSummary),
     name: S.optional(S.String),
     workerConfigurationArn: S.optional(S.String),
@@ -827,7 +831,9 @@ export const DescribeConnectorResponse = S.suspend(() =>
     connectorDescription: S.optional(S.String),
     connectorName: S.optional(S.String),
     connectorState: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     currentVersion: S.optional(S.String),
     kafkaCluster: S.optional(KafkaClusterDescription),
     kafkaClusterClientAuthentication: S.optional(
@@ -912,8 +918,10 @@ export const DescribeConnectorOperationResponse = S.suspend(() =>
     targetWorkerSetting: S.optional(WorkerSetting),
     targetConnectorConfiguration: S.optional(ConnectorConfiguration),
     errorInfo: S.optional(StateDescription),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DescribeConnectorOperationResponse",
@@ -979,7 +987,9 @@ export interface CustomPluginRevisionSummary {
 export const CustomPluginRevisionSummary = S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     fileDescription: S.optional(CustomPluginFileDescription),
     location: S.optional(CustomPluginLocationDescription),
@@ -999,7 +1009,9 @@ export interface DescribeCustomPluginResponse {
 }
 export const DescribeCustomPluginResponse = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     customPluginArn: S.optional(S.String),
     customPluginState: S.optional(S.String),
     description: S.optional(S.String),
@@ -1042,7 +1054,9 @@ export interface WorkerConfigurationRevisionDescription {
 }
 export const WorkerConfigurationRevisionDescription = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     propertiesFileContent: S.optional(SensitiveString),
     revision: S.optional(S.Number),
@@ -1060,7 +1074,9 @@ export interface DescribeWorkerConfigurationResponse {
 }
 export const DescribeWorkerConfigurationResponse = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     latestRevision: S.optional(WorkerConfigurationRevisionDescription),
     name: S.optional(S.String),
@@ -1108,8 +1124,10 @@ export const ConnectorOperationSummary = S.suspend(() =>
     connectorOperationArn: S.optional(S.String),
     connectorOperationType: S.optional(S.String),
     connectorOperationState: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ConnectorOperationSummary",
@@ -1180,7 +1198,9 @@ export const ConnectorSummary = S.suspend(() =>
     connectorDescription: S.optional(S.String),
     connectorName: S.optional(S.String),
     connectorState: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     currentVersion: S.optional(S.String),
     kafkaCluster: S.optional(KafkaClusterDescription),
     kafkaClusterClientAuthentication: S.optional(
@@ -1246,7 +1266,9 @@ export interface CustomPluginSummary {
 }
 export const CustomPluginSummary = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     customPluginArn: S.optional(S.String),
     customPluginState: S.optional(S.String),
     description: S.optional(S.String),
@@ -1328,7 +1350,9 @@ export interface WorkerConfigurationSummary {
 }
 export const WorkerConfigurationSummary = S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     description: S.optional(S.String),
     latestRevision: S.optional(WorkerConfigurationRevisionSummary),
     name: S.optional(S.String),

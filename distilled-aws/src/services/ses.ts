@@ -953,7 +953,9 @@ export interface ReceiptRuleSetMetadata {
 export const ReceiptRuleSetMetadata = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReceiptRuleSetMetadata",
@@ -1022,7 +1024,9 @@ export const ReputationOptions = S.suspend(() =>
   S.Struct({
     SendingEnabled: S.optional(S.Boolean),
     ReputationMetricsEnabled: S.optional(S.Boolean),
-    LastFreshStart: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastFreshStart: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ReputationOptions",
@@ -1474,7 +1478,9 @@ export interface SendDataPoint {
 }
 export const SendDataPoint = S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Timestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     DeliveryAttempts: S.optional(S.Number),
     Bounces: S.optional(S.Number),
     Complaints: S.optional(S.Number),
@@ -1762,7 +1768,9 @@ export interface TemplateMetadata {
 export const TemplateMetadata = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTimestamp: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "TemplateMetadata",
@@ -1905,7 +1913,9 @@ export interface MessageDsn {
 export const MessageDsn = S.suspend(() =>
   S.Struct({
     ReportingMta: S.String,
-    ArrivalDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    ArrivalDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ExtensionFields: S.optional(ExtensionFieldList),
   }),
 ).annotate({ identifier: "MessageDsn" }) as any as S.Schema<MessageDsn>;
@@ -1942,7 +1952,9 @@ export const RecipientDsnFields = S.suspend(() =>
     RemoteMta: S.optional(S.String),
     Status: S.String,
     DiagnosticCode: S.optional(S.String),
-    LastAttemptDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastAttemptDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     ExtensionFields: S.optional(ExtensionFieldList),
   }),
 ).annotate({

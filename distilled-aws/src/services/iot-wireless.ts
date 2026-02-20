@@ -2132,7 +2132,9 @@ export interface LoRaWANFuotaTaskGetInfo {
 export const LoRaWANFuotaTaskGetInfo = S.suspend(() =>
   S.Struct({
     RfRegion: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "LoRaWANFuotaTaskGetInfo",
@@ -2588,7 +2590,9 @@ export const LoRaWANMulticastSession = S.suspend(() =>
   S.Struct({
     DlDr: S.optional(S.Number),
     DlFreq: S.optional(S.Number),
-    SessionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    SessionStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     SessionTimeout: S.optional(S.Number),
     PingSlotPeriod: S.optional(S.Number),
   }),
@@ -3665,7 +3669,9 @@ export const GetWirelessDeviceImportTaskResponse = S.suspend(() =>
     DestinationName: S.optional(S.String),
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkGetStartImportInfo),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(ImportTaskStatus),
     StatusReason: S.optional(S.String),
     InitializedImportedDeviceCount: S.optional(S.Number),
@@ -4186,7 +4192,9 @@ export const ImportedSidewalkDevice = S.suspend(() =>
     SidewalkManufacturingSn: S.optional(S.String),
     OnboardingStatus: S.optional(OnboardStatus),
     OnboardingStatusReason: S.optional(S.String),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    LastUpdateTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ImportedSidewalkDevice",
@@ -4791,7 +4799,9 @@ export const WirelessDeviceImportTask = S.suspend(() =>
     DestinationName: S.optional(S.String),
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkGetStartImportInfo),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Status: S.optional(ImportTaskStatus),
     StatusReason: S.optional(S.String),
     InitializedImportedDeviceCount: S.optional(S.Number),
@@ -5378,7 +5388,9 @@ export interface LoRaWANStartFuotaTask {
 }
 export const LoRaWANStartFuotaTask = S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "LoRaWANStartFuotaTask",

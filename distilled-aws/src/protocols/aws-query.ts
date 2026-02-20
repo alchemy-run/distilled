@@ -251,8 +251,15 @@ function serializeValue(
 ): void {
   if (value === undefined || value === null) return;
 
+  // Handle Date objects (v4: S.Date remains Date after encode)
+  if (value instanceof Date) {
+    params.push(
+      `${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`,
+    );
+    return;
+  }
+
   // Handle primitives (includes encoded dates as strings, blobs as base64)
-  // Blob schema transforms Uint8Array → base64 string during encoding
   if (typeof value !== "object") {
     params.push(
       `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,

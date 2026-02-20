@@ -3673,7 +3673,7 @@ export interface CopyObjectResult {
 export const CopyObjectResult = S.suspend(() =>
   S.Struct({
     ETag: S.optional(S.String),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
     ChecksumType: S.optional(ChecksumType),
     ChecksumCRC32: S.optional(S.String),
     ChecksumCRC32C: S.optional(S.String),
@@ -4309,7 +4309,7 @@ export const SessionCredentials = S.suspend(() =>
     AccessKeyId: S.String.pipe(T.XmlName("AccessKeyId")),
     SecretAccessKey: SensitiveString.pipe(T.XmlName("SecretAccessKey")),
     SessionToken: SensitiveString.pipe(T.XmlName("SessionToken")),
-    Expiration: S.Date.pipe(T.XmlName("Expiration")),
+    Expiration: T.DateFromString.pipe(T.XmlName("Expiration")),
   }),
 ).annotate({
   identifier: "SessionCredentials",
@@ -5841,7 +5841,7 @@ export interface LifecycleExpiration {
 }
 export const LifecycleExpiration = S.suspend(() =>
   S.Struct({
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Days: S.optional(S.Number),
     ExpiredObjectDeleteMarker: S.optional(S.Boolean),
   }),
@@ -5900,7 +5900,7 @@ export interface Transition {
 }
 export const Transition = S.suspend(() =>
   S.Struct({
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Days: S.optional(S.Number),
     StorageClass: S.optional(TransitionStorageClass),
   }),
@@ -7774,7 +7774,9 @@ export interface ObjectLockRetention {
 export const ObjectLockRetention = S.suspend(() =>
   S.Struct({
     Mode: S.optional(ObjectLockRetentionMode),
-    RetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    RetainUntilDate: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "ObjectLockRetention",
@@ -8461,7 +8463,7 @@ export interface Bucket {
 export const Bucket = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    CreationDate: S.optional(S.Date),
+    CreationDate: S.optional(T.DateFromString),
     BucketRegion: S.optional(S.String),
     BucketArn: S.optional(S.String),
   }),
@@ -8591,7 +8593,7 @@ export const MultipartUpload = S.suspend(() =>
   S.Struct({
     UploadId: S.optional(S.String),
     Key: S.optional(S.String),
-    Initiated: S.optional(S.Date),
+    Initiated: S.optional(T.DateFromString),
     StorageClass: S.optional(StorageClass),
     Owner: S.optional(Owner),
     Initiator: S.optional(Initiator),
@@ -8724,7 +8726,7 @@ export interface RestoreStatus {
 export const RestoreStatus = S.suspend(() =>
   S.Struct({
     IsRestoreInProgress: S.optional(S.Boolean),
-    RestoreExpiryDate: S.optional(S.Date),
+    RestoreExpiryDate: S.optional(T.DateFromString),
   }),
 ).annotate({ identifier: "RestoreStatus" }) as any as S.Schema<RestoreStatus>;
 export interface Object {
@@ -8741,7 +8743,7 @@ export interface Object {
 export const Object = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
     ETag: S.optional(S.String),
     ChecksumAlgorithm: S.optional(ChecksumAlgorithmList).pipe(T.XmlFlattened()),
     ChecksumType: S.optional(ChecksumType),
@@ -8946,7 +8948,7 @@ export const ObjectVersion = S.suspend(() =>
     Key: S.optional(S.String),
     VersionId: S.optional(S.String),
     IsLatest: S.optional(S.Boolean),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
     Owner: S.optional(Owner),
     RestoreStatus: S.optional(RestoreStatus),
   }),
@@ -8966,7 +8968,7 @@ export const DeleteMarkerEntry = S.suspend(() =>
     Key: S.optional(S.String),
     VersionId: S.optional(S.String),
     IsLatest: S.optional(S.Boolean),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
   }),
 ).annotate({
   identifier: "DeleteMarkerEntry",
@@ -9081,7 +9083,7 @@ export interface Part {
 export const Part = S.suspend(() =>
   S.Struct({
     PartNumber: S.optional(S.Number),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
     ETag: S.optional(S.String),
     Size: S.optional(S.Number),
     ChecksumCRC32: S.optional(S.String),
@@ -11506,7 +11508,7 @@ export interface CopyPartResult {
 export const CopyPartResult = S.suspend(() =>
   S.Struct({
     ETag: S.optional(S.String),
-    LastModified: S.optional(S.Date),
+    LastModified: S.optional(T.DateFromString),
     ChecksumCRC32: S.optional(S.String),
     ChecksumCRC32C: S.optional(S.String),
     ChecksumCRC64NVME: S.optional(S.String),

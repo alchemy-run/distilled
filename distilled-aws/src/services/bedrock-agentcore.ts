@@ -953,13 +953,15 @@ export const GetBrowserSessionResponse = S.suspend(() =>
     browserIdentifier: S.String,
     sessionId: S.String,
     name: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     viewPort: S.optional(ViewPort),
     sessionTimeoutSeconds: S.optional(S.Number),
     status: S.optional(BrowserSessionStatus),
     streams: S.optional(BrowserSessionStream),
     sessionReplayArtifact: S.optional(S.String),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetBrowserSessionResponse",
@@ -1006,8 +1008,10 @@ export const BrowserSessionSummary = S.suspend(() =>
     sessionId: S.String,
     name: S.optional(S.String),
     status: BrowserSessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "BrowserSessionSummary",
@@ -1067,7 +1071,7 @@ export const StartBrowserSessionResponse = S.suspend(() =>
   S.Struct({
     browserIdentifier: S.String,
     sessionId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     streams: S.optional(BrowserSessionStream),
   }),
 ).annotate({
@@ -1112,7 +1116,7 @@ export const StopBrowserSessionResponse = S.suspend(() =>
   S.Struct({
     browserIdentifier: S.String,
     sessionId: S.String,
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StopBrowserSessionResponse",
@@ -1168,7 +1172,7 @@ export const UpdateBrowserStreamResponse = S.suspend(() =>
     browserIdentifier: S.String,
     sessionId: S.String,
     streams: BrowserSessionStream,
-    updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "UpdateBrowserStreamResponse",
@@ -1217,7 +1221,7 @@ export const GetCodeInterpreterSessionResponse = S.suspend(() =>
     codeInterpreterIdentifier: S.String,
     sessionId: S.String,
     name: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     sessionTimeoutSeconds: S.optional(S.Number),
     status: S.optional(CodeInterpreterSessionStatus),
   }),
@@ -1268,8 +1272,10 @@ export const CodeInterpreterSessionSummary = S.suspend(() =>
     sessionId: S.String,
     name: S.optional(S.String),
     status: CodeInterpreterSessionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "CodeInterpreterSessionSummary",
@@ -1333,7 +1339,7 @@ export const StartCodeInterpreterSessionResponse = S.suspend(() =>
   S.Struct({
     codeInterpreterIdentifier: S.String,
     sessionId: S.String,
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StartCodeInterpreterSessionResponse",
@@ -1379,7 +1385,7 @@ export const StopCodeInterpreterSessionResponse = S.suspend(() =>
   S.Struct({
     codeInterpreterIdentifier: S.String,
     sessionId: S.String,
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
+    lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "StopCodeInterpreterSessionResponse",

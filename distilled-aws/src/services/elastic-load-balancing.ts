@@ -1035,7 +1035,9 @@ export const LoadBalancerDescription = S.suspend(() =>
     HealthCheck: S.optional(HealthCheck),
     SourceSecurityGroup: S.optional(SourceSecurityGroup),
     SecurityGroups: S.optional(SecurityGroups),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    CreatedTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
     Scheme: S.optional(S.String),
   }),
 ).annotate({

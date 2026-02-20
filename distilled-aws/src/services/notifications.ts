@@ -535,7 +535,7 @@ export const GetEventRuleResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     notificationConfigurationArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     source: S.String,
     eventType: S.String,
     eventPattern: S.String,
@@ -607,7 +607,7 @@ export const EventRuleStructure = S.suspend(() =>
   S.Struct({
     arn: S.String,
     notificationConfigurationArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     source: S.String,
     eventType: S.String,
     eventPattern: S.String,
@@ -866,8 +866,10 @@ export const ManagedNotificationChildEvent = S.suspend(() =>
     notificationType: S.String,
     eventStatus: S.optional(S.String),
     aggregateManagedNotificationEventArn: S.String,
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     textParts: TextParts,
     organizationalUnitId: S.optional(S.String),
     aggregationDetail: S.optional(AggregationDetail),
@@ -885,7 +887,7 @@ export const GetManagedNotificationChildEventResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     managedNotificationConfigurationArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     content: ManagedNotificationChildEvent,
   }),
 ).annotate({
@@ -906,12 +908,12 @@ export const ListManagedNotificationChildEventsRequest = S.suspend(() =>
     aggregateManagedNotificationEventArn: S.String.pipe(
       T.HttpLabel("aggregateManagedNotificationEventArn"),
     ),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("startTime"),
-    ),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("endTime"),
-    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("startTime")),
+    endTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("endTime")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     relatedAccount: S.optional(S.String).pipe(T.HttpQuery("relatedAccount")),
@@ -991,7 +993,7 @@ export const ManagedNotificationChildEventOverview = S.suspend(() =>
     arn: S.String,
     managedNotificationConfigurationArn: S.String,
     relatedAccount: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     childEvent: ManagedNotificationChildEventSummary,
     aggregateManagedNotificationEventArn: S.String,
     organizationalUnitId: S.optional(S.String),
@@ -1204,8 +1206,10 @@ export const ManagedNotificationEvent = S.suspend(() =>
     eventStatus: S.optional(S.String),
     aggregationEventType: S.optional(S.String),
     aggregationSummary: S.optional(AggregationSummary),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     textParts: TextParts,
     organizationalUnitId: S.optional(S.String),
   }),
@@ -1222,7 +1226,7 @@ export const GetManagedNotificationEventResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     managedNotificationConfigurationArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     content: ManagedNotificationEvent,
   }),
 ).annotate({
@@ -1240,12 +1244,12 @@ export interface ListManagedNotificationEventsRequest {
 }
 export const ListManagedNotificationEventsRequest = S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("startTime"),
-    ),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("endTime"),
-    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("startTime")),
+    endTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("endTime")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
     source: S.optional(S.String).pipe(T.HttpQuery("source")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1303,7 +1307,7 @@ export const ManagedNotificationEventOverview = S.suspend(() =>
     arn: S.String,
     managedNotificationConfigurationArn: S.String,
     relatedAccount: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     notificationEvent: ManagedNotificationEventSummary,
     aggregationEventType: S.optional(S.String),
     organizationalUnitId: S.optional(S.String),
@@ -1428,7 +1432,7 @@ export const GetNotificationConfigurationResponse = S.suspend(() =>
     name: S.String,
     description: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     aggregationDuration: S.optional(S.String),
     subtype: S.optional(S.String),
   }),
@@ -1502,7 +1506,7 @@ export const NotificationConfigurationStructure = S.suspend(() =>
     name: S.String,
     description: S.String,
     status: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     aggregationDuration: S.optional(S.String),
     subtype: S.optional(S.String),
   }),
@@ -1581,7 +1585,7 @@ export const SourceEventMetadata = S.suspend(() =>
     eventOriginRegion: S.optional(S.String),
     relatedAccount: S.String,
     source: S.String,
-    eventOccurrenceTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    eventOccurrenceTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     eventType: S.String,
     relatedResources: Resources,
   }),
@@ -1635,8 +1639,10 @@ export const NotificationEventSchema = S.suspend(() =>
     aggregationEventType: S.optional(S.String),
     aggregateNotificationEventArn: S.optional(S.String),
     aggregationSummary: S.optional(AggregationSummary),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     textParts: TextParts,
     media: Media,
     organizationalUnitId: S.optional(S.String),
@@ -1654,7 +1660,7 @@ export const GetNotificationEventResponse = S.suspend(() =>
   S.Struct({
     arn: S.String,
     notificationConfigurationArn: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     content: NotificationEventSchema,
   }),
 ).annotate({
@@ -1673,12 +1679,12 @@ export interface ListNotificationEventsRequest {
 }
 export const ListNotificationEventsRequest = S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("startTime"),
-    ),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
-      T.HttpQuery("endTime"),
-    ),
+    startTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("startTime")),
+    endTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ).pipe(T.HttpQuery("endTime")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
     source: S.optional(S.String).pipe(T.HttpQuery("source")),
     includeChildEvents: S.optional(S.Boolean).pipe(
@@ -1753,7 +1759,7 @@ export const NotificationEventOverview = S.suspend(() =>
     arn: S.String,
     notificationConfigurationArn: S.String,
     relatedAccount: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     notificationEvent: NotificationEventSummary,
     aggregationEventType: S.optional(S.String),
     aggregateNotificationEventArn: S.optional(S.String),
@@ -1813,8 +1819,10 @@ export const RegisterNotificationHubResponse = S.suspend(() =>
   S.Struct({
     notificationHubRegion: S.String,
     statusSummary: NotificationHubStatusSummary,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastActivationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastActivationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "RegisterNotificationHubResponse",
@@ -1884,8 +1892,10 @@ export const NotificationHubOverview = S.suspend(() =>
   S.Struct({
     notificationHubRegion: S.String,
     statusSummary: NotificationHubStatusSummary,
-    creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastActivationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastActivationTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "NotificationHubOverview",

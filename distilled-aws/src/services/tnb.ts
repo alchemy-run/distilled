@@ -410,8 +410,8 @@ export interface GetSolFunctionInstanceMetadata {
 }
 export const GetSolFunctionInstanceMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSolFunctionInstanceMetadata",
@@ -490,8 +490,8 @@ export interface GetSolFunctionPackageMetadata {
 export const GetSolFunctionPackageMetadata = S.suspend(() =>
   S.Struct({
     vnfd: S.optional(FunctionArtifactMeta),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSolFunctionPackageMetadata",
@@ -654,8 +654,8 @@ export interface GetSolNetworkInstanceMetadata {
 }
 export const GetSolNetworkInstanceMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSolNetworkInstanceMetadata",
@@ -773,8 +773,8 @@ export const GetSolNetworkOperationMetadata = S.suspend(() =>
     updateNsMetadata: S.optional(UpdateNsMetadata),
     modifyVnfInfoMetadata: S.optional(ModifyVnfInfoMetadata),
     instantiateMetadata: S.optional(InstantiateMetadata),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSolNetworkOperationMetadata",
@@ -812,8 +812,12 @@ export const GetSolNetworkOperationTaskDetails = S.suspend(() =>
     taskContext: S.optional(StringMap),
     taskErrorDetails: S.optional(ErrorInfo),
     taskStatus: S.optional(TaskStatus),
-    taskStartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    taskStartTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    taskEndTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetSolNetworkOperationTaskDetails",
@@ -886,8 +890,8 @@ export interface GetSolNetworkPackageMetadata {
 export const GetSolNetworkPackageMetadata = S.suspend(() =>
   S.Struct({
     nsd: S.optional(NetworkArtifactMeta),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "GetSolNetworkPackageMetadata",
@@ -1066,8 +1070,8 @@ export interface ListSolFunctionInstanceMetadata {
 }
 export const ListSolFunctionInstanceMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSolFunctionInstanceMetadata",
@@ -1139,8 +1143,8 @@ export interface ListSolFunctionPackageMetadata {
 }
 export const ListSolFunctionPackageMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSolFunctionPackageMetadata",
@@ -1216,8 +1220,8 @@ export interface ListSolNetworkInstanceMetadata {
 }
 export const ListSolNetworkInstanceMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSolNetworkInstanceMetadata",
@@ -1295,8 +1299,8 @@ export const ListSolNetworkOperationsMetadata = S.suspend(() =>
   S.Struct({
     nsdInfoId: S.optional(S.String),
     vnfInstanceId: S.optional(S.String),
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSolNetworkOperationsMetadata",
@@ -1368,8 +1372,8 @@ export interface ListSolNetworkPackageMetadata {
 }
 export const ListSolNetworkPackageMetadata = S.suspend(() =>
   S.Struct({
-    createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    lastModified: S.Date.pipe(T.TimestampFormat("date-time")),
+    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    lastModified: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "ListSolNetworkPackageMetadata",

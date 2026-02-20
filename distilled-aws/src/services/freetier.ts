@@ -196,9 +196,15 @@ export const GetAccountActivityResponse = S.suspend(() =>
     instructionsUrl: S.String,
     reward: ActivityReward,
     estimatedTimeToCompleteInMinutes: S.optional(S.Number),
-    expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
+    expiresAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    startedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    completedAt: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
   }),
 ).annotate({
   identifier: "GetAccountActivityResponse",
@@ -233,7 +239,7 @@ export const GetAccountPlanStateResponse = S.suspend(() =>
     accountPlanStatus: AccountPlanStatus,
     accountPlanRemainingCredits: S.optional(MonetaryAmount),
     accountPlanExpirationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("date-time")),
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
   }),
 ).annotate({
