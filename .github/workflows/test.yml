@@ -110,6 +110,7 @@ jobs:
         working-directory: distilled-neon
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          USER: ci-${{ github.event.pull_request.number }}
 
   ci-planetscale:
     needs: detect-changes
@@ -128,3 +129,4 @@ jobs:
         env:
           PLANETSCALE_API_TOKEN: ${{ secrets.PLANETSCALE_API_TOKEN }}
           PLANETSCALE_ORGANIZATION: ${{ secrets.PLANETSCALE_ORGANIZATION }}
+          USER: ci-${{ github.event.pull_request.number }}
