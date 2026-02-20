@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -103,19 +103,19 @@ export interface GetInstanceResponse {
 }
 
 export const GetInstanceResponse = Schema.Struct({
-  end: Schema.Union(Schema.String, Schema.Null),
-  error: Schema.Union(
+  end: Schema.Union([Schema.String, Schema.Null]),
+  error: Schema.Union([
     Schema.Struct({
       message: Schema.String,
       name: Schema.String,
     }),
     Schema.Null,
-  ),
-  output: Schema.Union(Schema.String, Schema.Number),
+  ]),
+  output: Schema.Union([Schema.String, Schema.Number]),
   params: Schema.Unknown,
   queued: Schema.String,
-  start: Schema.Union(Schema.String, Schema.Null),
-  status: Schema.Literal(
+  start: Schema.Union([Schema.String, Schema.Null]),
+  status: Schema.Literals([
     "queued",
     "running",
     "paused",
@@ -124,22 +124,22 @@ export const GetInstanceResponse = Schema.Struct({
     "complete",
     "waitingForPause",
     "waiting",
-  ),
+  ]),
   steps: Schema.Array(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         attempts: Schema.Array(
           Schema.Struct({
-            end: Schema.Union(Schema.String, Schema.Null),
-            error: Schema.Union(
+            end: Schema.Union([Schema.String, Schema.Null]),
+            error: Schema.Union([
               Schema.Struct({
                 message: Schema.String,
                 name: Schema.String,
               }),
               Schema.Null,
-            ),
+            ]),
             start: Schema.String,
-            success: Schema.Union(Schema.Boolean, Schema.Null),
+            success: Schema.Union([Schema.Boolean, Schema.Null]),
           }),
         ),
         config: Schema.Struct({
@@ -147,27 +147,27 @@ export const GetInstanceResponse = Schema.Struct({
             delay: Schema.Number,
             limit: Schema.Number,
             backoff: Schema.optional(
-              Schema.Literal("constant", "linear", "exponential"),
+              Schema.Literals(["constant", "linear", "exponential"]),
             ),
           }),
           timeout: Schema.Number,
         }),
-        end: Schema.Union(Schema.String, Schema.Null),
+        end: Schema.Union([Schema.String, Schema.Null]),
         name: Schema.String,
         output: Schema.Unknown,
         start: Schema.String,
-        success: Schema.Union(Schema.Boolean, Schema.Null),
+        success: Schema.Union([Schema.Boolean, Schema.Null]),
         type: Schema.Literal("step"),
       }),
       Schema.Struct({
         end: Schema.String,
-        error: Schema.Union(
+        error: Schema.Union([
           Schema.Struct({
             message: Schema.String,
             name: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
         finished: Schema.Boolean,
         name: Schema.String,
         start: Schema.String,
@@ -181,24 +181,24 @@ export const GetInstanceResponse = Schema.Struct({
       }),
       Schema.Struct({
         end: Schema.String,
-        error: Schema.Union(
+        error: Schema.Union([
           Schema.Struct({
             message: Schema.String,
             name: Schema.String,
           }),
           Schema.Null,
-        ),
+        ]),
         finished: Schema.Boolean,
         name: Schema.String,
-        output: Schema.Union(Schema.String, Schema.Number, Schema.Boolean),
+        output: Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
         start: Schema.String,
         type: Schema.Literal("waitForEvent"),
       }),
-    ),
+    ]),
   ),
-  success: Schema.Union(Schema.Boolean, Schema.Null),
+  success: Schema.Union([Schema.Boolean, Schema.Null]),
   trigger: Schema.Struct({
-    source: Schema.Literal("unknown", "api", "binding", "event", "cron"),
+    source: Schema.Literals(["unknown", "api", "binding", "event", "cron"]),
   }),
   versionId: Schema.String,
 }) as unknown as Schema.Schema<GetInstanceResponse>;
@@ -233,19 +233,28 @@ export interface CreateInstanceRequest {
 export const CreateInstanceRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  instanceId: Schema.optional(Schema.String).pipe(T.JsonName("instance_id")),
+  instanceId: Schema.optional(Schema.String),
   instanceRetention: Schema.optional(
     Schema.Struct({
       errorRetention: Schema.optional(
-        Schema.Union(Schema.Number, Schema.String),
-      ).pipe(T.JsonName("error_retention")),
+        Schema.Union([Schema.Number, Schema.String]),
+      ),
       successRetention: Schema.optional(
-        Schema.Union(Schema.Number, Schema.String),
-      ).pipe(T.JsonName("success_retention")),
-    }),
-  ).pipe(T.JsonName("instance_retention")),
+        Schema.Union([Schema.Number, Schema.String]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        errorRetention: "error_retention",
+        successRetention: "success_retention",
+      }),
+    ),
+  ),
   params: Schema.optional(Schema.Unknown),
 }).pipe(
+  Schema.encodeKeys({
+    instanceId: "instance_id",
+    instanceRetention: "instance_retention",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/workflows/{workflowName}/instances",
@@ -269,7 +278,7 @@ export interface CreateInstanceResponse {
 
 export const CreateInstanceResponse = Schema.Struct({
   id: Schema.String,
-  status: Schema.Literal(
+  status: Schema.Literals([
     "queued",
     "running",
     "paused",
@@ -278,10 +287,12 @@ export const CreateInstanceResponse = Schema.Struct({
     "complete",
     "waitingForPause",
     "waiting",
-  ),
-  versionId: Schema.String.pipe(T.JsonName("version_id")),
-  workflowId: Schema.String.pipe(T.JsonName("workflow_id")),
-}) as unknown as Schema.Schema<CreateInstanceResponse>;
+  ]),
+  versionId: Schema.String,
+  workflowId: Schema.String,
+}).pipe(
+  Schema.encodeKeys({ versionId: "version_id", workflowId: "workflow_id" }),
+) as unknown as Schema.Schema<CreateInstanceResponse>;
 
 export const createInstance: (
   input: CreateInstanceRequest,
@@ -356,7 +367,7 @@ export const PatchInstanceStatusRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  status: Schema.Literal("resume", "pause", "terminate", "restart"),
+  status: Schema.Literals(["resume", "pause", "terminate", "restart"]),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -379,7 +390,7 @@ export interface PatchInstanceStatusResponse {
 }
 
 export const PatchInstanceStatusResponse = Schema.Struct({
-  status: Schema.Literal(
+  status: Schema.Literals([
     "queued",
     "running",
     "paused",
@@ -388,7 +399,7 @@ export const PatchInstanceStatusResponse = Schema.Struct({
     "complete",
     "waitingForPause",
     "waiting",
-  ),
+  ]),
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
@@ -435,11 +446,18 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = Schema.Struct({
   id: Schema.String,
-  className: Schema.String.pipe(T.JsonName("class_name")),
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
-  workflowId: Schema.String.pipe(T.JsonName("workflow_id")),
-}) as unknown as Schema.Schema<GetVersionResponse>;
+  className: Schema.String,
+  createdOn: Schema.String,
+  modifiedOn: Schema.String,
+  workflowId: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    className: "class_name",
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    workflowId: "workflow_id",
+  }),
+) as unknown as Schema.Schema<GetVersionResponse>;
 
 export const getVersion: (
   input: GetVersionRequest,
@@ -494,8 +512,8 @@ export interface GetWorkflowResponse {
 
 export const GetWorkflowResponse = Schema.Struct({
   id: Schema.String,
-  className: Schema.String.pipe(T.JsonName("class_name")),
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
+  className: Schema.String,
+  createdOn: Schema.String,
   instances: Schema.Struct({
     complete: Schema.optional(Schema.Number),
     errored: Schema.optional(Schema.Number),
@@ -506,13 +524,19 @@ export const GetWorkflowResponse = Schema.Struct({
     waiting: Schema.optional(Schema.Number),
     waitingForPause: Schema.optional(Schema.Number),
   }),
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+  modifiedOn: Schema.String,
   name: Schema.String,
-  scriptName: Schema.String.pipe(T.JsonName("script_name")),
-  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("triggered_on"),
-  ),
-}) as unknown as Schema.Schema<GetWorkflowResponse>;
+  scriptName: Schema.String,
+  triggeredOn: Schema.Union([Schema.String, Schema.Null]),
+}).pipe(
+  Schema.encodeKeys({
+    className: "class_name",
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    scriptName: "script_name",
+    triggeredOn: "triggered_on",
+  }),
+) as unknown as Schema.Schema<GetWorkflowResponse>;
 
 export const getWorkflow: (
   input: GetWorkflowRequest,
@@ -539,9 +563,10 @@ export interface PutWorkflowRequest {
 export const PutWorkflowRequest = Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  className: Schema.String.pipe(T.JsonName("class_name")),
-  scriptName: Schema.String.pipe(T.JsonName("script_name")),
+  className: Schema.String,
+  scriptName: Schema.String,
 }).pipe(
+  Schema.encodeKeys({ className: "class_name", scriptName: "script_name" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/workflows/{workflowName}",
@@ -563,18 +588,27 @@ export interface PutWorkflowResponse {
 
 export const PutWorkflowResponse = Schema.Struct({
   id: Schema.String,
-  className: Schema.String.pipe(T.JsonName("class_name")),
-  createdOn: Schema.String.pipe(T.JsonName("created_on")),
-  isDeleted: Schema.Number.pipe(T.JsonName("is_deleted")),
-  modifiedOn: Schema.String.pipe(T.JsonName("modified_on")),
+  className: Schema.String,
+  createdOn: Schema.String,
+  isDeleted: Schema.Number,
+  modifiedOn: Schema.String,
   name: Schema.String,
-  scriptName: Schema.String.pipe(T.JsonName("script_name")),
-  terminatorRunning: Schema.Number.pipe(T.JsonName("terminator_running")),
-  triggeredOn: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("triggered_on"),
-  ),
-  versionId: Schema.String.pipe(T.JsonName("version_id")),
-}) as unknown as Schema.Schema<PutWorkflowResponse>;
+  scriptName: Schema.String,
+  terminatorRunning: Schema.Number,
+  triggeredOn: Schema.Union([Schema.String, Schema.Null]),
+  versionId: Schema.String,
+}).pipe(
+  Schema.encodeKeys({
+    className: "class_name",
+    createdOn: "created_on",
+    isDeleted: "is_deleted",
+    modifiedOn: "modified_on",
+    scriptName: "script_name",
+    terminatorRunning: "terminator_running",
+    triggeredOn: "triggered_on",
+    versionId: "version_id",
+  }),
+) as unknown as Schema.Schema<PutWorkflowResponse>;
 
 export const putWorkflow: (
   input: PutWorkflowRequest,
@@ -610,7 +644,7 @@ export interface DeleteWorkflowResponse {
 
 export const DeleteWorkflowResponse = Schema.Struct({
   status: Schema.Literal("ok"),
-  success: Schema.Union(Schema.Boolean, Schema.Null),
+  success: Schema.Union([Schema.Boolean, Schema.Null]),
 }) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
 export const deleteWorkflow: (

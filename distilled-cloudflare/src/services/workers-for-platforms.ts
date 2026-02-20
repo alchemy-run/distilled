@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -59,19 +59,26 @@ export interface GetDispatchNamespaceResponse {
 }
 
 export const GetDispatchNamespaceResponse = Schema.Struct({
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  namespaceId: Schema.optional(Schema.String).pipe(T.JsonName("namespace_id")),
-  namespaceName: Schema.optional(Schema.String).pipe(
-    T.JsonName("namespace_name"),
-  ),
-  scriptCount: Schema.optional(Schema.Number).pipe(T.JsonName("script_count")),
-  trustedWorkers: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("trusted_workers"),
-  ),
-}) as unknown as Schema.Schema<GetDispatchNamespaceResponse>;
+  createdBy: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
+  namespaceId: Schema.optional(Schema.String),
+  namespaceName: Schema.optional(Schema.String),
+  scriptCount: Schema.optional(Schema.Number),
+  trustedWorkers: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    createdBy: "created_by",
+    createdOn: "created_on",
+    modifiedBy: "modified_by",
+    modifiedOn: "modified_on",
+    namespaceId: "namespace_id",
+    namespaceName: "namespace_name",
+    scriptCount: "script_count",
+    trustedWorkers: "trusted_workers",
+  }),
+) as unknown as Schema.Schema<GetDispatchNamespaceResponse>;
 
 export const getDispatchNamespace: (
   input: GetDispatchNamespaceRequest,
@@ -122,19 +129,26 @@ export interface CreateDispatchNamespaceResponse {
 }
 
 export const CreateDispatchNamespaceResponse = Schema.Struct({
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  namespaceId: Schema.optional(Schema.String).pipe(T.JsonName("namespace_id")),
-  namespaceName: Schema.optional(Schema.String).pipe(
-    T.JsonName("namespace_name"),
-  ),
-  scriptCount: Schema.optional(Schema.Number).pipe(T.JsonName("script_count")),
-  trustedWorkers: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("trusted_workers"),
-  ),
-}) as unknown as Schema.Schema<CreateDispatchNamespaceResponse>;
+  createdBy: Schema.optional(Schema.String),
+  createdOn: Schema.optional(Schema.String),
+  modifiedBy: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
+  namespaceId: Schema.optional(Schema.String),
+  namespaceName: Schema.optional(Schema.String),
+  scriptCount: Schema.optional(Schema.Number),
+  trustedWorkers: Schema.optional(Schema.Boolean),
+}).pipe(
+  Schema.encodeKeys({
+    createdBy: "created_by",
+    createdOn: "created_on",
+    modifiedBy: "modified_by",
+    modifiedOn: "modified_on",
+    namespaceId: "namespace_id",
+    namespaceName: "namespace_name",
+    scriptCount: "script_count",
+    trustedWorkers: "trusted_workers",
+  }),
+) as unknown as Schema.Schema<CreateDispatchNamespaceResponse>;
 
 export const createDispatchNamespace: (
   input: CreateDispatchNamespaceRequest,
@@ -214,13 +228,17 @@ export interface GetDispatchNamespaceScriptResponse {
 }
 
 export const GetDispatchNamespaceScriptResponse = Schema.Struct({
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  dispatchNamespace: Schema.optional(Schema.String).pipe(
-    T.JsonName("dispatch_namespace"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  createdOn: Schema.optional(Schema.String),
+  dispatchNamespace: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
   script: Schema.optional(Schema.Unknown),
-}) as unknown as Schema.Schema<GetDispatchNamespaceScriptResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    dispatchNamespace: "dispatch_namespace",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<GetDispatchNamespaceScriptResponse>;
 
 export const getDispatchNamespaceScript: (
   input: GetDispatchNamespaceScriptRequest,
@@ -384,37 +402,40 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
       Schema.Struct({
         config: Schema.optional(
           Schema.Struct({
-            headers: Schema.optional(Schema.String).pipe(
-              T.JsonName("_headers"),
-            ),
-            redirects: Schema.optional(Schema.String).pipe(
-              T.JsonName("_redirects"),
-            ),
+            headers: Schema.optional(Schema.String),
+            redirects: Schema.optional(Schema.String),
             htmlHandling: Schema.optional(
-              Schema.Literal(
+              Schema.Literals([
                 "auto-trailing-slash",
                 "force-trailing-slash",
                 "drop-trailing-slash",
                 "none",
-              ),
-            ).pipe(T.JsonName("html_handling")),
-            notFoundHandling: Schema.optional(
-              Schema.Literal("none", "404-page", "single-page-application"),
-            ).pipe(T.JsonName("not_found_handling")),
-            runWorkerFirst: Schema.optional(
-              Schema.Union(Schema.Array(Schema.String), Schema.Boolean),
-            ).pipe(T.JsonName("run_worker_first")),
-            serveDirectly: Schema.optional(Schema.Boolean).pipe(
-              T.JsonName("serve_directly"),
+              ]),
             ),
-          }),
+            notFoundHandling: Schema.optional(
+              Schema.Literals(["none", "404-page", "single-page-application"]),
+            ),
+            runWorkerFirst: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Boolean]),
+            ),
+            serveDirectly: Schema.optional(Schema.Boolean),
+          }).pipe(
+            Schema.encodeKeys({
+              headers: "_headers",
+              redirects: "_redirects",
+              htmlHandling: "html_handling",
+              notFoundHandling: "not_found_handling",
+              runWorkerFirst: "run_worker_first",
+              serveDirectly: "serve_directly",
+            }),
+          ),
         ),
         jwt: Schema.optional(Schema.String),
       }),
     ),
     bindings: Schema.optional(
       Schema.Array(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("ai"),
@@ -461,17 +482,17 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("durable_object_namespace"),
-            className: Schema.optional(Schema.String).pipe(
-              T.JsonName("class_name"),
-            ),
+            className: Schema.optional(Schema.String),
             environment: Schema.optional(Schema.String),
-            namespaceId: Schema.optional(Schema.String).pipe(
-              T.JsonName("namespace_id"),
-            ),
-            scriptName: Schema.optional(Schema.String).pipe(
-              T.JsonName("script_name"),
-            ),
-          }),
+            namespaceId: Schema.optional(Schema.String),
+            scriptName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              className: "class_name",
+              namespaceId: "namespace_id",
+              scriptName: "script_name",
+            }),
+          ),
           Schema.Struct({
             id: Schema.String,
             name: Schema.String,
@@ -480,13 +501,11 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("inherit"),
-            oldName: Schema.optional(Schema.String).pipe(
-              T.JsonName("old_name"),
-            ),
-            versionId: Schema.optional(Schema.String).pipe(
-              T.JsonName("version_id"),
-            ),
-          }),
+            oldName: Schema.optional(Schema.String),
+            versionId: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("images"),
@@ -498,14 +517,14 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           }),
           Schema.Struct({
             name: Schema.String,
-            namespaceId: Schema.String.pipe(T.JsonName("namespace_id")),
+            namespaceId: Schema.String,
             type: Schema.Literal("kv_namespace"),
-          }),
+          }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
           Schema.Struct({
-            certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+            certificateId: Schema.String,
             name: Schema.String,
             type: Schema.Literal("mtls_certificate"),
-          }),
+          }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -518,15 +537,15 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
           }),
           Schema.Struct({
             name: Schema.String,
-            queueName: Schema.String.pipe(T.JsonName("queue_name")),
+            queueName: Schema.String,
             type: Schema.Literal("queue"),
-          }),
+          }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
           Schema.Struct({
-            bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
+            bucketName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("r2_bucket"),
-            jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
-          }),
+            jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
+          }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
           Schema.Struct({
             name: Schema.String,
             text: Schema.String,
@@ -537,14 +556,18 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
             type: Schema.Literal("send_email"),
             allowedDestinationAddresses: Schema.optional(
               Schema.Array(Schema.String),
-            ).pipe(T.JsonName("allowed_destination_addresses")),
+            ),
             allowedSenderAddresses: Schema.optional(
               Schema.Array(Schema.String),
-            ).pipe(T.JsonName("allowed_sender_addresses")),
-            destinationAddress: Schema.optional(Schema.String).pipe(
-              T.JsonName("destination_address"),
             ),
-          }),
+            destinationAddress: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              allowedDestinationAddresses: "allowed_destination_addresses",
+              allowedSenderAddresses: "allowed_sender_addresses",
+              destinationAddress: "destination_address",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             service: Schema.String,
@@ -557,27 +580,32 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
             type: Schema.Literal("text_blob"),
           }),
           Schema.Struct({
-            indexName: Schema.String.pipe(T.JsonName("index_name")),
+            indexName: Schema.String,
             name: Schema.String,
             type: Schema.Literal("vectorize"),
-          }),
+          }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("version_metadata"),
           }),
           Schema.Struct({
             name: Schema.String,
-            secretName: Schema.String.pipe(T.JsonName("secret_name")),
-            storeId: Schema.String.pipe(T.JsonName("store_id")),
+            secretName: Schema.String,
+            storeId: Schema.String,
             type: Schema.Literal("secrets_store_secret"),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              secretName: "secret_name",
+              storeId: "store_id",
+            }),
+          ),
           Schema.Struct({
             algorithm: Schema.Unknown,
-            format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+            format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
             name: Schema.String,
             type: Schema.Literal("secret_key"),
             usages: Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "encrypt",
                 "decrypt",
                 "sign",
@@ -586,86 +614,85 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
                 "deriveBits",
                 "wrapKey",
                 "unwrapKey",
-              ),
+              ]),
             ),
-            keyBase64: Schema.optional(Schema.String).pipe(
-              T.JsonName("key_base64"),
-            ),
-            keyJwk: Schema.optional(Schema.Unknown).pipe(T.JsonName("key_jwk")),
-          }),
+            keyBase64: Schema.optional(Schema.String),
+            keyJwk: Schema.optional(Schema.Unknown),
+          }).pipe(
+            Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+          ),
           Schema.Struct({
             name: Schema.String,
             type: Schema.Literal("workflow"),
-            workflowName: Schema.String.pipe(T.JsonName("workflow_name")),
-            className: Schema.optional(Schema.String).pipe(
-              T.JsonName("class_name"),
-            ),
-            scriptName: Schema.optional(Schema.String).pipe(
-              T.JsonName("script_name"),
-            ),
-          }),
+            workflowName: Schema.String,
+            className: Schema.optional(Schema.String),
+            scriptName: Schema.optional(Schema.String),
+          }).pipe(
+            Schema.encodeKeys({
+              workflowName: "workflow_name",
+              className: "class_name",
+              scriptName: "script_name",
+            }),
+          ),
           Schema.Struct({
             name: Schema.String,
             part: Schema.String,
             type: Schema.Literal("wasm_module"),
           }),
-        ),
+        ]),
       ),
     ),
-    bodyPart: Schema.optional(Schema.String).pipe(T.JsonName("body_part")),
-    compatibilityDate: Schema.optional(Schema.String).pipe(
-      T.JsonName("compatibility_date"),
-    ),
-    compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("compatibility_flags"),
-    ),
-    keepAssets: Schema.optional(Schema.Boolean).pipe(T.JsonName("keep_assets")),
-    keepBindings: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("keep_bindings"),
-    ),
+    bodyPart: Schema.optional(Schema.String),
+    compatibilityDate: Schema.optional(Schema.String),
+    compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
+    keepAssets: Schema.optional(Schema.Boolean),
+    keepBindings: Schema.optional(Schema.Array(Schema.String)),
     limits: Schema.optional(
       Schema.Struct({
-        cpuMs: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_ms")),
-      }),
+        cpuMs: Schema.optional(Schema.Number),
+      }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
     ),
     logpush: Schema.optional(Schema.Boolean),
-    mainModule: Schema.optional(Schema.String).pipe(T.JsonName("main_module")),
+    mainModule: Schema.optional(Schema.String),
     migrations: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Unknown,
         Schema.Struct({
-          newTag: Schema.optional(Schema.String).pipe(T.JsonName("new_tag")),
-          oldTag: Schema.optional(Schema.String).pipe(T.JsonName("old_tag")),
+          newTag: Schema.optional(Schema.String),
+          oldTag: Schema.optional(Schema.String),
           steps: Schema.optional(Schema.Array(Schema.Unknown)),
-        }),
-      ),
+        }).pipe(Schema.encodeKeys({ newTag: "new_tag", oldTag: "old_tag" })),
+      ]),
     ),
     observability: Schema.optional(
       Schema.Struct({
         enabled: Schema.Boolean,
         headSamplingRate: Schema.optional(
-          Schema.Union(Schema.Number, Schema.Null),
-        ).pipe(T.JsonName("head_sampling_rate")),
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
         logs: Schema.optional(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               enabled: Schema.Boolean,
-              invocationLogs: Schema.Boolean.pipe(
-                T.JsonName("invocation_logs"),
-              ),
+              invocationLogs: Schema.Boolean,
               destinations: Schema.optional(Schema.Array(Schema.String)),
               headSamplingRate: Schema.optional(
-                Schema.Union(Schema.Number, Schema.Null),
-              ).pipe(T.JsonName("head_sampling_rate")),
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
               persist: Schema.optional(Schema.Boolean),
-            }),
+            }).pipe(
+              Schema.encodeKeys({
+                invocationLogs: "invocation_logs",
+                headSamplingRate: "head_sampling_rate",
+              }),
+            ),
             Schema.Null,
-          ),
+          ]),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
     ),
     placement: Schema.optional(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           mode: Schema.Literal("smart"),
         }),
@@ -678,16 +705,27 @@ export const PutDispatchNamespaceScriptRequest = Schema.Struct({
         Schema.Struct({
           host: Schema.String,
         }),
-      ),
+      ]),
     ),
     tags: Schema.optional(Schema.Array(Schema.String)),
     tailConsumers: Schema.optional(
-      Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-    ).pipe(T.JsonName("tail_consumers")),
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+    ),
     usageModel: Schema.optional(
-      Schema.Literal("standard", "bundled", "unbound"),
-    ).pipe(T.JsonName("usage_model")),
-  }),
+      Schema.Literals(["standard", "bundled", "unbound"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      bodyPart: "body_part",
+      compatibilityDate: "compatibility_date",
+      compatibilityFlags: "compatibility_flags",
+      keepAssets: "keep_assets",
+      keepBindings: "keep_bindings",
+      mainModule: "main_module",
+      tailConsumers: "tail_consumers",
+      usageModel: "usage_model",
+    }),
+  ),
   files: Schema.optional(
     Schema.Array(UploadableSchema.pipe(T.HttpFormDataFile())),
   ),
@@ -793,28 +831,20 @@ export interface PutDispatchNamespaceScriptResponse {
 }
 
 export const PutDispatchNamespaceScriptResponse = Schema.Struct({
-  startupTimeMs: Schema.Number.pipe(T.JsonName("startup_time_ms")),
+  startupTimeMs: Schema.Number,
   id: Schema.optional(Schema.String),
-  compatibilityDate: Schema.optional(Schema.String).pipe(
-    T.JsonName("compatibility_date"),
-  ),
-  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("compatibility_flags"),
-  ),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  entryPoint: Schema.optional(Schema.String).pipe(T.JsonName("entry_point")),
+  compatibilityDate: Schema.optional(Schema.String),
+  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
+  createdOn: Schema.optional(Schema.String),
+  entryPoint: Schema.optional(Schema.String),
   etag: Schema.optional(Schema.String),
   handlers: Schema.optional(Schema.Array(Schema.String)),
-  hasAssets: Schema.optional(Schema.Boolean).pipe(T.JsonName("has_assets")),
-  hasModules: Schema.optional(Schema.Boolean).pipe(T.JsonName("has_modules")),
-  lastDeployedFrom: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_deployed_from"),
-  ),
+  hasAssets: Schema.optional(Schema.Boolean),
+  hasModules: Schema.optional(Schema.Boolean),
+  lastDeployedFrom: Schema.optional(Schema.String),
   logpush: Schema.optional(Schema.Boolean),
-  migrationTag: Schema.optional(Schema.String).pipe(
-    T.JsonName("migration_tag"),
-  ),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  migrationTag: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
   namedHandlers: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -822,104 +852,119 @@ export const PutDispatchNamespaceScriptResponse = Schema.Struct({
         name: Schema.optional(Schema.String),
       }),
     ),
-  ).pipe(T.JsonName("named_handlers")),
+  ),
   observability: Schema.optional(
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
-      ).pipe(T.JsonName("head_sampling_rate")),
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
-            invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
+            invocationLogs: Schema.Boolean,
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
-            ).pipe(T.JsonName("head_sampling_rate")),
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
             persist: Schema.optional(Schema.Boolean),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              invocationLogs: "invocation_logs",
+              headSamplingRate: "head_sampling_rate",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
-        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("last_analyzed_at"),
-        ),
+        lastAnalyzedAt: Schema.optional(Schema.String),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
       Schema.Struct({
         region: Schema.String,
-        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("last_analyzed_at"),
-        ),
+        lastAnalyzedAt: Schema.optional(Schema.String),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
       Schema.Struct({
         hostname: Schema.String,
-        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("last_analyzed_at"),
-        ),
+        lastAnalyzedAt: Schema.optional(Schema.String),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
-      }),
+      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
       Schema.Struct({
         host: Schema.String,
-        lastAnalyzedAt: Schema.optional(Schema.String).pipe(
-          T.JsonName("last_analyzed_at"),
-        ),
+        lastAnalyzedAt: Schema.optional(Schema.String),
         status: Schema.optional(
-          Schema.Literal(
+          Schema.Literals([
             "SUCCESS",
             "UNSUPPORTED_APPLICATION",
             "INSUFFICIENT_INVOCATIONS",
-          ),
+          ]),
         ),
-      }),
-    ),
+      }).pipe(Schema.encodeKeys({ lastAnalyzedAt: "last_analyzed_at" })),
+    ]),
   ),
-  placementMode: Schema.optional(Schema.Literal("smart")).pipe(
-    T.JsonName("placement_mode"),
-  ),
+  placementMode: Schema.optional(Schema.Literal("smart")),
   placementStatus: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "SUCCESS",
       "UNSUPPORTED_APPLICATION",
       "INSUFFICIENT_INVOCATIONS",
-    ),
-  ).pipe(T.JsonName("placement_status")),
+    ]),
+  ),
   tag: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-  ).pipe(T.JsonName("tail_consumers")),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
-  ).pipe(T.JsonName("usage_model")),
-}) as unknown as Schema.Schema<PutDispatchNamespaceScriptResponse>;
+    Schema.Literals(["standard", "bundled", "unbound"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    startupTimeMs: "startup_time_ms",
+    compatibilityDate: "compatibility_date",
+    compatibilityFlags: "compatibility_flags",
+    createdOn: "created_on",
+    entryPoint: "entry_point",
+    hasAssets: "has_assets",
+    hasModules: "has_modules",
+    lastDeployedFrom: "last_deployed_from",
+    migrationTag: "migration_tag",
+    modifiedOn: "modified_on",
+    namedHandlers: "named_handlers",
+    placementMode: "placement_mode",
+    placementStatus: "placement_status",
+    tailConsumers: "tail_consumers",
+    usageModel: "usage_model",
+  }),
+) as unknown as Schema.Schema<PutDispatchNamespaceScriptResponse>;
 
 export const putDispatchNamespaceScript: (
   input: PutDispatchNamespaceScriptRequest,
@@ -1159,18 +1204,18 @@ export type GetDispatchNamespaceScriptSecretResponse =
       )[];
     };
 
-export const GetDispatchNamespaceScriptSecretResponse = Schema.Union(
+export const GetDispatchNamespaceScriptSecretResponse = Schema.Union([
   Schema.Struct({
     name: Schema.String,
     type: Schema.Literal("secret_text"),
   }),
   Schema.Struct({
     algorithm: Schema.Unknown,
-    format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+    format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
     name: Schema.String,
     type: Schema.Literal("secret_key"),
     usages: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "encrypt",
         "decrypt",
         "sign",
@@ -1179,10 +1224,10 @@ export const GetDispatchNamespaceScriptSecretResponse = Schema.Union(
         "deriveBits",
         "wrapKey",
         "unwrapKey",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<GetDispatchNamespaceScriptSecretResponse>;
+]) as unknown as Schema.Schema<GetDispatchNamespaceScriptSecretResponse>;
 
 export const getDispatchNamespaceScriptSecret: (
   input: GetDispatchNamespaceScriptSecretRequest,
@@ -1230,18 +1275,18 @@ export type PutDispatchNamespaceScriptSecretResponse =
       )[];
     };
 
-export const PutDispatchNamespaceScriptSecretResponse = Schema.Union(
+export const PutDispatchNamespaceScriptSecretResponse = Schema.Union([
   Schema.Struct({
     name: Schema.String,
     type: Schema.Literal("secret_text"),
   }),
   Schema.Struct({
     algorithm: Schema.Unknown,
-    format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+    format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
     name: Schema.String,
     type: Schema.Literal("secret_key"),
     usages: Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "encrypt",
         "decrypt",
         "sign",
@@ -1250,10 +1295,10 @@ export const PutDispatchNamespaceScriptSecretResponse = Schema.Union(
         "deriveBits",
         "wrapKey",
         "unwrapKey",
-      ),
+      ]),
     ),
   }),
-) as unknown as Schema.Schema<PutDispatchNamespaceScriptSecretResponse>;
+]) as unknown as Schema.Schema<PutDispatchNamespaceScriptSecretResponse>;
 
 export const putDispatchNamespaceScriptSecret: (
   input: PutDispatchNamespaceScriptSecretRequest,
@@ -1450,7 +1495,7 @@ export interface GetDispatchNamespaceScriptSettingResponse {
 export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
   bindings: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("ai"),
@@ -1497,17 +1542,17 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("durable_object_namespace"),
-          className: Schema.optional(Schema.String).pipe(
-            T.JsonName("class_name"),
-          ),
+          className: Schema.optional(Schema.String),
           environment: Schema.optional(Schema.String),
-          namespaceId: Schema.optional(Schema.String).pipe(
-            T.JsonName("namespace_id"),
-          ),
-          scriptName: Schema.optional(Schema.String).pipe(
-            T.JsonName("script_name"),
-          ),
-        }),
+          namespaceId: Schema.optional(Schema.String),
+          scriptName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            className: "class_name",
+            namespaceId: "namespace_id",
+            scriptName: "script_name",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           name: Schema.String,
@@ -1516,11 +1561,11 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("inherit"),
-          oldName: Schema.optional(Schema.String).pipe(T.JsonName("old_name")),
-          versionId: Schema.optional(Schema.String).pipe(
-            T.JsonName("version_id"),
-          ),
-        }),
+          oldName: Schema.optional(Schema.String),
+          versionId: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("images"),
@@ -1532,14 +1577,14 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          namespaceId: Schema.String.pipe(T.JsonName("namespace_id")),
+          namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }),
+        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
         Schema.Struct({
-          certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+          certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }),
+        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -1552,15 +1597,15 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          queueName: Schema.String.pipe(T.JsonName("queue_name")),
+          queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }),
+        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
         Schema.Struct({
-          bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
-          jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
-        }),
+          jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -1570,14 +1615,16 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
           type: Schema.Literal("send_email"),
           allowedDestinationAddresses: Schema.optional(
             Schema.Array(Schema.String),
-          ).pipe(T.JsonName("allowed_destination_addresses")),
-          allowedSenderAddresses: Schema.optional(
-            Schema.Array(Schema.String),
-          ).pipe(T.JsonName("allowed_sender_addresses")),
-          destinationAddress: Schema.optional(Schema.String).pipe(
-            T.JsonName("destination_address"),
           ),
-        }),
+          allowedSenderAddresses: Schema.optional(Schema.Array(Schema.String)),
+          destinationAddress: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            allowedDestinationAddresses: "allowed_destination_addresses",
+            allowedSenderAddresses: "allowed_sender_addresses",
+            destinationAddress: "destination_address",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           service: Schema.String,
@@ -1590,27 +1637,29 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
           type: Schema.Literal("text_blob"),
         }),
         Schema.Struct({
-          indexName: Schema.String.pipe(T.JsonName("index_name")),
+          indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }),
+        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
         }),
         Schema.Struct({
           name: Schema.String,
-          secretName: Schema.String.pipe(T.JsonName("secret_name")),
-          storeId: Schema.String.pipe(T.JsonName("store_id")),
+          secretName: Schema.String,
+          storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
-        }),
+        }).pipe(
+          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+        ),
         Schema.Struct({
           algorithm: Schema.Unknown,
-          format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+          format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
           name: Schema.String,
           type: Schema.Literal("secret_key"),
           usages: Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "encrypt",
               "decrypt",
               "sign",
@@ -1619,64 +1668,67 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
               "deriveBits",
               "wrapKey",
               "unwrapKey",
-            ),
+            ]),
           ),
         }),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("workflow"),
-          workflowName: Schema.String.pipe(T.JsonName("workflow_name")),
-          className: Schema.optional(Schema.String).pipe(
-            T.JsonName("class_name"),
-          ),
-          scriptName: Schema.optional(Schema.String).pipe(
-            T.JsonName("script_name"),
-          ),
-        }),
+          workflowName: Schema.String,
+          className: Schema.optional(Schema.String),
+          scriptName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            workflowName: "workflow_name",
+            className: "class_name",
+            scriptName: "script_name",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("wasm_module"),
         }),
-      ),
+      ]),
     ),
   ),
-  compatibilityDate: Schema.optional(Schema.String).pipe(
-    T.JsonName("compatibility_date"),
-  ),
-  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("compatibility_flags"),
-  ),
+  compatibilityDate: Schema.optional(Schema.String),
+  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
   limits: Schema.optional(
     Schema.Struct({
-      cpuMs: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_ms")),
-    }),
+      cpuMs: Schema.optional(Schema.Number),
+    }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
   ),
   logpush: Schema.optional(Schema.Boolean),
   observability: Schema.optional(
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
-      ).pipe(T.JsonName("head_sampling_rate")),
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
-            invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
+            invocationLogs: Schema.Boolean,
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
-            ).pipe(T.JsonName("head_sampling_rate")),
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
             persist: Schema.optional(Schema.Boolean),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              invocationLogs: "invocation_logs",
+              headSamplingRate: "head_sampling_rate",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
       }),
@@ -1689,16 +1741,25 @@ export const GetDispatchNamespaceScriptSettingResponse = Schema.Struct({
       Schema.Struct({
         host: Schema.String,
       }),
-    ),
+    ]),
   ),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-  ).pipe(T.JsonName("tail_consumers")),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
-  ).pipe(T.JsonName("usage_model")),
-}) as unknown as Schema.Schema<GetDispatchNamespaceScriptSettingResponse>;
+    Schema.Literals(["standard", "bundled", "unbound"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    compatibilityDate: "compatibility_date",
+    compatibilityFlags: "compatibility_flags",
+    tailConsumers: "tail_consumers",
+    usageModel: "usage_model",
+  }),
+) as unknown as Schema.Schema<GetDispatchNamespaceScriptSettingResponse>;
 
 export const getDispatchNamespaceScriptSetting: (
   input: GetDispatchNamespaceScriptSettingRequest,
@@ -1840,7 +1901,7 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
     Schema.Struct({
       bindings: Schema.optional(
         Schema.Array(
-          Schema.Union(
+          Schema.Union([
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("ai"),
@@ -1887,17 +1948,17 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("durable_object_namespace"),
-              className: Schema.optional(Schema.String).pipe(
-                T.JsonName("class_name"),
-              ),
+              className: Schema.optional(Schema.String),
               environment: Schema.optional(Schema.String),
-              namespaceId: Schema.optional(Schema.String).pipe(
-                T.JsonName("namespace_id"),
-              ),
-              scriptName: Schema.optional(Schema.String).pipe(
-                T.JsonName("script_name"),
-              ),
-            }),
+              namespaceId: Schema.optional(Schema.String),
+              scriptName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                className: "class_name",
+                namespaceId: "namespace_id",
+                scriptName: "script_name",
+              }),
+            ),
             Schema.Struct({
               id: Schema.String,
               name: Schema.String,
@@ -1906,13 +1967,14 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("inherit"),
-              oldName: Schema.optional(Schema.String).pipe(
-                T.JsonName("old_name"),
-              ),
-              versionId: Schema.optional(Schema.String).pipe(
-                T.JsonName("version_id"),
-              ),
-            }),
+              oldName: Schema.optional(Schema.String),
+              versionId: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                oldName: "old_name",
+                versionId: "version_id",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("images"),
@@ -1924,14 +1986,14 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             }),
             Schema.Struct({
               name: Schema.String,
-              namespaceId: Schema.String.pipe(T.JsonName("namespace_id")),
+              namespaceId: Schema.String,
               type: Schema.Literal("kv_namespace"),
-            }),
+            }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
             Schema.Struct({
-              certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+              certificateId: Schema.String,
               name: Schema.String,
               type: Schema.Literal("mtls_certificate"),
-            }),
+            }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
             Schema.Struct({
               name: Schema.String,
               text: Schema.String,
@@ -1944,15 +2006,15 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
             }),
             Schema.Struct({
               name: Schema.String,
-              queueName: Schema.String.pipe(T.JsonName("queue_name")),
+              queueName: Schema.String,
               type: Schema.Literal("queue"),
-            }),
+            }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
             Schema.Struct({
-              bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
+              bucketName: Schema.String,
               name: Schema.String,
               type: Schema.Literal("r2_bucket"),
-              jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
-            }),
+              jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
+            }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
             Schema.Struct({
               name: Schema.String,
               text: Schema.String,
@@ -1963,14 +2025,18 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
               type: Schema.Literal("send_email"),
               allowedDestinationAddresses: Schema.optional(
                 Schema.Array(Schema.String),
-              ).pipe(T.JsonName("allowed_destination_addresses")),
+              ),
               allowedSenderAddresses: Schema.optional(
                 Schema.Array(Schema.String),
-              ).pipe(T.JsonName("allowed_sender_addresses")),
-              destinationAddress: Schema.optional(Schema.String).pipe(
-                T.JsonName("destination_address"),
               ),
-            }),
+              destinationAddress: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                allowedDestinationAddresses: "allowed_destination_addresses",
+                allowedSenderAddresses: "allowed_sender_addresses",
+                destinationAddress: "destination_address",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               service: Schema.String,
@@ -1983,27 +2049,32 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
               type: Schema.Literal("text_blob"),
             }),
             Schema.Struct({
-              indexName: Schema.String.pipe(T.JsonName("index_name")),
+              indexName: Schema.String,
               name: Schema.String,
               type: Schema.Literal("vectorize"),
-            }),
+            }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("version_metadata"),
             }),
             Schema.Struct({
               name: Schema.String,
-              secretName: Schema.String.pipe(T.JsonName("secret_name")),
-              storeId: Schema.String.pipe(T.JsonName("store_id")),
+              secretName: Schema.String,
+              storeId: Schema.String,
               type: Schema.Literal("secrets_store_secret"),
-            }),
+            }).pipe(
+              Schema.encodeKeys({
+                secretName: "secret_name",
+                storeId: "store_id",
+              }),
+            ),
             Schema.Struct({
               algorithm: Schema.Unknown,
-              format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+              format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
               name: Schema.String,
               type: Schema.Literal("secret_key"),
               usages: Schema.Array(
-                Schema.Literal(
+                Schema.Literals([
                   "encrypt",
                   "decrypt",
                   "sign",
@@ -2012,82 +2083,81 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
                   "deriveBits",
                   "wrapKey",
                   "unwrapKey",
-                ),
+                ]),
               ),
-              keyBase64: Schema.optional(Schema.String).pipe(
-                T.JsonName("key_base64"),
-              ),
-              keyJwk: Schema.optional(Schema.Unknown).pipe(
-                T.JsonName("key_jwk"),
-              ),
-            }),
+              keyBase64: Schema.optional(Schema.String),
+              keyJwk: Schema.optional(Schema.Unknown),
+            }).pipe(
+              Schema.encodeKeys({ keyBase64: "key_base64", keyJwk: "key_jwk" }),
+            ),
             Schema.Struct({
               name: Schema.String,
               type: Schema.Literal("workflow"),
-              workflowName: Schema.String.pipe(T.JsonName("workflow_name")),
-              className: Schema.optional(Schema.String).pipe(
-                T.JsonName("class_name"),
-              ),
-              scriptName: Schema.optional(Schema.String).pipe(
-                T.JsonName("script_name"),
-              ),
-            }),
+              workflowName: Schema.String,
+              className: Schema.optional(Schema.String),
+              scriptName: Schema.optional(Schema.String),
+            }).pipe(
+              Schema.encodeKeys({
+                workflowName: "workflow_name",
+                className: "class_name",
+                scriptName: "script_name",
+              }),
+            ),
             Schema.Struct({
               name: Schema.String,
               part: Schema.String,
               type: Schema.Literal("wasm_module"),
             }),
-          ),
+          ]),
         ),
       ),
-      compatibilityDate: Schema.optional(Schema.String).pipe(
-        T.JsonName("compatibility_date"),
-      ),
-      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("compatibility_flags"),
-      ),
+      compatibilityDate: Schema.optional(Schema.String),
+      compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
       limits: Schema.optional(
         Schema.Struct({
-          cpuMs: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_ms")),
-        }),
+          cpuMs: Schema.optional(Schema.Number),
+        }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
       ),
       logpush: Schema.optional(Schema.Boolean),
       migrations: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Unknown,
           Schema.Struct({
-            newTag: Schema.optional(Schema.String).pipe(T.JsonName("new_tag")),
-            oldTag: Schema.optional(Schema.String).pipe(T.JsonName("old_tag")),
+            newTag: Schema.optional(Schema.String),
+            oldTag: Schema.optional(Schema.String),
             steps: Schema.optional(Schema.Array(Schema.Unknown)),
-          }),
-        ),
+          }).pipe(Schema.encodeKeys({ newTag: "new_tag", oldTag: "old_tag" })),
+        ]),
       ),
       observability: Schema.optional(
         Schema.Struct({
           enabled: Schema.Boolean,
           headSamplingRate: Schema.optional(
-            Schema.Union(Schema.Number, Schema.Null),
-          ).pipe(T.JsonName("head_sampling_rate")),
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
           logs: Schema.optional(
-            Schema.Union(
+            Schema.Union([
               Schema.Struct({
                 enabled: Schema.Boolean,
-                invocationLogs: Schema.Boolean.pipe(
-                  T.JsonName("invocation_logs"),
-                ),
+                invocationLogs: Schema.Boolean,
                 destinations: Schema.optional(Schema.Array(Schema.String)),
                 headSamplingRate: Schema.optional(
-                  Schema.Union(Schema.Number, Schema.Null),
-                ).pipe(T.JsonName("head_sampling_rate")),
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
                 persist: Schema.optional(Schema.Boolean),
-              }),
+              }).pipe(
+                Schema.encodeKeys({
+                  invocationLogs: "invocation_logs",
+                  headSamplingRate: "head_sampling_rate",
+                }),
+              ),
               Schema.Null,
-            ),
+            ]),
           ),
-        }),
+        }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
       ),
       placement: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             mode: Schema.Literal("smart"),
           }),
@@ -2100,18 +2170,25 @@ export const PatchDispatchNamespaceScriptSettingRequest = Schema.Struct({
           Schema.Struct({
             host: Schema.String,
           }),
-        ),
+        ]),
       ),
       tags: Schema.optional(
-        Schema.Union(Schema.Array(Schema.String), Schema.Null),
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
       ),
       tailConsumers: Schema.optional(
-        Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-      ).pipe(T.JsonName("tail_consumers")),
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+      ),
       usageModel: Schema.optional(
-        Schema.Literal("standard", "bundled", "unbound"),
-      ).pipe(T.JsonName("usage_model")),
-    }),
+        Schema.Literals(["standard", "bundled", "unbound"]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        tailConsumers: "tail_consumers",
+        usageModel: "usage_model",
+      }),
+    ),
   ),
 }).pipe(
   T.Http({
@@ -2241,7 +2318,7 @@ export interface PatchDispatchNamespaceScriptSettingResponse {
 export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
   bindings: Schema.optional(
     Schema.Array(
-      Schema.Union(
+      Schema.Union([
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("ai"),
@@ -2288,17 +2365,17 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("durable_object_namespace"),
-          className: Schema.optional(Schema.String).pipe(
-            T.JsonName("class_name"),
-          ),
+          className: Schema.optional(Schema.String),
           environment: Schema.optional(Schema.String),
-          namespaceId: Schema.optional(Schema.String).pipe(
-            T.JsonName("namespace_id"),
-          ),
-          scriptName: Schema.optional(Schema.String).pipe(
-            T.JsonName("script_name"),
-          ),
-        }),
+          namespaceId: Schema.optional(Schema.String),
+          scriptName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            className: "class_name",
+            namespaceId: "namespace_id",
+            scriptName: "script_name",
+          }),
+        ),
         Schema.Struct({
           id: Schema.String,
           name: Schema.String,
@@ -2307,11 +2384,11 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("inherit"),
-          oldName: Schema.optional(Schema.String).pipe(T.JsonName("old_name")),
-          versionId: Schema.optional(Schema.String).pipe(
-            T.JsonName("version_id"),
-          ),
-        }),
+          oldName: Schema.optional(Schema.String),
+          versionId: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({ oldName: "old_name", versionId: "version_id" }),
+        ),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("images"),
@@ -2323,14 +2400,14 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          namespaceId: Schema.String.pipe(T.JsonName("namespace_id")),
+          namespaceId: Schema.String,
           type: Schema.Literal("kv_namespace"),
-        }),
+        }).pipe(Schema.encodeKeys({ namespaceId: "namespace_id" })),
         Schema.Struct({
-          certificateId: Schema.String.pipe(T.JsonName("certificate_id")),
+          certificateId: Schema.String,
           name: Schema.String,
           type: Schema.Literal("mtls_certificate"),
-        }),
+        }).pipe(Schema.encodeKeys({ certificateId: "certificate_id" })),
         Schema.Struct({
           name: Schema.String,
           text: Schema.String,
@@ -2343,15 +2420,15 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
         }),
         Schema.Struct({
           name: Schema.String,
-          queueName: Schema.String.pipe(T.JsonName("queue_name")),
+          queueName: Schema.String,
           type: Schema.Literal("queue"),
-        }),
+        }).pipe(Schema.encodeKeys({ queueName: "queue_name" })),
         Schema.Struct({
-          bucketName: Schema.String.pipe(T.JsonName("bucket_name")),
+          bucketName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("r2_bucket"),
-          jurisdiction: Schema.optional(Schema.Literal("eu", "fedramp")),
-        }),
+          jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
+        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name" })),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("secret_text"),
@@ -2361,14 +2438,16 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
           type: Schema.Literal("send_email"),
           allowedDestinationAddresses: Schema.optional(
             Schema.Array(Schema.String),
-          ).pipe(T.JsonName("allowed_destination_addresses")),
-          allowedSenderAddresses: Schema.optional(
-            Schema.Array(Schema.String),
-          ).pipe(T.JsonName("allowed_sender_addresses")),
-          destinationAddress: Schema.optional(Schema.String).pipe(
-            T.JsonName("destination_address"),
           ),
-        }),
+          allowedSenderAddresses: Schema.optional(Schema.Array(Schema.String)),
+          destinationAddress: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            allowedDestinationAddresses: "allowed_destination_addresses",
+            allowedSenderAddresses: "allowed_sender_addresses",
+            destinationAddress: "destination_address",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           service: Schema.String,
@@ -2381,27 +2460,29 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
           type: Schema.Literal("text_blob"),
         }),
         Schema.Struct({
-          indexName: Schema.String.pipe(T.JsonName("index_name")),
+          indexName: Schema.String,
           name: Schema.String,
           type: Schema.Literal("vectorize"),
-        }),
+        }).pipe(Schema.encodeKeys({ indexName: "index_name" })),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("version_metadata"),
         }),
         Schema.Struct({
           name: Schema.String,
-          secretName: Schema.String.pipe(T.JsonName("secret_name")),
-          storeId: Schema.String.pipe(T.JsonName("store_id")),
+          secretName: Schema.String,
+          storeId: Schema.String,
           type: Schema.Literal("secrets_store_secret"),
-        }),
+        }).pipe(
+          Schema.encodeKeys({ secretName: "secret_name", storeId: "store_id" }),
+        ),
         Schema.Struct({
           algorithm: Schema.Unknown,
-          format: Schema.Literal("raw", "pkcs8", "spki", "jwk"),
+          format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
           name: Schema.String,
           type: Schema.Literal("secret_key"),
           usages: Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "encrypt",
               "decrypt",
               "sign",
@@ -2410,64 +2491,67 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
               "deriveBits",
               "wrapKey",
               "unwrapKey",
-            ),
+            ]),
           ),
         }),
         Schema.Struct({
           name: Schema.String,
           type: Schema.Literal("workflow"),
-          workflowName: Schema.String.pipe(T.JsonName("workflow_name")),
-          className: Schema.optional(Schema.String).pipe(
-            T.JsonName("class_name"),
-          ),
-          scriptName: Schema.optional(Schema.String).pipe(
-            T.JsonName("script_name"),
-          ),
-        }),
+          workflowName: Schema.String,
+          className: Schema.optional(Schema.String),
+          scriptName: Schema.optional(Schema.String),
+        }).pipe(
+          Schema.encodeKeys({
+            workflowName: "workflow_name",
+            className: "class_name",
+            scriptName: "script_name",
+          }),
+        ),
         Schema.Struct({
           name: Schema.String,
           part: Schema.String,
           type: Schema.Literal("wasm_module"),
         }),
-      ),
+      ]),
     ),
   ),
-  compatibilityDate: Schema.optional(Schema.String).pipe(
-    T.JsonName("compatibility_date"),
-  ),
-  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("compatibility_flags"),
-  ),
+  compatibilityDate: Schema.optional(Schema.String),
+  compatibilityFlags: Schema.optional(Schema.Array(Schema.String)),
   limits: Schema.optional(
     Schema.Struct({
-      cpuMs: Schema.optional(Schema.Number).pipe(T.JsonName("cpu_ms")),
-    }),
+      cpuMs: Schema.optional(Schema.Number),
+    }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
   ),
   logpush: Schema.optional(Schema.Boolean),
   observability: Schema.optional(
     Schema.Struct({
       enabled: Schema.Boolean,
       headSamplingRate: Schema.optional(
-        Schema.Union(Schema.Number, Schema.Null),
-      ).pipe(T.JsonName("head_sampling_rate")),
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
       logs: Schema.optional(
-        Schema.Union(
+        Schema.Union([
           Schema.Struct({
             enabled: Schema.Boolean,
-            invocationLogs: Schema.Boolean.pipe(T.JsonName("invocation_logs")),
+            invocationLogs: Schema.Boolean,
             destinations: Schema.optional(Schema.Array(Schema.String)),
             headSamplingRate: Schema.optional(
-              Schema.Union(Schema.Number, Schema.Null),
-            ).pipe(T.JsonName("head_sampling_rate")),
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
             persist: Schema.optional(Schema.Boolean),
-          }),
+          }).pipe(
+            Schema.encodeKeys({
+              invocationLogs: "invocation_logs",
+              headSamplingRate: "head_sampling_rate",
+            }),
+          ),
           Schema.Null,
-        ),
+        ]),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ headSamplingRate: "head_sampling_rate" })),
   ),
   placement: Schema.optional(
-    Schema.Union(
+    Schema.Union([
       Schema.Struct({
         mode: Schema.Literal("smart"),
       }),
@@ -2480,16 +2564,25 @@ export const PatchDispatchNamespaceScriptSettingResponse = Schema.Struct({
       Schema.Struct({
         host: Schema.String,
       }),
-    ),
+    ]),
   ),
-  tags: Schema.optional(Schema.Union(Schema.Array(Schema.String), Schema.Null)),
+  tags: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   tailConsumers: Schema.optional(
-    Schema.Union(Schema.Array(Schema.Unknown), Schema.Null),
-  ).pipe(T.JsonName("tail_consumers")),
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
   usageModel: Schema.optional(
-    Schema.Literal("standard", "bundled", "unbound"),
-  ).pipe(T.JsonName("usage_model")),
-}) as unknown as Schema.Schema<PatchDispatchNamespaceScriptSettingResponse>;
+    Schema.Literals(["standard", "bundled", "unbound"]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    compatibilityDate: "compatibility_date",
+    compatibilityFlags: "compatibility_flags",
+    tailConsumers: "tail_consumers",
+    usageModel: "usage_model",
+  }),
+) as unknown as Schema.Schema<PatchDispatchNamespaceScriptSettingResponse>;
 
 export const patchDispatchNamespaceScriptSetting: (
   input: PatchDispatchNamespaceScriptSettingRequest,

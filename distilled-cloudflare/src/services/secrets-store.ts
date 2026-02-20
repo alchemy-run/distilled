@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -149,10 +149,12 @@ export const GetStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
-  storeId: Schema.String.pipe(T.JsonName("store_id")),
+  status: Schema.Literals(["pending", "active", "deleted"]),
+  storeId: Schema.String,
   comment: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetStoreSecretResponse>;
+}).pipe(
+  Schema.encodeKeys({ storeId: "store_id" }),
+) as unknown as Schema.Schema<GetStoreSecretResponse>;
 
 export const getStoreSecret: (
   input: GetStoreSecretRequest,
@@ -211,10 +213,12 @@ export const PatchStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
-  storeId: Schema.String.pipe(T.JsonName("store_id")),
+  status: Schema.Literals(["pending", "active", "deleted"]),
+  storeId: Schema.String,
   comment: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PatchStoreSecretResponse>;
+}).pipe(
+  Schema.encodeKeys({ storeId: "store_id" }),
+) as unknown as Schema.Schema<PatchStoreSecretResponse>;
 
 export const patchStoreSecret: (
   input: PatchStoreSecretRequest,
@@ -267,10 +271,12 @@ export const DeleteStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
-  storeId: Schema.String.pipe(T.JsonName("store_id")),
+  status: Schema.Literals(["pending", "active", "deleted"]),
+  storeId: Schema.String,
   comment: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
+}).pipe(
+  Schema.encodeKeys({ storeId: "store_id" }),
+) as unknown as Schema.Schema<DeleteStoreSecretResponse>;
 
 export const deleteStoreSecret: (
   input: DeleteStoreSecretRequest,
@@ -332,10 +338,12 @@ export const DuplicateStoreSecretResponse = Schema.Struct({
   created: Schema.String,
   modified: Schema.String,
   name: Schema.String,
-  status: Schema.Literal("pending", "active", "deleted"),
-  storeId: Schema.String.pipe(T.JsonName("store_id")),
+  status: Schema.Literals(["pending", "active", "deleted"]),
+  storeId: Schema.String,
   comment: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
+}).pipe(
+  Schema.encodeKeys({ storeId: "store_id" }),
+) as unknown as Schema.Schema<DuplicateStoreSecretResponse>;
 
 export const duplicateStoreSecret: (
   input: DuplicateStoreSecretRequest,

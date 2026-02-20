@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -37,7 +37,7 @@ export interface GetCustomPageRequest {
 }
 
 export const GetCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literal(
+  identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
     "basic_challenge",
@@ -48,7 +48,7 @@ export const GetCustomPageRequest = Schema.Struct({
     "under_attack",
     "waf_block",
     "waf_challenge",
-  ).pipe(T.HttpPath("identifier")),
+  ]).pipe(T.HttpPath("identifier")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -71,18 +71,21 @@ export interface GetCustomPageResponse {
 
 export const GetCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(
-    T.JsonName("preview_target"),
-  ),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("required_tokens"),
-  ),
-  state: Schema.optional(Schema.Literal("default", "customized")),
+  modifiedOn: Schema.optional(Schema.String),
+  previewTarget: Schema.optional(Schema.String),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+  state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetCustomPageResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+  }),
+) as unknown as Schema.Schema<GetCustomPageResponse>;
 
 export const getCustomPage: (
   input: GetCustomPageRequest,
@@ -119,7 +122,7 @@ export interface PutCustomPageRequest {
 }
 
 export const PutCustomPageRequest = Schema.Struct({
-  identifier: Schema.Literal(
+  identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
     "basic_challenge",
@@ -130,10 +133,10 @@ export const PutCustomPageRequest = Schema.Struct({
     "under_attack",
     "waf_block",
     "waf_challenge",
-  ).pipe(T.HttpPath("identifier")),
+  ]).pipe(T.HttpPath("identifier")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  state: Schema.Literal("default", "customized"),
+  state: Schema.Literals(["default", "customized"]),
   url: Schema.String,
 }).pipe(
   T.Http({
@@ -157,18 +160,21 @@ export interface PutCustomPageResponse {
 
 export const PutCustomPageResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
+  createdOn: Schema.optional(Schema.String),
   description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
-  previewTarget: Schema.optional(Schema.String).pipe(
-    T.JsonName("preview_target"),
-  ),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.JsonName("required_tokens"),
-  ),
-  state: Schema.optional(Schema.Literal("default", "customized")),
+  modifiedOn: Schema.optional(Schema.String),
+  previewTarget: Schema.optional(Schema.String),
+  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
+  state: Schema.optional(Schema.Literals(["default", "customized"])),
   url: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<PutCustomPageResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    createdOn: "created_on",
+    modifiedOn: "modified_on",
+    previewTarget: "preview_target",
+    requiredTokens: "required_tokens",
+  }),
+) as unknown as Schema.Schema<PutCustomPageResponse>;
 
 export const putCustomPage: (
   input: PutCustomPageRequest,

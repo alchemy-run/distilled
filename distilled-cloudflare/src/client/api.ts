@@ -32,13 +32,13 @@ import { parseResponse } from "./response-parser.ts";
  * Works with both base classes and schemas annotated via .pipe().
  */
 function extractTagFromAst(ast: AST.AST): string | undefined {
-  // Handle Transformation (result of .pipe() on TaggedError)
-  if (ast._tag === "Transformation") {
-    return extractTagFromAst(ast.from);
+  // v4: Follow encoding chain instead of Transformation
+  if (ast.encoding && ast.encoding.length > 0) {
+    return extractTagFromAst(ast.encoding[0].to);
   }
 
-  // Handle TypeLiteral - look for the _tag property
-  if (ast._tag === "TypeLiteral") {
+  // Handle Objects (v4 renamed from TypeLiteral) - look for the _tag property
+  if (ast._tag === "Objects") {
     const tagProp = ast.propertySignatures.find(
       (p: { name: PropertyKey }) => p.name === "_tag",
     );
@@ -104,16 +104,14 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
   ): Effect.Effect<
     Output,
     UnknownCloudflareError | CloudflareNetworkError | CloudflareHttpError,
-    ApiToken | HttpClient.HttpClient
+    ApiToken | HttpClient.HttpClient | O["DecodingServices"]
   > =>
     Effect.gen(function* () {
       // Get retry policy from context (defaults to the standard policy)
       const lastErrorRef = yield* Ref.make<unknown>(null);
 
       // Check if a custom retry policy was provided in context (without requiring it)
-      const retryPolicyOption = yield* Effect.contextWith(
-        (ctx: Context.Context<never>) => Context.getOption(ctx, Retry),
-      );
+      const retryPolicyOption = yield* Effect.serviceOption(Retry);
 
       // Resolve policy - could be static Options or a Factory function
       const retryPolicy = Option.match(retryPolicyOption, {
@@ -184,7 +182,7 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
           if (isFormData) {
             // FormData body - use formData body type
             httpRequest = HttpClientRequest.setBody(
-              HttpBody.formData(request.body as FormData),
+              HttpBody.makeFormData(request.body as FormData),
             )(httpRequest);
           } else {
             // Serialize body based on content type

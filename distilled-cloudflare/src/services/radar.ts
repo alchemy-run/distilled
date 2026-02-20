@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -95,7 +95,7 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -121,17 +121,17 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -146,7 +146,7 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -155,7 +155,7 @@ export const UserAgentAiBotSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -261,17 +261,17 @@ export interface UserAgentAiTimeseriesGroupResponse {
 
 export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -297,17 +297,17 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -322,7 +322,7 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -331,7 +331,7 @@ export const UserAgentAiTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -435,17 +435,17 @@ export interface TimeseriesAiBotResponse {
 
 export const TimeseriesAiBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -471,17 +471,17 @@ export const TimeseriesAiBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -496,7 +496,7 @@ export const TimeseriesAiBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -505,7 +505,7 @@ export const TimeseriesAiBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -604,7 +604,7 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -630,17 +630,17 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -655,7 +655,7 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -664,7 +664,7 @@ export const ModelAiInferenceSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -760,7 +760,7 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -786,17 +786,17 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -811,7 +811,7 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -820,7 +820,7 @@ export const TaskAiInferenceSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -928,17 +928,17 @@ export interface ModelAiInferenceTimeseriesGroupSummaryResponse {
 
 export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -964,17 +964,17 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -989,7 +989,7 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -998,7 +998,7 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -1101,17 +1101,17 @@ export interface TaskAiInferenceTimeseriesGroupSummaryResponse {
 
 export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -1137,17 +1137,17 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1162,7 +1162,7 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -1171,7 +1171,7 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -1205,12 +1205,12 @@ export interface SummaryAiTimeseriesGroupRequest {
 }
 
 export const SummaryAiTimeseriesGroupRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "USER_AGENT",
     "CRAWL_PURPOSE",
     "INDUSTRY",
     "VERTICAL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ai/bots/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryAiTimeseriesGroupRequest>;
@@ -1282,7 +1282,7 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -1308,17 +1308,17 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1333,7 +1333,7 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -1342,7 +1342,7 @@ export const SummaryAiTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -1440,17 +1440,17 @@ export interface TimeseriesAiTimeseriesGroupResponse {
 
 export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -1476,17 +1476,17 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1501,7 +1501,7 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -1510,7 +1510,7 @@ export const TimeseriesAiTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -1829,7 +1829,7 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -1855,17 +1855,17 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -1880,7 +1880,7 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -1889,7 +1889,7 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -1898,9 +1898,9 @@ export const MatchingAnswerDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.String,
+    pOSITIVE: Schema.String,
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
 
 export const matchingAnswerDnsSummary: (
@@ -1998,17 +1998,17 @@ export interface MatchingAnswerDnsTimeseriesGroupResponse {
 
 export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2034,17 +2034,17 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2059,7 +2059,7 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2068,7 +2068,7 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2077,9 +2077,9 @@ export const MatchingAnswerDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.Array(Schema.String),
+    pOSITIVE: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
 
 export const matchingAnswerDnsTimeseriesGroup: (
@@ -2173,17 +2173,17 @@ export interface TimeseriesAs112Response {
 
 export const TimeseriesAs112Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2209,17 +2209,17 @@ export const TimeseriesAs112Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2234,7 +2234,7 @@ export const TimeseriesAs112Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2243,7 +2243,7 @@ export const TimeseriesAs112Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2342,7 +2342,7 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2368,17 +2368,17 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2393,7 +2393,7 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2402,7 +2402,7 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2411,9 +2411,14 @@ export const DnssecAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
-    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.String,
+    sUPPORTED: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
 
 export const dnssecAs112Summary: (
@@ -2501,7 +2506,7 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2527,17 +2532,17 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2552,7 +2557,7 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2561,7 +2566,7 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2570,9 +2575,14 @@ export const EdnsAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
-    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.String,
+    sUPPORTED: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
 
 export const ednsAs112Summary: (
@@ -2660,7 +2670,7 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2686,17 +2696,17 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2711,7 +2721,7 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2720,7 +2730,7 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2729,11 +2739,13 @@ export const ProtocolAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTPS: Schema.String.pipe(T.JsonName("HTTPS")),
-    tCP: Schema.String.pipe(T.JsonName("TCP")),
-    tLS: Schema.String.pipe(T.JsonName("TLS")),
-    uDP: Schema.String.pipe(T.JsonName("UDP")),
-  }),
+    hTTPS: Schema.String,
+    tCP: Schema.String,
+    tLS: Schema.String,
+    uDP: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
 
 export const protocolAs112Summary: (
@@ -2828,17 +2840,17 @@ export interface DnssecAs112TimeseriesGroupResponse {
 
 export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -2864,17 +2876,17 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -2889,7 +2901,7 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -2898,7 +2910,7 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -2907,11 +2919,14 @@ export const DnssecAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_SUPPORTED"),
-    ),
-    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.Array(Schema.String),
+    sUPPORTED: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
 
 export const dnssecAs112TimeseriesGroup: (
@@ -3002,17 +3017,17 @@ export interface EdnsAs112TimeseriesGroupResponse {
 
 export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -3038,17 +3053,17 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3063,7 +3078,7 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3072,7 +3087,7 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -3081,11 +3096,14 @@ export const EdnsAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_SUPPORTED"),
-    ),
-    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.Array(Schema.String),
+    sUPPORTED: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
 
 export const ednsAs112TimeseriesGroup: (
@@ -3176,17 +3194,17 @@ export interface ProtocolAs112TimeseriesGroupResponse {
 
 export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -3212,17 +3230,17 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3237,7 +3255,7 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3246,7 +3264,7 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -3255,11 +3273,13 @@ export const ProtocolAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    hTTPS: Schema.Array(Schema.String).pipe(T.JsonName("HTTPS")),
-    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
-    tLS: Schema.Array(Schema.String).pipe(T.JsonName("TLS")),
-    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
-  }),
+    hTTPS: Schema.Array(Schema.String),
+    tCP: Schema.Array(Schema.String),
+    tLS: Schema.Array(Schema.String),
+    uDP: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
 
 export const protocolAs112TimeseriesGroup: (
@@ -3283,7 +3303,7 @@ export interface DnssecAs112TopRequest {
 }
 
 export const DnssecAs112TopRequest = Schema.Struct({
-  dnssec: Schema.Literal("SUPPORTED", "NOT_SUPPORTED").pipe(
+  dnssec: Schema.Literals(["SUPPORTED", "NOT_SUPPORTED"]).pipe(
     T.HttpPath("dnssec"),
   ),
 }).pipe(
@@ -3358,11 +3378,11 @@ export interface DnssecAs112TopResponse {
 
 export const DnssecAs112TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -3388,17 +3408,17 @@ export const DnssecAs112TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -3407,7 +3427,7 @@ export const DnssecAs112TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -3415,7 +3435,7 @@ export const DnssecAs112TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3424,7 +3444,7 @@ export const DnssecAs112TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -3458,7 +3478,9 @@ export interface EdnsAs112TopRequest {
 }
 
 export const EdnsAs112TopRequest = Schema.Struct({
-  edns: Schema.Literal("SUPPORTED", "NOT_SUPPORTED").pipe(T.HttpPath("edns")),
+  edns: Schema.Literals(["SUPPORTED", "NOT_SUPPORTED"]).pipe(
+    T.HttpPath("edns"),
+  ),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/as112/top/locations/edns/{edns}" }),
 ) as unknown as Schema.Schema<EdnsAs112TopRequest>;
@@ -3531,11 +3553,11 @@ export interface EdnsAs112TopResponse {
 
 export const EdnsAs112TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -3561,17 +3583,17 @@ export const EdnsAs112TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -3580,7 +3602,7 @@ export const EdnsAs112TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -3588,7 +3610,7 @@ export const EdnsAs112TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3597,7 +3619,7 @@ export const EdnsAs112TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -3700,11 +3722,11 @@ export interface LocationsAs112TopResponse {
 
 export const LocationsAs112TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -3730,17 +3752,17 @@ export const LocationsAs112TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -3749,7 +3771,7 @@ export const LocationsAs112TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -3757,7 +3779,7 @@ export const LocationsAs112TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3766,7 +3788,7 @@ export const LocationsAs112TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -3874,17 +3896,17 @@ export interface TimeseriesAttackLayer3Response {
 
 export const TimeseriesAttackLayer3Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -3910,17 +3932,17 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -3935,7 +3957,7 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -3944,7 +3966,7 @@ export const TimeseriesAttackLayer3Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4049,7 +4071,7 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4075,17 +4097,17 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4100,7 +4122,7 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4109,7 +4131,7 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4121,9 +4143,14 @@ export const BitrateAttackLayer3SummaryResponse = Schema.Struct({
     _1_GBPS_TO_10_GBPS: Schema.String,
     _10_GBPS_TO_100_GBPS: Schema.String,
     _500_MBPS_TO_1_GBPS: Schema.String,
-    oVER_100_GBPS: Schema.String.pipe(T.JsonName("OVER_100_GBPS")),
-    uNDER_500_MBPS: Schema.String.pipe(T.JsonName("UNDER_500_MBPS")),
-  }),
+    oVER_100_GBPS: Schema.String,
+    uNDER_500_MBPS: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      oVER_100_GBPS: "OVER_100_GBPS",
+      uNDER_500_MBPS: "UNDER_500_MBPS",
+    }),
+  ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
 
 export const bitrateAttackLayer3Summary: (
@@ -4218,7 +4245,7 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4244,17 +4271,17 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4269,7 +4296,7 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4278,7 +4305,7 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4291,9 +4318,14 @@ export const DurationAttackLayer3SummaryResponse = Schema.Struct({
     _10_MINS_TO_20_MINS: Schema.String,
     _20_MINS_TO_40_MINS: Schema.String,
     _40_MINS_TO_1_HOUR: Schema.String,
-    oVER_3_HOURS: Schema.String.pipe(T.JsonName("OVER_3_HOURS")),
-    uNDER_10_MINS: Schema.String.pipe(T.JsonName("UNDER_10_MINS")),
-  }),
+    oVER_3_HOURS: Schema.String,
+    uNDER_10_MINS: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      oVER_3_HOURS: "OVER_3_HOURS",
+      uNDER_10_MINS: "UNDER_10_MINS",
+    }),
+  ),
 }) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
 
 export const durationAttackLayer3Summary: (
@@ -4381,7 +4413,7 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4407,17 +4439,17 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4432,7 +4464,7 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4441,7 +4473,7 @@ export const IndustryAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4537,7 +4569,7 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4563,17 +4595,17 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4588,7 +4620,7 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4597,7 +4629,7 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4606,11 +4638,13 @@ export const ProtocolAttackLayer3SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    gRE: Schema.String.pipe(T.JsonName("GRE")),
-    iCMP: Schema.String.pipe(T.JsonName("ICMP")),
-    tCP: Schema.String.pipe(T.JsonName("TCP")),
-    uDP: Schema.String.pipe(T.JsonName("UDP")),
-  }),
+    gRE: Schema.String,
+    iCMP: Schema.String,
+    tCP: Schema.String,
+    uDP: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ gRE: "GRE", iCMP: "ICMP", tCP: "TCP", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
 
 export const protocolAttackLayer3Summary: (
@@ -4698,7 +4732,7 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4724,17 +4758,17 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4749,7 +4783,7 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4758,7 +4792,7 @@ export const VectorAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -4854,7 +4888,7 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -4880,17 +4914,17 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -4905,7 +4939,7 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -4914,7 +4948,7 @@ export const VerticalAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5027,17 +5061,17 @@ export interface BitrateAttackLayer3TimeseriesGroupResponse {
 
 export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5063,17 +5097,17 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5088,7 +5122,7 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -5097,7 +5131,7 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5109,14 +5143,15 @@ export const BitrateAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _1_GBPS_TO_10_GBPS: Schema.Array(Schema.String),
     _10_GBPS_TO_100_GBPS: Schema.Array(Schema.String),
     _500_MBPS_TO_1_GBPS: Schema.Array(Schema.String),
-    oVER_100_GBPS: Schema.Array(Schema.String).pipe(
-      T.JsonName("OVER_100_GBPS"),
-    ),
+    oVER_100_GBPS: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-    uNDER_500_MBPS: Schema.Array(Schema.String).pipe(
-      T.JsonName("UNDER_500_MBPS"),
-    ),
-  }),
+    uNDER_500_MBPS: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      oVER_100_GBPS: "OVER_100_GBPS",
+      uNDER_500_MBPS: "UNDER_500_MBPS",
+    }),
+  ),
 }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
 export const bitrateAttackLayer3TimeseriesGroup: (
@@ -5220,17 +5255,17 @@ export interface DurationAttackLayer3TimeseriesGroupResponse {
 
 export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5256,17 +5291,17 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5281,7 +5316,7 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -5290,7 +5325,7 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5303,12 +5338,15 @@ export const DurationAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     _10_MINS_TO_20_MINS: Schema.Array(Schema.String),
     _20_MINS_TO_40_MINS: Schema.Array(Schema.String),
     _40_MINS_TO_1_HOUR: Schema.Array(Schema.String),
-    oVER_3_HOURS: Schema.Array(Schema.String).pipe(T.JsonName("OVER_3_HOURS")),
+    oVER_3_HOURS: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-    uNDER_10_MINS: Schema.Array(Schema.String).pipe(
-      T.JsonName("UNDER_10_MINS"),
-    ),
-  }),
+    uNDER_10_MINS: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      oVER_3_HOURS: "OVER_3_HOURS",
+      uNDER_10_MINS: "UNDER_10_MINS",
+    }),
+  ),
 }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
 export const durationAttackLayer3TimeseriesGroup: (
@@ -5404,17 +5442,17 @@ export interface IndustryAttackLayer3TimeseriesGroupResponse {
 
 export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5440,17 +5478,17 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5465,7 +5503,7 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -5474,7 +5512,7 @@ export const IndustryAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5586,17 +5624,17 @@ export interface ProtocolAttackLayer3TimeseriesGroupResponse {
 
 export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5622,17 +5660,17 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5647,7 +5685,7 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -5656,7 +5694,7 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5665,12 +5703,14 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    gRE: Schema.Array(Schema.String).pipe(T.JsonName("GRE")),
-    iCMP: Schema.Array(Schema.String).pipe(T.JsonName("ICMP")),
-    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
+    gRE: Schema.Array(Schema.String),
+    iCMP: Schema.Array(Schema.String),
+    tCP: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
-  }),
+    uDP: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ gRE: "GRE", iCMP: "ICMP", tCP: "TCP", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
 
 export const protocolAttackLayer3TimeseriesGroup: (
@@ -5764,17 +5804,17 @@ export interface VectorAttackLayer3TimeseriesGroupResponse {
 
 export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5800,17 +5840,17 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -5825,7 +5865,7 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -5834,7 +5874,7 @@ export const VectorAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -5940,17 +5980,17 @@ export interface VerticalAttackLayer3TimeseriesGroupResponse {
 
 export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -5976,17 +6016,17 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -6001,7 +6041,7 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6010,7 +6050,7 @@ export const VerticalAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6113,11 +6153,11 @@ export interface AttacksAttackLayer3TopResponse {
 
 export const AttacksAttackLayer3TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -6143,17 +6183,17 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6162,7 +6202,7 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -6170,7 +6210,7 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6179,7 +6219,7 @@ export const AttacksAttackLayer3TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6278,11 +6318,11 @@ export interface IndustryAttackLayer3TopResponse {
 
 export const IndustryAttackLayer3TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -6308,17 +6348,17 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6327,7 +6367,7 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -6335,7 +6375,7 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6344,7 +6384,7 @@ export const IndustryAttackLayer3TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6442,11 +6482,11 @@ export interface VerticalAttackLayer3TopResponse {
 
 export const VerticalAttackLayer3TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -6472,17 +6512,17 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6491,7 +6531,7 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -6499,7 +6539,7 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6508,7 +6548,7 @@ export const VerticalAttackLayer3TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6615,11 +6655,11 @@ export interface OriginAttackLayer3TopLocationResponse {
 
 export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -6645,17 +6685,17 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6664,7 +6704,7 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -6672,7 +6712,7 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6681,7 +6721,7 @@ export const OriginAttackLayer3TopLocationResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6786,11 +6826,11 @@ export interface TargetAttackLayer3TopLocationResponse {
 
 export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -6816,17 +6856,17 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -6835,7 +6875,7 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -6843,7 +6883,7 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -6852,7 +6892,7 @@ export const TargetAttackLayer3TopLocationResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -6962,17 +7002,17 @@ export interface TimeseriesAttackLayer7Response {
 
 export const TimeseriesAttackLayer7Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -6998,17 +7038,17 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7023,7 +7063,7 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7032,7 +7072,7 @@ export const TimeseriesAttackLayer7Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7135,7 +7175,7 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -7161,17 +7201,17 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7186,7 +7226,7 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7195,7 +7235,7 @@ export const IndustryAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7291,7 +7331,7 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -7317,17 +7357,17 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7342,7 +7382,7 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7351,7 +7391,7 @@ export const VerticalAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7459,17 +7499,17 @@ export interface IndustryAttackLayer7TimeseriesGroupResponse {
 
 export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -7495,17 +7535,17 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7520,7 +7560,7 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7529,7 +7569,7 @@ export const IndustryAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7635,17 +7675,17 @@ export interface VerticalAttackLayer7TimeseriesGroupResponse {
 
 export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -7671,17 +7711,17 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -7696,7 +7736,7 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7705,7 +7745,7 @@ export const VerticalAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7810,11 +7850,11 @@ export interface AttacksAttackLayer7TopResponse {
 
 export const AttacksAttackLayer7TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -7840,17 +7880,17 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -7859,7 +7899,7 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -7867,7 +7907,7 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -7876,7 +7916,7 @@ export const AttacksAttackLayer7TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -7977,11 +8017,11 @@ export interface IndustryAttackLayer7TopResponse {
 
 export const IndustryAttackLayer7TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -8007,17 +8047,17 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -8026,7 +8066,7 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -8034,7 +8074,7 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8043,7 +8083,7 @@ export const IndustryAttackLayer7TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8141,11 +8181,11 @@ export interface VerticalAttackLayer7TopResponse {
 
 export const VerticalAttackLayer7TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -8171,17 +8211,17 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -8190,7 +8230,7 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -8198,7 +8238,7 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8207,7 +8247,7 @@ export const VerticalAttackLayer7TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8314,11 +8354,11 @@ export interface OriginAttackLayer7TopAsResponse {
 
 export const OriginAttackLayer7TopAsResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -8344,17 +8384,17 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -8363,7 +8403,7 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -8371,7 +8411,7 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8380,7 +8420,7 @@ export const OriginAttackLayer7TopAsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8489,11 +8529,11 @@ export interface OriginAttackLayer7TopLocationResponse {
 
 export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -8519,17 +8559,17 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -8538,7 +8578,7 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -8546,7 +8586,7 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8555,7 +8595,7 @@ export const OriginAttackLayer7TopLocationResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8660,11 +8700,11 @@ export interface TargetAttackLayer7TopLocationResponse {
 
 export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -8690,17 +8730,17 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -8709,7 +8749,7 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -8717,7 +8757,7 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8726,7 +8766,7 @@ export const TargetAttackLayer7TopLocationResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8833,7 +8873,7 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -8859,17 +8899,17 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -8884,7 +8924,7 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -8893,7 +8933,7 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -8902,9 +8942,14 @@ export const DnssecAwareDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
-    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.String,
+    sUPPORTED: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
 
 export const dnssecAwareDnsSummary: (
@@ -8999,17 +9044,17 @@ export interface DnssecAwareDnsTimeseriesGroupResponse {
 
 export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -9035,17 +9080,17 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9060,7 +9105,7 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -9069,7 +9114,7 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -9078,11 +9123,14 @@ export const DnssecAwareDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_SUPPORTED"),
-    ),
-    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.Array(Schema.String),
+    sUPPORTED: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
 
 export const dnssecAwareDnsTimeseriesGroup: (
@@ -9161,11 +9209,11 @@ export interface TimeseriesBgpResponse {
 
 export const TimeseriesBgpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal("15m", "1h", "1d", "1w"),
+    aggInterval: Schema.Literals(["15m", "1h", "1d", "1w"]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -9191,17 +9239,17 @@ export const TimeseriesBgpResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9331,17 +9379,17 @@ export interface TimeseriesBgpIpResponse {
 
 export const TimeseriesBgpIpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -9367,17 +9415,17 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -9392,7 +9440,7 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -9401,7 +9449,7 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -9415,11 +9463,11 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
           delayStr: Schema.String,
           healthy: Schema.Boolean,
           latest: Schema.Struct({
-            entriesCount: Schema.Number.pipe(T.JsonName("entries_count")),
+            entriesCount: Schema.Number,
             path: Schema.String,
             timestamp: Schema.Number,
-          }),
-        }).pipe(T.JsonName("asn_data")),
+          }).pipe(Schema.encodeKeys({ entriesCount: "entries_count" })),
+        }),
         countryData: Schema.Struct({
           delaySecs: Schema.Number,
           delayStr: Schema.String,
@@ -9428,10 +9476,12 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
             count: Schema.Number,
             timestamp: Schema.Number,
           }),
-        }).pipe(T.JsonName("country_data")),
+        }),
         healthy: Schema.Boolean,
         nowTs: Schema.Number,
-      }),
+      }).pipe(
+        Schema.encodeKeys({ asnData: "asn_data", countryData: "country_data" }),
+      ),
     ),
   }),
   serie_0: Schema.Struct({
@@ -9529,18 +9579,29 @@ export interface MoasBgpRouteResponse {
 
 export const MoasBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-  }),
+    dataTime: Schema.String,
+    queryTime: Schema.String,
+    totalPeers: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      dataTime: "data_time",
+      queryTime: "query_time",
+      totalPeers: "total_peers",
+    }),
+  ),
   moas: Schema.Array(
     Schema.Struct({
       origins: Schema.Array(
         Schema.Struct({
           origin: Schema.Number,
-          peerCount: Schema.Number.pipe(T.JsonName("peer_count")),
-          rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
-        }),
+          peerCount: Schema.Number,
+          rpkiValidation: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            peerCount: "peer_count",
+            rpkiValidation: "rpki_validation",
+          }),
+        ),
       ),
       prefix: Schema.String,
     }),
@@ -9577,19 +9638,32 @@ export interface Pfx2asBgpRouteResponse {
 
 export const Pfx2asBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-  }),
+    dataTime: Schema.String,
+    queryTime: Schema.String,
+    totalPeers: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      dataTime: "data_time",
+      queryTime: "query_time",
+      totalPeers: "total_peers",
+    }),
+  ),
   prefixOrigins: Schema.Array(
     Schema.Struct({
       origin: Schema.Number,
-      peerCount: Schema.Number.pipe(T.JsonName("peer_count")),
+      peerCount: Schema.Number,
       prefix: Schema.String,
-      rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
-    }),
-  ).pipe(T.JsonName("prefix_origins")),
-}) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
+      rpkiValidation: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        peerCount: "peer_count",
+        rpkiValidation: "rpki_validation",
+      }),
+    ),
+  ),
+}).pipe(
+  Schema.encodeKeys({ prefixOrigins: "prefix_origins" }),
+) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
 
 export const pfx2asBgpRoute: (
   input: Pfx2asBgpRouteRequest,
@@ -9651,45 +9725,74 @@ export const RealtimeBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
     asnInfo: Schema.Array(
       Schema.Struct({
-        asName: Schema.String.pipe(T.JsonName("as_name")),
+        asName: Schema.String,
         asn: Schema.Number,
-        countryCode: Schema.String.pipe(T.JsonName("country_code")),
-        orgId: Schema.String.pipe(T.JsonName("org_id")),
-        orgName: Schema.String.pipe(T.JsonName("org_name")),
-      }),
-    ).pipe(T.JsonName("asn_info")),
+        countryCode: Schema.String,
+        orgId: Schema.String,
+        orgName: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          asName: "as_name",
+          countryCode: "country_code",
+          orgId: "org_id",
+          orgName: "org_name",
+        }),
+      ),
+    ),
     collectors: Schema.Array(
       Schema.Struct({
         collector: Schema.String,
-        latestRealtimeTs: Schema.String.pipe(T.JsonName("latest_realtime_ts")),
-        latestRibTs: Schema.String.pipe(T.JsonName("latest_rib_ts")),
-        latestUpdatesTs: Schema.String.pipe(T.JsonName("latest_updates_ts")),
-        peersCount: Schema.Number.pipe(T.JsonName("peers_count")),
-        peersV4Count: Schema.Number.pipe(T.JsonName("peers_v4_count")),
-        peersV6Count: Schema.Number.pipe(T.JsonName("peers_v6_count")),
-      }),
+        latestRealtimeTs: Schema.String,
+        latestRibTs: Schema.String,
+        latestUpdatesTs: Schema.String,
+        peersCount: Schema.Number,
+        peersV4Count: Schema.Number,
+        peersV6Count: Schema.Number,
+      }).pipe(
+        Schema.encodeKeys({
+          latestRealtimeTs: "latest_realtime_ts",
+          latestRibTs: "latest_rib_ts",
+          latestUpdatesTs: "latest_updates_ts",
+          peersCount: "peers_count",
+          peersV4Count: "peers_v4_count",
+          peersV6Count: "peers_v6_count",
+        }),
+      ),
     ),
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
+    dataTime: Schema.String,
     prefixOrigins: Schema.Array(
       Schema.Struct({
         origin: Schema.Number,
         prefix: Schema.String,
-        rpkiValidation: Schema.String.pipe(T.JsonName("rpki_validation")),
-        totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-        totalVisible: Schema.Number.pipe(T.JsonName("total_visible")),
+        rpkiValidation: Schema.String,
+        totalPeers: Schema.Number,
+        totalVisible: Schema.Number,
         visibility: Schema.Number,
-      }),
-    ).pipe(T.JsonName("prefix_origins")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-  }),
+      }).pipe(
+        Schema.encodeKeys({
+          rpkiValidation: "rpki_validation",
+          totalPeers: "total_peers",
+          totalVisible: "total_visible",
+        }),
+      ),
+    ),
+    queryTime: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      asnInfo: "asn_info",
+      dataTime: "data_time",
+      prefixOrigins: "prefix_origins",
+      queryTime: "query_time",
+    }),
+  ),
   routes: Schema.Array(
     Schema.Struct({
-      asPath: Schema.Array(Schema.Number).pipe(T.JsonName("as_path")),
+      asPath: Schema.Array(Schema.Number),
       collector: Schema.String,
       communities: Schema.Array(Schema.String),
       prefix: Schema.String,
       timestamp: Schema.String,
-    }),
+    }).pipe(Schema.encodeKeys({ asPath: "as_path" })),
   ),
 }) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
 
@@ -9737,38 +9840,57 @@ export interface StatsBgpRouteResponse {
 
 export const StatsBgpRouteResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-  }),
+    dataTime: Schema.String,
+    queryTime: Schema.String,
+    totalPeers: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      dataTime: "data_time",
+      queryTime: "query_time",
+      totalPeers: "total_peers",
+    }),
+  ),
   stats: Schema.Struct({
-    distinctOrigins: Schema.Number.pipe(T.JsonName("distinct_origins")),
-    distinctOriginsIpv4: Schema.Number.pipe(
-      T.JsonName("distinct_origins_ipv4"),
-    ),
-    distinctOriginsIpv6: Schema.Number.pipe(
-      T.JsonName("distinct_origins_ipv6"),
-    ),
-    distinctPrefixes: Schema.Number.pipe(T.JsonName("distinct_prefixes")),
-    distinctPrefixesIpv4: Schema.Number.pipe(
-      T.JsonName("distinct_prefixes_ipv4"),
-    ),
-    distinctPrefixesIpv6: Schema.Number.pipe(
-      T.JsonName("distinct_prefixes_ipv6"),
-    ),
-    routesInvalid: Schema.Number.pipe(T.JsonName("routes_invalid")),
-    routesInvalidIpv4: Schema.Number.pipe(T.JsonName("routes_invalid_ipv4")),
-    routesInvalidIpv6: Schema.Number.pipe(T.JsonName("routes_invalid_ipv6")),
-    routesTotal: Schema.Number.pipe(T.JsonName("routes_total")),
-    routesTotalIpv4: Schema.Number.pipe(T.JsonName("routes_total_ipv4")),
-    routesTotalIpv6: Schema.Number.pipe(T.JsonName("routes_total_ipv6")),
-    routesUnknown: Schema.Number.pipe(T.JsonName("routes_unknown")),
-    routesUnknownIpv4: Schema.Number.pipe(T.JsonName("routes_unknown_ipv4")),
-    routesUnknownIpv6: Schema.Number.pipe(T.JsonName("routes_unknown_ipv6")),
-    routesValid: Schema.Number.pipe(T.JsonName("routes_valid")),
-    routesValidIpv4: Schema.Number.pipe(T.JsonName("routes_valid_ipv4")),
-    routesValidIpv6: Schema.Number.pipe(T.JsonName("routes_valid_ipv6")),
-  }),
+    distinctOrigins: Schema.Number,
+    distinctOriginsIpv4: Schema.Number,
+    distinctOriginsIpv6: Schema.Number,
+    distinctPrefixes: Schema.Number,
+    distinctPrefixesIpv4: Schema.Number,
+    distinctPrefixesIpv6: Schema.Number,
+    routesInvalid: Schema.Number,
+    routesInvalidIpv4: Schema.Number,
+    routesInvalidIpv6: Schema.Number,
+    routesTotal: Schema.Number,
+    routesTotalIpv4: Schema.Number,
+    routesTotalIpv6: Schema.Number,
+    routesUnknown: Schema.Number,
+    routesUnknownIpv4: Schema.Number,
+    routesUnknownIpv6: Schema.Number,
+    routesValid: Schema.Number,
+    routesValidIpv4: Schema.Number,
+    routesValidIpv6: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      distinctOrigins: "distinct_origins",
+      distinctOriginsIpv4: "distinct_origins_ipv4",
+      distinctOriginsIpv6: "distinct_origins_ipv6",
+      distinctPrefixes: "distinct_prefixes",
+      distinctPrefixesIpv4: "distinct_prefixes_ipv4",
+      distinctPrefixesIpv6: "distinct_prefixes_ipv6",
+      routesInvalid: "routes_invalid",
+      routesInvalidIpv4: "routes_invalid_ipv4",
+      routesInvalidIpv6: "routes_invalid_ipv6",
+      routesTotal: "routes_total",
+      routesTotalIpv4: "routes_total_ipv4",
+      routesTotalIpv6: "routes_total_ipv6",
+      routesUnknown: "routes_unknown",
+      routesUnknownIpv4: "routes_unknown_ipv4",
+      routesUnknownIpv6: "routes_unknown_ipv6",
+      routesValid: "routes_valid",
+      routesValidIpv4: "routes_valid_ipv4",
+      routesValidIpv6: "routes_valid_ipv6",
+    }),
+  ),
 }) as unknown as Schema.Schema<StatsBgpRouteResponse>;
 
 export const statsBgpRoute: (
@@ -9854,9 +9976,9 @@ export const GetBgpTopAsResponse = Schema.Struct({
   top_0: Schema.Array(
     Schema.Struct({
       asn: Schema.Number,
-      aSName: Schema.String.pipe(T.JsonName("ASName")),
+      aSName: Schema.String,
       value: Schema.String,
-    }),
+    }).pipe(Schema.encodeKeys({ aSName: "ASName" })),
   ),
 }) as unknown as Schema.Schema<GetBgpTopAsResponse>;
 
@@ -9889,14 +10011,20 @@ export const PrefixesBgpTopAsResponse = Schema.Struct({
       asn: Schema.Number,
       country: Schema.String,
       name: Schema.String,
-      pfxsCount: Schema.Number.pipe(T.JsonName("pfxs_count")),
-    }),
+      pfxsCount: Schema.Number,
+    }).pipe(Schema.encodeKeys({ pfxsCount: "pfxs_count" })),
   ),
   meta: Schema.Struct({
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-  }),
+    dataTime: Schema.String,
+    queryTime: Schema.String,
+    totalPeers: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      dataTime: "data_time",
+      queryTime: "query_time",
+      totalPeers: "total_peers",
+    }),
+  ),
 }) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
 
 export const prefixesBgpTopAs: (
@@ -10014,12 +10142,12 @@ export interface SummaryBotRequest {
 }
 
 export const SummaryBotRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "BOT",
     "BOT_KIND",
     "BOT_OPERATOR",
     "BOT_CATEGORY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/bots/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryBotRequest>;
@@ -10091,7 +10219,7 @@ export const SummaryBotResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -10117,17 +10245,17 @@ export const SummaryBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10142,7 +10270,7 @@ export const SummaryBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -10151,7 +10279,7 @@ export const SummaryBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -10249,17 +10377,17 @@ export interface TimeseriesBotResponse {
 
 export const TimeseriesBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -10285,17 +10413,17 @@ export const TimeseriesBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10310,7 +10438,7 @@ export const TimeseriesBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -10319,7 +10447,7 @@ export const TimeseriesBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -10356,14 +10484,14 @@ export interface SummaryBotWebCrawlerRequest {
 }
 
 export const SummaryBotWebCrawlerRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "CLIENT_TYPE",
     "USER_AGENT",
     "REFERER",
     "CRAWL_REFER_RATIO",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/bots/crawlers/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryBotWebCrawlerRequest>;
@@ -10435,7 +10563,7 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -10461,17 +10589,17 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10486,7 +10614,7 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -10495,7 +10623,7 @@ export const SummaryBotWebCrawlerResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -10592,11 +10720,11 @@ export interface DomainCategoriesRobotsTxtTopResponse {
 
 export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -10622,17 +10750,17 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -10641,7 +10769,7 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -10649,7 +10777,7 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -10658,7 +10786,7 @@ export const DomainCategoriesRobotsTxtTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -10771,7 +10899,7 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -10797,17 +10925,17 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -10822,7 +10950,7 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -10831,7 +10959,7 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -10840,11 +10968,18 @@ export const ThreatCategoryEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    brandImpersonation: Schema.String.pipe(T.JsonName("BrandImpersonation")),
-    credentialHarvester: Schema.String.pipe(T.JsonName("CredentialHarvester")),
-    identityDeception: Schema.String.pipe(T.JsonName("IdentityDeception")),
-    link: Schema.String.pipe(T.JsonName("Link")),
-  }),
+    brandImpersonation: Schema.String,
+    credentialHarvester: Schema.String,
+    identityDeception: Schema.String,
+    link: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      brandImpersonation: "BrandImpersonation",
+      credentialHarvester: "CredentialHarvester",
+      identityDeception: "IdentityDeception",
+      link: "Link",
+    }),
+  ),
 }) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
 
 export const threatCategoryEmailSecuritySummary: (
@@ -10950,17 +11085,17 @@ export interface ThreatCategoryEmailSecurityTimeseriesGroupResponse {
 export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
   {
     meta: Schema.Struct({
-      aggInterval: Schema.Literal(
+      aggInterval: Schema.Literals([
         "FIFTEEN_MINUTES",
         "ONE_HOUR",
         "ONE_DAY",
         "ONE_WEEK",
         "ONE_MONTH",
-      ),
+      ]),
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -10986,17 +11121,17 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -11011,7 +11146,7 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
         }),
       ),
       lastUpdated: Schema.String,
-      normalization: Schema.Literal(
+      normalization: Schema.Literals([
         "PERCENTAGE",
         "MIN0_MAX",
         "MIN_MAX",
@@ -11020,7 +11155,7 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
         "ROLLING_AVERAGE",
         "OVERLAPPED_PERCENTAGE",
         "RATIO",
-      ),
+      ]),
       units: Schema.Array(
         Schema.Struct({
           name: Schema.String,
@@ -11029,17 +11164,18 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse = Schema.Struct(
       ),
     }),
     serie_0: Schema.Struct({
-      brandImpersonation: Schema.Array(Schema.String).pipe(
-        T.JsonName("BrandImpersonation"),
-      ),
-      credentialHarvester: Schema.Array(Schema.String).pipe(
-        T.JsonName("CredentialHarvester"),
-      ),
-      identityDeception: Schema.Array(Schema.String).pipe(
-        T.JsonName("IdentityDeception"),
-      ),
-      link: Schema.Array(Schema.String).pipe(T.JsonName("Link")),
-    }),
+      brandImpersonation: Schema.Array(Schema.String),
+      credentialHarvester: Schema.Array(Schema.String),
+      identityDeception: Schema.Array(Schema.String),
+      link: Schema.Array(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        brandImpersonation: "BrandImpersonation",
+        credentialHarvester: "CredentialHarvester",
+        identityDeception: "IdentityDeception",
+        link: "Link",
+      }),
+    ),
   },
 ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
@@ -11132,7 +11268,7 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -11158,17 +11294,17 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11183,7 +11319,7 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -11192,7 +11328,7 @@ export const BotClassHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -11298,17 +11434,17 @@ export interface BotClassHttpTimeseriesGroupResponse {
 
 export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -11334,17 +11470,17 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11359,7 +11495,7 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -11368,7 +11504,7 @@ export const BotClassHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -11475,7 +11611,7 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -11501,17 +11637,17 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11526,7 +11662,7 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -11535,7 +11671,7 @@ export const BotClassLeakedCredentialSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -11646,17 +11782,17 @@ export interface BotClassLeakedCredentialTimeseriesGroupResponse {
 
 export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -11682,17 +11818,17 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11707,7 +11843,7 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -11716,7 +11852,7 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -11820,7 +11956,7 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -11846,17 +11982,17 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -11871,7 +12007,7 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -11880,7 +12016,7 @@ export const ResponseCodeDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -11983,17 +12119,17 @@ export interface ResponseCodeDnsTimeseriesGroupResponse {
 
 export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -12019,17 +12155,17 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12044,7 +12180,7 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -12053,7 +12189,7 @@ export const ResponseCodeDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -12155,7 +12291,7 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -12181,17 +12317,17 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12206,7 +12342,7 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -12215,7 +12351,7 @@ export const ResponseCodesAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -12321,17 +12457,17 @@ export interface ResponseCodesAs112TimeseriesGroupResponse {
 
 export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -12357,17 +12493,17 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12382,7 +12518,7 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -12391,7 +12527,7 @@ export const ResponseCodesAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -12439,7 +12575,7 @@ export interface SummaryCtRequest {
 }
 
 export const SummaryCtRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "CA",
     "CA_OWNER",
     "DURATION",
@@ -12454,7 +12590,7 @@ export const SummaryCtRequest = Schema.Struct({
     "SIGNATURE_ALGORITHM",
     "TLD",
     "VALIDATION_LEVEL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ct/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryCtRequest>;
@@ -12546,7 +12682,7 @@ export const SummaryCtResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -12572,17 +12708,17 @@ export const SummaryCtResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12597,7 +12733,7 @@ export const SummaryCtResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -12606,7 +12742,7 @@ export const SummaryCtResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -12614,7 +12750,7 @@ export const SummaryCtResponse = Schema.Struct({
       }),
     ),
   }),
-  summary_0: Schema.Union(
+  summary_0: Schema.Union([
     Schema.Struct({}),
     Schema.Struct({
       rfc6962: Schema.String,
@@ -12622,36 +12758,48 @@ export const SummaryCtResponse = Schema.Struct({
     }),
     Schema.Struct({
       gt_121d: Schema.String,
-      gt_16dLte_31d: Schema.String.pipe(T.JsonName("gt_16d_lte_31d")),
-      gt_31dLte_91d: Schema.String.pipe(T.JsonName("gt_31d_lte_91d")),
-      gt_3dLte_16d: Schema.String.pipe(T.JsonName("gt_3d_lte_16d")),
-      gt_91dLte_121d: Schema.String.pipe(T.JsonName("gt_91d_lte_121d")),
+      gt_16dLte_31d: Schema.String,
+      gt_31dLte_91d: Schema.String,
+      gt_3dLte_16d: Schema.String,
+      gt_91dLte_121d: Schema.String,
       lte_3d: Schema.String,
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        gt_16dLte_31d: "gt_16d_lte_31d",
+        gt_31dLte_91d: "gt_31d_lte_91d",
+        gt_3dLte_16d: "gt_3d_lte_16d",
+        gt_91dLte_121d: "gt_91d_lte_121d",
+      }),
+    ),
     Schema.Struct({
-      cERTIFICATE: Schema.String.pipe(T.JsonName("CERTIFICATE")),
-      pRECERTIFICATE: Schema.String.pipe(T.JsonName("PRECERTIFICATE")),
-    }),
+      cERTIFICATE: Schema.String,
+      pRECERTIFICATE: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        cERTIFICATE: "CERTIFICATE",
+        pRECERTIFICATE: "PRECERTIFICATE",
+      }),
+    ),
     Schema.Struct({
-      eXPIRED: Schema.String.pipe(T.JsonName("EXPIRED")),
-      vALID: Schema.String.pipe(T.JsonName("VALID")),
-    }),
+      eXPIRED: Schema.String,
+      vALID: Schema.String,
+    }).pipe(Schema.encodeKeys({ eXPIRED: "EXPIRED", vALID: "VALID" })),
     Schema.Struct({
-      nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
-      pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
-    }),
+      nEGATIVE: Schema.String,
+      pOSITIVE: Schema.String,
+    }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
     Schema.Struct({
-      dSA: Schema.String.pipe(T.JsonName("DSA")),
-      eCDSA: Schema.String.pipe(T.JsonName("ECDSA")),
-      rSA: Schema.String.pipe(T.JsonName("RSA")),
-    }),
+      dSA: Schema.String,
+      eCDSA: Schema.String,
+      rSA: Schema.String,
+    }).pipe(Schema.encodeKeys({ dSA: "DSA", eCDSA: "ECDSA", rSA: "RSA" })),
     Schema.Struct({
       domain: Schema.String,
       extended: Schema.String,
       organization: Schema.String,
       unknown: Schema.String,
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<SummaryCtResponse>;
 
 export const summaryCt: (
@@ -12741,17 +12889,17 @@ export interface TimeseriesCtResponse {
 
 export const TimeseriesCtResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -12777,17 +12925,17 @@ export const TimeseriesCtResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -12802,7 +12950,7 @@ export const TimeseriesCtResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -12811,7 +12959,7 @@ export const TimeseriesCtResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -12905,7 +13053,7 @@ export interface GetCtAuthorityResponse {
 
 export const GetCtAuthorityResponse = Schema.Struct({
   certificateAuthority: Schema.Struct({
-    appleStatus: Schema.Literal(
+    appleStatus: Schema.Literals([
       "INCLUDED",
       "NOT_YET_INCLUDED",
       "NOT_INCLUDED",
@@ -12913,13 +13061,13 @@ export const GetCtAuthorityResponse = Schema.Struct({
       "REMOVED",
       "DISABLED",
       "BLOCKED",
-    ),
+    ]),
     authorityKeyIdentifier: Schema.String,
-    certificateRecordType: Schema.Literal(
+    certificateRecordType: Schema.Literals([
       "ROOT_CERTIFICATE",
       "INTERMEDIATE_CERTIFICATE",
-    ),
-    chromeStatus: Schema.Literal(
+    ]),
+    chromeStatus: Schema.Literals([
       "INCLUDED",
       "NOT_YET_INCLUDED",
       "NOT_INCLUDED",
@@ -12927,10 +13075,10 @@ export const GetCtAuthorityResponse = Schema.Struct({
       "REMOVED",
       "DISABLED",
       "BLOCKED",
-    ),
+    ]),
     country: Schema.String,
     countryName: Schema.String,
-    microsoftStatus: Schema.Literal(
+    microsoftStatus: Schema.Literals([
       "INCLUDED",
       "NOT_YET_INCLUDED",
       "NOT_INCLUDED",
@@ -12938,8 +13086,8 @@ export const GetCtAuthorityResponse = Schema.Struct({
       "REMOVED",
       "DISABLED",
       "BLOCKED",
-    ),
-    mozillaStatus: Schema.Literal(
+    ]),
+    mozillaStatus: Schema.Literals([
       "INCLUDED",
       "NOT_YET_INCLUDED",
       "NOT_INCLUDED",
@@ -12947,31 +13095,31 @@ export const GetCtAuthorityResponse = Schema.Struct({
       "REMOVED",
       "DISABLED",
       "BLOCKED",
-    ),
+    ]),
     name: Schema.String,
     owner: Schema.String,
     parentName: Schema.String,
     parentSha256Fingerprint: Schema.String,
     related: Schema.Array(
       Schema.Struct({
-        certificateRecordType: Schema.Literal(
+        certificateRecordType: Schema.Literals([
           "ROOT_CERTIFICATE",
           "INTERMEDIATE_CERTIFICATE",
-        ),
+        ]),
         name: Schema.String,
-        revocationStatus: Schema.Literal(
+        revocationStatus: Schema.Literals([
           "NOT_REVOKED",
           "REVOKED",
           "PARENT_CERT_REVOKED",
-        ),
+        ]),
         sha256Fingerprint: Schema.String,
       }),
     ),
-    revocationStatus: Schema.Literal(
+    revocationStatus: Schema.Literals([
       "NOT_REVOKED",
       "REVOKED",
       "PARENT_CERT_REVOKED",
-    ),
+    ]),
     sha256Fingerprint: Schema.String,
     subjectKeyIdentifier: Schema.String,
     validFrom: Schema.String,
@@ -13014,21 +13162,21 @@ export interface ListCtAuthoritiesResponse {
 export const ListCtAuthoritiesResponse = Schema.Struct({
   certificateAuthorities: Schema.Array(
     Schema.Struct({
-      certificateRecordType: Schema.Literal(
+      certificateRecordType: Schema.Literals([
         "ROOT_CERTIFICATE",
         "INTERMEDIATE_CERTIFICATE",
-      ),
+      ]),
       country: Schema.String,
       countryName: Schema.String,
       name: Schema.String,
       owner: Schema.String,
       parentName: Schema.String,
       parentSha256Fingerprint: Schema.String,
-      revocationStatus: Schema.Literal(
+      revocationStatus: Schema.Literals([
         "NOT_REVOKED",
         "REVOKED",
         "PARENT_CERT_REVOKED",
-      ),
+      ]),
       sha256Fingerprint: Schema.String,
     }),
   ),
@@ -13115,17 +13263,17 @@ export interface GetCtLogResponse {
 
 export const GetCtLogResponse = Schema.Struct({
   certificateLog: Schema.Struct({
-    api: Schema.Literal("RFC6962", "STATIC"),
+    api: Schema.Literals(["RFC6962", "STATIC"]),
     avgThroughput: Schema.Number,
     description: Schema.String,
     endExclusive: Schema.String,
     lastUpdate: Schema.String,
     operator: Schema.String,
-    performance: Schema.Union(
+    performance: Schema.Union([
       Schema.Struct({
         endpoints: Schema.Array(
           Schema.Struct({
-            endpoint: Schema.Literal(
+            endpoint: Schema.Literals([
               "add-chain (new)",
               "add-chain (old)",
               "add-pre-chain (new)",
@@ -13133,7 +13281,7 @@ export const GetCtLogResponse = Schema.Struct({
               "get-entries",
               "get-roots",
               "get-sth",
-            ),
+            ]),
             responseTime: Schema.Number,
             uptime: Schema.Number,
           }),
@@ -13142,36 +13290,36 @@ export const GetCtLogResponse = Schema.Struct({
         uptime: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     related: Schema.Array(
       Schema.Struct({
         description: Schema.String,
         endExclusive: Schema.String,
         slug: Schema.String,
         startInclusive: Schema.String,
-        state: Schema.Literal(
+        state: Schema.Literals([
           "USABLE",
           "PENDING",
           "QUALIFIED",
           "READ_ONLY",
           "RETIRED",
           "REJECTED",
-        ),
+        ]),
       }),
     ),
     slug: Schema.String,
     startInclusive: Schema.String,
-    state: Schema.Literal(
+    state: Schema.Literals([
       "USABLE",
       "PENDING",
       "QUALIFIED",
       "READ_ONLY",
       "RETIRED",
       "REJECTED",
-    ),
+    ]),
     stateTimestamp: Schema.String,
-    submittableCertCount: Schema.Union(Schema.String, Schema.Null),
-    submittedCertCount: Schema.Union(Schema.String, Schema.Null),
+    submittableCertCount: Schema.Union([Schema.String, Schema.Null]),
+    submittedCertCount: Schema.Union([Schema.String, Schema.Null]),
     url: Schema.String,
   }),
 }) as unknown as Schema.Schema<GetCtLogResponse>;
@@ -13217,20 +13365,20 @@ export interface ListCtLogsResponse {
 export const ListCtLogsResponse = Schema.Struct({
   certificateLogs: Schema.Array(
     Schema.Struct({
-      api: Schema.Literal("RFC6962", "STATIC"),
+      api: Schema.Literals(["RFC6962", "STATIC"]),
       description: Schema.String,
       endExclusive: Schema.String,
       operator: Schema.String,
       slug: Schema.String,
       startInclusive: Schema.String,
-      state: Schema.Literal(
+      state: Schema.Literals([
         "USABLE",
         "PENDING",
         "QUALIFIED",
         "READ_ONLY",
         "RETIRED",
         "REJECTED",
-      ),
+      ]),
       stateTimestamp: Schema.String,
       url: Schema.String,
     }),
@@ -13330,7 +13478,7 @@ export interface DownloadDatasetRequest {
 }
 
 export const DownloadDatasetRequest = Schema.Struct({
-  format: Schema.optional(Schema.Literal("JSON", "CSV")).pipe(
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])).pipe(
     T.HttpQuery("format"),
   ),
   datasetId: Schema.Number,
@@ -13439,17 +13587,17 @@ export interface TimeseriesDnsResponse {
 
 export const TimeseriesDnsResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -13475,17 +13623,17 @@ export const TimeseriesDnsResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13500,7 +13648,7 @@ export const TimeseriesDnsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -13509,7 +13657,7 @@ export const TimeseriesDnsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -13613,7 +13761,7 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -13639,17 +13787,17 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13664,7 +13812,7 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -13673,7 +13821,7 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -13682,11 +13830,18 @@ export const DnssecDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iNSECURE: Schema.String.pipe(T.JsonName("INSECURE")),
-    iNVALID: Schema.String.pipe(T.JsonName("INVALID")),
-    oTHER: Schema.String.pipe(T.JsonName("OTHER")),
-    sECURE: Schema.String.pipe(T.JsonName("SECURE")),
-  }),
+    iNSECURE: Schema.String,
+    iNVALID: Schema.String,
+    oTHER: Schema.String,
+    sECURE: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      iNSECURE: "INSECURE",
+      iNVALID: "INVALID",
+      oTHER: "OTHER",
+      sECURE: "SECURE",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
 
 export const dnssecDnsSummary: (
@@ -13774,7 +13929,7 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -13800,17 +13955,17 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -13825,7 +13980,7 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -13834,7 +13989,7 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -13843,11 +13998,13 @@ export const ProtocolDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTPS: Schema.String.pipe(T.JsonName("HTTPS")),
-    tCP: Schema.String.pipe(T.JsonName("TCP")),
-    tLS: Schema.String.pipe(T.JsonName("TLS")),
-    uDP: Schema.String.pipe(T.JsonName("UDP")),
-  }),
+    hTTPS: Schema.String,
+    tCP: Schema.String,
+    tLS: Schema.String,
+    uDP: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
 
 export const protocolDnsSummary: (
@@ -13947,17 +14104,17 @@ export interface DnssecDnsTimeseriesGroupResponse {
 
 export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -13983,17 +14140,17 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14008,7 +14165,7 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14017,7 +14174,7 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14026,11 +14183,18 @@ export const DnssecDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iNSECURE: Schema.Array(Schema.String).pipe(T.JsonName("INSECURE")),
-    iNVALID: Schema.Array(Schema.String).pipe(T.JsonName("INVALID")),
-    oTHER: Schema.Array(Schema.String).pipe(T.JsonName("OTHER")),
-    sECURE: Schema.Array(Schema.String).pipe(T.JsonName("SECURE")),
-  }),
+    iNSECURE: Schema.Array(Schema.String),
+    iNVALID: Schema.Array(Schema.String),
+    oTHER: Schema.Array(Schema.String),
+    sECURE: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      iNSECURE: "INSECURE",
+      iNVALID: "INVALID",
+      oTHER: "OTHER",
+      sECURE: "SECURE",
+    }),
+  ),
 }) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
 
 export const dnssecDnsTimeseriesGroup: (
@@ -14121,17 +14285,17 @@ export interface ProtocolDnsTimeseriesGroupResponse {
 
 export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -14157,17 +14321,17 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14182,7 +14346,7 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14191,7 +14355,7 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14200,11 +14364,13 @@ export const ProtocolDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    hTTPS: Schema.Array(Schema.String).pipe(T.JsonName("HTTPS")),
-    tCP: Schema.Array(Schema.String).pipe(T.JsonName("TCP")),
-    tLS: Schema.Array(Schema.String).pipe(T.JsonName("TLS")),
-    uDP: Schema.Array(Schema.String).pipe(T.JsonName("UDP")),
-  }),
+    hTTPS: Schema.Array(Schema.String),
+    tCP: Schema.Array(Schema.String),
+    tLS: Schema.Array(Schema.String),
+    uDP: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ hTTPS: "HTTPS", tCP: "TCP", tLS: "TLS", uDP: "UDP" }),
+  ),
 }) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
 
 export const protocolDnsTimeseriesGroup: (
@@ -14293,11 +14459,11 @@ export interface AsesDnsTopResponse {
 
 export const AsesDnsTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -14323,17 +14489,17 @@ export const AsesDnsTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -14342,7 +14508,7 @@ export const AsesDnsTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -14350,7 +14516,7 @@ export const AsesDnsTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14359,7 +14525,7 @@ export const AsesDnsTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14462,11 +14628,11 @@ export interface LocationsDnsTopResponse {
 
 export const LocationsDnsTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -14492,17 +14658,17 @@ export const LocationsDnsTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -14511,7 +14677,7 @@ export const LocationsDnsTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -14519,7 +14685,7 @@ export const LocationsDnsTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14528,7 +14694,7 @@ export const LocationsDnsTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14634,7 +14800,7 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -14660,17 +14826,17 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14685,7 +14851,7 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14694,7 +14860,7 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14703,9 +14869,9 @@ export const DnssecE2EDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.String,
+    pOSITIVE: Schema.String,
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
 
 export const dnssecE2EDnsSummary: (
@@ -14800,17 +14966,17 @@ export interface DnssecE2EDnsTimeseriesGroupResponse {
 
 export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -14836,17 +15002,17 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -14861,7 +15027,7 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -14870,7 +15036,7 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -14879,9 +15045,9 @@ export const DnssecE2EDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.Array(Schema.String),
+    pOSITIVE: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
 
 export const dnssecE2EDnsTimeseriesGroup: (
@@ -14973,7 +15139,7 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -14999,17 +15165,17 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15024,7 +15190,7 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15033,7 +15199,7 @@ export const ArcEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15129,7 +15295,7 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15155,17 +15321,17 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15180,7 +15346,7 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15189,7 +15355,7 @@ export const DkimEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15285,7 +15451,7 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15311,17 +15477,17 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15336,7 +15502,7 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15345,7 +15511,7 @@ export const DmarcEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15441,7 +15607,7 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15467,17 +15633,17 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15492,7 +15658,7 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15501,7 +15667,7 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15510,9 +15676,14 @@ export const EncryptedEmailRoutingSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    eNCRYPTED: Schema.String.pipe(T.JsonName("ENCRYPTED")),
-    nOT_ENCRYPTED: Schema.String.pipe(T.JsonName("NOT_ENCRYPTED")),
-  }),
+    eNCRYPTED: Schema.String,
+    nOT_ENCRYPTED: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      eNCRYPTED: "ENCRYPTED",
+      nOT_ENCRYPTED: "NOT_ENCRYPTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
 
 export const encryptedEmailRoutingSummary: (
@@ -15600,7 +15771,7 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15626,17 +15797,17 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15651,7 +15822,7 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15660,7 +15831,7 @@ export const SpfEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15763,17 +15934,17 @@ export interface ArcEmailRoutingTimeseriesGroupResponse {
 
 export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15799,17 +15970,17 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15824,7 +15995,7 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -15833,7 +16004,7 @@ export const ArcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -15935,17 +16106,17 @@ export interface DkimEmailRoutingTimeseriesGroupResponse {
 
 export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -15971,17 +16142,17 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -15996,7 +16167,7 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16005,7 +16176,7 @@ export const DkimEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16107,17 +16278,17 @@ export interface DmarcEmailRoutingTimeseriesGroupResponse {
 
 export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16143,17 +16314,17 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16168,7 +16339,7 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16177,7 +16348,7 @@ export const DmarcEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16281,17 +16452,17 @@ export interface EncryptedEmailRoutingTimeseriesGroupResponse {
 
 export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16317,17 +16488,17 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16342,7 +16513,7 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16351,7 +16522,7 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16360,11 +16531,14 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    eNCRYPTED: Schema.Array(Schema.String).pipe(T.JsonName("ENCRYPTED")),
-    nOT_ENCRYPTED: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_ENCRYPTED"),
-    ),
-  }),
+    eNCRYPTED: Schema.Array(Schema.String),
+    nOT_ENCRYPTED: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      eNCRYPTED: "ENCRYPTED",
+      nOT_ENCRYPTED: "NOT_ENCRYPTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
 export const encryptedEmailRoutingTimeseriesGroup: (
@@ -16455,17 +16629,17 @@ export interface SpfEmailRoutingTimeseriesGroupResponse {
 
 export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16491,17 +16665,17 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16516,7 +16690,7 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16525,7 +16699,7 @@ export const SpfEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16625,7 +16799,7 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16651,17 +16825,17 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16676,7 +16850,7 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16685,7 +16859,7 @@ export const ArcEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16781,7 +16955,7 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16807,17 +16981,17 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16832,7 +17006,7 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16841,7 +17015,7 @@ export const DkimEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -16937,7 +17111,7 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -16963,17 +17137,17 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -16988,7 +17162,7 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -16997,7 +17171,7 @@ export const DmarcEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17093,7 +17267,7 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17119,17 +17293,17 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17144,7 +17318,7 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17153,7 +17327,7 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17162,9 +17336,14 @@ export const MaliciousEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    mALICIOUS: Schema.String.pipe(T.JsonName("MALICIOUS")),
-    nOT_MALICIOUS: Schema.String.pipe(T.JsonName("NOT_MALICIOUS")),
-  }),
+    mALICIOUS: Schema.String,
+    nOT_MALICIOUS: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      mALICIOUS: "MALICIOUS",
+      nOT_MALICIOUS: "NOT_MALICIOUS",
+    }),
+  ),
 }) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
 
 export const maliciousEmailSecuritySummary: (
@@ -17252,7 +17431,7 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17278,17 +17457,17 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17303,7 +17482,7 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17312,7 +17491,7 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17321,9 +17500,9 @@ export const SpamEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SPAM: Schema.String.pipe(T.JsonName("NOT_SPAM")),
-    sPAM: Schema.String.pipe(T.JsonName("SPAM")),
-  }),
+    nOT_SPAM: Schema.String,
+    sPAM: Schema.String,
+  }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
 
 export const spamEmailSecuritySummary: (
@@ -17411,7 +17590,7 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17437,17 +17616,17 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17462,7 +17641,7 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17471,7 +17650,7 @@ export const SpfEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17567,7 +17746,7 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17593,17 +17772,17 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17618,7 +17797,7 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17627,7 +17806,7 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17636,9 +17815,9 @@ export const SpoofEmailSecuritySummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SPOOF: Schema.String.pipe(T.JsonName("NOT_SPOOF")),
-    sPOOF: Schema.String.pipe(T.JsonName("SPOOF")),
-  }),
+    nOT_SPOOF: Schema.String,
+    sPOOF: Schema.String,
+  }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
 
 export const spoofEmailSecuritySummary: (
@@ -17736,17 +17915,17 @@ export interface ArcEmailSecurityTimeseriesGroupResponse {
 
 export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17772,17 +17951,17 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17797,7 +17976,7 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17806,7 +17985,7 @@ export const ArcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -17908,17 +18087,17 @@ export interface DkimEmailSecurityTimeseriesGroupResponse {
 
 export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -17944,17 +18123,17 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -17969,7 +18148,7 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -17978,7 +18157,7 @@ export const DkimEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18080,17 +18259,17 @@ export interface DmarcEmailSecurityTimeseriesGroupResponse {
 
 export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -18116,17 +18295,17 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18141,7 +18320,7 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -18150,7 +18329,7 @@ export const DmarcEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18254,17 +18433,17 @@ export interface MaliciousEmailSecurityTimeseriesGroupResponse {
 
 export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -18290,17 +18469,17 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18315,7 +18494,7 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -18324,7 +18503,7 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18333,11 +18512,14 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    mALICIOUS: Schema.Array(Schema.String).pipe(T.JsonName("MALICIOUS")),
-    nOT_MALICIOUS: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_MALICIOUS"),
-    ),
-  }),
+    mALICIOUS: Schema.Array(Schema.String),
+    nOT_MALICIOUS: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      mALICIOUS: "MALICIOUS",
+      nOT_MALICIOUS: "NOT_MALICIOUS",
+    }),
+  ),
 }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
 export const maliciousEmailSecurityTimeseriesGroup: (
@@ -18431,17 +18613,17 @@ export interface SpamEmailSecurityTimeseriesGroupResponse {
 
 export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -18467,17 +18649,17 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18492,7 +18674,7 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -18501,7 +18683,7 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18510,9 +18692,9 @@ export const SpamEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SPAM: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SPAM")),
-    sPAM: Schema.Array(Schema.String).pipe(T.JsonName("SPAM")),
-  }),
+    nOT_SPAM: Schema.Array(Schema.String),
+    sPAM: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ nOT_SPAM: "NOT_SPAM", sPAM: "SPAM" })),
 }) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
 
 export const spamEmailSecurityTimeseriesGroup: (
@@ -18606,17 +18788,17 @@ export interface SpfEmailSecurityTimeseriesGroupResponse {
 
 export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -18642,17 +18824,17 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18667,7 +18849,7 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -18676,7 +18858,7 @@ export const SpfEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18778,17 +18960,17 @@ export interface SpoofEmailSecurityTimeseriesGroupResponse {
 
 export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -18814,17 +18996,17 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -18839,7 +19021,7 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -18848,7 +19030,7 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -18857,9 +19039,9 @@ export const SpoofEmailSecurityTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SPOOF: Schema.Array(Schema.String).pipe(T.JsonName("NOT_SPOOF")),
-    sPOOF: Schema.Array(Schema.String).pipe(T.JsonName("SPOOF")),
-  }),
+    nOT_SPOOF: Schema.Array(Schema.String),
+    sPOOF: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ nOT_SPOOF: "NOT_SPOOF", sPOOF: "SPOOF" })),
 }) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
 
 export const spoofEmailSecurityTimeseriesGroup: (
@@ -18948,11 +19130,11 @@ export interface GetEmailSecurityTopTldResponse {
 
 export const GetEmailSecurityTopTldResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -18978,17 +19160,17 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -18997,7 +19179,7 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -19005,7 +19187,7 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -19014,7 +19196,7 @@ export const GetEmailSecurityTopTldResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -19051,7 +19233,7 @@ export interface GetEmailSecurityTopTldMaliciousRequest {
 }
 
 export const GetEmailSecurityTopTldMaliciousRequest = Schema.Struct({
-  malicious: Schema.Literal("MALICIOUS", "NOT_MALICIOUS").pipe(
+  malicious: Schema.Literals(["MALICIOUS", "NOT_MALICIOUS"]).pipe(
     T.HttpPath("malicious"),
   ),
 }).pipe(
@@ -19125,11 +19307,11 @@ export interface GetEmailSecurityTopTldMaliciousResponse {
 
 export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -19155,17 +19337,17 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19174,7 +19356,7 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -19182,7 +19364,7 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -19191,7 +19373,7 @@ export const GetEmailSecurityTopTldMaliciousResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -19228,7 +19410,7 @@ export interface GetEmailSecurityTopTldSpamRequest {
 }
 
 export const GetEmailSecurityTopTldSpamRequest = Schema.Struct({
-  spam: Schema.Literal("SPAM", "NOT_SPAM").pipe(T.HttpPath("spam")),
+  spam: Schema.Literals(["SPAM", "NOT_SPAM"]).pipe(T.HttpPath("spam")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/email/security/top/tlds/spam/{spam}" }),
 ) as unknown as Schema.Schema<GetEmailSecurityTopTldSpamRequest>;
@@ -19297,11 +19479,11 @@ export interface GetEmailSecurityTopTldSpamResponse {
 
 export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -19327,17 +19509,17 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19346,7 +19528,7 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -19354,7 +19536,7 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -19363,7 +19545,7 @@ export const GetEmailSecurityTopTldSpamResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -19400,7 +19582,7 @@ export interface GetEmailSecurityTopTldSpoofRequest {
 }
 
 export const GetEmailSecurityTopTldSpoofRequest = Schema.Struct({
-  spoof: Schema.Literal("SPOOF", "NOT_SPOOF").pipe(T.HttpPath("spoof")),
+  spoof: Schema.Literals(["SPOOF", "NOT_SPOOF"]).pipe(T.HttpPath("spoof")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -19472,11 +19654,11 @@ export interface GetEmailSecurityTopTldSpoofResponse {
 
 export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -19502,17 +19684,17 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -19521,7 +19703,7 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -19529,7 +19711,7 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -19538,7 +19720,7 @@ export const GetEmailSecurityTopTldSpoofResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -19579,7 +19761,7 @@ export interface GetEntityRequest {
 
 export const GetEntityRequest = Schema.Struct({
   ip: Schema.String,
-  format: Schema.optional(Schema.Literal("JSON", "CSV")),
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/entities/ip" }),
 ) as unknown as Schema.Schema<GetEntityRequest>;
@@ -19761,7 +19943,7 @@ export interface IpEntityAsnRequest {
 
 export const IpEntityAsnRequest = Schema.Struct({
   ip: Schema.String,
-  format: Schema.optional(Schema.Literal("JSON", "CSV")),
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/entities/asns/ip" }),
 ) as unknown as Schema.Schema<IpEntityAsnRequest>;
@@ -19861,20 +20043,33 @@ export interface RelEntityAsnResponse {
 
 export const RelEntityAsnResponse = Schema.Struct({
   meta: Schema.Struct({
-    dataTime: Schema.String.pipe(T.JsonName("data_time")),
-    queryTime: Schema.String.pipe(T.JsonName("query_time")),
-    totalPeers: Schema.Number.pipe(T.JsonName("total_peers")),
-  }),
+    dataTime: Schema.String,
+    queryTime: Schema.String,
+    totalPeers: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      dataTime: "data_time",
+      queryTime: "query_time",
+      totalPeers: "total_peers",
+    }),
+  ),
   rels: Schema.Array(
     Schema.Struct({
       asn1: Schema.Number,
-      asn1Country: Schema.String.pipe(T.JsonName("asn1_country")),
-      asn1Name: Schema.String.pipe(T.JsonName("asn1_name")),
+      asn1Country: Schema.String,
+      asn1Name: Schema.String,
       asn2: Schema.Number,
-      asn2Country: Schema.String.pipe(T.JsonName("asn2_country")),
-      asn2Name: Schema.String.pipe(T.JsonName("asn2_name")),
+      asn2Country: Schema.String,
+      asn2Name: Schema.String,
       rel: Schema.String,
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        asn1Country: "asn1_country",
+        asn1Name: "asn1_name",
+        asn2Country: "asn2_country",
+        asn2Name: "asn2_name",
+      }),
+    ),
   ),
 }) as unknown as Schema.Schema<RelEntityAsnResponse>;
 
@@ -20061,17 +20256,17 @@ export interface BrowserFamilyHttpTimeseriesGroupResponse {
 
 export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -20097,17 +20292,17 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20122,7 +20317,7 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -20131,7 +20326,7 @@ export const BrowserFamilyHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -20230,11 +20425,11 @@ export interface BrowserFamilyHttpTopResponse {
 
 export const BrowserFamilyHttpTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -20260,17 +20455,17 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -20279,7 +20474,7 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -20287,7 +20482,7 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -20296,7 +20491,7 @@ export const BrowserFamilyHttpTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -20378,11 +20573,11 @@ export const GetGeolocationResponse = Schema.Struct({
         latitude: Schema.String,
         longitude: Schema.String,
         name: Schema.String,
-        type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+        type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
       }),
-      type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+      type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
     }),
-    type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+    type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
   }),
 }) as unknown as Schema.Schema<GetGeolocationResponse>;
 
@@ -20445,11 +20640,11 @@ export const ListGeolocationsResponse = Schema.Struct({
           latitude: Schema.String,
           longitude: Schema.String,
           name: Schema.String,
-          type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+          type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
         }),
-        type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+        type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
       }),
-      type: Schema.Literal("CONTINENT", "COUNTRY", "ADM1"),
+      type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
     }),
   ),
 }) as unknown as Schema.Schema<ListGeolocationsResponse>;
@@ -20475,12 +20670,12 @@ export interface TimeseriesGroupsAiBotRequest {
 }
 
 export const TimeseriesGroupsAiBotRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "USER_AGENT",
     "CRAWL_PURPOSE",
     "INDUSTRY",
     "VERTICAL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -20558,17 +20753,17 @@ export interface TimeseriesGroupsAiBotResponse {
 
 export const TimeseriesGroupsAiBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -20594,17 +20789,17 @@ export const TimeseriesGroupsAiBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20619,7 +20814,7 @@ export const TimeseriesGroupsAiBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -20628,7 +20823,7 @@ export const TimeseriesGroupsAiBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -20662,12 +20857,12 @@ export interface TimeseriesGroupsAiTimeseriesGroupRequest {
 }
 
 export const TimeseriesGroupsAiTimeseriesGroupRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "USER_AGENT",
     "CRAWL_PURPOSE",
     "INDUSTRY",
     "VERTICAL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -20745,17 +20940,17 @@ export interface TimeseriesGroupsAiTimeseriesGroupResponse {
 
 export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -20781,17 +20976,17 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20806,7 +21001,7 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -20815,7 +21010,7 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -20849,12 +21044,12 @@ export interface TimeseriesGroupsBotRequest {
 }
 
 export const TimeseriesGroupsBotRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "BOT",
     "BOT_KIND",
     "BOT_OPERATOR",
     "BOT_CATEGORY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/bots/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsBotRequest>;
@@ -20929,17 +21124,17 @@ export interface TimeseriesGroupsBotResponse {
 
 export const TimeseriesGroupsBotResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -20965,17 +21160,17 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -20990,7 +21185,7 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -20999,7 +21194,7 @@ export const TimeseriesGroupsBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -21039,14 +21234,14 @@ export interface TimeseriesGroupsBotWebCrawlerRequest {
 }
 
 export const TimeseriesGroupsBotWebCrawlerRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "CLIENT_TYPE",
     "USER_AGENT",
     "REFERER",
     "CRAWL_REFER_RATIO",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -21124,17 +21319,17 @@ export interface TimeseriesGroupsBotWebCrawlerResponse {
 
 export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -21160,17 +21355,17 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21185,7 +21380,7 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -21194,7 +21389,7 @@ export const TimeseriesGroupsBotWebCrawlerResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -21242,7 +21437,7 @@ export interface TimeseriesGroupsCtRequest {
 }
 
 export const TimeseriesGroupsCtRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "CA",
     "CA_OWNER",
     "DURATION",
@@ -21257,7 +21452,7 @@ export const TimeseriesGroupsCtRequest = Schema.Struct({
     "SIGNATURE_ALGORITHM",
     "TLD",
     "VALIDATION_LEVEL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ct/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsCtRequest>;
@@ -21352,17 +21547,17 @@ export interface TimeseriesGroupsCtResponse {
 
 export const TimeseriesGroupsCtResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -21388,17 +21583,17 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21413,7 +21608,7 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -21422,7 +21617,7 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -21430,7 +21625,7 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
       }),
     ),
   }),
-  serie_0: Schema.Union(
+  serie_0: Schema.Union([
     Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
@@ -21440,46 +21635,48 @@ export const TimeseriesGroupsCtResponse = Schema.Struct({
     }),
     Schema.Struct({
       gt_121d: Schema.Array(Schema.String),
-      gt_16dLte_31d: Schema.Array(Schema.String).pipe(
-        T.JsonName("gt_16d_lte_31d"),
-      ),
-      gt_31dLte_91d: Schema.Array(Schema.String).pipe(
-        T.JsonName("gt_31d_lte_91d"),
-      ),
-      gt_3dLte_16d: Schema.Array(Schema.String).pipe(
-        T.JsonName("gt_3d_lte_16d"),
-      ),
-      gt_91dLte_121d: Schema.Array(Schema.String).pipe(
-        T.JsonName("gt_91d_lte_121d"),
-      ),
+      gt_16dLte_31d: Schema.Array(Schema.String),
+      gt_31dLte_91d: Schema.Array(Schema.String),
+      gt_3dLte_16d: Schema.Array(Schema.String),
+      gt_91dLte_121d: Schema.Array(Schema.String),
       lte_3d: Schema.Array(Schema.String),
-    }),
+    }).pipe(
+      Schema.encodeKeys({
+        gt_16dLte_31d: "gt_16d_lte_31d",
+        gt_31dLte_91d: "gt_31d_lte_91d",
+        gt_3dLte_16d: "gt_3d_lte_16d",
+        gt_91dLte_121d: "gt_91d_lte_121d",
+      }),
+    ),
     Schema.Struct({
-      cERTIFICATE: Schema.Array(Schema.String).pipe(T.JsonName("CERTIFICATE")),
-      pRECERTIFICATE: Schema.Array(Schema.String).pipe(
-        T.JsonName("PRECERTIFICATE"),
-      ),
-    }),
+      cERTIFICATE: Schema.Array(Schema.String),
+      pRECERTIFICATE: Schema.Array(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        cERTIFICATE: "CERTIFICATE",
+        pRECERTIFICATE: "PRECERTIFICATE",
+      }),
+    ),
     Schema.Struct({
-      eXPIRED: Schema.Array(Schema.String).pipe(T.JsonName("EXPIRED")),
-      vALID: Schema.Array(Schema.String).pipe(T.JsonName("VALID")),
-    }),
+      eXPIRED: Schema.Array(Schema.String),
+      vALID: Schema.Array(Schema.String),
+    }).pipe(Schema.encodeKeys({ eXPIRED: "EXPIRED", vALID: "VALID" })),
     Schema.Struct({
-      nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
-      pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
-    }),
+      nEGATIVE: Schema.Array(Schema.String),
+      pOSITIVE: Schema.Array(Schema.String),
+    }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
     Schema.Struct({
-      dSA: Schema.Array(Schema.String).pipe(T.JsonName("DSA")),
-      eCDSA: Schema.Array(Schema.String).pipe(T.JsonName("ECDSA")),
-      rSA: Schema.Array(Schema.String).pipe(T.JsonName("RSA")),
-    }),
+      dSA: Schema.Array(Schema.String),
+      eCDSA: Schema.Array(Schema.String),
+      rSA: Schema.Array(Schema.String),
+    }).pipe(Schema.encodeKeys({ dSA: "DSA", eCDSA: "ECDSA", rSA: "RSA" })),
     Schema.Struct({
       domain: Schema.Array(Schema.String),
       extended: Schema.Array(Schema.String),
       organization: Schema.Array(Schema.String),
       unknown: Schema.Array(Schema.String),
     }),
-  ),
+  ]),
 }) as unknown as Schema.Schema<TimeseriesGroupsCtResponse>;
 
 export const timeseriesGroupsCt: (
@@ -21503,7 +21700,7 @@ export interface TimeseriesGroupsNetflowRequest {
 }
 
 export const TimeseriesGroupsNetflowRequest = Schema.Struct({
-  dimension: Schema.Literal("ADM1", "PRODUCT").pipe(T.HttpPath("dimension")),
+  dimension: Schema.Literals(["ADM1", "PRODUCT"]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -21581,17 +21778,17 @@ export interface TimeseriesGroupsNetflowResponse {
 
 export const TimeseriesGroupsNetflowResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -21617,17 +21814,17 @@ export const TimeseriesGroupsNetflowResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21642,7 +21839,7 @@ export const TimeseriesGroupsNetflowResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -21651,7 +21848,7 @@ export const TimeseriesGroupsNetflowResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -21706,14 +21903,14 @@ export interface TimeseriesGroupsQualityIqiRequest {
 }
 
 export const TimeseriesGroupsQualityIqiRequest = Schema.Struct({
-  metric: Schema.Literal("BANDWIDTH", "DNS", "LATENCY"),
-  aggInterval: Schema.optional(Schema.Literal("15m", "1h", "1d", "1w")),
+  metric: Schema.Literals(["BANDWIDTH", "DNS", "LATENCY"]),
+  aggInterval: Schema.optional(Schema.Literals(["15m", "1h", "1d", "1w"])),
   asn: Schema.optional(Schema.Array(Schema.String)),
   continent: Schema.optional(Schema.Array(Schema.String)),
   dateEnd: Schema.optional(Schema.Array(Schema.String)),
   dateRange: Schema.optional(Schema.Array(Schema.String)),
   dateStart: Schema.optional(Schema.Array(Schema.String)),
-  format: Schema.optional(Schema.Literal("JSON", "CSV")),
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])),
   interpolation: Schema.optional(Schema.Boolean),
   location: Schema.optional(Schema.Array(Schema.String)),
   name: Schema.optional(Schema.Array(Schema.String)),
@@ -21796,17 +21993,17 @@ export interface TimeseriesGroupsQualityIqiResponse {
 
 export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -21832,17 +22029,17 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -21857,7 +22054,7 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -21866,7 +22063,7 @@ export const TimeseriesGroupsQualityIqiResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -21974,17 +22171,17 @@ export interface TimeseriesGroupsRankingResponse {
 
 export const TimeseriesGroupsRankingResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22010,17 +22207,17 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22035,7 +22232,7 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22044,7 +22241,7 @@ export const TimeseriesGroupsRankingResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -22154,17 +22351,17 @@ export interface TimeseriesGroupsRankingInternetServiceResponse {
 
 export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22190,17 +22387,17 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22215,7 +22412,7 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22224,7 +22421,7 @@ export const TimeseriesGroupsRankingInternetServiceResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -22339,17 +22536,17 @@ export interface TimeseriesGroupsTcpResetsTimeoutResponse {
 
 export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22375,17 +22572,17 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22400,7 +22597,7 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22409,7 +22606,7 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -22418,13 +22615,21 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    laterInFlow: Schema.Array(Schema.String).pipe(T.JsonName("later_in_flow")),
-    noMatch: Schema.Array(Schema.String).pipe(T.JsonName("no_match")),
-    postAck: Schema.Array(Schema.String).pipe(T.JsonName("post_ack")),
-    postPsh: Schema.Array(Schema.String).pipe(T.JsonName("post_psh")),
-    postSyn: Schema.Array(Schema.String).pipe(T.JsonName("post_syn")),
+    laterInFlow: Schema.Array(Schema.String),
+    noMatch: Schema.Array(Schema.String),
+    postAck: Schema.Array(Schema.String),
+    postPsh: Schema.Array(Schema.String),
+    postSyn: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      laterInFlow: "later_in_flow",
+      noMatch: "no_match",
+      postAck: "post_ack",
+      postPsh: "post_psh",
+      postSyn: "post_syn",
+    }),
+  ),
 }) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
 
 export const timeseriesGroupsTcpResetsTimeout: (
@@ -22448,7 +22653,7 @@ export interface TimeseriesGroupsV2AiInferenceRequest {
 }
 
 export const TimeseriesGroupsV2AiInferenceRequest = Schema.Struct({
-  dimension: Schema.Literal("MODEL", "TASK").pipe(T.HttpPath("dimension")),
+  dimension: Schema.Literals(["MODEL", "TASK"]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -22526,17 +22731,17 @@ export interface TimeseriesGroupsV2AiInferenceResponse {
 
 export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22562,17 +22767,17 @@ export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22587,7 +22792,7 @@ export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22596,7 +22801,7 @@ export const TimeseriesGroupsV2AiInferenceResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -22636,14 +22841,14 @@ export interface TimeseriesGroupsV2As112Request {
 }
 
 export const TimeseriesGroupsV2As112Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "DNSSEC",
     "EDNS",
     "IP_VERSION",
     "PROTOCOL",
     "QUERY_TYPE",
     "RESPONSE_CODE",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/as112/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsV2As112Request>;
@@ -22718,17 +22923,17 @@ export interface TimeseriesGroupsV2As112Response {
 
 export const TimeseriesGroupsV2As112Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22754,17 +22959,17 @@ export const TimeseriesGroupsV2As112Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22779,7 +22984,7 @@ export const TimeseriesGroupsV2As112Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22788,7 +22993,7 @@ export const TimeseriesGroupsV2As112Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -22829,7 +23034,7 @@ export interface TimeseriesGroupsV2AttackLayer3Request {
 }
 
 export const TimeseriesGroupsV2AttackLayer3Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "PROTOCOL",
     "IP_VERSION",
     "VECTOR",
@@ -22837,7 +23042,7 @@ export const TimeseriesGroupsV2AttackLayer3Request = Schema.Struct({
     "BITRATE",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -22915,17 +23120,17 @@ export interface TimeseriesGroupsV2AttackLayer3Response {
 
 export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -22951,17 +23156,17 @@ export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -22976,7 +23181,7 @@ export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -22985,7 +23190,7 @@ export const TimeseriesGroupsV2AttackLayer3Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -23026,7 +23231,7 @@ export interface TimeseriesGroupsV2AttackLayer7Request {
 }
 
 export const TimeseriesGroupsV2AttackLayer7Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "HTTP_METHOD",
     "HTTP_VERSION",
     "IP_VERSION",
@@ -23034,7 +23239,7 @@ export const TimeseriesGroupsV2AttackLayer7Request = Schema.Struct({
     "MITIGATION_PRODUCT",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -23112,17 +23317,17 @@ export interface TimeseriesGroupsV2AttackLayer7Response {
 
 export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -23148,17 +23353,17 @@ export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23173,7 +23378,7 @@ export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -23182,7 +23387,7 @@ export const TimeseriesGroupsV2AttackLayer7Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -23227,7 +23432,7 @@ export interface TimeseriesGroupsV2DnsRequest {
 }
 
 export const TimeseriesGroupsV2DnsRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "IP_VERSION",
     "CACHE_HIT",
     "DNSSEC",
@@ -23239,7 +23444,7 @@ export const TimeseriesGroupsV2DnsRequest = Schema.Struct({
     "RESPONSE_CODE",
     "RESPONSE_TTL",
     "TLD",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/dns/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsV2DnsRequest>;
@@ -23314,17 +23519,17 @@ export interface TimeseriesGroupsV2DnsResponse {
 
 export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -23350,17 +23555,17 @@ export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23375,7 +23580,7 @@ export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -23384,7 +23589,7 @@ export const TimeseriesGroupsV2DnsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -23418,14 +23623,14 @@ export interface TimeseriesGroupsV2EmailRoutingRequest {
 }
 
 export const TimeseriesGroupsV2EmailRoutingRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "IP_VERSION",
     "ENCRYPTED",
     "ARC",
     "DKIM",
     "DMARC",
     "SPF",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -23503,17 +23708,17 @@ export interface TimeseriesGroupsV2EmailRoutingResponse {
 
 export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -23539,17 +23744,17 @@ export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23564,7 +23769,7 @@ export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -23573,7 +23778,7 @@ export const TimeseriesGroupsV2EmailRoutingResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -23616,7 +23821,7 @@ export interface TimeseriesGroupsV2EmailSecurityRequest {
 }
 
 export const TimeseriesGroupsV2EmailSecurityRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "SPAM",
     "MALICIOUS",
     "SPOOF",
@@ -23626,7 +23831,7 @@ export const TimeseriesGroupsV2EmailSecurityRequest = Schema.Struct({
     "DMARC",
     "SPF",
     "TLS_VERSION",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -23704,17 +23909,17 @@ export interface TimeseriesGroupsV2EmailSecurityResponse {
 
 export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -23740,17 +23945,17 @@ export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23765,7 +23970,7 @@ export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -23774,7 +23979,7 @@ export const TimeseriesGroupsV2EmailSecurityResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -23819,7 +24024,7 @@ export interface TimeseriesGroupsV2HttpRequest {
 }
 
 export const TimeseriesGroupsV2HttpRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "ADM1",
     "BOT_CLASS",
     "BROWSER",
@@ -23831,7 +24036,7 @@ export const TimeseriesGroupsV2HttpRequest = Schema.Struct({
     "OS",
     "POST_QUANTUM",
     "TLS_VERSION",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/timeseries_groups/{dimension}" }),
 ) as unknown as Schema.Schema<TimeseriesGroupsV2HttpRequest>;
@@ -23906,17 +24111,17 @@ export interface TimeseriesGroupsV2HttpResponse {
 
 export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -23942,17 +24147,17 @@ export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -23967,7 +24172,7 @@ export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -23976,7 +24181,7 @@ export const TimeseriesGroupsV2HttpResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24010,7 +24215,7 @@ export interface TimeseriesGroupsV2LeakedCredentialRequest {
 }
 
 export const TimeseriesGroupsV2LeakedCredentialRequest = Schema.Struct({
-  dimension: Schema.Literal("COMPROMISED", "BOT_CLASS").pipe(
+  dimension: Schema.Literals(["COMPROMISED", "BOT_CLASS"]).pipe(
     T.HttpPath("dimension"),
   ),
 }).pipe(
@@ -24090,17 +24295,17 @@ export interface TimeseriesGroupsV2LeakedCredentialResponse {
 
 export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -24126,17 +24331,17 @@ export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -24151,7 +24356,7 @@ export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -24160,7 +24365,7 @@ export const TimeseriesGroupsV2LeakedCredentialResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24262,7 +24467,7 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -24288,17 +24493,17 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -24313,7 +24518,7 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -24322,7 +24527,7 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24331,9 +24536,9 @@ export const CacheHitDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nEGATIVE: Schema.String.pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.String.pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.String,
+    pOSITIVE: Schema.String,
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
 
 export const cacheHitDnsSummary: (
@@ -24428,17 +24633,17 @@ export interface CacheHitDnsTimeseriesGroupResponse {
 
 export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -24464,17 +24669,17 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -24489,7 +24694,7 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -24498,7 +24703,7 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24507,9 +24712,9 @@ export const CacheHitDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nEGATIVE: Schema.Array(Schema.String).pipe(T.JsonName("NEGATIVE")),
-    pOSITIVE: Schema.Array(Schema.String).pipe(T.JsonName("POSITIVE")),
-  }),
+    nEGATIVE: Schema.Array(Schema.String),
+    pOSITIVE: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ nEGATIVE: "NEGATIVE", pOSITIVE: "POSITIVE" })),
 }) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
 
 export const cacheHitDnsTimeseriesGroup: (
@@ -24603,17 +24808,17 @@ export interface TimeseriesHttpResponse {
 
 export const TimeseriesHttpResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -24639,17 +24844,17 @@ export const TimeseriesHttpResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -24664,7 +24869,7 @@ export const TimeseriesHttpResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -24673,7 +24878,7 @@ export const TimeseriesHttpResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24769,11 +24974,11 @@ export interface GetHttpAsResponse {
 
 export const GetHttpAsResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -24799,17 +25004,17 @@ export const GetHttpAsResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -24818,7 +25023,7 @@ export const GetHttpAsResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -24826,7 +25031,7 @@ export const GetHttpAsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -24835,7 +25040,7 @@ export const GetHttpAsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -24873,7 +25078,7 @@ export interface GetHttpAsBotClassRequest {
 }
 
 export const GetHttpAsBotClassRequest = Schema.Struct({
-  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(
+  botClass: Schema.Literals(["LIKELY_AUTOMATED", "LIKELY_HUMAN"]).pipe(
     T.HttpPath("botClass"),
   ),
 }).pipe(
@@ -24944,11 +25149,11 @@ export interface GetHttpAsBotClassResponse {
 
 export const GetHttpAsBotClassResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -24974,17 +25179,17 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -24993,7 +25198,7 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25001,7 +25206,7 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25010,7 +25215,7 @@ export const GetHttpAsBotClassResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25048,7 +25253,7 @@ export interface GetHttpAsBrowserFamilyRequest {
 }
 
 export const GetHttpAsBrowserFamilyRequest = Schema.Struct({
-  browserFamily: Schema.Literal("CHROME", "EDGE", "FIREFOX", "SAFARI").pipe(
+  browserFamily: Schema.Literals(["CHROME", "EDGE", "FIREFOX", "SAFARI"]).pipe(
     T.HttpPath("browserFamily"),
   ),
 }).pipe(
@@ -25122,11 +25327,11 @@ export interface GetHttpAsBrowserFamilyResponse {
 
 export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -25152,17 +25357,17 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -25171,7 +25376,7 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25179,7 +25384,7 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25188,7 +25393,7 @@ export const GetHttpAsBrowserFamilyResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25226,7 +25431,7 @@ export interface GetHttpAsDeviceTypeRequest {
 }
 
 export const GetHttpAsDeviceTypeRequest = Schema.Struct({
-  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(
+  deviceType: Schema.Literals(["DESKTOP", "MOBILE", "OTHER"]).pipe(
     T.HttpPath("deviceType"),
   ),
 }).pipe(
@@ -25300,11 +25505,11 @@ export interface GetHttpAsDeviceTypeResponse {
 
 export const GetHttpAsDeviceTypeResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -25330,17 +25535,17 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -25349,7 +25554,7 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25357,7 +25562,7 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25366,7 +25571,7 @@ export const GetHttpAsDeviceTypeResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25404,7 +25609,7 @@ export interface GetHttpAsHttpMethodRequest {
 }
 
 export const GetHttpAsHttpMethodRequest = Schema.Struct({
-  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(
+  httpVersion: Schema.Literals(["HTTPv1", "HTTPv2", "HTTPv3"]).pipe(
     T.HttpPath("httpVersion"),
   ),
 }).pipe(
@@ -25478,11 +25683,11 @@ export interface GetHttpAsHttpMethodResponse {
 
 export const GetHttpAsHttpMethodResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -25508,17 +25713,17 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -25527,7 +25732,7 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25535,7 +25740,7 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25544,7 +25749,7 @@ export const GetHttpAsHttpMethodResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25582,7 +25787,7 @@ export interface GetHttpAsHttpProtocolRequest {
 }
 
 export const GetHttpAsHttpProtocolRequest = Schema.Struct({
-  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(
+  httpProtocol: Schema.Literals(["HTTP", "HTTPS"]).pipe(
     T.HttpPath("httpProtocol"),
   ),
 }).pipe(
@@ -25656,11 +25861,11 @@ export interface GetHttpAsHttpProtocolResponse {
 
 export const GetHttpAsHttpProtocolResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -25686,17 +25891,17 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -25705,7 +25910,7 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25713,7 +25918,7 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25722,7 +25927,7 @@ export const GetHttpAsHttpProtocolResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25760,7 +25965,7 @@ export interface GetHttpAsIpVersionRequest {
 }
 
 export const GetHttpAsIpVersionRequest = Schema.Struct({
-  ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
+  ipVersion: Schema.Literals(["IPv4", "IPv6"]).pipe(T.HttpPath("ipVersion")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -25832,11 +26037,11 @@ export interface GetHttpAsIpVersionResponse {
 
 export const GetHttpAsIpVersionResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -25862,17 +26067,17 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -25881,7 +26086,7 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -25889,7 +26094,7 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -25898,7 +26103,7 @@ export const GetHttpAsIpVersionResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -25943,7 +26148,7 @@ export interface GetHttpAsOsRequest {
 }
 
 export const GetHttpAsOsRequest = Schema.Struct({
-  os: Schema.Literal(
+  os: Schema.Literals([
     "WINDOWS",
     "MACOSX",
     "IOS",
@@ -25951,7 +26156,7 @@ export const GetHttpAsOsRequest = Schema.Struct({
     "CHROMEOS",
     "LINUX",
     "SMART_TV",
-  ).pipe(T.HttpPath("os")),
+  ]).pipe(T.HttpPath("os")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/top/ases/os/{os}" }),
 ) as unknown as Schema.Schema<GetHttpAsOsRequest>;
@@ -26020,11 +26225,11 @@ export interface GetHttpAsOsResponse {
 
 export const GetHttpAsOsResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26050,17 +26255,17 @@ export const GetHttpAsOsResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26069,7 +26274,7 @@ export const GetHttpAsOsResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26077,7 +26282,7 @@ export const GetHttpAsOsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26086,7 +26291,7 @@ export const GetHttpAsOsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -26124,13 +26329,13 @@ export interface GetHttpAsTlsVersionRequest {
 }
 
 export const GetHttpAsTlsVersionRequest = Schema.Struct({
-  tlsVersion: Schema.Literal(
+  tlsVersion: Schema.Literals([
     "TLSv1_0",
     "TLSv1_1",
     "TLSv1_2",
     "TLSv1_3",
     "TLSvQUIC",
-  ).pipe(T.HttpPath("tlsVersion")),
+  ]).pipe(T.HttpPath("tlsVersion")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -26202,11 +26407,11 @@ export interface GetHttpAsTlsVersionResponse {
 
 export const GetHttpAsTlsVersionResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26232,17 +26437,17 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26251,7 +26456,7 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26259,7 +26464,7 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26268,7 +26473,7 @@ export const GetHttpAsTlsVersionResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -26375,11 +26580,11 @@ export interface GetHttpLocationResponse {
 
 export const GetHttpLocationResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26405,17 +26610,17 @@ export const GetHttpLocationResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26424,7 +26629,7 @@ export const GetHttpLocationResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26432,7 +26637,7 @@ export const GetHttpLocationResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26441,7 +26646,7 @@ export const GetHttpLocationResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -26479,7 +26684,7 @@ export interface GetHttpLocationBotClassRequest {
 }
 
 export const GetHttpLocationBotClassRequest = Schema.Struct({
-  botClass: Schema.Literal("LIKELY_AUTOMATED", "LIKELY_HUMAN").pipe(
+  botClass: Schema.Literals(["LIKELY_AUTOMATED", "LIKELY_HUMAN"]).pipe(
     T.HttpPath("botClass"),
   ),
 }).pipe(
@@ -26557,11 +26762,11 @@ export interface GetHttpLocationBotClassResponse {
 
 export const GetHttpLocationBotClassResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26587,17 +26792,17 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26606,7 +26811,7 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26614,7 +26819,7 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26623,7 +26828,7 @@ export const GetHttpLocationBotClassResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -26661,7 +26866,7 @@ export interface GetHttpLocationBrowserFamilyRequest {
 }
 
 export const GetHttpLocationBrowserFamilyRequest = Schema.Struct({
-  browserFamily: Schema.Literal("CHROME", "EDGE", "FIREFOX", "SAFARI").pipe(
+  browserFamily: Schema.Literals(["CHROME", "EDGE", "FIREFOX", "SAFARI"]).pipe(
     T.HttpPath("browserFamily"),
   ),
 }).pipe(
@@ -26739,11 +26944,11 @@ export interface GetHttpLocationBrowserFamilyResponse {
 
 export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26769,17 +26974,17 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26788,7 +26993,7 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26796,7 +27001,7 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26805,7 +27010,7 @@ export const GetHttpLocationBrowserFamilyResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -26843,7 +27048,7 @@ export interface GetHttpLocationDeviceTypeRequest {
 }
 
 export const GetHttpLocationDeviceTypeRequest = Schema.Struct({
-  deviceType: Schema.Literal("DESKTOP", "MOBILE", "OTHER").pipe(
+  deviceType: Schema.Literals(["DESKTOP", "MOBILE", "OTHER"]).pipe(
     T.HttpPath("deviceType"),
   ),
 }).pipe(
@@ -26921,11 +27126,11 @@ export interface GetHttpLocationDeviceTypeResponse {
 
 export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -26951,17 +27156,17 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -26970,7 +27175,7 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -26978,7 +27183,7 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -26987,7 +27192,7 @@ export const GetHttpLocationDeviceTypeResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -27025,7 +27230,7 @@ export interface GetHttpLocationHttpMethodRequest {
 }
 
 export const GetHttpLocationHttpMethodRequest = Schema.Struct({
-  httpVersion: Schema.Literal("HTTPv1", "HTTPv2", "HTTPv3").pipe(
+  httpVersion: Schema.Literals(["HTTPv1", "HTTPv2", "HTTPv3"]).pipe(
     T.HttpPath("httpVersion"),
   ),
 }).pipe(
@@ -27103,11 +27308,11 @@ export interface GetHttpLocationHttpMethodResponse {
 
 export const GetHttpLocationHttpMethodResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -27133,17 +27338,17 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -27152,7 +27357,7 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -27160,7 +27365,7 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -27169,7 +27374,7 @@ export const GetHttpLocationHttpMethodResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -27207,7 +27412,7 @@ export interface GetHttpLocationHttpProtocolRequest {
 }
 
 export const GetHttpLocationHttpProtocolRequest = Schema.Struct({
-  httpProtocol: Schema.Literal("HTTP", "HTTPS").pipe(
+  httpProtocol: Schema.Literals(["HTTP", "HTTPS"]).pipe(
     T.HttpPath("httpProtocol"),
   ),
 }).pipe(
@@ -27285,11 +27490,11 @@ export interface GetHttpLocationHttpProtocolResponse {
 
 export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -27315,17 +27520,17 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -27334,7 +27539,7 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -27342,7 +27547,7 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -27351,7 +27556,7 @@ export const GetHttpLocationHttpProtocolResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -27389,7 +27594,7 @@ export interface GetHttpLocationIpVersionRequest {
 }
 
 export const GetHttpLocationIpVersionRequest = Schema.Struct({
-  ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
+  ipVersion: Schema.Literals(["IPv4", "IPv6"]).pipe(T.HttpPath("ipVersion")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -27465,11 +27670,11 @@ export interface GetHttpLocationIpVersionResponse {
 
 export const GetHttpLocationIpVersionResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -27495,17 +27700,17 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -27514,7 +27719,7 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -27522,7 +27727,7 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -27531,7 +27736,7 @@ export const GetHttpLocationIpVersionResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -27576,7 +27781,7 @@ export interface GetHttpLocationOsRequest {
 }
 
 export const GetHttpLocationOsRequest = Schema.Struct({
-  os: Schema.Literal(
+  os: Schema.Literals([
     "WINDOWS",
     "MACOSX",
     "IOS",
@@ -27584,7 +27789,7 @@ export const GetHttpLocationOsRequest = Schema.Struct({
     "CHROMEOS",
     "LINUX",
     "SMART_TV",
-  ).pipe(T.HttpPath("os")),
+  ]).pipe(T.HttpPath("os")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/top/locations/os/{os}" }),
 ) as unknown as Schema.Schema<GetHttpLocationOsRequest>;
@@ -27657,11 +27862,11 @@ export interface GetHttpLocationOsResponse {
 
 export const GetHttpLocationOsResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -27687,17 +27892,17 @@ export const GetHttpLocationOsResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -27706,7 +27911,7 @@ export const GetHttpLocationOsResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -27714,7 +27919,7 @@ export const GetHttpLocationOsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -27723,7 +27928,7 @@ export const GetHttpLocationOsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -27761,13 +27966,13 @@ export interface GetHttpLocationTlsVersionRequest {
 }
 
 export const GetHttpLocationTlsVersionRequest = Schema.Struct({
-  tlsVersion: Schema.Literal(
+  tlsVersion: Schema.Literals([
     "TLSv1_0",
     "TLSv1_1",
     "TLSv1_2",
     "TLSv1_3",
     "TLSvQUIC",
-  ).pipe(T.HttpPath("tlsVersion")),
+  ]).pipe(T.HttpPath("tlsVersion")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -27843,11 +28048,11 @@ export interface GetHttpLocationTlsVersionResponse {
 
 export const GetHttpLocationTlsVersionResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -27873,17 +28078,17 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -27892,7 +28097,7 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -27900,7 +28105,7 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -27909,7 +28114,7 @@ export const GetHttpLocationTlsVersionResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28015,7 +28220,7 @@ export const OsHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -28041,17 +28246,17 @@ export const OsHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -28066,7 +28271,7 @@ export const OsHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -28075,7 +28280,7 @@ export const OsHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28084,9 +28289,9 @@ export const OsHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    aNDROID: Schema.String.pipe(T.JsonName("ANDROID")),
-    iOS: Schema.String.pipe(T.JsonName("IOS")),
-  }),
+    aNDROID: Schema.String,
+    iOS: Schema.String,
+  }).pipe(Schema.encodeKeys({ aNDROID: "ANDROID", iOS: "IOS" })),
 }) as unknown as Schema.Schema<OsHttpSummaryResponse>;
 
 export const osHttpSummary: (
@@ -28181,17 +28386,17 @@ export interface BrowserHttpTimeseriesGroupResponse {
 
 export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -28217,17 +28422,17 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -28242,7 +28447,7 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -28251,7 +28456,7 @@ export const BrowserHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28352,17 +28557,17 @@ export interface OsHttpTimeseriesGroupResponse {
 
 export const OsHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -28388,17 +28593,17 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -28413,7 +28618,7 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -28422,7 +28627,7 @@ export const OsHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28521,11 +28726,11 @@ export interface BrowserHttpTopResponse {
 
 export const BrowserHttpTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -28551,17 +28756,17 @@ export const BrowserHttpTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -28570,7 +28775,7 @@ export const BrowserHttpTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -28578,7 +28783,7 @@ export const BrowserHttpTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -28587,7 +28792,7 @@ export const BrowserHttpTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28695,7 +28900,7 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -28721,17 +28926,17 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -28746,7 +28951,7 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -28755,7 +28960,7 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -28764,9 +28969,9 @@ export const CompromisedLeakedCredentialSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    cLEAN: Schema.String.pipe(T.JsonName("CLEAN")),
-    cOMPROMISED: Schema.String.pipe(T.JsonName("COMPROMISED")),
-  }),
+    cLEAN: Schema.String,
+    cOMPROMISED: Schema.String,
+  }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
 }) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
 
 export const compromisedLeakedCredentialSummary: (
@@ -28867,17 +29072,17 @@ export interface CompromisedLeakedCredentialTimeseriesGroupResponse {
 export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
   {
     meta: Schema.Struct({
-      aggInterval: Schema.Literal(
+      aggInterval: Schema.Literals([
         "FIFTEEN_MINUTES",
         "ONE_HOUR",
         "ONE_DAY",
         "ONE_WEEK",
         "ONE_MONTH",
-      ),
+      ]),
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -28903,17 +29108,17 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -28928,7 +29133,7 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
         }),
       ),
       lastUpdated: Schema.String,
-      normalization: Schema.Literal(
+      normalization: Schema.Literals([
         "PERCENTAGE",
         "MIN0_MAX",
         "MIN_MAX",
@@ -28937,7 +29142,7 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
         "ROLLING_AVERAGE",
         "OVERLAPPED_PERCENTAGE",
         "RATIO",
-      ),
+      ]),
       units: Schema.Array(
         Schema.Struct({
           name: Schema.String,
@@ -28946,10 +29151,10 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse = Schema.Struct(
       ),
     }),
     serie_0: Schema.Struct({
-      cLEAN: Schema.Array(Schema.String).pipe(T.JsonName("CLEAN")),
-      cOMPROMISED: Schema.Array(Schema.String).pipe(T.JsonName("COMPROMISED")),
+      cLEAN: Schema.Array(Schema.String),
+      cOMPROMISED: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
-    }),
+    }).pipe(Schema.encodeKeys({ cLEAN: "CLEAN", cOMPROMISED: "COMPROMISED" })),
   },
 ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
@@ -29042,7 +29247,7 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -29068,17 +29273,17 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -29093,7 +29298,7 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29102,7 +29307,7 @@ export const HttpMethodAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -29210,17 +29415,17 @@ export interface HttpMethodAttackLayer7TimeseriesGroupResponse {
 
 export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -29246,17 +29451,17 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -29271,7 +29476,7 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29280,7 +29485,7 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -29382,7 +29587,7 @@ export const SummaryNetflowResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -29408,17 +29613,17 @@ export const SummaryNetflowResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -29433,7 +29638,7 @@ export const SummaryNetflowResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29442,7 +29647,7 @@ export const SummaryNetflowResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -29451,9 +29656,9 @@ export const SummaryNetflowResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    hTTP: Schema.String.pipe(T.JsonName("HTTP")),
-    oTHER: Schema.String.pipe(T.JsonName("OTHER")),
-  }),
+    hTTP: Schema.String,
+    oTHER: Schema.String,
+  }).pipe(Schema.encodeKeys({ hTTP: "HTTP", oTHER: "OTHER" })),
 }) as unknown as Schema.Schema<SummaryNetflowResponse>;
 
 export const summaryNetflow: (
@@ -29544,17 +29749,17 @@ export interface TimeseriesNetflowResponse {
 
 export const TimeseriesNetflowResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -29580,17 +29785,17 @@ export const TimeseriesNetflowResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -29605,7 +29810,7 @@ export const TimeseriesNetflowResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29614,7 +29819,7 @@ export const TimeseriesNetflowResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -29714,11 +29919,11 @@ export interface AsesNetflowTopResponse {
 
 export const AsesNetflowTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -29744,17 +29949,17 @@ export const AsesNetflowTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -29763,7 +29968,7 @@ export const AsesNetflowTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -29771,7 +29976,7 @@ export const AsesNetflowTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29780,7 +29985,7 @@ export const AsesNetflowTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -29883,11 +30088,11 @@ export interface LocationsNetflowTopResponse {
 
 export const LocationsNetflowTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -29913,17 +30118,17 @@ export const LocationsNetflowTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -29932,7 +30137,7 @@ export const LocationsNetflowTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -29940,7 +30145,7 @@ export const LocationsNetflowTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -29949,7 +30154,7 @@ export const LocationsNetflowTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -30060,7 +30265,7 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -30086,17 +30291,17 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -30111,7 +30316,7 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -30120,7 +30325,7 @@ export const MitigationProductAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -30228,17 +30433,17 @@ export interface MitigationProductAttackLayer7TimeseriesGroupResponse {
 export const MitigationProductAttackLayer7TimeseriesGroupResponse =
   Schema.Struct({
     meta: Schema.Struct({
-      aggInterval: Schema.Literal(
+      aggInterval: Schema.Literals([
         "FIFTEEN_MINUTES",
         "ONE_HOUR",
         "ONE_DAY",
         "ONE_WEEK",
         "ONE_MONTH",
-      ),
+      ]),
       confidenceInfo: Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -30264,17 +30469,17 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -30289,7 +30494,7 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
         }),
       ),
       lastUpdated: Schema.String,
-      normalization: Schema.Literal(
+      normalization: Schema.Literals([
         "PERCENTAGE",
         "MIN0_MAX",
         "MIN_MAX",
@@ -30298,7 +30503,7 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
         "ROLLING_AVERAGE",
         "OVERLAPPED_PERCENTAGE",
         "RATIO",
-      ),
+      ]),
       units: Schema.Array(
         Schema.Struct({
           name: Schema.String,
@@ -30400,7 +30605,7 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -30426,17 +30631,17 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -30451,7 +30656,7 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -30460,7 +30665,7 @@ export const HttpProtocolHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -30569,17 +30774,17 @@ export interface HttpProtocolHttpTimeseriesGroupResponse {
 
 export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -30605,17 +30810,17 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -30630,7 +30835,7 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -30639,7 +30844,7 @@ export const HttpProtocolHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -30692,13 +30897,13 @@ export interface SummaryQualityIqiRequest {
 }
 
 export const SummaryQualityIqiRequest = Schema.Struct({
-  metric: Schema.Literal("BANDWIDTH", "DNS", "LATENCY"),
+  metric: Schema.Literals(["BANDWIDTH", "DNS", "LATENCY"]),
   asn: Schema.optional(Schema.Array(Schema.String)),
   continent: Schema.optional(Schema.Array(Schema.String)),
   dateEnd: Schema.optional(Schema.Array(Schema.String)),
   dateRange: Schema.optional(Schema.Array(Schema.String)),
   dateStart: Schema.optional(Schema.Array(Schema.String)),
-  format: Schema.optional(Schema.Literal("JSON", "CSV")),
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])),
   location: Schema.optional(Schema.Array(Schema.String)),
   name: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
@@ -30772,7 +30977,7 @@ export const SummaryQualityIqiResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -30798,17 +31003,17 @@ export const SummaryQualityIqiResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -30823,7 +31028,7 @@ export const SummaryQualityIqiResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -30832,7 +31037,7 @@ export const SummaryQualityIqiResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -30948,7 +31153,7 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -30974,17 +31179,17 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -30999,7 +31204,7 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31008,7 +31213,7 @@ export const HistogramQualitySpeedResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     totalTests: Schema.Array(Schema.Number),
     units: Schema.Array(
       Schema.Struct({
@@ -31112,7 +31317,7 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -31138,17 +31343,17 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -31163,7 +31368,7 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31172,7 +31377,7 @@ export const SummaryQualitySpeedResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -31288,11 +31493,11 @@ export interface AsesQualitySpeedTopResponse {
 
 export const AsesQualitySpeedTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -31318,17 +31523,17 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -31337,7 +31542,7 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -31345,7 +31550,7 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31354,7 +31559,7 @@ export const AsesQualitySpeedTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -31471,11 +31676,11 @@ export interface LocationsQualitySpeedTopResponse {
 
 export const LocationsQualitySpeedTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -31501,17 +31706,17 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -31520,7 +31725,7 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -31528,7 +31733,7 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31537,7 +31742,7 @@ export const LocationsQualitySpeedTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -31650,7 +31855,7 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -31676,17 +31881,17 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -31701,7 +31906,7 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31710,7 +31915,7 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -31719,9 +31924,14 @@ export const PostQuantumHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.String.pipe(T.JsonName("NOT_SUPPORTED")),
-    sUPPORTED: Schema.String.pipe(T.JsonName("SUPPORTED")),
-  }),
+    nOT_SUPPORTED: Schema.String,
+    sUPPORTED: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
 
 export const postQuantumHttpSummary: (
@@ -31820,17 +32030,17 @@ export interface PostQuantumHttpTimeseriesGroupResponse {
 
 export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -31856,17 +32066,17 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -31881,7 +32091,7 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -31890,7 +32100,7 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -31899,12 +32109,15 @@ export const PostQuantumHttpTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    nOT_SUPPORTED: Schema.Array(Schema.String).pipe(
-      T.JsonName("NOT_SUPPORTED"),
-    ),
-    sUPPORTED: Schema.Array(Schema.String).pipe(T.JsonName("SUPPORTED")),
+    nOT_SUPPORTED: Schema.Array(Schema.String),
+    sUPPORTED: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      nOT_SUPPORTED: "NOT_SUPPORTED",
+      sUPPORTED: "SUPPORTED",
+    }),
+  ),
 }) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
 
 export const postQuantumHttpTimeseriesGroup: (
@@ -31997,11 +32210,11 @@ export interface TopRankingResponse {
 
 export const TopRankingResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -32027,17 +32240,17 @@ export const TopRankingResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -32046,7 +32259,7 @@ export const TopRankingResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -32054,7 +32267,7 @@ export const TopRankingResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -32063,7 +32276,7 @@ export const TopRankingResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -32146,8 +32359,8 @@ export const GetRankingDomainResponse = Schema.Struct({
           rank: Schema.Number,
         }),
       ),
-    ).pipe(T.JsonName("top_locations")),
-  }),
+    ),
+  }).pipe(Schema.encodeKeys({ topLocations: "top_locations" })),
   meta: Schema.Struct({
     dateRange: Schema.Array(
       Schema.Struct({
@@ -32276,11 +32489,11 @@ export interface TopRankingInternetServiceResponse {
 
 export const TopRankingInternetServiceResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -32306,17 +32519,17 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -32325,7 +32538,7 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -32333,7 +32546,7 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -32342,7 +32555,7 @@ export const TopRankingInternetServiceResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -32447,11 +32660,11 @@ export interface DirectiveRobotsTxtTopUserAgentResponse {
 
 export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -32477,17 +32690,17 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -32496,7 +32709,7 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -32504,7 +32717,7 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -32513,7 +32726,7 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -32623,7 +32836,7 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -32649,17 +32862,17 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -32674,7 +32887,7 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -32683,7 +32896,7 @@ export const ManagedRulesAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -32791,17 +33004,17 @@ export interface ManagedRulesAttackLayer7TimeseriesGroupResponse {
 
 export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -32827,17 +33040,17 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -32852,7 +33065,7 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -32861,7 +33074,7 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -32935,7 +33148,7 @@ export const GlobalSearchRequest = Schema.Struct({
   query: Schema.String,
   exclude: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "ADM1S",
         "ASNS",
         "BOTS",
@@ -32948,13 +33161,13 @@ export const GlobalSearchRequest = Schema.Struct({
         "NOTEBOOKS",
         "TLDS",
         "VERTICALS",
-      ),
+      ]),
     ),
   ),
-  format: Schema.optional(Schema.Literal("JSON", "CSV")),
+  format: Schema.optional(Schema.Literals(["JSON", "CSV"])),
   include: Schema.optional(
     Schema.Array(
-      Schema.Literal(
+      Schema.Literals([
         "ADM1S",
         "ASNS",
         "BOTS",
@@ -32967,7 +33180,7 @@ export const GlobalSearchRequest = Schema.Struct({
         "NOTEBOOKS",
         "TLDS",
         "VERTICALS",
-      ),
+      ]),
     ),
   ),
   limit: Schema.optional(Schema.Number),
@@ -33035,27 +33248,32 @@ export interface AsSetEntityAsnResponse {
 export const AsSetEntityAsnResponse = Schema.Struct({
   asSets: Schema.Array(
     Schema.Struct({
-      asMembersCount: Schema.Number.pipe(T.JsonName("as_members_count")),
-      asSetMembersCount: Schema.Number.pipe(T.JsonName("as_set_members_count")),
-      asSetUpstreamsCount: Schema.Number.pipe(
-        T.JsonName("as_set_upstreams_count"),
-      ),
-      asnConeSize: Schema.Number.pipe(T.JsonName("asn_cone_size")),
-      irrSources: Schema.Array(Schema.String).pipe(T.JsonName("irr_sources")),
+      asMembersCount: Schema.Number,
+      asSetMembersCount: Schema.Number,
+      asSetUpstreamsCount: Schema.Number,
+      asnConeSize: Schema.Number,
+      irrSources: Schema.Array(Schema.String),
       name: Schema.String,
-      hierarchicalAsn: Schema.optional(Schema.Number).pipe(
-        T.JsonName("hierarchical_asn"),
-      ),
-      inferredAsn: Schema.optional(Schema.Number).pipe(
-        T.JsonName("inferred_asn"),
-      ),
-      peeringdbAsn: Schema.optional(Schema.Number).pipe(
-        T.JsonName("peeringdb_asn"),
-      ),
-    }),
-  ).pipe(T.JsonName("as_sets")),
+      hierarchicalAsn: Schema.optional(Schema.Number),
+      inferredAsn: Schema.optional(Schema.Number),
+      peeringdbAsn: Schema.optional(Schema.Number),
+    }).pipe(
+      Schema.encodeKeys({
+        asMembersCount: "as_members_count",
+        asSetMembersCount: "as_set_members_count",
+        asSetUpstreamsCount: "as_set_upstreams_count",
+        asnConeSize: "asn_cone_size",
+        irrSources: "irr_sources",
+        hierarchicalAsn: "hierarchical_asn",
+        inferredAsn: "inferred_asn",
+        peeringdbAsn: "peeringdb_asn",
+      }),
+    ),
+  ),
   paths: Schema.Array(Schema.Array(Schema.String)),
-}) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
+}).pipe(
+  Schema.encodeKeys({ asSets: "as_sets" }),
+) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
 
 export const asSetEntityAsn: (
   input: AsSetEntityAsnRequest,
@@ -33152,7 +33370,7 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -33178,17 +33396,17 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -33203,7 +33421,7 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -33212,7 +33430,7 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -33221,12 +33439,20 @@ export const SummaryTcpResetsTimeoutResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    laterInFlow: Schema.String.pipe(T.JsonName("later_in_flow")),
-    noMatch: Schema.String.pipe(T.JsonName("no_match")),
-    postAck: Schema.String.pipe(T.JsonName("post_ack")),
-    postPsh: Schema.String.pipe(T.JsonName("post_psh")),
-    postSyn: Schema.String.pipe(T.JsonName("post_syn")),
-  }),
+    laterInFlow: Schema.String,
+    noMatch: Schema.String,
+    postAck: Schema.String,
+    postPsh: Schema.String,
+    postSyn: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      laterInFlow: "later_in_flow",
+      noMatch: "no_match",
+      postAck: "post_ack",
+      postPsh: "post_psh",
+      postSyn: "post_syn",
+    }),
+  ),
 }) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
 
 export const summaryTcpResetsTimeout: (
@@ -33443,7 +33669,7 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -33469,17 +33695,17 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -33494,7 +33720,7 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -33503,7 +33729,7 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -33512,14 +33738,22 @@ export const ResponseTTLDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    gt_15mLte_1h: Schema.String.pipe(T.JsonName("gt_15m_lte_1h")),
-    gt_1dLte_1w: Schema.String.pipe(T.JsonName("gt_1d_lte_1w")),
-    gt_1hLte_1d: Schema.String.pipe(T.JsonName("gt_1h_lte_1d")),
-    gt_1mLte_5m: Schema.String.pipe(T.JsonName("gt_1m_lte_5m")),
+    gt_15mLte_1h: Schema.String,
+    gt_1dLte_1w: Schema.String,
+    gt_1hLte_1d: Schema.String,
+    gt_1mLte_5m: Schema.String,
     gt_1w: Schema.String,
-    gt_5mLte_15m: Schema.String.pipe(T.JsonName("gt_5m_lte_15m")),
+    gt_5mLte_15m: Schema.String,
     lte_1m: Schema.String,
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      gt_15mLte_1h: "gt_15m_lte_1h",
+      gt_1dLte_1w: "gt_1d_lte_1w",
+      gt_1hLte_1d: "gt_1h_lte_1d",
+      gt_1mLte_5m: "gt_1m_lte_5m",
+      gt_5mLte_15m: "gt_5m_lte_15m",
+    }),
+  ),
 }) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
 
 export const responseTTLDnsSummary: (
@@ -33622,17 +33856,17 @@ export interface ResponseTTLDnsTimeseriesGroupResponse {
 
 export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -33658,17 +33892,17 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -33683,7 +33917,7 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -33692,7 +33926,7 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -33701,14 +33935,22 @@ export const ResponseTTLDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    gt_15mLte_1h: Schema.Array(Schema.String).pipe(T.JsonName("gt_15m_lte_1h")),
-    gt_1dLte_1w: Schema.Array(Schema.String).pipe(T.JsonName("gt_1d_lte_1w")),
-    gt_1hLte_1d: Schema.Array(Schema.String).pipe(T.JsonName("gt_1h_lte_1d")),
-    gt_1mLte_5m: Schema.Array(Schema.String).pipe(T.JsonName("gt_1m_lte_5m")),
+    gt_15mLte_1h: Schema.Array(Schema.String),
+    gt_1dLte_1w: Schema.Array(Schema.String),
+    gt_1hLte_1d: Schema.Array(Schema.String),
+    gt_1mLte_5m: Schema.Array(Schema.String),
     gt_1w: Schema.Array(Schema.String),
-    gt_5mLte_15m: Schema.Array(Schema.String).pipe(T.JsonName("gt_5m_lte_15m")),
+    gt_5mLte_15m: Schema.Array(Schema.String),
     lte_1m: Schema.Array(Schema.String),
-  }),
+  }).pipe(
+    Schema.encodeKeys({
+      gt_15mLte_1h: "gt_15m_lte_1h",
+      gt_1dLte_1w: "gt_1d_lte_1w",
+      gt_1hLte_1d: "gt_1h_lte_1d",
+      gt_1mLte_5m: "gt_1m_lte_5m",
+      gt_5mLte_15m: "gt_5m_lte_15m",
+    }),
+  ),
 }) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
 
 export const responseTTLDnsTimeseriesGroup: (
@@ -33800,7 +34042,7 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -33826,17 +34068,17 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -33851,7 +34093,7 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -33860,7 +34102,7 @@ export const QueryTypeAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -33963,17 +34205,17 @@ export interface QueryTypeAs112TimeseriesGroupResponse {
 
 export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -33999,17 +34241,17 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34024,7 +34266,7 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34033,7 +34275,7 @@ export const QueryTypeAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34135,7 +34377,7 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -34161,17 +34403,17 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34186,7 +34428,7 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34195,7 +34437,7 @@ export const QueryTypeDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34298,17 +34540,17 @@ export interface QueryTypeDnsTimeseriesGroupResponse {
 
 export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -34334,17 +34576,17 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34359,7 +34601,7 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34368,7 +34610,7 @@ export const QueryTypeDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34470,7 +34712,7 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -34496,17 +34738,17 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34521,7 +34763,7 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34530,7 +34772,7 @@ export const DeviceTypeHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34642,17 +34884,17 @@ export interface DeviceTypeHttpTimeseriesGroupResponse {
 
 export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -34678,17 +34920,17 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34703,7 +34945,7 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34712,7 +34954,7 @@ export const DeviceTypeHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34749,12 +34991,12 @@ export interface SummaryV2AiBotRequest {
 }
 
 export const SummaryV2AiBotRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "USER_AGENT",
     "CRAWL_PURPOSE",
     "INDUSTRY",
     "VERTICAL",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ai/bots/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2AiBotRequest>;
@@ -34826,7 +35068,7 @@ export const SummaryV2AiBotResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -34852,17 +35094,17 @@ export const SummaryV2AiBotResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -34877,7 +35119,7 @@ export const SummaryV2AiBotResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -34886,7 +35128,7 @@ export const SummaryV2AiBotResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -34918,7 +35160,7 @@ export interface SummaryV2AiInferenceRequest {
 }
 
 export const SummaryV2AiInferenceRequest = Schema.Struct({
-  dimension: Schema.Literal("MODEL", "TASK").pipe(T.HttpPath("dimension")),
+  dimension: Schema.Literals(["MODEL", "TASK"]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/ai/inference/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2AiInferenceRequest>;
@@ -34990,7 +35232,7 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35016,17 +35258,17 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35041,7 +35283,7 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35050,7 +35292,7 @@ export const SummaryV2AiInferenceResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35088,14 +35330,14 @@ export interface SummaryV2As112Request {
 }
 
 export const SummaryV2As112Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "DNSSEC",
     "EDNS",
     "IP_VERSION",
     "PROTOCOL",
     "QUERY_TYPE",
     "RESPONSE_CODE",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/as112/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2As112Request>;
@@ -35167,7 +35409,7 @@ export const SummaryV2As112Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35193,17 +35435,17 @@ export const SummaryV2As112Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35218,7 +35460,7 @@ export const SummaryV2As112Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35227,7 +35469,7 @@ export const SummaryV2As112Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35266,7 +35508,7 @@ export interface SummaryV2AttackLayer3Request {
 }
 
 export const SummaryV2AttackLayer3Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "PROTOCOL",
     "IP_VERSION",
     "VECTOR",
@@ -35274,7 +35516,7 @@ export const SummaryV2AttackLayer3Request = Schema.Struct({
     "BITRATE",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/attacks/layer3/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2AttackLayer3Request>;
@@ -35346,7 +35588,7 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35372,17 +35614,17 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35397,7 +35639,7 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35406,7 +35648,7 @@ export const SummaryV2AttackLayer3Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35445,7 +35687,7 @@ export interface SummaryV2AttackLayer7Request {
 }
 
 export const SummaryV2AttackLayer7Request = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "HTTP_METHOD",
     "HTTP_VERSION",
     "IP_VERSION",
@@ -35453,7 +35695,7 @@ export const SummaryV2AttackLayer7Request = Schema.Struct({
     "MITIGATION_PRODUCT",
     "VERTICAL",
     "INDUSTRY",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/attacks/layer7/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2AttackLayer7Request>;
@@ -35525,7 +35767,7 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35551,17 +35793,17 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35576,7 +35818,7 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35585,7 +35827,7 @@ export const SummaryV2AttackLayer7Response = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35629,7 +35871,7 @@ export interface SummaryV2DnsRequest {
 }
 
 export const SummaryV2DnsRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "IP_VERSION",
     "CACHE_HIT",
     "DNSSEC",
@@ -35642,7 +35884,7 @@ export const SummaryV2DnsRequest = Schema.Struct({
     "RESPONSE_TTL",
     "TLD",
     "TLD_DNS_MAGNITUDE",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/dns/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2DnsRequest>;
@@ -35714,7 +35956,7 @@ export const SummaryV2DnsResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35740,17 +35982,17 @@ export const SummaryV2DnsResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35765,7 +36007,7 @@ export const SummaryV2DnsResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35774,7 +36016,7 @@ export const SummaryV2DnsResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35806,14 +36048,14 @@ export interface SummaryV2EmailRoutingRequest {
 }
 
 export const SummaryV2EmailRoutingRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "IP_VERSION",
     "ENCRYPTED",
     "ARC",
     "DKIM",
     "DMARC",
     "SPF",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/email/routing/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2EmailRoutingRequest>;
@@ -35885,7 +36127,7 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -35911,17 +36153,17 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -35936,7 +36178,7 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -35945,7 +36187,7 @@ export const SummaryV2EmailRoutingResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -35986,7 +36228,7 @@ export interface SummaryV2EmailSecurityRequest {
 }
 
 export const SummaryV2EmailSecurityRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "SPAM",
     "MALICIOUS",
     "SPOOF",
@@ -35996,7 +36238,7 @@ export const SummaryV2EmailSecurityRequest = Schema.Struct({
     "DMARC",
     "SPF",
     "TLS_VERSION",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/email/security/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2EmailSecurityRequest>;
@@ -36068,7 +36310,7 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -36094,17 +36336,17 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -36119,7 +36361,7 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36128,7 +36370,7 @@ export const SummaryV2EmailSecurityResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -36171,7 +36413,7 @@ export interface SummaryV2HttpRequest {
 }
 
 export const SummaryV2HttpRequest = Schema.Struct({
-  dimension: Schema.Literal(
+  dimension: Schema.Literals([
     "ADM1",
     "BOT_CLASS",
     "BROWSER",
@@ -36183,7 +36425,7 @@ export const SummaryV2HttpRequest = Schema.Struct({
     "OS",
     "POST_QUANTUM",
     "TLS_VERSION",
-  ).pipe(T.HttpPath("dimension")),
+  ]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/http/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2HttpRequest>;
@@ -36255,7 +36497,7 @@ export const SummaryV2HttpResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -36281,17 +36523,17 @@ export const SummaryV2HttpResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -36306,7 +36548,7 @@ export const SummaryV2HttpResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36315,7 +36557,7 @@ export const SummaryV2HttpResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -36347,7 +36589,7 @@ export interface SummaryV2LeakedCredentialRequest {
 }
 
 export const SummaryV2LeakedCredentialRequest = Schema.Struct({
-  dimension: Schema.Literal("COMPROMISED", "BOT_CLASS").pipe(
+  dimension: Schema.Literals(["COMPROMISED", "BOT_CLASS"]).pipe(
     T.HttpPath("dimension"),
   ),
 }).pipe(
@@ -36424,7 +36666,7 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -36450,17 +36692,17 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -36475,7 +36717,7 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36484,7 +36726,7 @@ export const SummaryV2LeakedCredentialResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -36516,7 +36758,7 @@ export interface SummaryV2NetflowRequest {
 }
 
 export const SummaryV2NetflowRequest = Schema.Struct({
-  dimension: Schema.Literal("ADM1", "PRODUCT").pipe(T.HttpPath("dimension")),
+  dimension: Schema.Literals(["ADM1", "PRODUCT"]).pipe(T.HttpPath("dimension")),
 }).pipe(
   T.Http({ method: "GET", path: "/radar/netflows/summary/{dimension}" }),
 ) as unknown as Schema.Schema<SummaryV2NetflowRequest>;
@@ -36588,7 +36830,7 @@ export const SummaryV2NetflowResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -36614,17 +36856,17 @@ export const SummaryV2NetflowResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -36639,7 +36881,7 @@ export const SummaryV2NetflowResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36648,7 +36890,7 @@ export const SummaryV2NetflowResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -36750,11 +36992,11 @@ export interface BotsVerifiedBotTopResponse {
 
 export const BotsVerifiedBotTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -36780,17 +37022,17 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -36799,7 +37041,7 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -36807,7 +37049,7 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36816,7 +37058,7 @@ export const BotsVerifiedBotTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -36916,11 +37158,11 @@ export interface CategoriesVerifiedBotTopResponse {
 
 export const CategoriesVerifiedBotTopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -36946,17 +37188,17 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -36965,7 +37207,7 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -36973,7 +37215,7 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -36982,7 +37224,7 @@ export const CategoriesVerifiedBotTopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37087,7 +37329,7 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -37113,17 +37355,17 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -37138,7 +37380,7 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -37147,7 +37389,7 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37156,9 +37398,9 @@ export const IpVersionAs112SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
 
 export const ipVersionAs112Summary: (
@@ -37253,17 +37495,17 @@ export interface IpVersionAs112TimeseriesGroupResponse {
 
 export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -37289,17 +37531,17 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -37314,7 +37556,7 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -37323,7 +37565,7 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37332,9 +37574,9 @@ export const IpVersionAs112TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
 
 export const ipVersionAs112TimeseriesGroup: (
@@ -37358,7 +37600,7 @@ export interface IpVersionAs112TopRequest {
 }
 
 export const IpVersionAs112TopRequest = Schema.Struct({
-  ipVersion: Schema.Literal("IPv4", "IPv6").pipe(T.HttpPath("ipVersion")),
+  ipVersion: Schema.Literals(["IPv4", "IPv6"]).pipe(T.HttpPath("ipVersion")),
 }).pipe(
   T.Http({
     method: "GET",
@@ -37434,11 +37676,11 @@ export interface IpVersionAs112TopResponse {
 
 export const IpVersionAs112TopResponse = Schema.Struct({
   meta: Schema.Struct({
-    confidenceInfo: Schema.Union(
+    confidenceInfo: Schema.Union([
       Schema.Struct({
         annotations: Schema.Array(
           Schema.Struct({
-            dataSource: Schema.Literal(
+            dataSource: Schema.Literals([
               "ALL",
               "AI_BOTS",
               "AI_GATEWAY",
@@ -37464,17 +37706,17 @@ export const IpVersionAs112TopResponse = Schema.Struct({
               "ROBOTS_TXT",
               "SPEED",
               "WORKERS_AI",
-            ),
+            ]),
             description: Schema.String,
             endDate: Schema.String,
-            eventType: Schema.Literal(
+            eventType: Schema.Literals([
               "EVENT",
               "GENERAL",
               "OUTAGE",
               "PARTIAL_PROJECTION",
               "PIPELINE",
               "TRAFFIC_ANOMALY",
-            ),
+            ]),
             isInstantaneous: Schema.Boolean,
             linkedUrl: Schema.String,
             startDate: Schema.String,
@@ -37483,7 +37725,7 @@ export const IpVersionAs112TopResponse = Schema.Struct({
         level: Schema.Number,
       }),
       Schema.Null,
-    ),
+    ]),
     dateRange: Schema.Array(
       Schema.Struct({
         endTime: Schema.String,
@@ -37491,7 +37733,7 @@ export const IpVersionAs112TopResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -37500,7 +37742,7 @@ export const IpVersionAs112TopResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37606,7 +37848,7 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -37632,17 +37874,17 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -37657,7 +37899,7 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -37666,7 +37908,7 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37675,9 +37917,9 @@ export const IpVersionAttackLayer3SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
 
 export const ipVersionAttackLayer3Summary: (
@@ -37777,17 +38019,17 @@ export interface IpVersionAttackLayer3TimeseriesGroupResponse {
 
 export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -37813,17 +38055,17 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -37838,7 +38080,7 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -37847,7 +38089,7 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -37856,10 +38098,10 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
 
 export const ipVersionAttackLayer3TimeseriesGroup: (
@@ -37951,7 +38193,7 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -37977,17 +38219,17 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38002,7 +38244,7 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38011,7 +38253,7 @@ export const HttpVersionAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38111,7 +38353,7 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -38137,17 +38379,17 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38162,7 +38404,7 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38171,7 +38413,7 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38180,9 +38422,9 @@ export const IpVersionAttackLayer7SummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
 
 export const ipVersionAttackLayer7Summary: (
@@ -38287,17 +38529,17 @@ export interface HttpVersionAttackLayer7TimeseriesGroupResponse {
 
 export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -38323,17 +38565,17 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38348,7 +38590,7 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38357,7 +38599,7 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38466,17 +38708,17 @@ export interface IpVersionAttackLayer7TimeseriesGroupResponse {
 
 export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -38502,17 +38744,17 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38527,7 +38769,7 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38536,7 +38778,7 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38545,10 +38787,10 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
 
 export const ipVersionAttackLayer7TimeseriesGroup: (
@@ -38640,7 +38882,7 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -38666,17 +38908,17 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38691,7 +38933,7 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38700,7 +38942,7 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38709,9 +38951,9 @@ export const IpVersionDnsSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
 
 export const ipVersionDnsSummary: (
@@ -38806,17 +39048,17 @@ export interface IpVersionDnsTimeseriesGroupResponse {
 
 export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -38842,17 +39084,17 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -38867,7 +39109,7 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -38876,7 +39118,7 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -38885,9 +39127,9 @@ export const IpVersionDnsTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
 
 export const ipVersionDnsTimeseriesGroup: (
@@ -38979,7 +39221,7 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39005,17 +39247,17 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39030,7 +39272,7 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39039,7 +39281,7 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39048,9 +39290,9 @@ export const IpVersionEmailRoutingSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
 
 export const ipVersionEmailRoutingSummary: (
@@ -39150,17 +39392,17 @@ export interface IpVersionEmailRoutingTimeseriesGroupResponse {
 
 export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39186,17 +39428,17 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39211,7 +39453,7 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39220,7 +39462,7 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39229,9 +39471,9 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
 
 export const ipVersionEmailRoutingTimeseriesGroup: (
@@ -39328,7 +39570,7 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39354,17 +39596,17 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39379,7 +39621,7 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39388,7 +39630,7 @@ export const TlsVersionEmailSecuritySummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39506,17 +39748,17 @@ export interface TlsVersionEmailSecurityTimeseriesGroupResponse {
 
 export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39542,17 +39784,17 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39567,7 +39809,7 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39576,7 +39818,7 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39681,7 +39923,7 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39707,17 +39949,17 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39732,7 +39974,7 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39741,7 +39983,7 @@ export const HttpVersionHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39841,7 +40083,7 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -39867,17 +40109,17 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -39892,7 +40134,7 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -39901,7 +40143,7 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -39910,9 +40152,9 @@ export const IpVersionHttpSummaryResponse = Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({
-    iPv4: Schema.String.pipe(T.JsonName("IPv4")),
-    iPv6: Schema.String.pipe(T.JsonName("IPv6")),
-  }),
+    iPv4: Schema.String,
+    iPv6: Schema.String,
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
 
 export const ipVersionHttpSummary: (
@@ -40006,7 +40248,7 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -40032,17 +40274,17 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -40057,7 +40299,7 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -40066,7 +40308,7 @@ export const TlsVersionHttpSummaryResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -40180,17 +40422,17 @@ export interface HttpVersionHttpTimeseriesGroupResponse {
 
 export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -40216,17 +40458,17 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -40241,7 +40483,7 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -40250,7 +40492,7 @@ export const HttpVersionHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -40354,17 +40596,17 @@ export interface IpVersionHttpTimeseriesGroupResponse {
 
 export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -40390,17 +40632,17 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -40415,7 +40657,7 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -40424,7 +40666,7 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,
@@ -40433,10 +40675,10 @@ export const IpVersionHttpTimeseriesGroupResponse = Schema.Struct({
     ),
   }),
   serie_0: Schema.Struct({
-    iPv4: Schema.Array(Schema.String).pipe(T.JsonName("IPv4")),
-    iPv6: Schema.Array(Schema.String).pipe(T.JsonName("IPv6")),
+    iPv4: Schema.Array(Schema.String),
+    iPv6: Schema.Array(Schema.String),
     timestamps: Schema.Array(Schema.String),
-  }),
+  }).pipe(Schema.encodeKeys({ iPv4: "IPv4", iPv6: "IPv6" })),
 }) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
 
 export const ipVersionHttpTimeseriesGroup: (
@@ -40534,17 +40776,17 @@ export interface TlsVersionHttpTimeseriesGroupResponse {
 
 export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
   meta: Schema.Struct({
-    aggInterval: Schema.Literal(
+    aggInterval: Schema.Literals([
       "FIFTEEN_MINUTES",
       "ONE_HOUR",
       "ONE_DAY",
       "ONE_WEEK",
       "ONE_MONTH",
-    ),
+    ]),
     confidenceInfo: Schema.Struct({
       annotations: Schema.Array(
         Schema.Struct({
-          dataSource: Schema.Literal(
+          dataSource: Schema.Literals([
             "ALL",
             "AI_BOTS",
             "AI_GATEWAY",
@@ -40570,17 +40812,17 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
             "ROBOTS_TXT",
             "SPEED",
             "WORKERS_AI",
-          ),
+          ]),
           description: Schema.String,
           endDate: Schema.String,
-          eventType: Schema.Literal(
+          eventType: Schema.Literals([
             "EVENT",
             "GENERAL",
             "OUTAGE",
             "PARTIAL_PROJECTION",
             "PIPELINE",
             "TRAFFIC_ANOMALY",
-          ),
+          ]),
           isInstantaneous: Schema.Boolean,
           linkedUrl: Schema.String,
           startDate: Schema.String,
@@ -40595,7 +40837,7 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
       }),
     ),
     lastUpdated: Schema.String,
-    normalization: Schema.Literal(
+    normalization: Schema.Literals([
       "PERCENTAGE",
       "MIN0_MAX",
       "MIN_MAX",
@@ -40604,7 +40846,7 @@ export const TlsVersionHttpTimeseriesGroupResponse = Schema.Struct({
       "ROLLING_AVERAGE",
       "OVERLAPPED_PERCENTAGE",
       "RATIO",
-    ),
+    ]),
     units: Schema.Array(
       Schema.Struct({
         name: Schema.String,

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -84,21 +84,19 @@ export const GetRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "simulate",
           "ban",
           "challenge",
           "js_challenge",
           "managed_challenge",
-        ),
+        ]),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -119,7 +117,7 @@ export const GetRateLimitResponse = Schema.Struct({
         Schema.Array(
           Schema.Struct({
             name: Schema.optional(Schema.String),
-            op: Schema.optional(Schema.Literal("eq", "ne")),
+            op: Schema.optional(Schema.Literals(["eq", "ne"])),
             value: Schema.optional(Schema.String),
           }),
         ),
@@ -128,7 +126,7 @@ export const GetRateLimitResponse = Schema.Struct({
         Schema.Struct({
           methods: Schema.optional(
             Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "GET",
                 "POST",
                 "PUT",
@@ -136,7 +134,7 @@ export const GetRateLimitResponse = Schema.Struct({
                 "PATCH",
                 "HEAD",
                 "_ALL_",
-              ),
+              ]),
             ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -145,10 +143,8 @@ export const GetRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -210,21 +206,19 @@ export const CreateRateLimitRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Struct({
     mode: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "simulate",
         "ban",
         "challenge",
         "js_challenge",
         "managed_challenge",
-      ),
+      ]),
     ),
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(
-          T.JsonName("content_type"),
-        ),
-      }),
+        contentType: Schema.optional(Schema.String),
+      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -233,7 +227,7 @@ export const CreateRateLimitRequest = Schema.Struct({
       Schema.Array(
         Schema.Struct({
           name: Schema.optional(Schema.String),
-          op: Schema.optional(Schema.Literal("eq", "ne")),
+          op: Schema.optional(Schema.Literals(["eq", "ne"])),
           value: Schema.optional(Schema.String),
         }),
       ),
@@ -242,7 +236,7 @@ export const CreateRateLimitRequest = Schema.Struct({
       Schema.Struct({
         methods: Schema.optional(
           Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "GET",
               "POST",
               "PUT",
@@ -250,7 +244,7 @@ export const CreateRateLimitRequest = Schema.Struct({
               "PATCH",
               "HEAD",
               "_ALL_",
-            ),
+            ]),
           ),
         ),
         schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -259,10 +253,8 @@ export const CreateRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("origin_traffic"),
-        ),
-      }),
+        originTraffic: Schema.optional(Schema.Boolean),
+      }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
     ),
   }),
   period: Schema.Number,
@@ -320,21 +312,19 @@ export const CreateRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "simulate",
           "ban",
           "challenge",
           "js_challenge",
           "managed_challenge",
-        ),
+        ]),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -355,7 +345,7 @@ export const CreateRateLimitResponse = Schema.Struct({
         Schema.Array(
           Schema.Struct({
             name: Schema.optional(Schema.String),
-            op: Schema.optional(Schema.Literal("eq", "ne")),
+            op: Schema.optional(Schema.Literals(["eq", "ne"])),
             value: Schema.optional(Schema.String),
           }),
         ),
@@ -364,7 +354,7 @@ export const CreateRateLimitResponse = Schema.Struct({
         Schema.Struct({
           methods: Schema.optional(
             Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "GET",
                 "POST",
                 "PUT",
@@ -372,7 +362,7 @@ export const CreateRateLimitResponse = Schema.Struct({
                 "PATCH",
                 "HEAD",
                 "_ALL_",
-              ),
+              ]),
             ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -381,10 +371,8 @@ export const CreateRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -469,21 +457,19 @@ export const DeleteRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "simulate",
           "ban",
           "challenge",
           "js_challenge",
           "managed_challenge",
-        ),
+        ]),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -504,7 +490,7 @@ export const DeleteRateLimitResponse = Schema.Struct({
         Schema.Array(
           Schema.Struct({
             name: Schema.optional(Schema.String),
-            op: Schema.optional(Schema.Literal("eq", "ne")),
+            op: Schema.optional(Schema.Literals(["eq", "ne"])),
             value: Schema.optional(Schema.String),
           }),
         ),
@@ -513,7 +499,7 @@ export const DeleteRateLimitResponse = Schema.Struct({
         Schema.Struct({
           methods: Schema.optional(
             Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "GET",
                 "POST",
                 "PUT",
@@ -521,7 +507,7 @@ export const DeleteRateLimitResponse = Schema.Struct({
                 "PATCH",
                 "HEAD",
                 "_ALL_",
-              ),
+              ]),
             ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -530,10 +516,8 @@ export const DeleteRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),
@@ -597,21 +581,19 @@ export const EditRateLimitRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Struct({
     mode: Schema.optional(
-      Schema.Literal(
+      Schema.Literals([
         "simulate",
         "ban",
         "challenge",
         "js_challenge",
         "managed_challenge",
-      ),
+      ]),
     ),
     response: Schema.optional(
       Schema.Struct({
         body: Schema.optional(Schema.String),
-        contentType: Schema.optional(Schema.String).pipe(
-          T.JsonName("content_type"),
-        ),
-      }),
+        contentType: Schema.optional(Schema.String),
+      }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
     ),
     timeout: Schema.optional(Schema.Number),
   }),
@@ -620,7 +602,7 @@ export const EditRateLimitRequest = Schema.Struct({
       Schema.Array(
         Schema.Struct({
           name: Schema.optional(Schema.String),
-          op: Schema.optional(Schema.Literal("eq", "ne")),
+          op: Schema.optional(Schema.Literals(["eq", "ne"])),
           value: Schema.optional(Schema.String),
         }),
       ),
@@ -629,7 +611,7 @@ export const EditRateLimitRequest = Schema.Struct({
       Schema.Struct({
         methods: Schema.optional(
           Schema.Array(
-            Schema.Literal(
+            Schema.Literals([
               "GET",
               "POST",
               "PUT",
@@ -637,7 +619,7 @@ export const EditRateLimitRequest = Schema.Struct({
               "PATCH",
               "HEAD",
               "_ALL_",
-            ),
+            ]),
           ),
         ),
         schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -646,10 +628,8 @@ export const EditRateLimitRequest = Schema.Struct({
     ),
     response: Schema.optional(
       Schema.Struct({
-        originTraffic: Schema.optional(Schema.Boolean).pipe(
-          T.JsonName("origin_traffic"),
-        ),
-      }),
+        originTraffic: Schema.optional(Schema.Boolean),
+      }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
     ),
   }),
   period: Schema.Number,
@@ -707,21 +687,19 @@ export const EditRateLimitResponse = Schema.Struct({
   action: Schema.optional(
     Schema.Struct({
       mode: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "simulate",
           "ban",
           "challenge",
           "js_challenge",
           "managed_challenge",
-        ),
+        ]),
       ),
       response: Schema.optional(
         Schema.Struct({
           body: Schema.optional(Schema.String),
-          contentType: Schema.optional(Schema.String).pipe(
-            T.JsonName("content_type"),
-          ),
-        }),
+          contentType: Schema.optional(Schema.String),
+        }).pipe(Schema.encodeKeys({ contentType: "content_type" })),
       ),
       timeout: Schema.optional(Schema.Number),
     }),
@@ -742,7 +720,7 @@ export const EditRateLimitResponse = Schema.Struct({
         Schema.Array(
           Schema.Struct({
             name: Schema.optional(Schema.String),
-            op: Schema.optional(Schema.Literal("eq", "ne")),
+            op: Schema.optional(Schema.Literals(["eq", "ne"])),
             value: Schema.optional(Schema.String),
           }),
         ),
@@ -751,7 +729,7 @@ export const EditRateLimitResponse = Schema.Struct({
         Schema.Struct({
           methods: Schema.optional(
             Schema.Array(
-              Schema.Literal(
+              Schema.Literals([
                 "GET",
                 "POST",
                 "PUT",
@@ -759,7 +737,7 @@ export const EditRateLimitResponse = Schema.Struct({
                 "PATCH",
                 "HEAD",
                 "_ALL_",
-              ),
+              ]),
             ),
           ),
           schemes: Schema.optional(Schema.Array(Schema.String)),
@@ -768,10 +746,8 @@ export const EditRateLimitResponse = Schema.Struct({
       ),
       response: Schema.optional(
         Schema.Struct({
-          originTraffic: Schema.optional(Schema.Boolean).pipe(
-            T.JsonName("origin_traffic"),
-          ),
-        }),
+          originTraffic: Schema.optional(Schema.Boolean),
+        }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
       ),
     }),
   ),

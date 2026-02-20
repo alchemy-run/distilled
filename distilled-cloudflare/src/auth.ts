@@ -9,7 +9,9 @@
  * @see https://developers.cloudflare.com/fundamentals/api/
  */
 
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
+import * as HttpBody from "effect/unstable/http/HttpBody";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

@@ -1,6 +1,6 @@
-import { Command, FileSystem } from "@effect/platform";
-import { NodeContext } from "@effect/platform-node";
-import { Effect } from "effect";
+import { NodeServices } from "@effect/platform-node";
+import { Effect, FileSystem } from "effect";
+import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import * as path from "node:path";
 import * as ts from "typescript";
 import {
@@ -98,9 +98,8 @@ const CACHE_DIR = ".distilled/cache";
  * Get the git commit hash of the cloudflare-typescript repo
  */
 const getGitHash = (repoPath: string) =>
-  Command.make("git", "rev-parse", "HEAD").pipe(
-    Command.workingDirectory(repoPath),
-    Command.string,
+  ChildProcess.make("git", ["rev-parse", "HEAD"], { cwd: repoPath }).pipe(
+    ChildProcess.string(),
     Effect.map((s) => s.trim()),
     Effect.catch(() => Effect.succeed("")),
   );
@@ -1108,4 +1107,7 @@ export const parseCode = (options: ParseOptions) => {
 };
 
 export const loadModel = (options: ParseOptions) =>
-  parseCode(options).pipe(Effect.provide(NodeContext.layer), Effect.runPromise);
+  parseCode(options).pipe(
+    Effect.provide(NodeServices.layer),
+    Effect.runPromise,
+  );

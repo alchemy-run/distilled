@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -37,29 +37,27 @@ export type ListIPsResponse =
       jdcloudCidrs?: string[];
     };
 
-export const ListIPsResponse = Schema.Union(
+export const ListIPsResponse = Schema.Union([
   Schema.Struct({
     etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("ipv4_cidrs"),
-    ),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("ipv6_cidrs"),
-    ),
-  }),
+    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)),
+    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({ ipv4Cidrs: "ipv4_cidrs", ipv6Cidrs: "ipv6_cidrs" }),
+  ),
   Schema.Struct({
     etag: Schema.optional(Schema.String),
-    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("ipv4_cidrs"),
-    ),
-    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("ipv6_cidrs"),
-    ),
-    jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.JsonName("jdcloud_cidrs"),
-    ),
-  }),
-) as unknown as Schema.Schema<ListIPsResponse>;
+    ipv4Cidrs: Schema.optional(Schema.Array(Schema.String)),
+    ipv6Cidrs: Schema.optional(Schema.Array(Schema.String)),
+    jdcloudCidrs: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      ipv4Cidrs: "ipv4_cidrs",
+      ipv6Cidrs: "ipv6_cidrs",
+      jdcloudCidrs: "jdcloud_cidrs",
+    }),
+  ),
+]) as unknown as Schema.Schema<ListIPsResponse>;
 
 export const listIPs: (
   input: ListIPsRequest,

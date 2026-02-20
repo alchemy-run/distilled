@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -160,11 +160,11 @@ export const CreateInstanceRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   source: Schema.String,
-  tokenId: Schema.String.pipe(T.JsonName("token_id")),
-  type: Schema.Literal("r2", "web-crawler"),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  tokenId: Schema.String,
+  type: Schema.Literals(["r2", "web-crawler"]),
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -191,15 +191,13 @@ export const CreateInstanceRequest = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -208,34 +206,29 @@ export const CreateInstanceRequest = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
+    ]),
   ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -244,26 +237,31 @@ export const CreateInstanceRequest = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -290,60 +288,79 @@ export const CreateInstanceRequest = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
 }).pipe(
+  Schema.encodeKeys({
+    tokenId: "token_id",
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    embeddingModel: "embedding_model",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    maxNumResults: "max_num_results",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+  }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/ai-search/instances",
@@ -517,18 +534,18 @@ export interface CreateInstanceResponse {
 
 export const CreateInstanceResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  createdAt: Schema.String,
+  internalId: Schema.String,
+  modifiedAt: Schema.String,
   source: Schema.String,
-  tokenId: Schema.String.pipe(T.JsonName("token_id")),
-  type: Schema.Literal("r2", "web-crawler"),
-  vectorizeName: Schema.String.pipe(T.JsonName("vectorize_name")),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  tokenId: Schema.String,
+  type: Schema.Literals(["r2", "web-crawler"]),
+  vectorizeName: Schema.String,
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -555,25 +572,23 @@ export const CreateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
+    ]),
+  ),
   cache: Schema.optional(Schema.Boolean),
   cacheThreshold: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "super_strict_match",
       "close_enough",
       "flexible_friend",
       "anything_goes",
-    ),
-  ).pipe(T.JsonName("cache_threshold")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
+  createdBy: Schema.optional(Schema.String),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -582,46 +597,35 @@ export const CreateInstanceResponse = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
+    ]),
+  ),
   enable: Schema.optional(Schema.Boolean),
-  engineVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("engine_version"),
-  ),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
-  ),
-  lastActivity: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_activity"),
-  ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  engineVersion: Schema.optional(Schema.Number),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  lastActivity: Schema.optional(Schema.String),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  modifiedBy: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  publicEndpointId: Schema.optional(Schema.String).pipe(
-    T.JsonName("public_endpoint_id"),
-  ),
+  publicEndpointId: Schema.optional(Schema.String),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -630,26 +634,31 @@ export const CreateInstanceResponse = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -676,63 +685,66 @@ export const CreateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
   summarizationModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -759,21 +771,47 @@ export const CreateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("summarization_model")),
-  systemPromptAiSearch: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_ai_search"),
+    ]),
   ),
-  systemPromptIndexSummarization: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_index_summarization"),
-  ),
-  systemPromptRewriteQuery: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_rewrite_query"),
-  ),
-  vectorizeActiveNamespace: Schema.optional(Schema.String).pipe(
-    T.JsonName("vectorize_active_namespace"),
-  ),
-}) as unknown as Schema.Schema<CreateInstanceResponse>;
+  systemPromptAiSearch: Schema.optional(Schema.String),
+  systemPromptIndexSummarization: Schema.optional(Schema.String),
+  systemPromptRewriteQuery: Schema.optional(Schema.String),
+  vectorizeActiveNamespace: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    internalId: "internal_id",
+    modifiedAt: "modified_at",
+    tokenId: "token_id",
+    vectorizeName: "vectorize_name",
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    cacheThreshold: "cache_threshold",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    createdBy: "created_by",
+    embeddingModel: "embedding_model",
+    engineVersion: "engine_version",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    lastActivity: "last_activity",
+    maxNumResults: "max_num_results",
+    modifiedBy: "modified_by",
+    publicEndpointId: "public_endpoint_id",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+    summarizationModel: "summarization_model",
+    systemPromptAiSearch: "system_prompt_ai_search",
+    systemPromptIndexSummarization: "system_prompt_index_summarization",
+    systemPromptRewriteQuery: "system_prompt_rewrite_query",
+    vectorizeActiveNamespace: "vectorize_active_namespace",
+  }),
+) as unknown as Schema.Schema<CreateInstanceResponse>;
 
 export const createInstance: (
   input: CreateInstanceRequest,
@@ -965,9 +1003,9 @@ export interface UpdateInstanceRequest {
 export const UpdateInstanceRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -994,24 +1032,22 @@ export const UpdateInstanceRequest = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
+    ]),
+  ),
   cache: Schema.optional(Schema.Boolean),
   cacheThreshold: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "super_strict_match",
       "close_enough",
       "flexible_friend",
       "anything_goes",
-    ),
-  ).pipe(T.JsonName("cache_threshold")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -1020,35 +1056,30 @@ export const UpdateInstanceRequest = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
+    ]),
   ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
   paused: Schema.optional(Schema.Boolean),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -1057,26 +1088,31 @@ export const UpdateInstanceRequest = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1103,62 +1139,65 @@ export const UpdateInstanceRequest = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
   summarization: Schema.optional(Schema.Boolean),
   summarizationModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1185,19 +1224,34 @@ export const UpdateInstanceRequest = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("summarization_model")),
-  systemPromptAiSearch: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_ai_search"),
+    ]),
   ),
-  systemPromptIndexSummarization: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_index_summarization"),
-  ),
-  systemPromptRewriteQuery: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_rewrite_query"),
-  ),
-  tokenId: Schema.optional(Schema.String).pipe(T.JsonName("token_id")),
+  systemPromptAiSearch: Schema.optional(Schema.String),
+  systemPromptIndexSummarization: Schema.optional(Schema.String),
+  systemPromptRewriteQuery: Schema.optional(Schema.String),
+  tokenId: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    cacheThreshold: "cache_threshold",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    embeddingModel: "embedding_model",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    maxNumResults: "max_num_results",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+    summarizationModel: "summarization_model",
+    systemPromptAiSearch: "system_prompt_ai_search",
+    systemPromptIndexSummarization: "system_prompt_index_summarization",
+    systemPromptRewriteQuery: "system_prompt_rewrite_query",
+    tokenId: "token_id",
+  }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/ai-search/instances/{id}",
@@ -1371,18 +1425,18 @@ export interface UpdateInstanceResponse {
 
 export const UpdateInstanceResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  createdAt: Schema.String,
+  internalId: Schema.String,
+  modifiedAt: Schema.String,
   source: Schema.String,
-  tokenId: Schema.String.pipe(T.JsonName("token_id")),
-  type: Schema.Literal("r2", "web-crawler"),
-  vectorizeName: Schema.String.pipe(T.JsonName("vectorize_name")),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  tokenId: Schema.String,
+  type: Schema.Literals(["r2", "web-crawler"]),
+  vectorizeName: Schema.String,
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1409,25 +1463,23 @@ export const UpdateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
+    ]),
+  ),
   cache: Schema.optional(Schema.Boolean),
   cacheThreshold: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "super_strict_match",
       "close_enough",
       "flexible_friend",
       "anything_goes",
-    ),
-  ).pipe(T.JsonName("cache_threshold")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
+  createdBy: Schema.optional(Schema.String),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -1436,46 +1488,35 @@ export const UpdateInstanceResponse = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
+    ]),
+  ),
   enable: Schema.optional(Schema.Boolean),
-  engineVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("engine_version"),
-  ),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
-  ),
-  lastActivity: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_activity"),
-  ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  engineVersion: Schema.optional(Schema.Number),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  lastActivity: Schema.optional(Schema.String),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  modifiedBy: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  publicEndpointId: Schema.optional(Schema.String).pipe(
-    T.JsonName("public_endpoint_id"),
-  ),
+  publicEndpointId: Schema.optional(Schema.String),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -1484,26 +1525,31 @@ export const UpdateInstanceResponse = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1530,63 +1576,66 @@ export const UpdateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
   summarizationModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1613,21 +1662,47 @@ export const UpdateInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("summarization_model")),
-  systemPromptAiSearch: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_ai_search"),
+    ]),
   ),
-  systemPromptIndexSummarization: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_index_summarization"),
-  ),
-  systemPromptRewriteQuery: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_rewrite_query"),
-  ),
-  vectorizeActiveNamespace: Schema.optional(Schema.String).pipe(
-    T.JsonName("vectorize_active_namespace"),
-  ),
-}) as unknown as Schema.Schema<UpdateInstanceResponse>;
+  systemPromptAiSearch: Schema.optional(Schema.String),
+  systemPromptIndexSummarization: Schema.optional(Schema.String),
+  systemPromptRewriteQuery: Schema.optional(Schema.String),
+  vectorizeActiveNamespace: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    internalId: "internal_id",
+    modifiedAt: "modified_at",
+    tokenId: "token_id",
+    vectorizeName: "vectorize_name",
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    cacheThreshold: "cache_threshold",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    createdBy: "created_by",
+    embeddingModel: "embedding_model",
+    engineVersion: "engine_version",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    lastActivity: "last_activity",
+    maxNumResults: "max_num_results",
+    modifiedBy: "modified_by",
+    publicEndpointId: "public_endpoint_id",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+    summarizationModel: "summarization_model",
+    systemPromptAiSearch: "system_prompt_ai_search",
+    systemPromptIndexSummarization: "system_prompt_index_summarization",
+    systemPromptRewriteQuery: "system_prompt_rewrite_query",
+    vectorizeActiveNamespace: "vectorize_active_namespace",
+  }),
+) as unknown as Schema.Schema<UpdateInstanceResponse>;
 
 export const updateInstance: (
   input: UpdateInstanceRequest,
@@ -1823,18 +1898,18 @@ export interface DeleteInstanceResponse {
 
 export const DeleteInstanceResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  createdAt: Schema.String,
+  internalId: Schema.String,
+  modifiedAt: Schema.String,
   source: Schema.String,
-  tokenId: Schema.String.pipe(T.JsonName("token_id")),
-  type: Schema.Literal("r2", "web-crawler"),
-  vectorizeName: Schema.String.pipe(T.JsonName("vectorize_name")),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  tokenId: Schema.String,
+  type: Schema.Literals(["r2", "web-crawler"]),
+  vectorizeName: Schema.String,
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1861,25 +1936,23 @@ export const DeleteInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
+    ]),
+  ),
   cache: Schema.optional(Schema.Boolean),
   cacheThreshold: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "super_strict_match",
       "close_enough",
       "flexible_friend",
       "anything_goes",
-    ),
-  ).pipe(T.JsonName("cache_threshold")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
+  createdBy: Schema.optional(Schema.String),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -1888,46 +1961,35 @@ export const DeleteInstanceResponse = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
+    ]),
+  ),
   enable: Schema.optional(Schema.Boolean),
-  engineVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("engine_version"),
-  ),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
-  ),
-  lastActivity: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_activity"),
-  ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  engineVersion: Schema.optional(Schema.Number),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  lastActivity: Schema.optional(Schema.String),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  modifiedBy: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  publicEndpointId: Schema.optional(Schema.String).pipe(
-    T.JsonName("public_endpoint_id"),
-  ),
+  publicEndpointId: Schema.optional(Schema.String),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -1936,26 +1998,31 @@ export const DeleteInstanceResponse = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -1982,63 +2049,66 @@ export const DeleteInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
   summarizationModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -2065,21 +2135,47 @@ export const DeleteInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("summarization_model")),
-  systemPromptAiSearch: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_ai_search"),
+    ]),
   ),
-  systemPromptIndexSummarization: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_index_summarization"),
-  ),
-  systemPromptRewriteQuery: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_rewrite_query"),
-  ),
-  vectorizeActiveNamespace: Schema.optional(Schema.String).pipe(
-    T.JsonName("vectorize_active_namespace"),
-  ),
-}) as unknown as Schema.Schema<DeleteInstanceResponse>;
+  systemPromptAiSearch: Schema.optional(Schema.String),
+  systemPromptIndexSummarization: Schema.optional(Schema.String),
+  systemPromptRewriteQuery: Schema.optional(Schema.String),
+  vectorizeActiveNamespace: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    internalId: "internal_id",
+    modifiedAt: "modified_at",
+    tokenId: "token_id",
+    vectorizeName: "vectorize_name",
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    cacheThreshold: "cache_threshold",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    createdBy: "created_by",
+    embeddingModel: "embedding_model",
+    engineVersion: "engine_version",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    lastActivity: "last_activity",
+    maxNumResults: "max_num_results",
+    modifiedBy: "modified_by",
+    publicEndpointId: "public_endpoint_id",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+    summarizationModel: "summarization_model",
+    systemPromptAiSearch: "system_prompt_ai_search",
+    systemPromptIndexSummarization: "system_prompt_index_summarization",
+    systemPromptRewriteQuery: "system_prompt_rewrite_query",
+    vectorizeActiveNamespace: "vectorize_active_namespace",
+  }),
+) as unknown as Schema.Schema<DeleteInstanceResponse>;
 
 export const deleteInstance: (
   input: DeleteInstanceRequest,
@@ -2275,18 +2371,18 @@ export interface ReadInstanceResponse {
 
 export const ReadInstanceResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  internalId: Schema.String.pipe(T.JsonName("internal_id")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  createdAt: Schema.String,
+  internalId: Schema.String,
+  modifiedAt: Schema.String,
   source: Schema.String,
-  tokenId: Schema.String.pipe(T.JsonName("token_id")),
-  type: Schema.Literal("r2", "web-crawler"),
-  vectorizeName: Schema.String.pipe(T.JsonName("vectorize_name")),
-  aiGatewayId: Schema.optional(Schema.String).pipe(T.JsonName("ai_gateway_id")),
+  tokenId: Schema.String,
+  type: Schema.Literals(["r2", "web-crawler"]),
+  vectorizeName: Schema.String,
+  aiGatewayId: Schema.optional(Schema.String),
   aiSearchModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -2313,25 +2409,23 @@ export const ReadInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("ai_search_model")),
+    ]),
+  ),
   cache: Schema.optional(Schema.Boolean),
   cacheThreshold: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "super_strict_match",
       "close_enough",
       "flexible_friend",
       "anything_goes",
-    ),
-  ).pipe(T.JsonName("cache_threshold")),
-  chunk: Schema.optional(Schema.Boolean),
-  chunkOverlap: Schema.optional(Schema.Number).pipe(
-    T.JsonName("chunk_overlap"),
+    ]),
   ),
-  chunkSize: Schema.optional(Schema.Number).pipe(T.JsonName("chunk_size")),
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  chunk: Schema.optional(Schema.Boolean),
+  chunkOverlap: Schema.optional(Schema.Number),
+  chunkSize: Schema.optional(Schema.Number),
+  createdBy: Schema.optional(Schema.String),
   embeddingModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/baai/bge-m3",
       "@cf/baai/bge-large-en-v1.5",
       "@cf/google/embeddinggemma-300m",
@@ -2340,46 +2434,35 @@ export const ReadInstanceResponse = Schema.Struct({
       "openai/text-embedding-3-small",
       "openai/text-embedding-3-large",
       "",
-    ),
-  ).pipe(T.JsonName("embedding_model")),
+    ]),
+  ),
   enable: Schema.optional(Schema.Boolean),
-  engineVersion: Schema.optional(Schema.Number).pipe(
-    T.JsonName("engine_version"),
-  ),
-  hybridSearchEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("hybrid_search_enabled"),
-  ),
-  lastActivity: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_activity"),
-  ),
-  maxNumResults: Schema.optional(Schema.Number).pipe(
-    T.JsonName("max_num_results"),
-  ),
+  engineVersion: Schema.optional(Schema.Number),
+  hybridSearchEnabled: Schema.optional(Schema.Boolean),
+  lastActivity: Schema.optional(Schema.String),
+  maxNumResults: Schema.optional(Schema.Number),
   metadata: Schema.optional(
     Schema.Struct({
-      createdFromAisearchWizard: Schema.optional(Schema.Boolean).pipe(
-        T.JsonName("created_from_aisearch_wizard"),
-      ),
-      workerDomain: Schema.optional(Schema.String).pipe(
-        T.JsonName("worker_domain"),
-      ),
-    }),
+      createdFromAisearchWizard: Schema.optional(Schema.Boolean),
+      workerDomain: Schema.optional(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        createdFromAisearchWizard: "created_from_aisearch_wizard",
+        workerDomain: "worker_domain",
+      }),
+    ),
   ),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
+  modifiedBy: Schema.optional(Schema.String),
   paused: Schema.optional(Schema.Boolean),
-  publicEndpointId: Schema.optional(Schema.String).pipe(
-    T.JsonName("public_endpoint_id"),
-  ),
+  publicEndpointId: Schema.optional(Schema.String),
   publicEndpointParams: Schema.optional(
     Schema.Struct({
-      authorizedHosts: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("authorized_hosts"),
-      ),
+      authorizedHosts: Schema.optional(Schema.Array(Schema.String)),
       chatCompletionsEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("chat_completions_endpoint")),
+      ),
       enabled: Schema.optional(Schema.Boolean),
       mcp: Schema.optional(
         Schema.Struct({
@@ -2388,26 +2471,31 @@ export const ReadInstanceResponse = Schema.Struct({
       ),
       rateLimit: Schema.optional(
         Schema.Struct({
-          periodMs: Schema.optional(Schema.Number).pipe(
-            T.JsonName("period_ms"),
-          ),
+          periodMs: Schema.optional(Schema.Number),
           requests: Schema.optional(Schema.Number),
-          technique: Schema.optional(Schema.Literal("fixed", "sliding")),
-        }),
-      ).pipe(T.JsonName("rate_limit")),
+          technique: Schema.optional(Schema.Literals(["fixed", "sliding"])),
+        }).pipe(Schema.encodeKeys({ periodMs: "period_ms" })),
+      ),
       searchEndpoint: Schema.optional(
         Schema.Struct({
           disabled: Schema.optional(Schema.Boolean),
         }),
-      ).pipe(T.JsonName("search_endpoint")),
-    }),
-  ).pipe(T.JsonName("public_endpoint_params")),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        authorizedHosts: "authorized_hosts",
+        chatCompletionsEndpoint: "chat_completions_endpoint",
+        rateLimit: "rate_limit",
+        searchEndpoint: "search_endpoint",
+      }),
+    ),
+  ),
   reranking: Schema.optional(Schema.Boolean),
   rerankingModel: Schema.optional(
-    Schema.Literal("@cf/baai/bge-reranker-base", ""),
-  ).pipe(T.JsonName("reranking_model")),
+    Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+  ),
   rewriteModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -2434,63 +2522,66 @@ export const ReadInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("rewrite_model")),
-  rewriteQuery: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("rewrite_query"),
+    ]),
   ),
-  scoreThreshold: Schema.optional(Schema.Number).pipe(
-    T.JsonName("score_threshold"),
-  ),
+  rewriteQuery: Schema.optional(Schema.Boolean),
+  scoreThreshold: Schema.optional(Schema.Number),
   sourceParams: Schema.optional(
     Schema.Struct({
-      excludeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("exclude_items"),
-      ),
-      includeItems: Schema.optional(Schema.Array(Schema.String)).pipe(
-        T.JsonName("include_items"),
-      ),
+      excludeItems: Schema.optional(Schema.Array(Schema.String)),
+      includeItems: Schema.optional(Schema.Array(Schema.String)),
       prefix: Schema.optional(Schema.String),
-      r2Jurisdiction: Schema.optional(Schema.String).pipe(
-        T.JsonName("r2_jurisdiction"),
-      ),
+      r2Jurisdiction: Schema.optional(Schema.String),
       webCrawler: Schema.optional(
         Schema.Struct({
           parseOptions: Schema.optional(
             Schema.Struct({
-              includeHeaders: Schema.optional(Schema.Struct({})).pipe(
-                T.JsonName("include_headers"),
-              ),
-              includeImages: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("include_images"),
-              ),
-              useBrowserRendering: Schema.optional(Schema.Boolean).pipe(
-                T.JsonName("use_browser_rendering"),
-              ),
-            }),
-          ).pipe(T.JsonName("parse_options")),
-          parseType: Schema.optional(
-            Schema.Literal("sitemap", "feed-rss"),
-          ).pipe(T.JsonName("parse_type")),
+              includeHeaders: Schema.optional(Schema.Struct({})),
+              includeImages: Schema.optional(Schema.Boolean),
+              useBrowserRendering: Schema.optional(Schema.Boolean),
+            }).pipe(
+              Schema.encodeKeys({
+                includeHeaders: "include_headers",
+                includeImages: "include_images",
+                useBrowserRendering: "use_browser_rendering",
+              }),
+            ),
+          ),
+          parseType: Schema.optional(Schema.Literals(["sitemap", "feed-rss"])),
           storeOptions: Schema.optional(
             Schema.Struct({
-              storageId: Schema.String.pipe(T.JsonName("storage_id")),
-              r2Jurisdiction: Schema.optional(Schema.String).pipe(
-                T.JsonName("r2_jurisdiction"),
-              ),
-              storageType: Schema.optional(Schema.Literal("r2")).pipe(
-                T.JsonName("storage_type"),
-              ),
-            }),
-          ).pipe(T.JsonName("store_options")),
-        }),
-      ).pipe(T.JsonName("web_crawler")),
-    }),
-  ).pipe(T.JsonName("source_params")),
+              storageId: Schema.String,
+              r2Jurisdiction: Schema.optional(Schema.String),
+              storageType: Schema.optional(Schema.Literal("r2")),
+            }).pipe(
+              Schema.encodeKeys({
+                storageId: "storage_id",
+                r2Jurisdiction: "r2_jurisdiction",
+                storageType: "storage_type",
+              }),
+            ),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            parseOptions: "parse_options",
+            parseType: "parse_type",
+            storeOptions: "store_options",
+          }),
+        ),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        excludeItems: "exclude_items",
+        includeItems: "include_items",
+        r2Jurisdiction: "r2_jurisdiction",
+        webCrawler: "web_crawler",
+      }),
+    ),
+  ),
   status: Schema.optional(Schema.String),
   summarization: Schema.optional(Schema.Boolean),
   summarizationModel: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "@cf/meta/llama-3.1-8b-instruct-fast",
       "@cf/meta/llama-3.1-8b-instruct-fp8",
@@ -2517,21 +2608,47 @@ export const ReadInstanceResponse = Schema.Struct({
       "openai/gpt-5-mini",
       "openai/gpt-5-nano",
       "",
-    ),
-  ).pipe(T.JsonName("summarization_model")),
-  systemPromptAiSearch: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_ai_search"),
+    ]),
   ),
-  systemPromptIndexSummarization: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_index_summarization"),
-  ),
-  systemPromptRewriteQuery: Schema.optional(Schema.String).pipe(
-    T.JsonName("system_prompt_rewrite_query"),
-  ),
-  vectorizeActiveNamespace: Schema.optional(Schema.String).pipe(
-    T.JsonName("vectorize_active_namespace"),
-  ),
-}) as unknown as Schema.Schema<ReadInstanceResponse>;
+  systemPromptAiSearch: Schema.optional(Schema.String),
+  systemPromptIndexSummarization: Schema.optional(Schema.String),
+  systemPromptRewriteQuery: Schema.optional(Schema.String),
+  vectorizeActiveNamespace: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    createdAt: "created_at",
+    internalId: "internal_id",
+    modifiedAt: "modified_at",
+    tokenId: "token_id",
+    vectorizeName: "vectorize_name",
+    aiGatewayId: "ai_gateway_id",
+    aiSearchModel: "ai_search_model",
+    cacheThreshold: "cache_threshold",
+    chunkOverlap: "chunk_overlap",
+    chunkSize: "chunk_size",
+    createdBy: "created_by",
+    embeddingModel: "embedding_model",
+    engineVersion: "engine_version",
+    hybridSearchEnabled: "hybrid_search_enabled",
+    lastActivity: "last_activity",
+    maxNumResults: "max_num_results",
+    modifiedBy: "modified_by",
+    publicEndpointId: "public_endpoint_id",
+    publicEndpointParams: "public_endpoint_params",
+    rerankingModel: "reranking_model",
+    rewriteModel: "rewrite_model",
+    rewriteQuery: "rewrite_query",
+    scoreThreshold: "score_threshold",
+    sourceParams: "source_params",
+    summarizationModel: "summarization_model",
+    systemPromptAiSearch: "system_prompt_ai_search",
+    systemPromptIndexSummarization: "system_prompt_index_summarization",
+    systemPromptRewriteQuery: "system_prompt_rewrite_query",
+    vectorizeActiveNamespace: "vectorize_active_namespace",
+  }),
+) as unknown as Schema.Schema<ReadInstanceResponse>;
 
 export const readInstance: (
   input: ReadInstanceRequest,
@@ -2574,19 +2691,19 @@ export interface StatsInstanceResponse {
 export const StatsInstanceResponse = Schema.Struct({
   completed: Schema.optional(Schema.Number),
   error: Schema.optional(Schema.Number),
-  fileEmbedErrors: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("file_embed_errors"),
-  ),
-  indexSourceErrors: Schema.optional(Schema.Struct({})).pipe(
-    T.JsonName("index_source_errors"),
-  ),
-  lastActivity: Schema.optional(Schema.String).pipe(
-    T.JsonName("last_activity"),
-  ),
+  fileEmbedErrors: Schema.optional(Schema.Struct({})),
+  indexSourceErrors: Schema.optional(Schema.Struct({})),
+  lastActivity: Schema.optional(Schema.String),
   queued: Schema.optional(Schema.Number),
   running: Schema.optional(Schema.Number),
   skipped: Schema.optional(Schema.Number),
-}) as unknown as Schema.Schema<StatsInstanceResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    fileEmbedErrors: "file_embed_errors",
+    indexSourceErrors: "index_source_errors",
+    lastActivity: "last_activity",
+  }),
+) as unknown as Schema.Schema<StatsInstanceResponse>;
 
 export const statsInstance: (
   input: StatsInstanceRequest,
@@ -2633,11 +2750,19 @@ export interface GetInstanceItemResponse {
 export const GetInstanceItemResponse = Schema.Struct({
   id: Schema.String,
   key: Schema.String,
-  status: Schema.Literal("queued", "running", "completed", "error", "skipped"),
+  status: Schema.Literals([
+    "queued",
+    "running",
+    "completed",
+    "error",
+    "skipped",
+  ]),
   error: Schema.optional(Schema.String),
-  lastSeenAt: Schema.optional(Schema.String).pipe(T.JsonName("last_seen_at")),
-  nextAction: Schema.optional(Schema.String).pipe(T.JsonName("next_action")),
-}) as unknown as Schema.Schema<GetInstanceItemResponse>;
+  lastSeenAt: Schema.optional(Schema.String),
+  nextAction: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ lastSeenAt: "last_seen_at", nextAction: "next_action" }),
+) as unknown as Schema.Schema<GetInstanceItemResponse>;
 
 export const getInstanceItem: (
   input: GetInstanceItemRequest,
@@ -2683,12 +2808,19 @@ export interface GetInstanceJobResponse {
 
 export const GetInstanceJobResponse = Schema.Struct({
   id: Schema.String,
-  source: Schema.Literal("user", "schedule"),
-  endReason: Schema.optional(Schema.String).pipe(T.JsonName("end_reason")),
-  endedAt: Schema.optional(Schema.String).pipe(T.JsonName("ended_at")),
-  lastSeenAt: Schema.optional(Schema.String).pipe(T.JsonName("last_seen_at")),
-  startedAt: Schema.optional(Schema.String).pipe(T.JsonName("started_at")),
-}) as unknown as Schema.Schema<GetInstanceJobResponse>;
+  source: Schema.Literals(["user", "schedule"]),
+  endReason: Schema.optional(Schema.String),
+  endedAt: Schema.optional(Schema.String),
+  lastSeenAt: Schema.optional(Schema.String),
+  startedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    endReason: "end_reason",
+    endedAt: "ended_at",
+    lastSeenAt: "last_seen_at",
+    startedAt: "started_at",
+  }),
+) as unknown as Schema.Schema<GetInstanceJobResponse>;
 
 export const getInstanceJob: (
   input: GetInstanceJobRequest,
@@ -2728,12 +2860,19 @@ export interface CreateInstanceJobResponse {
 
 export const CreateInstanceJobResponse = Schema.Struct({
   id: Schema.String,
-  source: Schema.Literal("user", "schedule"),
-  endReason: Schema.optional(Schema.String).pipe(T.JsonName("end_reason")),
-  endedAt: Schema.optional(Schema.String).pipe(T.JsonName("ended_at")),
-  lastSeenAt: Schema.optional(Schema.String).pipe(T.JsonName("last_seen_at")),
-  startedAt: Schema.optional(Schema.String).pipe(T.JsonName("started_at")),
-}) as unknown as Schema.Schema<CreateInstanceJobResponse>;
+  source: Schema.Literals(["user", "schedule"]),
+  endReason: Schema.optional(Schema.String),
+  endedAt: Schema.optional(Schema.String),
+  lastSeenAt: Schema.optional(Schema.String),
+  startedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    endReason: "end_reason",
+    endedAt: "ended_at",
+    lastSeenAt: "last_seen_at",
+    startedAt: "started_at",
+  }),
+) as unknown as Schema.Schema<CreateInstanceJobResponse>;
 
 export const createInstanceJob: (
   input: CreateInstanceJobRequest,
@@ -2781,10 +2920,12 @@ export type LogsInstanceJobResponse = {
 export const LogsInstanceJobResponse = Schema.Array(
   Schema.Struct({
     id: Schema.Number,
-    createdAt: Schema.Number.pipe(T.JsonName("created_at")),
+    createdAt: Schema.Number,
     message: Schema.String,
-    messageType: Schema.Number.pipe(T.JsonName("message_type")),
-  }),
+    messageType: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({ createdAt: "created_at", messageType: "message_type" }),
+  ),
 ) as unknown as Schema.Schema<LogsInstanceJobResponse>;
 
 export const logsInstanceJob: (
@@ -2818,11 +2959,12 @@ export interface CreateTokenRequest {
 
 export const CreateTokenRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cfApiId: Schema.String.pipe(T.JsonName("cf_api_id")),
-  cfApiKey: Schema.String.pipe(T.JsonName("cf_api_key")),
+  cfApiId: Schema.String,
+  cfApiKey: Schema.String,
   name: Schema.String,
   legacy: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({ cfApiId: "cf_api_id", cfApiKey: "cf_api_key" }),
   T.Http({ method: "POST", path: "/accounts/{account_id}/ai-search/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -2844,19 +2986,31 @@ export interface CreateTokenResponse {
 
 export const CreateTokenResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  cfApiId: Schema.String.pipe(T.JsonName("cf_api_id")),
-  cfApiKey: Schema.String.pipe(T.JsonName("cf_api_key")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  cfApiId: Schema.String,
+  cfApiKey: Schema.String,
+  createdAt: Schema.String,
+  modifiedAt: Schema.String,
   name: Schema.String,
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdBy: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   legacy: Schema.optional(Schema.Boolean),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  syncedAt: Schema.optional(Schema.String).pipe(T.JsonName("synced_at")),
-}) as unknown as Schema.Schema<CreateTokenResponse>;
+  modifiedBy: Schema.optional(Schema.String),
+  syncedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    cfApiId: "cf_api_id",
+    cfApiKey: "cf_api_key",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    createdBy: "created_by",
+    modifiedBy: "modified_by",
+    syncedAt: "synced_at",
+  }),
+) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export const createToken: (
   input: CreateTokenRequest,
@@ -2903,19 +3057,31 @@ export interface UpdateTokenResponse {
 
 export const UpdateTokenResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  cfApiId: Schema.String.pipe(T.JsonName("cf_api_id")),
-  cfApiKey: Schema.String.pipe(T.JsonName("cf_api_key")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  cfApiId: Schema.String,
+  cfApiKey: Schema.String,
+  createdAt: Schema.String,
+  modifiedAt: Schema.String,
   name: Schema.String,
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdBy: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   legacy: Schema.optional(Schema.Boolean),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  syncedAt: Schema.optional(Schema.String).pipe(T.JsonName("synced_at")),
-}) as unknown as Schema.Schema<UpdateTokenResponse>;
+  modifiedBy: Schema.optional(Schema.String),
+  syncedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    cfApiId: "cf_api_id",
+    cfApiKey: "cf_api_key",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    createdBy: "created_by",
+    modifiedBy: "modified_by",
+    syncedAt: "synced_at",
+  }),
+) as unknown as Schema.Schema<UpdateTokenResponse>;
 
 export const updateToken: (
   input: UpdateTokenRequest,
@@ -2962,19 +3128,31 @@ export interface DeleteTokenResponse {
 
 export const DeleteTokenResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  cfApiId: Schema.String.pipe(T.JsonName("cf_api_id")),
-  cfApiKey: Schema.String.pipe(T.JsonName("cf_api_key")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  cfApiId: Schema.String,
+  cfApiKey: Schema.String,
+  createdAt: Schema.String,
+  modifiedAt: Schema.String,
   name: Schema.String,
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdBy: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   legacy: Schema.optional(Schema.Boolean),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  syncedAt: Schema.optional(Schema.String).pipe(T.JsonName("synced_at")),
-}) as unknown as Schema.Schema<DeleteTokenResponse>;
+  modifiedBy: Schema.optional(Schema.String),
+  syncedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    cfApiId: "cf_api_id",
+    cfApiKey: "cf_api_key",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    createdBy: "created_by",
+    modifiedBy: "modified_by",
+    syncedAt: "synced_at",
+  }),
+) as unknown as Schema.Schema<DeleteTokenResponse>;
 
 export const deleteToken: (
   input: DeleteTokenRequest,
@@ -3021,19 +3199,31 @@ export interface ReadTokenResponse {
 
 export const ReadTokenResponse = Schema.Struct({
   id: Schema.String,
-  accountId: Schema.String.pipe(T.JsonName("account_id")),
-  accountTag: Schema.String.pipe(T.JsonName("account_tag")),
-  cfApiId: Schema.String.pipe(T.JsonName("cf_api_id")),
-  cfApiKey: Schema.String.pipe(T.JsonName("cf_api_key")),
-  createdAt: Schema.String.pipe(T.JsonName("created_at")),
-  modifiedAt: Schema.String.pipe(T.JsonName("modified_at")),
+  accountId: Schema.String,
+  accountTag: Schema.String,
+  cfApiId: Schema.String,
+  cfApiKey: Schema.String,
+  createdAt: Schema.String,
+  modifiedAt: Schema.String,
   name: Schema.String,
-  createdBy: Schema.optional(Schema.String).pipe(T.JsonName("created_by")),
+  createdBy: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   legacy: Schema.optional(Schema.Boolean),
-  modifiedBy: Schema.optional(Schema.String).pipe(T.JsonName("modified_by")),
-  syncedAt: Schema.optional(Schema.String).pipe(T.JsonName("synced_at")),
-}) as unknown as Schema.Schema<ReadTokenResponse>;
+  modifiedBy: Schema.optional(Schema.String),
+  syncedAt: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({
+    accountId: "account_id",
+    accountTag: "account_tag",
+    cfApiId: "cf_api_id",
+    cfApiKey: "cf_api_key",
+    createdAt: "created_at",
+    modifiedAt: "modified_at",
+    createdBy: "created_by",
+    modifiedBy: "modified_by",
+    syncedAt: "synced_at",
+  }),
+) as unknown as Schema.Schema<ReadTokenResponse>;
 
 export const readToken: (
   input: ReadTokenRequest,

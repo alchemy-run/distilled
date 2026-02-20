@@ -5,9 +5,9 @@
  * can be returned by each operation in the service.
  */
 
-import * as FileSystem from "@effect/platform/FileSystem";
-import * as Path from "@effect/platform/Path";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
 import * as Schema from "effect/Schema";
 
 /**
@@ -42,7 +42,7 @@ export const ServiceSpec = Schema.Struct({
   /**
    * Map of operation names to their patches.
    */
-  operations: Schema.Record({ key: Schema.String, value: OperationPatch }),
+  operations: Schema.Record(Schema.String, OperationPatch),
 });
 export type ServiceSpec = typeof ServiceSpec.Type;
 
@@ -57,7 +57,7 @@ export const loadServiceSpec = (serviceName: string) =>
     const specPath = path.join("spec", `${serviceName}.json`);
     const content = yield* fs.readFileString(specPath);
     const data = yield* Schema.decodeUnknownEffect(
-      Schema.parseJson(ServiceSpec),
+      Schema.fromJsonString(ServiceSpec),
     )(content);
 
     return data;

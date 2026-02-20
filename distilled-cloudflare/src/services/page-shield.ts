@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -138,13 +138,13 @@ export interface PutPageShieldRequest {
 export const PutPageShieldRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.optional(Schema.Boolean),
-  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_cloudflare_reporting_endpoint"),
-  ),
-  useConnectionUrlPath: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("use_connection_url_path"),
-  ),
+  useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean),
+  useConnectionUrlPath: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
   T.Http({ method: "PUT", path: "/zones/{zone_id}/page_shield" }),
 ) as unknown as Schema.Schema<PutPageShieldRequest>;
 
@@ -161,14 +161,16 @@ export interface PutPageShieldResponse {
 
 export const PutPageShieldResponse = Schema.Struct({
   enabled: Schema.Boolean,
-  updatedAt: Schema.String.pipe(T.JsonName("updated_at")),
-  useCloudflareReportingEndpoint: Schema.Boolean.pipe(
-    T.JsonName("use_cloudflare_reporting_endpoint"),
-  ),
-  useConnectionUrlPath: Schema.Boolean.pipe(
-    T.JsonName("use_connection_url_path"),
-  ),
-}) as unknown as Schema.Schema<PutPageShieldResponse>;
+  updatedAt: Schema.String,
+  useCloudflareReportingEndpoint: Schema.Boolean,
+  useConnectionUrlPath: Schema.Boolean,
+}).pipe(
+  Schema.encodeKeys({
+    updatedAt: "updated_at",
+    useCloudflareReportingEndpoint: "use_cloudflare_reporting_endpoint",
+    useConnectionUrlPath: "use_connection_url_path",
+  }),
+) as unknown as Schema.Schema<PutPageShieldResponse>;
 
 export const putPageShield: (
   input: PutPageShieldRequest,
@@ -236,7 +238,7 @@ export interface CreatePolicyRequest {
 
 export const CreatePolicyRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.Literal("allow", "log"),
+  action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
   enabled: Schema.Boolean,
   expression: Schema.String,
@@ -281,7 +283,7 @@ export interface UpdatePolicyRequest {
 export const UpdatePolicyRequest = Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  action: Schema.optional(Schema.Literal("allow", "log")),
+  action: Schema.optional(Schema.Literals(["allow", "log"])),
   description: Schema.optional(Schema.String),
   enabled: Schema.optional(Schema.Boolean),
   expression: Schema.optional(Schema.String),

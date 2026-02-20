@@ -5,8 +5,8 @@
  * Used by the response parser to match errors to typed TaggedError classes.
  */
 
-import * as FileSystem from "@effect/platform/FileSystem";
-import * as Path from "@effect/platform/Path";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
 import * as Effect from "effect/Effect";
 
 export interface ErrorCatalogEntry {

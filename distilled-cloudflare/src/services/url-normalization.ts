@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -41,8 +41,8 @@ export interface GetURLNormalizationResponse {
 }
 
 export const GetURLNormalizationResponse = Schema.Struct({
-  scope: Schema.Literal("incoming", "both", "none"),
-  type: Schema.Literal("cloudflare", "rfc3986"),
+  scope: Schema.Literals(["incoming", "both", "none"]),
+  type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<GetURLNormalizationResponse>;
 
 export const getURLNormalization: (
@@ -68,8 +68,8 @@ export interface PutURLNormalizationRequest {
 
 export const PutURLNormalizationRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  scope: Schema.Literal("incoming", "both", "none"),
-  type: Schema.Literal("cloudflare", "rfc3986"),
+  scope: Schema.Literals(["incoming", "both", "none"]),
+  type: Schema.Literals(["cloudflare", "rfc3986"]),
 }).pipe(
   T.Http({ method: "PUT", path: "/zones/{zone_id}/url_normalization" }),
 ) as unknown as Schema.Schema<PutURLNormalizationRequest>;
@@ -82,8 +82,8 @@ export interface PutURLNormalizationResponse {
 }
 
 export const PutURLNormalizationResponse = Schema.Struct({
-  scope: Schema.Literal("incoming", "both", "none"),
-  type: Schema.Literal("cloudflare", "rfc3986"),
+  scope: Schema.Literals(["incoming", "both", "none"]),
+  type: Schema.Literals(["cloudflare", "rfc3986"]),
 }) as unknown as Schema.Schema<PutURLNormalizationResponse>;
 
 export const putURLNormalization: (

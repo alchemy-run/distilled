@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -166,11 +166,11 @@ export interface TrendPageRequest {
 export const TrendPageRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  deviceType: Schema.Literal("DESKTOP", "MOBILE").pipe(
+  deviceType: Schema.Literals(["DESKTOP", "MOBILE"]).pipe(
     T.HttpQuery("deviceType"),
   ),
   metrics: Schema.String.pipe(T.HttpQuery("metrics")),
-  region: Schema.Literal(
+  region: Schema.Literals([
     "asia-east1",
     "asia-northeast1",
     "asia-northeast2",
@@ -192,7 +192,7 @@ export const TrendPageRequest = Schema.Struct({
     "us-east4",
     "us-south1",
     "us-west1",
-  ).pipe(T.HttpQuery("region")),
+  ]).pipe(T.HttpQuery("region")),
   start: Schema.String.pipe(T.HttpQuery("start")),
   tz: Schema.String.pipe(T.HttpQuery("tz")),
   end: Schema.optional(Schema.String).pipe(T.HttpQuery("end")),
@@ -264,7 +264,7 @@ export const GetPageTestResponse = Schema.Struct({
   desktopReport: Schema.optional(Schema.Unknown),
   mobileReport: Schema.optional(Schema.Unknown),
   region: Schema.optional(Schema.Unknown),
-  scheduleFrequency: Schema.optional(Schema.Literal("DAILY", "WEEKLY")),
+  scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetPageTestResponse>;
 
@@ -313,7 +313,7 @@ export const CreatePageTestRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -335,7 +335,7 @@ export const CreatePageTestRequest = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ),
 }).pipe(
   T.Http({
@@ -366,7 +366,7 @@ export const CreatePageTestResponse = Schema.Struct({
   desktopReport: Schema.optional(Schema.Unknown),
   mobileReport: Schema.optional(Schema.Unknown),
   region: Schema.optional(Schema.Unknown),
-  scheduleFrequency: Schema.optional(Schema.Literal("DAILY", "WEEKLY")),
+  scheduleFrequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreatePageTestResponse>;
 
@@ -415,7 +415,7 @@ export const DeletePageTestRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -437,7 +437,7 @@ export const DeletePageTestRequest = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
   T.Http({
@@ -504,7 +504,7 @@ export const GetScheduleRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -526,7 +526,7 @@ export const GetScheduleRequest = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/speed_api/schedule/{url}" }),
@@ -563,9 +563,9 @@ export interface GetScheduleResponse {
 }
 
 export const GetScheduleResponse = Schema.Struct({
-  frequency: Schema.optional(Schema.Literal("DAILY", "WEEKLY")),
+  frequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -587,7 +587,7 @@ export const GetScheduleResponse = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ),
   url: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetScheduleResponse>;
@@ -637,7 +637,7 @@ export const CreateScheduleRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -659,7 +659,7 @@ export const CreateScheduleRequest = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
   T.Http({ method: "POST", path: "/zones/{zone_id}/speed_api/schedule/{url}" }),
@@ -699,9 +699,9 @@ export interface CreateScheduleResponse {
 export const CreateScheduleResponse = Schema.Struct({
   schedule: Schema.optional(
     Schema.Struct({
-      frequency: Schema.optional(Schema.Literal("DAILY", "WEEKLY")),
+      frequency: Schema.optional(Schema.Literals(["DAILY", "WEEKLY"])),
       region: Schema.optional(
-        Schema.Literal(
+        Schema.Literals([
           "asia-east1",
           "asia-northeast1",
           "asia-northeast2",
@@ -723,7 +723,7 @@ export const CreateScheduleResponse = Schema.Struct({
           "us-east4",
           "us-south1",
           "us-west1",
-        ),
+        ]),
       ),
       url: Schema.optional(Schema.String),
     }),
@@ -776,7 +776,7 @@ export const DeleteScheduleRequest = Schema.Struct({
   url: Schema.String.pipe(T.HttpPath("url")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   region: Schema.optional(
-    Schema.Literal(
+    Schema.Literals([
       "asia-east1",
       "asia-northeast1",
       "asia-northeast2",
@@ -798,7 +798,7 @@ export const DeleteScheduleRequest = Schema.Struct({
       "us-east4",
       "us-south1",
       "us-west1",
-    ),
+    ]),
   ).pipe(T.HttpQuery("region")),
 }).pipe(
   T.Http({

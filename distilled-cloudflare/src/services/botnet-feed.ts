@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -124,10 +124,10 @@ export interface DayReportAsnResponse {
 export const DayReportAsnResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("offense_count"),
-  ),
-}) as unknown as Schema.Schema<DayReportAsnResponse>;
+  offenseCount: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({ offenseCount: "offense_count" }),
+) as unknown as Schema.Schema<DayReportAsnResponse>;
 
 export const dayReportAsn: (
   input: DayReportAsnRequest,
@@ -166,10 +166,10 @@ export interface FullReportAsnResponse {
 export const FullReportAsnResponse = Schema.Struct({
   cidr: Schema.optional(Schema.String),
   date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number).pipe(
-    T.JsonName("offense_count"),
-  ),
-}) as unknown as Schema.Schema<FullReportAsnResponse>;
+  offenseCount: Schema.optional(Schema.Number),
+}).pipe(
+  Schema.encodeKeys({ offenseCount: "offense_count" }),
+) as unknown as Schema.Schema<FullReportAsnResponse>;
 
 export const fullReportAsn: (
   input: FullReportAsnRequest,

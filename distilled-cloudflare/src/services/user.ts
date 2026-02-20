@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -73,79 +73,76 @@ export interface GetBillingProfileResponse {
 
 export const GetBillingProfileResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountType: Schema.optional(Schema.String).pipe(T.JsonName("account_type")),
+  accountType: Schema.optional(Schema.String),
   address: Schema.optional(Schema.String),
   address2: Schema.optional(Schema.String),
   balance: Schema.optional(Schema.String),
-  cardExpiryMonth: Schema.optional(Schema.Number).pipe(
-    T.JsonName("card_expiry_month"),
-  ),
-  cardExpiryYear: Schema.optional(Schema.Number).pipe(
-    T.JsonName("card_expiry_year"),
-  ),
-  cardNumber: Schema.optional(Schema.String).pipe(T.JsonName("card_number")),
+  cardExpiryMonth: Schema.optional(Schema.Number),
+  cardExpiryYear: Schema.optional(Schema.Number),
+  cardNumber: Schema.optional(Schema.String),
   city: Schema.optional(Schema.String),
   company: Schema.optional(Schema.String),
   country: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  deviceData: Schema.optional(Schema.String).pipe(T.JsonName("device_data")),
-  editedOn: Schema.optional(Schema.String).pipe(T.JsonName("edited_on")),
-  enterpriseBillingEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("enterprise_billing_email"),
-  ),
-  enterprisePrimaryEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("enterprise_primary_email"),
-  ),
-  firstName: Schema.optional(Schema.String).pipe(T.JsonName("first_name")),
-  isPartner: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_partner")),
-  lastName: Schema.optional(Schema.String).pipe(T.JsonName("last_name")),
-  nextBillDate: Schema.optional(Schema.String).pipe(
-    T.JsonName("next_bill_date"),
-  ),
-  paymentAddress: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_address"),
-  ),
-  paymentAddress2: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_address2"),
-  ),
-  paymentCity: Schema.optional(Schema.String).pipe(T.JsonName("payment_city")),
-  paymentCountry: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_country"),
-  ),
-  paymentEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_email"),
-  ),
-  paymentFirstName: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_first_name"),
-  ),
-  paymentGateway: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_gateway"),
-  ),
-  paymentLastName: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_last_name"),
-  ),
-  paymentNonce: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_nonce"),
-  ),
-  paymentState: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_state"),
-  ),
-  paymentZipcode: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_zipcode"),
-  ),
-  primaryEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("primary_email"),
-  ),
+  createdOn: Schema.optional(Schema.String),
+  deviceData: Schema.optional(Schema.String),
+  editedOn: Schema.optional(Schema.String),
+  enterpriseBillingEmail: Schema.optional(Schema.String),
+  enterprisePrimaryEmail: Schema.optional(Schema.String),
+  firstName: Schema.optional(Schema.String),
+  isPartner: Schema.optional(Schema.Boolean),
+  lastName: Schema.optional(Schema.String),
+  nextBillDate: Schema.optional(Schema.String),
+  paymentAddress: Schema.optional(Schema.String),
+  paymentAddress2: Schema.optional(Schema.String),
+  paymentCity: Schema.optional(Schema.String),
+  paymentCountry: Schema.optional(Schema.String),
+  paymentEmail: Schema.optional(Schema.String),
+  paymentFirstName: Schema.optional(Schema.String),
+  paymentGateway: Schema.optional(Schema.String),
+  paymentLastName: Schema.optional(Schema.String),
+  paymentNonce: Schema.optional(Schema.String),
+  paymentState: Schema.optional(Schema.String),
+  paymentZipcode: Schema.optional(Schema.String),
+  primaryEmail: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
-  taxIdType: Schema.optional(Schema.String).pipe(T.JsonName("tax_id_type")),
+  taxIdType: Schema.optional(Schema.String),
   telephone: Schema.optional(Schema.String),
-  useLegacy: Schema.optional(Schema.Boolean).pipe(T.JsonName("use_legacy")),
-  validationCode: Schema.optional(Schema.String).pipe(
-    T.JsonName("validation_code"),
-  ),
+  useLegacy: Schema.optional(Schema.Boolean),
+  validationCode: Schema.optional(Schema.String),
   vat: Schema.optional(Schema.String),
   zipcode: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetBillingProfileResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountType: "account_type",
+    cardExpiryMonth: "card_expiry_month",
+    cardExpiryYear: "card_expiry_year",
+    cardNumber: "card_number",
+    createdOn: "created_on",
+    deviceData: "device_data",
+    editedOn: "edited_on",
+    enterpriseBillingEmail: "enterprise_billing_email",
+    enterprisePrimaryEmail: "enterprise_primary_email",
+    firstName: "first_name",
+    isPartner: "is_partner",
+    lastName: "last_name",
+    nextBillDate: "next_bill_date",
+    paymentAddress: "payment_address",
+    paymentAddress2: "payment_address2",
+    paymentCity: "payment_city",
+    paymentCountry: "payment_country",
+    paymentEmail: "payment_email",
+    paymentFirstName: "payment_first_name",
+    paymentGateway: "payment_gateway",
+    paymentLastName: "payment_last_name",
+    paymentNonce: "payment_nonce",
+    paymentState: "payment_state",
+    paymentZipcode: "payment_zipcode",
+    primaryEmail: "primary_email",
+    taxIdType: "tax_id_type",
+    useLegacy: "use_legacy",
+    validationCode: "validation_code",
+  }),
+) as unknown as Schema.Schema<GetBillingProfileResponse>;
 
 export const getBillingProfile: (
   input: GetBillingProfileRequest,
@@ -198,28 +195,31 @@ export interface GetInviteResponse {
 }
 
 export const GetInviteResponse = Schema.Struct({
-  invitedMemberId: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("invited_member_id"),
-  ),
-  organizationId: Schema.String.pipe(T.JsonName("organization_id")),
+  invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
+  organizationId: Schema.String,
   id: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  invitedBy: Schema.optional(Schema.String).pipe(T.JsonName("invited_by")),
-  invitedMemberEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("invited_member_email"),
-  ),
-  invitedOn: Schema.optional(Schema.String).pipe(T.JsonName("invited_on")),
-  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("organization_is_enforcing_twofactor"),
-  ),
-  organizationName: Schema.optional(Schema.String).pipe(
-    T.JsonName("organization_name"),
-  ),
+  expiresOn: Schema.optional(Schema.String),
+  invitedBy: Schema.optional(Schema.String),
+  invitedMemberEmail: Schema.optional(Schema.String),
+  invitedOn: Schema.optional(Schema.String),
+  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean),
+  organizationName: Schema.optional(Schema.String),
   roles: Schema.optional(Schema.Array(Schema.String)),
   status: Schema.optional(
-    Schema.Literal("pending", "accepted", "rejected", "expired"),
+    Schema.Literals(["pending", "accepted", "rejected", "expired"]),
   ),
-}) as unknown as Schema.Schema<GetInviteResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    invitedMemberId: "invited_member_id",
+    organizationId: "organization_id",
+    expiresOn: "expires_on",
+    invitedBy: "invited_by",
+    invitedMemberEmail: "invited_member_email",
+    invitedOn: "invited_on",
+    organizationIsEnforcingTwofactor: "organization_is_enforcing_twofactor",
+    organizationName: "organization_name",
+  }),
+) as unknown as Schema.Schema<GetInviteResponse>;
 
 export const getInvite: (
   input: GetInviteRequest,
@@ -241,7 +241,7 @@ export interface PatchInviteRequest {
 
 export const PatchInviteRequest = Schema.Struct({
   inviteId: Schema.String.pipe(T.HttpPath("inviteId")),
-  status: Schema.Literal("accepted", "rejected"),
+  status: Schema.Literals(["accepted", "rejected"]),
 }).pipe(
   T.Http({ method: "PATCH", path: "/user/invites/{inviteId}" }),
 ) as unknown as Schema.Schema<PatchInviteRequest>;
@@ -271,28 +271,31 @@ export interface PatchInviteResponse {
 }
 
 export const PatchInviteResponse = Schema.Struct({
-  invitedMemberId: Schema.Union(Schema.String, Schema.Null).pipe(
-    T.JsonName("invited_member_id"),
-  ),
-  organizationId: Schema.String.pipe(T.JsonName("organization_id")),
+  invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
+  organizationId: Schema.String,
   id: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  invitedBy: Schema.optional(Schema.String).pipe(T.JsonName("invited_by")),
-  invitedMemberEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("invited_member_email"),
-  ),
-  invitedOn: Schema.optional(Schema.String).pipe(T.JsonName("invited_on")),
-  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("organization_is_enforcing_twofactor"),
-  ),
-  organizationName: Schema.optional(Schema.String).pipe(
-    T.JsonName("organization_name"),
-  ),
+  expiresOn: Schema.optional(Schema.String),
+  invitedBy: Schema.optional(Schema.String),
+  invitedMemberEmail: Schema.optional(Schema.String),
+  invitedOn: Schema.optional(Schema.String),
+  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean),
+  organizationName: Schema.optional(Schema.String),
   roles: Schema.optional(Schema.Array(Schema.String)),
   status: Schema.optional(
-    Schema.Literal("pending", "accepted", "rejected", "expired"),
+    Schema.Literals(["pending", "accepted", "rejected", "expired"]),
   ),
-}) as unknown as Schema.Schema<PatchInviteResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    invitedMemberId: "invited_member_id",
+    organizationId: "organization_id",
+    expiresOn: "expires_on",
+    invitedBy: "invited_by",
+    invitedMemberEmail: "invited_member_email",
+    invitedOn: "invited_on",
+    organizationIsEnforcingTwofactor: "organization_is_enforcing_twofactor",
+    organizationName: "organization_name",
+  }),
+) as unknown as Schema.Schema<PatchInviteResponse>;
 
 export const patchInvite: (
   input: PatchInviteRequest,
@@ -383,19 +386,20 @@ export interface PutSubscriptionRequest {
 export const PutSubscriptionRequest = Schema.Struct({
   identifier: Schema.String.pipe(T.HttpPath("identifier")),
   frequency: Schema.optional(
-    Schema.Literal("weekly", "monthly", "quarterly", "yearly"),
+    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
   ),
-  ratePlan: Schema.optional(Schema.Unknown).pipe(T.JsonName("rate_plan")),
+  ratePlan: Schema.optional(Schema.Unknown),
 }).pipe(
+  Schema.encodeKeys({ ratePlan: "rate_plan" }),
   T.Http({ method: "PUT", path: "/user/subscriptions/{identifier}" }),
 ) as unknown as Schema.Schema<PutSubscriptionRequest>;
 
 export type PutSubscriptionResponse = string | null;
 
-export const PutSubscriptionResponse = Schema.Union(
+export const PutSubscriptionResponse = Schema.Union([
   Schema.String,
   Schema.Null,
-) as unknown as Schema.Schema<PutSubscriptionResponse>;
+]) as unknown as Schema.Schema<PutSubscriptionResponse>;
 
 export const putSubscription: (
   input: PutSubscriptionRequest,
@@ -425,10 +429,10 @@ export interface DeleteSubscriptionResponse {
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String).pipe(
-    T.JsonName("subscription_id"),
-  ),
-}) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+  subscriptionId: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ subscriptionId: "subscription_id" }),
+) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export const deleteSubscription: (
   input: DeleteSubscriptionRequest,
@@ -493,16 +497,15 @@ export const CreateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "POST", path: "/user/tokens" }),
 ) as unknown as Schema.Schema<CreateTokenRequest>;
 
@@ -537,23 +540,29 @@ export const CreateTokenResponse = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  issuedOn: Schema.optional(Schema.String).pipe(T.JsonName("issued_on")),
-  lastUsedOn: Schema.optional(Schema.String).pipe(T.JsonName("last_used_on")),
-  modifiedOn: Schema.optional(Schema.String).pipe(T.JsonName("modified_on")),
+  expiresOn: Schema.optional(Schema.String),
+  issuedOn: Schema.optional(Schema.String),
+  lastUsedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
+  notBefore: Schema.optional(Schema.String),
   policies: Schema.optional(Schema.Array(Schema.Unknown)),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
   value: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateTokenResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    expiresOn: "expires_on",
+    issuedOn: "issued_on",
+    lastUsedOn: "last_used_on",
+    modifiedOn: "modified_on",
+    notBefore: "not_before",
+  }),
+) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export const createToken: (
   input: CreateTokenRequest,
@@ -591,17 +600,16 @@ export const UpdateTokenRequest = Schema.Struct({
       requestIp: Schema.optional(
         Schema.Struct({
           in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)).pipe(
-            T.JsonName("not_in"),
-          ),
-        }),
-      ).pipe(T.JsonName("request_ip")),
-    }),
+          notIn: Schema.optional(Schema.Array(Schema.String)),
+        }).pipe(Schema.encodeKeys({ notIn: "not_in" })),
+      ),
+    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
   ),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
-  status: Schema.optional(Schema.Literal("active", "disabled", "expired")),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
+  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
 }).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
   T.Http({ method: "PUT", path: "/user/tokens/{tokenId}" }),
 ) as unknown as Schema.Schema<UpdateTokenRequest>;
 
@@ -668,10 +676,12 @@ export interface VerifyTokenResponse {
 
 export const VerifyTokenResponse = Schema.Struct({
   id: Schema.String,
-  status: Schema.Literal("active", "disabled", "expired"),
-  expiresOn: Schema.optional(Schema.String).pipe(T.JsonName("expires_on")),
-  notBefore: Schema.optional(Schema.String).pipe(T.JsonName("not_before")),
-}) as unknown as Schema.Schema<VerifyTokenResponse>;
+  status: Schema.Literals(["active", "disabled", "expired"]),
+  expiresOn: Schema.optional(Schema.String),
+  notBefore: Schema.optional(Schema.String),
+}).pipe(
+  Schema.encodeKeys({ expiresOn: "expires_on", notBefore: "not_before" }),
+) as unknown as Schema.Schema<VerifyTokenResponse>;
 
 export const verifyToken: (
   input: VerifyTokenRequest,
@@ -759,33 +769,29 @@ export interface GetUserResponse {
 export const GetUserResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   betas: Schema.optional(Schema.Array(Schema.String)),
-  country: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  firstName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("first_name"),
-  ),
-  hasBusinessZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_business_zones"),
-  ),
-  hasEnterpriseZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_enterprise_zones"),
-  ),
-  hasProZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_pro_zones"),
-  ),
-  lastName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("last_name"),
-  ),
+  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  hasBusinessZones: Schema.optional(Schema.Boolean),
+  hasEnterpriseZones: Schema.optional(Schema.Boolean),
+  hasProZones: Schema.optional(Schema.Boolean),
+  lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   organizations: Schema.optional(Schema.Array(Schema.Unknown)),
   suspended: Schema.optional(Schema.Boolean),
-  telephone: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("two_factor_authentication_enabled"),
-  ),
-  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("two_factor_authentication_locked"),
-  ),
-  zipcode: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<GetUserResponse>;
+  telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean),
+  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean),
+  zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    firstName: "first_name",
+    hasBusinessZones: "has_business_zones",
+    hasEnterpriseZones: "has_enterprise_zones",
+    hasProZones: "has_pro_zones",
+    lastName: "last_name",
+    twoFactorAuthenticationEnabled: "two_factor_authentication_enabled",
+    twoFactorAuthenticationLocked: "two_factor_authentication_locked",
+  }),
+) as unknown as Schema.Schema<GetUserResponse>;
 
 export const getUser: (
   input: GetUserRequest,
@@ -813,16 +819,13 @@ export interface PatchUserRequest {
 }
 
 export const PatchUserRequest = Schema.Struct({
-  country: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  firstName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("first_name"),
-  ),
-  lastName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("last_name"),
-  ),
-  telephone: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  zipcode: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
+  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
+  Schema.encodeKeys({ firstName: "first_name", lastName: "last_name" }),
   T.Http({ method: "PATCH", path: "/user" }),
 ) as unknown as Schema.Schema<PatchUserRequest>;
 
@@ -859,33 +862,29 @@ export interface PatchUserResponse {
 export const PatchUserResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
   betas: Schema.optional(Schema.Array(Schema.String)),
-  country: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  firstName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("first_name"),
-  ),
-  hasBusinessZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_business_zones"),
-  ),
-  hasEnterpriseZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_enterprise_zones"),
-  ),
-  hasProZones: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("has_pro_zones"),
-  ),
-  lastName: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("last_name"),
-  ),
+  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  hasBusinessZones: Schema.optional(Schema.Boolean),
+  hasEnterpriseZones: Schema.optional(Schema.Boolean),
+  hasProZones: Schema.optional(Schema.Boolean),
+  lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   organizations: Schema.optional(Schema.Array(Schema.Unknown)),
   suspended: Schema.optional(Schema.Boolean),
-  telephone: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("two_factor_authentication_enabled"),
-  ),
-  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean).pipe(
-    T.JsonName("two_factor_authentication_locked"),
-  ),
-  zipcode: Schema.optional(Schema.Union(Schema.String, Schema.Null)),
-}) as unknown as Schema.Schema<PatchUserResponse>;
+  telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean),
+  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean),
+  zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    firstName: "first_name",
+    hasBusinessZones: "has_business_zones",
+    hasEnterpriseZones: "has_enterprise_zones",
+    hasProZones: "has_pro_zones",
+    lastName: "last_name",
+    twoFactorAuthenticationEnabled: "two_factor_authentication_enabled",
+    twoFactorAuthenticationLocked: "two_factor_authentication_locked",
+  }),
+) as unknown as Schema.Schema<PatchUserResponse>;
 
 export const patchUser: (
   input: PatchUserRequest,

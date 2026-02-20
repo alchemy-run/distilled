@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -85,16 +85,22 @@ export const GetAbuseReportResponse = Schema.Struct({
   cdate: Schema.String,
   domain: Schema.String,
   mitigationSummary: Schema.Struct({
-    acceptedUrlCount: Schema.Number.pipe(T.JsonName("accepted_url_count")),
-    activeCount: Schema.Number.pipe(T.JsonName("active_count")),
-    externalHostNotified: Schema.Boolean.pipe(
-      T.JsonName("external_host_notified"),
-    ),
-    inReviewCount: Schema.Number.pipe(T.JsonName("in_review_count")),
-    pendingCount: Schema.Number.pipe(T.JsonName("pending_count")),
-  }).pipe(T.JsonName("mitigation_summary")),
-  status: Schema.Literal("accepted", "in_review"),
-  type: Schema.Literal(
+    acceptedUrlCount: Schema.Number,
+    activeCount: Schema.Number,
+    externalHostNotified: Schema.Boolean,
+    inReviewCount: Schema.Number,
+    pendingCount: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({
+      acceptedUrlCount: "accepted_url_count",
+      activeCount: "active_count",
+      externalHostNotified: "external_host_notified",
+      inReviewCount: "in_review_count",
+      pendingCount: "pending_count",
+    }),
+  ),
+  status: Schema.Literals(["accepted", "in_review"]),
+  type: Schema.Literals([
     "PHISH",
     "GEN",
     "THREAT",
@@ -104,11 +110,9 @@ export const GetAbuseReportResponse = Schema.Struct({
     "REG_WHO",
     "NCSEI",
     "NETWORK",
-  ),
+  ]),
   justification: Schema.optional(Schema.String),
-  originalWork: Schema.optional(Schema.String).pipe(
-    T.JsonName("original_work"),
-  ),
+  originalWork: Schema.optional(Schema.String),
   submitter: Schema.optional(
     Schema.Struct({
       company: Schema.optional(Schema.String),
@@ -118,7 +122,12 @@ export const GetAbuseReportResponse = Schema.Struct({
     }),
   ),
   urls: Schema.optional(Schema.Array(Schema.String)),
-}) as unknown as Schema.Schema<GetAbuseReportResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    mitigationSummary: "mitigation_summary",
+    originalWork: "original_work",
+  }),
+) as unknown as Schema.Schema<GetAbuseReportResponse>;
 
 export const getAbuseReport: (
   input: GetAbuseReportRequest,

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -50,11 +50,13 @@ export interface GetEndpointHealthcheckResponse {
 }
 
 export const GetEndpointHealthcheckResponse = Schema.Struct({
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetEndpointHealthcheckResponse>;
+}).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
+) as unknown as Schema.Schema<GetEndpointHealthcheckResponse>;
 
 export const getEndpointHealthcheck: (
   input: GetEndpointHealthcheckRequest,
@@ -94,11 +96,13 @@ export interface ListEndpointHealthchecksResponse {
 }
 
 export const ListEndpointHealthchecksResponse = Schema.Struct({
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<ListEndpointHealthchecksResponse>;
+}).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
+) as unknown as Schema.Schema<ListEndpointHealthchecksResponse>;
 
 export const listEndpointHealthchecks: (
   input: ListEndpointHealthchecksRequest,
@@ -125,10 +129,11 @@ export interface CreateEndpointHealthcheckRequest {
 
 export const CreateEndpointHealthcheckRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
@@ -147,11 +152,13 @@ export interface CreateEndpointHealthcheckResponse {
 }
 
 export const CreateEndpointHealthcheckResponse = Schema.Struct({
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<CreateEndpointHealthcheckResponse>;
+}).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
+) as unknown as Schema.Schema<CreateEndpointHealthcheckResponse>;
 
 export const createEndpointHealthcheck: (
   input: CreateEndpointHealthcheckRequest,
@@ -180,10 +187,11 @@ export interface UpdateEndpointHealthcheckRequest {
 export const UpdateEndpointHealthcheckRequest = Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   name: Schema.optional(Schema.String),
 }).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
@@ -202,11 +210,13 @@ export interface UpdateEndpointHealthcheckResponse {
 }
 
 export const UpdateEndpointHealthcheckResponse = Schema.Struct({
-  checkType: Schema.Literal("icmp").pipe(T.JsonName("check_type")),
+  checkType: Schema.Literal("icmp"),
   endpoint: Schema.String,
   id: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<UpdateEndpointHealthcheckResponse>;
+}).pipe(
+  Schema.encodeKeys({ checkType: "check_type" }),
+) as unknown as Schema.Schema<UpdateEndpointHealthcheckResponse>;
 
 export const updateEndpointHealthcheck: (
   input: UpdateEndpointHealthcheckRequest,
@@ -258,29 +268,25 @@ export const DeleteEndpointHealthcheckResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("documentation_url"),
-      ),
+      documentationUrl: Schema.optional(Schema.String),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
   ),
   messages: Schema.Array(
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String).pipe(
-        T.JsonName("documentation_url"),
-      ),
+      documentationUrl: Schema.optional(Schema.String),
       source: Schema.optional(
         Schema.Struct({
           pointer: Schema.optional(Schema.String),
         }),
       ),
-    }),
+    }).pipe(Schema.encodeKeys({ documentationUrl: "documentation_url" })),
   ),
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteEndpointHealthcheckResponse>;

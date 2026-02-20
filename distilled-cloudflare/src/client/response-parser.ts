@@ -231,16 +231,16 @@ function parseMultipartBody(body: Uint8Array, contentType: string): FormData {
  * @param outputSchema - Schema to decode the result
  * @param errorSchemas - Map of error names to their schema classes
  */
-export const parseResponse = <O>(
+export const parseResponse = <S extends Schema.Top>(
   response: {
     status: number;
     statusText: string;
     headers: Record<string, string>;
     body: ReadableStream<Uint8Array>;
   },
-  outputSchema: Schema.Schema<O, unknown>,
+  outputSchema: S,
   errorSchemas: Map<string, Schema.Top>,
-): Effect.Effect<O, UnknownCloudflareError | CloudflareHttpError> =>
+): Effect.Effect<S["Type"], UnknownCloudflareError | CloudflareHttpError, S["DecodingServices"]> =>
   Effect.gen(function* () {
     // Read body as bytes
     const reader = response.body.getReader();
@@ -277,7 +277,7 @@ export const parseResponse = <O>(
       (isMultipart && response.status >= 200 && response.status < 300)
     ) {
       // For multipart responses, return FormData
-      return parseMultipartBody(bodyBytes, contentType) as unknown as O;
+      return parseMultipartBody(bodyBytes, contentType) as unknown as S["Type"];
     }
 
     const bodyText = new TextDecoder().decode(bodyBytes);
@@ -291,10 +291,7 @@ export const parseResponse = <O>(
       if (response.status >= 200 && response.status < 300) {
         // For successful non-JSON responses, try to decode the raw body as the output.
         // This handles cases like KV getNamespaceValue which returns raw bytes/text.
-        const result = yield* Schema.decodeUnknownEffect(outputSchema, {
-          onExcessProperty: "ignore",
-          propertyOrder: "none",
-        })(bodyText).pipe(
+        const result = yield* Schema.decodeUnknownEffect(outputSchema)(bodyText).pipe(
           Effect.mapError(
             () =>
               new CloudflareHttpError({
@@ -328,10 +325,7 @@ export const parseResponse = <O>(
       // Raw JSON response (not wrapped in Cloudflare envelope).
       // For 2xx responses, decode the raw JSON directly as the output.
       if (response.status >= 200 && response.status < 300) {
-        const result = yield* Schema.decodeUnknownEffect(outputSchema, {
-          onExcessProperty: "ignore",
-          propertyOrder: "none",
-        })(json).pipe(
+        const result = yield* Schema.decodeUnknownEffect(outputSchema)(json).pipe(
           Effect.mapError(
             () =>
               new CloudflareHttpError({
@@ -414,12 +408,7 @@ export const parseResponse = <O>(
 
     // Decode the result directly using the output schema
     // The output schema represents the unwrapped result type (not the Cloudflare envelope)
-    // Use onExcessProperty: "ignore" to allow unknown fields from the API
-    // Use propertyOrder: "none" to handle snake_case → camelCase mappings via fromKey
-    const result = yield* Schema.decodeUnknownEffect(outputSchema, {
-      onExcessProperty: "ignore",
-      propertyOrder: "none",
-    })(envelope.result ?? {}).pipe(
+    const result = yield* Schema.decodeUnknownEffect(outputSchema)(envelope.result ?? {}).pipe(
       Effect.mapError(
         () =>
           new CloudflareHttpError({

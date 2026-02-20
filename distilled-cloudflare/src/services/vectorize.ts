@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -154,21 +154,21 @@ export interface CreateIndexRequest {
 
 export const CreateIndexRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  config: Schema.Union(
+  config: Schema.Union([
     Schema.Struct({
       dimensions: Schema.Number,
-      metric: Schema.Literal("cosine", "euclidean", "dot-product"),
+      metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
     }),
     Schema.Struct({
-      preset: Schema.Literal(
+      preset: Schema.Literals([
         "@cf/baai/bge-small-en-v1.5",
         "@cf/baai/bge-base-en-v1.5",
         "@cf/baai/bge-large-en-v1.5",
         "openai/text-embedding-ada-002",
         "cohere/embed-multilingual-v2.0",
-      ),
+      ]),
     }),
-  ),
+  ]),
   name: Schema.String,
   description: Schema.optional(Schema.String),
 }).pipe(
@@ -274,9 +274,9 @@ export interface InsertIndexRequest {
 export const InsertIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  unparsableBehavior: Schema.optional(Schema.Literal("error", "discard")).pipe(
-    T.HttpQuery("'unparsable-behavior'"),
-  ),
+  unparsableBehavior: Schema.optional(
+    Schema.Literals(["error", "discard"]),
+  ).pipe(T.HttpQuery("'unparsable-behavior'")),
   body: UploadableSchema.pipe(T.HttpFormDataFile()),
 }).pipe(
   T.Http({
@@ -324,7 +324,7 @@ export const QueryIndexRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   vector: Schema.Array(Schema.Number),
   filter: Schema.optional(Schema.Unknown),
-  returnMetadata: Schema.optional(Schema.Literal("none", "indexed", "all")),
+  returnMetadata: Schema.optional(Schema.Literals(["none", "indexed", "all"])),
   returnValues: Schema.optional(Schema.Boolean),
   topK: Schema.optional(Schema.Number),
 }).pipe(
@@ -364,9 +364,9 @@ export interface UpsertIndexRequest {
 export const UpsertIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  unparsableBehavior: Schema.optional(Schema.Literal("error", "discard")).pipe(
-    T.HttpQuery("'unparsable-behavior'"),
-  ),
+  unparsableBehavior: Schema.optional(
+    Schema.Literals(["error", "discard"]),
+  ).pipe(T.HttpQuery("'unparsable-behavior'")),
   body: UploadableSchema.pipe(T.HttpFormDataFile()),
 }).pipe(
   T.Http({
@@ -443,7 +443,7 @@ export interface CreateIndexMetadataIndexRequest {
 export const CreateIndexMetadataIndexRequest = Schema.Struct({
   indexName: Schema.String.pipe(T.HttpPath("indexName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  indexType: Schema.Literal("string", "number", "boolean"),
+  indexType: Schema.Literals(["string", "number", "boolean"]),
   propertyName: Schema.String,
 }).pipe(
   T.Http({

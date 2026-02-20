@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -78,79 +78,76 @@ export interface GetProfileResponse {
 
 export const GetProfileResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
-  accountType: Schema.optional(Schema.String).pipe(T.JsonName("account_type")),
+  accountType: Schema.optional(Schema.String),
   address: Schema.optional(Schema.String),
   address2: Schema.optional(Schema.String),
   balance: Schema.optional(Schema.String),
-  cardExpiryMonth: Schema.optional(Schema.Number).pipe(
-    T.JsonName("card_expiry_month"),
-  ),
-  cardExpiryYear: Schema.optional(Schema.Number).pipe(
-    T.JsonName("card_expiry_year"),
-  ),
-  cardNumber: Schema.optional(Schema.String).pipe(T.JsonName("card_number")),
+  cardExpiryMonth: Schema.optional(Schema.Number),
+  cardExpiryYear: Schema.optional(Schema.Number),
+  cardNumber: Schema.optional(Schema.String),
   city: Schema.optional(Schema.String),
   company: Schema.optional(Schema.String),
   country: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String).pipe(T.JsonName("created_on")),
-  deviceData: Schema.optional(Schema.String).pipe(T.JsonName("device_data")),
-  editedOn: Schema.optional(Schema.String).pipe(T.JsonName("edited_on")),
-  enterpriseBillingEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("enterprise_billing_email"),
-  ),
-  enterprisePrimaryEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("enterprise_primary_email"),
-  ),
-  firstName: Schema.optional(Schema.String).pipe(T.JsonName("first_name")),
-  isPartner: Schema.optional(Schema.Boolean).pipe(T.JsonName("is_partner")),
-  lastName: Schema.optional(Schema.String).pipe(T.JsonName("last_name")),
-  nextBillDate: Schema.optional(Schema.String).pipe(
-    T.JsonName("next_bill_date"),
-  ),
-  paymentAddress: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_address"),
-  ),
-  paymentAddress2: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_address2"),
-  ),
-  paymentCity: Schema.optional(Schema.String).pipe(T.JsonName("payment_city")),
-  paymentCountry: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_country"),
-  ),
-  paymentEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_email"),
-  ),
-  paymentFirstName: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_first_name"),
-  ),
-  paymentGateway: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_gateway"),
-  ),
-  paymentLastName: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_last_name"),
-  ),
-  paymentNonce: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_nonce"),
-  ),
-  paymentState: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_state"),
-  ),
-  paymentZipcode: Schema.optional(Schema.String).pipe(
-    T.JsonName("payment_zipcode"),
-  ),
-  primaryEmail: Schema.optional(Schema.String).pipe(
-    T.JsonName("primary_email"),
-  ),
+  createdOn: Schema.optional(Schema.String),
+  deviceData: Schema.optional(Schema.String),
+  editedOn: Schema.optional(Schema.String),
+  enterpriseBillingEmail: Schema.optional(Schema.String),
+  enterprisePrimaryEmail: Schema.optional(Schema.String),
+  firstName: Schema.optional(Schema.String),
+  isPartner: Schema.optional(Schema.Boolean),
+  lastName: Schema.optional(Schema.String),
+  nextBillDate: Schema.optional(Schema.String),
+  paymentAddress: Schema.optional(Schema.String),
+  paymentAddress2: Schema.optional(Schema.String),
+  paymentCity: Schema.optional(Schema.String),
+  paymentCountry: Schema.optional(Schema.String),
+  paymentEmail: Schema.optional(Schema.String),
+  paymentFirstName: Schema.optional(Schema.String),
+  paymentGateway: Schema.optional(Schema.String),
+  paymentLastName: Schema.optional(Schema.String),
+  paymentNonce: Schema.optional(Schema.String),
+  paymentState: Schema.optional(Schema.String),
+  paymentZipcode: Schema.optional(Schema.String),
+  primaryEmail: Schema.optional(Schema.String),
   state: Schema.optional(Schema.String),
-  taxIdType: Schema.optional(Schema.String).pipe(T.JsonName("tax_id_type")),
+  taxIdType: Schema.optional(Schema.String),
   telephone: Schema.optional(Schema.String),
-  useLegacy: Schema.optional(Schema.Boolean).pipe(T.JsonName("use_legacy")),
-  validationCode: Schema.optional(Schema.String).pipe(
-    T.JsonName("validation_code"),
-  ),
+  useLegacy: Schema.optional(Schema.Boolean),
+  validationCode: Schema.optional(Schema.String),
   vat: Schema.optional(Schema.String),
   zipcode: Schema.optional(Schema.String),
-}) as unknown as Schema.Schema<GetProfileResponse>;
+}).pipe(
+  Schema.encodeKeys({
+    accountType: "account_type",
+    cardExpiryMonth: "card_expiry_month",
+    cardExpiryYear: "card_expiry_year",
+    cardNumber: "card_number",
+    createdOn: "created_on",
+    deviceData: "device_data",
+    editedOn: "edited_on",
+    enterpriseBillingEmail: "enterprise_billing_email",
+    enterprisePrimaryEmail: "enterprise_primary_email",
+    firstName: "first_name",
+    isPartner: "is_partner",
+    lastName: "last_name",
+    nextBillDate: "next_bill_date",
+    paymentAddress: "payment_address",
+    paymentAddress2: "payment_address2",
+    paymentCity: "payment_city",
+    paymentCountry: "payment_country",
+    paymentEmail: "payment_email",
+    paymentFirstName: "payment_first_name",
+    paymentGateway: "payment_gateway",
+    paymentLastName: "payment_last_name",
+    paymentNonce: "payment_nonce",
+    paymentState: "payment_state",
+    paymentZipcode: "payment_zipcode",
+    primaryEmail: "primary_email",
+    taxIdType: "tax_id_type",
+    useLegacy: "use_legacy",
+    validationCode: "validation_code",
+  }),
+) as unknown as Schema.Schema<GetProfileResponse>;
 
 export const getProfile: (
   input: GetProfileRequest,

@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -74,11 +74,11 @@ export interface GetCacheReserveResponse {
 export const GetCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<GetCacheReserveResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetCacheReserveResponse>;
 
 export const getCacheReserve: (
   input: GetCacheReserveRequest,
@@ -101,7 +101,7 @@ export interface PatchCacheReserveRequest {
 
 export const PatchCacheReserveRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
 }).pipe(
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/cache/cache_reserve" }),
 ) as unknown as Schema.Schema<PatchCacheReserveRequest>;
@@ -120,11 +120,11 @@ export interface PatchCacheReserveResponse {
 export const PatchCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<PatchCacheReserveResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchCacheReserveResponse>;
 
 export const patchCacheReserve: (
   input: PatchCacheReserveRequest,
@@ -164,13 +164,17 @@ export interface StatusCacheReserveResponse {
 
 export const StatusCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve_clear"),
-  startTs: Schema.String.pipe(T.JsonName("start_ts")),
-  state: Schema.Literal("In-progress", "Completed"),
-  endTs: Schema.optional(Schema.String).pipe(T.JsonName("end_ts")),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<StatusCacheReserveResponse>;
+  startTs: Schema.String,
+  state: Schema.Literals(["In-progress", "Completed"]),
+  endTs: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    startTs: "start_ts",
+    endTs: "end_ts",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<StatusCacheReserveResponse>;
 
 export const statusCacheReserve: (
   input: StatusCacheReserveRequest,
@@ -216,13 +220,17 @@ export interface ClearCacheReserveResponse {
 
 export const ClearCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve_clear"),
-  startTs: Schema.String.pipe(T.JsonName("start_ts")),
-  state: Schema.Literal("In-progress", "Completed"),
-  endTs: Schema.optional(Schema.String).pipe(T.JsonName("end_ts")),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<ClearCacheReserveResponse>;
+  startTs: Schema.String,
+  state: Schema.Literals(["In-progress", "Completed"]),
+  endTs: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    startTs: "start_ts",
+    endTs: "end_ts",
+    modifiedOn: "modified_on",
+  }),
+) as unknown as Schema.Schema<ClearCacheReserveResponse>;
 
 export const clearCacheReserve: (
   input: ClearCacheReserveRequest,
@@ -268,11 +276,11 @@ export interface GetRegionalTieredCacheResponse {
 export const GetRegionalTieredCacheResponse = Schema.Struct({
   id: Schema.Literal("tc_regional"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
 
 export const getRegionalTieredCache: (
   input: GetRegionalTieredCacheRequest,
@@ -295,7 +303,7 @@ export interface PatchRegionalTieredCacheRequest {
 
 export const PatchRegionalTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -317,11 +325,11 @@ export interface PatchRegionalTieredCacheResponse {
 export const PatchRegionalTieredCacheResponse = Schema.Struct({
   id: Schema.Literal("tc_regional"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
 
 export const patchRegionalTieredCache: (
   input: PatchRegionalTieredCacheRequest,
@@ -367,11 +375,11 @@ export interface GetSmartTieredCacheResponse {
 export const GetSmartTieredCacheResponse = Schema.Struct({
   id: Schema.Literal("tiered_cache_smart_topology_enable"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
 
 export const getSmartTieredCache: (
   input: GetSmartTieredCacheRequest,
@@ -394,7 +402,7 @@ export interface PatchSmartTieredCacheRequest {
 
 export const PatchSmartTieredCacheRequest = Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literal("on", "off"),
+  value: Schema.Literals(["on", "off"]),
 }).pipe(
   T.Http({
     method: "PATCH",
@@ -416,11 +424,11 @@ export interface PatchSmartTieredCacheResponse {
 export const PatchSmartTieredCacheResponse = Schema.Struct({
   id: Schema.Literal("tiered_cache_smart_topology_enable"),
   editable: Schema.Boolean,
-  value: Schema.Literal("on", "off"),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
+  value: Schema.Literals(["on", "off"]),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
 
 export const patchSmartTieredCache: (
   input: PatchSmartTieredCacheRequest,
@@ -460,10 +468,10 @@ export interface DeleteSmartTieredCacheResponse {
 export const DeleteSmartTieredCacheResponse = Schema.Struct({
   id: Schema.Literal("tiered_cache_smart_topology_enable"),
   editable: Schema.Boolean,
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
 
 export const deleteSmartTieredCache: (
   input: DeleteSmartTieredCacheRequest,
@@ -531,10 +539,10 @@ export const GetVariantResponse = Schema.Struct({
     tiff: Schema.optional(Schema.Array(Schema.String)),
     webp: Schema.optional(Schema.Array(Schema.String)),
   }),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<GetVariantResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<GetVariantResponse>;
 
 export const getVariant: (
   input: GetVariantRequest,
@@ -625,10 +633,10 @@ export const PatchVariantResponse = Schema.Struct({
     tiff: Schema.optional(Schema.Array(Schema.String)),
     webp: Schema.optional(Schema.Array(Schema.String)),
   }),
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<PatchVariantResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<PatchVariantResponse>;
 
 export const patchVariant: (
   input: PatchVariantRequest,
@@ -665,10 +673,10 @@ export interface DeleteVariantResponse {
 export const DeleteVariantResponse = Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
-  modifiedOn: Schema.optional(Schema.Union(Schema.String, Schema.Null)).pipe(
-    T.JsonName("modified_on"),
-  ),
-}) as unknown as Schema.Schema<DeleteVariantResponse>;
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({ modifiedOn: "modified_on" }),
+) as unknown as Schema.Schema<DeleteVariantResponse>;
 
 export const deleteVariant: (
   input: DeleteVariantRequest,

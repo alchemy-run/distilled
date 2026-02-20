@@ -7,7 +7,7 @@
 
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import type { HttpClient } from "@effect/platform";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { ApiToken } from "../auth.ts";
@@ -70,10 +70,11 @@ export interface PutDomainRequest {
 export const PutDomainRequest = Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  autoRenew: Schema.optional(Schema.Boolean).pipe(T.JsonName("auto_renew")),
+  autoRenew: Schema.optional(Schema.Boolean),
   locked: Schema.optional(Schema.Boolean),
   privacy: Schema.optional(Schema.Boolean),
 }).pipe(
+  Schema.encodeKeys({ autoRenew: "auto_renew" }),
   T.Http({
     method: "PUT",
     path: "/accounts/{account_id}/registrar/domains/{domainName}",
