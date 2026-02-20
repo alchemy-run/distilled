@@ -149,16 +149,14 @@ export const makeDefault: Factory = (lastError) => ({
   ),
 });
 
-export const jittered = Schedule.addDelay((output) =>
+export const jittered = Schedule.addDelay(() =>
   // Add random jitter between 0-50ms
   Effect.succeed(Duration.millis(Math.random() * 50)),
 );
 
 export const capped = (max: Duration.Duration) =>
   Schedule.modifyDelay((duration: Duration.Duration) =>
-    Effect.succeed(
-      Duration.isGreaterThan(duration, max) ? Duration.millis(5000) : duration,
-    ),
+    Effect.succeed(Duration.isGreaterThan(duration, max) ? max : duration),
   );
 
 /**

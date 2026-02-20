@@ -90,7 +90,7 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 export class OperationAborted extends S.TaggedErrorClass<OperationAborted>()(
   "OperationAborted",
   {},
-).pipe(Category.withAbortedError) {}
+).pipe(Category.withAbortedError, Category.withRetryable()) {}
 
 export class UnknownAwsError extends S.TaggedErrorClass<UnknownAwsError>()(
   "UnknownAwsError",

@@ -156,10 +156,11 @@ const cleanupBucket = (bucket: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withBucket = <A, E, R>(
-  bucket: string,
+  _bucket: string,
   testFn: (bucket: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const bucket = `${_bucket}-${process.env.USER ?? "testing"}`;
     // Clean up any leftover from previous runs
     yield* cleanupBucket(bucket);
 
