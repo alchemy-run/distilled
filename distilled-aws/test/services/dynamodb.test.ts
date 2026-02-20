@@ -16,7 +16,7 @@ import { afterAll, beforeAll, test } from "../test.ts";
 
 const TEST_TABLE_NAME = "distilled-aws-test-table";
 
-const retrySchedule = Schedule.intersect(
+const retrySchedule = Schedule.both(
   Schedule.recurs(30),
   Schedule.spaced("1 second"),
 );

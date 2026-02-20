@@ -38,7 +38,7 @@ import { test } from "../test.ts";
 // Skip all tests in LocalStack - AppSync is not supported in community edition
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
 
-const retrySchedule = Schedule.intersect(
+const retrySchedule = Schedule.both(
   Schedule.recurs(10),
   Schedule.spaced("1 second"),
 );

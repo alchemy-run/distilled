@@ -272,7 +272,7 @@ test(
           Effect.retry({
             while: (err) => err === "not found yet",
             schedule: Schedule.spaced("1 second").pipe(
-              Schedule.intersect(Schedule.recurs(10)),
+              Schedule.both(Schedule.recurs(10)),
             ),
           }),
         );

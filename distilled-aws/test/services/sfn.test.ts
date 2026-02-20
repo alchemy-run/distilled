@@ -106,7 +106,7 @@ const cleanupStateMachine = (stateMachineArn: string) =>
       Effect.retry({
         while: (err) => err === "still deleting" || err === "still exists",
         schedule: Schedule.spaced("1 second").pipe(
-          Schedule.intersect(Schedule.recurs(30)),
+          Schedule.both(Schedule.recurs(30)),
         ),
       }),
       Effect.ignore,
@@ -213,7 +213,7 @@ const withStateMachine = <A, E, R>(
         Effect.retry({
           while: (err) => err._tag === "StateMachineDeleting",
           schedule: Schedule.spaced("2 seconds").pipe(
-            Schedule.intersect(Schedule.recurs(30)),
+            Schedule.both(Schedule.recurs(30)),
           ),
         }),
       );
@@ -254,7 +254,7 @@ test(
         Effect.retry({
           while: (err) => err === "not found yet",
           schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(10)),
+            Schedule.both(Schedule.recurs(10)),
           ),
         }),
       );
@@ -302,7 +302,7 @@ test(
           Effect.retry({
             while: (err) => err === "not found yet",
             schedule: Schedule.spaced("1 second").pipe(
-              Schedule.intersect(Schedule.recurs(10)),
+              Schedule.both(Schedule.recurs(10)),
             ),
           }),
         );

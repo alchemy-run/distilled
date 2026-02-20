@@ -5,9 +5,15 @@ import { createProjectBranchDatabase } from "../src/operations/createProjectBran
 import { deleteProjectBranchDatabase } from "../src/operations/deleteProjectBranchDatabase";
 import { getProjectBranchDatabase } from "../src/operations/getProjectBranchDatabase";
 import { listProjectBranchDatabases } from "../src/operations/listProjectBranchDatabases";
-import { updateProjectBranchDatabase } from "../src/operations/updateProjectBranchDatabase";
 import { listProjectOperations } from "../src/operations/listProjectOperations";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject, TestLayer } from "./setup";
+import { updateProjectBranchDatabase } from "../src/operations/updateProjectBranchDatabase";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+  TestLayer,
+} from "./setup";
 
 const TEST_SUFFIX = "databases";
 
@@ -41,8 +47,15 @@ const waitForOperations = (projectId: string) =>
         }),
       ),
       {
-        schedule: Schedule.intersect(Schedule.recurs(60), Schedule.spaced("5 seconds")),
-        while: (e) => typeof e === "object" && e !== null && "_tag" in e && e._tag === "OperationsPending",
+        schedule: Schedule.both(
+          Schedule.recurs(60),
+          Schedule.spaced("5 seconds"),
+        ),
+        while: (e) =>
+          typeof e === "object" &&
+          e !== null &&
+          "_tag" in e &&
+          e._tag === "OperationsPending",
       },
     );
   }).pipe(Effect.provide(TestLayer));

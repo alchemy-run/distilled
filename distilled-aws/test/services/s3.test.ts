@@ -608,7 +608,7 @@ test(
           Effect.retry({
             while: (err) => err === "not ready yet",
             schedule: Schedule.spaced("500 millis").pipe(
-              Schedule.intersect(Schedule.recurs(10)),
+              Schedule.both(Schedule.recurs(10)),
             ),
           }),
         );

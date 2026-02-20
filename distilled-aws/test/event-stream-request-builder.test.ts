@@ -212,7 +212,7 @@ describe("AudioStream Schema", () => {
     Effect.gen(function* () {
       // Verify AudioStream is a streaming type
       const ast = AudioStream.ast;
-      expect(ast.annotate?.[streamingSymbol]).toBe(true);
+      expect(ast.annotations?.[streamingSymbol]).toBe(true);
     }),
   );
 });

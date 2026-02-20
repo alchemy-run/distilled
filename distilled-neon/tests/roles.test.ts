@@ -4,11 +4,17 @@ import { Forbidden, NotFound } from "../src/errors";
 import { createProjectBranchRole } from "../src/operations/createProjectBranchRole";
 import { deleteProjectBranchRole } from "../src/operations/deleteProjectBranchRole";
 import { getProjectBranchRole } from "../src/operations/getProjectBranchRole";
-import { listProjectBranchRoles } from "../src/operations/listProjectBranchRoles";
 import { getProjectBranchRolePassword } from "../src/operations/getProjectBranchRolePassword";
-import { resetProjectBranchRolePassword } from "../src/operations/resetProjectBranchRolePassword";
+import { listProjectBranchRoles } from "../src/operations/listProjectBranchRoles";
 import { listProjectOperations } from "../src/operations/listProjectOperations";
-import { getTestProject, runEffect, setupTestProject, teardownTestProject, TestLayer } from "./setup";
+import { resetProjectBranchRolePassword } from "../src/operations/resetProjectBranchRolePassword";
+import {
+  getTestProject,
+  runEffect,
+  setupTestProject,
+  teardownTestProject,
+  TestLayer,
+} from "./setup";
 
 const TEST_SUFFIX = "roles";
 
@@ -42,8 +48,15 @@ const waitForOperations = (projectId: string) =>
         }),
       ),
       {
-        schedule: Schedule.intersect(Schedule.recurs(60), Schedule.spaced("5 seconds")),
-        while: (e) => typeof e === "object" && e !== null && "_tag" in e && e._tag === "OperationsPending",
+        schedule: Schedule.both(
+          Schedule.recurs(60),
+          Schedule.spaced("5 seconds"),
+        ),
+        while: (e) =>
+          typeof e === "object" &&
+          e !== null &&
+          "_tag" in e &&
+          e._tag === "OperationsPending",
       },
     );
   }).pipe(Effect.provide(TestLayer));

@@ -1,10 +1,9 @@
 import { FetchHttpClient } from "@effect/platform";
 import { config } from "dotenv";
 import { Effect, Layer, Schedule } from "effect";
-import { Credentials, CredentialsFromEnv } from "../src/credentials";
+import { CredentialsFromEnv } from "../src/credentials";
 import { createProject } from "../src/operations/createProject";
 import { deleteProject } from "../src/operations/deleteProject";
-import { getProject } from "../src/operations/getProject";
 import { listProjectOperations } from "../src/operations/listProjectOperations";
 
 // Load environment variables from .env file
@@ -78,8 +77,15 @@ const waitForOperations = (projectId: string, prefix: string) =>
         }),
       ),
       {
-        schedule: Schedule.intersect(Schedule.recurs(60), Schedule.spaced("5 seconds")),
-        while: (e) => typeof e === "object" && e !== null && "_tag" in e && e._tag === "OperationsPending",
+        schedule: Schedule.both(
+          Schedule.recurs(60),
+          Schedule.spaced("5 seconds"),
+        ),
+        while: (e) =>
+          typeof e === "object" &&
+          e !== null &&
+          "_tag" in e &&
+          e._tag === "OperationsPending",
       },
     );
 
@@ -97,13 +103,13 @@ export const setupTestProject = (suffix?: string) =>
     const prefix = suffix ?? "default";
 
     log(prefix, "creating project...");
-    
+
     const created = yield* createProject({
       project: {
         name: projectName,
       },
     });
-    
+
     log(prefix, `created project: id=${created.project.id}`);
 
     // Wait for operations to complete
@@ -113,7 +119,10 @@ export const setupTestProject = (suffix?: string) =>
     const defaultBranch = created.branch;
     const defaultEndpoint = created.endpoints?.[0];
 
-    log(prefix, `project ready! branch=${defaultBranch.id}, endpoint=${defaultEndpoint?.id ?? "none"}`);
+    log(
+      prefix,
+      `project ready! branch=${defaultBranch.id}, endpoint=${defaultEndpoint?.id ?? "none"}`,
+    );
 
     const projectConfig: TestProjectConfig = {
       id: created.project.id,
@@ -150,4 +159,6 @@ export const teardownTestProject = (suffix?: string) =>
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const runEffect = <A, E>(effect: Effect.Effect<A, E, any>): Promise<A> =>
-  Effect.runPromise(effect.pipe(Effect.provide(TestLayer)) as Effect.Effect<A, E, never>);
+  Effect.runPromise(
+    effect.pipe(Effect.provide(TestLayer)) as Effect.Effect<A, E, never>,
+  );

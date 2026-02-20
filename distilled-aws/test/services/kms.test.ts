@@ -149,7 +149,7 @@ test(
         }),
         Effect.retry({
           schedule: Schedule.spaced("1 second").pipe(
-            Schedule.intersect(Schedule.recurs(30)),
+            Schedule.both(Schedule.recurs(30)),
           ),
         }),
       );
@@ -168,7 +168,7 @@ test(
 // ============================================================================
 
 const retrySchedule = Schedule.spaced("1 second").pipe(
-  Schedule.intersect(Schedule.recurs(30)),
+  Schedule.both(Schedule.recurs(30)),
 );
 
 const waitForAlias = (keyId: string, aliasName: string) =>

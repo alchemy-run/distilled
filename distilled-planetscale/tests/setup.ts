@@ -117,7 +117,7 @@ export const setupTestDatabase = (suffix?: string) =>
         ),
       ),
       {
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(60),
           Schedule.spaced("5 seconds"),
         ),

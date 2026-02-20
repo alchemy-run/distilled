@@ -52,7 +52,7 @@ import { afterAll, beforeAll, test } from "../test.ts";
 // ============================================================================
 
 // Retry schedule for eventual consistency and transient errors
-const eventualConsistencyRetry = Schedule.intersect(
+const eventualConsistencyRetry = Schedule.both(
   Schedule.recurs(15),
   Schedule.exponential("500 millis", 2).pipe(
     Schedule.union(Schedule.spaced("5 seconds")),
@@ -112,7 +112,7 @@ const waitForTasksStopped = (cluster: string) =>
   }).pipe(
     Effect.retry({
       while: (err) => err === "tasks still running",
-      schedule: Schedule.intersect(
+      schedule: Schedule.both(
         Schedule.recurs(30),
         Schedule.spaced("2 seconds"),
       ),
@@ -161,7 +161,7 @@ const cleanupCluster = (clusterName: string) =>
     yield* deleteCluster({ cluster: clusterName }).pipe(
       Effect.retry({
         while: isClusterDeletionRetryable,
-        schedule: Schedule.intersect(
+        schedule: Schedule.both(
           Schedule.recurs(20),
           Schedule.spaced("3 seconds"),
         ),
@@ -433,7 +433,7 @@ const ensureNetworking = Effect.gen(function* () {
 });
 
 // Retry schedule for cleanup operations (handles eventual consistency)
-const cleanupRetry = Schedule.intersect(
+const cleanupRetry = Schedule.both(
   Schedule.recurs(20),
   Schedule.exponential("1 second", 2).pipe(
     Schedule.union(Schedule.spaced("10 seconds")),
@@ -546,7 +546,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "cluster not found in list",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),
@@ -610,7 +610,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "tags not found yet",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),
@@ -647,7 +647,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "tag not removed yet",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),
@@ -680,7 +680,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "task definition not found",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),
@@ -848,7 +848,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "task not found in list",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),
@@ -895,7 +895,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "still running",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(30),
             Schedule.spaced("2 seconds"),
           ),
@@ -966,7 +966,7 @@ test(
       }).pipe(
         Effect.retry({
           while: (err) => err === "not all clusters found",
-          schedule: Schedule.intersect(
+          schedule: Schedule.both(
             Schedule.recurs(10),
             Schedule.spaced("1 second"),
           ),

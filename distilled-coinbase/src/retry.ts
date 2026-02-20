@@ -81,7 +81,7 @@ export const makeDefault: Factory = (lastError) => ({
         return Duration.toMillis(duration);
       }),
     ),
-    Schedule.intersect(Schedule.recurs(5)),
+    Schedule.both(Schedule.recurs(5)),
     Schedule.jittered,
   ),
 });
