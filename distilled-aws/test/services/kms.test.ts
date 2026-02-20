@@ -30,20 +30,6 @@ const waitForKey = (keyId: string) =>
     }),
   );
 
-const waitForKey = (keyId: string) =>
-  describeKey({ KeyId: keyId }).pipe(
-    Effect.flatMap((result) =>
-      result.KeyMetadata?.KeyState === "Enabled"
-        ? Effect.succeed(result)
-        : Effect.fail(new Error(`Key ${keyId} not yet Enabled`)),
-    ),
-    Effect.retry({
-      schedule: Schedule.spaced("1 second").pipe(
-        Schedule.both(Schedule.recurs(30)),
-      ),
-    }),
-  );
-
 // Clean up all keys before running tests
 beforeAll(
   Effect.gen(function* () {
