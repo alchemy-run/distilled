@@ -35,7 +35,7 @@ jobs:
       needs.detect-changes.outputs.coinbase == 'true' ||
       needs.detect-changes.outputs.neon == 'true' ||
       needs.detect-changes.outputs.planetscale == 'true'
-    runs-on: depot-ubuntu-24.04-8
+    runs-on: ubuntu-22-large
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
